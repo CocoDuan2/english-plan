@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>English Plan</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;
+  background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);padding:20px}
+.container{max-width:500px;margin:0 auto}
+h1{text-align:center;font-size:28px;color:#555;margin:20px 0}
+.card{background:rgba(255,255,255,.9);border-radius:16px;padding:16px 20px;margin:12px 0;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;
+  text-decoration:none;color:#333;transition:.2s}
+.card:active{transform:scale(.97)}
+.card .icon{font-size:36px}
+.card .info{flex:1}
+.card .title{font-size:18px;font-weight:700}
+.card .desc{font-size:13px;color:#888;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🎨 English Plan</h1>
+  <div id="lessons"></div>
+</div>
+<script>
+// Auto-generate lesson links
+var lessons=[
+  {day:1,date:'2025-02-25',title:'Colors: Red, Blue, Yellow, Green, Orange',file:'lessons/day1-colors.html'}
+];
+var wrap=document.getElementById('lessons');
+lessons.forEach(function(l){
+  var a=document.createElement('a');a.className='card';a.href=l.file;
+  a.innerHTML='<div class="icon">📖</div><div class="info"><div class="title">Day '+l.day+'</div><div class="desc">'+l.title+'</div></div>';
+  wrap.appendChild(a);
+});
+</script>
+</body>
+</html>
