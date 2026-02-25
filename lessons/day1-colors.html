@@ -6,209 +6,129 @@
 <title>Day 1 — Colors!</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;
-  background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
-
-.top-bar{background:rgba(255,255,255,.6);backdrop-filter:blur(10px);padding:10px 16px;
-  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)}
+.top-bar{background:rgba(255,255,255,.6);backdrop-filter:blur(10px);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
 .day-info{font-weight:800;font-size:20px;color:#555}
-.dots{display:flex;gap:10px}
-.dot{width:16px;height:16px;border-radius:50%;background:rgba(0,0,0,.12);transition:.4s}
-.dot.on{background:#FFD700;transform:scale(1.3);box-shadow:0 0 10px #FFD700}
+.dots{display:flex;gap:8px}
+.dot{width:14px;height:14px;border-radius:50%;background:rgba(0,0,0,.12);transition:.4s}
+.dot.on{background:#FFD700;transform:scale(1.3);box-shadow:0 0 8px #FFD700}
 .dot.ok{background:#4CAF50}
-
 .page{display:none;padding:16px;max-width:650px;margin:0 auto;animation:fadeUp .5s ease}
 .page.show{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-.tg{background:rgba(255,255,255,.85);border-radius:14px;padding:10px 14px;margin-bottom:14px;
-  border-left:4px solid #FF9800;font-size:13px;color:#666}
+.tg{background:rgba(255,255,255,.85);border-radius:14px;padding:10px 14px;margin-bottom:14px;border-left:4px solid #FF9800;font-size:13px;color:#666}
 .tg b{color:#333}
-
-.big-btn{display:block;margin:16px auto;background:#FFD700;color:#333;border:none;border-radius:50px;
-  padding:16px 44px;font-size:24px;font-weight:800;cursor:pointer;
-  box-shadow:0 6px 20px rgba(0,0,0,.1);transition:.2s}
+.big-btn{display:block;margin:16px auto;background:#FFD700;color:#333;border:none;border-radius:50px;padding:14px 40px;font-size:22px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.1);transition:.2s}
 .big-btn:active{transform:scale(.92)}
-
 .mascot-wrap{text-align:center;margin:20px 0}
-
-/* S1: paint reveal */
-.canvas-area{margin:20px auto;width:220px;height:220px;border-radius:50%;
-  background:#eee;border:6px solid #fff;box-shadow:0 8px 30px rgba(0,0,0,.08);
-  display:flex;align-items:center;justify-content:center;transition:background .6s,transform .3s;
-  position:relative;overflow:hidden}
+.canvas-area{margin:16px auto;width:200px;height:200px;border-radius:50%;background:#eee;border:6px solid #fff;box-shadow:0 8px 30px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;transition:background .6s,transform .3s;position:relative;overflow:hidden}
 .canvas-area.splash{animation:splashA .6s ease}
 @keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-.canvas-label{font-size:40px;font-weight:900;color:#fff;text-shadow:0 3px 6px rgba(0,0,0,.15);
-  opacity:0;transition:opacity .5s;letter-spacing:3px}
+.canvas-label{font-size:36px;font-weight:900;color:#fff;text-shadow:0 3px 6px rgba(0,0,0,.15);opacity:0;transition:opacity .5s}
 .canvas-label.vis{opacity:1}
-.rv-dots{display:flex;justify-content:center;gap:10px;margin-top:14px}
-.rv-dot{width:14px;height:14px;border-radius:50%;background:#ddd;transition:.3s}
-.bottle-row{text-align:center;margin-top:14px}
+.rv-dots{display:flex;justify-content:center;gap:10px;margin-top:12px}
+.rv-dot{width:12px;height:12px;border-radius:50%;background:#ddd;transition:.3s}
+.bottle-row{text-align:center;margin-top:12px}
 .paint-bottle{display:inline-block;cursor:pointer;transition:transform .3s;margin:0 4px}
 .paint-bottle:active{transform:scale(.8)!important}
 .paint-bottle.used{opacity:.3;pointer-events:none}
-
-/* S2: listen & find */
-.find-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;
-  text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06);min-height:360px;position:relative;overflow:hidden}
-
-.find-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
-.find-card{width:130px;height:130px;border-radius:24px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(0,0,0,.08);transition:transform .3s;border:4px solid transparent}
+.color-obj{display:inline-block;cursor:pointer;transition:transform .3s;margin:8px}
+.color-obj:active{transform:scale(.85)!important}
+.color-obj.done{pointer-events:none}
+.find-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06);min-height:340px;position:relative;overflow:hidden}
+.find-prompt{font-size:18px;font-weight:700;color:#555;margin-bottom:16px;min-height:28px}
+.find-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.find-card{width:120px;height:120px;border-radius:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.08);transition:transform .3s;border:4px solid transparent}
 .find-card:active{transform:scale(.88)}
-.find-card.wrong{animation:cardShake .4s}
-@keyframes cardShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-.find-card.correct{animation:cardWin 1s ease forwards}
-@keyframes cardWin{
-  0%{transform:scale(1);border-color:transparent}
-  30%{transform:scale(1.25);border-color:#FFD700}
-  50%{transform:scale(1.15) rotate(5deg)}
-  70%{transform:scale(1.2) rotate(-5deg)}
-  100%{transform:scale(1.15);border-color:#FFD700}
-}
-
-/* star burst */
-.star-burst{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:100;overflow:hidden}
-.flying-star{position:absolute;font-size:30px;animation:starFly 1s ease-out forwards}
-@keyframes starFly{
-  0%{transform:scale(0) rotate(0);opacity:1}
-  60%{opacity:1}
-  100%{transform:scale(1.2) rotate(360deg);opacity:0}
-}
-
-/* S3: memory flip */
-.mem-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;
-  text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
-.mem-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:16px 0}
-.mem-card{width:120px;height:140px;border-radius:20px;cursor:pointer;perspective:600px;transition:transform .2s}
+.find-card.wrong{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.find-card.correct{animation:cardWin .8s ease forwards}
+@keyframes cardWin{0%{transform:scale(1)}30%{transform:scale(1.2);border-color:#FFD700}100%{transform:scale(1.1);border-color:#FFD700}}
+.find-stars{font-size:32px;min-height:36px;margin:8px 0}
+.mem-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.mem-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:14px 0}
+.mem-card{width:110px;height:130px;border-radius:18px;cursor:pointer;perspective:600px;transition:transform .2s}
 .mem-card:active{transform:scale(.9)}
-.mem-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;border-radius:20px}
-.mem-card.flipped .mem-inner{transform:rotateY(180deg)}
-.mem-card.matched .mem-inner{transform:rotateY(180deg)}
+.mem-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;border-radius:18px}
+.mem-card.flipped .mem-inner,.mem-card.matched .mem-inner{transform:rotateY(180deg)}
 .mem-card.matched{pointer-events:none}
-.mem-front,.mem-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;
-  border-radius:20px;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.mem-front{background:linear-gradient(135deg,#667eea,#764ba2);font-size:40px;color:#fff}
+.mem-front,.mem-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.mem-front{background:linear-gradient(135deg,#667eea,#764ba2);font-size:36px;color:#fff}
 .mem-back{transform:rotateY(180deg)}
-.mem-stars{font-size:36px;min-height:40px;margin:8px 0}
-.mem-pairs{font-size:14px;color:#999}
-
-/* cele */
-.cele{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);
-  z-index:200;align-items:center;justify-content:center;flex-direction:column}
+.mem-stars{font-size:32px;min-height:36px;margin:8px 0}
+.star-burst{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:100;overflow:hidden}
+.flying-star{position:absolute;font-size:28px;animation:starFly 1s ease-out forwards}
+@keyframes starFly{0%{transform:scale(0) rotate(0);opacity:1}60%{opacity:1}100%{transform:scale(1.2) rotate(360deg);opacity:0}}
+.cele{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;flex-direction:column}
 .cele.show{display:flex}
-.cele .big{font-size:90px;animation:pop .5s}
-.cele .msg{font-size:36px;color:#fff;font-weight:800;margin:12px;animation:fadeUp .5s .2s both}
-.cele .sub{color:rgba(255,255,255,.7);font-size:18px;animation:fadeUp .5s .4s both}
+.cele .big{font-size:80px;animation:pop .5s}
+.cele .msg{font-size:32px;color:#fff;font-weight:800;margin:12px;animation:fadeUp .5s .2s both}
+.cele .sub{color:rgba(255,255,255,.7);font-size:16px;animation:fadeUp .5s .4s both}
 @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 .conf-box{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:201;overflow:hidden}
 .conf{position:absolute;top:-20px;border-radius:3px;animation:cfall linear forwards}
 @keyframes cfall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-
-@media(max-width:500px){
-  .canvas-area{width:180px;height:180px}
-  .canvas-label{font-size:30px}
-  .find-card{width:100px;height:100px}
-  .mem-card{width:95px;height:110px}
-  .mem-front{font-size:30px}
-}
+@media(max-width:500px){.canvas-area{width:160px;height:160px}.canvas-label{font-size:28px}.find-card{width:95px;height:95px}.mem-card{width:85px;height:100px}.mem-front{font-size:28px}}
 </style>
 </head>
 <body>
+<div class="top-bar"><div class="day-info">🎨 Day 1 · Colors</div><div class="dots"><div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div></div></div>
 
-<div class="top-bar">
-  <div class="day-info">🎨 Day 1</div>
-  <div class="dots">
-    <div class="dot on" id="d0"></div><div class="dot" id="d1"></div>
-    <div class="dot" id="d2"></div><div class="dot" id="d3"></div>
-  </div>
-</div>
-
-<!-- S0: Welcome -->
 <div class="page show" id="p0">
-  <div class="mascot-wrap">
-    <svg width="180" height="180" viewBox="0 0 200 200">
-      <circle cx="100" cy="110" r="65" fill="#FFE066"/>
-      <circle cx="75" cy="95" r="9" fill="#333"/><circle cx="125" cy="95" r="9" fill="#333"/>
-      <circle cx="78" cy="92" r="3" fill="#fff"/><circle cx="128" cy="92" r="3" fill="#fff"/>
-      <path d="M80 125 Q100 145 120 125" stroke="#333" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <ellipse cx="60" cy="115" rx="11" ry="7" fill="#FFB3B3" opacity=".5"/>
-      <ellipse cx="140" cy="115" rx="11" ry="7" fill="#FFB3B3" opacity=".5"/>
-      <path d="M55 62 Q70 28 85 62" stroke="#FFE066" stroke-width="7" fill="#FFE066"/>
-      <path d="M115 62 Q130 28 145 62" stroke="#FFE066" stroke-width="7" fill="#FFE066"/>
-      <rect x="145" y="50" width="8" height="40" rx="3" fill="#8B5E3C" transform="rotate(25,149,70)"/>
-      <rect x="143" y="42" width="12" height="16" rx="2" fill="#EF4444" transform="rotate(25,149,50)"/>
-    </svg>
-  </div>
-  <div class="tg">🧑‍🏫 Say: <b>"Hi! Let's play with colors today! Are you ready?"</b></div>
-  <button class="big-btn" onclick="go(1)">Let's Paint! 🎨</button>
+<div class="mascot-wrap"><svg width="160" height="160" viewBox="0 0 200 200"><circle cx="100" cy="110" r="60" fill="#FFE066"/><circle cx="78" cy="98" r="8" fill="#333"/><circle cx="122" cy="98" r="8" fill="#333"/><circle cx="81" cy="95" r="3" fill="#fff"/><circle cx="125" cy="95" r="3" fill="#fff"/><path d="M82 122 Q100 140 118 122" stroke="#333" stroke-width="3.5" fill="none" stroke-linecap="round"/><ellipse cx="63" cy="112" rx="10" ry="6" fill="#FFB3B3" opacity=".4"/><ellipse cx="137" cy="112" rx="10" ry="6" fill="#FFB3B3" opacity=".4"/><path d="M58 68 Q72 35 86 68" fill="#FFE066"/><path d="M114 68 Q128 35 142 68" fill="#FFE066"/><rect x="142" y="52" width="7" height="36" rx="3" fill="#8B5E3C" transform="rotate(25,146,70)"/><rect x="140" y="44" width="11" height="14" rx="2" fill="#EF4444" transform="rotate(25,146,51)"/></svg></div>
+<div class="tg">🧑‍🏫 Say: <b>"Hi! Today we learn 5 colors! Are you ready?"</b></div>
+<button class="big-btn" onclick="go(1)">Let's Paint! 🎨</button>
 </div>
 
-<!-- S1: Paint Reveal -->
 <div class="page" id="p1">
-  <div class="tg">🧑‍🏫 Tap each bottle. When color appears, say it clearly: <b>"RED! This is RED! Can you say RED?"</b></div>
-  <div style="text-align:center">
-    <div class="canvas-area" id="canvas">
-      <div class="canvas-label" id="cvLabel"></div>
-    </div>
-    <div class="bottle-row" id="bottleRow"></div>
-    <div class="rv-dots" id="rvDots"></div>
-  </div>
-  <button class="big-btn" id="toS2" style="display:none" onclick="go(2)">Listen & Find! 👂</button>
+<div class="tg">🧑‍🏫 Tap each bottle. Say the color clearly: <b>"RED! This is RED! Can you say RED?"</b></div>
+<div style="text-align:center"><div class="canvas-area" id="canvas"><div class="canvas-label" id="cvLabel"></div></div><div class="bottle-row" id="bottleRow"></div><div class="rv-dots" id="rvDots"></div></div>
+<button class="big-btn" id="toS2" style="display:none" onclick="go(2)">Color the Pictures! 🖌️</button>
 </div>
 
-<!-- S2: Listen & Find (5 rounds, one per color) -->
 <div class="page" id="p2">
-  <div class="tg">🧑‍🏫 Read the prompt below, then let the child find it!</div>
-  <div class="find-box" id="findBox">
-    <div id="fPrompt" style="font-size:18px;font-weight:700;color:#555;margin-bottom:16px;min-height:28px"></div>
-    <div class="find-grid" id="fGrid"></div>
-    <div class="find-stars" id="fStars"></div>
-  </div>
-  <button class="big-btn" id="toS3" style="display:none" onclick="go(3)">Memory Game! 🧠</button>
+<div class="tg">🧑‍🏫 Tap each grey picture to paint it! Say: <b>"The apple is RED!"</b></div>
+<div id="colorObjArea" style="text-align:center;min-height:300px"></div>
+<button class="big-btn" id="toS3" style="display:none" onclick="go(3)">Find Colors! 🔍</button>
 </div>
 
-<!-- S3: Memory Flip -->
 <div class="page" id="p3">
-  <div class="tg">🧑‍🏫 Child flips two cards. Say the color each time: <b>"BLUE!" "RED!"</b> Match = <b>"Yes! Same color!"</b></div>
-  <div class="mem-box">
-    <div class="mem-grid" id="memGrid"></div>
-    <div class="mem-stars" id="memStars"></div>
-    <div class="mem-pairs" id="memPairs"></div>
-  </div>
-  <button class="big-btn" onclick="finish()">Done! 🏆</button>
+<div class="tg">🧑‍🏫 Read the prompt below, child finds the color!</div>
+<div class="find-box"><div class="find-prompt" id="fPrompt"></div><div class="find-grid" id="fGrid"></div><div class="find-stars" id="fStars"></div></div>
+<button class="big-btn" id="toS4" style="display:none" onclick="go(4)">Memory Game! 🧠</button>
 </div>
 
-<!-- Cele -->
-<div class="cele" id="cele">
-  <div class="big">🎉🏆🎉</div>
-  <div class="msg">Amazing!</div>
-  <div class="sub">Tomorrow: pink & purple + review!</div>
-  <button class="big-btn" style="margin-top:20px" onclick="location.reload()">Again! 🔄</button>
+<div class="page" id="p4">
+<div class="tg">🧑‍🏫 Flip two cards! Say the color each time. Match = <b>"Yes! Same color!"</b></div>
+<div class="mem-box"><div class="mem-grid" id="memGrid"></div><div class="mem-stars" id="memStars"></div></div>
+<button class="big-btn" onclick="finish()">Done! 🏆</button>
 </div>
+
+<div class="cele" id="cele"><div class="big">🎉🏆🎉</div><div class="msg">Amazing!</div><div class="sub">Tomorrow: Animals! 🐾</div><button class="big-btn" style="margin-top:20px" onclick="location.reload()">Again! 🔄</button></div>
 <div class="conf-box" id="confBox"></div>
 <div class="star-burst" id="starBurst"></div>
 
 <script>
 var C=[
-  {c:'red',hex:'#EF4444',dark:'#DC2626',
-   svg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="40" fill="'+f+'"/><path d="M60 20 Q65 8 72 18 L62 32Z" fill="#4CAF50"/><circle cx="45" cy="55" r="4" fill="#fff" opacity=".35"/></svg>'}},
-  {c:'blue',hex:'#3B82F6',dark:'#2563EB',
-   svg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="65" rx="45" ry="32" fill="'+f+'"/><circle cx="40" cy="58" r="4" fill="#fff"/><circle cx="41" cy="58" r="2" fill="#333"/><path d="M85 48 Q98 38 100 52" fill="'+f+'" opacity=".6"/></svg>'}},
-  {c:'yellow',hex:'#EAB308',dark:'#CA8A04',
-   svg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="60" r="30" fill="'+f+'"/><circle cx="50" cy="54" r="3" fill="#333"/><circle cx="70" cy="54" r="3" fill="#333"/><path d="M52 68 Q60 76 68 68" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="60" y1="18" x2="60" y2="8" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="90" y1="32" x2="98" y2="24" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="30" y1="32" x2="22" y2="24" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/></svg>'}},
-  {c:'green',hex:'#22C55E',dark:'#16A34A',
-   svg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="70" rx="30" ry="35" fill="'+f+'"/><circle cx="50" cy="58" r="3.5" fill="#333"/><circle cx="70" cy="58" r="3.5" fill="#333"/><path d="M52 72 Q60 80 68 72" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M60 35 Q55 15 45 25" stroke="#2E7D32" stroke-width="3" fill="none"/><circle cx="45" cy="25" r="5" fill="#2E7D32"/></svg>'}},
-  {c:'orange',hex:'#F97316',dark:'#EA580C',
-   svg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="38" fill="'+f+'"/><circle cx="48" cy="56" r="3.5" fill="#333"/><circle cx="72" cy="56" r="3.5" fill="#333"/><path d="M50 72 Q60 82 70 72" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="60" cy="28" rx="6" ry="3" fill="#4CAF50"/></svg>'}}
+  {c:'red',name:'RED',hex:'#EF4444',dark:'#DC2626',obj:'apple',
+   svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="40" fill="'+f+'"/><path d="M60 20 Q65 8 72 18 L62 32Z" fill="#4CAF50"/><circle cx="45" cy="55" r="4" fill="#fff" opacity=".3"/></svg>'},
+   objSvg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="40" fill="'+f+'"/><path d="M60 20 Q65 8 72 18 L62 32Z" fill="#4CAF50"/><circle cx="45" cy="55" r="4" fill="#fff" opacity=".3"/></svg>'}},
+  {c:'blue',name:'BLUE',hex:'#3B82F6',dark:'#2563EB',obj:'whale',
+   svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="65" rx="42" ry="30" fill="'+f+'"/><circle cx="40" cy="58" r="4" fill="#fff"/><circle cx="41" cy="58" r="2" fill="#333"/><path d="M85 48 Q98 38 100 52" fill="'+f+'" opacity=".6"/></svg>'},
+   objSvg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="65" rx="42" ry="30" fill="'+f+'"/><circle cx="40" cy="58" r="4" fill="#fff"/><circle cx="41" cy="58" r="2" fill="#333"/><path d="M85 48 Q98 38 100 52" fill="'+f+'" opacity=".6"/><path d="M55 40 Q60 28 65 40" stroke="'+f+'" stroke-width="3" fill="none" opacity=".4"/></svg>'}},
+  {c:'yellow',name:'YELLOW',hex:'#EAB308',dark:'#CA8A04',obj:'sun',
+   svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="60" r="28" fill="'+f+'"/><circle cx="50" cy="54" r="3" fill="#333"/><circle cx="70" cy="54" r="3" fill="#333"/><path d="M52 66 Q60 74 68 66" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="60" y1="20" x2="60" y2="10" stroke="'+f+'" stroke-width="4" stroke-linecap="round"/><line x1="88" y1="34" x2="96" y2="26" stroke="'+f+'" stroke-width="4" stroke-linecap="round"/><line x1="32" y1="34" x2="24" y2="26" stroke="'+f+'" stroke-width="4" stroke-linecap="round"/></svg>'},
+   objSvg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="60" r="30" fill="'+f+'"/><circle cx="50" cy="54" r="3" fill="#333"/><circle cx="70" cy="54" r="3" fill="#333"/><path d="M52 66 Q60 74 68 66" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="60" y1="18" x2="60" y2="8" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="90" y1="32" x2="98" y2="24" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="30" y1="32" x2="22" y2="24" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="96" y1="60" x2="108" y2="60" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/><line x1="24" y1="60" x2="12" y2="60" stroke="'+f+'" stroke-width="5" stroke-linecap="round"/></svg>'}},
+  {c:'green',name:'GREEN',hex:'#22C55E',dark:'#16A34A',obj:'frog',
+   svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="68" rx="28" ry="32" fill="'+f+'"/><circle cx="50" cy="56" r="3" fill="#333"/><circle cx="70" cy="56" r="3" fill="#333"/><path d="M52 70 Q60 78 68 70" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M60 36 Q55 18 46 26" stroke="#2E7D32" stroke-width="3" fill="none"/><circle cx="46" cy="26" r="4" fill="#2E7D32"/></svg>'},
+   objSvg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="70" rx="30" ry="35" fill="'+f+'"/><circle cx="50" cy="58" r="3.5" fill="#333"/><circle cx="70" cy="58" r="3.5" fill="#333"/><path d="M52 72 Q60 80 68 72" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="42" cy="40" r="10" fill="'+f+'"/><circle cx="78" cy="40" r="10" fill="'+f+'"/><circle cx="42" cy="38" r="4" fill="#fff"/><circle cx="43" cy="38" r="2" fill="#333"/><circle cx="78" cy="38" r="4" fill="#fff"/><circle cx="79" cy="38" r="2" fill="#333"/></svg>'}},
+  {c:'orange',name:'ORANGE',hex:'#F97316',dark:'#EA580C',obj:'orange',
+   svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="36" fill="'+f+'"/><circle cx="48" cy="56" r="3" fill="#333"/><circle cx="72" cy="56" r="3" fill="#333"/><path d="M50 70 Q60 80 70 70" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="60" cy="30" rx="5" ry="3" fill="#4CAF50"/></svg>'},
+   objSvg:function(f,s){s=s||100;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="38" fill="'+f+'"/><circle cx="48" cy="56" r="3.5" fill="#333"/><circle cx="72" cy="56" r="3.5" fill="#333"/><path d="M50 72 Q60 82 70 72" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="60" cy="28" rx="6" ry="3" fill="#4CAF50"/><path d="M58 27 Q55 12 50 20" stroke="#4CAF50" stroke-width="3" fill="none"/></svg>'}}
 ];
 
 function say(w,cb){if(cb)setTimeout(cb,500)}
 
-/* star burst effect */
 function burstStars(cx,cy){
   var box=document.getElementById('starBurst');
   var emojis=['⭐','🌟','✨','💫','🎉'];
@@ -220,22 +140,13 @@ function burstStars(cx,cy){
     var tx=cx+Math.cos(angle)*dist;
     var ty=cy+Math.sin(angle)*dist;
     s.style.left=cx+'px';s.style.top=cy+'px';
-    s.style.fontSize=(24+Math.random()*20)+'px';
-    s.style.setProperty('--tx',tx+'px');
-    s.style.setProperty('--ty',ty+'px');
+    s.style.fontSize=(22+Math.random()*18)+'px';
     s.style.animation='none';
     box.appendChild(s);
-    (function(el,x,y){
-      requestAnimationFrame(function(){
-        el.style.animation='starFly 1s ease-out forwards';
-        el.style.left=x+'px';el.style.top=y+'px';
-      });
-      setTimeout(function(){el.remove()},1100);
-    })(s,tx,ty);
+    (function(el,x,y){requestAnimationFrame(function(){el.style.animation='starFly 1s ease-out forwards';el.style.left=x+'px';el.style.top=y+'px'});setTimeout(function(){el.remove()},1100)})(s,tx,ty);
   }
 }
 
-/* nav */
 var cur=0;
 function go(n){
   document.getElementById('p'+cur).classList.remove('show');
@@ -245,165 +156,73 @@ function go(n){
   document.getElementById('p'+n).classList.add('show');
   document.getElementById('d'+n).classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
-  if(n===1)initReveal();
-  if(n===2)initFind();
-  if(n===3)initMem();
+  if(n===1)initReveal();if(n===2)initColorObj();if(n===3)initFind();if(n===4)initMem();
 }
 
-/* === S1: Paint Reveal === */
+/* S1: Paint Reveal */
 var rvI=0;
-function initReveal(){
-  rvI=0;
-  var row=document.getElementById('bottleRow');row.innerHTML='';
-  C.forEach(function(it,i){
-    var b=document.createElement('span');b.className='paint-bottle';
-    b.innerHTML='<svg width="46" height="65" viewBox="0 0 50 70"><rect x="12" y="20" width="26" height="42" rx="6" fill="'+it.hex+'"/><rect x="17" y="10" width="16" height="14" rx="3" fill="'+it.dark+'"/><rect x="20" y="4" width="10" height="8" rx="2" fill="#ccc"/></svg>';
-    b.onclick=function(){pourRv(i,b)};
-    row.appendChild(b);
-  });
-  updRvDots();resetCv();
-}
-function resetCv(){
-  document.getElementById('canvas').style.background='#eee';
-  var lb=document.getElementById('cvLabel');lb.className='canvas-label';lb.textContent='';
-}
-function pourRv(i,btn){
-  if(btn.classList.contains('used'))return;
-  btn.classList.add('used');
-  var it=C[i];
-  var cv=document.getElementById('canvas');
-  cv.style.background=it.hex;
-  cv.classList.remove('splash');void cv.offsetWidth;cv.classList.add('splash');
-  var lb=document.getElementById('cvLabel');lb.textContent=it.c.toUpperCase();lb.className='canvas-label vis';
-  say(it.c);
-  rvI++;updRvDots();
-  // burst stars on canvas
-  var rect=cv.getBoundingClientRect();
-  burstStars(rect.left+rect.width/2, rect.top+rect.height/2);
-  if(rvI<C.length){setTimeout(resetCv,2200)}
-  else{setTimeout(function(){document.getElementById('toS2').style.display='block'},1500)}
-}
-function updRvDots(){
-  var w=document.getElementById('rvDots');w.innerHTML='';
-  for(var i=0;i<C.length;i++){
-    var d=document.createElement('div');d.className='rv-dot';
-    d.style.background=i<rvI?C[i].hex:'#ddd';w.appendChild(d);
-  }
-}
+function initReveal(){rvI=0;var row=document.getElementById('bottleRow');row.innerHTML='';
+  C.forEach(function(it,i){var b=document.createElement('span');b.className='paint-bottle';
+    b.innerHTML='<svg width="44" height="62" viewBox="0 0 50 70"><rect x="12" y="20" width="26" height="42" rx="6" fill="'+it.hex+'"/><rect x="17" y="10" width="16" height="14" rx="3" fill="'+it.dark+'"/><rect x="20" y="4" width="10" height="8" rx="2" fill="#ccc"/></svg>';
+    b.onclick=function(){pourRv(i,b)};row.appendChild(b)});updRvDots();resetCv()}
+function resetCv(){var cv=document.getElementById('canvas');cv.style.background='#eee';var lb=document.getElementById('cvLabel');lb.className='canvas-label';lb.textContent=''}
+function pourRv(i,btn){if(btn.classList.contains('used'))return;btn.classList.add('used');var it=C[i];
+  var cv=document.getElementById('canvas');cv.style.background=it.hex;cv.classList.remove('splash');void cv.offsetWidth;cv.classList.add('splash');
+  var lb=document.getElementById('cvLabel');lb.textContent=it.name;lb.className='canvas-label vis';
+  var rect=cv.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
+  rvI++;updRvDots();if(rvI<C.length){setTimeout(resetCv,2200)}else{setTimeout(function(){document.getElementById('toS2').style.display='block'},1500)}}
+function updRvDots(){var w=document.getElementById('rvDots');w.innerHTML='';for(var i=0;i<C.length;i++){var d=document.createElement('div');d.className='rv-dot';d.style.background=i<rvI?C[i].hex:'#ddd';w.appendChild(d)}}
 
-/* === S2: Listen & Find (5 rounds, no repeat) === */
-var fOrder=[],fR=0,fOk=0,fActive=false,fTarget='';
-function initFind(){
-  fOrder=[0,1,2,3,4];fOrder.sort(function(){return Math.random()-.5});
-  fR=0;fOk=0;fActive=true;
-  document.getElementById('fStars').textContent='';
-  nextFind();
-}
-function nextFind(){
-  if(fR>=5){
-    fActive=false;
-    document.getElementById('fStars').textContent+=' 🏆';
-    say('Amazing',function(){document.getElementById('toS3').style.display='block'});
-    return;
-  }
-  var grid=document.getElementById('fGrid');grid.innerHTML='';
-  fTarget=C[fOrder[fR]].c;
-  // show all 5 cards shuffled
+/* S2: Color Objects */
+var coI=0;
+function initColorObj(){coI=0;var area=document.getElementById('colorObjArea');area.innerHTML='';
+  C.forEach(function(it,i){var d=document.createElement('div');d.className='color-obj';d.dataset.i=i;
+    d.innerHTML=it.objSvg('#ccc',110)+'<div style="text-align:center;font-size:13px;color:#aaa;margin-top:4px">'+it.obj+'</div>';
+    d.onclick=function(){paintObj(i,d)};area.appendChild(d)})}
+function paintObj(i,el){if(el.classList.contains('done'))return;var it=C[i];el.classList.add('done');
+  el.innerHTML=it.objSvg(it.hex,110)+'<div style="text-align:center;font-size:15px;color:'+it.hex+';font-weight:800;margin-top:4px">'+it.name+'</div>';
+  var rect=el.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
+  coI++;if(coI>=C.length){setTimeout(function(){document.getElementById('toS3').style.display='block'},1200)}}
+
+/* S3: Listen & Find */
+var fOrder=[],fR=0,fActive=false,fTarget='';
+function initFind(){fOrder=[0,1,2,3,4];fOrder.sort(function(){return Math.random()-.5});fR=0;fActive=true;
+  document.getElementById('fStars').textContent='';nextFind()}
+function nextFind(){if(fR>=5){fActive=false;document.getElementById('fStars').textContent+=' 🏆';
+  document.getElementById('toS4').style.display='block';return}
+  var grid=document.getElementById('fGrid');grid.innerHTML='';fTarget=C[fOrder[fR]].c;
+  var tIdx=fOrder[fR];document.getElementById('fPrompt').innerHTML='Say: <b style="color:'+C[tIdx].hex+'">"Find '+fTarget.toUpperCase()+'!"</b>';
   var show=[0,1,2,3,4];show.sort(function(){return Math.random()-.5});
-  show.forEach(function(idx){
-    var it=C[idx];
-    var card=document.createElement('div');card.className='find-card';card.dataset.c=it.c;
-    card.style.background=it.hex;
-    card.innerHTML=it.svg('#fff',80);
-    card.onclick=function(){tapFind(card)};
-    grid.appendChild(card);
-  });
-  var tIdx=fOrder[fR];document.getElementById('fPrompt').innerHTML='Say: <b style="color:'+C[tIdx].hex+'">\"Find '+fTarget.toUpperCase()+'!\"</b>';
-}
+  show.forEach(function(idx){var it=C[idx];var card=document.createElement('div');card.className='find-card';card.dataset.c=it.c;
+    card.style.background=it.hex;card.innerHTML=it.svg('#fff',70);card.onclick=function(){tapFind(card)};grid.appendChild(card)})}
+function tapFind(card){if(!fActive)return;if(card.dataset.c===fTarget){card.classList.add('correct');fR++;
+  document.getElementById('fStars').textContent+='⭐';var rect=card.getBoundingClientRect();
+  burstStars(rect.left+rect.width/2,rect.top+rect.height/2);setTimeout(nextFind,900)}
+  else{card.classList.add('wrong');setTimeout(function(){card.classList.remove('wrong')},400)}}
 
-function tapFind(card){
-  if(!fActive)return;
-  if(card.dataset.c===fTarget){
-    card.classList.add('correct');
-    fOk++;fR++;
-    document.getElementById('fStars').textContent+='⭐';
-    // star burst from card position
-    var rect=card.getBoundingClientRect();
-    burstStars(rect.left+rect.width/2, rect.top+rect.height/2);
-    say('Yes! '+fTarget,function(){setTimeout(nextFind,400)});
-  }else{
-    card.classList.add('wrong');
-    setTimeout(function(){card.classList.remove('wrong')},400);
-  }
-}
-
-/* === S3: Memory Flip === */
-var memCards=[],memFlipped=[],memMatched=0,memBusy=false;
-function initMem(){
-  memMatched=0;memBusy=false;
-  document.getElementById('memStars').textContent='';
-  document.getElementById('memPairs').textContent='';
-  // pick 4 colors for 8 cards (4 pairs)
-  var pick=[0,1,2,3];
-  var pairs=[];pick.forEach(function(i){pairs.push(i);pairs.push(i)});
+/* S4: Memory Flip */
+var memFlipped=[],memMatched=0,memBusy=false;
+function initMem(){memMatched=0;memBusy=false;memFlipped=[];document.getElementById('memStars').textContent='';
+  var pick=[0,1,2,3];var pairs=[];pick.forEach(function(i){pairs.push(i);pairs.push(i)});
   pairs.sort(function(){return Math.random()-.5});
-  memCards=pairs;memFlipped=[];
   var grid=document.getElementById('memGrid');grid.innerHTML='';
-  pairs.forEach(function(ci,idx){
-    var card=document.createElement('div');card.className='mem-card';card.dataset.idx=idx;card.dataset.ci=ci;
-    var it=C[ci];
-    card.innerHTML='<div class="mem-inner"><div class="mem-front">?</div><div class="mem-back" style="background:'+it.hex+'">'+it.svg('#fff',70)+'</div></div>';
-    card.onclick=function(){flipMem(card)};
-    grid.appendChild(card);
-  });
-}
-function flipMem(card){
-  if(memBusy)return;
-  if(card.classList.contains('flipped')||card.classList.contains('matched'))return;
-  card.classList.add('flipped');
-  var ci=parseInt(card.dataset.ci);
-  say(C[ci].c);
-  memFlipped.push(card);
-  if(memFlipped.length===2){
-    memBusy=true;
-    var a=memFlipped[0],b=memFlipped[1];
-    if(a.dataset.ci===b.dataset.ci){
-      // match!
-      setTimeout(function(){
-        a.classList.add('matched');b.classList.add('matched');
-        memMatched++;
-        document.getElementById('memStars').textContent+='⭐';
-        // burst from between the two cards
-        var ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
-        var mx=(ra.left+ra.width/2+rb.left+rb.width/2)/2;
-        var my=(ra.top+ra.height/2+rb.top+rb.height/2)/2;
-        burstStars(mx,my);
-        say('Great job');
-        memFlipped=[];memBusy=false;
-        if(memMatched>=4){
-          document.getElementById('memPairs').textContent='All matched!';
-          document.getElementById('memStars').textContent+=' 🏆';
-        }
-      },500);
-    }else{
-      setTimeout(function(){
-        a.classList.remove('flipped');b.classList.remove('flipped');
-        memFlipped=[];memBusy=false;
-      },1000);
-    }
-  }
-}
+  pairs.forEach(function(ci,idx){var it=C[ci];var card=document.createElement('div');card.className='mem-card';card.dataset.ci=ci;
+    card.innerHTML='<div class="mem-inner"><div class="mem-front">?</div><div class="mem-back" style="background:'+it.hex+'">'+it.svg('#fff',65)+'</div></div>';
+    card.onclick=function(){flipMem(card)};grid.appendChild(card)})}
+function flipMem(card){if(memBusy||card.classList.contains('flipped')||card.classList.contains('matched'))return;
+  card.classList.add('flipped');memFlipped.push(card);
+  if(memFlipped.length===2){memBusy=true;var a=memFlipped[0],b=memFlipped[1];
+    if(a.dataset.ci===b.dataset.ci){setTimeout(function(){a.classList.add('matched');b.classList.add('matched');memMatched++;
+      document.getElementById('memStars').textContent+='⭐';
+      var ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+      burstStars((ra.left+rb.left+ra.width)/2,(ra.top+rb.top+ra.height)/2);
+      memFlipped=[];memBusy=false;if(memMatched>=4)document.getElementById('memStars').textContent+=' 🏆'},500)}
+    else{setTimeout(function(){a.classList.remove('flipped');b.classList.remove('flipped');memFlipped=[];memBusy=false},1000)}}}
 
-/* finish */
-function finish(){
-  document.getElementById('cele').classList.add('show');
-  say('Amazing job! See you tomorrow!');
-  var box=document.getElementById('confBox');
-  var cols=['#EF4444','#3B82F6','#EAB308','#22C55E','#F97316','#FFD700'];
+function finish(){document.getElementById('cele').classList.add('show');
+  var box=document.getElementById('confBox');var cols=['#EF4444','#3B82F6','#EAB308','#22C55E','#F97316','#FFD700'];
   for(var i=0;i<60;i++){var p=document.createElement('div');p.className='conf';
-    p.style.cssText='left:'+Math.random()*100+'%;background:'+cols[i%cols.length]+';width:'+(8+Math.random()*12)+'px;height:'+(8+Math.random()*12)+'px;animation-duration:'+(1.5+Math.random()*2)+'s;animation-delay:'+Math.random()+'s;';
-    box.appendChild(p)}
-}
+    p.style.cssText='left:'+Math.random()*100+'%;background:'+cols[i%cols.length]+';width:'+(8+Math.random()*12)+'px;height:'+(8+Math.random()*12)+'px;animation-duration:'+(1.5+Math.random()*2)+'s;animation-delay:'+Math.random()+'s;';box.appendChild(p)}}
 </script>
 </body>
 </html>
