@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 6
+- 当前天: Day 7
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -53,6 +53,21 @@
 | ears | Body | 02-27 | ⬜ | 02-28 |
 | nose | Body | 02-27 | ⬜ | 02-28 |
 | mouth | Body | 02-27 | ⬜ | 02-28 |
+| apple | Food | 02-28 | ⬜ | 03-01 |
+| banana | Food | 02-28 | ⬜ | 03-01 |
+| milk | Food | 02-28 | ⬜ | 03-01 |
+| bread | Food | 02-28 | ⬜ | 03-01 |
+| egg | Food | 02-28 | ⬜ | 03-01 |
+| one | Numbers | 03-02 | ⬜ | 03-03 |
+| two | Numbers | 03-02 | ⬜ | 03-03 |
+| three | Numbers | 03-02 | ⬜ | 03-03 |
+| four | Numbers | 03-02 | ⬜ | 03-03 |
+| five | Numbers | 03-02 | ⬜ | 03-03 |
+| run | Actions | 03-03 | ⬜ | 03-04 |
+| jump | Actions | 03-03 | ⬜ | 03-04 |
+| walk | Actions | 03-03 | ⬜ | 03-04 |
+| sit | Actions | 03-03 | ⬜ | 03-04 |
+| stand | Actions | 03-03 | ⬜ | 03-04 |
 
 ### 2025-02-28 (Day 4) - Food 🍎
 - 新词: apple, banana, milk, bread, egg
@@ -80,6 +95,14 @@
 - 综合游戏: 打地鼠（Number Whack）
 - 反馈: 待确认
 
+### 2025-03-03 (Day 7) - Actions 🏃
+- 新词: run, jump, walk, sit, stand
+- 课件: lessons/day7-actions.html
+- 复习词: three, five, one（3个，来自Day6）
+- 互动游戏1: 钓鱼游戏（Fishing Game）
+- 综合游戏: 记忆翻牌（Memory Flip）
+- 反馈: 待确认
+
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
 - Day 2 (02-26): 🐾 Animals — cat, dog, fish, bird, duck
@@ -88,3 +111,4 @@
 - Day 5 (03-01): 📝 复习日 — Day1-4 全部
 - Day 6 (03-02): 🔢 Numbers — one, two, three, four, five
 - Day 7 (03-03): 🏃 Actions — run, jump, walk, sit, stand
+- Day 8 (03-04): 🎨 Colors 2 — pink, purple, white, black, brown
