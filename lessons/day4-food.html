@@ -587,7 +587,9 @@ function flipMemCard(card, idx) {
 
 // === NAV ===
 function updateNav() {
-  document.getElementById('navPrev').disabled = (currentModule <= 1);
+  var prev = document.getElementById('navPrev');
+  if(!prev) return;
+  prev.disabled = (currentModule <= 1);
   document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
   document.getElementById('navProgress').textContent = Math.min(currentModule, 5) + '/5';
   document.querySelector('.nav-bar').style.display = (currentModule >= 6) ? 'none' : '';
@@ -605,5 +607,6 @@ goModule(1);
   <span class="nav-progress" id="navProgress">1/5</span>
   <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
 </div>
+<script>updateNav();</script>
 </body>
 </html>
