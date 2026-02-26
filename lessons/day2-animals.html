@@ -6,200 +6,587 @@
 <title>Day 2 - Animals 🐾</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;
-  background:linear-gradient(135deg,#a8edea 0%,#fed6e3 50%,#d4fc79 100%);
-  overflow-x:hidden;padding:0;position:relative}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#c3fae8 0%,#81ecec 50%,#74b9ff 100%);display:flex;flex-direction:column;align-items:center}
 
-/* ===== Top Bar ===== */
-.top-bar{position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
-  padding:10px 16px;display:flex;align-items:center;gap:10px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.top-bar .title{font-size:18px;font-weight:800;color:#27ae60;flex:1}
-.top-bar .home-btn{font-size:24px;text-decoration:none;cursor:pointer}
+/* Top Bar - sticky */
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
+  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#00b894}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#00b894;transform:scale(1.2)}
+.top-bar .dot.done{background:#2ecc71}
 
-/* ===== Progress Dots ===== */
-.progress-dots{display:flex;gap:8px;align-items:center}
-.dot{width:14px;height:14px;border-radius:50%;background:#ddd;transition:.3s}
-.dot.active{background:#27ae60;transform:scale(1.3)}
-.dot.done{background:#2ecc71}
+/* Main content */
+.main{width:100%;max-width:500px;flex:1;overflow:hidden;padding:16px 12px 12px;display:flex;flex-direction:column}
 
-/* ===== Main Content ===== */
-.main{padding:70px 16px 30px;max-width:600px;margin:0 auto}
+/* Module container */
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
+.module.active{display:flex}
+.module-title{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:6px}
+.teacher-guide{background:rgba(255,255,255,.85);border-radius:10px;padding:8px 14px;font-size:13px;color:#666;
+  margin-bottom:10px;text-align:center;width:100%;line-height:1.4}
+.teacher-guide b{color:#00b894}
 
-/* ===== Section Common ===== */
-.section{display:none;animation:fadeIn .5s ease}
-.section.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+/* Grid layout for cards */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .icon{font-size:80px;line-height:1;transition:filter .4s,transform .4s}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.card.revealed .label{opacity:1}
 
-/* ===== Teacher Guide ===== */
-.teacher-guide{background:rgba(255,255,255,.85);border-radius:16px;padding:14px 18px;
-  margin-bottom:20px;border-left:5px solid #27ae60;font-size:15px;color:#555;line-height:1.6}
-.teacher-guide .label{font-weight:800;color:#27ae60;font-size:13px;margin-bottom:4px}
+/* Grayscale for unrevealed */
+.card.gray .icon{filter:grayscale(1) brightness(1.1)}
+.card.revealed .icon{filter:none;animation:popIn .4s ease}
 
-/* ===== Section Title ===== */
-.section-title{text-align:center;font-size:26px;font-weight:800;color:#fff;
-  text-shadow:2px 2px 4px rgba(0,0,0,.15);margin:10px 0 20px}
+/* Next button */
+.next-btn{margin-top:12px;padding:12px 36px;border:none;border-radius:30px;font-size:18px;font-weight:700;
+  color:#fff;background:linear-gradient(135deg,#00b894,#00cec9);cursor:pointer;
+  box-shadow:0 4px 15px rgba(0,184,148,.4);transition:transform .2s,opacity .3s;opacity:0;pointer-events:none}
+.next-btn.show{opacity:1;pointer-events:auto;animation:bounceIn .5s ease}
+.next-btn:active{transform:scale(.93)}
 
-/* ===== Cards Grid ===== */
-.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:10px 0}
-.cards-grid.three-col{grid-template-columns:repeat(3,1fr)}
+/* Listen & Find game */
+.prompt-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,.2);
+  margin-bottom:10px;min-height:30px;text-align:center}
+.score-bar{display:flex;gap:6px;margin-bottom:8px}
+.star{font-size:22px;opacity:.3;transition:opacity .3s,transform .3s}
+.star.earned{opacity:1;animation:popIn .4s ease}
 
-/* ===== Animal Card (New Words) ===== */
-.animal-card{background:rgba(255,255,255,.9);border-radius:24px;padding:20px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(0,0,0,.08);
-  min-height:200px;justify-content:center;position:relative;overflow:hidden;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.animal-card:active{transform:scale(.93)}
-.animal-card .img-wrap{width:140px;height:140px;display:flex;align-items:center;justify-content:center;
-  transition:.5s}
-.animal-card .img-wrap svg{width:100%;height:100%}
-.animal-card .img-wrap.gray{filter:grayscale(1) brightness(1.2) opacity(.5)}
-.animal-card .word{font-size:24px;font-weight:800;color:#333;opacity:0;transition:.4s;
-  text-transform:uppercase;letter-spacing:1px}
-.animal-card .word.show{opacity:1}
-.animal-card .sparkle{position:absolute;pointer-events:none;font-size:28px;
-  animation:sparkleAnim .8s ease forwards}
-@keyframes sparkleAnim{
-  0%{opacity:1;transform:translate(0,0) scale(0)}
-  50%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(1.2)}
-  100%{opacity:0;transform:translate(var(--tx2),var(--ty2)) scale(0)}
-}
+/* Egg hatch game */
+.egg-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent;overflow:hidden}
+.egg-card:active{transform:scale(.95)}
+.egg-card .egg-icon{font-size:80px;line-height:1;transition:transform .3s}
+.egg-card .hatch-icon{font-size:80px;line-height:1;display:none;animation:popIn .5s ease}
+.egg-card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.egg-card.hatched .egg-icon{display:none}
+.egg-card.hatched .hatch-icon{display:block}
+.egg-card.hatched .label{opacity:1}
 
-/* ===== Next Button ===== */
-.next-btn{display:none;margin:30px auto 10px;padding:18px 50px;font-size:22px;font-weight:800;
-  color:#fff;background:linear-gradient(135deg,#27ae60,#f1c40f);border:none;border-radius:50px;
-  cursor:pointer;box-shadow:0 6px 20px rgba(39,174,96,.3);transition:.2s;
-  animation:pulse 1.5s infinite}
-.next-btn:active{transform:scale(.95)}
-.next-btn.show{display:block}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+/* Whack-a-mole game */
+.mole-area{position:relative;width:100%;flex:1;display:flex;flex-direction:column;align-items:center}
+.mole-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+.mole-hole{background:rgba(255,255,255,.3);border-radius:14px;min-height:100px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;
+  border:3px dashed rgba(255,255,255,.5)}
+.mole-hole .mole{font-size:70px;line-height:1;position:absolute;bottom:-80px;transition:bottom .3s ease;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.mole-hole.pop .mole{bottom:10px}
+.mole-hole .hole-label{position:absolute;bottom:4px;font-size:12px;font-weight:700;color:rgba(255,255,255,.6)}
+.mole-timer{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.mole-target{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:8px}
+.mole-score{font-size:18px;font-weight:700;color:#fff;margin-top:8px}
 
-/* ===== Greeting / Review Section ===== */
-.greeting-area{text-align:center;padding:20px 0}
-.greeting-emoji{font-size:100px;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-.greeting-text{font-size:28px;font-weight:800;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.15);
-  margin:20px 0}
-.review-btns{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:20px}
-.review-btn{width:140px;height:140px;border-radius:28px;border:none;cursor:pointer;
-  transition:.2s;box-shadow:0 6px 16px rgba(0,0,0,.12);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:8px;font-size:20px;font-weight:800;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.review-btn:active{transform:scale(.9)}
-.review-btn .color-circle{width:70px;height:70px;border-radius:50%}
+/* Stars burst effect */
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;font-size:20px;animation:starFly 1s ease-out forwards}
 
-/* ===== Egg Hatch Game ===== */
-.egg-card{background:rgba(255,255,255,.9);border-radius:28px;padding:24px;
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(0,0,0,.08);
-  min-height:220px;justify-content:center;position:relative;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.egg-card:active{transform:scale(.93)}
-.egg-card .egg-emoji{font-size:100px;transition:.3s}
-.egg-card .egg-emoji.crack{animation:eggCrack .6s ease forwards}
-.egg-card .hatched{display:none;flex-direction:column;align-items:center;gap:8px}
-.egg-card .hatched svg{width:120px;height:120px}
-.egg-card .hatched .hatch-label{font-size:22px;font-weight:800;color:#333}
-.egg-card.opened .egg-emoji{display:none}
-.egg-card.opened .hatched{display:flex}
-@keyframes eggCrack{
-  0%{transform:rotate(0)}
-  20%{transform:rotate(-10deg)}
-  40%{transform:rotate(10deg)}
-  60%{transform:rotate(-5deg)}
-  80%{transform:rotate(5deg) scale(1.1)}
-  100%{transform:rotate(0) scale(0);opacity:0}
-}
+/* Review warm-up */
+.review-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.review-card:active{transform:scale(.95)}
+.review-card .icon{font-size:80px;line-height:1}
+.review-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
 
-/* ===== Listen & Find ===== */
-.listen-prompt{text-align:center;background:rgba(255,255,255,.9);border-radius:20px;
-  padding:20px;margin-bottom:20px;font-size:22px;font-weight:700;color:#555;
-  box-shadow:0 4px 15px rgba(0,0,0,.06)}
-.listen-prompt .prompt-word{font-size:32px;font-weight:900;color:#27ae60;display:block;margin-top:8px}
-.listen-choice{background:rgba(255,255,255,.85);border-radius:24px;padding:20px;
-  display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
-  transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.06);min-height:180px;justify-content:center;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.listen-choice:active{transform:scale(.93)}
-.listen-choice svg{width:110px;height:110px}
-.listen-choice .choice-emoji{font-size:90px}
-.listen-choice .choice-label{font-size:20px;font-weight:700;color:#666}
-.listen-choice.correct{animation:correctPop .5s ease;background:rgba(46,204,113,.2);
-  border:3px solid #2ecc71}
-.listen-choice.wrong{animation:shake .4s ease;background:rgba(231,76,60,.1);
-  border:3px solid #e74c3c}
-@keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+/* Completion screen */
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.complete-emoji{font-size:90px;animation:popIn .6s ease}
+.complete-text{font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+
+/* Shake animation for wrong answers */
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 
-/* ===== Whack-a-Mole ===== */
-.mole-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:10px 0}
-.mole-hole{aspect-ratio:1;background:linear-gradient(180deg,#8B4513 0%,#654321 100%);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:.2s;box-shadow:inset 0 6px 12px rgba(0,0,0,.3),0 4px 8px rgba(0,0,0,.15);
-  position:relative;overflow:hidden;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.mole-hole .mole-content{position:absolute;bottom:-100%;transition:.3s ease;
-  display:flex;flex-direction:column;align-items:center;gap:4px}
-.mole-hole .mole-content svg{width:70px;height:70px}
-.mole-hole .mole-content .mole-emoji{font-size:60px}
-.mole-hole .mole-content .mole-label{font-size:14px;font-weight:800;color:#fff;
-  text-shadow:1px 1px 2px rgba(0,0,0,.5)}
-.mole-hole.up .mole-content{bottom:10%}
-.mole-hole.hit{background:rgba(46,204,113,.3)}
-
-/* ===== Score / Stars ===== */
-.score-bar{text-align:center;font-size:28px;margin:10px 0}
-
-/* ===== Star Burst ===== */
-.star-burst{position:fixed;pointer-events:none;z-index:999}
-.star-burst .star{position:absolute;font-size:30px;animation:starFly 1s ease forwards}
-@keyframes starFly{
-  0%{opacity:1;transform:translate(0,0) scale(0) rotate(0deg)}
-  50%{opacity:1;transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(180deg)}
-  100%{opacity:0;transform:translate(var(--ex),var(--ey)) scale(0) rotate(360deg)}
-}
-
-/* ===== Completion ===== */
-.completion{text-align:center;padding:40px 20px}
-.completion .big-emoji{font-size:100px;animation:bounce 1s infinite}
-.completion .msg{font-size:26px;font-weight:800;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.15);margin:20px 0}
-.completion .home-link{display:inline-block;padding:16px 40px;font-size:20px;font-weight:700;
-  color:#fff;background:linear-gradient(135deg,#2ecc71,#27ae60);border-radius:50px;
-  text-decoration:none;box-shadow:0 6px 20px rgba(46,204,113,.3)}
-
-/* ===== Whack Target Prompt ===== */
-.whack-prompt{text-align:center;background:rgba(255,255,255,.9);border-radius:20px;
-  padding:16px;margin-bottom:16px;font-size:20px;font-weight:700;color:#555;
-  box-shadow:0 4px 15px rgba(0,0,0,.06)}
-.whack-prompt .target-word{font-size:28px;font-weight:900;color:#e74c3c;display:block;margin-top:6px}
-
-/* ===== Responsive ===== */
-@media(min-width:600px){
-  .animal-card .img-wrap{width:180px;height:180px}
-  .egg-card .hatched svg{width:150px;height:150px}
-  .egg-card .egg-emoji{font-size:120px}
-  .listen-choice svg{width:130px;height:130px}
-  .listen-choice .choice-emoji{font-size:110px}
-  .mole-hole .mole-content svg{width:90px;height:90px}
-  .mole-hole .mole-content .mole-emoji{font-size:80px}
-  .review-btn{width:170px;height:170px}
-  .review-btn .color-circle{width:90px;height:90px}
-}
+/* Animations */
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes bounceIn{0%{transform:scale(0) translateY(20px)}60%{transform:scale(1.1) translateY(-5px)}100%{transform:scale(1) translateY(0)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes wobble{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}100%{transform:rotate(0)}}
+@keyframes crackEgg{0%{transform:scale(1)}30%{transform:scale(1.1) rotate(-5deg)}60%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(0) rotate(0)}}
 </style>
 </head>
 <body>
 
 <!-- Top Bar -->
 <div class="top-bar">
-  <a class="home-btn" href="../index.html">🏠</a>
-  <div class="title">Day 2 · Animals 🐾</div>
-  <div class="progress-dots" id="progressDots">
-    <div class="dot" data-step="0"></div>
-    <div class="dot" data-step="1"></div>
-    <div class="dot" data-step="2"></div>
-    <div class="dot" data-step="3"></div>
-    <div class="dot" data-step="4"></div>
+  <div class="title">🐾 Day 2 · Animals</div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="main" id="main">
+
+<!-- Module 1: Review Warm-up (Day1 colors: red, blue, yellow) -->
+<div class="module" id="mod1">
+  <div class="module-title">🌈 Color Review!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's remember our colors! 还记得这些颜色吗？Tap the right color!"</div>
+  <div class="prompt-text" id="reviewPrompt"></div>
+  <div class="score-bar" id="reviewScoreBar"></div>
+  <div class="card-grid" id="reviewGrid"></div>
+  <button class="next-btn" id="nextBtn1" onclick="goModule(2)">Meet the Animals! ➡️</button>
+</div>
+
+<!-- Module 2: New Words - Animals -->
+<div class="module" id="mod2">
+  <div class="module-title">🐾 New Animals!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's meet some animals! Tap each gray picture to see who's hiding! 点击灰色图片看看是谁！"</div>
+  <div class="card-grid" id="newWordsGrid"></div>
+  <button class="next-btn" id="nextBtn2" onclick="goModule(3)">Next Game! ➡️</button>
+</div>
+
+<!-- Module 3: Egg Hatch Game (孵蛋) -->
+<div class="module" id="mod3">
+  <div class="module-title">🥚 Hatch the Eggs!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Look at these eggs! Tap to hatch them! What animal is inside? 点击蛋看看里面是什么动物！"</div>
+  <div class="card-grid" id="eggGrid"></div>
+  <button class="next-btn" id="nextBtn3" onclick="goModule(4)">Next! ➡️</button>
+</div>
+
+<!-- Module 4: Listen & Find -->
+<div class="module" id="mod4">
+  <div class="module-title">👂 Listen & Find!</div>
+  <div class="teacher-guide" id="listenGuide">🎤 <b>老师说：</b>"Where is the CAT? 找到猫！Tap it!"</div>
+  <div class="score-bar" id="scoreBar"></div>
+  <div class="prompt-text" id="promptText"></div>
+  <div class="card-grid" id="listenGrid"></div>
+</div>
+
+<!-- Module 5: Whack-a-Mole -->
+<div class="module" id="mod5">
+  <div class="module-title">🔨 Whack-a-Mole!</div>
+  <div class="teacher-guide" id="moleGuide">🎤 <b>老师说：</b>"Quick! Tap the animal when it pops up! 快！动物冒出来就点它！"</div>
+  <div class="mole-target" id="moleTarget"></div>
+  <div class="score-bar" id="moleScoreBar"></div>
+  <div class="mole-grid" id="moleGrid"></div>
+  <div class="mole-score" id="moleScore"></div>
+</div>
+
+<!-- Complete -->
+<div class="module" id="mod6">
+  <div class="complete-screen">
+    <div class="complete-emoji">🎉</div>
+    <div class="complete-text">Great Job, Ranran!</div>
+    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned 5 animals today! 🐾</div>
+    <button class="next-btn show" style="margin-top:20px" onclick="location.href='../index.html'">🏠 Home</button>
   </div>
 </div>
+
+</div>
+
+<script>
+// === DATA & STATE ===
+var ANIMALS = [
+  {name:'cat',  emoji:'🐱'},
+  {name:'dog',  emoji:'🐶'},
+  {name:'fish', emoji:'🐟'},
+  {name:'bird', emoji:'🐦'},
+  {name:'duck', emoji:'🦆'}
+];
+var REVIEW = [
+  {name:'red',   emoji:'🔴', hex:'#e74c3c'},
+  {name:'blue',  emoji:'🔵', hex:'#3498db'},
+  {name:'yellow',emoji:'🟡', hex:'#f1c40f'}
+];
+var MODULES = 6;
+var currentModule = 0;
+
+// Module 1 state
+var reviewRound = 0;
+var reviewOrder = [];
+
+// Module 2 state
+var revealedCount = 0;
+var revealedSet = {};
+
+// Module 3 state
+var hatchCount = 0;
+
+// Module 4 state
+var listenRound = 0;
+var listenOrder = [];
+
+// Module 5 state
+var moleScore = 0;
+var moleRound = 0;
+var moleTimer = null;
+var molePopTimer = null;
+var moleTargetAnimal = null;
+var MOLE_TOTAL_ROUNDS = 8;
+
+// === UTILITY FUNCTIONS ===
+function say(text, cb) { if(cb) setTimeout(cb, 300); }
+
+function burstStars(x, y) {
+  var c = document.createElement('div');
+  c.className = 'star-burst';
+  c.style.left = x + 'px'; c.style.top = y + 'px';
+  for(var i = 0; i < 8; i++) {
+    var s = document.createElement('div');
+    s.className = 'star-particle';
+    var angle = (i / 8) * Math.PI * 2;
+    var dist = 60 + Math.random() * 40;
+    s.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    s.textContent = ['⭐','🌟','✨','💫'][i % 4];
+    c.appendChild(s);
+  }
+  document.body.appendChild(c);
+  setTimeout(function(){ c.remove(); }, 1100);
+}
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// === NAVIGATION ===
+function updateDots() {
+  var dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  for(var i = 1; i <= 5; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot' + (i === currentModule ? ' active' : '') + (i < currentModule ? ' done' : '');
+    dots.appendChild(d);
+  }
+}
+
+function goModule(n) {
+  currentModule = n;
+  var mods = document.querySelectorAll('.module');
+  mods.forEach(function(m){ m.classList.remove('active'); });
+  var target = document.getElementById('mod' + n);
+  if(target) target.classList.add('active');
+  updateDots();
+  if(n === 1) startReview();
+  if(n === 4) startListenGame();
+  if(n === 5) startMoleGame();
+}
+
+// === MODULE 1: REVIEW WARM-UP (red, blue, yellow) ===
+function startReview() {
+  reviewRound = 0;
+  reviewOrder = shuffle([0,1,2]);
+  var sb = document.getElementById('reviewScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 3; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildReviewGrid();
+  showReviewPrompt();
+}
+
+function buildReviewGrid() {
+  var grid = document.getElementById('reviewGrid');
+  grid.innerHTML = '';
+  var items = shuffle(REVIEW);
+  items.forEach(function(c) {
+    var card = document.createElement('div');
+    card.className = 'review-card';
+    card.setAttribute('data-name', c.name);
+    card.style.background = c.hex + '22';
+    card.innerHTML = '<div class="icon">' + c.emoji + '</div><div class="label" style="color:' + c.hex + '">' + c.name + '</div>';
+    card.onclick = function(e) { checkReview(this, c, e); };
+    grid.appendChild(card);
+  });
+}
+
+function showReviewPrompt() {
+  if(reviewRound >= 3) {
+    document.getElementById('reviewPrompt').textContent = '🎉 Great memory!';
+    document.getElementById('nextBtn1').classList.add('show');
+    return;
+  }
+  var target = REVIEW[reviewOrder[reviewRound]];
+  document.getElementById('reviewPrompt').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
+}
+
+function checkReview(card, color, e) {
+  if(reviewRound >= 3) return;
+  var target = REVIEW[reviewOrder[reviewRound]];
+  if(color.name === target.name) {
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    card.style.animation = 'popIn .4s ease';
+    var stars = document.getElementById('reviewScoreBar').children;
+    stars[reviewRound].classList.add('earned');
+    reviewRound++;
+    setTimeout(function(){
+      buildReviewGrid();
+      showReviewPrompt();
+    }, 600);
+  } else {
+    card.style.animation = 'shake .4s ease';
+    setTimeout(function(){ card.style.animation = ''; }, 500);
+  }
+}
+
+// === MODULE 2: NEW WORDS ===
+function initNewWords() {
+  var grid = document.getElementById('newWordsGrid');
+  grid.innerHTML = '';
+  ANIMALS.forEach(function(a, i) {
+    var card = document.createElement('div');
+    card.className = 'card gray';
+    card.setAttribute('data-idx', i);
+    card.innerHTML = '<div class="icon">' + a.emoji + '</div><div class="label">' + a.name + '</div>';
+    card.onclick = function(e) { revealWord(this, i, e); };
+    grid.appendChild(card);
+  });
+}
+
+function revealWord(card, idx, e) {
+  var wasRevealed = card.classList.contains('revealed');
+  card.classList.remove('gray');
+  card.classList.add('revealed');
+  // Replay animation every tap
+  var icon = card.querySelector('.icon');
+  icon.style.animation = 'none';
+  void icon.offsetWidth;
+  icon.style.animation = 'popIn .4s ease';
+  say(ANIMALS[idx].name);
+  var rect = card.getBoundingClientRect();
+  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+  if(!wasRevealed) {
+    revealedSet[idx] = true;
+    revealedCount++;
+    if(revealedCount >= 5) {
+      document.getElementById('nextBtn2').classList.add('show');
+    }
+  }
+}
+
+// === MODULE 3: EGG HATCH GAME ===
+function initEggGame() {
+  var grid = document.getElementById('eggGrid');
+  grid.innerHTML = '';
+  var items = shuffle(ANIMALS);
+  items.forEach(function(a) {
+    var card = document.createElement('div');
+    card.className = 'egg-card';
+    card.setAttribute('data-name', a.name);
+    card.innerHTML = '<div class="egg-icon">🥚</div><div class="hatch-icon">' + a.emoji + '</div><div class="label">' + a.name + '</div>';
+    card.onclick = function(e) { hatchEgg(this, a, e); };
+    grid.appendChild(card);
+  });
+}
+
+function hatchEgg(card, animal, e) {
+  if(card.classList.contains('hatched')) {
+    var icon = card.querySelector('.hatch-icon');
+    icon.style.animation = 'none';
+    void icon.offsetWidth;
+    icon.style.animation = 'popIn .5s ease';
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    return;
+  }
+  var eggIcon = card.querySelector('.egg-icon');
+  eggIcon.style.animation = 'wobble .4s ease';
+  setTimeout(function() {
+    eggIcon.style.animation = 'crackEgg .4s ease forwards';
+    setTimeout(function() {
+      card.classList.add('hatched');
+      say(animal.name);
+      var rect = card.getBoundingClientRect();
+      burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+      hatchCount++;
+      if(hatchCount >= 5) {
+        setTimeout(function(){ document.getElementById('nextBtn3').classList.add('show'); }, 400);
+      }
+    }, 400);
+  }, 400);
+}
+
+// === MODULE 4: LISTEN & FIND ===
+function startListenGame() {
+  listenRound = 0;
+  listenOrder = shuffle([0,1,2,3,4]);
+  var sb = document.getElementById('scoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildListenGrid();
+  showListenPrompt();
+}
+
+function buildListenGrid() {
+  var grid = document.getElementById('listenGrid');
+  grid.innerHTML = '';
+  var items = shuffle(ANIMALS);
+  items.forEach(function(a) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '<div class="icon">' + a.emoji + '</div><div class="label" style="opacity:1">' + a.name + '</div>';
+    card.onclick = function(e) { checkListen(this, a, e); };
+    grid.appendChild(card);
+  });
+}
+
+function showListenPrompt() {
+  if(listenRound >= 5) {
+    document.getElementById('promptText').textContent = '🎉 All found!';
+    document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the animals! 太棒了！"';
+    setTimeout(function(){ goModule(5); }, 1500);
+    return;
+  }
+  var target = ANIMALS[listenOrder[listenRound]];
+  document.getElementById('promptText').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
+  document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Where is the ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
+}
+
+function checkListen(card, animal, e) {
+  if(listenRound >= 5) return;
+  var target = ANIMALS[listenOrder[listenRound]];
+  if(animal.name === target.name) {
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    card.style.animation = 'popIn .4s ease';
+    var stars = document.getElementById('scoreBar').children;
+    stars[listenRound].classList.add('earned');
+    listenRound++;
+    setTimeout(function(){
+      buildListenGrid();
+      showListenPrompt();
+    }, 600);
+  } else {
+    card.style.animation = 'shake .4s ease';
+    setTimeout(function(){ card.style.animation = ''; }, 500);
+  }
+}
+
+// === MODULE 5: WHACK-A-MOLE ===
+function startMoleGame() {
+  moleScore = 0;
+  moleRound = 0;
+  document.getElementById('moleScore').textContent = '';
+  // Build 6 holes (3x2 grid)
+  var grid = document.getElementById('moleGrid');
+  grid.innerHTML = '';
+  for(var i = 0; i < 6; i++) {
+    var hole = document.createElement('div');
+    hole.className = 'mole-hole';
+    hole.setAttribute('data-hole', i);
+    hole.innerHTML = '<div class="mole"></div>';
+    hole.onclick = function(e) { whackMole(this, e); };
+    grid.appendChild(hole);
+  }
+  // Score bar
+  var sb = document.getElementById('moleScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  nextMoleRound();
+}
+
+function nextMoleRound() {
+  if(moleRound >= MOLE_TOTAL_ROUNDS) {
+    document.getElementById('moleTarget').textContent = '🎉 Great job!';
+    document.getElementById('moleGuide').innerHTML = '🎤 <b>老师说：</b>"Wow, you caught ' + moleScore + ' animals! 太厉害了！"';
+    setTimeout(function(){ goModule(6); }, 1500);
+    return;
+  }
+  // Pick a target animal to find
+  var allAnimals = ANIMALS.concat([REVIEW[0], REVIEW[1]]); // mix in some colors
+  moleTargetAnimal = ANIMALS[moleRound % ANIMALS.length];
+  document.getElementById('moleTarget').textContent = 'Whack: ' + moleTargetAnimal.name.toUpperCase() + ' ' + moleTargetAnimal.emoji;
+  document.getElementById('moleGuide').innerHTML = '🎤 <b>老师说：</b>"Quick! Find the ' + moleTargetAnimal.name.toUpperCase() + '! 快找到' + moleTargetAnimal.name + '！"';
+
+  // Pop up animals in random holes
+  var holes = document.querySelectorAll('.mole-hole');
+  // Clear all
+  holes.forEach(function(h) {
+    h.classList.remove('pop');
+    h.removeAttribute('data-animal');
+  });
+
+  // Pick 2-3 holes to pop
+  var holeIndices = shuffle([0,1,2,3,4,5]);
+  var popCount = 2 + Math.floor(Math.random() * 2); // 2 or 3
+  var targetPlaced = false;
+
+  setTimeout(function() {
+    for(var i = 0; i < popCount; i++) {
+      var hIdx = holeIndices[i];
+      var hole = holes[hIdx];
+      var animal;
+      if(!targetPlaced && i === popCount - 1) {
+        animal = moleTargetAnimal;
+        targetPlaced = true;
+      } else if(!targetPlaced && Math.random() < 0.5) {
+        animal = moleTargetAnimal;
+        targetPlaced = true;
+      } else {
+        // Pick a different animal
+        var others = ANIMALS.filter(function(a){ return a.name !== moleTargetAnimal.name; });
+        animal = others[Math.floor(Math.random() * others.length)];
+      }
+      hole.setAttribute('data-animal', animal.name);
+      hole.querySelector('.mole').textContent = animal.emoji;
+      hole.classList.add('pop');
+    }
+
+    // Auto-hide after 2.5 seconds if not whacked
+    molePopTimer = setTimeout(function() {
+      holes.forEach(function(h){ h.classList.remove('pop'); });
+      moleRound++;
+      setTimeout(nextMoleRound, 500);
+    }, 2500);
+  }, 400);
+}
+
+function whackMole(hole, e) {
+  if(!hole.classList.contains('pop')) return;
+  var animalName = hole.getAttribute('data-animal');
+  hole.classList.remove('pop');
+
+  if(animalName === moleTargetAnimal.name) {
+    // Correct!
+    clearTimeout(molePopTimer);
+    var rect = hole.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    moleScore++;
+    var stars = document.getElementById('moleScoreBar').children;
+    if(moleScore <= stars.length) stars[moleScore - 1].classList.add('earned');
+    // Hide all
+    document.querySelectorAll('.mole-hole').forEach(function(h){ h.classList.remove('pop'); });
+    moleRound++;
+    setTimeout(nextMoleRound, 600);
+  } else {
+    // Wrong - shake
+    hole.style.animation = 'shake .4s ease';
+    setTimeout(function(){ hole.style.animation = ''; }, 500);
+  }
+}
+
+// === INIT ===
+function init() {
+  initNewWords();
+  initEggGame();
+  goModule(1);
+}
+init();
+</script>
+</body>
+</html>
