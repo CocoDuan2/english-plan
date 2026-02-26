@@ -181,7 +181,7 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
 <!-- Module 3: Balloon Shoot (气球射击) -->
 <div class="module" id="mod3">
   <div class="module-title">🎈 Pop the Balloon!</div>
-  <div class="teacher-guide" id="balloonGuide">🎤 <b>老师说：</b>"Pop the balloon with the right word! 点击有正确单词的气球！"</div>
+  <div class="teacher-guide" id="balloonGuide">🎤 <b>老师说：</b>"Pop the balloon! 点击有正确图片的气球！"</div>
   <div class="balloon-target" id="balloonTarget"></div>
   <div class="score-bar" id="balloonScoreBar"></div>
   <div class="balloon-area" id="balloonArea"></div>
@@ -429,7 +429,7 @@ function nextBalloonRound() {
   }
   balloonTargetWord = BODY[balloonRound];
   document.getElementById('balloonTarget').textContent = 'Pop: ' + balloonTargetWord.emoji + ' ' + balloonTargetWord.name.toUpperCase();
-  document.getElementById('balloonGuide').innerHTML = '🎤 <b>老师说：</b>"Find the balloon that says ' + balloonTargetWord.name.toUpperCase() + '! 找到写着 ' + balloonTargetWord.name + ' 的气球！"';
+  document.getElementById('balloonGuide').innerHTML = '🎤 <b>老师说：</b>"Where is ' + balloonTargetWord.emoji + ' ' + balloonTargetWord.name + '? 点击有 ' + balloonTargetWord.emoji + ' 的气球！"';
 
   // Clear old balloons
   document.getElementById('balloonArea').innerHTML = '';
@@ -463,7 +463,7 @@ function launchBalloonWave() {
       b.style.left = left + 'px';
       b.style.animationDuration = dur + 's';
       b.setAttribute('data-name', w.name);
-      b.innerHTML = '<div class="b-body" style="background:' + color + '">' + w.name + '</div><div class="b-string"></div>';
+      b.innerHTML = '<div class="b-body" style="background:' + color + '"><span style="font-size:36px">' + w.emoji + '</span></div><div class="b-string"></div>';
       b.onclick = function(e) { popBalloon(this, w, e); };
       area.appendChild(b);
       // Remove when animation ends
