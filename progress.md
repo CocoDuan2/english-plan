@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 3
+- 当前天: Day 4
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -53,6 +53,14 @@
 | ears | Body | 02-27 | ⬜ | 02-28 |
 | nose | Body | 02-27 | ⬜ | 02-28 |
 | mouth | Body | 02-27 | ⬜ | 02-28 |
+
+### 2025-02-28 (Day 4) - Food 🍎
+- 新词: apple, banana, milk, bread, egg
+- 课件: lessons/day4-food.html
+- 复习词: head, red, duck（3个，来自Day1-3）
+- 互动游戏1: 分类排序（食物分类到水果/其他）
+- 综合游戏: 记忆翻牌（配对游戏）
+- 反馈: 待确认
 
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
