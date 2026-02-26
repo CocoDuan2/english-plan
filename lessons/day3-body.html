@@ -203,7 +203,11 @@ body{padding-bottom:70px}
   <div class="module-title">🌟 Review Time!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Let's remember what we learned! 还记得这些吗？Tap the right one!"
-  <ul class="tg-expand"><li>Point to colored objects: "What color is this?"</li><li>"Do you remember the cat? Meow like a cat!"</li><li>High-five after each correct answer!</li></ul>
+  <ul class="tg-expand">
+    <li>🗣️ 引导短句: "What color is this? → It's red!" "Is this a cat? → Yes, it's a cat!"</li>
+    <li>🎯 指着教室里的东西问: "What color is the chair? → It's ___!"</li>
+    <li>🐱 动物模仿: "Can you be a cat? Meow! Can you be a duck? Quack quack!"</li>
+  </ul>
 </div>
   <div class="prompt-text" id="reviewPrompt"></div>
   <div class="score-bar" id="reviewScoreBar"></div>
@@ -215,7 +219,12 @@ body{padding-bottom:70px}
   <div class="module-title">🧍 My Body!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Let's learn body parts! Tap each gray picture to see what it is! 点击灰色图片看看是什么！"
-  <ul class="tg-expand"><li>TPR: "Touch your head! Touch your nose!"</li><li>"How many eyes do you have? One... two!"</li><li>Simon Says: "Simon says touch your mouth!"</li></ul>
+  <ul class="tg-expand">
+    <li>🗣️ 揭示后带读短句: "This is my head!" "These are my eyes!" "This is my nose!"</li>
+    <li>🤚 TPR 动作: "Touch your head! Touch your ears! Touch your mouth!" 老师先示范</li>
+    <li>🔢 数数: "How many eyes? One... two! Two eyes!" "How many ears? Two ears!"</li>
+    <li>🎮 Simon Says: "Simon says touch your nose!" "Simon says touch your head!"</li>
+  </ul>
 </div>
   <div class="card-grid" id="newWordsGrid"></div>
 </div>
@@ -225,7 +234,11 @@ body{padding-bottom:70px}
   <div class="module-title">🎈 Pop the Balloon!</div>
   <div class="teacher-guide" id="balloonGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Pop the balloon! 点击有正确图片的气球！"</span>
-  <ul class="tg-expand"><li>Practice saying each body part before starting</li><li>After each pop, child touches that part on themselves</li></ul>
+  <ul class="tg-expand">
+    <li>🗣️ 每次点对后引导: "What is it? → It's a head!" "Touch your head! Good job!"</li>
+    <li>🤸 全身互动: "Stand up! Touch your head! Touch your nose! Sit down!"</li>
+    <li>🎵 唱: "Head, shoulders, knees and toes, knees and toes!"</li>
+  </ul>
 </div>
   <div class="balloon-target" id="balloonTarget"></div>
   <div class="score-bar" id="balloonScoreBar"></div>
@@ -238,7 +251,11 @@ body{padding-bottom:70px}
   <div class="module-title">👂 Listen & Find!</div>
   <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Where is the HEAD? 找到头！Tap it!"</span>
-  <ul class="tg-expand"><li>"Close your eyes, touch your [part]!"</li><li>Sing "Head, Shoulders, Knees and Toes"</li></ul>
+  <ul class="tg-expand">
+    <li>🗣️ 找到后造句: "Where is the nose? → Here is my nose!" "Point to your eyes! → These are my eyes!"</li>
+    <li>🙈 挑战: "Close your eyes! Touch your mouth! Open your eyes — did you get it?"</li>
+    <li>🎵 一起唱 Head Shoulders Knees and Toes，边唱边指</li>
+  </ul>
 </div>
   <div class="score-bar" id="scoreBar"></div>
   <div class="prompt-text" id="promptText"></div>
@@ -250,7 +267,11 @@ body{padding-bottom:70px}
   <div class="module-title">🔗 Connect & Match!</div>
   <div class="teacher-guide" id="connectGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Match the word to the picture! Tap a word, then tap its picture! 把单词和图片配对！"</span>
-  <ul class="tg-expand"><li>Point to your own body parts and name them</li><li>Mirror game: teacher touches a part, child copies</li></ul>
+  <ul class="tg-expand">
+    <li>🗣️ 配对后造句: "Head → This is my head!" "Eyes → I have two eyes!"</li>
+    <li>🪞 镜子游戏: 老师指自己的身体部位，孩子跟着指并说出来 "It's my nose!"</li>
+    <li>📝 总复习: 快速过一遍5个词，每个都说完整句 "I have a mouth!"</li>
+  </ul>
 </div>
   <div class="score-bar" id="connectScoreBar"></div>
   <div class="connect-area" id="connectArea">
@@ -756,7 +777,7 @@ function updateNav() {
   document.getElementById('navPrev').disabled = (currentModule <= 1);
   document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
   // Show drill button only on module 2 when all words revealed
-  document.getElementById('navDrill').style.display = (currentModule === 2 && revealedCount >= 5) ? '' : 'none';
+  document.getElementById('navDrill').style.display = (currentModule === 2 && revealedCount >= 1) ? '' : 'none';
 }
 function goNext() {
   if(currentModule < 6) goModule(currentModule + 1);
@@ -781,6 +802,11 @@ revealWord = function(card, idx, e) {
 
 // === DRILL MODE ===
 var drillIdx = 0;
+function getRevealedWords() {
+  var words = [];
+  for(var i = 0; i < BODY.length; i++) { if(revealedSet[i]) words.push(BODY[i]); }
+  return words.length ? words : [BODY[0]];
+}
 function enterDrill() {
   drillIdx = 0;
   updateDrillCard();
@@ -790,16 +816,20 @@ function exitDrill() {
   document.getElementById('drillOverlay').classList.remove('active');
 }
 function updateDrillCard() {
-  document.getElementById('drillIcon').textContent = BODY[drillIdx].emoji;
-  document.getElementById('drillLabel').textContent = BODY[drillIdx].name;
+  var words = getRevealedWords();
+  if(drillIdx >= words.length) drillIdx = 0;
+  document.getElementById('drillIcon').textContent = words[drillIdx].emoji;
+  document.getElementById('drillLabel').textContent = words[drillIdx].name;
 }
 function drillNext() {
-  drillIdx = (drillIdx + 1) % BODY.length;
+  var words = getRevealedWords();
+  drillIdx = (drillIdx + 1) % words.length;
   updateDrillCard();
   drillAnimate();
 }
 function drillPrev() {
-  drillIdx = (drillIdx - 1 + BODY.length) % BODY.length;
+  var words = getRevealedWords();
+  drillIdx = (drillIdx - 1 + words.length) % words.length;
   updateDrillCard();
   drillAnimate();
 }
