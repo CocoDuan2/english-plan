@@ -21,59 +21,55 @@ body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hid
 .big-btn{display:block;margin:16px auto;background:#4CAF50;color:#fff;border:none;border-radius:50px;padding:14px 40px;font-size:22px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.1);transition:.2s}
 .big-btn:active{transform:scale(.92)}
 .mascot-wrap{text-align:center;margin:20px 0}
-/* review warmup */
-.review-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:16px 0}
-.review-item{width:100px;height:100px;border-radius:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.08);transition:transform .3s;border:3px solid transparent}
+
+/* Review warmup */
+.review-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:16px 0}
+.review-item{width:140px;height:140px;border-radius:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.08);transition:transform .3s;border:4px solid transparent}
 .review-item:active{transform:scale(.88)}
 .review-item.correct{border-color:#4CAF50;animation:rvBounce .5s}
 .review-item.wrong{animation:shake .4s}
 @keyframes rvBounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-.rv-prompt{font-size:18px;font-weight:700;color:#555;text-align:center;margin:10px 0;min-height:28px}
+.rv-prompt{font-size:20px;font-weight:700;color:#555;text-align:center;margin:10px 0;min-height:28px}
 .rv-stars{font-size:32px;text-align:center;min-height:36px;margin:6px 0}
-/* egg hatch */
+
+/* Egg hatch - new word reveal */
 .egg-area{text-align:center;margin:16px 0}
-.egg-slot{display:inline-block;cursor:pointer;transition:transform .3s;margin:6px}
-.egg-slot:active{transform:scale(.85)!important}
-.egg-slot.hatched{pointer-events:none}
-.hatch-display{margin:16px auto;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.5);border:6px solid #fff;box-shadow:0 8px 30px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;transition:all .5s;position:relative;overflow:hidden}
+.hatch-display{margin:16px auto;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.5);border:6px solid #fff;box-shadow:0 8px 30px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .5s;position:relative;overflow:hidden}
 .hatch-display.pop{animation:splashA .6s ease}
 @keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-.hatch-name{position:absolute;bottom:8px;font-size:22px;font-weight:900;opacity:0;transition:opacity .5s}
+.hatch-name{font-size:24px;font-weight:900;margin-top:6px;opacity:0;transition:opacity .5s}
 .hatch-name.vis{opacity:1}
+.egg-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:14px}
+.egg-slot{width:120px;height:120px;border-radius:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.08);transition:transform .3s;border:3px solid transparent;background:rgba(255,255,255,.7)}
+.egg-slot:active{transform:scale(.85)!important}
+.egg-slot.hatched{border-color:#4CAF50}
 .hatch-dots{display:flex;justify-content:center;gap:10px;margin-top:12px}
 .hatch-dot{width:12px;height:12px;border-radius:50%;background:#ddd;transition:.3s}
-/* whack */
+
+/* Whack-a-mole */
 .whack-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06);min-height:340px;position:relative;overflow:hidden}
-.whack-prompt{font-size:18px;font-weight:700;color:#555;margin-bottom:12px;min-height:28px}
-.whack-field{position:relative;width:100%;height:260px}
+.whack-prompt{font-size:20px;font-weight:700;color:#555;margin-bottom:12px;min-height:28px}
+.whack-field{position:relative;width:100%;height:280px}
 .whack-hole{position:absolute;cursor:pointer;transition:transform .2s}
 .whack-hole:active{transform:scale(.8)!important}
 .whack-hole.hit{animation:whackHit .4s ease forwards}
 @keyframes whackHit{0%{transform:scale(1)}50%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(0);opacity:0}}
 .whack-stars{font-size:32px;min-height:36px;margin:8px 0}
-/* find */
+
+/* Find game */
 .find-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06);min-height:340px}
-.find-prompt{font-size:18px;font-weight:700;color:#555;margin-bottom:16px;min-height:28px}
-.find-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
-.find-card{width:120px;height:120px;border-radius:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.08);transition:transform .3s;border:4px solid transparent}
+.find-prompt{font-size:20px;font-weight:700;color:#555;margin-bottom:16px;min-height:28px}
+.find-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.find-card{width:140px;height:140px;border-radius:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 6px 20px rgba(0,0,0,.08);transition:transform .3s;border:4px solid transparent}
 .find-card:active{transform:scale(.88)}
 .find-card.wrong{animation:shake .4s}
 .find-card.correct{animation:cardWin .8s ease forwards}
 @keyframes cardWin{0%{transform:scale(1)}30%{transform:scale(1.2);border-color:#FFD700}100%{transform:scale(1.1);border-color:#FFD700}}
+.find-card .label{font-size:16px;font-weight:700;margin-top:4px;color:#888}
 .find-stars{font-size:32px;min-height:36px;margin:8px 0}
-/* mem */
-.mem-box{background:rgba(255,255,255,.92);border-radius:24px;padding:20px;margin:12px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
-.mem-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:14px 0}
-.mem-card{width:110px;height:130px;border-radius:18px;cursor:pointer;perspective:600px;transition:transform .2s}
-.mem-card:active{transform:scale(.9)}
-.mem-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;border-radius:18px}
-.mem-card.flipped .mem-inner,.mem-card.matched .mem-inner{transform:rotateY(180deg)}
-.mem-card.matched{pointer-events:none}
-.mem-front,.mem-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.mem-front{background:linear-gradient(135deg,#4CAF50,#2E7D32);font-size:36px;color:#fff}
-.mem-back{transform:rotateY(180deg)}
-.mem-stars{font-size:32px;min-height:36px;margin:8px 0}
+
+/* Celebration & effects */
 .star-burst{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:100;overflow:hidden}
 .flying-star{position:absolute;font-size:28px;animation:starFly 1s ease-out forwards}
 @keyframes starFly{0%{transform:scale(0) rotate(0);opacity:1}60%{opacity:1}100%{transform:scale(1.2) rotate(360deg);opacity:0}}
@@ -86,47 +82,67 @@ body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hid
 .conf-box{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:201;overflow:hidden}
 .conf{position:absolute;top:-20px;border-radius:3px;animation:cfall linear forwards}
 @keyframes cfall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@media(max-width:500px){.hatch-display{width:160px;height:160px}.find-card{width:95px;height:95px}.mem-card{width:85px;height:100px}.review-item{width:80px;height:80px}}
+
+@media(max-width:500px){
+  .hatch-display{width:160px;height:160px}
+  .egg-slot{width:100px;height:100px}
+  .review-item{width:110px;height:110px}
+  .find-card{width:120px;height:120px}
+}
 </style>
 </head>
 <body>
-<div class="top-bar"><div class="day-info">🐾 Day 2 · Animals</div><div class="dots"><div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div></div></div>
+<div class="top-bar"><div class="day-info">🐾 Day 2 · Animals</div><div class="dots"><div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div><div class="dot" id="d5"></div></div></div>
 
+<!-- Page 0: Welcome -->
 <div class="page show" id="p0">
-<div class="mascot-wrap"><svg width="160" height="160" viewBox="0 0 200 200"><ellipse cx="100" cy="120" rx="50" ry="42" fill="#F5A623"/><circle cx="82" cy="105" r="7" fill="#333"/><circle cx="118" cy="105" r="7" fill="#333"/><circle cx="84" cy="103" r="2.5" fill="#fff"/><circle cx="120" cy="103" r="2.5" fill="#fff"/><ellipse cx="100" cy="116" rx="7" ry="4" fill="#333"/><path d="M90 126 Q100 136 110 126" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M58 82 Q66 54 78 82" fill="#F5A623"/><path d="M122 82 Q134 54 142 82" fill="#F5A623"/><ellipse cx="68" cy="114" rx="9" ry="6" fill="#FFB3B3" opacity=".4"/><ellipse cx="132" cy="114" rx="9" ry="6" fill="#FFB3B3" opacity=".4"/><path d="M142 128 Q165 124 160 138 Q155 148 142 142" fill="#F5A623"/></svg></div>
+<div class="mascot-wrap"><svg width="180" height="180" viewBox="0 0 200 200"><ellipse cx="100" cy="120" rx="50" ry="42" fill="#F5A623"/><circle cx="82" cy="105" r="7" fill="#333"/><circle cx="118" cy="105" r="7" fill="#333"/><circle cx="84" cy="103" r="2.5" fill="#fff"/><circle cx="120" cy="103" r="2.5" fill="#fff"/><ellipse cx="100" cy="116" rx="7" ry="4" fill="#333"/><path d="M90 126 Q100 136 110 126" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M58 82 Q66 54 78 82" fill="#F5A623"/><path d="M122 82 Q134 54 142 82" fill="#F5A623"/><ellipse cx="68" cy="114" rx="9" ry="6" fill="#FFB3B3" opacity=".4"/><ellipse cx="132" cy="114" rx="9" ry="6" fill="#FFB3B3" opacity=".4"/><path d="M142 128 Q165 124 160 138 Q155 148 142 142" fill="#F5A623"/></svg></div>
 <div class="tg">🧑‍🏫 Say: <b>"Hello! Today we meet 5 animal friends! Ready?"</b></div>
 <button class="big-btn" onclick="go(1)">Let's Go! 🐾</button>
 </div>
 
+<!-- Page 1: Review Warmup (3 colors from Day 1) -->
 <div class="page" id="p1">
-<div class="tg">🧑‍🏫 Review yesterday's colors! Say: <b>"Find RED!"</b> Child taps the right color.</div>
+<div class="tg">🧑‍🏫 Review yesterday's colors! Say the word, child taps the right color. <b>"Find RED!" / "Find BLUE!" / "Find YELLOW!"</b></div>
 <div class="rv-prompt" id="rvPrompt"></div>
 <div class="review-grid" id="rvGrid"></div>
 <div class="rv-stars" id="rvStars"></div>
 <button class="big-btn" id="toS2" style="display:none" onclick="go(2)">Meet the Animals! 🥚</button>
 </div>
 
+<!-- Page 2: New Word Learning - Egg Hatch (repeatable clicks) -->
 <div class="page" id="p2">
-<div class="tg">🧑‍🏫 Tap each egg to hatch an animal! Say: <b>"It's a CAT! Can you say CAT?"</b></div>
-<div class="egg-area"><div class="hatch-display" id="hatchDisp"><div class="hatch-name" id="hatchName"></div></div><div id="eggRow" style="margin-top:14px"></div><div class="hatch-dots" id="hatchDots"></div></div>
+<div class="tg">🧑‍🏫 Tap each egg to hatch an animal! Say: <b>"It's a CAT! Can you say CAT?"</b> Child can tap again to practice!</div>
+<div class="egg-area">
+<div class="hatch-display" id="hatchDisp"></div>
+<div class="egg-row" id="eggRow"></div>
+<div class="hatch-dots" id="hatchDots"></div>
+</div>
 <button class="big-btn" id="toS3" style="display:none" onclick="go(3)">Whack-a-Mole! 🔨</button>
 </div>
 
+<!-- Page 3: Interactive Game 1 - Whack-a-Mole -->
 <div class="page" id="p3">
 <div class="tg">🧑‍🏫 Animals pop up! Say the name, child taps it fast! <b>"CAT! Tap the CAT!"</b></div>
 <div class="whack-box"><div class="whack-prompt" id="wPrompt"></div><div class="whack-field" id="wField"></div><div class="whack-stars" id="wStars"></div></div>
 <button class="big-btn" id="toS4" style="display:none" onclick="go(4)">Find Animals! 🔍</button>
 </div>
 
+<!-- Page 4: Listen & Find (5 rounds) -->
 <div class="page" id="p4">
-<div class="tg">🧑‍🏫 Read the prompt, child finds the animal!</div>
-<div class="find-box"><div class="find-prompt" id="fPrompt"></div><div class="find-grid" id="fGrid"></div><div class="find-stars" id="fStars"></div></div>
+<div class="tg">🧑‍🏫 Say the animal, child finds it! <b>"Where is the CAT?"</b></div>
+<div class="find-box">
+<div class="find-prompt" id="fPrompt"></div>
+<div class="find-grid" id="fGrid"></div>
+<div class="find-stars" id="fStars"></div>
+</div>
 <button class="big-btn" onclick="finish()">Done! 🏆</button>
 </div>
 
 <div class="cele" id="cele"><div class="big">🎉🏆🎉</div><div class="msg">Amazing!</div><div class="sub">Tomorrow: Body parts! 👃</div><button class="big-btn" style="margin-top:20px;background:#FFD700;color:#333" onclick="location.reload()">Again! 🔄</button></div>
 <div class="conf-box" id="confBox"></div>
 <div class="star-burst" id="starBurst"></div>
+
 <script>
 var A=[
   {c:'cat',name:'CAT',hex:'#F5A623',bg:'#FFF3E0',
@@ -140,12 +156,19 @@ var A=[
   {c:'duck',name:'DUCK',hex:'#FFCA28',bg:'#FFFDE7',
    svg:function(f,s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="70" rx="30" ry="23" fill="'+f+'"/><circle cx="60" cy="42" r="18" fill="'+f+'"/><circle cx="52" cy="38" r="3.5" fill="#fff"/><circle cx="53" cy="38" r="1.8" fill="#333"/><path d="M60 44 L76 41 L60 47 Z" fill="#FF8F00"/></svg>'}}
 ];
+
+/* Review words: 3 colors from Day 1 */
 var RV=[
-  {c:'red',hex:'#EF4444'},{c:'blue',hex:'#3B82F6'},{c:'yellow',hex:'#EAB308'},
-  {c:'green',hex:'#22C55E'},{c:'orange',hex:'#F97316'}
+  {c:'red',hex:'#EF4444',
+   svg:function(s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="65" r="40" fill="#EF4444"/><path d="M60 20 Q65 8 72 18 L62 32Z" fill="#4CAF50"/><circle cx="45" cy="55" r="4" fill="#fff" opacity=".3"/></svg>'}},
+  {c:'blue',hex:'#3B82F6',
+   svg:function(s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><ellipse cx="60" cy="65" rx="42" ry="30" fill="#3B82F6"/><circle cx="40" cy="58" r="4" fill="#fff"/><circle cx="41" cy="58" r="2" fill="#333"/><path d="M85 48 Q98 38 100 52" fill="#3B82F6" opacity=".6"/></svg>'}},
+  {c:'yellow',hex:'#EAB308',
+   svg:function(s){s=s||90;return '<svg viewBox="0 0 120 120" width="'+s+'" height="'+s+'"><circle cx="60" cy="60" r="28" fill="#EAB308"/><circle cx="50" cy="54" r="3" fill="#333"/><circle cx="70" cy="54" r="3" fill="#333"/><path d="M52 66 Q60 74 68 66" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="60" y1="20" x2="60" y2="10" stroke="#EAB308" stroke-width="4" stroke-linecap="round"/><line x1="88" y1="34" x2="96" y2="26" stroke="#EAB308" stroke-width="4" stroke-linecap="round"/><line x1="32" y1="34" x2="24" y2="26" stroke="#EAB308" stroke-width="4" stroke-linecap="round"/></svg>'}}
 ];
 
 function say(w,cb){if(cb)setTimeout(cb,500)}
+
 function burstStars(cx,cy){var box=document.getElementById('starBurst');var emojis=['⭐','🌟','✨','💫','🎉'];
   for(var i=0;i<12;i++){var s=document.createElement('div');s.className='flying-star';s.textContent=emojis[i%emojis.length];
     var angle=(i/12)*Math.PI*2;var dist=80+Math.random()*120;var tx=cx+Math.cos(angle)*dist;var ty=cy+Math.sin(angle)*dist;
@@ -158,41 +181,49 @@ function go(n){document.getElementById('p'+cur).classList.remove('show');documen
   document.getElementById('d'+n).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});
   if(n===1)initReview();if(n===2)initHatch();if(n===3)initWhack();if(n===4)initFind()}
 
-/* S1: Review warmup - find colors from Day 1 */
-var rvR=0,rvTarget='';
-function initReview(){rvR=0;document.getElementById('rvStars').textContent='';nextRv()}
-function nextRv(){if(rvR>=5){document.getElementById('toS2').style.display='block';document.getElementById('rvPrompt').textContent='All done!';return}
-  rvTarget=RV[rvR].c;document.getElementById('rvPrompt').innerHTML='Say: <b style="color:'+RV[rvR].hex+'">"Find '+rvTarget.toUpperCase()+'!"</b>';
+/* S1: Review Warmup - 3 colors from Day 1 */
+var rvR=0,rvTarget='',rvOrder=[0,1,2];
+function initReview(){rvR=0;document.getElementById('rvStars').textContent='';
+  rvOrder=[0,1,2];rvOrder.sort(function(){return Math.random()-.5});nextRv()}
+function nextRv(){if(rvR>=3){document.getElementById('toS2').style.display='block';document.getElementById('rvPrompt').textContent='Great job! 🎉';return}
+  var ti=rvOrder[rvR];rvTarget=RV[ti].c;
+  document.getElementById('rvPrompt').innerHTML='Say: <b style="color:'+RV[ti].hex+'">"Find '+rvTarget.toUpperCase()+'!"</b>';
   var grid=document.getElementById('rvGrid');grid.innerHTML='';
-  var show=[0,1,2,3,4];show.sort(function(){return Math.random()-.5});
+  var show=[0,1,2];show.sort(function(){return Math.random()-.5});
   show.forEach(function(idx){var it=RV[idx];var d=document.createElement('div');d.className='review-item';d.dataset.c=it.c;
-    d.style.background=it.hex;d.onclick=function(){tapRv(d)};grid.appendChild(d)})}
+    d.style.background=it.hex;d.innerHTML=it.svg(80);d.onclick=function(){tapRv(d)};grid.appendChild(d)})}
 function tapRv(el){if(el.dataset.c===rvTarget){el.classList.add('correct');rvR++;
   document.getElementById('rvStars').textContent+='⭐';var r=el.getBoundingClientRect();
   burstStars(r.left+r.width/2,r.top+r.height/2);setTimeout(nextRv,800)}
   else{el.classList.add('wrong');setTimeout(function(){el.classList.remove('wrong')},400)}}
 
-/* S2: Egg Hatch */
-var hI=0;
-function initHatch(){hI=0;var row=document.getElementById('eggRow');row.innerHTML='';
-  A.forEach(function(it,i){var e=document.createElement('span');e.className='egg-slot';
-    e.innerHTML='<svg width="48" height="58" viewBox="0 0 50 60"><ellipse cx="25" cy="32" rx="17" ry="23" fill="#F5F5F5" stroke="#ddd" stroke-width="2"/><path d="M15 25 Q25 16 35 25" stroke="#ddd" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/></svg>';
-    e.onclick=function(){hatch(i,e)};row.appendChild(e)});updHDots();resetHatch()}
-function resetHatch(){var d=document.getElementById('hatchDisp');d.style.background='rgba(255,255,255,.5)';
-  d.innerHTML='<div class="hatch-name" id="hatchName"></div>';document.getElementById('hatchName').className='hatch-name'}
-function hatch(i,btn){if(btn.classList.contains('hatched'))return;btn.classList.add('hatched');var it=A[i];
+/* S2: Egg Hatch - repeatable clicks, "Next" after all hatched once */
+var hatchedSet={},hatchCount=0;
+function initHatch(){hatchedSet={};hatchCount=0;
+  var row=document.getElementById('eggRow');row.innerHTML='';
+  A.forEach(function(it,i){var e=document.createElement('div');e.className='egg-slot';e.dataset.i=i;
+    e.innerHTML='<svg width="80" height="90" viewBox="0 0 50 60"><ellipse cx="25" cy="32" rx="17" ry="23" fill="#F5F5F5" stroke="#ddd" stroke-width="2"/><path d="M15 25 Q25 16 35 25" stroke="#ddd" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/></svg>';
+    e.onclick=function(){hatch(i,e)};row.appendChild(e)});
+  updHDots();resetHatchDisp()}
+function resetHatchDisp(){var d=document.getElementById('hatchDisp');d.style.background='rgba(255,255,255,.5)';
+  d.innerHTML='<div style="font-size:48px">🥚</div><div class="hatch-name vis" style="color:#aaa">Tap an egg!</div>'}
+function hatch(i,btn){var it=A[i];
   var d=document.getElementById('hatchDisp');d.style.background=it.bg;d.classList.remove('pop');void d.offsetWidth;d.classList.add('pop');
   d.innerHTML=it.svg(it.hex,120)+'<div class="hatch-name vis" style="color:'+it.hex+'">'+it.name+'</div>';
   var r=d.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
-  hI++;updHDots();if(hI<A.length){setTimeout(resetHatch,2200)}else{setTimeout(function(){document.getElementById('toS3').style.display='block'},1500)}}
+  btn.innerHTML=it.svg(it.hex,70);btn.classList.add('hatched');
+  if(!hatchedSet[i]){hatchedSet[i]=true;hatchCount++;updHDots();
+    if(hatchCount>=A.length){setTimeout(function(){document.getElementById('toS3').style.display='block'},800)}}}
 function updHDots(){var w=document.getElementById('hatchDots');w.innerHTML='';
-  for(var i=0;i<A.length;i++){var d=document.createElement('div');d.className='hatch-dot';d.style.background=i<hI?A[i].hex:'#ddd';w.appendChild(d)}}
+  for(var i=0;i<A.length;i++){var d=document.createElement('div');d.className='hatch-dot';
+    d.style.background=hatchedSet[i]?A[i].hex:'#ddd';w.appendChild(d)}}
 
 /* S3: Whack-a-Mole */
-var wR=0,wMax=10,wOk=0,wTimer=null;
+var wR=0,wMax=10,wOk=0;
 function initWhack(){wR=0;wOk=0;document.getElementById('wStars').textContent='';nextWhack()}
-function nextWhack(){if(wR>=wMax){document.getElementById('wPrompt').textContent='All done!';
-  document.getElementById('wStars').textContent+=' 🏆';document.getElementById('toS4').style.display='block';return}
+function nextWhack(){if(wR>=wMax){document.getElementById('wPrompt').textContent='All done! 🎉';
+  document.getElementById('wStars').textContent+=' 🏆';
+  setTimeout(function(){document.getElementById('toS4').style.display='block'},800);return}
   var field=document.getElementById('wField');field.innerHTML='';
   var ti=Math.floor(Math.random()*5);var target=A[ti];
   document.getElementById('wPrompt').innerHTML='Say: <b style="color:'+target.hex+'">"Tap the '+target.name+'!"</b>';
@@ -200,8 +231,8 @@ function nextWhack(){if(wR>=wMax){document.getElementById('wPrompt').textContent
   while(idxs.length<count){var r=Math.floor(Math.random()*5);if(idxs.indexOf(r)===-1)idxs.push(r)}
   idxs.sort(function(){return Math.random()-.5});
   idxs.forEach(function(idx){var it=A[idx];var h=document.createElement('div');h.className='whack-hole';h.dataset.c=it.c;
-    var x=5+Math.random()*60;var y=5+Math.random()*55;
-    h.style.left=x+'%';h.style.top=y+'%';h.innerHTML=it.svg(it.hex,80);
+    var x=5+Math.random()*55;var y=5+Math.random()*50;
+    h.style.left=x+'%';h.style.top=y+'%';h.innerHTML=it.svg(it.hex,90);
     h.onclick=function(){tapWhack(h,target.c)};field.appendChild(h)});
   wR++}
 function tapWhack(el,target){if(el.dataset.c===target){el.classList.add('hit');wOk++;
@@ -209,22 +240,25 @@ function tapWhack(el,target){if(el.dataset.c===target){el.classList.add('hit');w
   burstStars(r.left+r.width/2,r.top+r.height/2);setTimeout(nextWhack,600)}
   else{el.style.transform='rotate(8deg)';setTimeout(function(){el.style.transform=''},200)}}
 
-/* S4: Listen & Find */
+/* S4: Listen & Find - 5 rounds */
 var fOrder=[],fR=0,fActive=false,fTarget='';
 function initFind(){fOrder=[0,1,2,3,4];fOrder.sort(function(){return Math.random()-.5});fR=0;fActive=true;
   document.getElementById('fStars').textContent='';nextFind()}
 function nextFind(){if(fR>=5){fActive=false;document.getElementById('fStars').textContent+=' 🏆';
+  document.getElementById('fPrompt').textContent='All found! 🎉';
   setTimeout(function(){finish()},1000);return}
   var grid=document.getElementById('fGrid');grid.innerHTML='';fTarget=A[fOrder[fR]].c;
   var tIdx=fOrder[fR];document.getElementById('fPrompt').innerHTML='Say: <b style="color:'+A[tIdx].hex+'">"Where is the '+fTarget.toUpperCase()+'?"</b>';
   var show=[0,1,2,3,4];show.sort(function(){return Math.random()-.5});
   show.forEach(function(idx){var it=A[idx];var card=document.createElement('div');card.className='find-card';card.dataset.c=it.c;
-    card.style.background=it.bg;card.innerHTML=it.svg(it.hex,75);card.onclick=function(){tapFind(card)};grid.appendChild(card)})}
+    card.style.background=it.bg;card.innerHTML=it.svg(it.hex,80)+'<div class="label">'+it.name+'</div>';
+    card.onclick=function(){tapFind(card)};grid.appendChild(card)})}
 function tapFind(card){if(!fActive)return;if(card.dataset.c===fTarget){card.classList.add('correct');fR++;
   document.getElementById('fStars').textContent+='⭐';var r=card.getBoundingClientRect();
   burstStars(r.left+r.width/2,r.top+r.height/2);setTimeout(nextFind,900)}
   else{card.classList.add('wrong');setTimeout(function(){card.classList.remove('wrong')},400)}}
 
+/* Finish & Celebration */
 function finish(){document.getElementById('cele').classList.add('show');
   var box=document.getElementById('confBox');var cols=['#F5A623','#8D6E63','#42A5F5','#EF5350','#FFCA28','#4CAF50'];
   for(var i=0;i<60;i++){var p=document.createElement('div');p.className='conf';
