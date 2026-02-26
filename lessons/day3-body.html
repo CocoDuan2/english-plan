@@ -169,23 +169,8 @@ body{padding-bottom:70px}
 .tg-expand.open{display:block}
 .tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
 
-/* Drill overlay */
-.drill-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-  background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:200;
-  flex-direction:column;align-items:center;justify-content:center}
-.drill-overlay.active{display:flex}
-.drill-card{background:rgba(255,255,255,.95);border-radius:24px;padding:30px;min-width:250px;
-  display:flex;flex-direction:column;align-items:center;cursor:pointer;
-  box-shadow:0 8px 30px rgba(0,0,0,.15)}
-.drill-card:active{transform:scale(.95)}
-.drill-card .drill-icon{font-size:140px;line-height:1}
-.drill-card .drill-label{font-size:32px;font-weight:700;margin-top:10px;color:#333}
-.drill-nav{display:flex;gap:30px;margin-top:20px}
-.drill-nav button{width:50px;height:50px;border-radius:50%;border:none;background:rgba(255,255,255,.3);
-  color:#fff;font-size:24px;cursor:pointer}
-.drill-nav button:active{background:rgba(255,255,255,.5)}
-.drill-close{margin-top:16px;padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
-  color:#fff;background:rgba(255,255,255,.2);cursor:pointer}
+/* Nav progress indicator */
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
 </style>
 </head>
 <body>
@@ -286,7 +271,8 @@ body{padding-bottom:70px}
     <div class="complete-emoji">🎉</div>
     <div class="complete-text">Great Job, Ranran!</div>
     <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned 5 body parts today! 🧍</div>
-    <button class="next-btn show" style="margin-top:20px" onclick="location.href='../index.html'">🏠 Home</button>
+    <button class="next-btn show" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="next-btn show" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff" onclick="location.href='../index.html'">🏠 Home</button>
   </div>
 </div>
 
@@ -776,8 +762,16 @@ init();
 function updateNav() {
   document.getElementById('navPrev').disabled = (currentModule <= 1);
   document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
-  // Show drill button only on module 2 when all words revealed
-  document.getElementById('navDrill').style.display = (currentModule === 2 && revealedCount >= 1) ? '' : 'none';
+  document.getElementById('navProgress').textContent = Math.min(currentModule, 5) + '/5';
+  // Hide nav bar on complete page
+  document.querySelector('.nav-bar').style.display = (currentModule >= 6) ? 'none' : '';
+  // Auto-expand teacher guide on module enter
+  var mod = document.getElementById('mod' + currentModule);
+  if(mod) {
+    var expand = mod.querySelector('.tg-expand');
+    var arrow = mod.querySelector('.tg-arrow');
+    if(expand && !expand.classList.contains('open')) { expand.classList.add('open'); if(arrow) arrow.textContent = '▼'; }
+  }
 }
 function goNext() {
   if(currentModule < 6) goModule(currentModule + 1);
@@ -793,76 +787,21 @@ goModule = function(n) {
   updateNav();
 };
 
-// Patch revealWord to show drill when ready
+// Patch revealWord to update nav
 var _origRevealWord = revealWord;
 revealWord = function(card, idx, e) {
   _origRevealWord(card, idx, e);
   updateNav();
 };
 
-// === DRILL MODE ===
-var drillIdx = 0;
-function getRevealedWords() {
-  var words = [];
-  for(var i = 0; i < BODY.length; i++) { if(revealedSet[i]) words.push(BODY[i]); }
-  return words.length ? words : [BODY[0]];
-}
-function enterDrill() {
-  drillIdx = 0;
-  updateDrillCard();
-  document.getElementById('drillOverlay').classList.add('active');
-}
-function exitDrill() {
-  document.getElementById('drillOverlay').classList.remove('active');
-}
-function updateDrillCard() {
-  var words = getRevealedWords();
-  if(drillIdx >= words.length) drillIdx = 0;
-  document.getElementById('drillIcon').textContent = words[drillIdx].emoji;
-  document.getElementById('drillLabel').textContent = words[drillIdx].name;
-}
-function drillNext() {
-  var words = getRevealedWords();
-  drillIdx = (drillIdx + 1) % words.length;
-  updateDrillCard();
-  drillAnimate();
-}
-function drillPrev() {
-  var words = getRevealedWords();
-  drillIdx = (drillIdx - 1 + words.length) % words.length;
-  updateDrillCard();
-  drillAnimate();
-}
-function drillAnimate() {
-  var card = document.getElementById('drillCard');
-  card.style.animation = 'none';
-  void card.offsetWidth;
-  card.style.animation = 'popIn .4s ease';
-  var rect = card.getBoundingClientRect();
-  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-}
-
 // Init nav
 updateNav();
 </script>
 
-<!-- Drill Mode Overlay -->
-<div class="drill-overlay" id="drillOverlay">
-  <div class="drill-card" id="drillCard" onclick="drillAnimate()">
-    <div class="drill-icon" id="drillIcon"></div>
-    <div class="drill-label" id="drillLabel"></div>
-  </div>
-  <div class="drill-nav">
-    <button onclick="drillPrev()">◀</button>
-    <button onclick="drillNext()">▶</button>
-  </div>
-  <button class="drill-close" onclick="exitDrill()">✕ Back</button>
-</div>
-
 <!-- Bottom Navigation -->
 <div class="nav-bar">
   <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
-  <button class="nav-btn nav-next" id="navDrill" onclick="enterDrill()" style="display:none;background:linear-gradient(135deg,#f093fb,#f5576c)">🔍 Drill</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
   <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
 </div>
 </body>
