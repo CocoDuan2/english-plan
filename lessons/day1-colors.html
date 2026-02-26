@@ -109,6 +109,27 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
 @keyframes wave{0%{transform:rotate(-10deg)}100%{transform:rotate(10deg)}}
 @keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+/* ===== PC 端适配 ===== */
+@media(min-width:768px){
+  .top-bar{max-width:800px;padding:16px 24px}
+  .top-bar .title{font-size:22px}
+  .main{max-width:800px;padding:24px 24px 20px}
+  .teacher-guide{padding:12px 18px;font-size:15px}
+  .section-title{font-size:28px}
+  .cards-grid{gap:18px}
+  .card{padding:20px;min-height:140px;border-radius:20px}
+  .card .icon{font-size:120px}
+  .card .label{font-size:22px}
+  .greeting-emoji{font-size:120px}
+  .greeting-text{font-size:28px}
+  .greeting-btn{padding:16px 28px;font-size:22px}
+  .next-btn{padding:16px 48px;font-size:22px}
+  .paint-card .icon{font-size:120px}
+  .listen-prompt{font-size:22px}
+  .memory-card{border-radius:18px}
+  .memory-card .icon{font-size:50px}
+  .complete-emoji{font-size:120px}
+}
 </style>
 </head>
 <body>
