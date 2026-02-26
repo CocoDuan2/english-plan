@@ -30,6 +30,90 @@ body{background:linear-gradient(135deg,#d4fc79 0%,#96e6a1 50%,#84fab0 100%);disp
   background:rgba(39,174,96,.12);border-radius:8px;padding:8px 12px}
 .tg-expand.open{display:block}
 .tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
+
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .icon{font-size:80px;line-height:1;transition:filter .4s,transform .4s}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+
+.prompt-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,.2);
+  margin-bottom:10px;min-height:30px;text-align:center}
+.score-bar{display:flex;gap:6px;margin-bottom:8px}
+.star{font-size:22px;opacity:.3;transition:opacity .3s,transform .3s}
+.star.earned{opacity:1;animation:popIn .4s ease}
+
+.review-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.review-card:active{transform:scale(.95)}
+.review-card .icon{font-size:80px;line-height:1}
+.review-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+
+/* Egg hatch */
+.egg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.egg{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:120px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent}
+.egg:active{transform:scale(.95)}
+.egg .egg-icon{font-size:70px;transition:transform .3s}
+.egg .egg-label{font-size:16px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.egg.hatched .egg-icon{animation:popIn .5s ease}
+.egg.hatched .egg-label{opacity:1}
+
+/* Connect match */
+.connect-area{width:100%;flex:1;display:flex;flex-direction:column;position:relative}
+.connect-cols{display:flex;justify-content:space-between;width:100%;position:relative}
+.connect-col{display:flex;flex-direction:column;gap:10px;width:45%}
+.connect-item{background:rgba(255,255,255,.9);border-radius:12px;padding:10px;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:700;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .2s,background .3s;
+  -webkit-tap-highlight-color:transparent;position:relative;z-index:2}
+.connect-item .c-icon{font-size:50px}
+.connect-item:active{transform:scale(.95)}
+.connect-item.selected{background:#d5f5e3;box-shadow:0 0 0 3px #27ae60}
+.connect-item.matched{background:#d5f5e3;opacity:.6;pointer-events:none}
+.connect-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.connect-line{stroke:#27ae60;stroke-width:3;stroke-linecap:round;fill:none;opacity:.7}
+
+.next-btn{margin-top:12px;padding:12px 36px;border:none;border-radius:30px;font-size:18px;font-weight:700;
+  color:#fff;background:linear-gradient(135deg,#96e6a1,#27ae60);cursor:pointer;
+  box-shadow:0 4px 15px rgba(39,174,96,.4);transition:transform .2s}
+.next-btn:active{transform:scale(.93)}
+
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.complete-emoji{font-size:90px;animation:popIn .6s ease}
+.complete-text{font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;font-size:20px;animation:starFly 1s ease-out forwards}
+
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+
+@media(min-width:768px){
+  .top-bar{max-width:800px;padding:16px 24px}
+  .main{max-width:800px;padding:24px 24px 20px}
+  .card .icon{font-size:120px}
+  .egg .egg-icon{font-size:100px}
+  .complete-emoji{font-size:120px}
+}
+
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;
+  padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
+  cursor:pointer;transition:transform .2s,opacity .3s}
+.nav-btn:active{transform:scale(.93)}
+.nav-prev{background:#fff;color:#27ae60;border:2px solid #27ae60}
+.nav-next{color:#fff;background:linear-gradient(135deg,#96e6a1,#27ae60);
+  box-shadow:0 4px 15px rgba(39,174,96,.4)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
 </style>
 </head>
 <body>
@@ -71,9 +155,193 @@ body{background:linear-gradient(135deg,#d4fc79 0%,#96e6a1 50%,#84fab0 100%);disp
 </div>
   <div class="card-grid" id="newWordsGrid"></div>
 </div>
+
+<!-- Module 3: Egg Hatch Game -->
+<div class="module" id="mod3">
+  <div class="module-title">🥚 Hatch the Egg!</div>
+  <div class="teacher-guide" id="eggGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Tap the egg to hatch it! What action is inside?"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "What came out? Run! Let's run!"</li>
+    <li>🏃 "Can you do it? Jump! Jump jump!"</li>
+    <li>🥚 "Crack the egg! What's inside?"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="eggScoreBar"></div>
+  <div class="prompt-text" id="eggPrompt"></div>
+  <div class="egg-grid" id="eggGrid"></div>
+</div>
+
+<!-- Module 4: Listen & Find -->
+<div class="module" id="mod4">
+  <div class="module-title">👂 Listen & Find!</div>
+  <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Find the action! Tap it!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Where is RUN? Show me run!"</li>
+    <li>🏃 "Can you walk? Walk walk walk!"</li>
+    <li>🎵 "If you're happy and you know it, jump around!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar"></div>
+  <div class="prompt-text" id="promptText"></div>
+  <div class="card-grid" id="listenGrid"></div>
+</div>
+
+<!-- Module 5: Connect & Match -->
+<div class="module" id="mod5">
+  <div class="module-title">🔗 Connect & Match!</div>
+  <div class="teacher-guide" id="connectGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Match the word to the picture!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Run goes with the running picture!"</li>
+    <li>🪑 "Sit! Where is the sitting picture?"</li>
+    <li>🎯 "Tap the word, then tap the picture!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="connectScoreBar"></div>
+  <div class="connect-area" id="connectArea">
+    <svg class="connect-svg" id="connectSvg"></svg>
+    <div class="connect-cols" id="connectCols"></div>
+  </div>
+</div>
+
+<!-- Complete -->
+<div class="module" id="mod6">
+  <div class="complete-screen">
+    <div class="complete-emoji">🎉</div>
+    <div class="complete-text">Let's Move! Great Job!</div>
+    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned 5 actions today! 🏃</div>
+    <button class="next-btn" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="next-btn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff" onclick="location.href='../index.html'">🏠 Home</button>
+  </div>
+</div>
+
 </div>
 
 <script>
+var ACTIONS = [
+  {name:'run',emoji:'🏃'},{name:'jump',emoji:'🤸'},{name:'walk',emoji:'🚶'},
+  {name:'sit',emoji:'🪑'},{name:'stand',emoji:'🧍'}
+];
+var REVIEW = [{name:'three',emoji:'3️⃣'},{name:'banana',emoji:'🍌'},{name:'eyes',emoji:'👀'}];
+var MODULES=6,currentModule=0;
+
+function burstStars(x,y){var c=document.createElement('div');c.className='star-burst';c.style.left=x+'px';c.style.top=y+'px';for(var i=0;i<8;i++){var s=document.createElement('div');s.className='star-particle';var a=(i/8)*Math.PI*2,d=60+Math.random()*40;s.style.setProperty('--tx',Math.cos(a)*d+'px');s.style.setProperty('--ty',Math.sin(a)*d+'px');s.textContent=['⭐','🌟','✨','💫'][i%4];c.appendChild(s);}document.body.appendChild(c);setTimeout(function(){c.remove();},1100);}
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function makeStars(id,n){var sb=document.getElementById(id);sb.innerHTML='';for(var i=0;i<n;i++){var s=document.createElement('div');s.className='star';s.textContent='⭐';sb.appendChild(s);}}
+
+function updateDots(){var d=document.getElementById('dots');d.innerHTML='';for(var i=1;i<=5;i++){var e=document.createElement('div');e.className='dot'+(i===currentModule?' active':'')+(i<currentModule?' done':'');d.appendChild(e);}}
+function goModule(n){currentModule=n;document.querySelectorAll('.module').forEach(function(m){m.classList.remove('active');});var t=document.getElementById('mod'+n);if(t)t.classList.add('active');updateDots();updateNav();
+  if(n===1)startReview();if(n===3)startEggGame();if(n===4)startListenGame();if(n===5)startConnectGame();}
+function updateNav(){var p=document.getElementById('navPrev');if(!p)return;p.disabled=(currentModule<=1);document.getElementById('navNext').textContent=(currentModule>=5)?'Done! 🎉':'Next ➡️';document.getElementById('navProgress').textContent=Math.min(currentModule,5)+'/5';document.querySelector('.nav-bar').style.display=(currentModule>=6)?'none':'';}
+function goNext(){if(currentModule<6)goModule(currentModule+1);}
+function goPrev(){if(currentModule>1)goModule(currentModule-1);}
+
+// === MOD 1: Review ===
+var revRound=0,revOrder=[];
+function startReview(){revRound=0;revOrder=shuffle([0,1,2]);makeStars('reviewScoreBar',3);buildRevGrid();showRevPrompt();}
+function buildRevGrid(){var g=document.getElementById('reviewGrid');g.innerHTML='';
+  shuffle(REVIEW).forEach(function(r){var c=document.createElement('div');c.className='review-card';
+    c.innerHTML='<div class="icon">'+r.emoji+'</div><div class="label">'+r.name+'</div>';
+    c.onclick=function(e){checkRev(c,r,e);};g.appendChild(c);});}
+function showRevPrompt(){if(revRound>=3){document.getElementById('reviewPrompt').textContent='🎉 Great memory!';return;}
+  var t=REVIEW[revOrder[revRound]];document.getElementById('reviewPrompt').textContent='Find: '+t.name.toUpperCase()+' '+t.emoji;}
+function checkRev(card,item,e){if(revRound>=3)return;var t=REVIEW[revOrder[revRound]];
+  if(item.name===t.name){var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    document.getElementById('reviewScoreBar').children[revRound].classList.add('earned');revRound++;
+    setTimeout(function(){buildRevGrid();showRevPrompt();},600);
+  }else{card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MOD 2: New Words (tap to reveal) ===
+function initNewWords(){var g=document.getElementById('newWordsGrid');g.innerHTML='';
+  ACTIONS.forEach(function(a){var c=document.createElement('div');c.className='egg';
+    c.innerHTML='<div class="egg-icon">🥚</div><div class="egg-label">'+a.name+'</div>';
+    c.onclick=function(){if(!c.classList.contains('hatched')){c.classList.add('hatched');
+      c.querySelector('.egg-icon').textContent=a.emoji;
+      var r=c.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);}};
+    g.appendChild(c);});}
+initNewWords();
+
+// === MOD 3: Egg Hatch Game ===
+var eggRound=0,eggOrder=[];
+function startEggGame(){eggRound=0;eggOrder=shuffle([0,1,2,3,4]);makeStars('eggScoreBar',5);showEggPrompt();buildEggGrid();}
+function showEggPrompt(){if(eggRound>=5){document.getElementById('eggPrompt').textContent='🎉 All hatched!';
+  document.getElementById('eggGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "You hatched them all!"';return;}
+  var t=ACTIONS[eggOrder[eggRound]];document.getElementById('eggPrompt').textContent='Hatch: '+t.name.toUpperCase()+' '+t.emoji;
+  document.getElementById('eggGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "Find '+t.name+'! Crack the egg!"';}
+function buildEggGrid(){var g=document.getElementById('eggGrid');g.innerHTML='';
+  var eggs=shuffle(ACTIONS.slice());
+  eggs.forEach(function(a){var c=document.createElement('div');c.className='egg';
+    c.innerHTML='<div class="egg-icon" style="animation:wiggle 1s ease infinite">🥚</div><div class="egg-label">'+a.name+'</div>';
+    c.onclick=function(e){checkEgg(c,a,e);};g.appendChild(c);});}
+function checkEgg(card,item,e){if(eggRound>=5||card.classList.contains('hatched'))return;
+  var t=ACTIONS[eggOrder[eggRound]];
+  if(item.name===t.name){card.classList.add('hatched');card.querySelector('.egg-icon').textContent=item.emoji;
+    card.querySelector('.egg-icon').style.animation='popIn .5s ease';
+    var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    document.getElementById('eggScoreBar').children[eggRound].classList.add('earned');eggRound++;
+    setTimeout(function(){showEggPrompt();},600);
+  }else{card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MOD 4: Listen & Find ===
+var listenRound=0,listenOrder=[];
+function startListenGame(){listenRound=0;listenOrder=shuffle([0,1,2,3,4]);makeStars('scoreBar',5);buildListenGrid();showListenPrompt();}
+function buildListenGrid(){var g=document.getElementById('listenGrid');g.innerHTML='';
+  shuffle(ACTIONS).forEach(function(a){var c=document.createElement('div');c.className='card';
+    c.innerHTML='<div class="icon">'+a.emoji+'</div><div class="label">'+a.name+'</div>';
+    c.onclick=function(e){checkListen(c,a,e);};g.appendChild(c);});}
+function showListenPrompt(){if(listenRound>=5){document.getElementById('promptText').textContent='🎉 All found!';
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "You found all the actions!"';return;}
+  var t=ACTIONS[listenOrder[listenRound]];document.getElementById('promptText').textContent='Find: '+t.name.toUpperCase()+' '+t.emoji;
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "Where is '+t.name.toUpperCase()+'? Show me!"';}
+function checkListen(card,item,e){if(listenRound>=5)return;var t=ACTIONS[listenOrder[listenRound]];
+  if(item.name===t.name){var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    document.getElementById('scoreBar').children[listenRound].classList.add('earned');listenRound++;
+    setTimeout(function(){buildListenGrid();showListenPrompt();},600);
+  }else{card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MOD 5: Connect & Match ===
+var connectScore=0,connectSelected=null,connectPairs=[];
+function startConnectGame(){connectScore=0;connectSelected=null;connectPairs=shuffle(ACTIONS.slice());
+  makeStars('connectScoreBar',5);buildConnectCols();}
+function buildConnectCols(){var w=document.getElementById('connectCols');w.innerHTML='';
+  var svg=document.getElementById('connectSvg');svg.innerHTML='';
+  var leftCol=document.createElement('div');leftCol.className='connect-col';
+  var rightCol=document.createElement('div');rightCol.className='connect-col';
+  var leftOrder=shuffle(connectPairs.slice());
+  var rightOrder=shuffle(connectPairs.slice());
+  leftOrder.forEach(function(a){var el=document.createElement('div');el.className='connect-item';
+    el.innerHTML='<span class="c-icon">'+a.emoji+'</span>';el.setAttribute('data-name',a.name);el.setAttribute('data-side','left');
+    el.onclick=function(){selectConnect(el);};leftCol.appendChild(el);});
+  rightOrder.forEach(function(a){var el=document.createElement('div');el.className='connect-item';
+    el.textContent=a.name;el.setAttribute('data-name',a.name);el.setAttribute('data-side','right');
+    el.onclick=function(){selectConnect(el);};rightCol.appendChild(el);});
+  w.appendChild(leftCol);w.appendChild(rightCol);}
+function selectConnect(el){if(el.classList.contains('matched'))return;
+  if(!connectSelected){connectSelected=el;el.classList.add('selected');return;}
+  if(connectSelected.getAttribute('data-side')===el.getAttribute('data-side')){
+    connectSelected.classList.remove('selected');connectSelected=el;el.classList.add('selected');return;}
+  var name1=connectSelected.getAttribute('data-name'),name2=el.getAttribute('data-name');
+  if(name1===name2){connectSelected.classList.remove('selected');connectSelected.classList.add('matched');
+    el.classList.add('matched');var r=el.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    drawLine(connectSelected,el);
+    var stars=document.getElementById('connectScoreBar').children;
+    if(connectScore<stars.length)stars[connectScore].classList.add('earned');
+    connectScore++;connectSelected=null;
+    if(connectScore>=5)document.getElementById('connectGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "All matched! Amazing!"';
+  }else{connectSelected.classList.remove('selected');el.style.animation='shake .4s ease';
+    setTimeout(function(){el.style.animation='';},500);connectSelected=null;}}
+function drawLine(a,b){var svg=document.getElementById('connectSvg');
+  var area=document.getElementById('connectArea');var ar=area.getBoundingClientRect();
+  var ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+  var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1',ra.left+ra.width/2-ar.left);line.setAttribute('y1',ra.top+ra.height/2-ar.top);
+  line.setAttribute('x2',rb.left+rb.width/2-ar.left);line.setAttribute('y2',rb.top+rb.height/2-ar.top);
+  line.setAttribute('class','connect-line');svg.appendChild(line);}
+
+// === INIT ===
+goModule(1);
 </script>
 
 <div class="nav-bar">
