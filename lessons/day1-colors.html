@@ -103,10 +103,10 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
 .balloon.float{animation:balloonFloat var(--duration) ease-in-out infinite alternate,
   balloonRise var(--rise) ease-out forwards}
 .balloon.popped .balloon-body,.balloon.popped .balloon-knot,.balloon.popped .balloon-string{display:none}
-.balloon.popped::after{content:'💥';font-size:60px;animation:popIn .4s ease}
-.balloon-collected{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px;min-height:36px}
-.balloon-badge{padding:4px 14px;border-radius:20px;font-size:15px;font-weight:700;color:#fff;
-  animation:popIn .4s ease;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.balloon.popped::after{content:'💥';font-size:80px;animation:popIn .4s ease}
+.balloon-collected{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;min-height:50px}
+.balloon-badge{padding:10px 22px;border-radius:28px;font-size:22px;font-weight:800;color:#fff;
+  animation:popIn .5s ease;box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:1px}
 @keyframes balloonFloat{0%{transform:translateX(-8px)}100%{transform:translateX(8px)}}
 @keyframes balloonRise{0%{bottom:-120px}100%{bottom:var(--top)}}
 
