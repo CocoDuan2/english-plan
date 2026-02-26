@@ -765,12 +765,9 @@ function updateNav() {
   document.getElementById('navProgress').textContent = Math.min(currentModule, 5) + '/5';
   // Hide nav bar on complete page
   document.querySelector('.nav-bar').style.display = (currentModule >= 6) ? 'none' : '';
-  // Auto-expand teacher guide on module enter
+  // Teacher guide stays collapsed — user clicks to expand
   var mod = document.getElementById('mod' + currentModule);
   if(mod) {
-    var expand = mod.querySelector('.tg-expand');
-    var arrow = mod.querySelector('.tg-arrow');
-    if(expand && !expand.classList.contains('open')) { expand.classList.add('open'); if(arrow) arrow.textContent = '▼'; }
   }
 }
 function goNext() {
