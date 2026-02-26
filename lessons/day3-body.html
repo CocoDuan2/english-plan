@@ -223,8 +223,8 @@ body{padding-bottom:70px}
 <!-- Module 3: Balloon Shoot (气球射击) -->
 <div class="module" id="mod3">
   <div class="module-title">🎈 Pop the Balloon!</div>
-  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Pop the balloon! 点击有正确图片的气球！"
+  <div class="teacher-guide" id="balloonGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Pop the balloon! 点击有正确图片的气球！"</span>
   <ul class="tg-expand"><li>Practice saying each body part before starting</li><li>After each pop, child touches that part on themselves</li></ul>
 </div>
   <div class="balloon-target" id="balloonTarget"></div>
@@ -236,8 +236,8 @@ body{padding-bottom:70px}
 <!-- Module 4: Listen & Find -->
 <div class="module" id="mod4">
   <div class="module-title">👂 Listen & Find!</div>
-  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Where is the HEAD? 找到头！Tap it!"
+  <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Where is the HEAD? 找到头！Tap it!"</span>
   <ul class="tg-expand"><li>"Close your eyes, touch your [part]!"</li><li>Sing "Head, Shoulders, Knees and Toes"</li></ul>
 </div>
   <div class="score-bar" id="scoreBar"></div>
@@ -248,8 +248,8 @@ body{padding-bottom:70px}
 <!-- Module 5: Connect & Match (连线配对) -->
 <div class="module" id="mod5">
   <div class="module-title">🔗 Connect & Match!</div>
-  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Match the word to the picture! Tap a word, then tap its picture! 把单词和图片配对！"
+  <div class="teacher-guide" id="connectGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Match the word to the picture! Tap a word, then tap its picture! 把单词和图片配对！"</span>
   <ul class="tg-expand"><li>Point to your own body parts and name them</li><li>Mirror game: teacher touches a part, child copies</li></ul>
 </div>
   <div class="score-bar" id="connectScoreBar"></div>
@@ -474,13 +474,13 @@ function nextBalloonRound() {
   if(balloonRound >= BALLOON_ROUNDS) {
     clearInterval(balloonInterval);
     document.getElementById('balloonTarget').textContent = '🎉 Amazing!';
-    document.getElementById('balloonGuide').innerHTML = '🎤 <b>老师说：</b>"Wow! You popped ' + balloonScore + ' balloons! 太棒了！"';
+    document.getElementById('balloonGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Wow! You popped ' + balloonScore + ' balloons! 太棒了！"';
     // stopped - teacher controls nav
     return;
   }
   balloonTargetWord = BODY[balloonRound];
   document.getElementById('balloonTarget').textContent = 'Pop: ' + balloonTargetWord.emoji + ' ' + balloonTargetWord.name.toUpperCase();
-  document.getElementById('balloonGuide').innerHTML = '🎤 <b>老师说：</b>"Where is ' + balloonTargetWord.emoji + ' ' + balloonTargetWord.name + '? 点击有 ' + balloonTargetWord.emoji + ' 的气球！"';
+  document.getElementById('balloonGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Where is ' + balloonTargetWord.emoji + ' ' + balloonTargetWord.name + '? 点击有 ' + balloonTargetWord.emoji + ' 的气球！"';
 
   // Clear old balloons
   document.getElementById('balloonArea').innerHTML = '';
@@ -583,13 +583,13 @@ function buildListenGrid() {
 function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('promptText').textContent = '🎉 All found!';
-    document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the body parts! 太棒了！"';
+    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the body parts! 太棒了！"';
     // stopped - teacher controls nav
     return;
   }
   var target = BODY[listenOrder[listenRound]];
   document.getElementById('promptText').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
-  document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Where is the ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Where is the ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
 }
 
 function checkListen(card, bodyPart, e) {
@@ -708,7 +708,7 @@ function selectConnect(el, word, side, e) {
     connectSelected = null;
 
     if(connectMatched >= 5) {
-      document.getElementById('connectGuide').innerHTML = '🎤 <b>老师说：</b>"Perfect! You matched them all! 全部配对成功！"';
+      document.getElementById('connectGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Perfect! You matched them all! 全部配对成功！"';
       // stopped - teacher controls nav
     }
   } else {
