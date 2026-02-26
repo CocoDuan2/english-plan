@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 7 - Actions 🏃</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#d4fc79 0%,#96e6a1 50%,#84fab0 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
+
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
+  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#27ae60}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#27ae60;transform:scale(1.2)}
+.top-bar .dot.done{background:#2ecc71}
+
+.main{width:100%;max-width:500px;flex:1;overflow:hidden;padding:16px 12px 12px;display:flex;flex-direction:column}
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
+.module.active{display:flex}
+.module-title{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:6px}
+
+.teacher-guide{background:rgba(255,255,255,.85);border-radius:10px;padding:8px 14px;font-size:13px;color:#666;
+  margin-bottom:10px;text-align:center;width:100%;line-height:1.4;cursor:pointer;user-select:none}
+.teacher-guide b{color:#27ae60}
+.tg-expand{display:none;margin-top:8px;text-align:left;font-size:12px;line-height:1.6;
+  background:rgba(39,174,96,.12);border-radius:8px;padding:8px 12px}
+.tg-expand.open{display:block}
+.tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="title">🏃 Day 7 · Actions</div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="main" id="main">
+
+<!-- Module 1: Review (three, banana, eyes from Day1-6) -->
+<div class="module" id="mod1">
+  <div class="module-title">🌟 Review Time!</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> 🎤 <b>Teacher:</b> "Let's remember! Tap the right one!"
+  <ul class="tg-expand open">
+    <li>🗣️ "Show me three fingers! Where is three?"</li>
+    <li>🍌 "Yummy banana! Find the banana!"</li>
+    <li>👀 "Blink your eyes! Where are the eyes?"</li>
+  </ul>
+</div>
+  <div class="prompt-text" id="reviewPrompt"></div>
+  <div class="score-bar" id="reviewScoreBar"></div>
+  <div class="card-grid" id="reviewGrid"></div>
+</div>
+
+<!-- Module 2: New Words - Actions (Egg Hatch) -->
+<div class="module" id="mod2">
+  <div class="module-title">🏃 Let's Move!</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> 🎤 <b>Teacher:</b> "Tap each egg to see the action!"
+  <ul class="tg-expand open">
+    <li>🗣️ "Run! Run run run!" "Jump! Jump up high!"</li>
+    <li>🏃 "Let's run together! Ready? Run!"</li>
+    <li>🪑 "Sit down please! Now stand up!"</li>
+    <li>🚶 "Walk slowly... walk walk walk!"</li>
+  </ul>
+</div>
+  <div class="card-grid" id="newWordsGrid"></div>
+</div>
+</div>
+
+<script>
+</script>
+
+<div class="nav-bar">
+  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
+</div>
+</body>
+</html>
