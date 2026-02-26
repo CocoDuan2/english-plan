@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 2
+- 当前天: Day 3
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -23,6 +23,11 @@
 - 课件: lessons/day2-animals.html
 - 反馈: 待确认
 
+### 2025-02-27 (Day 3) - Body 👃
+- 新词: head, eyes, ears, nose, mouth
+- 课件: lessons/day3-body.html
+- 反馈: 待确认
+
 ## 词汇掌握度
 | 词汇 | 主题 | 首次学习 | 掌握度 | 下次复习 |
 |------|------|----------|--------|----------|
@@ -36,6 +41,11 @@
 | fish | Animals | 02-26 | ⬜ | 02-27 |
 | bird | Animals | 02-26 | ⬜ | 02-27 |
 | duck | Animals | 02-26 | ⬜ | 02-27 |
+| head | Body | 02-27 | ⬜ | 02-28 |
+| eyes | Body | 02-27 | ⬜ | 02-28 |
+| ears | Body | 02-27 | ⬜ | 02-28 |
+| nose | Body | 02-27 | ⬜ | 02-28 |
+| mouth | Body | 02-27 | ⬜ | 02-28 |
 
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
