@@ -149,12 +149,18 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   .complete-emoji{font-size:120px}
 }
 
-/* Button group */
-.btn-group{display:flex;gap:10px;margin-top:12px;justify-content:center;flex-wrap:wrap}
-.replay-btn{padding:12px 28px;border:2px solid #9b59b6;border-radius:30px;font-size:16px;font-weight:700;
-  color:#9b59b6;background:#fff;cursor:pointer;transition:transform .2s;display:none}
-.replay-btn.show{display:block;animation:bounceIn .5s ease}
-.replay-btn:active{transform:scale(.93)}
+/* Bottom nav bar */
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;
+  padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border-top:2px solid rgba(0,0,0,.06);z-index:100;max-width:100%}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
+  cursor:pointer;transition:transform .2s,opacity .3s}
+.nav-btn:active{transform:scale(.93)}
+.nav-prev{background:#fff;color:#9b59b6;border:2px solid #9b59b6}
+.nav-next{color:#fff;background:linear-gradient(135deg,#a29bfe,#6c5ce7);
+  box-shadow:0 4px 15px rgba(108,92,231,.4)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+body{padding-bottom:70px}
 
 /* Expandable teacher guide */
 .teacher-guide{cursor:pointer;user-select:none}
@@ -170,7 +176,7 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
 .drill-overlay.active{display:flex}
 .drill-card{background:rgba(255,255,255,.95);border-radius:24px;padding:30px;min-width:250px;
   display:flex;flex-direction:column;align-items:center;cursor:pointer;
-  box-shadow:0 8px 30px rgba(0,0,0,.15);transition:transform .2s}
+  box-shadow:0 8px 30px rgba(0,0,0,.15)}
 .drill-card:active{transform:scale(.95)}
 .drill-card .drill-icon{font-size:140px;line-height:1}
 .drill-card .drill-label{font-size:32px;font-weight:700;margin-top:10px;color:#333}
@@ -180,9 +186,6 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
 .drill-nav button:active{background:rgba(255,255,255,.5)}
 .drill-close{margin-top:16px;padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
   color:#fff;background:rgba(255,255,255,.2);cursor:pointer}
-.drill-btn{padding:12px 28px;border:2px solid #e67e22;border-radius:30px;font-size:16px;font-weight:700;
-  color:#e67e22;background:#fff;cursor:pointer;display:none}
-.drill-btn.show{display:block;animation:bounceIn .5s ease}
 </style>
 </head>
 <body>
@@ -200,15 +203,11 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   <div class="module-title">🌟 Review Time!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Let's remember what we learned! 还记得这些吗？Tap the right one!"
-  <ul class="tg-expand"><li>Point to colored objects: "What color is this chair?"</li><li>Ask: "Do you remember the cat? Meow like a cat!"</li><li>High-five after each correct answer!</li></ul>
+  <ul class="tg-expand"><li>Point to colored objects: "What color is this?"</li><li>"Do you remember the cat? Meow like a cat!"</li><li>High-five after each correct answer!</li></ul>
 </div>
   <div class="prompt-text" id="reviewPrompt"></div>
   <div class="score-bar" id="reviewScoreBar"></div>
   <div class="card-grid" id="reviewGrid"></div>
-  <div class="btn-group">
-    <button class="replay-btn" id="replayBtn1" onclick="goModule(1)">🔄 Play Again</button>
-    <button class="next-btn" id="nextBtn1" onclick="goModule(2)">Learn Body Parts! ➡️</button>
-  </div>
 </div>
 
 <!-- Module 2: New Words - Body Parts -->
@@ -216,14 +215,9 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   <div class="module-title">🧍 My Body!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Let's learn body parts! Tap each gray picture to see what it is! 点击灰色图片看看是什么！"
-  <ul class="tg-expand"><li>TPR: "Touch your head! Touch your nose! Touch your ears!"</li><li>Ask: "How many eyes do you have? One... two!"</li><li>Simon Says: "Simon says touch your mouth!"</li></ul>
+  <ul class="tg-expand"><li>TPR: "Touch your head! Touch your nose!"</li><li>"How many eyes do you have? One... two!"</li><li>Simon Says: "Simon says touch your mouth!"</li></ul>
 </div>
   <div class="card-grid" id="newWordsGrid"></div>
-  <div class="btn-group">
-    <button class="replay-btn" id="replayBtn2" onclick="goModule(2)">🔄 Play Again</button>
-    <button class="drill-btn" id="drillBtn" onclick="enterDrill()">🔍 Drill</button>
-    <button class="next-btn" id="nextBtn2" onclick="goModule(3)">Next Game! ➡️</button>
-  </div>
 </div>
 
 <!-- Module 3: Balloon Shoot (气球射击) -->
@@ -231,16 +225,12 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   <div class="module-title">🎈 Pop the Balloon!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Pop the balloon! 点击有正确图片的气球！"
-  <ul class="tg-expand"><li>Practice saying each body part before starting</li><li>After each pop, child touches that body part on themselves</li><li>Count balloons together: "One, two, three..."</li></ul>
+  <ul class="tg-expand"><li>Practice saying each body part before starting</li><li>After each pop, child touches that part on themselves</li></ul>
 </div>
   <div class="balloon-target" id="balloonTarget"></div>
   <div class="score-bar" id="balloonScoreBar"></div>
   <div class="balloon-area" id="balloonArea"></div>
   <div class="balloon-score" id="balloonScore"></div>
-  <div class="btn-group">
-    <button class="replay-btn" id="replayBtn3" onclick="goModule(3)">🔄 Play Again</button>
-    <button class="next-btn" id="nextBtn3" onclick="goModule(4)">Next Game! ➡️</button>
-  </div>
 </div>
 
 <!-- Module 4: Listen & Find -->
@@ -248,15 +238,11 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   <div class="module-title">👂 Listen & Find!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Where is the HEAD? 找到头！Tap it!"
-  <ul class="tg-expand"><li>Challenge: "Close your eyes, touch your [part]!"</li><li>Sing "Head, Shoulders, Knees and Toes"</li><li>Point to body parts on a stuffed animal</li></ul>
+  <ul class="tg-expand"><li>"Close your eyes, touch your [part]!"</li><li>Sing "Head, Shoulders, Knees and Toes"</li></ul>
 </div>
   <div class="score-bar" id="scoreBar"></div>
   <div class="prompt-text" id="promptText"></div>
   <div class="card-grid" id="listenGrid"></div>
-  <div class="btn-group">
-    <button class="replay-btn" id="replayBtn4" onclick="goModule(4)">🔄 Play Again</button>
-    <button class="next-btn" id="nextBtn4" onclick="goModule(5)">Next Game! ➡️</button>
-  </div>
 </div>
 
 <!-- Module 5: Connect & Match (连线配对) -->
@@ -264,30 +250,13 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
   <div class="module-title">🔗 Connect & Match!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
   <span class="tg-arrow">▶</span> 🎤 <b>老师说：</b>"Match the word to the picture! Tap a word, then tap its picture! 把单词和图片配对！"
-  <ul class="tg-expand"><li>Point to your own body parts and name them</li><li>Mirror game: teacher touches a part, child copies</li><li>Review all 5 words one more time</li></ul>
+  <ul class="tg-expand"><li>Point to your own body parts and name them</li><li>Mirror game: teacher touches a part, child copies</li></ul>
 </div>
   <div class="score-bar" id="connectScoreBar"></div>
   <div class="connect-area" id="connectArea">
     <svg class="connect-svg" id="connectSvg"></svg>
     <div class="connect-cols" id="connectCols"></div>
   </div>
-  <div class="btn-group">
-    <button class="replay-btn" id="replayBtn5" onclick="goModule(5)">🔄 Play Again</button>
-    <button class="next-btn" id="nextBtn5" onclick="goModule(6)">Well Done! 🎉</button>
-  </div>
-</div>
-
-<!-- Drill Mode Overlay -->
-<div class="drill-overlay" id="drillOverlay">
-  <div class="drill-card" id="drillCard" onclick="drillAnimate()">
-    <div class="drill-icon" id="drillIcon"></div>
-    <div class="drill-label" id="drillLabel"></div>
-  </div>
-  <div class="drill-nav">
-    <button onclick="drillPrev()">◀</button>
-    <button onclick="drillNext()">▶</button>
-  </div>
-  <button class="drill-close" onclick="exitDrill()">✕ Back</button>
 </div>
 
 <!-- Complete -->
@@ -377,9 +346,6 @@ function updateDots() {
 
 function goModule(n) {
   currentModule = n;
-  // Reset all buttons
-  document.querySelectorAll('.replay-btn,.drill-btn').forEach(function(b){ b.classList.remove('show'); });
-  document.querySelectorAll('.btn-group .next-btn').forEach(function(b){ b.style.opacity='.5'; b.classList.remove('show'); });
   var mods = document.querySelectorAll('.module');
   mods.forEach(function(m){ m.classList.remove('active'); });
   var target = document.getElementById('mod' + n);
@@ -425,8 +391,6 @@ function showReviewPrompt() {
   if(reviewRound >= 3) {
     document.getElementById('reviewPrompt').textContent = '🎉 Great memory!';
     document.getElementById('nextBtn1').classList.add('show');
-    document.getElementById('nextBtn1').style.opacity='1';
-    document.getElementById('replayBtn1').classList.add('show');
     return;
   }
   var target = REVIEW[reviewOrder[reviewRound]];
@@ -483,9 +447,6 @@ function revealWord(card, idx, e) {
     revealedCount++;
     if(revealedCount >= 5) {
       document.getElementById('nextBtn2').classList.add('show');
-      document.getElementById('nextBtn2').style.opacity='1';
-      document.getElementById('replayBtn2').classList.add('show');
-      document.getElementById('drillBtn').classList.add('show');
     }
   }
 }
@@ -514,9 +475,7 @@ function nextBalloonRound() {
     clearInterval(balloonInterval);
     document.getElementById('balloonTarget').textContent = '🎉 Amazing!';
     document.getElementById('balloonGuide').innerHTML = '🎤 <b>老师说：</b>"Wow! You popped ' + balloonScore + ' balloons! 太棒了！"';
-    document.getElementById('replayBtn3').classList.add('show');
-    document.getElementById('nextBtn3').classList.add('show');
-    document.getElementById('nextBtn3').style.opacity='1';
+    // stopped - teacher controls nav
     return;
   }
   balloonTargetWord = BODY[balloonRound];
@@ -625,9 +584,7 @@ function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('promptText').textContent = '🎉 All found!';
     document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the body parts! 太棒了！"';
-    document.getElementById('replayBtn4').classList.add('show');
-    document.getElementById('nextBtn4').classList.add('show');
-    document.getElementById('nextBtn4').style.opacity='1';
+    // stopped - teacher controls nav
     return;
   }
   var target = BODY[listenOrder[listenRound]];
@@ -752,9 +709,7 @@ function selectConnect(el, word, side, e) {
 
     if(connectMatched >= 5) {
       document.getElementById('connectGuide').innerHTML = '🎤 <b>老师说：</b>"Perfect! You matched them all! 全部配对成功！"';
-      document.getElementById('replayBtn5').classList.add('show');
-    document.getElementById('nextBtn5').classList.add('show');
-    document.getElementById('nextBtn5').style.opacity='1';
+      // stopped - teacher controls nav
     }
   } else {
     // Wrong match
@@ -796,6 +751,34 @@ function init() {
 }
 init();
 
+// === NAVIGATION ===
+function updateNav() {
+  document.getElementById('navPrev').disabled = (currentModule <= 1);
+  document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
+  // Show drill button only on module 2 when all words revealed
+  document.getElementById('navDrill').style.display = (currentModule === 2 && revealedCount >= 5) ? '' : 'none';
+}
+function goNext() {
+  if(currentModule < 6) goModule(currentModule + 1);
+}
+function goPrev() {
+  if(currentModule > 1) goModule(currentModule - 1);
+}
+
+// Patch goModule to update nav
+var _origGoModule = goModule;
+goModule = function(n) {
+  _origGoModule(n);
+  updateNav();
+};
+
+// Patch revealWord to show drill when ready
+var _origRevealWord = revealWord;
+revealWord = function(card, idx, e) {
+  _origRevealWord(card, idx, e);
+  updateNav();
+};
+
 // === DRILL MODE ===
 var drillIdx = 0;
 function enterDrill() {
@@ -828,6 +811,29 @@ function drillAnimate() {
   var rect = card.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
 }
+
+// Init nav
+updateNav();
 </script>
+
+<!-- Drill Mode Overlay -->
+<div class="drill-overlay" id="drillOverlay">
+  <div class="drill-card" id="drillCard" onclick="drillAnimate()">
+    <div class="drill-icon" id="drillIcon"></div>
+    <div class="drill-label" id="drillLabel"></div>
+  </div>
+  <div class="drill-nav">
+    <button onclick="drillPrev()">◀</button>
+    <button onclick="drillNext()">▶</button>
+  </div>
+  <button class="drill-close" onclick="exitDrill()">✕ Back</button>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <button class="nav-btn nav-next" id="navDrill" onclick="enterDrill()" style="display:none;background:linear-gradient(135deg,#f093fb,#f5576c)">🔍 Drill</button>
+  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
+</div>
 </body>
 </html>
