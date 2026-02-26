@@ -88,15 +88,40 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
   transition:transform .2s}
 .greeting-btn:active{transform:scale(.93)}
 
-/* Paint game specific */
-.paint-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s,background .5s;-webkit-tap-highlight-color:transparent}
-.paint-card:active{transform:scale(.95)}
-.paint-card .icon{font-size:80px;line-height:1;filter:grayscale(1) brightness(1.2);transition:filter .5s,transform .4s}
-.paint-card.painted .icon{filter:none;animation:popIn .5s ease}
-.paint-card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#fff}
-.paint-card.painted .label{opacity:1}
+/* Balloon pop game */
+.balloon-area{position:relative;width:100%;flex:1;overflow:hidden;min-height:300px}
+.balloon{position:absolute;bottom:-120px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  display:flex;flex-direction:column;align-items:center;transition:transform .1s}
+.balloon:active{transform:scale(.9)}
+.balloon-body{width:70px;height:90px;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+  position:relative;box-shadow:inset -8px -8px 20px rgba(255,255,255,.35),0 4px 15px rgba(0,0,0,.15)}
+.balloon-body::after{content:'';position:absolute;top:12px;left:14px;width:16px;height:22px;
+  background:rgba(255,255,255,.35);border-radius:50%;transform:rotate(-30deg)}
+.balloon-knot{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;
+  border-top:10px solid;margin-top:-1px}
+.balloon-string{width:1px;height:30px;background:#999;margin:0 auto}
+.balloon.float{animation:balloonFloat var(--duration) ease-in-out infinite alternate,
+  balloonRise var(--rise) ease-out forwards}
+.balloon.popped .balloon-body,.balloon.popped .balloon-knot,.balloon.popped .balloon-string{display:none}
+.balloon.popped::after{content:'💥';font-size:60px;animation:popIn .4s ease}
+.balloon-collected{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px;min-height:36px}
+.balloon-badge{padding:4px 14px;border-radius:20px;font-size:15px;font-weight:700;color:#fff;
+  animation:popIn .4s ease;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+@keyframes balloonFloat{0%{transform:translateX(-8px)}100%{transform:translateX(8px)}}
+@keyframes balloonRise{0%{bottom:-120px}100%{bottom:var(--top)}}
+
+/* Finger paint game */
+.paint-shapes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;justify-items:center}
+.paint-shape{position:relative;width:100%;aspect-ratio:1;border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,.9);box-shadow:0 3px 12px rgba(0,0,0,.08);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.paint-shape svg{width:70%;height:70%;transition:filter .3s}
+.paint-shape.unpainted svg{filter:grayscale(1) brightness(1.3) opacity(.5)}
+.paint-fill{position:absolute;bottom:0;left:0;width:100%;height:0%;transition:height .15s linear;opacity:.35;pointer-events:none}
+.paint-shape .label{font-size:15px;font-weight:700;opacity:0;transition:opacity .3s;margin-top:2px;position:relative;z-index:2}
+.paint-shape.done .label{opacity:1}
+.paint-shape.done svg{filter:none}
+.paint-shape.done .paint-fill{opacity:.2}
 
 /* Completion screen */
 .complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
@@ -124,7 +149,9 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
   .greeting-text{font-size:28px}
   .greeting-btn{padding:16px 28px;font-size:22px}
   .next-btn{padding:16px 48px;font-size:22px}
-  .paint-card .icon{font-size:120px}
+  .balloon-body{width:90px;height:115px}
+  .paint-shape{border-radius:20px}
+  .paint-shape svg{width:65%;height:65%}
   .listen-prompt{font-size:22px}
   .memory-card{border-radius:18px}
   .memory-card .icon{font-size:50px}
@@ -181,24 +208,25 @@ body{padding-bottom:70px}
   </div>
 </div>
 
-<!-- Module 2: New Words -->
+<!-- Module 2: Balloon Pop -->
 <div class="module" id="mod2">
-  <div class="module-title">🎨 New Colors!</div>
+  <div class="module-title">🎈 Pop the Balloons!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's learn colors! Tap each gray circle to see the color! 点击灰色圆圈看看是什么颜色！"</span>
-  <ul class="tg-expand"><li>🗣️ 揭示后造句: "What color is it? → It's red!" "I like blue!" "Yellow is bright!"</li><li>🎯 指教室里的东西: "What color is the chair? → It's ___!"</li><li>🤚 TPR: "Show me something red! Touch something blue!"</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Look at the balloons! Tap them to pop! 点气球把它戳破！"</span>
+  <ul class="tg-expand"><li>🗣️ 弹出后说: "What color is it? → It's red!" "Pop the blue one!"</li><li>🎯 指东西: "What color is the chair? → It's ___!"</li><li>🤚 TPR: "Show me something red! Touch something blue!"</li></ul>
 </div>
-  <div class="card-grid" id="newWordsGrid"></div>
+  <div class="balloon-collected" id="balloonCollected"></div>
+  <div class="balloon-area" id="balloonArea"></div>
 </div>
 
-<!-- Module 3: Paint Game (涂色揭示) -->
+<!-- Module 3: Finger Paint -->
 <div class="module" id="mod3">
-  <div class="module-title">🖌️ Paint the Colors!</div>
+  <div class="module-title">🖌️ Paint the Shapes!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's paint! Tap each paint bucket to see the color! 点击颜料桶涂色！"</span>
-  <ul class="tg-expand"><li>🗣️ 涂色时说: "Let's paint it red! → Red! Red! Red!" "What color now? → It's green!"</li><li>🎨 假装画画: 用手在空中画，说 "I'm painting with red!"</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's paint! Touch and hold each shape to color it! 按住图形给它涂上颜色！"</span>
+  <ul class="tg-expand"><li>🗣️ 涂色时说: "Paint the apple red! → Red! Red! Red!" "What color is the sun? → Yellow!"</li><li>🎨 假装画画: 用手在空中画 "I'm painting with red!"</li><li>🌈 完成后: "Wow, so colorful! What's your favorite color?"</li></ul>
 </div>
-  <div class="card-grid" id="paintGrid"></div>
+  <div class="paint-shapes" id="paintShapes"></div>
 </div>
 
 <!-- Module 4: Listen & Find -->
@@ -248,9 +276,7 @@ var COLORS = [
 ];
 var MODULES = 6;
 var currentModule = 0;
-var revealedCount = 0;
 var greetCount = 0;
-var paintCount = 0;
 var listenRound = 0;
 var listenOrder = [];
 var memFlipped = [];
@@ -305,6 +331,8 @@ function goModule(n) {
   var target = document.getElementById('mod' + n);
   if(target) target.classList.add('active');
   updateDots();
+  if(n === 2) initBalloons();
+  if(n === 3) initPaintShapes();
   if(n === 4) startListenGame();
   if(n === 5) startMemoryGame();
 }
@@ -334,76 +362,128 @@ function doGreet(type) {
   }
 }
 
-// === MODULE 2: NEW WORDS ===
-function initNewWords() {
-  var grid = document.getElementById('newWordsGrid');
-  grid.innerHTML = '';
-  COLORS.forEach(function(c, i) {
-    var card = document.createElement('div');
-    card.className = 'card gray';
-    card.setAttribute('data-idx', i);
-    card.innerHTML = '<div class="icon">' + c.emoji + '</div><div class="label" style="color:' + c.hex + '">' + c.name + '</div>';
-    card.onclick = function(e) { revealWord(this, i, e); };
-    grid.appendChild(card);
+// === MODULE 2: BALLOON POP ===
+var balloonPopped = 0;
+function initBalloons() {
+  var area = document.getElementById('balloonArea');
+  var collected = document.getElementById('balloonCollected');
+  area.innerHTML = '';
+  collected.innerHTML = '';
+  balloonPopped = 0;
+  var shuffled = shuffle(COLORS);
+  shuffled.forEach(function(c, i) {
+    var b = document.createElement('div');
+    b.className = 'balloon float';
+    var leftPos = 10 + (i * 18) + Math.random() * 5;
+    var topPos = 30 + Math.random() * 40;
+    var rise = 2 + Math.random() * 1.5;
+    var dur = 1.5 + Math.random() * 1;
+    b.style.left = leftPos + '%';
+    b.style.setProperty('--top', topPos + '%');
+    b.style.setProperty('--rise', rise + 's');
+    b.style.setProperty('--duration', dur + 's');
+    b.style.animationDelay = (i * 0.3) + 's,' + (i * 0.3) + 's';
+    b.innerHTML = '<div class="balloon-body" style="background:' + c.hex + '"></div>' +
+      '<div class="balloon-knot" style="border-top-color:' + c.hex + '"></div>' +
+      '<div class="balloon-string"></div>';
+    b.onclick = function(e) { popBalloon(this, c, e); };
+    area.appendChild(b);
   });
 }
 
-function revealWord(card, idx, e) {
-  var wasRevealed = card.classList.contains('revealed');
-  card.classList.remove('gray');
-  card.classList.add('revealed');
-  // Replay animation every tap
-  var icon = card.querySelector('.icon');
-  icon.style.animation = 'none';
-  void icon.offsetWidth;
-  icon.style.animation = 'popIn .4s ease';
-  say(COLORS[idx].name);
-  var rect = card.getBoundingClientRect();
-  burstStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
-  if(!wasRevealed) {
-    revealedCount++;
-    if(revealedCount >= 5) {
-      document.getElementById('nextBtn2').classList.add('show');
-    }
-  }
-}
-
-// === MODULE 3: PAINT GAME (涂色揭示) ===
-function initPaintGame() {
-  var grid = document.getElementById('paintGrid');
-  grid.innerHTML = '';
-  var items = shuffle(COLORS);
-  items.forEach(function(c, i) {
-    var card = document.createElement('div');
-    card.className = 'paint-card';
-    card.setAttribute('data-color', c.name);
-    card.innerHTML = '<div class="icon">🎨</div><div class="label">' + c.name + '</div>';
-    card.onclick = function(e) { paintReveal(this, c, e); };
-    grid.appendChild(card);
-  });
-}
-
-function paintReveal(card, color, e) {
-  if(card.classList.contains('painted')) {
-    // Re-tap: replay animation
-    var icon = card.querySelector('.icon');
-    icon.style.animation = 'none';
-    void icon.offsetWidth;
-    icon.style.animation = 'popIn .5s ease';
-    var rect = card.getBoundingClientRect();
-    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    return;
-  }
-  card.classList.add('painted');
-  card.style.background = color.hex + '33';
-  card.querySelector('.icon').textContent = color.emoji;
-  card.querySelector('.label').style.color = color.hex;
-  say(color.name);
-  var rect = card.getBoundingClientRect();
+function popBalloon(el, color, e) {
+  if(el.classList.contains('popped')) return;
+  el.classList.remove('float');
+  el.classList.add('popped');
+  var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-  paintCount++;
-  if(paintCount >= 5) {
-    setTimeout(function(){ document.getElementById('nextBtn3').classList.add('show'); }, 400);
+  say(color.name);
+  // Add badge
+  var badge = document.createElement('div');
+  badge.className = 'balloon-badge';
+  badge.style.background = color.hex;
+  badge.textContent = color.emoji + ' ' + color.name;
+  document.getElementById('balloonCollected').appendChild(badge);
+  balloonPopped++;
+  if(balloonPopped >= 5) {
+    setTimeout(function(){ burstStars(window.innerWidth/2, window.innerHeight/2); }, 500);
+  }
+}
+
+// === MODULE 3: FINGER PAINT ===
+var SHAPES = [
+  {name:'red', hex:'#e74c3c', emoji:'🔴', shape:'apple',
+   svg:'<svg viewBox="0 0 100 100"><path d="M50 18c-2-8-10-14-14-14s-4 6 0 14c-18 2-30 18-30 38 0 22 16 38 34 38h20c18 0 34-16 34-38 0-20-12-36-30-38 4-8 4-14 0-14s-12 6-14 14z" fill="currentColor"/></svg>'},
+  {name:'yellow', hex:'#f1c40f', emoji:'🟡', shape:'sun',
+   svg:'<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="currentColor"/><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/><line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/><line x1="20" y1="20" x2="28" y2="28"/><line x1="72" y1="72" x2="80" y2="80"/><line x1="20" y1="80" x2="28" y2="72"/><line x1="72" y1="28" x2="80" y2="20"/></g></svg>'},
+  {name:'green', hex:'#2ecc71', emoji:'🟢', shape:'tree',
+   svg:'<svg viewBox="0 0 100 100"><polygon points="50,10 20,50 35,50 15,80 85,80 65,50 80,50" fill="currentColor"/><rect x="43" y="80" width="14" height="15" rx="2" fill="#8B4513"/></svg>'},
+  {name:'blue', hex:'#3498db', emoji:'🔵', shape:'drop',
+   svg:'<svg viewBox="0 0 100 100"><path d="M50 10 C50 10 20 50 20 65 C20 82 33 95 50 95 C67 95 80 82 80 65 C80 50 50 10 50 10Z" fill="currentColor"/></svg>'},
+  {name:'orange', hex:'#e67e22', emoji:'🟠', shape:'orange',
+   svg:'<svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="35" fill="currentColor"/><path d="M50 20 Q48 12 44 10 Q50 8 56 10 Q52 12 50 20Z" fill="#2ecc71"/></svg>'}
+];
+var paintDone = 0;
+var paintTimers = {};
+
+function initPaintShapes() {
+  var grid = document.getElementById('paintShapes');
+  grid.innerHTML = '';
+  paintDone = 0;
+  paintTimers = {};
+  SHAPES.forEach(function(s, i) {
+    var el = document.createElement('div');
+    el.className = 'paint-shape unpainted';
+    el.setAttribute('data-idx', i);
+    el.style.color = '#ccc';
+    el.innerHTML = s.svg +
+      '<div class="paint-fill" style="background:' + s.hex + '"></div>' +
+      '<div class="label" style="color:' + s.hex + '">' + s.name + '</div>';
+    // Touch/hold to fill
+    var filling = false;
+    var fillPct = 0;
+    var fillEl = el.querySelector('.paint-fill');
+
+    function startFill(e) {
+      e.preventDefault();
+      if(el.classList.contains('done')) return;
+      filling = true;
+      paintTimers[i] = setInterval(function() {
+        if(!filling) return;
+        fillPct = Math.min(fillPct + 4, 100);
+        fillEl.style.height = fillPct + '%';
+        if(fillPct >= 100) {
+          filling = false;
+          clearInterval(paintTimers[i]);
+          finishPaint(el, s);
+        }
+      }, 50);
+    }
+    function stopFill(e) {
+      filling = false;
+      if(paintTimers[i]) clearInterval(paintTimers[i]);
+    }
+
+    el.addEventListener('mousedown', startFill);
+    el.addEventListener('mouseup', stopFill);
+    el.addEventListener('mouseleave', stopFill);
+    el.addEventListener('touchstart', startFill, {passive:false});
+    el.addEventListener('touchend', stopFill);
+    el.addEventListener('touchcancel', stopFill);
+    grid.appendChild(el);
+  });
+}
+
+function finishPaint(el, shape) {
+  el.classList.remove('unpainted');
+  el.classList.add('done');
+  el.style.color = shape.hex;
+  say(shape.name);
+  var rect = el.getBoundingClientRect();
+  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+  paintDone++;
+  if(paintDone >= 5) {
+    setTimeout(function(){ burstStars(window.innerWidth/2, window.innerHeight/2); }, 500);
   }
 }
 
@@ -546,8 +626,8 @@ function flipCard(card) {
 
 // === INIT ===
 function init() {
-  initNewWords();
-  initPaintGame();
+  initBalloons();
+  initPaintShapes();
   goModule(1);
 }
 init();
