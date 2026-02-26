@@ -81,6 +81,11 @@ body{background:linear-gradient(135deg,#ffd3e0 0%,#c9b1ff 50%,#a0c4ff 100%);disp
 @keyframes floatUp{0%{bottom:-120px;opacity:1}100%{bottom:110%;opacity:1}}
 @keyframes balloonPop{0%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}100%{transform:scale(0);opacity:0}}
 .balloon-target{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:8px}
+.balloon-collected{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:8px;min-height:44px}
+.balloon-collected-item{padding:10px 20px;border-radius:28px;font-size:22px;font-weight:800;color:#fff;
+  cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);animation:popIn .5s ease;
+  -webkit-tap-highlight-color:transparent;transition:transform .15s}
+.balloon-collected-item:active{transform:scale(.9)}
 .balloon-score{font-size:16px;color:#fff;margin-top:6px}
 
 /* Drag & Sort game */
@@ -227,6 +232,7 @@ body{padding-bottom:70px}
 </div>
   <div class="balloon-target" id="balloonTarget"></div>
   <div class="score-bar" id="balloonScoreBar"></div>
+  <div class="balloon-collected" id="balloonCollected"></div>
   <div class="balloon-area" id="balloonArea"></div>
   <div class="balloon-score" id="balloonScore"></div>
 </div>
@@ -474,6 +480,7 @@ function startBalloonGame() {
     sb.appendChild(s);
   }
   document.getElementById('balloonArea').innerHTML = '';
+  document.getElementById('balloonCollected').innerHTML = '';
   nextBalloonRound();
 }
 
@@ -544,6 +551,20 @@ function popBalloon(el, word, e) {
     el.classList.add('pop');
     var rect = el.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    // Add collected badge (clickable to replay)
+    var badge = document.createElement('div');
+    badge.className = 'balloon-collected-item';
+    badge.style.background = balloonColors[(balloonRound * 4) % balloonColors.length];
+    badge.textContent = word.emoji + ' ' + word.name;
+    badge.onclick = function() {
+      say(word.name);
+      badge.style.animation = 'none';
+      void badge.offsetWidth;
+      badge.style.animation = 'popIn .4s ease';
+      var r = badge.getBoundingClientRect();
+      burstStars(r.left + r.width/2, r.top + r.height/2);
+    };
+    document.getElementById('balloonCollected').appendChild(badge);
     balloonScore++;
     var stars = document.getElementById('balloonScoreBar').children;
     if(balloonScore <= stars.length) stars[balloonScore - 1].classList.add('earned');
