@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 5
+- 当前天: Day 6
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -70,6 +70,14 @@
 - 游戏3: Memory Flip（身体）
 - 游戏4: Drag & Sort（食物）
 - 游戏5: Grand Mix（全部混合）
+- 反馈: 待确认
+
+### 2025-03-02 (Day 6) - Numbers 🔢
+- 新词: one, two, three, four, five
+- 课件: lessons/day6-numbers.html
+- 复习词: apple, nose, dog（3个，来自Day1-4）
+- 互动游戏1: 数数涂色（Count & Color）
+- 综合游戏: 打地鼠（Number Whack）
 - 反馈: 待确认
 
 ## 计划预览
