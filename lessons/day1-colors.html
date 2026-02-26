@@ -525,8 +525,13 @@ function buildListenGrid() {
     var card = document.createElement('div');
     card.className = 'card';
     card.setAttribute('data-name', c.name);
-    card.style.background = c.hex + '22';
-    card.innerHTML = '<div class="icon">' + c.emoji + '</div><div class="label" style="opacity:1;color:' + c.hex + '">' + c.name + '</div>';
+    card.style.background = 'transparent';
+    card.style.boxShadow = 'none';
+    card.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center">' +
+      '<div class="balloon-body" style="background:' + c.hex + ';width:70px;height:90px;display:flex;align-items:center;justify-content:center">' +
+      '<span style="font-size:16px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3)">' + c.name + '</span></div>' +
+      '<div class="balloon-knot" style="border-top-color:' + c.hex + '"></div>' +
+      '<div class="balloon-string"></div></div>';
     card.onclick = function(e) { checkListen(this, c, e); };
     grid.appendChild(card);
   });
