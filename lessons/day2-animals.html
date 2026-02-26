@@ -131,6 +131,27 @@ body{background:linear-gradient(135deg,#c3fae8 0%,#81ecec 50%,#74b9ff 100%);disp
   .mole-hole .mole{font-size:60px}
   .complete-emoji{font-size:120px}
 }
+
+/* Bottom nav bar */
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;
+  padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
+  cursor:pointer;transition:transform .2s,opacity .3s}
+.nav-btn:active{transform:scale(.93)}
+.nav-prev{background:#fff;color:#00b894;border:2px solid #00b894}
+.nav-next{color:#fff;background:linear-gradient(135deg,#a29bfe,#6c5ce7);
+  box-shadow:0 4px 15px rgba(108,92,231,.4)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
+body{padding-bottom:70px}
+
+/* Expandable teacher guide */
+.tg-expand{display:none;margin-top:8px;text-align:left;font-size:12px;line-height:1.6;
+  background:rgba(0,0,0,.05);border-radius:8px;padding:8px 12px}
+.tg-expand.open{display:block}
+.tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
+.teacher-guide{cursor:pointer;user-select:none}
 </style>
 </head>
 <body>
@@ -146,33 +167,42 @@ body{background:linear-gradient(135deg,#c3fae8 0%,#81ecec 50%,#74b9ff 100%);disp
 <!-- Module 1: Review Warm-up (Day1 colors: red, blue, yellow) -->
 <div class="module" id="mod1">
   <div class="module-title">🌈 Color Review!</div>
-  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's remember our colors! 还记得这些颜色吗？Tap the right color!"</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's remember our colors! 还记得这些颜色吗？Tap the right color!"</span>
+  <ul class="tg-expand open"><li>🗣️ 复习颜色造句: "What color is this? → It's red!" "Do you like blue? → Yes, I like blue!"</li><li>🎯 指东西: "Find something green in the room! → Here! It's green!"</li><li>👏 答对击掌: "High five! You remember!"</li></ul>
+</div>
   <div class="prompt-text" id="reviewPrompt"></div>
   <div class="score-bar" id="reviewScoreBar"></div>
   <div class="card-grid" id="reviewGrid"></div>
-  <button class="next-btn" id="nextBtn1" onclick="goModule(2)">Meet the Animals! ➡️</button>
 </div>
 
 <!-- Module 2: New Words - Animals -->
 <div class="module" id="mod2">
   <div class="module-title">🐾 New Animals!</div>
-  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's meet some animals! Tap each gray picture to see who's hiding! 点击灰色图片看看是谁！"</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's meet some animals! Tap each gray picture to see who's hiding! 点击灰色图片看看是谁！"</span>
+  <ul class="tg-expand open"><li>🗣️ 揭示后造句: "What is it? → It's a cat!" "I like cats!" "The cat says meow!"</li><li>🐾 动物叫声: "What does the cat say? → Meow! What does the duck say? → Quack!"</li><li>🤸 模仿动作: "Can you walk like a duck? Can you jump like a frog?"</li></ul>
+</div>
   <div class="card-grid" id="newWordsGrid"></div>
-  <button class="next-btn" id="nextBtn2" onclick="goModule(3)">Next Game! ➡️</button>
 </div>
 
 <!-- Module 3: Egg Hatch Game (孵蛋) -->
 <div class="module" id="mod3">
   <div class="module-title">🥚 Hatch the Eggs!</div>
-  <div class="teacher-guide">🎤 <b>老师说：</b>"Look at these eggs! Tap to hatch them! What animal is inside? 点击蛋看看里面是什么动物！"</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>老师说：</b>"Look at these eggs! Tap to hatch them! What animal is inside? 点击蛋看看里面是什么动物！"</span>
+  <ul class="tg-expand open"><li>🗣️ 孵蛋时说: "What's inside? → It's a fish! The fish can swim!"</li><li>🥚 假装敲蛋: 用手敲桌子 "Knock knock! Who's inside?"</li><li>🎭 角色扮演: "I'm a cat! Meow meow! Now you be a duck!"</li></ul>
+</div>
   <div class="card-grid" id="eggGrid"></div>
-  <button class="next-btn" id="nextBtn3" onclick="goModule(4)">Next! ➡️</button>
 </div>
 
 <!-- Module 4: Listen & Find -->
 <div class="module" id="mod4">
   <div class="module-title">👂 Listen & Find!</div>
-  <div class="teacher-guide" id="listenGuide">🎤 <b>老师说：</b>"Where is the CAT? 找到猫！Tap it!"</div>
+  <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>老师说：</b>"Where is the CAT? 找到猫！Tap it!"</span>
+  <ul class="tg-expand open"><li>🗣️ 找到后说: "Where is the cat? → Here is the cat! The cat is here!"</li><li>👂 听声音猜: "Meow meow! What animal? → It's a cat!"</li><li>🎵 唱 Old MacDonald: "Old MacDonald had a farm... and on his farm he had a cat!"</li></ul>
+</div>
   <div class="score-bar" id="scoreBar"></div>
   <div class="prompt-text" id="promptText"></div>
   <div class="card-grid" id="listenGrid"></div>
@@ -181,7 +211,10 @@ body{background:linear-gradient(135deg,#c3fae8 0%,#81ecec 50%,#74b9ff 100%);disp
 <!-- Module 5: Whack-a-Mole -->
 <div class="module" id="mod5">
   <div class="module-title">🔨 Whack-a-Mole!</div>
-  <div class="teacher-guide" id="moleGuide">🎤 <b>老师说：</b>"Quick! Tap the animal when it pops up! 快！动物冒出来就点它！"</div>
+  <div class="teacher-guide" id="moleGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>老师说：</b>"Quick! Tap the animal when it pops up! 快！动物冒出来就点它！"</span>
+  <ul class="tg-expand open"><li>🗣️ 打地鼠时喊: "It's a frog! Tap the frog! → I got the frog!"</li><li>⚡ 加速挑战: "Faster! What is it? → Duck! Quick, tap it!"</li><li>📝 总复习: "How many animals did we learn? Cat, duck, fish, frog, bird — five!"</li></ul>
+</div>
   <div class="mole-target" id="moleTarget"></div>
   <div class="score-bar" id="moleScoreBar"></div>
   <div class="mole-grid" id="moleGrid"></div>
@@ -194,7 +227,8 @@ body{background:linear-gradient(135deg,#c3fae8 0%,#81ecec 50%,#74b9ff 100%);disp
     <div class="complete-emoji">🎉</div>
     <div class="complete-text">Great Job, Ranran!</div>
     <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned 5 animals today! 🐾</div>
-    <button class="next-btn show" style="margin-top:20px" onclick="location.href='../index.html'">🏠 Home</button>
+    <button class="next-btn show" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="next-btn show" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff" onclick="location.href='../index.html'">🏠 Home</button>
   </div>
 </div>
 
@@ -463,13 +497,13 @@ function buildListenGrid() {
 function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('promptText').textContent = '🎉 All found!';
-    document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the animals! 太棒了！"';
-    setTimeout(function(){ goModule(5); }, 1500);
+    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the animals! 太棒了！"';
+    // teacher controls nav
     return;
   }
   var target = ANIMALS[listenOrder[listenRound]];
   document.getElementById('promptText').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
-  document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Where is the ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Where is the ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
 }
 
 function checkListen(card, animal, e) {
@@ -523,15 +557,15 @@ function startMoleGame() {
 function nextMoleRound() {
   if(moleRound >= MOLE_TOTAL_ROUNDS) {
     document.getElementById('moleTarget').textContent = '🎉 Great job!';
-    document.getElementById('moleGuide').innerHTML = '🎤 <b>老师说：</b>"Wow, you caught ' + moleScore + ' animals! 太厉害了！"';
-    setTimeout(function(){ goModule(6); }, 1500);
+    document.getElementById('moleGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Wow, you caught ' + moleScore + ' animals! 太厉害了！"';
+    // teacher controls nav
     return;
   }
   // Pick a target animal to find
   var allAnimals = ANIMALS.concat([REVIEW[0], REVIEW[1]]); // mix in some colors
   moleTargetAnimal = ANIMALS[moleRound % ANIMALS.length];
   document.getElementById('moleTarget').textContent = 'Whack: ' + moleTargetAnimal.name.toUpperCase() + ' ' + moleTargetAnimal.emoji;
-  document.getElementById('moleGuide').innerHTML = '🎤 <b>老师说：</b>"Quick! Find the ' + moleTargetAnimal.name.toUpperCase() + '! 快找到' + moleTargetAnimal.name + '！"';
+  document.getElementById('moleGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Quick! Find the ' + moleTargetAnimal.name.toUpperCase() + '! 快找到' + moleTargetAnimal.name + '！"';
 
   // Pop up animals in random holes
   var holes = document.querySelectorAll('.mole-hole');
@@ -607,6 +641,44 @@ function init() {
   goModule(1);
 }
 init();
+
+// === NAVIGATION ===
+function updateNav() {
+  document.getElementById('navPrev').disabled = (currentModule <= 1);
+  document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
+  document.getElementById('navProgress').textContent = Math.min(currentModule, 5) + '/5';
+  document.querySelector('.nav-bar').style.display = (currentModule >= 6) ? 'none' : '';
+  // Auto-expand teacher guide on module enter
+  var mod = document.getElementById('mod' + currentModule);
+  if(mod) {
+    var expand = mod.querySelector('.tg-expand');
+    var arrow = mod.querySelector('.tg-arrow');
+    if(expand && !expand.classList.contains('open')) { expand.classList.add('open'); if(arrow) arrow.textContent = '▼'; }
+  }
+}
+function goNext() {
+  if(currentModule < 6) goModule(currentModule + 1);
+}
+function goPrev() {
+  if(currentModule > 1) goModule(currentModule - 1);
+}
+
+// Patch goModule to update nav
+var _origGoModule = goModule;
+goModule = function(n) {
+  _origGoModule(n);
+  updateNav();
+};
+
+// Init nav
+updateNav();
 </script>
+
+<!-- Bottom Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
+</div>
 </body>
 </html>
