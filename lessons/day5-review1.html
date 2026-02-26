@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 5 - Review Day 📝</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#a1c4fd 0%,#c2e9fb 50%,#e0f7fa 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
+
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
+  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#2980b9}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#2980b9;transform:scale(1.2)}
+.top-bar .dot.done{background:#2ecc71}
+
+.main{width:100%;max-width:500px;flex:1;overflow:hidden;padding:16px 12px 12px;display:flex;flex-direction:column}
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
+.module.active{display:flex}
+.module-title{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:6px}
+
+.teacher-guide{background:rgba(255,255,255,.85);border-radius:10px;padding:8px 14px;font-size:13px;color:#666;
+  margin-bottom:10px;text-align:center;width:100%;line-height:1.4;cursor:pointer;user-select:none}
+.teacher-guide b{color:#2980b9}
+.tg-expand{display:none;margin-top:8px;text-align:left;font-size:12px;line-height:1.6;
+  background:rgba(41,128,185,.12);border-radius:8px;padding:8px 12px}
+.tg-expand.open{display:block}
+.tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
+
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .icon{font-size:80px;line-height:1}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+
+.prompt-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,.2);
+  margin-bottom:10px;min-height:30px;text-align:center}
+.score-bar{display:flex;gap:6px;margin-bottom:8px}
+.star{font-size:22px;opacity:.3;transition:opacity .3s,transform .3s}
+.star.earned{opacity:1;animation:popIn .4s ease}
+
+.next-btn{margin-top:12px;padding:12px 36px;border:none;border-radius:30px;font-size:18px;font-weight:700;
+  color:#fff;background:linear-gradient(135deg,#74b9ff,#2980b9);cursor:pointer;
+  box-shadow:0 4px 15px rgba(41,128,185,.4);transition:transform .2s}
+.next-btn:active{transform:scale(.93)}
+
+/* Whack-a-mole */
+.whack-area{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+.whack-hole{background:rgba(255,255,255,.3);border-radius:14px;min-height:100px;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;
+  -webkit-tap-highlight-color:transparent;position:relative;overflow:hidden}
+.whack-hole:active{transform:scale(.95)}
+.whack-mole{font-size:60px;position:absolute;bottom:-80px;transition:bottom .3s ease;line-height:1}
+.whack-hole.up .whack-mole{bottom:10px}
+.whack-hole.hit .whack-mole{animation:popIn .3s ease}
+
+/* Sort game */
+.sort-area{width:100%;flex:1;display:flex;flex-direction:column;gap:10px}
+.sort-zones{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%}
+.sort-zone{background:rgba(255,255,255,.3);border:3px dashed rgba(255,255,255,.6);border-radius:14px;
+  min-height:90px;display:flex;flex-direction:column;align-items:center;padding:8px 4px;gap:4px;
+  transition:background .3s;cursor:pointer}
+.sort-zone .zone-label{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.sort-zone .placed-item{background:rgba(255,255,255,.8);border-radius:8px;padding:4px 8px;font-size:14px;font-weight:600}
+.sort-items{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:4px}
+.sort-item{background:rgba(255,255,255,.9);border-radius:12px;padding:8px 12px;cursor:pointer;
+  display:flex;align-items:center;gap:6px;font-size:16px;font-weight:700;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);transition:transform .2s,opacity .2s}
+.sort-item .item-icon{font-size:32px}
+.sort-item.placed{background:#d4edda;pointer-events:none;opacity:.5}
+.sort-item.wrong{animation:shake .4s ease}
+.sort-item.selected{background:#bee5eb;box-shadow:0 0 0 3px #2980b9}
+
+/* Memory flip */
+.mem-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:100px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent}
+.mem-card:active{transform:scale(.95)}
+.mem-card .mem-front{font-size:50px;display:none}
+.mem-card .mem-back{font-size:40px}
+.mem-card.flipped .mem-front{display:block}
+.mem-card.flipped .mem-back{display:none}
+.mem-card.matched{background:#d4edda;pointer-events:none}
+
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.complete-emoji{font-size:90px;animation:popIn .6s ease}
+.complete-text{font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;font-size:20px;animation:starFly 1s ease-out forwards}
+
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+@media(min-width:768px){
+  .top-bar{max-width:800px;padding:16px 24px}
+  .top-bar .title{font-size:22px}
+  .main{max-width:800px;padding:24px 24px 20px}
+  .teacher-guide{padding:12px 18px;font-size:15px}
+  .card{padding:20px;min-height:140px;border-radius:20px}
+  .card .icon{font-size:120px}
+  .card .label{font-size:22px}
+  .complete-emoji{font-size:120px}
+}
+
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;
+  padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
+  cursor:pointer;transition:transform .2s,opacity .3s}
+.nav-btn:active{transform:scale(.93)}
+.nav-prev{background:#fff;color:#2980b9;border:2px solid #2980b9}
+.nav-next{color:#fff;background:linear-gradient(135deg,#74b9ff,#2980b9);
+  box-shadow:0 4px 15px rgba(41,128,185,.4)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="title">📝 Day 5 · Review Day</div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="main" id="main">
+
+<!-- Module 1: Listen & Find (Colors) -->
+<div class="module" id="mod1">
+  <div class="module-title">🎨 Color Hunt!</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> 🎤 <b>Teacher:</b> "Let's find the colors! Tap the right one!"
+  <ul class="tg-expand open">
+    <li>🗣️ "What color is this? It's red! Find red!"</li>
+    <li>🎨 "Look around the room! What is blue?"</li>
+    <li>🌈 "Red, blue, yellow, green, orange! Rainbow!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar1"></div>
+  <div class="prompt-text" id="prompt1"></div>
+  <div class="card-grid" id="grid1"></div>
+</div>
+
+<!-- Module 2: Whack-a-mole (Animals) -->
+<div class="module" id="mod2">
+  <div class="module-title">🐾 Animal Whack!</div>
+  <div class="teacher-guide" id="whackGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Quick! Tap the right animal!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Where is the cat? Tap it fast!"</li>
+    <li>🐶 "Woof woof! What animal says woof?"</li>
+    <li>🎵 "Old MacDonald had a farm!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar2"></div>
+  <div class="prompt-text" id="prompt2"></div>
+  <div class="whack-area" id="whackArea"></div>
+</div>
+
+<!-- Module 3: Memory Flip (Body) -->
+<div class="module" id="mod3">
+  <div class="module-title">🧍 Body Memory!</div>
+  <div class="teacher-guide" id="memGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Find the matching body parts!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Where is the head? Find another head!"</li>
+    <li>🤚 "Touch your nose! Now find nose!"</li>
+    <li>🎵 "Head, shoulders, knees and toes!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar3"></div>
+  <div class="card-grid" id="memGrid" style="grid-template-columns:repeat(3,1fr)"></div>
+</div>
+
+<!-- Module 4: Drag & Sort (Food) -->
+<div class="module" id="mod4">
+  <div class="module-title">🍎 Food Sort!</div>
+  <div class="teacher-guide" id="sortGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Sort the food! Fruits or Others?"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Apple is a fruit! Where does it go?"</li>
+    <li>🥛 "Milk is a drink! Not a fruit!"</li>
+    <li>🍌 "Banana is yellow! And it's a fruit!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar4"></div>
+  <div class="sort-area" id="sortArea">
+    <div class="sort-items" id="sortItems"></div>
+    <div class="sort-zones" id="sortZones"></div>
+  </div>
+</div>
+
+<!-- Module 5: Grand Mix (all 20 words) -->
+<div class="module" id="mod5">
+  <div class="module-title">🌟 Super Challenge!</div>
+  <div class="teacher-guide" id="mixGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Find them all! Colors, animals, body, food!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "This is the big challenge! All the words!"</li>
+    <li>🏆 "You are a super star! Let's go!"</li>
+    <li>🎉 "How many can you find?"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="scoreBar5"></div>
+  <div class="prompt-text" id="prompt5"></div>
+  <div class="card-grid" id="grid5"></div>
+</div>
+
+<!-- Complete -->
+<div class="module" id="mod6">
+  <div class="complete-screen">
+    <div class="complete-emoji">🏆</div>
+    <div class="complete-text">Super Star!</div>
+    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You reviewed all 20 words! 🌟</div>
+    <button class="next-btn" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="next-btn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff" onclick="location.href='../index.html'">🏠 Home</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// === DATA (all Day 1-4 words) ===
+var COLORS = [
+  {name:'red',emoji:'🔴'},{name:'blue',emoji:'🔵'},{name:'yellow',emoji:'🟡'},
+  {name:'green',emoji:'🟢'},{name:'orange',emoji:'🟠'}
+];
+var ANIMALS = [
+  {name:'cat',emoji:'🐱'},{name:'dog',emoji:'🐶'},{name:'fish',emoji:'🐟'},
+  {name:'bird',emoji:'🐦'},{name:'duck',emoji:'🦆'}
+];
+var BODY = [
+  {name:'head',emoji:'🧑'},{name:'eyes',emoji:'👀'},{name:'ears',emoji:'👂'},
+  {name:'nose',emoji:'👃'},{name:'mouth',emoji:'👄'}
+];
+var FOOD = [
+  {name:'apple',emoji:'🍎'},{name:'banana',emoji:'🍌'},{name:'milk',emoji:'🥛'},
+  {name:'bread',emoji:'🍞'},{name:'egg',emoji:'🥚'}
+];
+var ALL = COLORS.concat(ANIMALS).concat(BODY).concat(FOOD);
+var MODULES = 6, currentModule = 0;
+
+function burstStars(x,y){
+  var c=document.createElement('div');c.className='star-burst';
+  c.style.left=x+'px';c.style.top=y+'px';
+  for(var i=0;i<8;i++){var s=document.createElement('div');s.className='star-particle';
+    var a=(i/8)*Math.PI*2,d=60+Math.random()*40;
+    s.style.setProperty('--tx',Math.cos(a)*d+'px');s.style.setProperty('--ty',Math.sin(a)*d+'px');
+    s.textContent=['⭐','🌟','✨','💫'][i%4];c.appendChild(s);}
+  document.body.appendChild(c);setTimeout(function(){c.remove();},1100);
+}
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function makeStars(id,n){var sb=document.getElementById(id);sb.innerHTML='';for(var i=0;i<n;i++){var s=document.createElement('div');s.className='star';s.textContent='⭐';sb.appendChild(s);}}
+
+// === NAV ===
+function updateDots(){var d=document.getElementById('dots');d.innerHTML='';for(var i=1;i<=5;i++){var e=document.createElement('div');e.className='dot'+(i===currentModule?' active':'')+(i<currentModule?' done':'');d.appendChild(e);}}
+function goModule(n){currentModule=n;document.querySelectorAll('.module').forEach(function(m){m.classList.remove('active');});var t=document.getElementById('mod'+n);if(t)t.classList.add('active');updateDots();updateNav();
+  if(n===1)startMod1();if(n===2)startMod2();if(n===3)startMod3();if(n===4)startMod4();if(n===5)startMod5();}
+function updateNav(){document.getElementById('navPrev').disabled=(currentModule<=1);document.getElementById('navNext').textContent=(currentModule>=5)?'Done! 🎉':'Next ➡️';document.getElementById('navProgress').textContent=Math.min(currentModule,5)+'/5';document.querySelector('.nav-bar').style.display=(currentModule>=6)?'none':'';}
+function goNext(){if(currentModule<6)goModule(currentModule+1);}
+function goPrev(){if(currentModule>1)goModule(currentModule-1);}
+
+// === MOD 1: Listen & Find Colors ===
+var m1Round=0,m1Order=[];
+function startMod1(){m1Round=0;m1Order=shuffle([0,1,2,3,4]);makeStars('scoreBar1',5);buildGrid1();showPrompt1();}
+function buildGrid1(){var g=document.getElementById('grid1');g.innerHTML='';shuffle(COLORS).forEach(function(c){var d=document.createElement('div');d.className='card';d.innerHTML='<div class="icon">'+c.emoji+'</div><div class="label">'+c.name+'</div>';d.onclick=function(e){checkMod1(d,c,e);};g.appendChild(d);});}
+function showPrompt1(){if(m1Round>=5){document.getElementById('prompt1').textContent='🎉 All colors found!';return;}var t=COLORS[m1Order[m1Round]];document.getElementById('prompt1').textContent='Find: '+t.name.toUpperCase()+' '+t.emoji;}
+function checkMod1(card,item,e){if(m1Round>=5)return;var t=COLORS[m1Order[m1Round]];if(item.name===t.name){var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);document.getElementById('scoreBar1').children[m1Round].classList.add('earned');m1Round++;setTimeout(function(){buildGrid1();showPrompt1();},600);}else{card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MOD 2: Whack-a-mole Animals ===
+var m2Round=0,m2Score=0,m2Target=null,m2Timer=null,m2Holes=[];
+function startMod2(){m2Round=0;m2Score=0;makeStars('scoreBar2',5);buildWhackArea();nextWhack();}
+function buildWhackArea(){var a=document.getElementById('whackArea');a.innerHTML='';a.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%';m2Holes=[];for(var i=0;i<6;i++){var h=document.createElement('div');h.className='whack-hole';h.innerHTML='<div class="whack-mole"></div>';h.onclick=(function(hole){return function(e){hitWhack(hole,e);};})(h);a.appendChild(h);m2Holes.push(h);}}
+function nextWhack(){if(m2Round>=5){document.getElementById('prompt2').textContent='🎉 Great reflexes!';document.getElementById('whackGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "Amazing! You caught '+m2Score+' animals!"';return;}m2Target=ANIMALS[m2Round];document.getElementById('prompt2').textContent='Tap: '+m2Target.emoji+' '+m2Target.name.toUpperCase();document.getElementById('whackGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "Find the '+m2Target.name+'! Quick!"';m2Holes.forEach(function(h){h.classList.remove('up','hit');});var picks=shuffle(ANIMALS).slice(0,3);var hasTarget=false;picks.forEach(function(p){if(p.name===m2Target.name)hasTarget=true;});if(!hasTarget)picks[0]=m2Target;picks=shuffle(picks);var slots=shuffle([0,1,2,3,4,5]).slice(0,3);for(var i=0;i<3;i++){(function(idx,animal){setTimeout(function(){m2Holes[idx].querySelector('.whack-mole').textContent=animal.emoji;m2Holes[idx].setAttribute('data-name',animal.name);m2Holes[idx].classList.add('up');},i*400);})(slots[i],picks[i]);}clearTimeout(m2Timer);m2Timer=setTimeout(function(){m2Round++;nextWhack();},4000);}
+function hitWhack(hole,e){if(!hole.classList.contains('up'))return;var name=hole.getAttribute('data-name');if(name===m2Target.name){clearTimeout(m2Timer);hole.classList.add('hit');var r=hole.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);m2Score++;var stars=document.getElementById('scoreBar2').children;if(m2Score<=stars.length)stars[m2Score-1].classList.add('earned');m2Round++;setTimeout(function(){m2Holes.forEach(function(h){h.classList.remove('up','hit');});nextWhack();},800);}else{hole.style.animation='shake .4s ease';setTimeout(function(){hole.style.animation='';},500);}}
+
+// === MOD 3: Memory Flip Body ===
+var memCards=[],memFlipped=[],memMatched=0,memLocked=false;
+function startMod3(){memFlipped=[];memMatched=0;memLocked=false;makeStars('scoreBar3',4);
+  var picks=shuffle(BODY).slice(0,4);memCards=shuffle(picks.concat(picks.slice()));buildMemGrid();}
+function buildMemGrid(){var g=document.getElementById('memGrid');g.innerHTML='';
+  memCards.forEach(function(f,i){var c=document.createElement('div');c.className='mem-card';
+    c.innerHTML='<div class="mem-front">'+f.emoji+'<div style="font-size:14px;font-weight:700;margin-top:2px">'+f.name+'</div></div><div class="mem-back">❓</div>';
+    c.onclick=function(){flipMem(c,i);};g.appendChild(c);});}
+function flipMem(card,idx){if(memLocked||card.classList.contains('flipped')||card.classList.contains('matched'))return;
+  card.classList.add('flipped');memFlipped.push({card:card,idx:idx,name:memCards[idx].name});
+  if(memFlipped.length===2){memLocked=true;var a=memFlipped[0],b=memFlipped[1];
+    if(a.name===b.name){setTimeout(function(){a.card.classList.add('matched');b.card.classList.add('matched');
+      var r=b.card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+      var stars=document.getElementById('scoreBar3').children;if(memMatched<stars.length)stars[memMatched].classList.add('earned');
+      memMatched++;memFlipped=[];memLocked=false;
+      if(memMatched>=4)document.getElementById('memGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "All matched! Great memory!"';},500);
+    }else{setTimeout(function(){a.card.classList.remove('flipped');b.card.classList.remove('flipped');memFlipped=[];memLocked=false;},800);}}}
+
+// === MOD 4: Sort Food ===
+var SORT_CATS=[{label:'🍇 Fruits',words:['apple','banana']},{label:'🍳 Others',words:['milk','bread','egg']}];
+var sortScore=0,selectedSortItem=null;
+function startMod4(){sortScore=0;selectedSortItem=null;makeStars('scoreBar4',5);buildSortItems();buildSortZones();}
+function buildSortItems(){var w=document.getElementById('sortItems');w.innerHTML='';
+  shuffle(FOOD).forEach(function(f){var el=document.createElement('div');el.className='sort-item';
+    el.innerHTML='<span class="item-icon">'+f.emoji+'</span> '+f.name;
+    el.onclick=function(){selectSort(el,f);};w.appendChild(el);});}
+function buildSortZones(){var w=document.getElementById('sortZones');w.innerHTML='';
+  SORT_CATS.forEach(function(cat){var z=document.createElement('div');z.className='sort-zone';
+    z.innerHTML='<div class="zone-label">'+cat.label+'</div>';
+    z.onclick=function(){dropSort(z,cat);};w.appendChild(z);});}
+function selectSort(el,food){if(el.classList.contains('placed'))return;
+  document.querySelectorAll('.sort-item').forEach(function(s){s.classList.remove('selected');});
+  el.classList.add('selected');selectedSortItem={el:el,food:food};}
+function dropSort(zone,cat){if(!selectedSortItem)return;var name=selectedSortItem.food.name;
+  if(cat.words.indexOf(name)>=0){selectedSortItem.el.classList.remove('selected');selectedSortItem.el.classList.add('placed');
+    var p=document.createElement('div');p.className='placed-item';p.textContent=selectedSortItem.food.emoji+' '+name;zone.appendChild(p);
+    var r=zone.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    var stars=document.getElementById('scoreBar4').children;if(sortScore<stars.length)stars[sortScore].classList.add('earned');
+    sortScore++;selectedSortItem=null;
+    if(sortScore>=5)document.getElementById('sortGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "All sorted! Yummy!"';
+  }else{selectedSortItem.el.classList.add('wrong');selectedSortItem.el.classList.remove('selected');
+    var prev=selectedSortItem;setTimeout(function(){prev.el.classList.remove('wrong');},500);selectedSortItem=null;}}
+
+// === MOD 5: Grand Mix Listen & Find ===
+var m5Round=0,m5Order=[],m5Pool=[];
+function startMod5(){m5Round=0;m5Pool=shuffle(ALL).slice(0,8);m5Order=shuffle([0,1,2,3,4,5,6,7]);makeStars('scoreBar5',8);buildGrid5();showPrompt5();}
+function buildGrid5(){var g=document.getElementById('grid5');g.innerHTML='';
+  shuffle(m5Pool).forEach(function(w){var c=document.createElement('div');c.className='card';
+    c.innerHTML='<div class="icon">'+w.emoji+'</div><div class="label">'+w.name+'</div>';
+    c.onclick=function(e){checkMod5(c,w,e);};g.appendChild(c);});}
+function showPrompt5(){if(m5Round>=8){document.getElementById('prompt5').textContent='🎉 Super Star!';
+  document.getElementById('mixGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "WOW! You are amazing!"';return;}
+  var t=m5Pool[m5Order[m5Round]];document.getElementById('prompt5').textContent='Find: '+t.name.toUpperCase()+' '+t.emoji;
+  document.getElementById('mixGuide').querySelector('.tg-summary').innerHTML='🎤 <b>Teacher:</b> "Where is '+t.name+'? Find it!"';}
+function checkMod5(card,item,e){if(m5Round>=8)return;var t=m5Pool[m5Order[m5Round]];
+  if(item.name===t.name){var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);
+    document.getElementById('scoreBar5').children[m5Round].classList.add('earned');m5Round++;
+    setTimeout(function(){buildGrid5();showPrompt5();},600);
+  }else{card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === INIT ===
+goModule(1);
+</script>
+
+<div class="nav-bar">
+  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
+</div>
+</body>
+</html>
