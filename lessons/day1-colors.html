@@ -104,9 +104,16 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
   balloonRise var(--rise) ease-out forwards}
 .balloon.popped .balloon-body,.balloon.popped .balloon-knot,.balloon.popped .balloon-string{display:none}
 .balloon.popped::after{content:'💥';font-size:80px;animation:popIn .4s ease}
-.balloon-collected{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;min-height:50px}
-.balloon-badge{padding:10px 22px;border-radius:28px;font-size:22px;font-weight:800;color:#fff;
-  animation:popIn .5s ease;box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:1px}
+.balloon-collected{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;min-height:60px}
+.balloon-badge{padding:14px 28px;border-radius:32px;font-size:28px;font-weight:800;color:#fff;
+  animation:popIn .5s ease;box-shadow:0 6px 20px rgba(0,0,0,.25);letter-spacing:1px}
+.color-flash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:64px;font-weight:900;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.3);
+  pointer-events:none;z-index:999;animation:flashIn .8s ease forwards}
+@keyframes flashIn{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3)}
+  30%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}
+  60%{transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.1) translateY(-30px)}}
 @keyframes balloonFloat{0%{transform:translateX(-8px)}100%{transform:translateX(8px)}}
 @keyframes balloonRise{0%{bottom:-120px}100%{bottom:var(--top)}}
 
@@ -398,6 +405,13 @@ function popBalloon(el, color, e) {
   var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
   say(color.name);
+  // Flash color name big in center
+  var flash = document.createElement('div');
+  flash.className = 'color-flash';
+  flash.style.color = color.hex;
+  flash.textContent = color.emoji + ' ' + color.name.toUpperCase();
+  document.body.appendChild(flash);
+  setTimeout(function(){ flash.remove(); }, 900);
   // Add badge
   var badge = document.createElement('div');
   badge.className = 'balloon-badge';
