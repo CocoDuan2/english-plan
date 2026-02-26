@@ -6,660 +6,496 @@
 <title>Day 1 - Colors 🎨</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;
-  background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);
-  overflow-x:hidden;padding:0;position:relative}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);display:flex;flex-direction:column;align-items:center}
 
-/* ===== Top Bar ===== */
-.top-bar{position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
-  padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));
-  display:flex;align-items:center;gap:12px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.top-bar .home-btn{font-size:24px;text-decoration:none;cursor:pointer;flex-shrink:0}
-.top-bar .title{font-size:18px;font-weight:800;color:#e74c3c;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Top Bar - sticky */
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
+  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#e74c3c}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#e74c3c;transform:scale(1.2)}
+.top-bar .dot.done{background:#2ecc71}
 
-/* ===== Progress Dots ===== */
-.progress-dots{display:flex;gap:8px;align-items:center;flex-shrink:0}
-.dot{width:12px;height:12px;border-radius:50%;background:#ddd;transition:.3s}
-.dot.active{background:#e74c3c;transform:scale(1.3)}
-.dot.done{background:#2ecc71}
+/* Main content */
+.main{width:100%;max-width:500px;flex:1;overflow:hidden;padding:16px 12px 12px;display:flex;flex-direction:column}
 
-/* ===== Main Content ===== */
-.main{padding:16px 16px 30px;max-width:600px;margin:0 auto}
+/* Module container */
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
+.module.active{display:flex}
+.module-title{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:6px}
+.teacher-guide{background:rgba(255,255,255,.85);border-radius:10px;padding:8px 14px;font-size:13px;color:#666;
+  margin-bottom:10px;text-align:center;width:100%;line-height:1.4}
+.teacher-guide b{color:#e74c3c}
 
-/* ===== Section Common ===== */
-.section{display:none;animation:fadeIn .5s ease}
-.section.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+/* Grid layout for cards */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .icon{font-size:80px;line-height:1;transition:filter .4s,transform .4s}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.card.revealed .label{opacity:1}
 
-/* ===== Teacher Guide ===== */
-.teacher-guide{background:rgba(255,255,255,.85);border-radius:16px;padding:14px 18px;
-  margin-bottom:20px;border-left:5px solid #e74c3c;font-size:15px;color:#555;line-height:1.6}
-.teacher-guide .label{font-weight:800;color:#e74c3c;font-size:13px;margin-bottom:4px}
+/* Grayscale for unrevealed */
+.card.gray .icon{filter:grayscale(1) brightness(1.1)}
+.card.revealed .icon{filter:none;animation:popIn .4s ease}
 
-/* ===== Section Title ===== */
-.section-title{text-align:center;font-size:26px;font-weight:800;color:#fff;
-  text-shadow:2px 2px 4px rgba(0,0,0,.15);margin:10px 0 20px}
+/* Next button */
+.next-btn{margin-top:12px;padding:12px 36px;border:none;border-radius:30px;font-size:18px;font-weight:700;
+  color:#fff;background:linear-gradient(135deg,#f093fb,#f5576c);cursor:pointer;
+  box-shadow:0 4px 15px rgba(245,87,108,.4);transition:transform .2s,opacity .3s;opacity:0;pointer-events:none}
+.next-btn.show{opacity:1;pointer-events:auto;animation:bounceIn .5s ease}
+.next-btn:active{transform:scale(.93)}
 
-/* ===== Cards Grid ===== */
-.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:10px 0}
-.cards-grid.three-col{grid-template-columns:repeat(3,1fr)}
+/* Listen & Find game */
+.prompt-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,.2);
+  margin-bottom:10px;min-height:30px;text-align:center}
+.score-bar{display:flex;gap:6px;margin-bottom:8px}
+.star{font-size:22px;opacity:.3;transition:opacity .3s,transform .3s}
+.star.earned{opacity:1;animation:popIn .4s ease}
 
-/* ===== Color Card (New Words) ===== */
-.color-card{background:rgba(255,255,255,.9);border-radius:24px;padding:20px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(0,0,0,.08);
-  min-height:180px;justify-content:center;position:relative;overflow:hidden;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.color-card:active{transform:scale(.93)}
-.color-card .circle-wrap{width:120px;height:120px;display:flex;align-items:center;justify-content:center;
-  transition:.5s}
-.color-card .circle-wrap svg{width:100%;height:100%}
-.color-card .circle-wrap.gray{filter:grayscale(1) brightness(1.3)}
-.color-card .word{font-size:24px;font-weight:800;color:#333;opacity:0;transition:.4s;
-  text-transform:uppercase;letter-spacing:1px}
-.color-card .word.show{opacity:1}
-.color-card .sparkle{position:absolute;pointer-events:none;font-size:28px;
-  animation:sparkleAnim .8s ease forwards}
-@keyframes sparkleAnim{
-  0%{opacity:1;transform:translate(0,0) scale(0)}
-  50%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(1.2)}
-  100%{opacity:0;transform:translate(var(--tx2),var(--ty2)) scale(0)}
-}
+/* Memory game */
+.memory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.mem-card{background:#fff;border-radius:12px;min-height:100px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent;
+  position:relative;perspective:600px}
+.mem-card-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  transition:transform .4s;transform-style:preserve-3d;min-height:100px}
+.mem-card.flipped .mem-card-inner{transform:rotateY(180deg)}
+.mem-card .front,.mem-card .back{position:absolute;width:100%;height:100%;backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px}
+.mem-card .front{background:linear-gradient(135deg,#a18cd1,#fbc2eb);font-size:36px;color:#fff}
+.mem-card .back{background:#fff;transform:rotateY(180deg)}
+.mem-card .back .icon{font-size:50px}
+.mem-card .back .label{font-size:14px;font-weight:700;margin-top:2px}
+.mem-card.matched{opacity:.5;pointer-events:none}
 
-/* ===== Next Button ===== */
-.next-btn{display:none;margin:30px auto 10px;padding:18px 50px;font-size:22px;font-weight:800;
-  color:#fff;background:linear-gradient(135deg,#e74c3c,#f39c12);border:none;border-radius:50px;
-  cursor:pointer;box-shadow:0 6px 20px rgba(231,76,60,.3);transition:.2s;
-  animation:pulse 1.5s infinite}
-.next-btn:active{transform:scale(.95)}
-.next-btn.show{display:block}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-
-/* ===== Greeting Section ===== */
-.greeting-area{text-align:center;padding:20px 0}
-.greeting-emoji{font-size:100px;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-.greeting-text{font-size:28px;font-weight:800;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.15);
-  margin:20px 0}
-.greeting-btns{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:20px}
-.greeting-btn{padding:20px 36px;font-size:24px;font-weight:800;border:none;border-radius:24px;
-  cursor:pointer;transition:.2s;box-shadow:0 6px 16px rgba(0,0,0,.1);
-  -webkit-tap-highlight-color:transparent}
-.greeting-btn:active{transform:scale(.9)}
-.greeting-btn.red{background:#DD2E44;color:#fff}
-.greeting-btn.blue{background:#55ACEE;color:#fff}
-.greeting-btn.yellow{background:#FDCB58;color:#333}
-.greeting-btn.green{background:#78B159;color:#fff}
-.greeting-btn.orange{background:#F4900C;color:#fff}
-
-/* ===== Paint Game (涂色揭示) ===== */
-.paint-card{background:rgba(255,255,255,.9);border-radius:24px;padding:24px;
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(0,0,0,.08);
-  min-height:200px;justify-content:center;position:relative;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.paint-card:active{transform:scale(.93)}
-.paint-card .paint-obj{width:140px;height:140px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;transition:.5s;
-  border:6px dashed #ccc;position:relative}
-.paint-card .paint-obj.painted{border-color:transparent;animation:popIn .5s ease}
-.paint-card .paint-obj svg{width:110px;height:110px}
-.paint-card .paint-label{font-size:22px;font-weight:800;color:#999;transition:.3s}
-.paint-card .paint-label.show{color:#333}
-@keyframes popIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-
-/* ===== Listen & Find ===== */
-.listen-prompt{text-align:center;background:rgba(255,255,255,.9);border-radius:20px;
-  padding:20px;margin-bottom:20px;font-size:22px;font-weight:700;color:#555;
-  box-shadow:0 4px 15px rgba(0,0,0,.06)}
-.listen-prompt .prompt-word{font-size:32px;font-weight:900;color:#e74c3c;display:block;margin-top:8px}
-.listen-choice{background:rgba(255,255,255,.85);border-radius:24px;padding:20px;
-  display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
-  transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.06);min-height:160px;justify-content:center;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.listen-choice:active{transform:scale(.93)}
-.listen-choice svg{width:100px;height:100px}
-.listen-choice .choice-label{font-size:18px;font-weight:700;color:#666}
-.listen-choice.correct{animation:correctPop .5s ease;background:rgba(46,204,113,.2);
-  border:3px solid #2ecc71}
-.listen-choice.wrong{animation:shake .4s ease;background:rgba(231,76,60,.1);
-  border:3px solid #e74c3c}
-@keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-
-/* ===== Memory Game ===== */
-.memory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:10px 0}
-.memory-card{aspect-ratio:1;background:linear-gradient(135deg,#667eea,#764ba2);
-  border-radius:20px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:.3s;box-shadow:0 6px 16px rgba(0,0,0,.1);
-  font-size:40px;color:#fff;position:relative;
-  -webkit-tap-highlight-color:transparent;user-select:none}
-.memory-card:active{transform:scale(.93)}
-.memory-card .card-front{display:none;flex-direction:column;align-items:center;gap:6px}
-.memory-card .card-front svg{width:70px;height:70px}
-.memory-card .card-front .mem-label{font-size:16px;font-weight:800;color:#333}
-.memory-card .card-back{font-size:44px}
-.memory-card.flipped{background:#fff}
-.memory-card.flipped .card-front{display:flex}
-.memory-card.flipped .card-back{display:none}
-.memory-card.matched{background:#fff;opacity:.7;pointer-events:none;border:3px solid #2ecc71}
-
-/* ===== Score / Stars ===== */
-.score-bar{text-align:center;font-size:28px;margin:10px 0}
-
-/* ===== Star Burst ===== */
+/* Stars burst effect */
 .star-burst{position:fixed;pointer-events:none;z-index:999}
-.star-burst .star{position:absolute;font-size:30px;animation:starFly 1s ease forwards}
-@keyframes starFly{
-  0%{opacity:1;transform:translate(0,0) scale(0) rotate(0deg)}
-  50%{opacity:1;transform:translate(var(--sx),var(--sy)) scale(1.2) rotate(180deg)}
-  100%{opacity:0;transform:translate(var(--ex),var(--ey)) scale(0) rotate(360deg)}
-}
+.star-particle{position:absolute;font-size:20px;animation:starFly 1s ease-out forwards}
 
-/* ===== Completion ===== */
-.completion{text-align:center;padding:40px 20px}
-.completion .big-emoji{font-size:100px;animation:bounce 1s infinite}
-.completion .msg{font-size:26px;font-weight:800;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.15);margin:20px 0}
-.completion .home-link{display:inline-block;padding:16px 40px;font-size:20px;font-weight:700;
-  color:#fff;background:linear-gradient(135deg,#2ecc71,#27ae60);border-radius:50px;
-  text-decoration:none;box-shadow:0 6px 20px rgba(46,204,113,.3)}
+/* Greeting module */
+.greeting-emoji{font-size:90px;animation:wave 1s ease-in-out infinite alternate}
+.greeting-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-top:10px}
+.greeting-sub{font-size:16px;color:rgba(255,255,255,.85);margin-top:6px}
+.greeting-btns{display:flex;gap:12px;margin-top:16px}
+.greeting-btn{padding:10px 24px;border:none;border-radius:20px;font-size:16px;font-weight:700;
+  background:rgba(255,255,255,.9);color:#e74c3c;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.1);
+  transition:transform .2s}
+.greeting-btn:active{transform:scale(.93)}
 
-/* ===== Responsive ===== */
-@media(min-width:600px){
-  .color-card .circle-wrap{width:160px;height:160px}
-  .paint-card .paint-obj{width:180px;height:180px}
-  .paint-card .paint-obj svg{width:140px;height:140px}
-  .memory-card .card-front svg{width:90px;height:90px}
-  .listen-choice svg{width:120px;height:120px}
-}
+/* Paint game specific */
+.paint-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s,background .5s;-webkit-tap-highlight-color:transparent}
+.paint-card:active{transform:scale(.95)}
+.paint-card .icon{font-size:80px;line-height:1;filter:grayscale(1) brightness(1.2);transition:filter .5s,transform .4s}
+.paint-card.painted .icon{filter:none;animation:popIn .5s ease}
+.paint-card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#fff}
+.paint-card.painted .label{opacity:1}
+
+/* Completion screen */
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.complete-emoji{font-size:90px;animation:popIn .6s ease}
+.complete-text{font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+
+/* Animations */
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes bounceIn{0%{transform:scale(0) translateY(20px)}60%{transform:scale(1.1) translateY(-5px)}100%{transform:scale(1) translateY(0)}}
+@keyframes wave{0%{transform:rotate(-10deg)}100%{transform:rotate(10deg)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 </style>
 </head>
 <body>
 
 <!-- Top Bar -->
 <div class="top-bar">
-  <a class="home-btn" href="../index.html">🏠</a>
-  <div class="title">Day 1 · Colors 🎨</div>
-  <div class="progress-dots" id="progressDots">
-    <div class="dot" data-step="0"></div>
-    <div class="dot" data-step="1"></div>
-    <div class="dot" data-step="2"></div>
-    <div class="dot" data-step="3"></div>
-    <div class="dot" data-step="4"></div>
-  </div>
+  <div class="title">🎨 Day 1 · Colors</div>
+  <div class="dots" id="dots"></div>
 </div>
 
-<!-- SVG Definitions (Twemoji circles) -->
-<div style="display:none">
-  <svg id="svg-red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle fill="#DD2E44" cx="18" cy="18" r="18"/></svg>
-  <svg id="svg-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle fill="#55ACEE" cx="18" cy="18" r="18"/></svg>
-  <svg id="svg-yellow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle fill="#FDCB58" cx="18" cy="18" r="18"/></svg>
-  <svg id="svg-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle fill="#78B159" cx="18" cy="18" r="18"/></svg>
-  <svg id="svg-orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><circle fill="#F4900C" cx="18" cy="18" r="18"/></svg>
-  <svg id="svg-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#FFAC33" d="M27.287 34.627c-.404 0-.806-.124-1.152-.371L18 28.422l-8.135 5.834c-.693.496-1.623.496-2.312-.008-.689-.499-.979-1.385-.721-2.194l3.034-9.792-8.062-5.681c-.685-.505-.97-1.393-.708-2.203.264-.808 1.016-1.357 1.866-1.363L12.947 13l3.179-9.549c.268-.809 1.023-1.353 1.874-1.353.851 0 1.606.545 1.875 1.353L23 13l10.036.015c.853.006 1.606.556 1.867 1.363.263.81-.022 1.698-.708 2.203l-8.062 5.681 3.034 9.792c.26.809-.033 1.695-.72 2.194-.347.254-.753.379-1.16.379z"/></svg>
-  <svg id="svg-palette" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#D99E82" d="M18 3.143c-9.941 0-18 6.908-18 15.428 0 1.066.126 2.107.367 3.112C2.146 24.744 3.377 22.812 9 20c5.727-2.864 0 4-2 8-.615 1.23-.282 2.271.56 3.124C10.506 32.928 14.104 34 18 34c9.941 0 18-6.907 18-15.429 0-8.52-8.059-15.428-18-15.428zm2.849 24.447c-.395 1.346-2.46 1.924-4.613 1.291-2.153-.632-3.578-2.234-3.183-3.581.395-1.346 2.46-1.924 4.613-1.29 2.153.631 3.578 2.233 3.183 3.58z"/><circle fill="#5C913B" cx="10" cy="11" r="3"/><circle fill="#269" cx="20" cy="9" r="3"/><circle fill="#DD2E44" cx="29" cy="15" r="3"/><circle fill="#FFCC4D" cx="28" cy="24" r="3"/></svg>
-  <svg id="svg-rainbow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#8767AC" d="M36 1C16.118 1 1 16.118 1 36h17.042c0-9.917 8.042-17.958 17.958-17.958V1z"/><path fill="#EB2027" d="M0 35.999h3.042c0-18.189 14.734-32.935 32.917-32.957V0C16.095.023 0 16.131 0 35.999z"/><path fill="#F19020" d="M3.083 36h3C6.083 19.468 19.473 6.065 36 6.043v-3C17.817 3.065 3.083 17.811 3.083 36z"/><path fill="#FFCB4C" d="M6.083 36h3C9.083 21.125 21.13 9.065 36 9.043v-3C19.473 6.065 6.083 19.468 6.083 36z"/><path fill="#5C903F" d="M9.083 36h3c0-13.217 10.705-23.935 23.917-23.957v-3C21.13 9.065 9.083 21.125 9.083 36z"/><path fill="#226798" d="M12.083 36h3c0-11.56 9.362-20.934 20.917-20.956v-3.001C22.788 12.065 12.083 22.783 12.083 36z"/></svg>
-</div>
+<div class="main" id="main">
 
-<!-- ===== Section 0: Greeting Warm-up ===== -->
-<div class="section active" id="sec0">
-  <div class="teacher-guide">
-    <div class="label">👩‍🏫 Teacher Guide</div>
-    跟宝宝打招呼："Hi Ranran! 今天我们来认识 Colors（颜色）！"<br>
-    让宝宝点一个喜欢的颜色按钮，每个都可以点着玩！
-  </div>
-  <div class="greeting-area">
-    <div class="greeting-emoji">👋</div>
-    <div class="greeting-text">Hello, Ranran! 🌈</div>
-    <p style="font-size:20px;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.1);margin-bottom:16px">
-      点一点你喜欢的颜色吧！
-    </p>
-    <div class="greeting-btns" id="greetingBtns">
-      <button class="greeting-btn red" data-color="red" onclick="greetTap(this)">🔴 Red</button>
-      <button class="greeting-btn blue" data-color="blue" onclick="greetTap(this)">🔵 Blue</button>
-      <button class="greeting-btn yellow" data-color="yellow" onclick="greetTap(this)">🟡 Yellow</button>
-      <button class="greeting-btn green" data-color="green" onclick="greetTap(this)">🟢 Green</button>
-      <button class="greeting-btn orange" data-color="orange" onclick="greetTap(this)">🟠 Orange</button>
+<!-- Module 1: Greeting Warm-up (Day 1 has no review) -->
+<div class="module" id="mod1">
+  <div class="module-title">👋 Hello Time!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Hi Ranran! Let's say hello! Can you wave your hand? 👋"</div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="greeting-emoji" id="greetEmoji">👋</div>
+    <div class="greeting-text" id="greetText">Hello, Ranran!</div>
+    <div class="greeting-sub" id="greetSub">Tap to say hi!</div>
+    <div class="greeting-btns" id="greetBtns">
+      <button class="greeting-btn" onclick="doGreet('hi')">👋 Hi!</button>
+      <button class="greeting-btn" onclick="doGreet('hello')">😊 Hello!</button>
     </div>
-    <button class="next-btn" id="nextBtn0" onclick="goSection(1)">Let's Go! 🎨</button>
   </div>
+  <button class="next-btn" id="nextBtn1" onclick="goModule(2)">Let's Learn Colors! ➡️</button>
 </div>
 
-<!-- ===== Section 1: New Words ===== -->
-<div class="section" id="sec1">
-  <div class="teacher-guide">
-    <div class="label">👩‍🏫 Teacher Guide</div>
-    点击灰色圆圈揭示颜色！每个都可以反复点击练习。<br>
-    说："This is <b>red</b>! Can you say red?"<br>
-    5个全部揭示后会出现"下一步"按钮。
-  </div>
-  <div class="section-title">🎨 New Colors!</div>
-  <div class="cards-grid" id="newWordsGrid"></div>
-  <button class="next-btn" id="nextBtn1" onclick="goSection(2)">Next ➡️</button>
+<!-- Module 2: New Words -->
+<div class="module" id="mod2">
+  <div class="module-title">🎨 New Colors!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's learn colors! Tap each gray circle to see the color! 点击灰色圆圈看看是什么颜色！"</div>
+  <div class="card-grid" id="newWordsGrid"></div>
+  <button class="next-btn" id="nextBtn2" onclick="goModule(3)">Next Game! ➡️</button>
 </div>
 
-<!-- ===== Section 2: Paint Game (涂色揭示) ===== -->
-<div class="section" id="sec2">
-  <div class="teacher-guide">
-    <div class="label">👩‍🏫 Teacher Guide</div>
-    涂色游戏！点击虚线圆圈给它涂上颜色。<br>
-    说："Let's paint! Tap to color it <b>red</b>!"<br>
-    每涂一个就大声说出颜色名称。
-  </div>
-  <div class="section-title">🖌️ Paint the Colors!</div>
-  <div class="cards-grid" id="paintGrid"></div>
-  <button class="next-btn" id="nextBtn2" onclick="goSection(3)">Next ➡️</button>
+<!-- Module 3: Paint Game (涂色揭示) -->
+<div class="module" id="mod3">
+  <div class="module-title">🖌️ Paint the Colors!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's paint! Tap each paint bucket to see the color! 点击颜料桶涂色！"</div>
+  <div class="card-grid" id="paintGrid"></div>
+  <button class="next-btn" id="nextBtn3" onclick="goModule(4)">Next! ➡️</button>
 </div>
 
-<!-- ===== Section 3: Listen & Find ===== -->
-<div class="section" id="sec3">
-  <div class="teacher-guide">
-    <div class="label">👩‍🏫 Teacher Guide</div>
-    听声找图！读出上方提示的颜色，让宝宝点对应的圆圈。<br>
-    说："Where is <b>blue</b>? Can you find <b>blue</b>?"
-  </div>
-  <div class="section-title">👂 Listen & Find!</div>
-  <div class="listen-prompt" id="listenPrompt">
-    Find this color:
-    <span class="prompt-word" id="promptWord"></span>
-  </div>
-  <div class="score-bar" id="listenScore"></div>
-  <div class="cards-grid" id="listenGrid"></div>
-  <button class="next-btn" id="nextBtn3" onclick="goSection(4)">Next ➡️</button>
+<!-- Module 4: Listen & Find -->
+<div class="module" id="mod4">
+  <div class="module-title">👂 Listen & Find!</div>
+  <div class="teacher-guide" id="listenGuide">🎤 <b>老师说：</b>"Where is RED? 找到红色！Tap it!"</div>
+  <div class="score-bar" id="scoreBar"></div>
+  <div class="prompt-text" id="promptText"></div>
+  <div class="card-grid" id="listenGrid"></div>
 </div>
 
-<!-- ===== Section 4: Memory Game ===== -->
-<div class="section" id="sec4">
-  <div class="teacher-guide">
-    <div class="label">👩‍🏫 Teacher Guide</div>
-    记忆翻牌！翻开两张卡片，找到相同颜色的配对。<br>
-    说："Let's play memory! Find two <b>red</b> cards!"
-  </div>
-  <div class="section-title">🧠 Memory Match!</div>
-  <div class="score-bar" id="memoryScore"></div>
+<!-- Module 5: Memory Match -->
+<div class="module" id="mod5">
+  <div class="module-title">🧠 Memory Match!</div>
+  <div class="teacher-guide">🎤 <b>老师说：</b>"Let's play memory! Find the matching pairs! 找到一样的配对！"</div>
+  <div class="score-bar" id="memScoreBar"></div>
   <div class="memory-grid" id="memoryGrid"></div>
-  <button class="next-btn" id="nextBtn4" onclick="goSection(5)">Finish! 🎉</button>
 </div>
 
-<!-- ===== Section 5: Completion ===== -->
-<div class="section" id="sec5">
-  <div class="completion">
-    <div class="big-emoji">🏆</div>
-    <div class="msg">Great Job, Ranran! 🌟<br>You learned 5 colors!</div>
-    <div style="font-size:60px;margin:20px 0">🔴🔵🟡🟢🟠</div>
-    <a class="home-link" href="../index.html">🏠 Back Home</a>
+<!-- Complete -->
+<div class="module" id="mod6">
+  <div class="complete-screen">
+    <div class="complete-emoji">🎉</div>
+    <div class="complete-text">Great Job, Ranran!</div>
+    <div class="greeting-sub" style="margin-top:8px">You learned 5 colors today! 🌈</div>
+    <button class="next-btn show" style="margin-top:20px" onclick="location.href='../index.html'">🏠 Home</button>
   </div>
+</div>
+
 </div>
 
 <script>
-// ===== Data & State =====
+// === DATA & STATE ===
 var COLORS = [
-  {name:'red',   fill:'#DD2E44', svgId:'svg-red'},
-  {name:'blue',  fill:'#55ACEE', svgId:'svg-blue'},
-  {name:'yellow',fill:'#FDCB58', svgId:'svg-yellow'},
-  {name:'green', fill:'#78B159', svgId:'svg-green'},
-  {name:'orange',fill:'#F4900C', svgId:'svg-orange'}
+  {name:'red',   emoji:'🔴', hex:'#e74c3c'},
+  {name:'blue',  emoji:'🔵', hex:'#3498db'},
+  {name:'yellow',emoji:'🟡', hex:'#f1c40f'},
+  {name:'green', emoji:'🟢', hex:'#2ecc71'},
+  {name:'orange',emoji:'🟠', hex:'#e67e22'}
 ];
-var currentSection = 0;
-var revealedWords = new Set();
+var MODULES = 6;
+var currentModule = 0;
+var revealedCount = 0;
+var greetCount = 0;
+var paintCount = 0;
+var listenRound = 0;
+var listenOrder = [];
+var memFlipped = [];
+var memMatched = 0;
+var memLocked = false;
 
-// ===== Utility: say() empty shell (no TTS) =====
+// === UTILITY FUNCTIONS ===
 function say(text, cb) { if(cb) setTimeout(cb, 300); }
 
-// ===== Utility: get SVG HTML by id =====
-function getSvgHtml(id, w, h) {
-  var el = document.getElementById(id);
-  if(!el) return '';
-  var clone = el.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.setAttribute('width', w||120);
-  clone.setAttribute('height', h||120);
-  return clone.outerHTML;
-}
-
-// ===== Utility: gray SVG HTML =====
-function getGraySvgHtml(id, w, h) {
-  var el = document.getElementById(id);
-  if(!el) return '';
-  var clone = el.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.setAttribute('width', w||120);
-  clone.setAttribute('height', h||120);
-  // Replace fill color with gray
-  var circles = clone.querySelectorAll('circle');
-  circles.forEach(function(c){ c.setAttribute('fill','#ccc'); });
-  return clone.outerHTML;
-}
-
-// ===== Star Burst Effect =====
 function burstStars(x, y) {
-  var container = document.createElement('div');
-  container.className = 'star-burst';
-  container.style.left = x + 'px';
-  container.style.top = y + 'px';
-  var emojis = ['⭐','🌟','✨','💫','🎉'];
-  for(var i = 0; i < 10; i++) {
-    var star = document.createElement('div');
-    star.className = 'star';
-    star.textContent = emojis[i % emojis.length];
-    var angle = (Math.PI * 2 / 10) * i;
-    var dist = 60 + Math.random() * 60;
-    var sx = Math.cos(angle) * dist * 0.5;
-    var sy = Math.sin(angle) * dist * 0.5;
-    var ex = Math.cos(angle) * dist;
-    var ey = Math.sin(angle) * dist;
-    star.style.setProperty('--sx', sx+'px');
-    star.style.setProperty('--sy', sy+'px');
-    star.style.setProperty('--ex', ex+'px');
-    star.style.setProperty('--ey', ey+'px');
-    container.appendChild(star);
+  var c = document.createElement('div');
+  c.className = 'star-burst';
+  c.style.left = x + 'px'; c.style.top = y + 'px';
+  for(var i = 0; i < 8; i++) {
+    var s = document.createElement('div');
+    s.className = 'star-particle';
+    var angle = (i / 8) * Math.PI * 2;
+    var dist = 60 + Math.random() * 40;
+    s.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    s.textContent = ['⭐','🌟','✨','💫'][i % 4];
+    c.appendChild(s);
   }
-  document.body.appendChild(container);
-  setTimeout(function(){ container.remove(); }, 1200);
+  document.body.appendChild(c);
+  setTimeout(function(){ c.remove(); }, 1100);
 }
 
-// ===== Progress Dots =====
+function shuffle(arr) {
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// === NAVIGATION ===
 function updateDots() {
-  var dots = document.querySelectorAll('.dot');
-  dots.forEach(function(d, i) {
-    d.classList.remove('active','done');
-    if(i < currentSection) d.classList.add('done');
-    if(i === currentSection) d.classList.add('active');
-  });
-}
-
-// ===== Section Navigation =====
-function goSection(n) {
-  if(n > 5) return;
-  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
-  var sec = document.getElementById('sec' + n);
-  if(sec) sec.classList.add('active');
-  currentSection = n;
-  updateDots();
-  window.scrollTo({top:0, behavior:'smooth'});
-  // Init sections on enter
-  if(n === 1) initNewWords();
-  if(n === 2) initPaintGame();
-  if(n === 3) initListenFind();
-  if(n === 4) initMemoryGame();
-}
-
-// ===== Section 0: Greeting =====
-var greetCount = 0;
-function greetTap(btn) {
-  greetCount++;
-  btn.style.transform = 'scale(1.2) rotate(' + (Math.random()*20-10) + 'deg)';
-  setTimeout(function(){ btn.style.transform = ''; }, 300);
-  var rect = btn.getBoundingClientRect();
-  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-  if(greetCount >= 2) {
-    document.getElementById('nextBtn0').classList.add('show');
+  var dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  for(var i = 1; i <= 5; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot' + (i === currentModule ? ' active' : '') + (i < currentModule ? ' done' : '');
+    dots.appendChild(d);
   }
 }
 
-// ===== Section 1: New Words =====
-var newWordsInited = false;
-function initNewWords() {
-  if(newWordsInited) return;
-  newWordsInited = true;
-  var grid = document.getElementById('newWordsGrid');
-  grid.innerHTML = '';
-  revealedWords = new Set();
-  COLORS.forEach(function(c) {
-    var card = document.createElement('div');
-    card.className = 'color-card';
-    card.setAttribute('data-color', c.name);
-    card.innerHTML =
-      '<div class="circle-wrap gray">' + getGraySvgHtml(c.svgId, 120, 120) + '</div>' +
-      '<div class="word">' + c.name + '</div>';
-    card.onclick = function() { revealWord(card, c); };
-    grid.appendChild(card);
-  });
+function goModule(n) {
+  currentModule = n;
+  var mods = document.querySelectorAll('.module');
+  mods.forEach(function(m){ m.classList.remove('active'); });
+  var target = document.getElementById('mod' + n);
+  if(target) target.classList.add('active');
+  updateDots();
+  if(n === 4) startListenGame();
+  if(n === 5) startMemoryGame();
 }
 
-function revealWord(card, colorData) {
-  var wrap = card.querySelector('.circle-wrap');
-  var word = card.querySelector('.word');
-  // Always play animation on click (repeatable)
-  wrap.classList.remove('gray');
-  wrap.innerHTML = getSvgHtml(colorData.svgId, 120, 120);
-  word.classList.add('show');
-  // Sparkle effect
-  addSparkles(card);
-  // Card pop
-  card.style.transform = 'scale(1.1)';
-  setTimeout(function(){ card.style.transform = ''; }, 300);
-  // Track revealed
-  revealedWords.add(colorData.name);
-  if(revealedWords.size >= 5) {
+// === MODULE 1: GREETING ===
+function doGreet(type) {
+  greetCount++;
+  var emoji = document.getElementById('greetEmoji');
+  var text = document.getElementById('greetText');
+  var sub = document.getElementById('greetSub');
+  var responses = [
+    {e:'😄',t:'Hello!',s:'Great job! 你好棒！'},
+    {e:'🥰',t:'Hi there!',s:'Say it again! 再说一次！'},
+    {e:'🤩',t:'Wow, hello!',s:'You\'re a star! ⭐'},
+    {e:'😎',t:'Hey Ranran!',s:'Ready to learn? 准备好了吗？'}
+  ];
+  var r = responses[(greetCount - 1) % responses.length];
+  emoji.textContent = r.e;
+  emoji.style.animation = 'none';
+  void emoji.offsetWidth;
+  emoji.style.animation = 'popIn .5s ease';
+  text.textContent = r.t;
+  sub.textContent = r.s;
+  burstStars(window.innerWidth / 2, window.innerHeight / 2);
+  if(greetCount >= 2) {
     document.getElementById('nextBtn1').classList.add('show');
   }
 }
 
-function addSparkles(card) {
-  var emojis = ['✨','🌟','⭐','💫'];
-  for(var i = 0; i < 4; i++) {
-    var sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.textContent = emojis[i];
-    var tx = (Math.random()*80-40)+'px';
-    var ty = (Math.random()*-60-20)+'px';
-    var tx2 = (Math.random()*120-60)+'px';
-    var ty2 = (Math.random()*-100-30)+'px';
-    sp.style.setProperty('--tx', tx);
-    sp.style.setProperty('--ty', ty);
-    sp.style.setProperty('--tx2', tx2);
-    sp.style.setProperty('--ty2', ty2);
-    card.appendChild(sp);
-    (function(s){ setTimeout(function(){ s.remove(); }, 900); })(sp);
+// === MODULE 2: NEW WORDS ===
+function initNewWords() {
+  var grid = document.getElementById('newWordsGrid');
+  grid.innerHTML = '';
+  COLORS.forEach(function(c, i) {
+    var card = document.createElement('div');
+    card.className = 'card gray';
+    card.setAttribute('data-idx', i);
+    card.innerHTML = '<div class="icon">' + c.emoji + '</div><div class="label" style="color:' + c.hex + '">' + c.name + '</div>';
+    card.onclick = function(e) { revealWord(this, i, e); };
+    grid.appendChild(card);
+  });
+}
+
+function revealWord(card, idx, e) {
+  var wasRevealed = card.classList.contains('revealed');
+  card.classList.remove('gray');
+  card.classList.add('revealed');
+  // Replay animation every tap
+  var icon = card.querySelector('.icon');
+  icon.style.animation = 'none';
+  void icon.offsetWidth;
+  icon.style.animation = 'popIn .4s ease';
+  say(COLORS[idx].name);
+  var rect = card.getBoundingClientRect();
+  burstStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  if(!wasRevealed) {
+    revealedCount++;
+    if(revealedCount >= 5) {
+      document.getElementById('nextBtn2').classList.add('show');
+    }
   }
 }
 
-// ===== Section 2: Paint Game =====
-var paintInited = false;
-var paintedCount = 0;
+// === MODULE 3: PAINT GAME (涂色揭示) ===
 function initPaintGame() {
-  if(paintInited) return;
-  paintInited = true;
-  paintedCount = 0;
   var grid = document.getElementById('paintGrid');
   grid.innerHTML = '';
-  var shuffled = COLORS.slice().sort(function(){ return Math.random()-0.5; });
-  shuffled.forEach(function(c) {
+  var items = shuffle(COLORS);
+  items.forEach(function(c, i) {
     var card = document.createElement('div');
     card.className = 'paint-card';
     card.setAttribute('data-color', c.name);
-    card.innerHTML =
-      '<div class="paint-obj">' + getGraySvgHtml(c.svgId, 110, 110) + '</div>' +
-      '<div class="paint-label">???</div>';
-    card.onclick = function() { paintColor(card, c); };
+    card.innerHTML = '<div class="icon">🎨</div><div class="label">' + c.name + '</div>';
+    card.onclick = function(e) { paintReveal(this, c, e); };
     grid.appendChild(card);
   });
 }
 
-function paintColor(card, colorData) {
-  var obj = card.querySelector('.paint-obj');
-  var label = card.querySelector('.paint-label');
-  if(!obj.classList.contains('painted')) {
-    paintedCount++;
-  }
-  obj.classList.add('painted');
-  obj.style.background = colorData.fill;
-  obj.style.borderColor = colorData.fill;
-  obj.innerHTML = getSvgHtml(colorData.svgId, 110, 110);
-  label.textContent = colorData.name.toUpperCase();
-  label.classList.add('show');
-  // Pop animation
-  card.style.transform = 'scale(1.08)';
-  setTimeout(function(){ card.style.transform = ''; }, 300);
-  var rect = card.getBoundingClientRect();
-  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-  if(paintedCount >= 5) {
-    setTimeout(function(){
-      document.getElementById('nextBtn2').classList.add('show');
-    }, 500);
-  }
-}
-
-// ===== Section 3: Listen & Find =====
-var listenInited = false;
-var listenRound = 0;
-var listenStars = 0;
-var listenOrder = [];
-var listenLocked = false;
-
-function initListenFind() {
-  if(listenInited) return;
-  listenInited = true;
-  listenRound = 0;
-  listenStars = 0;
-  // 5 rounds, each color once, shuffled
-  listenOrder = COLORS.slice().sort(function(){ return Math.random()-0.5; });
-  showListenRound();
-}
-
-function showListenRound() {
-  if(listenRound >= 5) {
-    document.getElementById('nextBtn3').classList.add('show');
-    document.getElementById('promptWord').textContent = 'All done!';
-    return;
-  }
-  listenLocked = false;
-  var target = listenOrder[listenRound];
-  document.getElementById('promptWord').textContent = target.name.toUpperCase();
-  document.getElementById('listenScore').textContent = '⭐'.repeat(listenStars) + '☆'.repeat(5-listenStars);
-  // Show 3 choices: target + 2 random others
-  var others = COLORS.filter(function(c){ return c.name !== target.name; });
-  others.sort(function(){ return Math.random()-0.5; });
-  var choices = [target, others[0], others[1]];
-  choices.sort(function(){ return Math.random()-0.5; });
-  var grid = document.getElementById('listenGrid');
-  grid.innerHTML = '';
-  grid.classList.add('three-col');
-  choices.forEach(function(c) {
-    var card = document.createElement('div');
-    card.className = 'listen-choice';
-    card.innerHTML = getSvgHtml(c.svgId, 100, 100) +
-      '<div class="choice-label">' + c.name + '</div>';
-    card.onclick = function() { checkListen(card, c, target); };
-    grid.appendChild(card);
-  });
-}
-
-function checkListen(card, chosen, target) {
-  if(listenLocked) return;
-  if(chosen.name === target.name) {
-    listenLocked = true;
-    card.classList.add('correct');
-    listenStars++;
+function paintReveal(card, color, e) {
+  if(card.classList.contains('painted')) {
+    // Re-tap: replay animation
+    var icon = card.querySelector('.icon');
+    icon.style.animation = 'none';
+    void icon.offsetWidth;
+    icon.style.animation = 'popIn .5s ease';
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    document.getElementById('listenScore').textContent = '⭐'.repeat(listenStars) + '☆'.repeat(5-listenStars);
-    setTimeout(function(){
-      listenRound++;
-      showListenRound();
-    }, 1000);
-  } else {
-    card.classList.add('wrong');
-    setTimeout(function(){ card.classList.remove('wrong'); }, 500);
+    return;
+  }
+  card.classList.add('painted');
+  card.style.background = color.hex + '33';
+  card.querySelector('.icon').textContent = color.emoji;
+  card.querySelector('.label').style.color = color.hex;
+  say(color.name);
+  var rect = card.getBoundingClientRect();
+  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+  paintCount++;
+  if(paintCount >= 5) {
+    setTimeout(function(){ document.getElementById('nextBtn3').classList.add('show'); }, 400);
   }
 }
 
-// ===== Section 4: Memory Game =====
-var memoryInited = false;
-var memoryFirst = null;
-var memoryLocked = false;
-var memoryMatched = 0;
-var memoryStars = 0;
+// === MODULE 4: LISTEN & FIND ===
+function startListenGame() {
+  listenRound = 0;
+  listenOrder = shuffle([0,1,2,3,4]);
+  var sb = document.getElementById('scoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildListenGrid();
+  showListenPrompt();
+}
 
-function initMemoryGame() {
-  if(memoryInited) return;
-  memoryInited = true;
-  memoryFirst = null;
-  memoryLocked = false;
-  memoryMatched = 0;
-  memoryStars = 0;
-  // 5 colors x 2 = 10 cards, but we need even grid. Use 4 colors x 2 = 8 + 1 pair = 10... 
-  // Use all 5 pairs = 10 cards in a 3-col grid (last row has 1 card centered)
-  // Actually let's pick 3x2 = 6 cards (3 colors) for simpler game for 3yo
-  // Better: use all 5 = 10 cards, 2 rows of 3 + 1 row of 4... messy
-  // Best for 3yo: 4 colors x 2 = 8 cards, 2 rows of 4... but grid is 3-col
-  // Let's do 3 colors x 2 = 6 cards, 2 rows of 3. Simple and clean.
-  var pick = COLORS.slice().sort(function(){ return Math.random()-0.5; }).slice(0, 3);
-  var pairs = [];
-  pick.forEach(function(c) { pairs.push(c); pairs.push(c); });
-  pairs.sort(function(){ return Math.random()-0.5; });
-
-  var grid = document.getElementById('memoryGrid');
+function buildListenGrid() {
+  var grid = document.getElementById('listenGrid');
   grid.innerHTML = '';
-  document.getElementById('memoryScore').textContent = '⭐'.repeat(0);
-
-  pairs.forEach(function(c, i) {
+  var items = shuffle(COLORS);
+  items.forEach(function(c) {
     var card = document.createElement('div');
-    card.className = 'memory-card';
-    card.setAttribute('data-color', c.name);
-    card.setAttribute('data-idx', i);
-    card.innerHTML =
-      '<div class="card-front">' + getSvgHtml(c.svgId, 70, 70) +
-      '<div class="mem-label">' + c.name + '</div></div>' +
-      '<div class="card-back">❓</div>';
-    card.onclick = function() { flipMemory(card); };
+    card.className = 'card';
+    card.setAttribute('data-name', c.name);
+    card.style.background = c.hex + '22';
+    card.innerHTML = '<div class="icon">' + c.emoji + '</div><div class="label" style="opacity:1;color:' + c.hex + '">' + c.name + '</div>';
+    card.onclick = function(e) { checkListen(this, c, e); };
     grid.appendChild(card);
   });
 }
 
-function flipMemory(card) {
-  if(memoryLocked) return;
-  if(card.classList.contains('flipped')) return;
-  if(card.classList.contains('matched')) return;
-
-  card.classList.add('flipped');
-
-  if(!memoryFirst) {
-    memoryFirst = card;
+function showListenPrompt() {
+  if(listenRound >= 5) {
+    document.getElementById('promptText').textContent = '🎉 All found!';
+    document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the colors! 太棒了！"';
+    setTimeout(function(){ goModule(5); }, 1500);
     return;
   }
+  var target = COLORS[listenOrder[listenRound]];
+  document.getElementById('promptText').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
+  document.getElementById('listenGuide').innerHTML = '🎤 <b>老师说：</b>"Where is ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
+}
 
-  // Second card flipped
-  memoryLocked = true;
-  var first = memoryFirst;
-  var c1 = first.getAttribute('data-color');
-  var c2 = card.getAttribute('data-color');
-
-  if(c1 === c2 && first.getAttribute('data-idx') !== card.getAttribute('data-idx')) {
-    // Match!
+function checkListen(card, color, e) {
+  var target = COLORS[listenOrder[listenRound]];
+  if(color.name === target.name) {
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    card.style.animation = 'popIn .4s ease';
+    var stars = document.getElementById('scoreBar').children;
+    stars[listenRound].classList.add('earned');
+    listenRound++;
     setTimeout(function(){
-      first.classList.add('matched');
-      card.classList.add('matched');
-      memoryMatched++;
-      memoryStars++;
-      document.getElementById('memoryScore').textContent = '⭐'.repeat(memoryStars);
-      var rect = card.getBoundingClientRect();
-      burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-      memoryFirst = null;
-      memoryLocked = false;
-      // Check win (3 pairs)
-      if(memoryMatched >= 3) {
-        setTimeout(function(){
-          document.getElementById('nextBtn4').classList.add('show');
-        }, 600);
-      }
-    }, 500);
+      buildListenGrid();
+      showListenPrompt();
+    }, 600);
   } else {
-    // No match
-    setTimeout(function(){
-      first.classList.remove('flipped');
-      card.classList.remove('flipped');
-      memoryFirst = null;
-      memoryLocked = false;
-    }, 800);
+    card.style.animation = 'shake .4s ease';
+    setTimeout(function(){ card.style.animation = ''; }, 500);
   }
 }
 
-// ===== Init =====
-updateDots();
+// === MODULE 5: MEMORY MATCH ===
+function startMemoryGame() {
+  memFlipped = [];
+  memMatched = 0;
+  memLocked = false;
+  var sb = document.getElementById('memScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  // Pick 4 colors for 8 cards (4 pairs), fits 3-col grid nicely (3+3+2)
+  var pick = shuffle(COLORS).slice(0, 4);
+  var pairs = [];
+  pick.forEach(function(c) {
+    pairs.push({name:c.name, emoji:c.emoji, hex:c.hex, id:c.name+'A'});
+    pairs.push({name:c.name, emoji:c.emoji, hex:c.hex, id:c.name+'B'});
+  });
+  pairs = shuffle(pairs);
+  var grid = document.getElementById('memoryGrid');
+  grid.innerHTML = '';
+  pairs.forEach(function(p, i) {
+    var card = document.createElement('div');
+    card.className = 'mem-card';
+    card.setAttribute('data-id', p.id);
+    card.setAttribute('data-name', p.name);
+    card.setAttribute('data-idx', i);
+    card.innerHTML = '<div class="mem-card-inner">' +
+      '<div class="front">❓</div>' +
+      '<div class="back"><div class="icon">' + p.emoji + '</div><div class="label" style="color:' + p.hex + '">' + p.name + '</div></div>' +
+      '</div>';
+    card.onclick = function() { flipCard(this); };
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(card) {
+  if(memLocked) return;
+  if(card.classList.contains('flipped')) return;
+  if(card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  if(memFlipped.length === 2) {
+    memLocked = true;
+    var a = memFlipped[0], b = memFlipped[1];
+    if(a.getAttribute('data-name') === b.getAttribute('data-name')) {
+      // Match!
+      setTimeout(function() {
+        a.classList.add('matched');
+        b.classList.add('matched');
+        var rect = a.getBoundingClientRect();
+        burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+        var stars = document.getElementById('memScoreBar').children;
+        if(memMatched < stars.length) stars[memMatched].classList.add('earned');
+        memMatched++;
+        memFlipped = [];
+        memLocked = false;
+        if(memMatched >= 4) {
+          setTimeout(function(){ goModule(6); }, 1000);
+        }
+      }, 500);
+    } else {
+      // No match
+      setTimeout(function() {
+        a.classList.remove('flipped');
+        b.classList.remove('flipped');
+        memFlipped = [];
+        memLocked = false;
+      }, 800);
+    }
+  }
+}
+
+// === INIT ===
+function init() {
+  initNewWords();
+  initPaintGame();
+  goModule(1);
+}
+init();
 </script>
 </body>
 </html>
