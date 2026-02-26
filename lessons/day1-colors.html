@@ -134,7 +134,7 @@ body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);disp
 @keyframes wave{0%{transform:rotate(-10deg)}100%{transform:rotate(10deg)}}
 @keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-/* ===== PC 端适配 ===== */
+/* ===== PC layout ===== */
 @media(min-width:768px){
   .top-bar{max-width:800px;padding:16px 24px}
   .top-bar .title{font-size:22px}
@@ -194,8 +194,8 @@ body{padding-bottom:70px}
 <div class="module" id="mod1">
   <div class="module-title">👋 Hello Time!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Hello Ranran! Let's learn colors! Can you wave your hand? 👋"</span>
-  <ul class="tg-expand"><li>🗣️ 打招呼: "Hello! What's your name? → My name is Ranran!" "How are you? → I'm good!"</li><li>👋 互动: 让孩子跟着做动作 wave, clap, jump</li><li>🎵 唱 Hello Song 暖场</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Hello Ranran! Let's learn colors! Wave your hand! 👋"</span>
+  <ul class="tg-expand"><li>🗣️ "Hello! What's your name? → My name is Ranran!"</li><li>👋 Actions: wave, clap, jump</li><li>🎵 Sing Hello Song</li></ul>
 </div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
     <div class="greeting-emoji" id="greetEmoji">👋</div>
@@ -212,8 +212,8 @@ body{padding-bottom:70px}
 <div class="module" id="mod2">
   <div class="module-title">🎈 Pop the Balloons!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Look at the balloons! Tap them to pop! 点气球把它戳破！"</span>
-  <ul class="tg-expand"><li>🗣️ 弹出后说: "What color is it? → It's red!" "Pop the blue one!"</li><li>🎯 指东西: "What color is the chair? → It's ___!"</li><li>🤚 TPR: "Show me something red! Touch something blue!"</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Look at the balloons! Tap to pop!"</span>
+  <ul class="tg-expand"><li>🗣️ "What color is it? → It's red!"</li><li>🎯 "What color is the chair? → It's ___!"</li><li>🤚 "Show me something red! Touch something blue!"</li></ul>
 </div>
   <div class="balloon-collected" id="balloonCollected"></div>
   <div class="balloon-area" id="balloonArea"></div>
@@ -223,8 +223,8 @@ body{padding-bottom:70px}
 <div class="module" id="mod3">
   <div class="module-title">🖌️ Paint the Shapes!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's paint! Touch and hold each shape to color it! 按住图形给它涂上颜色！"</span>
-  <ul class="tg-expand"><li>🗣️ 涂色时说: "Paint the apple red! → Red! Red! Red!" "What color is the sun? → Yellow!"</li><li>🎨 假装画画: 用手在空中画 "I'm painting with red!"</li><li>🌈 完成后: "Wow, so colorful! What's your favorite color?"</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Touch and hold each shape to paint it!"</span>
+  <ul class="tg-expand"><li>🗣️ "Paint the apple red! → Red! Red!"</li><li>🎨 "I'm painting with red!"</li><li>🌈 "Wow, so colorful! What's your favorite?"</li></ul>
 </div>
   <div class="paint-shapes" id="paintShapes"></div>
 </div>
@@ -233,8 +233,8 @@ body{padding-bottom:70px}
 <div class="module" id="mod4">
   <div class="module-title">👂 Listen & Find!</div>
   <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Where is RED? 找到红色！Tap it!"</span>
-  <ul class="tg-expand"><li>🗣️ 找到后说: "Where is red? → Here! It's red!" "Point to blue! → This is blue!"</li><li>🙈 挑战: "Close your eyes! What color is the sky? → Blue!"</li><li>🎵 唱 "Red and yellow and pink and green..."</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Where is RED? Find it! Tap it!"</span>
+  <ul class="tg-expand"><li>🗣️ "Where is red? → Here! It's red!"</li><li>🙈 "Close your eyes! What color is the sky? → Blue!"</li><li>🎵 Sing "Red and yellow and pink and green..."</li></ul>
 </div>
   <div class="score-bar" id="scoreBar"></div>
   <div class="prompt-text" id="promptText"></div>
@@ -245,8 +245,8 @@ body{padding-bottom:70px}
 <div class="module" id="mod5">
   <div class="module-title">🧠 Memory Match!</div>
   <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>老师说：</b>"Let's play memory! Find the matching pairs! 找到一样的配对！"</span>
-  <ul class="tg-expand"><li>🗣️ 翻牌时说: "What is it? → It's red! Remember where red is!"</li><li>🧠 鼓励记忆: "Where was the other red? Think! → There!"</li><li>🎉 配对成功: "Yes! Two reds! They match! Good memory!"</li></ul>
+  <span class="tg-arrow">▶</span> <span class="tg-summary">🎤 <b>Teacher:</b> "Find the matching pairs!"</span>
+  <ul class="tg-expand"><li>🗣️ "What is it? → It's red! Remember where red is!"</li><li>🧠 "Where was the other red? Think!"</li><li>🎉 "Yes! They match! Good memory!"</li></ul>
 </div>
   <div class="score-bar" id="memScoreBar"></div>
   <div class="memory-grid" id="memoryGrid"></div>
@@ -344,10 +344,10 @@ function doGreet(type) {
   var text = document.getElementById('greetText');
   var sub = document.getElementById('greetSub');
   var responses = [
-    {e:'😄',t:'Hello!',s:'Great job! 你好棒！'},
-    {e:'🥰',t:'Hi there!',s:'Say it again! 再说一次！'},
+    {e:'😄',t:'Hello!',s:'Great job! ⭐'},
+    {e:'🥰',t:'Hi there!',s:'Say it again!'},
     {e:'🤩',t:'Wow, hello!',s:'You\'re a star! ⭐'},
-    {e:'😎',t:'Hey Ranran!',s:'Ready to learn? 准备好了吗？'}
+    {e:'😎',t:'Hey Ranran!',s:'Ready to learn?'}
   ];
   var r = responses[(greetCount - 1) % responses.length];
   emoji.textContent = r.e;
@@ -521,13 +521,13 @@ function buildListenGrid() {
 function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('promptText').textContent = '🎉 All found!';
-    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Amazing! You found all the colors! 太棒了！"';
+    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>Teacher:</b> "Amazing! You found all the colors!"';
     // teacher controls nav
     return;
   }
   var target = COLORS[listenOrder[listenRound]];
   document.getElementById('promptText').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
-  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>老师说：</b>"Where is ' + target.name.toUpperCase() + '? 找到' + target.name + '！Tap it!"';
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML = '🎤 <b>Teacher:</b> "Where is ' + target.name.toUpperCase() + '? Find it! Tap it!"';
 }
 
 function checkListen(card, color, e) {
