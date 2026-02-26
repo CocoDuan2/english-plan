@@ -16,16 +16,23 @@
 ### 2025-02-25 (Day 1) - Colors 🎨
 - 新词: red, blue, yellow, green, orange
 - 课件: lessons/day1-colors.html
+- 互动游戏1: 涂色揭示（颜料瓶涂色）
+- 综合游戏: 记忆翻牌
 - 反馈: 待确认
 
 ### 2025-02-26 (Day 2) - Animals 🐾
 - 新词: cat, dog, fish, bird, duck
 - 课件: lessons/day2-animals.html
+- 互动游戏1: 孵蛋（点击蛋孵出动物）
+- 综合游戏: 打地鼠
 - 反馈: 待确认
 
 ### 2025-02-27 (Day 3) - Body 👃
 - 新词: head, eyes, ears, nose, mouth
 - 课件: lessons/day3-body.html
+- 复习词: red, cat, duck（3个，来自Day1-2）
+- 互动游戏1: 分类排序（tap-to-sort，身体部位分类到Top/Middle/Sides）
+- 综合游戏: 连线配对（词和图连线）
 - 反馈: 待确认
 
 ## 词汇掌握度
