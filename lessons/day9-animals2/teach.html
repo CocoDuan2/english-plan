@@ -7,478 +7,143 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-body{background:#f8f9fa;display:flex;flex-direction:column;align-items:center}
-
-/* Slide container */
+body{background:linear-gradient(160deg,#fef9ef 0%,#fdf2e9 50%,#ebf5fb 100%);display:flex;flex-direction:column;align-items:center}
 .slide-deck{width:100%;height:100%;display:flex;flex-direction:column}
-.slide{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 80px;text-align:center}
+.slide{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center}
 .slide.active{display:flex}
-
-/* Title slides */
-.slide-section{font-size:14px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
-.slide-title{font-size:28px;font-weight:800;color:#2c3e50;margin-bottom:16px}
-.slide-subtitle{font-size:18px;color:#7f8c8d;margin-bottom:20px}
-
-/* Big emoji display */
-.big-emoji{font-size:200px;line-height:1;margin:10px 0;transition:transform .3s}
-.big-emoji:hover{transform:scale(1.05)}
-
-/* Word display */
-.word{font-size:56px;font-weight:800;color:#2c3e50;margin:12px 0;letter-spacing:2px}
-.word-phonetic{font-size:20px;color:#95a5a6;margin-bottom:8px}
-.sentence{font-size:24px;color:#e67e22;font-weight:600;margin:8px 0}
-
-/* Teacher notes panel */
-.teacher-notes{position:fixed;bottom:60px;left:0;right:0;z-index:90;display:flex;justify-content:center}
-.tn-inner{width:100%;max-width:900px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);
-  border-top:2px solid #3498db;padding:0;transition:max-height .3s;overflow:hidden}
-.tn-toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;cursor:pointer;
-  background:rgba(52,152,219,.08);user-select:none}
-.tn-toggle-label{font-size:13px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px}
-.tn-arrow{font-size:14px;color:#3498db;transition:transform .3s}
-.tn-arrow.collapsed{transform:rotate(180deg)}
-.tn-body{padding:0 20px 12px;font-size:15px;line-height:1.7;color:#555}
-.tn-body.hidden{display:none}
-.tn-body ul{margin:4px 0 4px 20px}
-.tn-body li{margin:3px 0}
-.tn-body b{color:#2c3e50}
-.tn-body .tn-cat{font-weight:700;color:#3498db;margin-top:8px;display:block;font-size:14px}
-
-/* Flashcard grid for review slides */
-.flash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:600px;margin:10px auto}
-.flash-card{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.06);min-height:120px}
-.flash-card .fc-emoji{font-size:60px;line-height:1}
-.flash-card .fc-word{font-size:18px;font-weight:700;color:#2c3e50;margin-top:6px}
-
-/* Activity instruction */
-.activity-box{background:#fff;border-radius:16px;padding:24px 30px;max-width:600px;width:100%;
-  box-shadow:0 2px 12px rgba(0,0,0,.06);text-align:left}
-.activity-box h3{font-size:20px;color:#2c3e50;margin-bottom:12px}
-.activity-box ol,.activity-box ul{margin-left:20px;font-size:17px;line-height:1.8;color:#555}
-.activity-box .highlight{background:#ffeaa7;padding:2px 8px;border-radius:4px;font-weight:600}
-
-/* Nav bar */
-.nav-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);
-  backdrop-filter:blur(10px);border-top:1px solid #e0e0e0;display:flex;align-items:center;
-  justify-content:space-between;padding:0 24px;z-index:100}
-.nav-btn{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;
-  transition:all .2s;background:#3498db;color:#fff}
+.slide-section{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.slide-title{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
+.slide-subtitle{font-size:18px;color:#7f8c8d;margin-bottom:16px}
+.big-emoji{font-size:180px;line-height:1;margin:6px 0}
+.word{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
+.key-sentence{font-size:32px;font-weight:700;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22;letter-spacing:1px}
+.flash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
+.flash-card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:110px}
+.flash-card .fc-emoji{font-size:56px;line-height:1}
+.flash-card .fc-word{font-size:17px;font-weight:700;color:#2c3e50;margin-top:5px}
+.activity-box{background:#fff;border-radius:16px;padding:28px 32px;max-width:560px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:left}
+.activity-box h3{font-size:22px;color:#2c3e50;margin-bottom:14px}
+.activity-box ul{margin-left:20px;font-size:18px;line-height:1.9;color:#555}
+.lyric{font-size:22px;color:#2c3e50;max-width:500px;line-height:1.6;margin-top:10px}
+.lyric b{color:#e67e22}
+.tn-fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.tn-fab:hover{background:#2980b9;transform:scale(1.08)}
+.tn-fab.active{background:#2c3e50}
+.tn-popup{position:fixed;bottom:124px;right:16px;z-index:199;width:360px;max-height:50vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(52,152,219,.2)}
+.tn-popup.open{display:block;animation:fadeUp .2s ease}
+.tn-popup-title{font-size:12px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee}
+.tn-popup ul{margin:4px 0 4px 18px}
+.tn-popup li{margin:3px 0}
+.tn-popup b{color:#2c3e50}
+.tn-popup .tn-cat{font-weight:700;color:#3498db;margin-top:10px;display:block;font-size:13px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nav-btn{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#3498db;color:#fff}
 .nav-btn:hover{background:#2980b9}
-.nav-btn:disabled{background:#ddd;color:#aaa;cursor:default}
+.nav-btn:disabled{background:#e0e0e0;color:#bbb;cursor:default}
 .nav-progress{font-size:14px;font-weight:600;color:#999}
-.nav-keys{font-size:11px;color:#bbb;margin-top:2px;text-align:center}
-
-/* Responsive - PC */
+.nav-keys{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
 @media(min-width:768px){
-  .big-emoji{font-size:260px}
+  .big-emoji{font-size:220px}
   .word{font-size:72px}
-  .sentence{font-size:28px}
-  .slide-title{font-size:36px}
-  .flash-card .fc-emoji{font-size:80px}
-  .flash-card .fc-word{font-size:22px}
-  .tn-body{font-size:16px}
+  .key-sentence{font-size:36px}
+  .slide-title{font-size:38px}
+  .flash-card .fc-emoji{font-size:72px}
+  .flash-card .fc-word{font-size:20px}
+  .tn-popup{width:420px}
+  .activity-box{max-width:640px}
+  .activity-box ul{font-size:20px}
 }
 </style>
 </head>
 <body>
-<div class="slide-deck" id="deck">
+<div class="slide-deck" id="deck"></div>
+<button class="tn-fab" id="tnFab" onclick="toggleNotes()" title="Teacher Notes (T)">📋</button>
+<div class="tn-popup" id="tnPopup">
+  <div class="tn-popup-title">📋 Teacher Notes</div>
+  <div id="tnBody"></div>
 </div>
-
-<!-- Teacher Notes Panel -->
-<div class="teacher-notes" id="tnPanel">
-<div class="tn-inner">
-  <div class="tn-toggle" onclick="toggleNotes()">
-    <span class="tn-toggle-label">📋 Teacher Notes</span>
-    <span class="tn-arrow" id="tnArrow">▼</span>
-  </div>
-  <div class="tn-body" id="tnBody"></div>
-</div>
-</div>
-
-<!-- Navigation -->
 <div class="nav-bar">
   <button class="nav-btn" id="prevBtn" onclick="go(-1)">◀ Back</button>
   <div style="text-align:center">
-    <div class="nav-progress" id="navProgress">1 / 20</div>
-    <div class="nav-keys">← → keys</div>
+    <div class="nav-progress" id="navProgress">1/17</div>
+    <div class="nav-keys">← → keys · T = tips</div>
   </div>
   <button class="nav-btn" id="nextBtn" onclick="go(1)">Next ▶</button>
 </div>
-
 <script>
-// Slide data - pure presentation, NO games
-const REVIEW_WORDS = [
-  {emoji:'🦘',word:'jump',sentence:'Jump up high!'},
-  {emoji:'✌️',word:'two',sentence:'I have two hands!'},
-  {emoji:'🧍',word:'stand',sentence:'Stand up please!'}
+var RW=[
+  {e:'🦘',w:'jump',s:'CAN YOU JUMP?'},
+  {e:'✌️',w:'two',s:'I HAVE TWO HANDS!'},
+  {e:'🧍',w:'stand',s:'STAND UP PLEASE!'}
 ];
-
-const NEW_WORDS = [
-  {emoji:'🐰',word:'rabbit',sentence:'The rabbit hops!'},
-  {emoji:'🐷',word:'pig',sentence:"The pig says oink!"},
-  {emoji:'🐄',word:'cow',sentence:'The cow says moo!'},
-  {emoji:'🐴',word:'horse',sentence:'The horse runs fast!'},
-  {emoji:'🐑',word:'sheep',sentence:'The sheep says baa!'}
+var NW=[
+  {e:'🐰',w:'rabbit',s:'THE RABBIT HOPS!'},
+  {e:'🐷',w:'pig',s:'THE PIG SAYS OINK!'},
+  {e:'🐄',w:'cow',s:'THE COW SAYS MOO!'},
+  {e:'🐴',w:'horse',s:'THE HORSE RUNS FAST!'},
+  {e:'🐑',w:'sheep',s:'THE SHEEP SAYS BAA!'}
 ];
-
-const ALL_WORDS = [...REVIEW_WORDS,...NEW_WORDS];
-
-// Teacher notes per slide
-const NOTES = {};
-
-function buildSlides(){
-  const deck = document.getElementById('deck');
-  let html = '';
-  let si = 0;
-
-  // === SLIDE 0: Title ===
-  html += slide(si++, `
-    <div class="slide-section">Day 9 · Animals 2</div>
-    <div class="big-emoji">🐄🐴🐑</div>
-    <div class="slide-title">Animals 2</div>
-    <div class="slide-subtitle">rabbit · pig · cow · horse · sheep</div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🎯 Today's Goal</span>
-    <ul>
-      <li>Learn 5 new animal words: <b>rabbit, pig, cow, horse, sheep</b></li>
-      <li>Review: jump, two, stand (from Day 6-7)</li>
-      <li>Target sentences: "It's a ___!" "The ___ says ___!"</li>
-    </ul>
-  `;
-
-  // === SLIDES 1-3: Warm-up Review (3 min) ===
-  html += slide(si++, `
-    <div class="slide-section">Module 1 · Warm-up Review</div>
-    <div class="slide-title">Let's Remember! 🧠</div>
-    <div class="flash-grid">
-      ${REVIEW_WORDS.map(w=>`<div class="flash-card"><div class="fc-emoji">${w.emoji}</div><div class="fc-word">${w.word}</div></div>`).join('')}
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🗣️ Sentences to model</span>
-    <ul>
-      <li>"What's this? → It's jump / two / stand!"</li>
-      <li>"Can you jump? Let's jump together!"</li>
-      <li>"Show me two fingers!"</li>
-      <li>"Stand up! Now sit down! Stand up again!"</li>
-    </ul>
-    <span class="tn-cat">🤚 TPR Actions</span>
-    <ul>
-      <li>"Jump 3 times!" "Stand on one foot!"</li>
-      <li>"Show me two eyes / two ears / two hands!"</li>
-    </ul>
-  `;
-
-  REVIEW_WORDS.forEach(w => {
-    html += slide(si++, `
-      <div class="slide-section">Warm-up Review</div>
-      <div class="big-emoji">${w.emoji}</div>
-      <div class="word">${w.word}</div>
-      <div class="sentence">"${w.sentence}"</div>
-    `);
-    NOTES[si-1] = `
-      <span class="tn-cat">🗣️ Practice</span>
-      <ul>
-        <li>Point to the picture: "What's this?"</li>
-        <li>Model: "${w.sentence}" — have child repeat</li>
-        <li>Ask: "Can you ${w.word}? Show me!"</li>
-      </ul>
-    `;
+var NT={},cur=0,tot=0,nOpen=false;
+function fc(arr,showWord){return arr.map(function(w){return '<div class="flash-card"><div class="fc-emoji">'+w.e+'</div><div class="fc-word">'+(showWord?w.w:'???')+'</div></div>'}).join('')}
+function build(){
+  var d=document.getElementById('deck'),h='',i=0;
+  // Title
+  h+=S(i++,'<div class="slide-section">Day 9 · Animals 2</div><div class="big-emoji">🐰🐷🐄🐴🐑</div><div class="slide-title">Animals 2</div><div class="slide-subtitle">rabbit · pig · cow · horse · sheep</div>');
+  NT[i-1]='<span class="tn-cat">🎯 Today</span><ul><li>5 new: <b>rabbit, pig, cow, horse, sheep</b></li><li>Review: jump, two, stand</li><li>Target: "IT\'S A ___!" "THE ___ SAYS ___!"</li></ul>';
+  // Warm-up overview
+  h+=S(i++,'<div class="slide-section">Module 1 · Warm-up</div><div class="slide-title">Let\'s Remember! 🧠</div><div class="flash-grid">'+fc(RW,true)+'</div>');
+  NT[i-1]='<span class="tn-cat">🗣️ Sentences</span><ul><li>"Can you jump? Let\'s jump!"</li><li>"Show me two fingers!"</li><li>"Stand up! Sit down! Again!"</li></ul>';
+  // Review words
+  RW.forEach(function(w){
+    h+=S(i++,'<div class="slide-section">Warm-up</div><div class="big-emoji">'+w.e+'</div><div class="word">'+w.w+'</div><div class="key-sentence">'+w.s+'</div>');
+    NT[i-1]='<span class="tn-cat">🗣️ Practice</span><ul><li>"What\'s this?" → model sentence</li><li>Child repeats 2-3 times</li><li>"Can you '+w.w+'? Show me!"</li></ul>';
   });
-
-  // === SLIDES 5-10: New Words (8 min) ===
-  html += slide(si++, `
-    <div class="slide-section">Module 2 · New Words</div>
-    <div class="slide-title">New Friends! 🌟</div>
-    <div class="slide-subtitle">5 new animals to learn today</div>
-    <div class="flash-grid" style="margin-top:16px">
-      ${NEW_WORDS.map(w=>`<div class="flash-card"><div class="fc-emoji">${w.emoji}</div><div class="fc-word">???</div></div>`).join('')}
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🎯 Introduction</span>
-    <ul>
-      <li>Build excitement: "Today we meet 5 new animal friends!"</li>
-      <li>"Are you ready? Let's see who they are!"</li>
-      <li>Point to each hidden card and ask "Who is hiding here?"</li>
-    </ul>
-  `;
-
-  NEW_WORDS.forEach(w => {
-    html += slide(si++, `
-      <div class="slide-section">New Word</div>
-      <div class="big-emoji">${w.emoji}</div>
-      <div class="word">${w.word}</div>
-      <div class="sentence">"${w.sentence}"</div>
-    `);
-    const animalNotes = getAnimalNotes(w.word);
-    NOTES[si-1] = animalNotes;
-  });
-
-  // === SLIDES 11-12: Guided Practice (6 min) ===
-  html += slide(si++, `
-    <div class="slide-section">Module 3 · Guided Practice</div>
-    <div class="slide-title">Let's Practice! 🎤</div>
-    <div class="activity-box">
-      <h3>🗣️ Animal Sounds Game</h3>
-      <ol>
-        <li>Teacher makes an animal sound</li>
-        <li>Child guesses which animal</li>
-        <li>Child repeats: "It's a ___!"</li>
-        <li>Then child tries making the sound too!</li>
-      </ol>
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🎮 How to play</span>
-    <ul>
-      <li>Make the sound: "Moo!" → child says "It's a cow!"</li>
-      <li>"Oink oink!" → "It's a pig!"</li>
-      <li>"Baa!" → "It's a sheep!"</li>
-      <li>Neigh/whinny → "It's a horse!"</li>
-      <li>For rabbit: hop motion → "It's a rabbit!"</li>
-    </ul>
-    <span class="tn-cat">🗣️ Extend with sentences</span>
-    <ul>
-      <li>"The cow says moo! Can you say moo?"</li>
-      <li>"Do you like pigs? → I like pigs!"</li>
-      <li>"How does a horse run? Show me!"</li>
-    </ul>
-  `;
-
-  html += slide(si++, `
-    <div class="slide-section">Guided Practice</div>
-    <div class="slide-title">Point & Say! 👆</div>
-    <div class="flash-grid">
-      ${NEW_WORDS.map(w=>`<div class="flash-card"><div class="fc-emoji">${w.emoji}</div><div class="fc-word">${w.word}</div></div>`).join('')}
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🤚 TPR Activity</span>
-    <ul>
-      <li>"Point to the rabbit!" "Where is the cow?"</li>
-      <li>"Show me the pig!" "Find the horse!"</li>
-      <li>Speed round: call animals faster and faster!</li>
-    </ul>
-    <span class="tn-cat">🗣️ Full sentences</span>
-    <ul>
-      <li>"This is a ___" (point to each)</li>
-      <li>"I see a ___!" "The ___ is big/small!"</li>
-    </ul>
-  `;
-
-  // === SLIDES 13-14: Listen & Do (5 min) ===
-  html += slide(si++, `
-    <div class="slide-section">Module 4 · Listen & Do</div>
-    <div class="slide-title">Listen & Do! 👂</div>
-    <div class="activity-box">
-      <h3>🎧 Teacher Says, You Do!</h3>
-      <ol>
-        <li>Teacher gives an instruction</li>
-        <li>Child acts it out</li>
-        <li>Mix old words + new animals!</li>
-      </ol>
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">📋 Instructions to give</span>
-    <ul>
-      <li>"Hop like a rabbit!" (child hops)</li>
-      <li>"Walk like a horse!" (child gallops)</li>
-      <li>"Roll like a pig!" (child rolls/wiggles)</li>
-      <li>"Say moo like a cow!" (child says moo)</li>
-      <li>"Jump two times!" (review: jump + two)</li>
-      <li>"Stand like a sheep!" (review: stand)</li>
-    </ul>
-    <span class="tn-cat">🎵 Song suggestion</span>
-    <ul>
-      <li>"Old MacDonald Had a Farm" — use today's animals!</li>
-      <li>Sing together: "...and on his farm he had a COW, E-I-E-I-O"</li>
-    </ul>
-  `;
-
-  html += slide(si++, `
-    <div class="slide-section">Listen & Do</div>
-    <div class="slide-title">🎵 Old MacDonald!</div>
-    <div class="big-emoji">🏡</div>
-    <div class="sentence" style="font-size:20px;color:#2c3e50;max-width:500px">
-      "Old MacDonald had a farm, E-I-E-I-O!<br>
-      And on his farm he had a <b>___</b>, E-I-E-I-O!"
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🎵 Sing together</span>
-    <ul>
-      <li>Go through each animal: cow (moo), pig (oink), sheep (baa), horse (neigh)</li>
-      <li>For rabbit: make up a sound! "hop hop hop!"</li>
-      <li>Let child choose which animal next: "Which animal? → The pig!"</li>
-      <li>Encourage full sentence: "I want the cow!"</li>
-    </ul>
-  `;
-
-  // === SLIDES 15-16: Wrap-up (3 min) ===
-  html += slide(si++, `
-    <div class="slide-section">Module 5 · Wrap-up</div>
-    <div class="slide-title">Great Job Today! 🌟</div>
-    <div class="flash-grid">
-      ${NEW_WORDS.map(w=>`<div class="flash-card"><div class="fc-emoji">${w.emoji}</div><div class="fc-word">${w.word}</div></div>`).join('')}
-    </div>
-  `);
-  NOTES[si-1] = `
-    <span class="tn-cat">🗣️ Quick review</span>
-    <ul>
-      <li>Point to each: "What's this? → It's a ___!"</li>
-      <li>"Which animal do you like? → I like ___!"</li>
-      <li>"What does the cow say? → Moo!"</li>
-    </ul>
-    <span class="tn-cat">👋 Goodbye</span>
-    <ul>
-      <li>"You learned 5 new animals today! Amazing!"</li>
-      <li>"Say bye to the animals! Bye rabbit! Bye pig!"</li>
-      <li>Remind: "Practice with your review game later!"</li>
-    </ul>
-  `;
-
-  html += slide(si++, `
-    <div class="slide-section">🎉</div>
-    <div class="big-emoji">⭐</div>
-    <div class="slide-title">Well Done!</div>
-    <div class="slide-subtitle">See you next time! 👋</div>
-  `);
-  NOTES[si-1] = `<span class="tn-cat">✅ Lesson complete!</span><ul><li>Wave goodbye and end the session.</li></ul>`;
-
-  deck.innerHTML = html;
-  totalSlides = si;
-  goTo(0);
-}
-
-function getAnimalNotes(word){
-  const notes = {
-    rabbit: `
-      <span class="tn-cat">🗣️ Sentences to model</span>
-      <ul>
-        <li>"It's a rabbit!" "The rabbit hops!"</li>
-        <li>"I like rabbits!" "The rabbit is white!"</li>
-        <li>"Hop hop hop like a rabbit!"</li>
-      </ul>
-      <span class="tn-cat">🤚 TPR</span>
-      <ul><li>"Can you hop like a rabbit? Show me!"</li></ul>
-      <span class="tn-cat">❓ Questions</span>
-      <ul><li>"What color is the rabbit?" "Is the rabbit big or small?"</li></ul>
-    `,
-    pig: `
-      <span class="tn-cat">🗣️ Sentences to model</span>
-      <ul>
-        <li>"It's a pig!" "The pig says oink!"</li>
-        <li>"I like pigs!" "The pig is pink!"</li>
-        <li>"Oink oink! I'm a pig!"</li>
-      </ul>
-      <span class="tn-cat">🤚 TPR</span>
-      <ul><li>"Can you say oink? Make a pig nose!"</li></ul>
-      <span class="tn-cat">❓ Questions</span>
-      <ul><li>"What color is the pig?" "Do you like pigs?"</li></ul>
-    `,
-    cow: `
-      <span class="tn-cat">🗣️ Sentences to model</span>
-      <ul>
-        <li>"It's a cow!" "The cow says moo!"</li>
-        <li>"I like cows!" "The cow is big!"</li>
-        <li>"Moo moo! I'm a cow!"</li>
-      </ul>
-      <span class="tn-cat">🤚 TPR</span>
-      <ul><li>"Can you say moo? A big loud moo!"</li></ul>
-      <span class="tn-cat">❓ Questions</span>
-      <ul><li>"Is the cow big or small?" "What does the cow give us? → Milk!"</li></ul>
-    `,
-    horse: `
-      <span class="tn-cat">🗣️ Sentences to model</span>
-      <ul>
-        <li>"It's a horse!" "The horse runs fast!"</li>
-        <li>"I like horses!" "The horse is brown!"</li>
-        <li>"Gallop gallop! I'm a horse!"</li>
-      </ul>
-      <span class="tn-cat">🤚 TPR</span>
-      <ul><li>"Can you gallop like a horse? Run run run!"</li></ul>
-      <span class="tn-cat">❓ Questions</span>
-      <ul><li>"Is the horse fast or slow?" "What color is the horse?"</li></ul>
-    `,
-    sheep: `
-      <span class="tn-cat">🗣️ Sentences to model</span>
-      <ul>
-        <li>"It's a sheep!" "The sheep says baa!"</li>
-        <li>"I like sheep!" "The sheep is fluffy!"</li>
-        <li>"Baa baa! I'm a sheep!"</li>
-      </ul>
-      <span class="tn-cat">🤚 TPR</span>
-      <ul><li>"Can you say baa? Baa baa black sheep!"</li></ul>
-      <span class="tn-cat">🎵 Song</span>
-      <ul><li>"Baa Baa Black Sheep" — sing together!</li></ul>
-    `
+  // New Words intro
+  h+=S(i++,'<div class="slide-section">Module 2 · New Words</div><div class="slide-title">New Friends! 🌟</div><div class="slide-subtitle">5 new animals to meet</div><div class="flash-grid" style="margin-top:12px">'+fc(NW,false)+'</div>');
+  NT[i-1]='<span class="tn-cat">🎯 Intro</span><ul><li>"Today we meet 5 new animal friends!"</li><li>"Are you ready? Let\'s go!"</li></ul>';
+  // New word slides
+  var anotes={
+    rabbit:'<span class="tn-cat">🗣️</span><ul><li>"IT\'S A RABBIT!" "I LIKE RABBITS!"</li></ul><span class="tn-cat">🤚</span><ul><li>"Hop like a rabbit!"</li></ul><span class="tn-cat">❓</span><ul><li>"Is the rabbit big or small?"</li></ul>',
+    pig:'<span class="tn-cat">🗣️</span><ul><li>"IT\'S A PIG!" "THE PIG IS PINK!"</li></ul><span class="tn-cat">🤚</span><ul><li>"Make a pig nose! Oink!"</li></ul><span class="tn-cat">❓</span><ul><li>"What color is the pig?"</li></ul>',
+    cow:'<span class="tn-cat">🗣️</span><ul><li>"IT\'S A COW!" "THE COW IS BIG!"</li></ul><span class="tn-cat">🤚</span><ul><li>"Say a big loud MOO!"</li></ul><span class="tn-cat">❓</span><ul><li>"Is the cow big or small?"</li></ul>',
+    horse:'<span class="tn-cat">🗣️</span><ul><li>"IT\'S A HORSE!" "I LIKE HORSES!"</li></ul><span class="tn-cat">🤚</span><ul><li>"Gallop like a horse!"</li></ul><span class="tn-cat">❓</span><ul><li>"Is the horse fast or slow?"</li></ul>',
+    sheep:'<span class="tn-cat">🗣️</span><ul><li>"IT\'S A SHEEP!" "THE SHEEP IS FLUFFY!"</li></ul><span class="tn-cat">🎵</span><ul><li>"Baa Baa Black Sheep" — sing!</li></ul>'
   };
-  return notes[word] || '';
+  NW.forEach(function(w,j){
+    h+=S(i++,'<div class="slide-section">New Word '+(j+1)+'/5</div><div class="big-emoji">'+w.e+'</div><div class="word">'+w.w+'</div><div class="key-sentence">'+w.s+'</div>');
+    NT[i-1]=anotes[w.w]||'';
+  });
+  // Guided Practice - Sounds
+  h+=S(i++,'<div class="slide-section">Module 3 · Guided Practice</div><div class="slide-title">Animal Sounds! 🎤</div><div class="key-sentence">WHAT DOES THE ___ SAY?</div><div class="flash-grid" style="margin-top:16px">'+fc(NW,true)+'</div>');
+  NT[i-1]='<span class="tn-cat">🎮 Play</span><ul><li>Make sound → child guesses</li><li>"Moo!" → "IT\'S A COW!"</li><li>"Oink!" → "IT\'S A PIG!"</li><li>"Baa!" → "IT\'S A SHEEP!"</li><li>Rabbit: hop → "IT\'S A RABBIT!"</li></ul>';
+  // Point & Say
+  h+=S(i++,'<div class="slide-section">Guided Practice</div><div class="slide-title">Point & Say! 👆</div><div class="key-sentence">THIS IS A ___!</div><div class="flash-grid" style="margin-top:16px">'+fc(NW,true)+'</div>');
+  NT[i-1]='<span class="tn-cat">🤚 TPR</span><ul><li>"Point to the rabbit!" "Where is the cow?"</li><li>Speed round: faster and faster!</li></ul>';
+  // Listen & Do
+  h+=S(i++,'<div class="slide-section">Module 4 · Listen & Do</div><div class="slide-title">Listen & Do! 👂</div><div class="key-sentence">HOP LIKE A RABBIT!</div><div class="activity-box" style="margin-top:16px"><h3>🎧 Teacher Says, You Do!</h3><ul><li>Teacher gives instruction</li><li>Child acts it out!</li></ul></div>');
+  NT[i-1]='<span class="tn-cat">📋 Instructions</span><ul><li>"Hop like a rabbit!"</li><li>"Walk like a horse!"</li><li>"Roll like a pig!"</li><li>"Say moo like a cow!"</li><li>"Jump two times!" (review)</li></ul>';
+  // Song
+  h+=S(i++,'<div class="slide-section">Listen & Do</div><div class="big-emoji">🏡</div><div class="slide-title">🎵 Old MacDonald!</div><div class="lyric">"Old MacDonald had a farm, E-I-E-I-O!<br>And on his farm he had a <b>___</b>, E-I-E-I-O!"</div><div class="key-sentence">I WANT THE COW!</div>');
+  NT[i-1]='<span class="tn-cat">🎵 Sing</span><ul><li>cow→moo, pig→oink, sheep→baa</li><li>Child picks: "I WANT THE ___!"</li></ul>';
+  // Wrap-up
+  h+=S(i++,'<div class="slide-section">Module 5 · Wrap-up</div><div class="slide-title">Great Job! 🌟</div><div class="key-sentence">WHAT\'S THIS? IT\'S A ___!</div><div class="flash-grid" style="margin-top:16px">'+fc(NW,true)+'</div>');
+  NT[i-1]='<span class="tn-cat">🗣️ Review</span><ul><li>"What\'s this? → IT\'S A ___!"</li><li>"Which do you like? → I LIKE ___!"</li></ul><span class="tn-cat">👋</span><ul><li>"BYE RABBIT! BYE PIG!"</li></ul>';
+  // End
+  h+=S(i++,'<div class="big-emoji">⭐</div><div class="slide-title">Well Done!</div><div class="slide-subtitle">See you next time! 👋</div>');
+  NT[i-1]='<span class="tn-cat">✅</span><ul><li>Wave goodbye!</li></ul>';
+  d.innerHTML=h;tot=i;goTo(0);
 }
-
-function slide(i, content){
-  return `<div class="slide ${i===0?'active':''}" data-slide="${i}">${content}</div>`;
-}
-
-let current = 0;
-let totalSlides = 0;
-let notesOpen = true;
-
-function goTo(i){
-  if(i<0||i>=totalSlides) return;
-  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.slide')[i].classList.add('active');
-  current = i;
-  updateNav();
-  updateNotes();
-}
-
-function go(dir){ goTo(current+dir); }
-
-function updateNav(){
-  document.getElementById('navProgress').textContent = `${current+1} / ${totalSlides}`;
-  document.getElementById('prevBtn').disabled = current===0;
-  const nb = document.getElementById('nextBtn');
-  if(current===totalSlides-1){
-    nb.textContent = 'Done 🎉';
-    nb.disabled = true;
-  } else {
-    nb.textContent = 'Next ▶';
-    nb.disabled = false;
-  }
-}
-
-function updateNotes(){
-  const body = document.getElementById('tnBody');
-  body.innerHTML = NOTES[current] || '<i>No notes for this slide.</i>';
-  if(notesOpen) body.classList.remove('hidden');
-}
-
-function toggleNotes(){
-  notesOpen = !notesOpen;
-  const body = document.getElementById('tnBody');
-  const arrow = document.getElementById('tnArrow');
-  if(notesOpen){
-    body.classList.remove('hidden');
-    arrow.classList.remove('collapsed');
-  } else {
-    body.classList.add('hidden');
-    arrow.classList.add('collapsed');
-  }
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', e => {
-  if(e.key==='ArrowRight'||e.key===' ') go(1);
-  if(e.key==='ArrowLeft') go(-1);
-  if(e.key==='t'||e.key==='T') toggleNotes();
-});
-
-buildSlides();
+function S(i,c){return '<div class="slide '+(i===0?'active':'')+'" data-slide="'+i+'">'+c+'</div>'}
+function goTo(i){if(i<0||i>=tot)return;document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.slide')[i].classList.add('active');cur=i;updNav();updNt()}
+function go(d){goTo(cur+d)}
+function updNav(){document.getElementById('navProgress').textContent=(cur+1)+'/'+tot;document.getElementById('prevBtn').disabled=cur===0;var b=document.getElementById('nextBtn');if(cur===tot-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}}
+function updNt(){document.getElementById('tnBody').innerHTML=NT[cur]||'<i>No notes.</i>'}
+function toggleNotes(){nOpen=!nOpen;document.getElementById('tnPopup').classList.toggle('open',nOpen);document.getElementById('tnFab').classList.toggle('active',nOpen)}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='t'||e.key==='T')toggleNotes()});
+// Close notes on click outside
+document.addEventListener('click',function(e){if(nOpen&&!e.target.closest('.tn-popup')&&!e.target.closest('.tn-fab')){nOpen=false;document.getElementById('tnPopup').classList.remove('open');document.getElementById('tnFab').classList.remove('active')}});
+build();
 </script>
 </body>
 </html>
