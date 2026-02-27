@@ -145,23 +145,25 @@ buildPart2(h,i);
 }
 
 function buildPart2(h,i){
-// 8 Peek-a-boo
-h+=mk(i++,'bg4',
-  '<div class="sec">Guess Time!</div><div class="ttl">What do you see? 🙈</div>'+
-  '<div class="peek blur" id="peek" style="cursor:pointer">'+img(NW[0].svg,200)+'</div>'+
-  '<div class="peek-label" id="peekLabel">👆 Tap the picture to reveal!</div>'+
-  '<div class="ks" id="peekSentence">I see a ___?</div>');
-N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image starts blurry — tap to reveal step by step</li><li>Ask: "What do you see? Can you guess?"</li><li>Tap once → less blurry</li><li>Tap again → fully revealed!</li><li>Tap again → next animal (loops all 5)</li></ul>';
+// 8-12 Peek-a-boo (one page per animal)
+NW.forEach(function(w,j){
+  h+=mk(i++,'bg4',
+    '<div class="sec">Guess '+(j+1)+'/5</div><div class="ttl">What do you see? 🙈</div>'+
+    '<div class="peek blur" id="peek'+j+'" style="cursor:pointer">'+img(w.svg,200)+'</div>'+
+    '<div class="peek-label" id="peekL'+j+'">👆 Tap the picture!</div>'+
+    '<div class="ks" id="peekS'+j+'">I see a ___?</div>');
+  N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image is blurry — ask "Can you guess?"</li><li>Tap once → less blurry</li><li>Tap again → reveal! Child says "I see a '+w.w+'!"</li></ul>';
+});
 
 buildPart3(h,i);
 }
 
 function buildPart3(h,i){
-// 9 All Together
+// 13 Find the ___!
 h+=mk(i++,'bg5',
-  '<div class="sec">All Together</div><div class="ttl">What do you see? 🌟</div>'+
+  '<div class="sec">Find it!</div><div class="ttl">Where is the ___? 🔍</div>'+
   '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,80)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
-N[i-1]='<span class="tc">🗣️ Speed round</span><ul><li>Point randomly: "What do you see?"</li><li>Child: "I see a ___!"</li><li>All 5 as fast as possible</li><li>"You know all the animals!"</li></ul>';
+N[i-1]='<span class="tc">🎮 How</span><ul><li>Say: "Where is the cow?" → child points</li><li>Child answers: "I see a cow!"</li><li>Go through all 5, random order</li><li>Speed round: faster and faster!</li></ul>';
 
 // 11 Bye
 h+=mk(i++,'bg6',
@@ -188,22 +190,19 @@ function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
 document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
 
-// === Peek-a-boo ===
-var peekIdx=0,peekState=0;
+// === Peek-a-boo (multi-page) ===
 function initPeek(){
-  var pk=document.getElementById('peek');
-  if(!pk)return;
-  pk.onclick=function(){
-    if(peekState===0){pk.className='peek half';peekState=1;document.getElementById('peekLabel').textContent='Tap again!'}
-    else if(peekState===1){pk.className='peek show';peekState=2;
-      document.getElementById('peekLabel').textContent='';
-      document.getElementById('peekSentence').textContent='I see a '+NW[peekIdx].w+'!'}
-    else{peekIdx=(peekIdx+1)%NW.length;peekState=0;
-      pk.className='peek blur';
-      pk.querySelector('img').src=TW+NW[peekIdx].svg+'.svg';
-      document.getElementById('peekLabel').textContent='Tap to reveal!';
-      document.getElementById('peekSentence').textContent='I see a ___?'}
-  };
+  NW.forEach(function(w,j){
+    var pk=document.getElementById('peek'+j);
+    if(!pk)return;
+    var state=0;
+    pk.onclick=function(){
+      if(state===0){pk.className='peek half';state=1;document.getElementById('peekL'+j).textContent='👆 Tap again!'}
+      else if(state===1){pk.className='peek show';state=2;
+        document.getElementById('peekL'+j).textContent='';
+        document.getElementById('peekS'+j).textContent='I see a '+w.w+'!'}
+    };
+  });
 }
 
 // === Keyboard ===
@@ -214,7 +213,6 @@ document.addEventListener('keydown',function(e){
 });
 
 build();
-</script>
 </script>
 </body>
 </html>
