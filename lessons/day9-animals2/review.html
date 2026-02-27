@@ -555,13 +555,11 @@ function whackMole(hole, e) {
     whackRound++;
     setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打对啦！这是 ' + target.name + '！', starsBar(5, whackRound));
     playCorrect(); speak(target.name, function() {
-      repeatPhase(target.name, function() {
         whackBusy = false;
         document.querySelectorAll('.mole').forEach(function(m){
           m.classList.remove('up','whacked'); m.innerHTML = '';
         });
         nextWhackRound();
-      });
     });
   } else {
     playWrong();
@@ -611,10 +609,8 @@ function checkListen(card, animal, e) {
     listenRound++;
     setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找对啦！这是 ' + target.name + '！', starsBar(5, listenRound));
     playCorrect(); speak(target.name, function() {
-      repeatPhase(target.name, function() {
         listenBusy = false;
         buildListenGrid(); showListenPrompt();
-      });
     });
   } else {
     playWrong();
@@ -671,13 +667,11 @@ function flipCard(el, word, e) {
     flipMatched++;
     setInstr('Find the pairs! 🃏', '再翻两张，找一样的！', starsBar(4, flipMatched));
     playCorrect(); speak(word.name, function() {
-      repeatPhase(word.name, function() {
         flipFirst = null;
         flipLocked = false;
         if(flipMatched >= 4) {
           setInstr('All done! 🎉', '全部配对成功，你太棒了！', starsBar(4, 4));
         }
-      });
     });
   } else {
     var prev = flipFirst.el;
