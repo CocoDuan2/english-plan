@@ -31,8 +31,10 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 .tg-expand.open{display:block}
 .tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
 
-.instr-banner{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.25);
-  text-align:center;padding:6px 12px;margin-bottom:8px;min-height:36px;width:100%;max-width:500px}
+.instr-banner{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:6px 12px;margin-bottom:8px;min-height:44px;width:100%;max-width:500px}
+.instr-en{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.25);line-height:1.2}
+.instr-zh{font-size:14px;color:rgba(255,255,255,.7);margin-top:2px;line-height:1.2}
 
 .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
 .card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
@@ -58,15 +60,18 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 .review-card .icon{line-height:1}
 .review-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
 
-/* Egg hatch game */
-.egg{background:rgba(255,255,255,.9);border-radius:50%;padding:16px;width:100%;min-height:110px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent}
-.egg:active{transform:scale(.9)}
-.egg .egg-icon{line-height:1;transition:transform .3s}
-.egg.hatched .egg-icon img{animation:popIn .5s ease}
-.egg .egg-label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
-.egg.hatched .egg-label{opacity:1}
+/* Tap-to-learn card reveal */
+.learn-grid{display:flex;flex-wrap:wrap;gap:12px;width:100%;justify-content:center}
+.learn-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;
+  width:calc(33.33% - 8px);min-height:110px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.learn-card:active{transform:scale(.95)}
+.learn-card .icon{line-height:1}
+.learn-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333;opacity:0;transition:opacity .3s}
+.learn-card.revealed .label{opacity:1}
+.learn-card.revealed .icon img{filter:none;animation:popIn .4s ease}
+.learn-card:not(.revealed) .icon img{filter:grayscale(1) brightness(1.1)}
 
 /* Memory flip game */
 .flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;justify-items:center}
@@ -137,8 +142,7 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
   .module-title{font-size:28px}
   .card-grid,.flip-grid,.mole-grid{gap:18px}
   .card{padding:20px;min-height:140px}
-  .card .icon img,.review-card .icon img,.listen-card .icon img{width:120px!important;height:120px!important}
-  .egg .egg-icon img{width:120px!important;height:120px!important}
+  .card .icon img,.review-card .icon img,.listen-card .icon img,.learn-card .icon img{width:120px!important;height:120px!important}
   .flip-card .flip-face img{width:80px!important;height:80px!important}
   .mole img{width:70px!important;height:70px!important}
   .complete-emoji img{width:120px!important;height:120px!important}
@@ -155,21 +159,18 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 
 <!-- Module 1: Review Warm-up -->
 <div class="module" id="mod1">
-  <div class="module-title" id="mod1Title">Review Time!</div>
   <div class="prompt-text" id="reviewPrompt"></div>
   <div class="score-bar" id="reviewScoreBar"></div>
   <div class="card-grid" id="reviewGrid"></div>
 </div>
 
-<!-- Module 2: Egg Hatch -->
+<!-- Module 2: Tap to Learn -->
 <div class="module" id="mod2">
-  <div class="module-title" id="mod2Title">Hatch the Eggs!</div>
-  <div class="card-grid" id="eggGrid"></div>
+  <div class="learn-grid" id="learnGrid"></div>
 </div>
 
 <!-- Module 3: Whack-a-Mole -->
 <div class="module" id="mod3">
-  <div class="module-title" id="mod3Title">Whack-a-Mole!</div>
   <div class="prompt-text" id="whackPrompt"></div>
   <div class="score-bar" id="whackScoreBar"></div>
   <div class="mole-grid" id="moleGrid"></div>
@@ -177,7 +178,6 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 
 <!-- Module 4: Listen & Find -->
 <div class="module" id="mod4">
-  <div class="module-title" id="mod4Title">Listen &amp; Find!</div>
   <div class="score-bar" id="listenScoreBar"></div>
   <div class="prompt-text" id="listenPrompt"></div>
   <div class="card-grid" id="listenGrid"></div>
@@ -185,7 +185,6 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 
 <!-- Module 5: Memory Flip -->
 <div class="module" id="mod5">
-  <div class="module-title" id="mod5Title">Memory Flip!</div>
   <div class="score-bar" id="flipScoreBar"></div>
   <div class="flip-grid" id="flipGrid"></div>
 </div>
@@ -227,7 +226,7 @@ var REVIEW = [
 
 var MODULES = 6, currentModule = 0;
 var reviewRound = 0, reviewOrder = [];
-var eggRevealed = 0, eggSet = {};
+var learnRevealed = 0;
 var whackRound = 0, whackScore = 0, whackOrder = [], whackTimer = null, moleTimers = [];
 var listenRound = 0, listenOrder = [];
 var flipFirst = null, flipMatched = 0, flipLocked = false;
@@ -288,8 +287,9 @@ function playStar() {
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
   osc.start(); osc.stop(ctx.currentTime + 0.2);
 }
-function setInstr(text) {
-  document.getElementById('instrBanner').textContent = text;
+function setInstr(en, zh) {
+  var b = document.getElementById('instrBanner');
+  b.innerHTML = '<div class="instr-en">' + en + '</div>' + (zh ? '<div class="instr-zh">' + zh + '</div>' : '');
 }
 
 function showCorrect(name) {
@@ -348,7 +348,7 @@ function goModule(n) {
   if(target) target.classList.add('active');
   updateDots();
   if(n === 1) startReview();
-  if(n === 2) { setInstr('Tap the eggs! 🥚'); speak('Tap the eggs!'); }
+  if(n === 2) initMod2();
   if(n === 3) startWhack();
   if(n === 4) startListen();
   if(n === 5) startFlip();
@@ -366,7 +366,7 @@ function goPrev() { if(currentModule > 1) goModule(currentModule - 1); }
 
 // === MODULE 1: REVIEW WARM-UP ===
 function startReview() {
-  setInstr('Find the right one! 🔍');
+  setInstr('Find the right one! 🔍', '找到正确的！');
   speak('Find the right one!');
   reviewRound = 0;
   reviewOrder = shuffle([0,1,2]);
@@ -421,33 +421,33 @@ function checkReview(card, item, e) {
   }
 }
 
-// === MODULE 2: EGG HATCH ===
-function initEggs() {
-  var grid = document.getElementById('eggGrid');
+// === MODULE 2: TAP TO LEARN ===
+function initMod2() {
+  learnRevealed = 0;
+  setInstr('Tap to learn! 👆', '点击学习新词！');
+  speak('Tap to learn!');
+  var grid = document.getElementById('learnGrid');
   grid.innerHTML = '';
   ANIMALS.forEach(function(a, i) {
-    var egg = document.createElement('div');
-    egg.className = 'egg';
-    egg.innerHTML = '<div class="egg-icon">' + twimg('1f95a', 80) + '</div><div class="egg-label">' + a.name + '</div>';
-    egg.onclick = function(e) { hatchEgg(this, i, e); };
-    grid.appendChild(egg);
+    var card = document.createElement('div');
+    card.className = 'learn-card';
+    card.innerHTML = '<div class="icon">' + twimg(a.code, 80) + '</div><div class="label">' + a.name + '</div>';
+    card.onclick = function(e) { revealLearn(this, i, e); };
+    grid.appendChild(card);
   });
 }
 
-function hatchEgg(el, idx, e) {
-  var wasHatched = el.classList.contains('hatched');
-  el.classList.add('hatched');
-  var icon = el.querySelector('.egg-icon');
-  icon.innerHTML = twimg(ANIMALS[idx].code, 80);
-  var img = icon.querySelector('img');
-  if(img) { img.style.animation = 'none'; void img.offsetWidth; img.style.animation = 'popIn .5s ease'; }
+function revealLearn(el, idx, e) {
+  if (!el.classList.contains('revealed')) {
+    el.classList.add('revealed');
+    learnRevealed++;
+  }
   playPop();
   speak(ANIMALS[idx].name);
   var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-  if(!wasHatched) {
-    eggSet[idx] = true;
-    eggRevealed++;
+  if (learnRevealed >= ANIMALS.length) {
+    setInstr('All learned! 🎉', '全部学会了！');
   }
 }
 
@@ -488,13 +488,13 @@ function buildMoleGrid() {
 function nextWhackRound() {
   if(whackRound >= 5) {
     document.getElementById('whackPrompt').textContent = 'Great whacking!';
-    setInstr('Great whacking! 🔨');
+    setInstr('Great whacking! 🔨', '打得好！');
     return;
   }
   var target = ANIMALS[whackOrder[whackRound]];
   var wp = document.getElementById('whackPrompt');
   wp.innerHTML = 'Whack: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
-  setInstr('Whack the ' + target.name + '! 🔨');
+  setInstr('Whack the ' + target.name + '! 🔨', '打' + target.name + '！');
   speak(target.name);
 
   var moles = document.querySelectorAll('.mole');
@@ -583,13 +583,13 @@ function buildListenGrid() {
 function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('listenPrompt').textContent = 'All found!';
-    setInstr('All found! 🎉');
+    setInstr('All found! 🎉', '全部找到了！');
     return;
   }
   var target = ANIMALS[listenOrder[listenRound]];
   var lp = document.getElementById('listenPrompt');
   lp.innerHTML = 'Find: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
-  setInstr('Find the ' + target.name + '! 🔍');
+  setInstr('Find the ' + target.name + '! 🔍', '找到' + target.name + '！');
   speak('Find the ' + target.name + '!');
 }
 
@@ -613,7 +613,7 @@ function checkListen(card, animal, e) {
 // === MODULE 5: MEMORY FLIP ===
 function startFlip() {
   flipFirst = null; flipMatched = 0; flipLocked = false;
-  setInstr('Find the pairs! 🃏');
+  setInstr('Find the pairs! 🃏', '找到配对！');
   speak('Find the matching pairs!');
   var sb = document.getElementById('flipScoreBar');
   sb.innerHTML = '';
@@ -670,7 +670,7 @@ function flipCard(el, word, e) {
     flipFirst = null;
     flipLocked = false;
     if(flipMatched >= 4) {
-      setInstr('You matched them all! 🎉');
+      setInstr('All done! 🎉', '全部完成！');
     }
   } else {
     var prev = flipFirst.el;
@@ -689,14 +689,10 @@ function flipCard(el, word, e) {
 // === INIT ===
 // Set Twemoji icons in static HTML
 document.getElementById('topTitle').innerHTML = twimg('1f3ae', 20) + ' Day 9 · Animals 2 Review';
-document.getElementById('mod1Title').innerHTML = twimg('1f31f', 24) + ' Review Time!';
-document.getElementById('mod2Title').innerHTML = twimg('1f95a', 24) + ' Hatch the Eggs!';
-document.getElementById('mod3Title').innerHTML = twimg('1f528', 24) + ' Whack-a-Mole!';
-document.getElementById('mod4Title').innerHTML = twimg('1f442', 24) + ' Listen &amp; Find!';
-document.getElementById('mod5Title').innerHTML = twimg('1f0cf', 24) + ' Memory Flip!';
+
 document.getElementById('completeEmoji').innerHTML = twimg('1f389', 90);
 
-initEggs();
+
 goModule(1);
 </script>
 
