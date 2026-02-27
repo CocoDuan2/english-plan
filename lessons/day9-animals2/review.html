@@ -426,10 +426,11 @@ function checkReview(card, item, e) {
     reviewRound++;
     setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '答对啦！这是 ' + target.name + '！', starsBar(3, reviewRound));
     playCorrect();
-    speak(target.name, function() {
+    speak(target.name);
+    setTimeout(function() {
       reviewBusy = false;
       buildReviewGrid(); showReviewPrompt();
-    });
+    }, 800);
   } else {
     speak(item.name);
     playWrong();
@@ -468,14 +469,12 @@ function revealLearn(el, idx, e) {
   var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
   speak(ANIMALS[idx].name, function() {
-    repeatPhase(ANIMALS[idx].name, function() {
       learnBusy = false;
       if (learnRevealed >= ANIMALS.length) {
         setInstr('All learned! 🎉', '全部学会啦，你真棒！');
       } else {
         setInstr('Tap to learn! 👆', '还有卡片没翻开哦，继续点！');
       }
-    });
   });
 }
 
