@@ -31,10 +31,10 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 .tg-expand.open{display:block}
 .tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
 
-.instr-banner{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:6px 12px;margin-bottom:8px;min-height:44px;width:100%;max-width:500px}
-.instr-en{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.25);line-height:1.2}
-.instr-zh{font-size:14px;color:rgba(255,255,255,.7);margin-top:2px;line-height:1.2}
+.instr-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px 14px;margin-bottom:10px;width:100%;max-width:500px;background:rgba(39,174,96,.88);border-radius:16px;min-height:56px;box-shadow:0 3px 12px rgba(0,0,0,.12)}
+.instr-en{font-size:22px;font-weight:700;color:#fff;line-height:1.3}
+.instr-zh{font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;line-height:1.2}
+.instr-stars{display:flex;gap:5px;margin-top:4px}
 
 .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
 .card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
@@ -159,8 +159,6 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 
 <!-- Module 1: Review Warm-up -->
 <div class="module" id="mod1">
-  <div class="prompt-text" id="reviewPrompt"></div>
-  <div class="score-bar" id="reviewScoreBar"></div>
   <div class="card-grid" id="reviewGrid"></div>
 </div>
 
@@ -171,21 +169,16 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 
 <!-- Module 3: Whack-a-Mole -->
 <div class="module" id="mod3">
-  <div class="prompt-text" id="whackPrompt"></div>
-  <div class="score-bar" id="whackScoreBar"></div>
   <div class="mole-grid" id="moleGrid"></div>
 </div>
 
 <!-- Module 4: Listen & Find -->
 <div class="module" id="mod4">
-  <div class="score-bar" id="listenScoreBar"></div>
-  <div class="prompt-text" id="listenPrompt"></div>
   <div class="card-grid" id="listenGrid"></div>
 </div>
 
 <!-- Module 5: Memory Flip -->
 <div class="module" id="mod5">
-  <div class="score-bar" id="flipScoreBar"></div>
   <div class="flip-grid" id="flipGrid"></div>
 </div>
 
@@ -298,9 +291,19 @@ function playStar() {
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
   osc.start(); osc.stop(ctx.currentTime + 0.2);
 }
-function setInstr(en, zh) {
+function setInstr(en, zh, starsHtml) {
   var b = document.getElementById('instrBanner');
-  b.innerHTML = '<div class="instr-en">' + en + '</div>' + (zh ? '<div class="instr-zh">' + zh + '</div>' : '');
+  var h = '<div class="instr-en">' + en + '</div>';
+  if(zh) h += '<div class="instr-zh">' + zh + '</div>';
+  if(starsHtml) h += '<div class="instr-stars">' + starsHtml + '</div>';
+  b.innerHTML = h;
+}
+function starsBar(total, earned) {
+  var h = '';
+  for(var i = 0; i < total; i++) {
+    h += '<span class="star' + (i < earned ? ' earned' : '') + '">' + twimg('2b50', 18) + '</span>';
+  }
+  return h;
 }
 
 function showCorrect(name, cb) {
@@ -379,18 +382,8 @@ function goPrev() { if(currentModule > 1) goModule(currentModule - 1); }
 
 // === MODULE 1: REVIEW WARM-UP ===
 function startReview() {
-  setInstr('Find the right one! 🔍', '找到正确的！');
-  speak('Find the right one!');
   reviewRound = 0;
   reviewOrder = shuffle([0,1,2]);
-  var sb = document.getElementById('reviewScoreBar');
-  sb.innerHTML = '';
-  for(var i = 0; i < 3; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    s.innerHTML = twimg('2b50', 22);
-    sb.appendChild(s);
-  }
   buildReviewGrid();
   showReviewPrompt();
 }
@@ -409,12 +402,11 @@ function buildReviewGrid() {
 
 function showReviewPrompt() {
   if(reviewRound >= 3) {
-    document.getElementById('reviewPrompt').textContent = 'Great memory!';
+    setInstr('Great memory! 🌟', '记忆力真棒！', starsBar(3, 3));
     return;
   }
   var target = REVIEW[reviewOrder[reviewRound]];
-  var p = document.getElementById('reviewPrompt');
-  p.innerHTML = 'Find: <b>' + target.name.toUpperCase() + '</b> ' + twimg(target.code, 28);
+  setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '找到 ' + target.name + '！', starsBar(3, reviewRound));
   speak('Find ' + target.name + '!');
 }
 
@@ -426,8 +418,8 @@ function checkReview(card, item, e) {
     reviewBusy = true;
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    document.getElementById('reviewScoreBar').children[reviewRound].classList.add('earned');
     reviewRound++;
+    setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '找到 ' + target.name + '！', starsBar(3, reviewRound));
     showCorrect(target.name, function() {
       repeatPhase(target.name, function() {
         reviewBusy = false;
@@ -459,11 +451,13 @@ function initMod2() {
 
 var learnBusy = false;
 function revealLearn(el, idx, e) {
-  if (learnBusy) return;
-  if (!el.classList.contains('revealed')) {
-    el.classList.add('revealed');
-    learnRevealed++;
+  if (el.classList.contains('revealed')) {
+    speak(ANIMALS[idx].name);
+    return;
   }
+  if (learnBusy) return;
+  el.classList.add('revealed');
+  learnRevealed++;
   learnBusy = true;
   playPop();
   var rect = el.getBoundingClientRect();
@@ -486,14 +480,6 @@ function startWhack() {
   whackOrder = shuffle([0,1,2,3,4]);
   moleTimers.forEach(clearTimeout);
   moleTimers = [];
-  var sb = document.getElementById('whackScoreBar');
-  sb.innerHTML = '';
-  for(var i = 0; i < 5; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    s.innerHTML = twimg('2b50', 22);
-    sb.appendChild(s);
-  }
   buildMoleGrid();
   nextWhackRound();
 }
@@ -516,14 +502,11 @@ function buildMoleGrid() {
 
 function nextWhackRound() {
   if(whackRound >= 5) {
-    document.getElementById('whackPrompt').textContent = 'Great whacking!';
-    setInstr('Great whacking! 🔨', '打得好！');
+    setInstr('Great whacking! 🔨', '打得好！', starsBar(5, 5));
     return;
   }
   var target = ANIMALS[whackOrder[whackRound]];
-  var wp = document.getElementById('whackPrompt');
-  wp.innerHTML = 'Whack: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
-  setInstr('Whack the ' + target.name + '! 🔨', '打' + target.name + '！');
+  setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打' + target.name + '！', starsBar(5, whackRound));
   speak(target.name);
 
   var moles = document.querySelectorAll('.mole');
@@ -547,8 +530,6 @@ function nextWhackRound() {
       mole.innerHTML = twimg(p.word.code, 50);
       mole.setAttribute('data-name', p.word.name);
       mole.classList.add('up');
-      var ht = setTimeout(function() { mole.classList.remove('up'); }, 3000);
-      moleTimers.push(ht);
     }, idx * 500);
     moleTimers.push(t);
   });
@@ -566,11 +547,10 @@ function whackMole(hole, e) {
     moleTimers.forEach(clearTimeout); moleTimers = [];
     var rect = hole.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    var stars = document.getElementById('whackScoreBar').children;
-    stars[whackRound].classList.add('earned');
     whackScore++;
     whackRound++;
-    showCorrect(target.name, function() {
+    setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打' + target.name + '！', starsBar(5, whackRound));
+    playCorrect(); speak(target.name, function() {
       repeatPhase(target.name, function() {
         whackBusy = false;
         document.querySelectorAll('.mole').forEach(function(m){
@@ -590,14 +570,6 @@ function whackMole(hole, e) {
 function startListen() {
   listenRound = 0;
   listenOrder = shuffle([0,1,2,3,4]);
-  var sb = document.getElementById('listenScoreBar');
-  sb.innerHTML = '';
-  for(var i = 0; i < 5; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    s.innerHTML = twimg('2b50', 22);
-    sb.appendChild(s);
-  }
   buildListenGrid();
   showListenPrompt();
 }
@@ -616,14 +588,11 @@ function buildListenGrid() {
 
 function showListenPrompt() {
   if(listenRound >= 5) {
-    document.getElementById('listenPrompt').textContent = 'All found!';
-    setInstr('All found! 🎉', '全部找到了！');
+    setInstr('All found! 🎉', '全部找到了！', starsBar(5, 5));
     return;
   }
   var target = ANIMALS[listenOrder[listenRound]];
-  var lp = document.getElementById('listenPrompt');
-  lp.innerHTML = 'Find: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
-  setInstr('Find the ' + target.name + '! 🔍', '找到' + target.name + '！');
+  setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找到' + target.name + '！', starsBar(5, listenRound));
   speak('Find the ' + target.name + '!');
 }
 
@@ -635,9 +604,9 @@ function checkListen(card, animal, e) {
     listenBusy = true;
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    document.getElementById('listenScoreBar').children[listenRound].classList.add('earned');
     listenRound++;
-    showCorrect(target.name, function() {
+    setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找到' + target.name + '！', starsBar(5, listenRound));
+    playCorrect(); speak(target.name, function() {
       repeatPhase(target.name, function() {
         listenBusy = false;
         buildListenGrid(); showListenPrompt();
@@ -653,16 +622,8 @@ function checkListen(card, animal, e) {
 // === MODULE 5: MEMORY FLIP ===
 function startFlip() {
   flipFirst = null; flipMatched = 0; flipLocked = false;
-  setInstr('Find the pairs! 🃏', '找到配对！');
+  setInstr('Find the pairs! 🃏', '找到配对！', starsBar(4, 0));
   speak('Find the matching pairs!');
-  var sb = document.getElementById('flipScoreBar');
-  sb.innerHTML = '';
-  for(var i = 0; i < 4; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    s.innerHTML = twimg('2b50', 22);
-    sb.appendChild(s);
-  }
   var picks = shuffle(ANIMALS).slice(0, 4);
   var pairs = shuffle(picks.concat(picks.slice()));
   buildFlipGrid(pairs);
@@ -703,15 +664,14 @@ function flipCard(el, word, e) {
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     el.classList.add('matched');
     flipFirst.el.classList.add('matched');
-    var stars = document.getElementById('flipScoreBar').children;
-    if(flipMatched < stars.length) stars[flipMatched].classList.add('earned');
     flipMatched++;
-    showCorrect(word.name, function() {
+    setInstr('Find the pairs! 🃏', '找到配对！', starsBar(4, flipMatched));
+    playCorrect(); speak(word.name, function() {
       repeatPhase(word.name, function() {
         flipFirst = null;
         flipLocked = false;
         if(flipMatched >= 4) {
-          setInstr('All done! 🎉', '全部完成！');
+          setInstr('All done! 🎉', '全部完成！', starsBar(4, 4));
         }
       });
     });
