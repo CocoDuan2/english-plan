@@ -237,14 +237,25 @@ function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-function speak(text) {
+function speak(text, cb) {
   setTimeout(function() {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis) { if(cb) cb(); return; }
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
+    if(cb) u.onend = function(){ setTimeout(cb, 200); };
     window.speechSynthesis.speak(u);
   }, 300);
+}
+
+// Repeat / follow-along phase: show mic prompt, wait, then callback
+function repeatPhase(word, cb) {
+  setInstr('Your turn! 🎤', '你来说: ' + word);
+  setTimeout(function() {
+    speak(word, function() {
+      setTimeout(cb, 2500);
+    });
+  }, 800);
 }
 function playCorrect() {
   var ctx = getAudioCtx();
@@ -292,13 +303,15 @@ function setInstr(en, zh) {
   b.innerHTML = '<div class="instr-en">' + en + '</div>' + (zh ? '<div class="instr-zh">' + zh + '</div>' : '');
 }
 
-function showCorrect(name) {
+function showCorrect(name, cb) {
   playCorrect();
-  speak('I see a ' + name + '!');
   var el = document.getElementById('correctMsg');
   el.textContent = 'I see a ' + name + '!';
   el.style.display = 'block';
-  setTimeout(function(){ el.style.display = 'none'; }, 1000);
+  speak('I see a ' + name + '!', function() {
+    el.style.display = 'none';
+    if(cb) cb();
+  });
 }
 
 function burstStars(x, y) {
@@ -405,15 +418,22 @@ function showReviewPrompt() {
   speak('Find ' + target.name + '!');
 }
 
+var reviewBusy = false;
 function checkReview(card, item, e) {
-  if(reviewRound >= 3) return;
+  if(reviewRound >= 3 || reviewBusy) return;
   var target = REVIEW[reviewOrder[reviewRound]];
   if(item.name === target.name) {
+    reviewBusy = true;
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     document.getElementById('reviewScoreBar').children[reviewRound].classList.add('earned');
     reviewRound++;
-    setTimeout(function(){ buildReviewGrid(); showReviewPrompt(); }, 600);
+    showCorrect(target.name, function() {
+      repeatPhase(target.name, function() {
+        reviewBusy = false;
+        buildReviewGrid(); showReviewPrompt();
+      });
+    });
   } else {
     playWrong();
     card.style.animation = 'shake .4s ease';
@@ -437,18 +457,27 @@ function initMod2() {
   });
 }
 
+var learnBusy = false;
 function revealLearn(el, idx, e) {
+  if (learnBusy) return;
   if (!el.classList.contains('revealed')) {
     el.classList.add('revealed');
     learnRevealed++;
   }
+  learnBusy = true;
   playPop();
-  speak(ANIMALS[idx].name);
   var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-  if (learnRevealed >= ANIMALS.length) {
-    setInstr('All learned! 🎉', '全部学会了！');
-  }
+  speak(ANIMALS[idx].name, function() {
+    repeatPhase(ANIMALS[idx].name, function() {
+      learnBusy = false;
+      if (learnRevealed >= ANIMALS.length) {
+        setInstr('All learned! 🎉', '全部学会了！');
+      } else {
+        setInstr('Tap to learn! 👆', '点击学习新词！');
+      }
+    });
+  });
 }
 
 // === MODULE 3: WHACK-A-MOLE ===
@@ -525,26 +554,31 @@ function nextWhackRound() {
   });
 }
 
+var whackBusy = false;
 function whackMole(hole, e) {
   var mole = hole.querySelector('.mole');
-  if(!mole.classList.contains('up')) return;
+  if(!mole.classList.contains('up') || whackBusy) return;
   var target = ANIMALS[whackOrder[whackRound]];
   var name = mole.getAttribute('data-name');
   if(name === target.name) {
+    whackBusy = true;
     mole.classList.add('whacked');
+    moleTimers.forEach(clearTimeout); moleTimers = [];
     var rect = hole.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    showCorrect(target.name);
     var stars = document.getElementById('whackScoreBar').children;
     stars[whackRound].classList.add('earned');
     whackScore++;
     whackRound++;
-    setTimeout(function() {
-      document.querySelectorAll('.mole').forEach(function(m){
-        m.classList.remove('up','whacked'); m.innerHTML = '';
+    showCorrect(target.name, function() {
+      repeatPhase(target.name, function() {
+        whackBusy = false;
+        document.querySelectorAll('.mole').forEach(function(m){
+          m.classList.remove('up','whacked'); m.innerHTML = '';
+        });
+        nextWhackRound();
       });
-      nextWhackRound();
-    }, 800);
+    });
   } else {
     playWrong();
     hole.style.animation = 'shake .4s ease';
@@ -593,16 +627,22 @@ function showListenPrompt() {
   speak('Find the ' + target.name + '!');
 }
 
+var listenBusy = false;
 function checkListen(card, animal, e) {
-  if(listenRound >= 5) return;
+  if(listenRound >= 5 || listenBusy) return;
   var target = ANIMALS[listenOrder[listenRound]];
   if(animal.name === target.name) {
+    listenBusy = true;
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    showCorrect(target.name);
     document.getElementById('listenScoreBar').children[listenRound].classList.add('earned');
     listenRound++;
-    setTimeout(function(){ buildListenGrid(); showListenPrompt(); }, 700);
+    showCorrect(target.name, function() {
+      repeatPhase(target.name, function() {
+        listenBusy = false;
+        buildListenGrid(); showListenPrompt();
+      });
+    });
   } else {
     playWrong();
     card.style.animation = 'shake .4s ease';
@@ -650,9 +690,9 @@ function flipCard(el, word, e) {
   el.classList.remove('face-down');
   el.querySelector('.flip-face').innerHTML = twimg(word.code, 60);
   playPop();
-  speak(word.name);
 
   if(!flipFirst) {
+    speak(word.name);
     flipFirst = {el: el, word: word};
     return;
   }
@@ -661,17 +701,20 @@ function flipCard(el, word, e) {
   if(flipFirst.word.name === word.name && flipFirst.el !== el) {
     var rect = el.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
-    showCorrect(word.name);
     el.classList.add('matched');
     flipFirst.el.classList.add('matched');
     var stars = document.getElementById('flipScoreBar').children;
     if(flipMatched < stars.length) stars[flipMatched].classList.add('earned');
     flipMatched++;
-    flipFirst = null;
-    flipLocked = false;
-    if(flipMatched >= 4) {
-      setInstr('All done! 🎉', '全部完成！');
-    }
+    showCorrect(word.name, function() {
+      repeatPhase(word.name, function() {
+        flipFirst = null;
+        flipLocked = false;
+        if(flipMatched >= 4) {
+          setInstr('All done! 🎉', '全部完成！');
+        }
+      });
+    });
   } else {
     var prev = flipFirst.el;
     setTimeout(function() {
