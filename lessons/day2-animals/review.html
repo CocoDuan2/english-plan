@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 Review - Animals</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#27ae60;display:flex;align-items:center;gap:6px}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#27ae60;transform:scale(1.2)}.top-bar .dot.done{background:#2ecc71}
+.main{width:100%;max-width:500px;flex:1;overflow:auto;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center}
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}.module.active{display:flex}
+.instr-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 14px;margin-bottom:8px;width:100%;max-width:500px}
+.instr-en{font-size:22px;font-weight:700;color:#2d3436;line-height:1.3}
+.instr-zh{font-size:17px;color:rgba(0,0,0,.5);margin-top:2px;line-height:1.3}
+.instr-stars{display:flex;gap:5px;margin-top:4px}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+.learn-grid{display:flex;flex-wrap:wrap;gap:12px;width:100%;justify-content:center}
+.learn-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;width:calc(33.33% - 8px);min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s}
+.learn-card:active{transform:scale(.95)}
+.learn-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333;opacity:0;transition:opacity .3s}
+.learn-card.revealed .label{opacity:1}
+.learn-card:not(.revealed) .icon img{filter:grayscale(1) brightness(1.1)}
+.learn-card.revealed .icon img{filter:none;animation:popIn .4s ease}
+.egg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.egg{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:120px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s}
+.egg:active{transform:scale(.92)}
+.egg .label{font-size:18px;font-weight:700;margin-top:4px;color:#333;opacity:0;transition:opacity .3s}
+.egg.hatched .label{opacity:1}
+.mole-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.mole-hole{background:rgba(139,90,43,.3);border-radius:50%;width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 4px 8px rgba(0,0,0,.15)}
+.mole-hole:active{transform:scale(.95)}
+.mole{position:absolute;bottom:-70px;transition:bottom .3s ease;line-height:1}
+.mole.up{bottom:10px;animation:moleWiggle .3s ease}
+@keyframes moleWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nbtn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,opacity .3s}
+.nbtn:active{transform:scale(.93)}
+.nprev{background:#fff;color:#27ae60;border:2px solid #27ae60}
+.nnext{color:#fff;background:linear-gradient(135deg,#6dd5a0,#27ae60);box-shadow:0 4px 15px rgba(39,174,96,.4)}
+.nbtn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
+.star{opacity:.3;transition:opacity .3s;line-height:1}.star.earned{opacity:1;animation:popIn .4s ease}
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;animation:starFly 1s ease-out forwards}
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media(min-width:768px){.top-bar,.main{max-width:800px}.card .icon img,.learn-card .icon img,.egg .icon img{width:120px!important;height:120px!important}.mole img{width:70px!important;height:70px!important}}
+</style>
+</head>
+<body>
+<div class="top-bar"><div class="title" id="topTitle">🐾 Day 2 · Animals Review</div><div class="dots" id="dots"></div></div>
+<div class="main" id="main">
+<div class="instr-banner" id="instrBanner"></div>
+<div class="module active" id="mod0" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
+  <div style="display:flex;gap:12px" id="startIcons"></div>
+  <div style="font-size:32px;font-weight:700;color:#2d3436">准备好了吗？</div>
+  <div style="font-size:18px;color:rgba(0,0,0,.45)">点击开始学动物！</div>
+  <button onclick="getAudioCtx();goModule(1);this.parentElement.style.display='none'" style="font-size:28px;padding:16px 50px;border-radius:50px;border:none;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(39,174,96,.35);letter-spacing:2px">开始玩 ▶</button>
+</div>
+<div class="module" id="mod1"></div><div class="module" id="mod2"></div><div class="module" id="mod3"></div><div class="module" id="mod4"></div><div class="module" id="mod5"></div>
+<div class="module" id="mod6"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">
+  <div id="completeEmoji" style="animation:popIn .6s ease"></div>
+  <div style="font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)">Great Job, Ranran!</div>
+  <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned all the animals!</div>
+  <button class="nbtn nnext" style="margin-top:20px" onclick="goModule(1)">Play Again</button>
+  <button class="nbtn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff;border:none" onclick="location.href='../../index.html'">Home</button>
+</div></div>
+</div>
+<div id="correctMsg" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(39,174,96,.95);color:#fff;font-size:26px;font-weight:700;padding:14px 26px;border-radius:20px;z-index:500;display:none;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none"></div>
+<div class="nav-bar">
+  <button class="nbtn nprev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nbtn nnext" id="navNext" onclick="goNext()">Next ▶</button>
+</div>
+<script>
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
+function twimg(c,s){return '<img src="'+TW+c+'.svg" width="'+s+'" height="'+s+'" alt="">';}
+var ANIMALS=[{name:'cat',code:'1f431'},{name:'dog',code:'1f436'},{name:'fish',code:'1f41f'},{name:'bird',code:'1f426'},{name:'duck',code:'1f986'}];
+var REVIEW=[{name:'red',code:null,clr:'#e74c3c'},{name:'blue',code:null,clr:'#3498db'},{name:'yellow',code:null,clr:'#f1c40f'}];
+var MODULES=6,currentModule=0;
+var reviewRound=0,reviewOrder=[],reviewBusy=false;
+var learnRevealed=0,learnBusy=false;
+var hatchOrder=[],hatchRound=0,hatchBusy=false;
+var listenOrder=[],listenRound=0,listenBusy=false;
+var whackRound=0,whackOrder=[],whackBusy=false,moleTimers=[];
+var audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function speak(text,cb){var isW=text.trim().indexOf(' ')===-1;var url=isW?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2':'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web';var a=new Audio(url);var done=false;var fin=function(){if(!done){done=true;if(cb)setTimeout(cb,50);}};var saf=setTimeout(fin,4000);a.onended=function(){clearTimeout(saf);fin();};a.onerror=function(){clearTimeout(saf);fin();};a.play().catch(fin);}
+function playCorrect(){var c=getAudioCtx();[523.25,659.25].forEach(function(f,i){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;var t=c.currentTime+i*.15;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.start(t);o.stop(t+.15);});}
+function playWrong(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.value=200;g.gain.setValueAtTime(.1,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.start();o.stop(c.currentTime+.2);}
+function playPop(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=800;g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.08);o.start();o.stop(c.currentTime+.08);}
+function playStar(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(1200,c.currentTime);o.frequency.linearRampToValueAtTime(1800,c.currentTime+.2);g.gain.setValueAtTime(.25,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.start();o.stop(c.currentTime+.2);}
+function setInstr(en,zh,sh){var b=document.getElementById('instrBanner');var h='<div class="instr-en">'+en+'</div>';if(zh)h+='<div class="instr-zh">'+zh+'</div>';if(sh)h+='<div class="instr-stars">'+sh+'</div>';b.innerHTML=h;}
+function starsBar(t,e){var h='';for(var i=0;i<t;i++)h+='<span class="star'+(i<e?' earned':'')+'">'+twimg('2b50',18)+'</span>';return h;}
+function burstStars(x,y){playStar();var c=document.createElement('div');c.className='star-burst';c.style.left=x+'px';c.style.top=y+'px';var codes=['2b50','1f31f','2728','1f4ab'];for(var i=0;i<8;i++){var s=document.createElement('div');s.className='star-particle';var a=(i/8)*Math.PI*2;var d=60+Math.random()*40;s.style.setProperty('--tx',Math.cos(a)*d+'px');s.style.setProperty('--ty',Math.sin(a)*d+'px');s.innerHTML=twimg(codes[i%4],20);c.appendChild(s);}document.body.appendChild(c);setTimeout(function(){c.remove();},1100);}
+function shuffle(a){var r=a.slice();for(var i=r.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=r[i];r[i]=r[j];r[j]=t;}return r;}
+function rIcon(item,sz){return item.code?twimg(item.code,sz):'<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+item.clr+'"></div>';}
+
+// === NAV ===
+function updateDots(){var d=document.getElementById('dots');d.innerHTML='';for(var i=1;i<=5;i++){var e=document.createElement('div');e.className='dot'+(i===currentModule?' active':'')+(i<currentModule?' done':'');d.appendChild(e);}}
+function goModule(n){currentModule=n;document.querySelectorAll('.module').forEach(function(m){m.classList.remove('active');m.style.display='';});var t=document.getElementById('mod'+n);if(t)t.classList.add('active');updateDots();if(n===1)startReview();if(n===2)initLearn();if(n===3)startHatch();if(n===4)startListen();if(n===5)startWhack();updateNav();}
+function updateNav(){document.getElementById('navPrev').disabled=(currentModule<=1);document.getElementById('navNext').textContent=(currentModule>=5)?'Done!':'Next';document.getElementById('navProgress').textContent=Math.min(currentModule,5)+'/5';document.querySelector('.nav-bar').style.display=(currentModule>=6)?'none':'';}
+function goNext(){if(currentModule<6)goModule(currentModule+1);}
+function goPrev(){if(currentModule>1)goModule(currentModule-1);}
+
+// === MODULE 1: Review Colors ===
+function startReview(){reviewRound=0;reviewOrder=shuffle([0,1,2]);reviewBusy=false;buildReviewGrid();showReviewPrompt();}
+function buildReviewGrid(){var g=document.getElementById('mod1');g.innerHTML='<div class="card-grid" id="reviewGrid"></div>';var grid=document.getElementById('reviewGrid');shuffle(REVIEW).forEach(function(r){var c=document.createElement('div');c.className='card';c.innerHTML='<div class="icon">'+rIcon(r,80)+'</div><div class="label">'+r.name+'</div>';c.onclick=function(e){checkReview(c,r,e);};grid.appendChild(c);});}
+function showReviewPrompt(){if(reviewRound>=3){setInstr('Great memory! 🌟','太厉害了，全部找对啦！',starsBar(3,3));return;}var t=REVIEW[reviewOrder[reviewRound]];setInstr('Find: '+t.name+'!','点一点，哪个是 '+t.name+'？',starsBar(3,reviewRound));speak('Find '+t.name);}
+function checkReview(card,item,e){if(reviewRound>=3){speak(item.name);return;}if(reviewBusy)return;var t=REVIEW[reviewOrder[reviewRound]];if(item.name===t.name){reviewBusy=true;var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);reviewRound++;setInstr('Find: '+t.name+'!','答对啦！这是 '+t.name+'！',starsBar(3,reviewRound));playCorrect();speak(t.name);setTimeout(function(){reviewBusy=false;buildReviewGrid();showReviewPrompt();},1200);}else{speak(item.name);playWrong();card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MODULE 2: Tap to Learn ===
+function initLearn(){learnRevealed=0;learnBusy=false;setInstr('Tap to learn! 👆','点一点卡片，学习新单词吧！');var g=document.getElementById('mod2');g.innerHTML='<div class="learn-grid" id="learnGrid"></div>';var grid=document.getElementById('learnGrid');ANIMALS.forEach(function(a,i){var c=document.createElement('div');c.className='learn-card';c.innerHTML='<div class="icon">'+twimg(a.code,80)+'</div><div class="label">'+a.name+'</div>';c.onclick=function(e){revealLearn(c,i,e);};grid.appendChild(c);});}
+function revealLearn(el,idx,e){if(el.classList.contains('revealed')){speak(ANIMALS[idx].name);return;}if(learnBusy)return;learnBusy=true;el.classList.add('revealed');learnRevealed++;playPop();var r=el.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);speak(ANIMALS[idx].name,function(){learnBusy=false;if(learnRevealed>=ANIMALS.length)setInstr('All learned! 🎉','全部学会啦，你真棒！');else setInstr('Tap to learn! 👆','还有卡片没翻开哦，继续点！');});}
+
+// === MODULE 3: Egg Hatch ===
+function startHatch(){hatchRound=0;hatchBusy=false;hatchOrder=shuffle([0,1,2,3,4]);setInstr('Hatch the eggs! 🥚','点一点蛋，看看里面是什么动物！',starsBar(5,0));buildEggGrid();showHatchPrompt();}
+function buildEggGrid(){var g=document.getElementById('mod3');g.innerHTML='<div class="egg-grid" id="eggGrid"></div>';var grid=document.getElementById('eggGrid');shuffle(ANIMALS).forEach(function(a){var egg=document.createElement('div');egg.className='egg';egg.innerHTML='<div class="icon">'+twimg('1f95a',80)+'</div><div class="label">'+a.name+'</div>';egg.onclick=function(e){checkHatch(egg,a,e);};grid.appendChild(egg);});}
+function showHatchPrompt(){if(hatchRound>=5){setInstr('All hatched! 🐣','太厉害了，全部孵出来啦！',starsBar(5,5));return;}var t=ANIMALS[hatchOrder[hatchRound]];setInstr('Hatch the '+t.name+'! 🥚','点一点，哪个蛋里是 '+t.name+'？',starsBar(5,hatchRound));speak(t.name);}
+function checkHatch(egg,animal,e){if(hatchRound>=5)return;if(hatchBusy)return;var t=ANIMALS[hatchOrder[hatchRound]];if(animal.name===t.name){hatchBusy=true;egg.classList.add('hatched');egg.querySelector('.icon').innerHTML=twimg(animal.code,80);var r=egg.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);hatchRound++;setInstr('Hatch the '+t.name+'!','孵出来啦！这是 '+t.name+'！',starsBar(5,hatchRound));playCorrect();speak(t.name,function(){hatchBusy=false;buildEggGrid();showHatchPrompt();});}else{playWrong();egg.style.animation='shake .4s ease';setTimeout(function(){egg.style.animation='';},500);}}
+
+// === MODULE 4: Listen & Find ===
+function startListen(){listenRound=0;listenBusy=false;listenOrder=shuffle([0,1,2,3,4]);buildListenGrid();showListenPrompt();}
+function buildListenGrid(){var g=document.getElementById('mod4');g.innerHTML='<div class="card-grid" id="listenGrid"></div>';var grid=document.getElementById('listenGrid');shuffle(ANIMALS).forEach(function(a){var c=document.createElement('div');c.className='card';c.innerHTML='<div class="icon">'+twimg(a.code,80)+'</div><div class="label">'+a.name+'</div>';c.onclick=function(e){checkListen(c,a,e);};grid.appendChild(c);});}
+function showListenPrompt(){if(listenRound>=5){setInstr('All found! 🎉','全部找到啦，耳朵真灵！',starsBar(5,5));return;}var t=ANIMALS[listenOrder[listenRound]];setInstr('Find the '+t.name+'! 🔍','听一听，哪个是 '+t.name+'？点它！',starsBar(5,listenRound));speak('Find the '+t.name);}
+function checkListen(card,animal,e){if(listenRound>=5||listenBusy)return;var t=ANIMALS[listenOrder[listenRound]];if(animal.name===t.name){listenBusy=true;var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);listenRound++;setInstr('Find the '+t.name+'!','找对啦！这是 '+t.name+'！',starsBar(5,listenRound));playCorrect();speak(t.name,function(){listenBusy=false;buildListenGrid();showListenPrompt();});}else{playWrong();card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+
+// === MODULE 5: Whack-a-Mole ===
+function startWhack(){whackRound=0;whackBusy=false;whackOrder=shuffle([0,1,2,3,4]);moleTimers.forEach(clearTimeout);moleTimers=[];buildMoleGrid();nextWhack();}
+function buildMoleGrid(){var g=document.getElementById('mod5');g.innerHTML='<div class="mole-grid" id="moleGrid"></div>';var grid=document.getElementById('moleGrid');for(var i=0;i<6;i++){var h=document.createElement('div');h.className='mole-hole';h.setAttribute('data-hole',i);var m=document.createElement('div');m.className='mole';m.setAttribute('data-hole',i);h.appendChild(m);h.onclick=function(ev){whackMole(this,ev);};grid.appendChild(h);}}
+function nextWhack(){if(whackRound>=5){setInstr('Great whacking! 🔨','打得太好了，全部打中！',starsBar(5,5));return;}var t=ANIMALS[whackOrder[whackRound]];setInstr('Whack the '+t.name+'! 🔨 '+twimg(t.code,24),'快打 '+t.name+'！用手点它！',starsBar(5,whackRound));speak(t.name);var moles=document.querySelectorAll('#moleGrid .mole');moles.forEach(function(m){m.classList.remove('up');m.innerHTML='';});var holes=shuffle([0,1,2,3,4,5]);var cnt=2+Math.floor(Math.random()*2);var picks=shuffle(ANIMALS);var has=false;var pl=[];for(var i=0;i<cnt;i++){var w=picks[i%picks.length];if(w.name===t.name)has=true;pl.push({hole:holes[i],word:w});}if(!has)pl[0].word=t;pl.forEach(function(p,idx){var timer=setTimeout(function(){var ml=document.querySelector('#moleGrid .mole[data-hole="'+p.hole+'"]');ml.innerHTML=twimg(p.word.code,70);ml.setAttribute('data-name',p.word.name);ml.classList.add('up');},idx*500);moleTimers.push(timer);});}
+function whackMole(hole,e){var ml=hole.querySelector('.mole');if(!ml.classList.contains('up')||whackBusy)return;var t=ANIMALS[whackOrder[whackRound]];var nm=ml.getAttribute('data-name');if(nm===t.name){whackBusy=true;moleTimers.forEach(clearTimeout);moleTimers=[];var r=hole.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);whackRound++;setInstr('Whack the '+t.name+'!','打对啦！这是 '+t.name+'！',starsBar(5,whackRound));playCorrect();speak(t.name,function(){whackBusy=false;document.querySelectorAll('#moleGrid .mole').forEach(function(m){m.classList.remove('up');m.innerHTML='';});nextWhack();});}else{playWrong();hole.style.animation='shake .4s ease';setTimeout(function(){hole.style.animation='';},500);}}
+
+// === INIT ===
+document.getElementById('startIcons').innerHTML=ANIMALS.map(function(a){return twimg(a.code,60);}).join('');
+document.getElementById('completeEmoji').innerHTML=twimg('1f389',90);
+</script>
+</body>
+</html>

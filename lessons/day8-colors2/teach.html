@@ -13,45 +13,46 @@ body{display:flex;flex-direction:column;align-items:center}
 .sl.on{display:flex}
 .bg0{background:linear-gradient(160deg,#fef9ef,#fdf2e9)}
 .bg1{background:linear-gradient(160deg,#e8f8f5,#d5f5e3)}
-.bg2{background:linear-gradient(160deg,#fef9ef,#ebf5fb)}
-.bg3{background:linear-gradient(160deg,#fdebd0,#fadbd8)}
-.bg4{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
-.bg5{background:linear-gradient(160deg,#f9ebea,#fdedec)}
+.bg2{background:linear-gradient(160deg,#fdebd0,#f5eef8)}
+.bg3{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
+.bg4{background:linear-gradient(160deg,#f9ebea,#fdedec)}
+.bg5{background:linear-gradient(160deg,#f5eef8,#ebdef0)}
 .bg6{background:linear-gradient(160deg,#fef9ef,#fdebd0)}
 .sec{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
 .ttl{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
 .sub{font-size:18px;color:#7f8c8d;margin-bottom:16px}
-.big{width:180px;height:180px;margin:6px 0}
 .wd{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
 .ks{font-size:30px;font-weight:600;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22}
 
+/* Color circle */
+.color-dot{border-radius:50%;display:inline-block;margin:6px 0}
+.color-dot-sm{width:52px;height:52px;border-radius:50%;display:inline-block}
+
 /* Flash grid */
 .fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
-.fg5{grid-template-columns:repeat(5,1fr)}
 .fc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:100px}
 .fc img{width:52px;height:52px}
 .fc .fw{font-size:15px;font-weight:700;color:#2c3e50;margin-top:4px}
 
-/* TPR action list */
-.tpr{background:#fff;border-radius:16px;padding:24px 28px;max-width:520px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:left;font-size:20px;line-height:2.2;color:#2c3e50}
-.tpr b{color:#e67e22}
-.tpr-row{display:flex;align-items:center;gap:12px;margin:4px 0}
-.tpr-row img{width:40px;height:40px;flex-shrink:0}
+/* Gift box */
+.gift-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:520px;margin:12px auto}
+.gift-box{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:pointer;min-height:140px;transition:transform .3s}
+.gift-box:active{transform:scale(.95)}
+.gift-box .gift-icon{font-size:60px;line-height:1;transition:transform .4s}
+.gift-box.opened .gift-icon{transform:scale(0);position:absolute}
+.gift-box .reveal{display:none;flex-direction:column;align-items:center;animation:popIn .5s ease}
+.gift-box.opened .reveal{display:flex}
+.gift-box .reveal .rw{font-size:18px;font-weight:700;color:#2c3e50;margin-top:6px}
 
-/* Peek-a-boo */
-.peek{position:relative;width:200px;height:200px;margin:10px 0}
-.peek img{width:100%;height:100%;transition:filter .6s}
-.peek.blur img{filter:blur(30px) saturate(0.3)}
-.peek.half img{filter:blur(10px)}
-.peek.show img{filter:none}
-.peek-label{font-size:16px;color:#3498db;margin-top:8px;font-weight:600;animation:pulse 1.5s ease infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* Choose grid */
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:480px;margin:12px auto}
-.cc{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:default}
-.cc img{width:80px;height:80px}
-.cc .cw{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px}
+/* Color sort */
+.sort-area{display:flex;gap:16px;width:100%;max-width:560px;margin:10px auto;justify-content:center;flex-wrap:wrap}
+.sort-bucket{background:rgba(255,255,255,.7);border-radius:16px;padding:12px;min-width:100px;min-height:120px;display:flex;flex-direction:column;align-items:center;gap:6px;border:3px dashed #ccc;transition:border-color .3s}
+.sort-bucket.highlight{border-color:#27ae60}
+.sort-bucket .bucket-label{font-size:14px;font-weight:700;color:#2c3e50}
+.sort-items{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px auto;max-width:520px}
+.sort-item{width:60px;height:60px;border-radius:50%;cursor:pointer;transition:transform .2s,opacity .3s;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.sort-item:active{transform:scale(.9)}
+.sort-item.placed{opacity:.3;pointer-events:none}
 
 /* FAB & popup */
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
@@ -72,18 +73,21 @@ body{display:flex;flex-direction:column;align-items:center}
 .np{font-size:14px;font-weight:600;color:#999}
 .nk{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
 
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
 @media(min-width:768px){
-  .big{width:220px;height:220px}
+  .color-dot{width:220px!important;height:220px!important}
   .wd{font-size:72px}
   .ks{font-size:34px}
   .ttl{font-size:38px}
   .fc img{width:68px;height:68px}
   .fc .fw{font-size:18px}
-  .tpr{font-size:22px;max-width:620px}
-  .tpr-row img{width:48px;height:48px}
-  .peek{width:240px;height:240px}
-  .cc img{width:100px;height:100px}
+  .gift-box{min-height:160px;padding:20px}
+  .gift-box .gift-icon{font-size:72px}
+  .gift-box .reveal .rw{font-size:22px}
   .pop{width:400px}
+  .sort-item{width:70px;height:70px}
 }
 </style>
 </head>
@@ -93,25 +97,37 @@ body{display:flex;flex-direction:column;align-items:center}
 <div class="pop" id="P"><div class="pop-t">📋 Teacher Notes</div><div id="B"></div></div>
 <div class="nav">
   <button class="nb" id="pb" onclick="go(-1)">◀ Back</button>
-  <div style="text-align:center"><div class="np" id="pg">1/12</div><div class="nk">← → · T=tips</div></div>
+  <div style="text-align:center"><div class="np" id="pg">1/14</div><div class="nk">← → · T=tips</div></div>
   <button class="nb" id="nb" onclick="go(1)">Next ▶</button>
 </div>
 <script>
 var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
 var N={},c=0,t=0,o=false;
+
+var COLORS=[
+  {w:'pink',   hex:'#e91e8c', border:false},
+  {w:'purple', hex:'#9b59b6', border:false},
+  {w:'white',  hex:'#ecf0f1', border:true},
+  {w:'black',  hex:'#2c3e50', border:false},
+  {w:'brown',  hex:'#8b4513', border:false}
+];
 var RW=[
-  {w:'jump',svg:'1f3c3'},
-  {w:'two',svg:'0032-fe0f-20e3'},
-  {w:'stand',svg:'1f9cd'}
+  {w:'jump', svg:'1f938', sentence:'I can jump!'},
+  {w:'two',  svg:'32-20e3', sentence:'I have two!'},
+  {w:'stand',svg:'1f9cd', sentence:'I can stand!'}
 ];
-var NW=[
-  {w:'pink',svg:'1f338',act:'Find something pink!'},
-  {w:'purple',svg:'1f7e3',act:'Point to something purple!'},
-  {w:'white',svg:'26aa',act:'Touch something white!'},
-  {w:'black',svg:'26ab',act:'Show me something black!'},
-  {w:'brown',svg:'1f7e4',act:'Where is something brown?'}
-];
+
 function img(svg,sz){return '<img src="'+TW+svg+'.svg" width="'+sz+'" height="'+sz+'" alt="">'}
+function dot(hex,sz,bdr){
+  var style='width:'+sz+'px;height:'+sz+'px;background:'+hex;
+  if(bdr) style+=';border:1px solid #bbb';
+  return '<div class="color-dot" style="'+style+'"></div>';
+}
+function dotSm(hex,bdr){
+  var style='width:52px;height:52px;background:'+hex;
+  if(bdr) style+=';border:1px solid #bbb';
+  return '<div class="color-dot-sm" style="'+style+'"></div>';
+}
 function mk(i,bg,x){return '<div class="sl '+bg+(i===0?' on':'')+'" data-i="'+i+'">'+x+'</div>'}
 
 function build(){
@@ -119,61 +135,59 @@ var h='',i=0;
 
 // 1 Title
 h+=mk(i++,'bg0',
-  '<div style="display:flex;gap:8px;margin:6px 0">'+NW.map(function(w){return img(w.svg,60)}).join('')+'</div>'+
-  '<div class="ttl">Colors 2</div>'+
+  '<div style="display:flex;gap:10px;margin:6px 0">'+COLORS.map(function(c){return dotSm(c.hex,c.border)}).join('')+'</div>'+
+  '<div class="ttl">Colors 2 🌈</div>'+
   '<div class="sub">pink · purple · white · black · brown</div>');
-N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>It is ___!</b></li><li>Ask: <b>What color is it?</b></li><li>New: pink, purple, white, black, brown</li><li>Review: jump, two, stand</li></ul>';
+N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>It\'s ___!</b></li><li>Ask: <b>What color is it?</b></li><li>New: pink, purple, white, black, brown</li><li>Review: jump, two, stand</li></ul>';
 
-// 2 Warm-up
+// 2 Review (jump/two/stand with their original sentences)
 h+=mk(i++,'bg1',
-  '<div class="sec">Warm-up</div><div class="ttl">What color is it? 👀</div>'+
-  '<div class="fg">'+RW.map(function(w){return '<div class="fc">'+img(w.svg,52)+'<div class="fw">'+w.w+'</div></div>'}).join('')+'</div>'+
-  '<div class="ks">It is ___!</div>');
-N[1]='<span class="tc">🗣️</span><ul><li>Point: "What color is it?"</li><li>Child: "jump / two / stand"</li><li>2-3 rounds, faster each time</li></ul>';
+  '<div class="sec">Review</div><div class="ttl">Let\'s remember! 🧠</div>'+
+  '<div class="fg">'+RW.map(function(r){
+    return '<div class="fc">'+img(r.svg,52)+'<div class="fw">'+r.w+'</div></div>';
+  }).join('')+'</div>'+
+  '<div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">'+
+  RW.map(function(r){return '<div class="ks" style="font-size:24px;padding:8px 18px">'+r.sentence+'</div>'}).join('')+'</div>');
+N[1]='<span class="tc">🗣️ Review</span><ul><li>Point to each: "What\'s this?"</li><li>jump → "I can jump!" (do the action)</li><li>two → "I have two!" (hold up 2 fingers)</li><li>stand → "I can stand!" (stand up)</li><li>Quick 2-3 rounds</li></ul>';
 
-// 3-7 New Words
-NW.forEach(function(w,j){
+// 3-7 New Words (one per page)
+COLORS.forEach(function(clr,j){
   h+=mk(i++,'bg2',
     '<div class="sec">New Word '+(j+1)+'/5</div>'+
-    img(w.svg,180)+
-    '<div class="wd">'+w.w+'</div>'+
-    '<div class="ks">It is '+w.w+'!</div>');
-  N[i-1]='<span class="tc">🗣️</span><ul><li>"What color is it?" → "It is '+w.w+'!"</li><li>Repeat: slow → normal → fast</li></ul><span class="tc">🤚</span><ul><li>"'+w.act+'"</li></ul>';
+    dot(clr.hex,180,clr.border)+
+    '<div class="wd">'+clr.w+'</div>'+
+    '<div class="ks">It\'s '+clr.w+'!</div>');
+  N[i-1]='<span class="tc">🗣️</span><ul><li>"What color is it?" → "It\'s '+clr.w+'!"</li><li>Repeat: slow → normal → fast</li><li>Point to things in the room that are '+clr.w+'</li></ul>';
 });
 
-buildPart2(h,i);
-}
-
-function buildPart2(h,i){
-// 8-12 Peek-a-boo (one page per animal)
-NW.forEach(function(w,j){
-  h+=mk(i++,'bg4',
-    '<div class="sec">Guess '+(j+1)+'/5</div><div class="ttl">What color is it? 🙈</div>'+
-    '<div class="peek blur" id="peek'+j+'" style="cursor:pointer">'+img(w.svg,200)+'</div>'+
-    '<div class="peek-label" id="peekL'+j+'">👆 Tap the picture!</div>'+
-    '<div class="ks" id="peekS'+j+'">It is ___?</div>');
-  N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image is blurry — ask "Can you guess the color?"</li><li>Tap once → less blurry</li><li>Tap again → reveal! Child says "It is '+w.w+'!"</li></ul>';
-});
-
-buildPart3(h,i);
-}
-
-function buildPart3(h,i){
-// 13 Find the ___!
+// 8 Gift Box Unboxing
 h+=mk(i++,'bg5',
-  '<div class="sec">Find it!</div><div class="ttl">Where is the ___? 🔍</div>'+
-  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,64)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
-N[i-1]='<span class="tc">🎮 How</span><ul><li>Say: "Where is purple?" → child points</li><li>Child answers: "It is purple!"</li><li>Go through all 5, random order</li><li>Speed round: faster and faster!</li></ul>';
+  '<div class="sec">Gift Box Unboxing</div><div class="ttl">What\'s inside? 🎁</div>'+
+  '<div class="sub">Tap a gift to open it!</div>'+
+  '<div class="gift-grid" id="giftGrid"></div>');
+N[i-1]='<span class="tc">🎮 Gift Box</span><ul><li>Ask: "Which gift do you want to open?"</li><li>Child picks a gift → tap to reveal color</li><li>"What color is it?" → "It\'s ___!"</li><li>Go through all 5 gifts</li></ul>';
 
-// 11 Bye
+// 9-13 Gift reveal pages (individual, for pacing control)
+// Actually let's keep it as one interactive page — the teacher taps each box
+
+// 9 Color Sort
+h+=mk(i++,'bg3',
+  '<div class="sec">Color Sort</div><div class="ttl">Sort the colors! 🎨</div>'+
+  '<div class="sub">Tap a circle, then tap the matching bucket!</div>'+
+  '<div class="sort-items" id="sortItems"></div>'+
+  '<div class="sort-area" id="sortArea"></div>'+
+  '<div id="sortMsg" style="font-size:22px;font-weight:700;color:#27ae60;margin-top:10px;min-height:30px"></div>');
+N[i-1]='<span class="tc">🎮 Color Sort</span><ul><li>Mixed color circles at top</li><li>Teacher taps a circle: "What color is it?"</li><li>Child answers: "It\'s pink!"</li><li>Then tap the matching bucket below</li><li>Go through all items</li></ul>';
+
+// 10 Bye
 h+=mk(i++,'bg6',
   img('2b50',180)+
   '<div class="ttl">Well Done!</div>'+
   '<div class="sub">See you next time! 👋</div>');
-N[i-1]='<span class="tc">👋</span><ul><li>"Say bye! Bye pink! Bye purple!"</li></ul>';
+N[i-1]='<span class="tc">👋</span><ul><li>"Say bye to the colors!"</li><li>"Bye pink! Bye purple!"</li></ul>';
 
 document.getElementById('D').innerHTML=h;
-t=i;goTo(0);initPeek();
+t=i;goTo(0);initGifts();initSort();
 }
 
 // === Navigation ===
@@ -190,19 +204,108 @@ function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
 document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
 
-// === Peek-a-boo (multi-page) ===
-function initPeek(){
-  NW.forEach(function(w,j){
-    var pk=document.getElementById('peek'+j);
-    if(!pk)return;
-    var state=0;
-    pk.onclick=function(){
-      if(state===0){pk.className='peek half';state=1;document.getElementById('peekL'+j).textContent='👆 Tap again!'}
-      else if(state===1){pk.className='peek show';state=2;
-        document.getElementById('peekL'+j).textContent='';
-        document.getElementById('peekS'+j).textContent='It is '+w.w+'!'}
+// === Gift Box Unboxing ===
+function initGifts(){
+  var grid=document.getElementById('giftGrid');
+  if(!grid)return;
+  var order=shuffle(COLORS.slice());
+  grid.innerHTML='';
+  order.forEach(function(clr){
+    var box=document.createElement('div');
+    box.className='gift-box';
+    box.innerHTML='<div class="gift-icon">'+img('1f381',60)+'</div>'+
+      '<div class="reveal">'+dot(clr.hex,80,clr.border)+'<div class="rw">'+clr.w+'</div></div>';
+    box.onclick=function(){
+      if(box.classList.contains('opened'))return;
+      box.classList.add('opened');
     };
+    grid.appendChild(box);
   });
+}
+
+// === Color Sort ===
+var sortSelected=null;
+function initSort(){
+  var items=document.getElementById('sortItems');
+  var area=document.getElementById('sortArea');
+  if(!items||!area)return;
+
+  // Create mixed items (2 of each color = 10 items)
+  var allItems=[];
+  COLORS.forEach(function(clr){
+    allItems.push({hex:clr.hex,name:clr.w,border:clr.border});
+    allItems.push({hex:clr.hex,name:clr.w,border:clr.border});
+  });
+  allItems=shuffle(allItems);
+
+  items.innerHTML='';
+  allItems.forEach(function(it,idx){
+    var el=document.createElement('div');
+    el.className='sort-item';
+    el.style.background=it.hex;
+    if(it.border)el.style.border='1px solid #bbb';
+    el.setAttribute('data-name',it.name);
+    el.setAttribute('data-idx',idx);
+    el.onclick=function(){selectSortItem(el,it)};
+    items.appendChild(el);
+  });
+
+  // Create buckets
+  area.innerHTML='';
+  COLORS.forEach(function(clr){
+    var bucket=document.createElement('div');
+    bucket.className='sort-bucket';
+    bucket.innerHTML='<div class="bucket-label">'+clr.w+'</div>'+
+      '<div style="width:40px;height:40px;border-radius:50%;background:'+clr.hex+
+      (clr.border?';border:1px solid #bbb':'')+';margin:4px 0"></div>'+
+      '<div class="bucket-count" data-color="'+clr.w+'">0/2</div>';
+    bucket.setAttribute('data-color',clr.w);
+    bucket.onclick=function(){dropInBucket(bucket,clr)};
+    area.appendChild(bucket);
+  });
+}
+
+function selectSortItem(el,it){
+  if(el.classList.contains('placed'))return;
+  document.querySelectorAll('.sort-item').forEach(function(s){s.style.outline=''});
+  el.style.outline='3px solid #3498db';
+  sortSelected={el:el,item:it};
+}
+
+var sortCount={};
+function dropInBucket(bucket,clr){
+  if(!sortSelected)return;
+  var msg=document.getElementById('sortMsg');
+  if(sortSelected.item.name===clr.w){
+    sortSelected.el.classList.add('placed');
+    if(!sortCount[clr.w])sortCount[clr.w]=0;
+    sortCount[clr.w]++;
+    bucket.querySelector('.bucket-count').textContent=sortCount[clr.w]+'/2';
+    bucket.classList.add('highlight');
+    setTimeout(function(){bucket.classList.remove('highlight')},500);
+    msg.textContent='It\'s '+clr.w+'! ✓';
+    msg.style.color='#27ae60';
+    sortSelected.el.style.outline='';
+    sortSelected=null;
+    // Check complete
+    var total=0;
+    COLORS.forEach(function(c){total+=(sortCount[c.w]||0)});
+    if(total>=10) msg.textContent='All sorted! Great job! 🎉';
+  } else {
+    msg.textContent='Try again!';
+    msg.style.color='#e74c3c';
+    sortSelected.el.style.animation='shake .4s ease';
+    setTimeout(function(){if(sortSelected)sortSelected.el.style.animation=''},500);
+  }
+}
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
 }
 
 // === Keyboard ===
