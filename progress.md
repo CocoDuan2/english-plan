@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 7
+- 当前天: Day 8
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -68,6 +68,11 @@
 | walk | Actions | 03-03 | ⬜ | 03-04 |
 | sit | Actions | 03-03 | ⬜ | 03-04 |
 | stand | Actions | 03-03 | ⬜ | 03-04 |
+| pink | Colors 2 | 03-04 | ⬜ | 03-05 |
+| purple | Colors 2 | 03-04 | ⬜ | 03-05 |
+| white | Colors 2 | 03-04 | ⬜ | 03-05 |
+| black | Colors 2 | 03-04 | ⬜ | 03-05 |
+| brown | Colors 2 | 03-04 | ⬜ | 03-05 |
 
 ### 2025-02-28 (Day 4) - Food 🍎
 - 新词: apple, banana, milk, bread, egg
@@ -103,6 +108,14 @@
 - 综合游戏: 记忆翻牌（Memory Flip）
 - 反馈: 待确认
 
+### 2025-03-04 (Day 8) - Colors 2 🌈
+- 新词: pink, purple, white, black, brown
+- 课件: lessons/day8-colors2.html
+- 复习词: jump, two, stand（3个，来自Day6-7）
+- 互动游戏1: 开箱揭示（Gift Box Unboxing）
+- 综合游戏: 打地鼠（Color Whack）
+- 反馈: 待确认
+
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
 - Day 2 (02-26): 🐾 Animals — cat, dog, fish, bird, duck
@@ -111,4 +124,4 @@
 - Day 5 (03-01): 📝 复习日 — Day1-4 全部
 - Day 6 (03-02): 🔢 Numbers — one, two, three, four, five
 - Day 7 (03-03): 🏃 Actions — run, jump, walk, sit, stand
-- Day 8 (03-04): 🎨 Colors 2 — pink, purple, white, black, brown
+- Day 8 (03-04): 🌈 Colors 2 — pink, purple, white, black, brown
