@@ -416,7 +416,8 @@ function showReviewPrompt() {
 
 var reviewBusy = false;
 function checkReview(card, item, e) {
-  if(reviewRound >= 3 || reviewBusy) return;
+  if(reviewRound >= 3) { speak(item.name); return; }
+  if(reviewBusy) return;
   var target = REVIEW[reviewOrder[reviewRound]];
   if(item.name === target.name) {
     reviewBusy = true;
@@ -424,13 +425,13 @@ function checkReview(card, item, e) {
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     reviewRound++;
     setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '答对啦！这是 ' + target.name + '！', starsBar(3, reviewRound));
-    showCorrect(target.name, function() {
-      repeatPhase(target.name, function() {
-        reviewBusy = false;
-        buildReviewGrid(); showReviewPrompt();
-      });
+    playCorrect();
+    speak(target.name, function() {
+      reviewBusy = false;
+      buildReviewGrid(); showReviewPrompt();
     });
   } else {
+    speak(item.name);
     playWrong();
     card.style.animation = 'shake .4s ease';
     setTimeout(function(){ card.style.animation = ''; }, 500);
