@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 9
+- 当前天: Day 10
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -130,6 +130,17 @@
 - 复习课件游戏: 孵蛋（Egg Hatch）+ 打地鼠（Whack-a-Mole）+ 记忆翻牌（Memory Flip）
 - 反馈: 待确认
 
+### 2025-03-06 (Day 10) - Review Day 2 📝
+- 复习日: Day6-9 全部20个词（纯游戏）
+- 课件: lessons/day10-review2/teach.html（外教课件）
+- 复习课件: lessons/day10-review2/review.html（课后复习游戏）
+- 游戏1: Numbers Sprint（数字听声找图）
+- 游戏2: Action Match（动作听声找图）
+- 游戏3: Color Balloon Pop（颜色气球戳破）
+- 游戏4: Animal Listen & Find（动物听声找图）
+- 游戏5: Grand Mix Memory Flip（混合记忆翻牌）
+- 反馈: 待确认
+
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
 - Day 2 (02-26): 🐾 Animals — cat, dog, fish, bird, duck
@@ -140,3 +151,4 @@
 - Day 7 (03-03): 🏃 Actions — run, jump, walk, sit, stand
 - Day 8 (03-04): 🌈 Colors 2 — pink, purple, white, black, brown
 - Day 9 (03-05): 🐾 Animals 2 — rabbit, pig, cow, horse, sheep
+- Day 10 (03-06): 📝 复习日 — Day6-9 全部
