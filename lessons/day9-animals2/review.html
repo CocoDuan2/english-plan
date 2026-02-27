@@ -243,11 +243,16 @@ function speak(text, cb) {
   window.speechSynthesis.cancel();
   var u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
-  // Try to pick an English voice explicitly
+  // Try to pick a good English voice (skip novelty voices like Albert/Bad News/Bells)
   var voices = speechSynthesis.getVoices();
+  var skip = ['albert','bad news','bahh','bells','boing','bubbles','cellos','good news','jester','junior','kathy','organ','ralph','superstar','trinoids','whisper','wobble','zarvox'];
+  var picked = null;
   for(var i=0;i<voices.length;i++){
-    if(voices[i].lang.indexOf('en')===0){ u.voice=voices[i]; break; }
+    if(voices[i].lang.indexOf('en')===0 && skip.indexOf(voices[i].name.toLowerCase())===-1){
+      picked=voices[i]; break;
+    }
   }
+  if(picked) u.voice = picked;
   if(cb) {
     var done = false;
     var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
