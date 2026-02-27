@@ -238,17 +238,36 @@ function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-// TTS via Audio element - works on all platforms
+// TTS: single words via Youdao (reliable), sentences via Web Speech API fallback
 function speak(text, cb) {
+  var isWord = text.indexOf(' ') === -1;
+  if(isWord) {
+    _speakYoudao(text, cb);
+  } else {
+    _speakSynth(text, cb);
+  }
+}
+function _speakYoudao(text, cb) {
   var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=2';
   var a = new Audio(url);
-  if(cb) {
-    var done = false;
-    var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
-    a.onended = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
-    a.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
-  }
-  a.play().catch(function(){ if(cb) cb(); });
+  var done = false;
+  var finish = function(){ if(!done){ done=true; if(cb) setTimeout(cb, 50); } };
+  var safety = setTimeout(finish, 4000);
+  a.onended = function(){ clearTimeout(safety); finish(); };
+  a.onerror = function(){ clearTimeout(safety); finish(); };
+  a.play().catch(finish);
+}
+function _speakSynth(text, cb) {
+  if(!window.speechSynthesis){ if(cb) cb(); return; }
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.1;
+  var done = false;
+  var finish = function(){ if(!done){ done=true; if(cb) setTimeout(cb, 50); } };
+  var safety = setTimeout(finish, 5000);
+  u.onend = function(){ clearTimeout(safety); finish(); };
+  u.onerror = function(){ clearTimeout(safety); finish(); };
+  window.speechSynthesis.speak(u);
 }
 // Repeat / follow-along phase: show mic prompt, wait, then callback
 function repeatPhase(word, cb) {
@@ -416,7 +435,7 @@ function showReviewPrompt() {
   }
   var target = REVIEW[reviewOrder[reviewRound]];
   setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '点一点，哪个是 ' + target.name + '？', starsBar(3, reviewRound));
-  speak(target.name);
+  speak('Find ' + target.name);
 }
 
 var reviewBusy = false;
@@ -600,7 +619,7 @@ function showListenPrompt() {
   }
   var target = ANIMALS[listenOrder[listenRound]];
   setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '听一听，哪个是 ' + target.name + '？点它！', starsBar(5, listenRound));
-  speak(target.name);
+  speak('Find the ' + target.name);
 }
 
 var listenBusy = false;
