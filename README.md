@@ -33,49 +33,98 @@
 
 ### 主题轮转安排
 
-每天换一个主题，不连续重复：
+每天换一个主题，不连续重复，尽量交替不同句式：
 
-| 天数 | 主题 | 新词 | 复习 |
+| 天数 | 主题 | 新词 | 句式 |
 |------|------|------|------|
-| Day 1 | 🎨 Colors | red, blue, yellow, green, orange | — |
-| Day 2 | 🐾 Animals | cat, dog, fish, bird, duck | Day1 |
-| Day 3 | 👃 Body | head, eyes, ears, nose, mouth | Day1-2 |
-| Day 4 | 🍎 Food | apple, banana, milk, bread, egg | Day1-3 |
-| Day 5 | 📝 复习日 | — | Day1-4 全部（纯游戏） |
-| Day 6 | 🔢 Numbers | one, two, three, four, five | 弱项词 |
-| Day 7 | 🏃 Actions | run, jump, walk, sit, stand | Day6 |
-| Day 8 | 🎨 Colors 2 | pink, purple, white, black, brown | Day6-7 |
-| Day 9 | 🐾 Animals 2 | rabbit, pig, cow, horse, sheep | Day6-8 |
-| Day 10 | 📝 复习日 | — | Day6-9 全部 |
-| Day 11 | 👃 Body 2 | hands, feet, arms, legs, tummy | 弱项词 |
-| Day 12 | 🍎 Food 2 | rice, water, cake, cookie, juice | Day11 |
-| Day 13 | 👨‍👩‍👧 Family | mommy, daddy, baby, grandma, grandpa | Day11-12 |
-| Day 14 | 👕 Clothes | shirt, pants, shoes, socks, hat | Day11-13 |
-| Day 15 | 📝 复习日 | — | Day11-14 全部 |
-| ... | 继续轮转 | | |
+| Day 1 | 🎨 Colors | red, blue, yellow, green, orange | It's ___! |
+| Day 2 | 🐾 Animals | cat, dog, fish, bird, duck | I see a ___! |
+| Day 3 | 👃 Body | head, eyes, ears, nose, mouth | This is my ___! |
+| Day 4 | 🍎 Food | apple, banana, milk, bread, egg | I like ___! |
+| Day 5 | 📝 复习日 | — | 混合句式 |
+| Day 6 | 🔢 Numbers | one, two, three, four, five | I have ___! |
+| Day 7 | 🏃 Actions | run, jump, walk, sit, stand | I can ___! |
+| Day 8 | 🎨 Colors 2 | pink, purple, white, black, brown | It's ___! |
+| Day 9 | 🐾 Animals 2 | rabbit, pig, cow, horse, sheep | I see a ___! |
+| Day 10 | 📝 复习日 | — | 混合句式 |
+| Day 11 | 🧸 Toys | ball, car, doll, bear, blocks | I have a ___! |
+| Day 12 | 👨‍👩‍👧 Family | mommy, daddy, baby, grandma, grandpa | This is my ___! |
+| Day 13 | 😊 Feelings | happy, sad, angry, scared, sleepy | I am ___! |
+| Day 14 | 🍎 Fruit | apple, banana, orange, grape, strawberry | I like ___! |
+| Day 15 | 📝 复习日 | — | 混合句式 |
+| Day 16 | 🚗 Vehicles | car, bus, bike, boat, plane | I see a ___! |
+| Day 17 | 👕 Clothes | shirt, pants, shoes, socks, hat | I have a ___! |
+| Day 18 | 🏠 Home | bed, chair, table, door, window | This is a ___! |
+| Day 19 | 🌤️ Weather | sunny, rainy, cloudy, windy, cold | It's ___! |
+| Day 20 | 📝 复习日 | — | 混合句式 |
+| Day 21 | 👃 Body 2 | hands, feet, arms, legs, tummy | This is my ___! |
+| Day 22 | 🏃 Actions 2 | clap, dance, sing, eat, drink | I can ___! |
+| Day 23 | 🌿 Nature | sun, moon, tree, flower, rain | I see a ___! |
+| Day 24 | 🥕 Vegetables | carrot, tomato, potato, corn, pea | I like ___! |
+| Day 25 | 📝 复习日 | — | 混合句式 |
+| Day 26 | 🔷 Shapes | circle, square, triangle, star, heart | It's a ___! |
+| Day 27 | 👋 Greetings | hello, bye, please, thank you, sorry | 固定短句 |
+| Day 28 | 🛁 Bathroom | brush, wash, soap, towel, teeth | I can ___! |
+| Day 29 | 🌙 Bedtime | sleep, pillow, blanket, story, dream | I have a ___! |
+| Day 30 | 📝 复习日 | — | 混合句式 |
+| ... | 继续轮转更多主题 | | |
 
 ### 主题词库
 
-| 主题 | 第一轮 | 第二轮 |
-|------|--------|--------|
-| Colors | red, blue, yellow, green, orange | pink, purple, white, black, brown |
-| Animals | cat, dog, fish, bird, duck | rabbit, pig, cow, horse, sheep |
-| Body | head, eyes, ears, nose, mouth | hands, feet, arms, legs, tummy |
-| Food | apple, banana, milk, bread, egg | rice, water, cake, cookie, juice |
-| Numbers | one, two, three, four, five | six, seven, eight, nine, ten |
-| Actions | run, jump, walk, sit, stand | clap, dance, sing, eat, drink |
-| Family | mommy, daddy, baby, grandma, grandpa | sister, brother |
-| Clothes | shirt, pants, shoes, socks, hat | jacket, dress |
-| Nature | sun, moon, tree, flower, rain | cloud, wind, star |
-| Shapes | circle, square, triangle, star, heart | — |
+| 主题 | 第一轮 | 第二轮 | 句式 |
+|------|--------|--------|------|
+| Colors | red, blue, yellow, green, orange | pink, purple, white, black, brown | It's ___! |
+| Animals | cat, dog, fish, bird, duck | rabbit, pig, cow, horse, sheep | I see a ___! |
+| Body | head, eyes, ears, nose, mouth | hands, feet, arms, legs, tummy | This is my ___! |
+| Food | apple, banana, milk, bread, egg | rice, water, cake, cookie, juice | I like ___! |
+| Numbers | one, two, three, four, five | six, seven, eight, nine, ten | I have ___! |
+| Actions | run, jump, walk, sit, stand | clap, dance, sing, eat, drink | I can ___! |
+| Family | mommy, daddy, baby, grandma, grandpa | sister, brother, uncle, auntie | This is my ___! |
+| Clothes | shirt, pants, shoes, socks, hat | jacket, dress, scarf, gloves, boots | I have a ___! |
+| Nature | sun, moon, tree, flower, rain | cloud, wind, star, grass, leaf | I see a ___! |
+| Shapes | circle, square, triangle, star, heart | rectangle, diamond, oval | It's a ___! |
+| Toys | ball, car, doll, bear, blocks | train, puzzle, kite, drum, robot | I have a ___! |
+| Vehicles | car, bus, bike, boat, plane | train, truck, taxi, rocket, helicopter | I see a ___! |
+| Feelings | happy, sad, angry, scared, sleepy | hungry, thirsty, tired, excited, shy | I am ___! |
+| Home | bed, chair, table, door, window | lamp, sofa, bath, cup, spoon | This is a ___! |
+| Weather | sunny, rainy, cloudy, windy, cold | hot, snowy, warm, foggy | It's ___! |
+| Places | park, school, home, shop, zoo | beach, farm, garden, library | I go to the ___! |
+| Greetings | hello, bye, please, thank you, sorry | good morning, good night, yes, no, OK | (固定短句) |
+| Fruit | apple, banana, orange, grape, strawberry | watermelon, pear, peach, mango, cherry | I like ___! |
+| Vegetables | carrot, tomato, potato, corn, pea | broccoli, onion, mushroom, pepper, bean | I like ___! |
+| Bathroom | brush, wash, soap, towel, teeth | shower, shampoo, mirror, potty | I can ___! |
+| Bedtime | sleep, pillow, blanket, story, dream | pajamas, hug, kiss, moon, quiet | I have a ___! |
 
-### 句型（自然融入，不单独教）
-- What's this? It's a ___.
-- What color is it? It's ___.
-- Touch your ___.
-- I like ___.
-- How many?
-- Let's ___!
+### 句式分级（RAZ 风格，每课只用1个核心句式，反复重复）
+
+按主题配句式，每天跟主题自然换，同一主题回来时用同一句式巩固。
+
+| 主题 | 核心句式 | 配对问句 |
+|------|----------|----------|
+| Animals | I see a ___! | What do you see? |
+| Colors | It's ___! | What color is it? |
+| Food | I like ___! | Do you like ___? |
+| Body | This is my ___! | Where is your ___? |
+| Actions | I can ___! | Can you ___? |
+| Numbers | I have ___! | How many? |
+| Family | This is my ___! | Who is this? |
+| Clothes | I have a ___! | What are you wearing? |
+| Nature | I see a ___! | What do you see? |
+| Toys | I have a ___! | What do you have? |
+| Vehicles | I see a ___! | What do you see? |
+| Feelings | I am ___! | How are you? |
+| Home | This is a ___! | What's this? |
+| Shapes | It's a ___! | What shape is it? |
+| Weather | It's ___! | How's the weather? |
+| Places | I go to the ___! | Where do you go? |
+| Greetings | (固定短句) | — |
+
+规则：
+- 每节课只有1个核心句式，贯穿所有模块
+- 每页/每轮只换关键词，句式不变
+- 复习词必须能搭配当天句式（如句式是 "I see a ___"，复习词选名词，不选动词）
+- Chant/歌谣也围绕核心句式编排，不引入复杂歌词
+- 外教提问用固定问句配对："What do you see?" → "I see a ___!"
 
 ### 复习机制
 - 每5天一个复习日（纯游戏，不教新词）
