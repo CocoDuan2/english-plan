@@ -31,6 +31,9 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 .tg-expand.open{display:block}
 .tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
 
+.instr-banner{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.25);
+  text-align:center;padding:6px 12px;margin-bottom:8px;min-height:36px;width:100%;max-width:500px}
+
 .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
 .card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
@@ -148,17 +151,11 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
   <div class="dots" id="dots"></div>
 </div>
 <div class="main" id="main">
+<div class="instr-banner" id="instrBanner"></div>
 
 <!-- Module 1: Review Warm-up -->
 <div class="module" id="mod1">
   <div class="module-title" id="mod1Title">Review Time!</div>
-  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▼</span> 🎤 <b>Parent:</b> "Let's remember! Find the right one!"
-  <ul class="tg-expand open">
-    <li>🗣️ "What color is this? → It's brown!" "Can you run?"</li>
-    <li>🤚 "Show me four fingers!" "Run to the door!"</li>
-  </ul>
-</div>
   <div class="prompt-text" id="reviewPrompt"></div>
   <div class="score-bar" id="reviewScoreBar"></div>
   <div class="card-grid" id="reviewGrid"></div>
@@ -167,27 +164,12 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 <!-- Module 2: Egg Hatch -->
 <div class="module" id="mod2">
   <div class="module-title" id="mod2Title">Hatch the Eggs!</div>
-  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▼</span> 🎤 <b>Parent:</b> "Tap each egg to see which animal hatches!"
-  <ul class="tg-expand open">
-    <li>🗣️ "What is it? → It's a rabbit!" "The cow says moo!"</li>
-    <li>🤚 "Hop like a rabbit!" "Oink like a pig!"</li>
-    <li>🎵 "Old MacDonald had a farm!"</li>
-  </ul>
-</div>
   <div class="card-grid" id="eggGrid"></div>
 </div>
 
 <!-- Module 3: Whack-a-Mole -->
 <div class="module" id="mod3">
   <div class="module-title" id="mod3Title">Whack-a-Mole!</div>
-  <div class="teacher-guide" id="whackGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Whack the right animal!"</span>
-  <ul class="tg-expand open">
-    <li>🗣️ "It's a pig! Oink oink!" "I see a horse!"</li>
-    <li>🤚 "Quick! Tap the sheep! Baa baa!"</li>
-  </ul>
-</div>
   <div class="prompt-text" id="whackPrompt"></div>
   <div class="score-bar" id="whackScoreBar"></div>
   <div class="mole-grid" id="moleGrid"></div>
@@ -196,13 +178,6 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 <!-- Module 4: Listen & Find -->
 <div class="module" id="mod4">
   <div class="module-title" id="mod4Title">Listen &amp; Find!</div>
-  <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Where is the RABBIT? Find it!"</span>
-  <ul class="tg-expand open">
-    <li>🗣️ "Where is the cow? → Here! Moo!"</li>
-    <li>🤚 "Point to the sheep! Now gallop like a horse!"</li>
-  </ul>
-</div>
   <div class="score-bar" id="listenScoreBar"></div>
   <div class="prompt-text" id="listenPrompt"></div>
   <div class="card-grid" id="listenGrid"></div>
@@ -211,13 +186,6 @@ body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);disp
 <!-- Module 5: Memory Flip -->
 <div class="module" id="mod5">
   <div class="module-title" id="mod5Title">Memory Flip!</div>
-  <div class="teacher-guide" id="flipGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
-  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Find the matching pairs!"</span>
-  <ul class="tg-expand open">
-    <li>🗣️ "It's a rabbit! Can you find the other rabbit?"</li>
-    <li>🎮 "Remember where the pig is? Try again!"</li>
-  </ul>
-</div>
   <div class="score-bar" id="flipScoreBar"></div>
   <div class="flip-grid" id="flipGrid"></div>
 </div>
@@ -264,9 +232,69 @@ var whackRound = 0, whackScore = 0, whackOrder = [], whackTimer = null, moleTime
 var listenRound = 0, listenOrder = [];
 var flipFirst = null, flipMatched = 0, flipLocked = false;
 
-function say(t, cb) { if(cb) setTimeout(cb, 300); }
+// === AUDIO & SPEECH ===
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function speak(text) {
+  setTimeout(function() {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
+    window.speechSynthesis.speak(u);
+  }, 300);
+}
+function playCorrect() {
+  var ctx = getAudioCtx();
+  [523.25, 659.25].forEach(function(freq, i) {
+    var osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine'; osc.frequency.value = freq;
+    var t = ctx.currentTime + i * 0.15;
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    osc.start(t); osc.stop(t + 0.15);
+  });
+}
+function playWrong() {
+  var ctx = getAudioCtx();
+  var osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sawtooth'; osc.frequency.value = 200;
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+  osc.start(); osc.stop(ctx.currentTime + 0.2);
+}
+function playPop() {
+  var ctx = getAudioCtx();
+  var osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sine'; osc.frequency.value = 800;
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+  osc.start(); osc.stop(ctx.currentTime + 0.08);
+}
+function playStar() {
+  var ctx = getAudioCtx();
+  var osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(1200, ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(1800, ctx.currentTime + 0.2);
+  gain.gain.setValueAtTime(0.25, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+  osc.start(); osc.stop(ctx.currentTime + 0.2);
+}
+function setInstr(text) {
+  document.getElementById('instrBanner').textContent = text;
+}
 
 function showCorrect(name) {
+  playCorrect();
+  speak('I see a ' + name + '!');
   var el = document.getElementById('correctMsg');
   el.textContent = 'I see a ' + name + '!';
   el.style.display = 'block';
@@ -274,6 +302,7 @@ function showCorrect(name) {
 }
 
 function burstStars(x, y) {
+  playStar();
   var c = document.createElement('div');
   c.className = 'star-burst';
   c.style.left = x + 'px'; c.style.top = y + 'px';
@@ -319,6 +348,7 @@ function goModule(n) {
   if(target) target.classList.add('active');
   updateDots();
   if(n === 1) startReview();
+  if(n === 2) { setInstr('Tap the eggs! 🥚'); speak('Tap the eggs!'); }
   if(n === 3) startWhack();
   if(n === 4) startListen();
   if(n === 5) startFlip();
@@ -336,6 +366,8 @@ function goPrev() { if(currentModule > 1) goModule(currentModule - 1); }
 
 // === MODULE 1: REVIEW WARM-UP ===
 function startReview() {
+  setInstr('Find the right one! 🔍');
+  speak('Find the right one!');
   reviewRound = 0;
   reviewOrder = shuffle([0,1,2]);
   var sb = document.getElementById('reviewScoreBar');
@@ -370,6 +402,7 @@ function showReviewPrompt() {
   var target = REVIEW[reviewOrder[reviewRound]];
   var p = document.getElementById('reviewPrompt');
   p.innerHTML = 'Find: <b>' + target.name.toUpperCase() + '</b> ' + twimg(target.code, 28);
+  speak('Find ' + target.name + '!');
 }
 
 function checkReview(card, item, e) {
@@ -382,6 +415,7 @@ function checkReview(card, item, e) {
     reviewRound++;
     setTimeout(function(){ buildReviewGrid(); showReviewPrompt(); }, 600);
   } else {
+    playWrong();
     card.style.animation = 'shake .4s ease';
     setTimeout(function(){ card.style.animation = ''; }, 500);
   }
@@ -407,7 +441,8 @@ function hatchEgg(el, idx, e) {
   icon.innerHTML = twimg(ANIMALS[idx].code, 80);
   var img = icon.querySelector('img');
   if(img) { img.style.animation = 'none'; void img.offsetWidth; img.style.animation = 'popIn .5s ease'; }
-  say(ANIMALS[idx].name);
+  playPop();
+  speak(ANIMALS[idx].name);
   var rect = el.getBoundingClientRect();
   burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
   if(!wasHatched) {
@@ -453,13 +488,14 @@ function buildMoleGrid() {
 function nextWhackRound() {
   if(whackRound >= 5) {
     document.getElementById('whackPrompt').textContent = 'Great whacking!';
-    document.getElementById('whackGuide').querySelector('.tg-summary').innerHTML =
-      '🎤 <b>Parent:</b> "Wow! You got ' + whackScore + ' animals!"';
+    setInstr('Great whacking! 🔨');
     return;
   }
   var target = ANIMALS[whackOrder[whackRound]];
   var wp = document.getElementById('whackPrompt');
   wp.innerHTML = 'Whack: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
+  setInstr('Whack the ' + target.name + '! 🔨');
+  speak(target.name);
 
   var moles = document.querySelectorAll('.mole');
   moles.forEach(function(m){ m.classList.remove('up'); m.innerHTML = ''; });
@@ -510,6 +546,7 @@ function whackMole(hole, e) {
       nextWhackRound();
     }, 800);
   } else {
+    playWrong();
     hole.style.animation = 'shake .4s ease';
     setTimeout(function(){ hole.style.animation = ''; }, 500);
   }
@@ -546,15 +583,14 @@ function buildListenGrid() {
 function showListenPrompt() {
   if(listenRound >= 5) {
     document.getElementById('listenPrompt').textContent = 'All found!';
-    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML =
-      '🎤 <b>Parent:</b> "Amazing! You found all the animals!"';
+    setInstr('All found! 🎉');
     return;
   }
   var target = ANIMALS[listenOrder[listenRound]];
   var lp = document.getElementById('listenPrompt');
   lp.innerHTML = 'Find: ' + twimg(target.code, 28) + ' <b>' + target.name.toUpperCase() + '</b>';
-  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML =
-    '🎤 <b>Parent:</b> "Where is the ' + target.name.toUpperCase() + '? Find it!"';
+  setInstr('Find the ' + target.name + '! 🔍');
+  speak('Find the ' + target.name + '!');
 }
 
 function checkListen(card, animal, e) {
@@ -568,6 +604,7 @@ function checkListen(card, animal, e) {
     listenRound++;
     setTimeout(function(){ buildListenGrid(); showListenPrompt(); }, 700);
   } else {
+    playWrong();
     card.style.animation = 'shake .4s ease';
     setTimeout(function(){ card.style.animation = ''; }, 500);
   }
@@ -576,6 +613,8 @@ function checkListen(card, animal, e) {
 // === MODULE 5: MEMORY FLIP ===
 function startFlip() {
   flipFirst = null; flipMatched = 0; flipLocked = false;
+  setInstr('Find the pairs! 🃏');
+  speak('Find the matching pairs!');
   var sb = document.getElementById('flipScoreBar');
   sb.innerHTML = '';
   for(var i = 0; i < 4; i++) {
@@ -610,6 +649,8 @@ function flipCard(el, word, e) {
 
   el.classList.remove('face-down');
   el.querySelector('.flip-face').innerHTML = twimg(word.code, 60);
+  playPop();
+  speak(word.name);
 
   if(!flipFirst) {
     flipFirst = {el: el, word: word};
@@ -629,8 +670,7 @@ function flipCard(el, word, e) {
     flipFirst = null;
     flipLocked = false;
     if(flipMatched >= 4) {
-      document.getElementById('flipGuide').querySelector('.tg-summary').innerHTML =
-        '🎤 <b>Parent:</b> "Perfect! You matched them all!"';
+      setInstr('You matched them all! 🎉');
     }
   } else {
     var prev = flipFirst.el;
@@ -642,6 +682,7 @@ function flipCard(el, word, e) {
       flipFirst = null;
       flipLocked = false;
     }, 800);
+    playWrong();
   }
 }
 
