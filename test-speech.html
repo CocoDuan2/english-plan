@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Speech Test</title></head>
+<body style="text-align:center;padding:40px;font-size:20px">
+<h2>Speech API Test</h2>
+<div id="info"></div>
+<button onclick="test1()" style="font-size:24px;padding:16px 32px;margin:10px">Test 1: Basic speak</button><br>
+<button onclick="test2()" style="font-size:24px;padding:16px 32px;margin:10px">Test 2: With voice</button><br>
+<button onclick="test3()" style="font-size:24px;padding:16px 32px;margin:10px">Test 3: List voices</button><br>
+<div id="log" style="text-align:left;max-width:600px;margin:20px auto;font-family:monospace;font-size:14px"></div>
+<script>
+var log = document.getElementById('log');
+function addLog(msg){ log.innerHTML += msg + '<br>'; }
+
+var info = document.getElementById('info');
+info.innerHTML = 'speechSynthesis: ' + (!!window.speechSynthesis) + '<br>voices: ' + (window.speechSynthesis ? speechSynthesis.getVoices().length : 'N/A');
+
+if(window.speechSynthesis){
+  speechSynthesis.onvoiceschanged = function(){
+    info.innerHTML = 'speechSynthesis: true<br>voices: ' + speechSynthesis.getVoices().length;
+  };
+}
+
+function test1(){
+  addLog('test1: basic speak...');
+  var u = new SpeechSynthesisUtterance('hello cat');
+  u.lang = 'en-US';
+  u.onstart = function(){ addLog('  onstart fired'); };
+  u.onend = function(){ addLog('  onend fired'); };
+  u.onerror = function(e){ addLog('  onerror: ' + e.error); };
+  speechSynthesis.speak(u);
+}
+
+function test2(){
+  addLog('test2: with explicit voice...');
+  var voices = speechSynthesis.getVoices();
+  addLog('  voices available: ' + voices.length);
+  var v = null;
+  for(var i=0;i<voices.length;i++){
+    if(voices[i].lang.indexOf('en')===0){ v=voices[i]; break; }
+  }
+  addLog('  picked: ' + (v ? v.name + ' ' + v.lang : 'none'));
+  var u = new SpeechSynthesisUtterance('hello dog');
+  u.lang = 'en-US';
+  if(v) u.voice = v;
+  u.onstart = function(){ addLog('  onstart fired'); };
+  u.onend = function(){ addLog('  onend fired'); };
+  u.onerror = function(e){ addLog('  onerror: ' + e.error); };
+  speechSynthesis.speak(u);
+}
+
+function test3(){
+  var voices = speechSynthesis.getVoices();
+  addLog('test3: ' + voices.length + ' voices');
+  voices.forEach(function(v,i){
+    if(i<10) addLog('  ' + v.name + ' | ' + v.lang + ' | ' + (v.localService?'local':'remote'));
+  });
+  if(voices.length>10) addLog('  ... and ' + (voices.length-10) + ' more');
+}
+</script>
+</body></html>
