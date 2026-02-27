@@ -320,7 +320,7 @@ function showCorrect(name, cb) {
   var el = document.getElementById('correctMsg');
   el.textContent = 'I see a ' + name + '!';
   el.style.display = 'block';
-  speak('I see a ' + name + '!', function() {
+  speak(name, function() {
     el.style.display = 'none';
     if(cb) cb();
   });
@@ -416,7 +416,7 @@ function showReviewPrompt() {
   }
   var target = REVIEW[reviewOrder[reviewRound]];
   setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '点一点，哪个是 ' + target.name + '？', starsBar(3, reviewRound));
-  speak('Find ' + target.name + '!');
+  speak(target.name);
 }
 
 var reviewBusy = false;
@@ -448,7 +448,7 @@ function checkReview(card, item, e) {
 function initMod2() {
   learnRevealed = 0;
   setInstr('Tap to learn! 👆', '点一点卡片，学习新单词吧！');
-  speak('Tap to learn!');
+  speak(ANIMALS[0].name);
   var grid = document.getElementById('learnGrid');
   grid.innerHTML = '';
   ANIMALS.forEach(function(a, i) {
@@ -600,7 +600,7 @@ function showListenPrompt() {
   }
   var target = ANIMALS[listenOrder[listenRound]];
   setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '听一听，哪个是 ' + target.name + '？点它！', starsBar(5, listenRound));
-  speak('Find the ' + target.name + '!');
+  speak(target.name);
 }
 
 var listenBusy = false;
@@ -628,7 +628,7 @@ function checkListen(card, animal, e) {
 function startFlip() {
   flipFirst = null; flipMatched = 0; flipLocked = false;
   setInstr('Find the pairs! 🃏', '翻开两张一样的卡片，配成一对！', starsBar(4, 0));
-  speak('Find the matching pairs!');
+  speak('pairs');
   var picks = shuffle(ANIMALS).slice(0, 4);
   var pairs = shuffle(picks.concat(picks.slice()));
   buildFlipGrid(pairs);
