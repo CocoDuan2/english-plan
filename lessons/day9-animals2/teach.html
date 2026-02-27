@@ -44,7 +44,8 @@ body{display:flex;flex-direction:column;align-items:center}
 .peek.blur img{filter:blur(30px) saturate(0.3)}
 .peek.half img{filter:blur(10px)}
 .peek.show img{filter:none}
-.peek-label{font-size:16px;color:#999;margin-top:8px}
+.peek-label{font-size:16px;color:#3498db;margin-top:8px;font-weight:600;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* Choose grid */
 .cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:480px;margin:12px auto}
@@ -120,7 +121,7 @@ var h='',i=0;
 h+=mk(i++,'bg0',
   '<div style="display:flex;gap:8px;margin:6px 0">'+NW.map(function(w){return img(w.svg,60)}).join('')+'</div>'+
   '<div class="ttl">Animals 2</div>'+
-  '<div class="ks">I see a ___!</div>');
+  '<div class="sub">rabbit · pig · cow · horse · sheep</div>');
 N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>I see a ___!</b></li><li>Ask: <b>What do you see?</b></li><li>New: rabbit, pig, cow, horse, sheep</li><li>Review: cat, dog, fish</li></ul>';
 
 // 2 Warm-up
@@ -144,32 +145,22 @@ buildPart2(h,i);
 }
 
 function buildPart2(h,i){
-// 8 TPR Action Round
-h+=mk(i++,'bg3',
-  '<div class="sec">Let\'s Move!</div><div class="ttl">I see a ___, and I can... 🏃</div>'+
-  '<div class="tpr">'+
-  NW.map(function(w){return '<div class="tpr-row">'+img(w.svg,40)+'<b>'+w.w+'</b> → '+w.act+'</div>'}).join('')+
-  '</div>'+
-  '<div class="ks">I see a ___!</div>');
-N[i-1]='<span class="tc">🤚 How</span><ul><li>Point to animal, say "I see a rabbit!"</li><li>Then do the action together</li><li>Go through all 5</li><li>Speed round: random order!</li><li>Let child pick: "Which animal?"</li></ul>';
-
-// 9 Peek-a-boo
+// 8 Peek-a-boo
 h+=mk(i++,'bg4',
   '<div class="sec">Guess Time!</div><div class="ttl">What do you see? 🙈</div>'+
-  '<div class="peek blur" id="peek">'+img(NW[0].svg,200)+'</div>'+
-  '<div class="peek-label" id="peekLabel">Tap to reveal!</div>'+
+  '<div class="peek blur" id="peek" style="cursor:pointer">'+img(NW[0].svg,200)+'</div>'+
+  '<div class="peek-label" id="peekLabel">👆 Tap the picture to reveal!</div>'+
   '<div class="ks" id="peekSentence">I see a ___?</div>');
-N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image starts blurry</li><li>Ask: "What do you see? Can you guess?"</li><li>Click to reveal step by step</li><li>Child answers: "I see a ___!"</li><li>Click again for next animal</li></ul>';
+N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image starts blurry — tap to reveal step by step</li><li>Ask: "What do you see? Can you guess?"</li><li>Tap once → less blurry</li><li>Tap again → fully revealed!</li><li>Tap again → next animal (loops all 5)</li></ul>';
 
 buildPart3(h,i);
 }
 
 function buildPart3(h,i){
-// 10 All Together
+// 9 All Together
 h+=mk(i++,'bg5',
   '<div class="sec">All Together</div><div class="ttl">What do you see? 🌟</div>'+
-  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,80)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>'+
-  '<div class="ks">I see a ___!</div>');
+  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,80)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
 N[i-1]='<span class="tc">🗣️ Speed round</span><ul><li>Point randomly: "What do you see?"</li><li>Child: "I see a ___!"</li><li>All 5 as fast as possible</li><li>"You know all the animals!"</li></ul>';
 
 // 11 Bye
