@@ -3,205 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 9 - Animals 2 🐄 (Teach)</title>
+<title>Day 9 - Animals 2 (Teach)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-body{background:linear-gradient(160deg,#fef9ef 0%,#fdf2e9 50%,#ebf5fb 100%);display:flex;flex-direction:column;align-items:center}
-.slide-deck{width:100%;height:100%;display:flex;flex-direction:column}
-.slide{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center}
-.slide.active{display:flex}
-.slide-section{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
-.slide-title{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
-.slide-subtitle{font-size:18px;color:#7f8c8d;margin-bottom:16px}
-.big-emoji{font-size:180px;line-height:1;margin:6px 0}
-.word{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
-.key-sentence{font-size:32px;font-weight:700;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22;letter-spacing:1px}
-.flash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
-.flash-card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:110px}
-.flash-card .fc-emoji{font-size:56px;line-height:1}
-.flash-card .fc-word{font-size:17px;font-weight:700;color:#2c3e50;margin-top:5px}
-.chant-box{background:#fff;border-radius:16px;padding:28px 32px;max-width:560px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:left;font-size:22px;line-height:2;color:#2c3e50}
-.chant-box b{color:#e67e22}
-.chant-box .chant-line{margin:4px 0}
-
-/* Teacher Notes FAB */
-.tn-fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
-.tn-fab:hover{background:#2980b9;transform:scale(1.08)}
-.tn-fab.active{background:#2c3e50}
-.tn-popup{position:fixed;bottom:124px;right:16px;z-index:199;width:360px;max-height:50vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(52,152,219,.2)}
-.tn-popup.open{display:block;animation:fadeUp .2s ease}
-.tn-popup-title{font-size:12px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee}
-.tn-popup ul{margin:4px 0 4px 18px}
-.tn-popup li{margin:3px 0}
-.tn-popup b{color:#2c3e50}
-.tn-popup .tn-cat{font-weight:700;color:#3498db;margin-top:10px;display:block;font-size:13px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* Nav bar */
-.nav-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
-.nav-btn{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#3498db;color:#fff}
-.nav-btn:hover{background:#2980b9}
-.nav-btn:disabled{background:#e0e0e0;color:#bbb;cursor:default}
-.nav-progress{font-size:14px;font-weight:600;color:#999}
-.nav-keys{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
-
-/* PC responsive */
-@media(min-width:768px){
-  .big-emoji{font-size:220px}
-  .word{font-size:72px}
-  .key-sentence{font-size:36px}
-  .slide-title{font-size:38px}
-  .flash-card .fc-emoji{font-size:72px}
-  .flash-card .fc-word{font-size:20px}
-  .tn-popup{width:420px}
-  .chant-box{font-size:26px;max-width:640px}
-}
+body{display:flex;flex-direction:column;align-items:center}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center}
+.sl.on{display:flex}
+.bg0{background:linear-gradient(160deg,#fef9ef,#fdf2e9)}
+.bg1{background:linear-gradient(160deg,#e8f8f5,#d5f5e3)}
+.bg2{background:linear-gradient(160deg,#fef9ef,#ebf5fb)}
+.bg3{background:linear-gradient(160deg,#fdebd0,#fadbd8)}
+.bg4{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
+.bg5{background:linear-gradient(160deg,#f9ebea,#fdedec)}
+.bg6{background:linear-gradient(160deg,#fef9ef,#fdebd0)}
+.sec{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.ttl{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
+.sub{font-size:18px;color:#7f8c8d;margin-bottom:16px}
+.big{font-size:180px;line-height:1;margin:6px 0}
+.wd{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
+.ks{font-size:30px;font-weight:700;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22;letter-spacing:1px}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
+.fg5{grid-template-columns:repeat(5,1fr)}
+.fc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:100px}
+.fc .fi{font-size:52px;line-height:1}
+.fc .fw{font-size:15px;font-weight:700;color:#2c3e50;margin-top:4px}
+.cb{background:#fff;border-radius:16px;padding:24px 28px;max-width:520px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:left;font-size:21px;line-height:2.2;color:#2c3e50}
+.cb b{color:#e67e22}
+.gb{background:#fff;border-radius:16px;padding:24px 28px;max-width:520px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:center;font-size:20px;line-height:1.8;color:#555}
+.gb .gi{font-size:64px;margin-bottom:12px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.fab:hover{background:#2980b9;transform:scale(1.08)}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:340px;max-height:45vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(52,152,219,.2)}
+.pop.on{display:block;animation:fu .2s ease}
+.pop-t{font-size:12px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee}
+.pop ul{margin:4px 0 4px 18px}.pop li{margin:3px 0}.pop b{color:#2c3e50}
+.pop .tc{font-weight:700;color:#3498db;margin-top:8px;display:block;font-size:13px}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#3498db;color:#fff}
+.nb:hover{background:#2980b9}
+.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
+.np{font-size:14px;font-weight:600;color:#999}
+.nk{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
+@media(min-width:768px){.big{font-size:220px}.wd{font-size:72px}.ks{font-size:34px}.ttl{font-size:38px}.fc .fi{font-size:68px}.fc .fw{font-size:18px}.cb{font-size:24px;max-width:620px}.gb{font-size:22px;max-width:620px}.pop{width:400px}}
 </style>
 </head>
 <body>
-<div class="slide-deck" id="deck"></div>
-
-<!-- Teacher Notes FAB -->
-<button class="tn-fab" id="tnFab" onclick="toggleNotes()" title="Teacher Notes (T)">📋</button>
-<div class="tn-popup" id="tnPopup">
-  <div class="tn-popup-title">📋 Teacher Notes</div>
-  <div id="tnBody"></div>
+<div class="deck" id="D"></div>
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div class="pop-t">📋 Teacher Notes</div><div id="B"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">◀ Back</button>
+  <div style="text-align:center"><div class="np" id="pg">1/12</div><div class="nk">← → · T=tips</div></div>
+  <button class="nb" id="nb" onclick="go(1)">Next ▶</button>
 </div>
-
-<!-- Navigation -->
-<div class="nav-bar">
-  <button class="nav-btn" id="prevBtn" onclick="go(-1)">◀ Back</button>
-  <div style="text-align:center">
-    <div class="nav-progress" id="navProgress">1/17</div>
-    <div class="nav-keys">← → keys · T = tips</div>
-  </div>
-  <button class="nav-btn" id="nextBtn" onclick="go(1)">Next ▶</button>
-</div>
-
 <script>
-// === DATA ===
-// Core sentence: "I SEE A ___!"
-// Question: "What do you see?"
+var N={},c=0,t=0,o=false;
+var RW=[{e:'🐱',w:'cat'},{e:'🐶',w:'dog'},{e:'🐟',w:'fish'}];
+var NW=[{e:'🐰',w:'rabbit',s:'hop hop hop'},{e:'🐷',w:'pig',s:'oink oink oink'},{e:'🐄',w:'cow',s:'moo moo moo'},{e:'🐴',w:'horse',s:'neigh neigh neigh'},{e:'🐑',w:'sheep',s:'baa baa baa'}];
 
-var RW = [
-  {e:'🐱',w:'cat'}, {e:'🐶',w:'dog'}, {e:'🐟',w:'fish'}
-];
-var NW = [
-  {e:'🐰',w:'rabbit',sound:'hop hop hop'},
-  {e:'🐷',w:'pig',sound:'oink oink oink'},
-  {e:'🐄',w:'cow',sound:'moo moo moo'},
-  {e:'🐴',w:'horse',sound:'neigh neigh neigh'},
-  {e:'🐑',w:'sheep',sound:'baa baa baa'}
-];
-var NT = {}, cur = 0, tot = 0, nOpen = false;
-
-function S(i,c){return '<div class="slide '+(i===0?'active':'')+'" data-slide="'+i+'">'+c+'</div>'}
-function fc(arr){return arr.map(function(w){return '<div class="flash-card"><div class="fc-emoji">'+w.e+'</div><div class="fc-word">'+w.w+'</div></div>'}).join('')}
+function mk(i,bg,x){return '<div class="sl '+bg+(i===0?' on':'')+'" data-i="'+i+'">'+x+'</div>'}
+function gr(a,c5){return '<div class="fg'+(c5?' fg5':'')+'">'+a.map(function(w){return '<div class="fc"><div class="fi">'+w.e+'</div><div class="fw">'+w.w+'</div></div>'}).join('')+'</div>'}
 
 function build(){
-  var d=document.getElementById('deck'),h='',i=0;
+var h='',i=0;
 
-  // S0: Title
-  h+=S(i++,'<div class="slide-section">Day 9 · Animals 2</div><div class="big-emoji">🐰🐷🐄🐴🐑</div><div class="slide-title">Animals 2</div><div class="key-sentence">I SEE A ___!</div>');
-  NT[i-1]='<span class="tn-cat">🎯 Today</span><ul><li>Core sentence: <b>I SEE A ___!</b></li><li>Question: <b>What do you see?</b></li><li>5 new: rabbit, pig, cow, horse, sheep</li><li>Review: cat, dog, fish</li></ul>';
+// 1 Title
+h+=mk(i++,'bg0','<div class="big">🐰🐷🐄🐴🐑</div><div class="ttl">Animals 2</div><div class="ks">I SEE A ___!</div>');
+N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>I SEE A ___!</b></li><li>Ask: <b>What do you see?</b></li><li>New: rabbit, pig, cow, horse, sheep</li><li>Review: cat, dog, fish</li></ul>';
 
-  // S1: Warm-up overview
-  h+=S(i++,'<div class="slide-section">Module 1 · Warm-up</div><div class="slide-title">What do you see? 👀</div><div class="flash-grid">'+fc(RW)+'</div><div class="key-sentence">I SEE A ___!</div>');
-  NT[i-1]='<span class="tn-cat">🗣️ Drill</span><ul><li>Point to each card, ask: "What do you see?"</li><li>Child answers: "I see a cat!" etc.</li><li>Go through 2-3 rounds, faster each time</li></ul>';
+// 2 Warm-up (1 page)
+h+=mk(i++,'bg1','<div class="sec">Warm-up</div><div class="ttl">What do you see? 👀</div>'+gr(RW)+'<div class="ks">I SEE A ___!</div>');
+N[1]='<span class="tc">🗣️</span><ul><li>Point: "What do you see?"</li><li>Child: "I see a cat / dog / fish!"</li><li>2-3 rounds, faster each time</li></ul><span class="tc">🤚</span><ul><li>"Swim like a fish!" "Bark like a dog!"</li></ul>';
 
-  // S2-4: Review word slides
-  RW.forEach(function(w){
-    h+=S(i++,'<div class="slide-section">Warm-up</div><div class="big-emoji">'+w.e+'</div><div class="word">'+w.w+'</div><div class="key-sentence">I SEE A '+w.w.toUpperCase()+'!</div>');
-    NT[i-1]='<span class="tn-cat">🗣️</span><ul><li>"What do you see?" → "I SEE A '+w.w.toUpperCase()+'!"</li><li>Repeat 2-3 times together</li></ul>';
-  });
-
-  // S5: New Words intro
-  h+=S(i++,'<div class="slide-section">Module 2 · New Words</div><div class="slide-title">New Friends! 🌟</div><div class="slide-subtitle">5 new animals</div><div class="key-sentence">WHAT DO YOU SEE?</div>');
-  NT[i-1]='<span class="tn-cat">🎯</span><ul><li>"Let\'s meet 5 new animal friends!"</li><li>"I\'ll show you — what do you see?"</li></ul>';
-
-  // S6-10: New word slides
-  NW.forEach(function(w,j){
-    h+=S(i++,'<div class="slide-section">New Word '+(j+1)+'/5</div><div class="big-emoji">'+w.e+'</div><div class="word">'+w.w+'</div><div class="key-sentence">I SEE A '+w.w.toUpperCase()+'!</div>');
-    NT[i-1]='<span class="tn-cat">🗣️</span><ul><li>"What do you see?" → "I SEE A '+w.w.toUpperCase()+'!"</li><li>Repeat 3 times: slow → normal → fast</li></ul><span class="tn-cat">🤚 TPR</span><ul><li>"Can you be a '+w.w+'? '+w.sound+'!"</li></ul>';
-  });
-
-  buildPart2(h, i);
-}
-
-function buildPart2(h, i){
-  // S11: Practice - Point & Say
-  h+=S(i++,'<div class="slide-section">Module 3 · Practice</div><div class="slide-title">What do you see? 👆</div><div class="flash-grid">'+fc(NW)+'</div><div class="key-sentence">I SEE A ___!</div>');
-  NT[i-1]='<span class="tn-cat">🎮 How</span><ul><li>Point to random animal: "What do you see?"</li><li>Child: "I SEE A ___!"</li><li>Go faster each round!</li><li>Mix in review words too</li></ul>';
-
-  // S12: Practice - hide & reveal
-  h+=S(i++,'<div class="slide-section">Practice</div><div class="slide-title">Close Your Eyes! 🙈</div><div class="big-emoji">❓</div><div class="key-sentence">WHAT DO YOU SEE?</div>');
-  NT[i-1]='<span class="tn-cat">🎮 Peek-a-boo game</span><ul><li>"Close your eyes!" (flip to next slide)</li><li>"Open! What do you see?"</li><li>Child: "I SEE A ___!"</li><li>Repeat with different animals</li></ul>';
-
-  // S13-17: Practice reveal slides
-  NW.forEach(function(w){
-    h+=S(i++,'<div class="slide-section">Practice</div><div class="big-emoji">'+w.e+'</div><div class="word">'+w.w+'</div><div class="key-sentence">I SEE A '+w.w.toUpperCase()+'!</div>');
-    NT[i-1]='<span class="tn-cat">🗣️</span><ul><li>"What do you see?" → "I SEE A '+w.w.toUpperCase()+'!"</li><li>"'+w.sound+'!"</li></ul>';
-  });
-
-  buildPart3(h, i);
-}
-
-function buildPart3(h, i){
-  // S18: Chant
-  h+=S(i++,'<div class="slide-section">Module 4 · Chant</div><div class="slide-title">🎵 Let\'s Chant!</div><div class="chant-box"><div class="chant-line">🐰 I see a <b>rabbit</b>, hop hop hop!</div><div class="chant-line">🐷 I see a <b>pig</b>, oink oink oink!</div><div class="chant-line">🐄 I see a <b>cow</b>, moo moo moo!</div><div class="chant-line">🐴 I see a <b>horse</b>, neigh neigh neigh!</div><div class="chant-line">🐑 I see a <b>sheep</b>, baa baa baa!</div></div>');
-  NT[i-1]='<span class="tn-cat">🎵 How</span><ul><li>Clap rhythm: "I see a [clap] rabbit [clap], hop hop hop [clap clap clap]!"</li><li>First round: teacher leads, child listens</li><li>Second round: together</li><li>Third round: child tries alone!</li><li>Speed up each round for fun</li></ul>';
-
-  // S19: Chant with actions
-  h+=S(i++,'<div class="slide-section">Chant</div><div class="slide-title">🎵 Sing & Move!</div><div class="key-sentence">I SEE A ___, ___!</div><div class="chant-box"><div class="chant-line">🐰 rabbit → <b>HOP!</b></div><div class="chant-line">🐷 pig → <b>OINK!</b></div><div class="chant-line">🐄 cow → <b>MOO!</b></div><div class="chant-line">🐴 horse → <b>GALLOP!</b></div><div class="chant-line">🐑 sheep → <b>BAA!</b></div></div>');
-  NT[i-1]='<span class="tn-cat">🤚 TPR</span><ul><li>Add body movements to each animal</li><li>Rabbit: hop in place</li><li>Pig: wiggle nose</li><li>Cow: hands as horns</li><li>Horse: gallop feet</li><li>Sheep: fluffy arms</li></ul>';
-
-  // S20: Wrap-up
-  h+=S(i++,'<div class="slide-section">Module 5 · Wrap-up</div><div class="slide-title">Great Job! 🌟</div><div class="flash-grid">'+fc(NW)+'</div><div class="key-sentence">I SEE A ___!</div>');
-  NT[i-1]='<span class="tn-cat">🗣️ Final review</span><ul><li>Point to each: "What do you see?"</li><li>Child: "I SEE A ___!"</li><li>Quick speed round through all 5</li></ul><span class="tn-cat">👋</span><ul><li>"Say bye! Bye rabbit! Bye pig!"</li></ul>';
-
-  // S21: End
-  h+=S(i++,'<div class="big-emoji">⭐</div><div class="slide-title">Well Done!</div><div class="slide-subtitle">See you next time! 👋</div>');
-  NT[i-1]='<span class="tn-cat">✅</span><ul><li>Wave goodbye!</li></ul>';
-
-  document.getElementById('deck').innerHTML=h;
-  tot=i;
-  goTo(0);
-}
-
-// === Navigation ===
-function goTo(i){if(i<0||i>=tot)return;document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.slide')[i].classList.add('active');cur=i;updNav();updNt()}
-function go(d){goTo(cur+d)}
-function updNav(){
-  document.getElementById('navProgress').textContent=(cur+1)+'/'+tot;
-  document.getElementById('prevBtn').disabled=cur===0;
-  var b=document.getElementById('nextBtn');
-  if(cur===tot-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
-}
-function updNt(){document.getElementById('tnBody').innerHTML=NT[cur]||'<i>No notes.</i>'}
-
-// === Teacher Notes toggle ===
-function toggleNotes(){
-  nOpen=!nOpen;
-  document.getElementById('tnPopup').classList.toggle('open',nOpen);
-  document.getElementById('tnFab').classList.toggle('active',nOpen);
-}
-// Close on click outside
-document.addEventListener('click',function(e){
-  if(nOpen&&!e.target.closest('.tn-popup')&&!e.target.closest('.tn-fab')){
-    nOpen=false;
-    document.getElementById('tnPopup').classList.remove('open');
-    document.getElementById('tnFab').classList.remove('active');
-  }
+// 3-7 New Words (5 pages)
+NW.forEach(function(w,j){
+  h+=mk(i++,'bg2','<div class="sec">New Word '+(j+1)+'/5</div><div class="big">'+w.e+'</div><div class="wd">'+w.w+'</div><div class="ks">I SEE A '+w.w.toUpperCase()+'!</div>');
+  N[i-1]='<span class="tc">🗣️</span><ul><li>"What do you see?" → "I SEE A '+w.w.toUpperCase()+'!"</li><li>Repeat: slow → normal → fast</li></ul><span class="tc">🤚</span><ul><li>"Be a '+w.w+'! '+w.s+'!"</li></ul>';
 });
 
-// === Keyboard ===
-document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowRight'||e.key===' ')go(1);
-  if(e.key==='ArrowLeft')go(-1);
-  if(e.key==='t'||e.key==='T')toggleNotes();
-});
+// 8 Chant (1 page)
+h+=mk(i++,'bg3','<div class="sec">Chant Time</div><div class="ttl">🎵 I See!</div><div class="cb">'
+  +'🐰 I see a <b>rabbit</b>, hop hop hop!<br>'
+  +'🐷 I see a <b>pig</b>, oink oink oink!<br>'
+  +'🐄 I see a <b>cow</b>, moo moo moo!<br>'
+  +'🐴 I see a <b>horse</b>, neigh neigh neigh!<br>'
+  +'🐑 I see a <b>sheep</b>, baa baa baa!</div>');
+N[i-1]='<span class="tc">🎵 How</span><ul><li>Clap rhythm together</li><li>Round 1: teacher leads</li><li>Round 2: together</li><li>Round 3: child solo!</li><li>Add body moves: hop/wiggle/horns/gallop/fluffy arms</li></ul>';
 
+// 9 Game (1 page)
+h+=mk(i++,'bg4','<div class="sec">Game Time</div><div class="ttl">Guess the Sound! 🎧</div><div class="gb"><div class="gi">🙈</div>'
+  +'Teacher makes a sound...<br><b>"What do you see?"</b><br><br>'
+  +'🔊 "Moo!" → 🐄<br>🔊 "Oink!" → 🐷<br>🔊 "Baa!" → 🐑</div>'
+  +'<div class="ks">I SEE A ___!</div>');
+N[i-1]='<span class="tc">🎮 Play</span><ul><li>Make sound, child guesses</li><li>Child must answer in full: "I SEE A COW!"</li><li>Mix in review: meow→cat, woof→dog</li><li>Let child make sounds for you to guess too!</li></ul>';
+
+// 10 All Together (1 page)
+h+=mk(i++,'bg5','<div class="sec">All Together</div><div class="ttl">What do you see? 🌟</div>'+gr(NW,true)+'<div class="ks">I SEE A ___!</div>');
+N[i-1]='<span class="tc">🗣️ Speed round</span><ul><li>Point randomly: "What do you see?"</li><li>Child: "I SEE A ___!"</li><li>Go through all 5 as fast as possible</li><li>Celebrate: "You know all the animals!"</li></ul>';
+
+// 11 Bye
+h+=mk(i++,'bg6','<div class="big">⭐</div><div class="ttl">Well Done!</div><div class="sub">See you next time! 👋</div>');
+N[i-1]='<span class="tc">👋</span><ul><li>"Say bye! Bye rabbit! Bye pig!"</li><li>"What did we learn? I SEE A ___!"</li></ul>';
+
+document.getElementById('D').innerHTML=h;t=i;goTo(0);
+}
+
+function goTo(i){if(i<0||i>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[i].classList.add('on');c=i;
+  document.getElementById('pg').textContent=(c+1)+'/'+t;
+  document.getElementById('pb').disabled=c===0;
+  var b=document.getElementById('nb');if(c===t-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+  document.getElementById('B').innerHTML=N[c]||'';
+}
+function go(d){goTo(c+d)}
+function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
+document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='t'||e.key==='T')tn()});
 build();
 </script>
 </body>
