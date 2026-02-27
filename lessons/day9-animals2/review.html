@@ -238,36 +238,24 @@ function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-// TTS: single words via Youdao (reliable), sentences via Web Speech API fallback
+// TTS: all via Youdao dictvoice, sentences read word by word
 function speak(text, cb) {
-  var isWord = text.indexOf(' ') === -1;
-  if(isWord) {
-    _speakYoudao(text, cb);
-  } else {
-    _speakSynth(text, cb);
-  }
+  var words = text.trim().split(/\s+/);
+  _speakChain(words, 0, cb);
 }
-function _speakYoudao(text, cb) {
-  var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=2';
+function _speakChain(words, idx, cb) {
+  if(idx >= words.length){ if(cb) setTimeout(cb, 50); return; }
+  _speakWord(words[idx], function(){ _speakChain(words, idx+1, cb); });
+}
+function _speakWord(w, cb) {
+  var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2';
   var a = new Audio(url);
   var done = false;
-  var finish = function(){ if(!done){ done=true; if(cb) setTimeout(cb, 50); } };
-  var safety = setTimeout(finish, 4000);
+  var finish = function(){ if(!done){ done=true; cb(); } };
+  var safety = setTimeout(finish, 3000);
   a.onended = function(){ clearTimeout(safety); finish(); };
   a.onerror = function(){ clearTimeout(safety); finish(); };
   a.play().catch(finish);
-}
-function _speakSynth(text, cb) {
-  if(!window.speechSynthesis){ if(cb) cb(); return; }
-  speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.1;
-  var done = false;
-  var finish = function(){ if(!done){ done=true; if(cb) setTimeout(cb, 50); } };
-  var safety = setTimeout(finish, 5000);
-  u.onend = function(){ clearTimeout(safety); finish(); };
-  u.onerror = function(){ clearTimeout(safety); finish(); };
-  window.speechSynthesis.speak(u);
 }
 // Repeat / follow-along phase: show mic prompt, wait, then callback
 function repeatPhase(word, cb) {
