@@ -243,7 +243,7 @@ function speak(text, cb) {
 
 // Repeat / follow-along phase: show mic prompt, wait, then callback
 function repeatPhase(word, cb) {
-  setInstr('Your turn! 🎤', '你来说: ' + word);
+  setInstr('Your turn! 🎤', '跟着说一遍: ' + word);
   setTimeout(function() {
     speak(word, function() {
       setTimeout(cb, 2500);
@@ -402,11 +402,11 @@ function buildReviewGrid() {
 
 function showReviewPrompt() {
   if(reviewRound >= 3) {
-    setInstr('Great memory! 🌟', '记忆力真棒！', starsBar(3, 3));
+    setInstr('Great memory! 🌟', '太厉害了，全部找对啦！', starsBar(3, 3));
     return;
   }
   var target = REVIEW[reviewOrder[reviewRound]];
-  setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '找到 ' + target.name + '！', starsBar(3, reviewRound));
+  setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '点一点，哪个是 ' + target.name + '？', starsBar(3, reviewRound));
   speak('Find ' + target.name + '!');
 }
 
@@ -419,7 +419,7 @@ function checkReview(card, item, e) {
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     reviewRound++;
-    setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '找到 ' + target.name + '！', starsBar(3, reviewRound));
+    setInstr('Find: ' + target.name + '! ' + twimg(target.code, 24), '答对啦！这是 ' + target.name + '！', starsBar(3, reviewRound));
     showCorrect(target.name, function() {
       repeatPhase(target.name, function() {
         reviewBusy = false;
@@ -436,7 +436,7 @@ function checkReview(card, item, e) {
 // === MODULE 2: TAP TO LEARN ===
 function initMod2() {
   learnRevealed = 0;
-  setInstr('Tap to learn! 👆', '点击学习新词！');
+  setInstr('Tap to learn! 👆', '点一点卡片，学习新单词吧！');
   speak('Tap to learn!');
   var grid = document.getElementById('learnGrid');
   grid.innerHTML = '';
@@ -466,9 +466,9 @@ function revealLearn(el, idx, e) {
     repeatPhase(ANIMALS[idx].name, function() {
       learnBusy = false;
       if (learnRevealed >= ANIMALS.length) {
-        setInstr('All learned! 🎉', '全部学会了！');
+        setInstr('All learned! 🎉', '全部学会啦，你真棒！');
       } else {
-        setInstr('Tap to learn! 👆', '点击学习新词！');
+        setInstr('Tap to learn! 👆', '还有卡片没翻开哦，继续点！');
       }
     });
   });
@@ -502,11 +502,11 @@ function buildMoleGrid() {
 
 function nextWhackRound() {
   if(whackRound >= 5) {
-    setInstr('Great whacking! 🔨', '打得好！', starsBar(5, 5));
+    setInstr('Great whacking! 🔨', '打得太好了，全部打中！', starsBar(5, 5));
     return;
   }
   var target = ANIMALS[whackOrder[whackRound]];
-  setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打' + target.name + '！', starsBar(5, whackRound));
+  setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '快打 ' + target.name + '！用手点它！', starsBar(5, whackRound));
   speak(target.name);
 
   var moles = document.querySelectorAll('.mole');
@@ -549,7 +549,7 @@ function whackMole(hole, e) {
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     whackScore++;
     whackRound++;
-    setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打' + target.name + '！', starsBar(5, whackRound));
+    setInstr('Whack the ' + target.name + '! 🔨 ' + twimg(target.code, 24), '打对啦！这是 ' + target.name + '！', starsBar(5, whackRound));
     playCorrect(); speak(target.name, function() {
       repeatPhase(target.name, function() {
         whackBusy = false;
@@ -588,11 +588,11 @@ function buildListenGrid() {
 
 function showListenPrompt() {
   if(listenRound >= 5) {
-    setInstr('All found! 🎉', '全部找到了！', starsBar(5, 5));
+    setInstr('All found! 🎉', '全部找到啦，耳朵真灵！', starsBar(5, 5));
     return;
   }
   var target = ANIMALS[listenOrder[listenRound]];
-  setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找到' + target.name + '！', starsBar(5, listenRound));
+  setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '听一听，哪个是 ' + target.name + '？点它！', starsBar(5, listenRound));
   speak('Find the ' + target.name + '!');
 }
 
@@ -605,7 +605,7 @@ function checkListen(card, animal, e) {
     var rect = card.getBoundingClientRect();
     burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
     listenRound++;
-    setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找到' + target.name + '！', starsBar(5, listenRound));
+    setInstr('Find the ' + target.name + '! 🔍 ' + twimg(target.code, 24), '找对啦！这是 ' + target.name + '！', starsBar(5, listenRound));
     playCorrect(); speak(target.name, function() {
       repeatPhase(target.name, function() {
         listenBusy = false;
@@ -622,7 +622,7 @@ function checkListen(card, animal, e) {
 // === MODULE 5: MEMORY FLIP ===
 function startFlip() {
   flipFirst = null; flipMatched = 0; flipLocked = false;
-  setInstr('Find the pairs! 🃏', '找到配对！', starsBar(4, 0));
+  setInstr('Find the pairs! 🃏', '翻开两张一样的卡片，配成一对！', starsBar(4, 0));
   speak('Find the matching pairs!');
   var picks = shuffle(ANIMALS).slice(0, 4);
   var pairs = shuffle(picks.concat(picks.slice()));
@@ -665,13 +665,13 @@ function flipCard(el, word, e) {
     el.classList.add('matched');
     flipFirst.el.classList.add('matched');
     flipMatched++;
-    setInstr('Find the pairs! 🃏', '找到配对！', starsBar(4, flipMatched));
+    setInstr('Find the pairs! 🃏', '再翻两张，找一样的！', starsBar(4, flipMatched));
     playCorrect(); speak(word.name, function() {
       repeatPhase(word.name, function() {
         flipFirst = null;
         flipLocked = false;
         if(flipMatched >= 4) {
-          setInstr('All done! 🎉', '全部完成！', starsBar(4, 4));
+          setInstr('All done! 🎉', '全部配对成功，你太棒了！', starsBar(4, 4));
         }
       });
     });
