@@ -238,65 +238,18 @@ function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
+// TTS via Audio element - works on all platforms
 function speak(text, cb) {
-  if (!window.speechSynthesis) { if(cb) setTimeout(cb, 50); return; }
-  window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
-  // Pick best English voice across platforms
-  var v = _pickVoice();
-  if(v) u.voice = v;
+  var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=2';
+  var a = new Audio(url);
   if(cb) {
     var done = false;
     var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
-    u.onend = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
-    u.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
+    a.onended = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
+    a.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
   }
-  window.speechSynthesis.speak(u);
+  a.play().catch(function(){ if(cb) cb(); });
 }
-
-// Voice selection: works on iOS/Android/macOS/Windows/ChromeOS
-var _cachedVoice = null;
-function _pickVoice(){
-  if(_cachedVoice) return _cachedVoice;
-  var voices = speechSynthesis.getVoices();
-  if(!voices.length) return null;
-  // Preferred voices by name (cross-platform, female, clear)
-  var prefer = ['samantha','karen','moira','tessa','google us english','google uk english female',
-    'microsoft zira','microsoft jenny','fiona','victoria','rishi','daniel'];
-  var enVoices = voices.filter(function(v){ return v.lang.indexOf('en')===0; });
-  // 1. Try preferred list
-  for(var p=0;p<prefer.length;p++){
-    for(var i=0;i<enVoices.length;i++){
-      if(enVoices[i].name.toLowerCase().indexOf(prefer[p])!==-1){
-        _cachedVoice=enVoices[i]; return _cachedVoice;
-      }
-    }
-  }
-  // 2. Pick first non-novelty local English voice
-  var novelty = /albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|junior|organ|ralph|superstar|trinoids|whisper|wobble|zarvox/i;
-  for(var j=0;j<enVoices.length;j++){
-    if(!novelty.test(enVoices[j].name)){
-      _cachedVoice=enVoices[j]; return _cachedVoice;
-    }
-  }
-  // 3. Fallback: first English voice
-  if(enVoices.length){ _cachedVoice=enVoices[0]; return _cachedVoice; }
-  return null;
-}
-// Pre-warm speech synthesis so desktop Chrome loads voices early
-var _voicesReady = false;
-function _warmVoices(){
-  if(window.speechSynthesis){
-    var v = speechSynthesis.getVoices();
-    if(v.length > 0) _voicesReady = true;
-  }
-}
-_warmVoices();
-if(window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined){
-  speechSynthesis.onvoiceschanged = _warmVoices;
-}
-
 // Repeat / follow-along phase: show mic prompt, wait, then callback
 function repeatPhase(word, cb) {
   setInstr('Your turn! 🎤', '跟着说一遍: ' + word);
