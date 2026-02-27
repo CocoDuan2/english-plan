@@ -248,9 +248,15 @@ function speak(text, cb) {
       var done = false;
       var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
       u.onend = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
+      u.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
     }
     window.speechSynthesis.speak(u);
   }, 100);
+}
+// Pre-warm speech synthesis so desktop Chrome loads voices early
+if(window.speechSynthesis){
+  speechSynthesis.getVoices();
+  speechSynthesis.onvoiceschanged = function(){ speechSynthesis.getVoices(); };
 }
 
 // Repeat / follow-along phase: show mic prompt, wait, then callback
@@ -438,7 +444,7 @@ function checkReview(card, item, e) {
     setTimeout(function() {
       reviewBusy = false;
       buildReviewGrid(); showReviewPrompt();
-    }, 800);
+    }, 1200);
   } else {
     speak(item.name);
     playWrong();
