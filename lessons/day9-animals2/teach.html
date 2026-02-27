@@ -9,7 +9,7 @@
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 body{display:flex;flex-direction:column;align-items:center}
 .deck{width:100%;height:100%;display:flex;flex-direction:column}
-.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center;overflow-y:auto}
 .sl.on{display:flex}
 .bg0{background:linear-gradient(160deg,#fef9ef,#fdf2e9)}
 .bg1{background:linear-gradient(160deg,#e8f8f5,#d5f5e3)}
@@ -162,7 +162,7 @@ function buildPart3(h,i){
 // 13 Find the ___!
 h+=mk(i++,'bg5',
   '<div class="sec">Find it!</div><div class="ttl">Where is the ___? 🔍</div>'+
-  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,80)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
+  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,64)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
 N[i-1]='<span class="tc">🎮 How</span><ul><li>Say: "Where is the cow?" → child points</li><li>Child answers: "I see a cow!"</li><li>Go through all 5, random order</li><li>Speed round: faster and faster!</li></ul>';
 
 // 11 Bye
