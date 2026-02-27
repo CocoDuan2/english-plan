@@ -236,7 +236,11 @@ function speak(text, cb) {
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
-    if(cb) u.onend = function(){ setTimeout(cb, 200); };
+    if(cb) {
+      var done = false;
+      var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
+      u.onend = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 200); } };
+    }
     window.speechSynthesis.speak(u);
   }, 300);
 }
