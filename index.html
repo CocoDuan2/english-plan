@@ -10,14 +10,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;
   background:linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);padding:20px}
 .container{max-width:500px;margin:0 auto}
 h1{text-align:center;font-size:28px;color:#555;margin:20px 0}
-.card{background:rgba(255,255,255,.9);border-radius:16px;padding:16px 20px;margin:12px 0;
+.day-group{margin:16px 0}
+.day-label{font-size:15px;font-weight:700;color:#888;padding:0 4px 6px;display:flex;align-items:center;gap:6px}
+.card{background:rgba(255,255,255,.9);border-radius:16px;padding:14px 18px;margin:6px 0;
   box-shadow:0 4px 15px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;
   text-decoration:none;color:#333;transition:.2s}
 .card:active{transform:scale(.97)}
-.card .icon{font-size:36px}
+.card .icon{font-size:28px;width:36px;text-align:center}
 .card .info{flex:1}
-.card .title{font-size:18px;font-weight:700}
-.card .desc{font-size:13px;color:#888;margin-top:2px}
+.card .title{font-size:16px;font-weight:700}
+.card .desc{font-size:12px;color:#888;margin-top:2px}
 </style>
 </head>
 <body>
@@ -26,28 +28,33 @@ h1{text-align:center;font-size:28px;color:#555;margin:20px 0}
   <div id="lessons"></div>
 </div>
 <script>
-// Auto-generate lesson links
 var lessons=[
-  {day:1,date:'2025-02-25',title:'🎨 Colors: red, blue, yellow, green, orange',file:'lessons/day1-colors.html'},
-  {day:2,date:'2025-02-26',title:'🐾 Animals: cat, dog, fish, bird, duck',file:'lessons/day2-animals.html'},
-  {day:3,date:'2025-02-27',title:'👃 Body: head, eyes, ears, nose, mouth',file:'lessons/day3-body.html'},
-  {day:4,date:'2025-02-28',title:'🍎 Food: apple, banana, milk, bread, egg',file:'lessons/day4-food.html'},
-  {day:5,date:'2025-03-01',title:'📝 Review Day: Day 1-4 All Words',file:'lessons/day5-review1.html'},
-  {day:6,date:'2025-03-02',title:'🔢 Numbers: one, two, three, four, five',file:'lessons/day6-numbers.html'},
-  {day:7,date:'2025-03-03',title:'🏃 Actions: run, jump, walk, sit, stand',file:'lessons/day7-actions.html'},
-  {day:8,date:'2025-03-04',title:'🌈 Colors 2: pink, purple, white, black, brown',file:'lessons/day8-colors2.html'},
-  {day:9,date:'2025-03-05',title:'🐾 Animals 2: rabbit, pig, cow, horse, sheep',file:'lessons/day9-animals2/teach.html',review:'lessons/day9-animals2/review.html'}
+  {day:1,dir:'day1-colors',emoji:'🎨',theme:'Colors',words:'red, blue, yellow, green, orange'},
+  {day:2,dir:'day2-animals',emoji:'🐾',theme:'Animals',words:'cat, dog, fish, bird, duck'},
+  {day:3,dir:'day3-body',emoji:'👃',theme:'Body',words:'head, eyes, ears, nose, mouth'},
+  {day:4,dir:'day4-food',emoji:'🍎',theme:'Food',words:'apple, banana, milk, bread, egg'},
+  {day:5,dir:'day5-review',emoji:'📝',theme:'Review Day',words:'Day 1-4 All Words'},
+  {day:6,dir:'day6-numbers',emoji:'🔢',theme:'Numbers',words:'one, two, three, four, five'},
+  {day:7,dir:'day7-actions',emoji:'🏃',theme:'Actions',words:'run, jump, walk, sit, stand'},
+  {day:8,dir:'day8-colors2',emoji:'🌈',theme:'Colors 2',words:'pink, purple, white, black, brown'},
+  {day:9,dir:'day9-animals2',emoji:'🐾',theme:'Animals 2',words:'rabbit, pig, cow, horse, sheep'}
 ];
 var wrap=document.getElementById('lessons');
 lessons.forEach(function(l){
-  var a=document.createElement('a');a.className='card';a.href=l.file;
-  a.innerHTML='<div class="icon">📖</div><div class="info"><div class="title">Day '+l.day+'</div><div class="desc">'+l.title+'</div></div>';
-  wrap.appendChild(a);
-  if(l.review){
-    var r=document.createElement('a');r.className='card';r.href=l.review;
-    r.innerHTML='<div class="icon">🎮</div><div class="info"><div class="title">Day '+l.day+' Review</div><div class="desc">'+l.title+' (self-study game)</div></div>';
-    wrap.appendChild(r);
-  }
+  var g=document.createElement('div');g.className='day-group';
+  g.innerHTML='<div class="day-label">'+l.emoji+' Day '+l.day+' · '+l.theme+'</div>';
+
+  var t=document.createElement('a');t.className='card';
+  t.href='lessons/'+l.dir+'/teach.html';
+  t.innerHTML='<div class="icon">📖</div><div class="info"><div class="title">老师课件</div><div class="desc">'+l.words+'</div></div>';
+  g.appendChild(t);
+
+  var r=document.createElement('a');r.className='card';
+  r.href='lessons/'+l.dir+'/review.html';
+  r.innerHTML='<div class="icon">🎮</div><div class="info"><div class="title">练习课件</div><div class="desc">'+l.words+'</div></div>';
+  g.appendChild(r);
+
+  wrap.appendChild(g);
 });
 </script>
 </body>
