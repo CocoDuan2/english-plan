@@ -370,7 +370,10 @@ function updateDots() {
 
 function goModule(n) {
   currentModule = n;
-  document.querySelectorAll('.module').forEach(function(m){ m.classList.remove('active'); });
+  document.querySelectorAll('.module').forEach(function(m){
+    m.classList.remove('active');
+    m.style.display = '';          // clear any inline display override (fixes mod0 stuck visible)
+  });
   var target = document.getElementById('mod' + n);
   if(target) target.classList.add('active');
   updateDots();
