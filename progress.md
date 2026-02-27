@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前天: Day 8
+- 当前天: Day 9
 - 开始日期: 2025-02-25
 - 每日时长: 25分钟（5个模块）
 - 每天一个主题，连续不重复
@@ -73,6 +73,11 @@
 | white | Colors 2 | 03-04 | ⬜ | 03-05 |
 | black | Colors 2 | 03-04 | ⬜ | 03-05 |
 | brown | Colors 2 | 03-04 | ⬜ | 03-05 |
+| rabbit | Animals 2 | 03-05 | ⬜ | 03-06 |
+| pig | Animals 2 | 03-05 | ⬜ | 03-06 |
+| cow | Animals 2 | 03-05 | ⬜ | 03-06 |
+| horse | Animals 2 | 03-05 | ⬜ | 03-06 |
+| sheep | Animals 2 | 03-05 | ⬜ | 03-06 |
 
 ### 2025-02-28 (Day 4) - Food 🍎
 - 新词: apple, banana, milk, bread, egg
@@ -116,6 +121,15 @@
 - 综合游戏: 打地鼠（Color Whack）
 - 反馈: 待确认
 
+### 2025-03-05 (Day 9) - Animals 2 🐾
+- 新词: rabbit, pig, cow, horse, sheep
+- 课件: lessons/day9-animals2/teach.html（外教课件）
+- 复习课件: lessons/day9-animals2/review.html（课后复习游戏）
+- 复习词: brown, run, four（3个，来自Day6-8）
+- 外教课件游戏: 钓鱼游戏（Fishing Game）+ 连线配对（Connect & Match）
+- 复习课件游戏: 孵蛋（Egg Hatch）+ 打地鼠（Whack-a-Mole）+ 记忆翻牌（Memory Flip）
+- 反馈: 待确认
+
 ## 计划预览
 - Day 1 (02-25): 🎨 Colors — red, blue, yellow, green, orange
 - Day 2 (02-26): 🐾 Animals — cat, dog, fish, bird, duck
@@ -125,3 +139,4 @@
 - Day 6 (03-02): 🔢 Numbers — one, two, three, four, five
 - Day 7 (03-03): 🏃 Actions — run, jump, walk, sit, stand
 - Day 8 (03-04): 🌈 Colors 2 — pink, purple, white, black, brown
+- Day 9 (03-05): 🐾 Animals 2 — rabbit, pig, cow, horse, sheep

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 9 Review - Animals 2 🐄</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#c8f7dc 0%,#fce4a8 50%,#f7b8a0 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
+
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
+  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#27ae60}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#27ae60;transform:scale(1.2)}
+.top-bar .dot.done{background:#2ecc71}
+
+.main{width:100%;max-width:500px;flex:1;overflow:auto;padding:16px 12px 12px;display:flex;flex-direction:column}
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
+.module.active{display:flex}
+.module-title{font-size:20px;font-weight:700;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.2);margin-bottom:6px}
+
+.teacher-guide{background:rgba(255,255,255,.85);border-radius:10px;padding:8px 14px;font-size:13px;color:#666;
+  margin-bottom:10px;text-align:center;width:100%;line-height:1.4;cursor:pointer;user-select:none}
+.teacher-guide b{color:#27ae60}
+.tg-expand{display:none;margin-top:8px;text-align:left;font-size:12px;line-height:1.6;
+  background:rgba(39,174,96,.12);border-radius:8px;padding:8px 12px}
+.tg-expand.open{display:block}
+.tg-expand li{margin:4px 0;list-style:disc;margin-left:16px}
+
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .icon{font-size:80px;line-height:1;transition:filter .4s,transform .4s}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.card.revealed .label{opacity:1}
+.card.gray .icon{filter:grayscale(1) brightness(1.1)}
+.card.revealed .icon{filter:none;animation:popIn .4s ease}
+
+.prompt-text{font-size:22px;font-weight:700;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,.2);
+  margin-bottom:10px;min-height:30px;text-align:center}
+.score-bar{display:flex;gap:6px;margin-bottom:8px}
+.star{font-size:22px;opacity:.3;transition:opacity .3s,transform .3s}
+.star.earned{opacity:1;animation:popIn .4s ease}
+
+.review-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.review-card:active{transform:scale(.95)}
+.review-card .icon{font-size:80px;line-height:1}
+.review-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+
+/* Egg hatch game */
+.egg{background:rgba(255,255,255,.9);border-radius:50%;padding:16px;width:100%;min-height:110px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s;-webkit-tap-highlight-color:transparent}
+.egg:active{transform:scale(.9)}
+.egg .egg-icon{font-size:80px;line-height:1;transition:transform .3s}
+.egg.hatched .egg-icon{animation:popIn .5s ease}
+.egg .egg-label{font-size:18px;font-weight:700;margin-top:4px;opacity:0;transition:opacity .4s;color:#333}
+.egg.hatched .egg-label{opacity:1}
+
+/* Memory flip game */
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;justify-items:center}
+.flip-card{background:rgba(255,255,255,.9);border-radius:14px;padding:10px;min-height:100px;width:100%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .3s,background .3s;-webkit-tap-highlight-color:transparent}
+.flip-card:active{transform:scale(.95)}
+.flip-card .flip-face{font-size:60px;line-height:1}
+.flip-card.face-down .flip-face{font-size:40px}
+.flip-card.matched{background:#d5f5e3;pointer-events:none;opacity:.7}
+
+/* Listen & Find mixed */
+.listen-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.listen-card:active{transform:scale(.95)}
+.listen-card .icon{font-size:80px;line-height:1}
+.listen-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+
+/* Whack-a-mole */
+.mole-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.mole-hole{background:rgba(139,90,43,.3);border-radius:50%;width:100%;aspect-ratio:1;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:inset 0 4px 8px rgba(0,0,0,.15);-webkit-tap-highlight-color:transparent}
+.mole-hole:active{transform:scale(.95)}
+.mole{font-size:50px;position:absolute;bottom:-60px;transition:bottom .3s ease;line-height:1}
+.mole.up{bottom:10px;animation:moleWiggle .3s ease}
+.mole.whacked{animation:popIn .3s ease}
+@keyframes moleWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+
+/* Completion */
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.complete-emoji{font-size:90px;animation:popIn .6s ease}
+.complete-text{font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+
+/* Stars burst */
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;font-size:20px;animation:starFly 1s ease-out forwards}
+
+/* Nav bar */
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;
+  padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;
+  cursor:pointer;transition:transform .2s,opacity .3s}
+.nav-btn:active{transform:scale(.93)}
+.nav-prev{background:#fff;color:#27ae60;border:2px solid #27ae60}
+.nav-next{color:#fff;background:linear-gradient(135deg,#6dd5a0,#27ae60);
+  box-shadow:0 4px 15px rgba(39,174,96,.4)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
+
+/* Animations */
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+/* PC layout */
+@media(min-width:768px){
+  .top-bar{max-width:800px;padding:16px 24px}
+  .top-bar .title{font-size:22px}
+  .main{max-width:800px;padding:24px 24px 20px}
+  .module-title{font-size:28px}
+  .card-grid,.flip-grid,.mole-grid{gap:18px}
+  .card{padding:20px;min-height:140px}
+  .card .icon,.review-card .icon,.listen-card .icon{font-size:120px}
+  .card .label,.review-card .label,.listen-card .label{font-size:22px}
+  .egg .egg-icon{font-size:120px}
+  .flip-card .flip-face{font-size:80px}
+  .mole{font-size:70px}
+  .complete-emoji{font-size:120px}
+}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="title">🎮 Day 9 · Animals 2 Review</div>
+  <div class="dots" id="dots"></div>
+</div>
+<div class="main" id="main">
+
+<!-- Module 1: Review Warm-up (cross-theme: brown, run, four) -->
+<div class="module" id="mod1">
+  <div class="module-title">🌟 Review Time!</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> 🎤 <b>Parent:</b> "Let's remember! Find the right one!"
+  <ul class="tg-expand open">
+    <li>🗣️ "What color is this? → It's brown!" "Can you run?"</li>
+    <li>🤚 "Show me four fingers!" "Run to the door!"</li>
+  </ul>
+</div>
+  <div class="prompt-text" id="reviewPrompt"></div>
+  <div class="score-bar" id="reviewScoreBar"></div>
+  <div class="card-grid" id="reviewGrid"></div>
+</div>
+
+<!-- Module 2: New Words - Egg Hatch -->
+<div class="module" id="mod2">
+  <div class="module-title">🥚 Hatch the Eggs!</div>
+  <div class="teacher-guide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> 🎤 <b>Parent:</b> "Tap each egg to see which animal hatches!"
+  <ul class="tg-expand open">
+    <li>🗣️ "What is it? → It's a rabbit!" "The cow says moo!"</li>
+    <li>🤚 "Hop like a rabbit!" "Oink like a pig!"</li>
+    <li>🎵 "Old MacDonald had a farm!"</li>
+  </ul>
+</div>
+  <div class="card-grid" id="eggGrid"></div>
+</div>
+
+<!-- Module 3: Whack-a-Mole -->
+<div class="module" id="mod3">
+  <div class="module-title">🔨 Whack-a-Mole!</div>
+  <div class="teacher-guide" id="whackGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Whack the right animal!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "It's a pig! Oink oink!" "I see a horse!"</li>
+    <li>🤚 "Quick! Tap the sheep! Baa baa!"</li>
+  </ul>
+</div>
+  <div class="prompt-text" id="whackPrompt"></div>
+  <div class="score-bar" id="whackScoreBar"></div>
+  <div class="mole-grid" id="moleGrid"></div>
+</div>
+
+<!-- Module 4: Listen & Find (mixed new + old words) -->
+<div class="module" id="mod4">
+  <div class="module-title">👂 Listen & Find!</div>
+  <div class="teacher-guide" id="listenGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Where is the RABBIT? Find it!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "Where is the cow? → Here! Moo!"</li>
+    <li>🤚 "Point to the sheep! Now gallop like a horse!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="listenScoreBar"></div>
+  <div class="prompt-text" id="listenPrompt"></div>
+  <div class="card-grid" id="listenGrid"></div>
+</div>
+
+<!-- Module 5: Memory Flip (new + old words mixed) -->
+<div class="module" id="mod5">
+  <div class="module-title">🃏 Memory Flip!</div>
+  <div class="teacher-guide" id="flipGuide" onclick="var e=this.querySelector('.tg-expand');e.classList.toggle('open');this.querySelector('.tg-arrow').textContent=e.classList.contains('open')?'▼':'▶'">
+  <span class="tg-arrow">▼</span> <span class="tg-summary">🎤 <b>Parent:</b> "Find the matching pairs!"</span>
+  <ul class="tg-expand open">
+    <li>🗣️ "It's a rabbit! Can you find the other rabbit?"</li>
+    <li>🎮 "Remember where the pig is? Try again!"</li>
+  </ul>
+</div>
+  <div class="score-bar" id="flipScoreBar"></div>
+  <div class="flip-grid" id="flipGrid"></div>
+</div>
+
+<!-- Complete -->
+<div class="module" id="mod6">
+  <div class="complete-screen">
+    <div class="complete-emoji">🎉</div>
+    <div class="complete-text">Great Job, Ranran!</div>
+    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You reviewed all the farm animals! 🐄</div>
+    <button class="nav-btn nav-next" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="nav-btn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff;border:none" onclick="location.href='../../index.html'">🏠 Home</button>
+  </div>
+</div>
+
+</div>
+<script>
+// === DATA ===
+var ANIMALS = [
+  {name:'rabbit', emoji:'🐰'},
+  {name:'pig',    emoji:'🐷'},
+  {name:'cow',    emoji:'🐄'},
+  {name:'horse',  emoji:'🐴'},
+  {name:'sheep',  emoji:'🐑'}
+];
+var REVIEW = [
+  {name:'brown', emoji:'🟤'},
+  {name:'run',   emoji:'🏃'},
+  {name:'four',  emoji:'4️⃣'}
+];
+var MIX = ANIMALS.concat([REVIEW[0], REVIEW[2]]);
+var MODULES = 6, currentModule = 0;
+var reviewRound = 0, reviewOrder = [];
+var eggRevealed = 0, eggSet = {};
+var whackRound = 0, whackScore = 0, whackOrder = [], whackTimer = null, moleTimers = [];
+var listenRound = 0, listenOrder = [];
+var flipFirst = null, flipMatched = 0, flipLocked = false;
+
+function say(t, cb) { if(cb) setTimeout(cb, 300); }
+
+function burstStars(x, y) {
+  var c = document.createElement('div');
+  c.className = 'star-burst';
+  c.style.left = x + 'px'; c.style.top = y + 'px';
+  for(var i = 0; i < 8; i++) {
+    var s = document.createElement('div');
+    s.className = 'star-particle';
+    var angle = (i / 8) * Math.PI * 2;
+    var dist = 60 + Math.random() * 40;
+    s.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    s.textContent = ['⭐','🌟','✨','💫'][i % 4];
+    c.appendChild(s);
+  }
+  document.body.appendChild(c);
+  setTimeout(function(){ c.remove(); }, 1100);
+}
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// === NAVIGATION ===
+function updateDots() {
+  var dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  for(var i = 1; i <= 5; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot' + (i === currentModule ? ' active' : '') + (i < currentModule ? ' done' : '');
+    dots.appendChild(d);
+  }
+}
+
+function goModule(n) {
+  currentModule = n;
+  document.querySelectorAll('.module').forEach(function(m){ m.classList.remove('active'); });
+  var target = document.getElementById('mod' + n);
+  if(target) target.classList.add('active');
+  updateDots();
+  if(n === 1) startReview();
+  if(n === 3) startWhack();
+  if(n === 4) startListen();
+  if(n === 5) startFlip();
+  updateNav();
+}
+
+function updateNav() {
+  document.getElementById('navPrev').disabled = (currentModule <= 1);
+  document.getElementById('navNext').textContent = (currentModule >= 5) ? 'Done! 🎉' : 'Next ➡️';
+  document.getElementById('navProgress').textContent = Math.min(currentModule, 5) + '/5';
+  document.querySelector('.nav-bar').style.display = (currentModule >= 6) ? 'none' : '';
+}
+function goNext() { if(currentModule < 6) goModule(currentModule + 1); }
+function goPrev() { if(currentModule > 1) goModule(currentModule - 1); }
+
+// === MODULE 1: REVIEW WARM-UP ===
+function startReview() {
+  reviewRound = 0;
+  reviewOrder = shuffle([0,1,2]);
+  var sb = document.getElementById('reviewScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 3; i++) {
+    var s = document.createElement('div');
+    s.className = 'star'; s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildReviewGrid();
+  showReviewPrompt();
+}
+
+function buildReviewGrid() {
+  var grid = document.getElementById('reviewGrid');
+  grid.innerHTML = '';
+  shuffle(REVIEW).forEach(function(r) {
+    var card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = '<div class="icon">' + r.emoji + '</div><div class="label">' + r.name + '</div>';
+    card.onclick = function(e) { checkReview(this, r, e); };
+    grid.appendChild(card);
+  });
+}
+
+function showReviewPrompt() {
+  if(reviewRound >= 3) {
+    document.getElementById('reviewPrompt').textContent = '🎉 Great memory!';
+    return;
+  }
+  var target = REVIEW[reviewOrder[reviewRound]];
+  document.getElementById('reviewPrompt').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
+}
+
+function checkReview(card, item, e) {
+  if(reviewRound >= 3) return;
+  var target = REVIEW[reviewOrder[reviewRound]];
+  if(item.name === target.name) {
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    document.getElementById('reviewScoreBar').children[reviewRound].classList.add('earned');
+    reviewRound++;
+    setTimeout(function(){ buildReviewGrid(); showReviewPrompt(); }, 600);
+  } else {
+    card.style.animation = 'shake .4s ease';
+    setTimeout(function(){ card.style.animation = ''; }, 500);
+  }
+}
+
+// === MODULE 2: EGG HATCH ===
+function initEggs() {
+  var grid = document.getElementById('eggGrid');
+  grid.innerHTML = '';
+  ANIMALS.forEach(function(a, i) {
+    var egg = document.createElement('div');
+    egg.className = 'egg';
+    egg.innerHTML = '<div class="egg-icon">🥚</div><div class="egg-label">' + a.name + '</div>';
+    egg.onclick = function(e) { hatchEgg(this, i, e); };
+    grid.appendChild(egg);
+  });
+}
+
+function hatchEgg(el, idx, e) {
+  var wasHatched = el.classList.contains('hatched');
+  el.classList.add('hatched');
+  var icon = el.querySelector('.egg-icon');
+  icon.textContent = ANIMALS[idx].emoji;
+  icon.style.animation = 'none';
+  void icon.offsetWidth;
+  icon.style.animation = 'popIn .5s ease';
+  say(ANIMALS[idx].name);
+  var rect = el.getBoundingClientRect();
+  burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+  if(!wasHatched) {
+    eggSet[idx] = true;
+    eggRevealed++;
+  }
+}
+
+// === MODULE 3: WHACK-A-MOLE ===
+function startWhack() {
+  whackRound = 0; whackScore = 0;
+  whackOrder = shuffle([0,1,2,3,4]);
+  moleTimers.forEach(clearTimeout);
+  moleTimers = [];
+  var sb = document.getElementById('whackScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star'; s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildMoleGrid();
+  nextWhackRound();
+}
+
+function buildMoleGrid() {
+  var grid = document.getElementById('moleGrid');
+  grid.innerHTML = '';
+  for(var i = 0; i < 6; i++) {
+    var hole = document.createElement('div');
+    hole.className = 'mole-hole';
+    hole.setAttribute('data-hole', i);
+    var mole = document.createElement('div');
+    mole.className = 'mole';
+    mole.setAttribute('data-hole', i);
+    hole.appendChild(mole);
+    hole.onclick = function(e) { whackMole(this, e); };
+    grid.appendChild(hole);
+  }
+}
+
+function nextWhackRound() {
+  if(whackRound >= 5) {
+    document.getElementById('whackPrompt').textContent = '🎉 Great whacking!';
+    document.getElementById('whackGuide').querySelector('.tg-summary').innerHTML =
+      '🎤 <b>Parent:</b> "Wow! You got ' + whackScore + ' animals!"';
+    return;
+  }
+  var target = ANIMALS[whackOrder[whackRound]];
+  document.getElementById('whackPrompt').textContent =
+    'Whack: ' + target.emoji + ' ' + target.name.toUpperCase();
+
+  // Hide all moles first
+  var moles = document.querySelectorAll('.mole');
+  moles.forEach(function(m){ m.classList.remove('up'); m.textContent = ''; });
+
+  // Pop up 2-3 moles in random holes
+  var holes = shuffle([0,1,2,3,4,5]);
+  var count = 2 + Math.floor(Math.random() * 2);
+  var picks = shuffle(ANIMALS);
+  var hasTarget = false;
+  var popList = [];
+  for(var i = 0; i < count; i++) {
+    var w = picks[i % picks.length];
+    if(w.name === target.name) hasTarget = true;
+    popList.push({hole: holes[i], word: w});
+  }
+  if(!hasTarget) {
+    popList[0].word = target;
+  }
+
+  popList.forEach(function(p, idx) {
+    var t = setTimeout(function() {
+      var mole = document.querySelector('.mole[data-hole="' + p.hole + '"]');
+      mole.textContent = p.word.emoji;
+      mole.setAttribute('data-name', p.word.name);
+      mole.classList.add('up');
+      // Auto hide after 3s
+      var ht = setTimeout(function() { mole.classList.remove('up'); }, 3000);
+      moleTimers.push(ht);
+    }, idx * 500);
+    moleTimers.push(t);
+  });
+}
+
+function whackMole(hole, e) {
+  var mole = hole.querySelector('.mole');
+  if(!mole.classList.contains('up')) return;
+  var target = ANIMALS[whackOrder[whackRound]];
+  var name = mole.getAttribute('data-name');
+  if(name === target.name) {
+    mole.classList.add('whacked');
+    var rect = hole.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    var stars = document.getElementById('whackScoreBar').children;
+    stars[whackRound].classList.add('earned');
+    whackScore++;
+    whackRound++;
+    setTimeout(function() {
+      document.querySelectorAll('.mole').forEach(function(m){
+        m.classList.remove('up','whacked'); m.textContent = '';
+      });
+      nextWhackRound();
+    }, 800);
+  } else {
+    hole.style.animation = 'shake .4s ease';
+    setTimeout(function(){ hole.style.animation = ''; }, 500);
+  }
+}
+
+// === MODULE 4: LISTEN & FIND (mixed new + review) ===
+function startListen() {
+  listenRound = 0;
+  listenOrder = shuffle([0,1,2,3,4]);
+  var sb = document.getElementById('listenScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 5; i++) {
+    var s = document.createElement('div');
+    s.className = 'star'; s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  buildListenGrid();
+  showListenPrompt();
+}
+
+function buildListenGrid() {
+  var grid = document.getElementById('listenGrid');
+  grid.innerHTML = '';
+  shuffle(ANIMALS).forEach(function(a) {
+    var card = document.createElement('div');
+    card.className = 'listen-card';
+    card.innerHTML = '<div class="icon">' + a.emoji + '</div><div class="label">' + a.name + '</div>';
+    card.onclick = function(e) { checkListen(this, a, e); };
+    grid.appendChild(card);
+  });
+}
+
+function showListenPrompt() {
+  if(listenRound >= 5) {
+    document.getElementById('listenPrompt').textContent = '🎉 All found!';
+    document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML =
+      '🎤 <b>Parent:</b> "Amazing! You found all the animals!"';
+    return;
+  }
+  var target = ANIMALS[listenOrder[listenRound]];
+  document.getElementById('listenPrompt').textContent = 'Find: ' + target.name.toUpperCase() + ' ' + target.emoji;
+  document.getElementById('listenGuide').querySelector('.tg-summary').innerHTML =
+    '🎤 <b>Parent:</b> "Where is the ' + target.name.toUpperCase() + '? Find it!"';
+}
+
+function checkListen(card, animal, e) {
+  if(listenRound >= 5) return;
+  var target = ANIMALS[listenOrder[listenRound]];
+  if(animal.name === target.name) {
+    var rect = card.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    document.getElementById('listenScoreBar').children[listenRound].classList.add('earned');
+    listenRound++;
+    setTimeout(function(){ buildListenGrid(); showListenPrompt(); }, 600);
+  } else {
+    card.style.animation = 'shake .4s ease';
+    setTimeout(function(){ card.style.animation = ''; }, 500);
+  }
+}
+
+// === MODULE 5: MEMORY FLIP ===
+function startFlip() {
+  flipFirst = null; flipMatched = 0; flipLocked = false;
+  var sb = document.getElementById('flipScoreBar');
+  sb.innerHTML = '';
+  for(var i = 0; i < 4; i++) {
+    var s = document.createElement('div');
+    s.className = 'star'; s.textContent = '⭐';
+    sb.appendChild(s);
+  }
+  // Pick 4 animals, make pairs = 8 cards, fit in 3-col grid (3+3+2)
+  var picks = shuffle(ANIMALS).slice(0, 4);
+  var pairs = shuffle(picks.concat(picks.slice()));
+  buildFlipGrid(pairs);
+}
+
+function buildFlipGrid(pairs) {
+  var grid = document.getElementById('flipGrid');
+  grid.innerHTML = '';
+  pairs.forEach(function(w, i) {
+    var card = document.createElement('div');
+    card.className = 'flip-card face-down';
+    card.setAttribute('data-idx', i);
+    card.setAttribute('data-name', w.name);
+    card.innerHTML = '<div class="flip-face">❓</div>';
+    card.onclick = function(e) { flipCard(this, w, e); };
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(el, word, e) {
+  if(flipLocked) return;
+  if(el.classList.contains('matched')) return;
+  if(!el.classList.contains('face-down')) return;
+
+  el.classList.remove('face-down');
+  el.querySelector('.flip-face').textContent = word.emoji;
+  el.querySelector('.flip-face').style.fontSize = '60px';
+
+  if(!flipFirst) {
+    flipFirst = {el: el, word: word};
+    return;
+  }
+
+  // Second card flipped
+  flipLocked = true;
+  if(flipFirst.word.name === word.name && flipFirst.el !== el) {
+    // Match!
+    var rect = el.getBoundingClientRect();
+    burstStars(rect.left + rect.width/2, rect.top + rect.height/2);
+    el.classList.add('matched');
+    flipFirst.el.classList.add('matched');
+    var stars = document.getElementById('flipScoreBar').children;
+    if(flipMatched < stars.length) stars[flipMatched].classList.add('earned');
+    flipMatched++;
+    flipFirst = null;
+    flipLocked = false;
+    if(flipMatched >= 4) {
+      document.getElementById('flipGuide').querySelector('.tg-summary').innerHTML =
+        '🎤 <b>Parent:</b> "Perfect! You matched them all!"';
+    }
+  } else {
+    // No match - flip back
+    var prev = flipFirst.el;
+    setTimeout(function() {
+      el.classList.add('face-down');
+      el.querySelector('.flip-face').textContent = '❓';
+      el.querySelector('.flip-face').style.fontSize = '40px';
+      prev.classList.add('face-down');
+      prev.querySelector('.flip-face').textContent = '❓';
+      prev.querySelector('.flip-face').style.fontSize = '40px';
+      flipFirst = null;
+      flipLocked = false;
+    }, 800);
+  }
+}
+
+// === INIT ===
+initEggs();
+goModule(1);
+</script>
+
+<div class="nav-bar">
+  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ➡️</button>
+</div>
+</body>
+</html>
