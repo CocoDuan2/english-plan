@@ -239,24 +239,34 @@ function getAudioCtx() {
   return audioCtx;
 }
 function speak(text, cb) {
-  setTimeout(function() {
-    if (!window.speechSynthesis) { if(cb) cb(); return; }
-    window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
-    if(cb) {
-      var done = false;
-      var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
-      u.onend = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
-      u.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
-    }
-    window.speechSynthesis.speak(u);
-  }, 100);
+  if (!window.speechSynthesis) { if(cb) setTimeout(cb, 50); return; }
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.1;
+  // Try to pick an English voice explicitly
+  var voices = speechSynthesis.getVoices();
+  for(var i=0;i<voices.length;i++){
+    if(voices[i].lang.indexOf('en')===0){ u.voice=voices[i]; break; }
+  }
+  if(cb) {
+    var done = false;
+    var safety = setTimeout(function(){ if(!done){ done=true; cb(); } }, 4000);
+    u.onend = function(){ if(!done){ done=true; clearTimeout(safety); setTimeout(cb, 50); } };
+    u.onerror = function(){ if(!done){ done=true; clearTimeout(safety); cb(); } };
+  }
+  window.speechSynthesis.speak(u);
 }
 // Pre-warm speech synthesis so desktop Chrome loads voices early
-if(window.speechSynthesis){
-  speechSynthesis.getVoices();
-  speechSynthesis.onvoiceschanged = function(){ speechSynthesis.getVoices(); };
+var _voicesReady = false;
+function _warmVoices(){
+  if(window.speechSynthesis){
+    var v = speechSynthesis.getVoices();
+    if(v.length > 0) _voicesReady = true;
+  }
+}
+_warmVoices();
+if(window.speechSynthesis && speechSynthesis.onvoiceschanged !== undefined){
+  speechSynthesis.onvoiceschanged = _warmVoices;
 }
 
 // Repeat / follow-along phase: show mic prompt, wait, then callback
