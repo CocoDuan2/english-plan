@@ -238,21 +238,16 @@ function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-// TTS: all via Youdao dictvoice, sentences read word by word
+// TTS: words via Youdao (better quality), sentences via Baidu Translate (natural flow)
 function speak(text, cb) {
-  var words = text.trim().split(/\s+/);
-  _speakChain(words, 0, cb);
-}
-function _speakChain(words, idx, cb) {
-  if(idx >= words.length){ if(cb) setTimeout(cb, 50); return; }
-  _speakWord(words[idx], function(){ _speakChain(words, idx+1, cb); });
-}
-function _speakWord(w, cb) {
-  var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2';
+  var isWord = text.trim().indexOf(' ') === -1;
+  var url = isWord
+    ? 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=2'
+    : 'https://fanyi.baidu.com/gettts?lan=en&text=' + encodeURIComponent(text) + '&spd=4&source=web';
   var a = new Audio(url);
   var done = false;
-  var finish = function(){ if(!done){ done=true; cb(); } };
-  var safety = setTimeout(finish, 3000);
+  var finish = function(){ if(!done){ done=true; if(cb) setTimeout(cb, 50); } };
+  var safety = setTimeout(finish, 4000);
   a.onended = function(){ clearTimeout(safety); finish(); };
   a.onerror = function(){ clearTimeout(safety); finish(); };
   a.play().catch(finish);
