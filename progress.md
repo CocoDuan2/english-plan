@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 6 - Numbers
+- 当前: Day 7 - Actions
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -38,7 +38,16 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 7 - Actions: run, jump, walk, sit, stand / I can ___!
+- Day 8 - Colors 2: pink, purple, white, black, brown / It's ___!
+
+## Day 7 - Actions 🏃
+- 新词: run, jump, walk, sit, stand
+- 句式: I can ___!
+- SVG物品: 跑步小人(橙)、跳跃小人(粉)、走路小人(青)、坐着小人(紫)、站立小人(黄)
+- teach: 运动会故事线 + 昨日numbers复习页 + 哨声揭示互动 + 动作姿势SVG
+- review: 昨日numbers微复习 + 姿势卡片学词 + Simon Says指令游戏 + 听音三选一 + 动作链排序
+- 角色轮换: Mummy/Daddy+Peppa/Emily/Candy/George/Peppa-fairy/Peppa-arms/George-ball 全出场
+- 状态: ✅ 完成
 
 ## Day 6 - Numbers 🔢
 - 新词: one, two, three, four, five
