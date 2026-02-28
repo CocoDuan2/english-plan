@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 8 - Colors 2
+- 当前: Day 9 - Animals 2
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -38,7 +38,16 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 9 - Animals 2: rabbit, pig, cow, horse, sheep / I see a ___!
+- Day 10 - Review: Day 6-9 全部 / 混合句式
+
+## Day 9 - Animals 2 🐑
+- 新词: rabbit, pig, cow, horse, sheep
+- 句式: I see a ___!
+- SVG物品: 小兔子、粉小猪、花奶牛、棕小马、绵羊
+- teach: 农场巡游故事线 + 昨日colors2复习页 + barn door 开门揭示 + 农场点名墙
+- review: 昨日colors2微复习 + 窗户点开学词 + 选同伴进巡游 + 听音二选一 + 找不同
+- 角色轮换: George-superhero/Mummy/Daddy/Peppa/Emily/Candy/Peppa-fairy/Peppa-family 全出场
+- 状态: ✅ 完成
 
 ## Day 8 - Colors 2 🎨
 - 新词: pink, purple, white, black, brown
