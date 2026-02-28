@@ -62,6 +62,7 @@ body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);disp
 <div class="mod" id="m2"></div>
 <div class="mod" id="m3"></div>
 <div class="mod" id="m4"></div>
+<div class="mod" id="m5"></div>
 </div>
 <div class="nav">
 <button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
@@ -228,7 +229,7 @@ function fTap(i){
       document.getElementById('fc'+i).classList.add('mt');
       fF=-1;fLk=false;
       setI('Match!','配对成功！',stars(fM,4));
-      if(fM>=4)setI('All Done!','全部配对啦，你真棒！',stars(4,4));
+      if(fM>=4){setI('All Done!','全部配对啦，你真棒！',stars(4,4));setTimeout(function(){goM(1)},700);}
     },600);
   }else{
     playNo();
@@ -240,9 +241,32 @@ function fTap(i){
   }
 }
 
+
+function initM5(){
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="180">'+
+    '<div class="pr"><div class="bbl">Hooray! You did it!</div></div>'+
+    '<div style="font-size:36px;font-weight:800;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#2c3e50">Great job, Ranran!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 34px;margin-top:18px" onclick="goToStart()">Play Again</button>';
+  setI('All Done!','太棒啦，今天完成啦！',stars(5,5));
+}
+
+function goToStart(){
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=0;
+  document.getElementById(mods[cur]).classList.add('on');
+  initM0();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=true;
+  var xb=document.getElementById('xb');
+  xb.textContent='Next ▶';
+  xb.disabled=false;
+}
+
 // Navigation
-var mods=['m0','m1','m2','m3','m4'];
-var inits=[initM0,initM1,initM2,initM3,initM4];
+var mods=['m0','m1','m2','m3','m4','m5'];
+var inits=[initM0,initM1,initM2,initM3,initM4,initM5];
 function goM(d){
   var n=cur+d;if(n<0||n>=mods.length)return;
   document.getElementById(mods[cur]).classList.remove('on');
