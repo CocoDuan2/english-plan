@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 - Animals (Review)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#90caf9 0%,#c5e1a5 68%,#8bc34a 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
+.top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.ie{font-size:26px;font-weight:800;color:#e91e8c}
+.iz{font-size:20px;color:#e67e22;font-weight:700;margin-top:2px}
+.sb{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s;margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
+.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
+.card:active{transform:scale(.95)}
+.card svg{opacity:0;transition:opacity .4s}
+.card .lbl{font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s;text-transform:lowercase}
+.card.rev svg{opacity:1}
+.card.rev .lbl{opacity:1}
+.puddle-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.puddle{width:108px;height:108px;border-radius:18px;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.puddle:active{transform:scale(.9)}
+.puddle.ok{animation:splashA .5s ease}
+@keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes pepBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.pep-bounce{animation:pepBounce .4s ease 2}
+.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:440px}
+.fc{aspect-ratio:1;border-radius:14px;cursor:pointer;perspective:600px}
+.fi{width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;position:relative}
+.fc.fl .fi{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:44px}
+.fb{transform:rotateY(180deg);gap:4px;padding:4px}
+.fc.mt{opacity:.4;pointer-events:none}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){.main{max-width:800px}.flip-grid{max-width:560px}}
+</style>
+</head>
+<body>
+<div class="main">
+<div class="top-bar">
+<div class="ie" id="ie">Peppa's Animal Walk!</div>
+<div class="iz" id="iz"></div>
+<div class="sb" id="sb"></div>
+</div>
+<div class="mod on" id="m0"></div>
+<div class="mod" id="m1"></div>
+<div class="mod" id="m2"></div>
+<div class="mod" id="m3"></div>
+<div class="mod" id="m4"></div>
+<div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/6</div></div>
+<button class="nb" id="xb" onclick="goM(1)">Next &#9654;</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var W=[
+{w:'cat',clr:'#f4a460',svg:'<circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/><circle cx="65" cy="88" r="5" fill="#fff"/><circle cx="95" cy="88" r="5" fill="#fff"/><circle cx="66" cy="89" r="2.5" fill="#333"/><circle cx="96" cy="89" r="2.5" fill="#333"/><polygon points="80,98 74,104 86,104" fill="#f06292"/><path d="M72 112 Q80 119 88 112" stroke="#8d4b20" stroke-width="3" fill="none"/><line x1="40" y1="96" x2="60" y2="98" stroke="#8d4b20" stroke-width="3"/><line x1="120" y1="96" x2="100" y2="98" stroke="#8d4b20" stroke-width="3"/>'},
+{w:'dog',clr:'#8d6e63',svg:'<circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="80" cy="105" rx="18" ry="12" fill="#d7b899"/><circle cx="66" cy="86" r="5" fill="#fff"/><circle cx="94" cy="86" r="5" fill="#fff"/><circle cx="66" cy="87" r="2.5" fill="#333"/><circle cx="94" cy="87" r="2.5" fill="#333"/><circle cx="80" cy="102" r="4" fill="#333"/><path d="M72 112 Q80 118 88 112" stroke="#6d4c41" stroke-width="3" fill="none"/><ellipse cx="118" cy="120" rx="8" ry="5" fill="#ff7043"/>'},
+{w:'fish',clr:'#1e88e5',svg:'<ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/><circle cx="58" cy="80" r="5" fill="#fff"/><circle cx="59" cy="81" r="2.5" fill="#333"/><path d="M60 95 Q76 104 92 95" stroke="#1565c0" stroke-width="3" fill="none"/><path d="M38 75 Q76 50 112 75" stroke="#64b5f6" stroke-width="5" fill="none"/><path d="M38 95 Q76 118 112 95" stroke="#64b5f6" stroke-width="5" fill="none"/>'},
+{w:'bird',clr:'#fbc02d',svg:'<circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/><circle cx="104" cy="64" r="4" fill="#fff"/><circle cx="105" cy="65" r="2" fill="#333"/><ellipse cx="74" cy="94" rx="16" ry="12" fill="#ffca28"/><path d="M54 106 Q72 126 94 112" stroke="#fb8c00" stroke-width="4" fill="none"/><line x1="66" y1="122" x2="66" y2="136" stroke="#ef6c00" stroke-width="4" stroke-linecap="round"/><line x1="86" y1="120" x2="86" y2="134" stroke="#ef6c00" stroke-width="4" stroke-linecap="round"/>'},
+{w:'duck',clr:'#fdd835',svg:'<ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/><circle cx="103" cy="71" r="4" fill="#fff"/><circle cx="104" cy="72" r="2" fill="#333"/><path d="M52 96 Q74 74 100 90" stroke="#fdd835" stroke-width="8" fill="none"/><path d="M58 120 Q68 130 80 120" stroke="#f57f17" stroke-width="4" fill="none"/><line x1="70" y1="122" x2="70" y2="136" stroke="#f57f17" stroke-width="4" stroke-linecap="round"/><line x1="84" y1="122" x2="84" y2="136" stroke="#f57f17" stroke-width="4" stroke-linecap="round"/>'}
+];
+
+function svgOf(i,sz){return '<svg width="'+(sz||100)+'" height="'+(sz||100)+'" viewBox="0 0 160 160">'+W[i].svg+'</svg>'}
+
+var cur=0,actx=null;
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function speak(t,cb){
+  var u=t.indexOf(' ')>=0?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var a=new Audio(u),done=false;
+  function fin(){if(done)return;done=true;if(cb)cb()}
+  a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin);
+}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200)}
+function playNo(){tone(300,.3)}
+function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
+function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'☆';return s}
+function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.classList.remove('pep-bounce');void el.offsetWidth;el.classList.add('pep-bounce')}}
+
+function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'peppa-pig-happy-standing.png" width="145" alt="Peppa">'+
+    '<div class="pr"><div class="bbl">Come walk with animal friends!</div></div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;justify-content:center">'+W.map(function(_,i){return svgOf(i,65)}).join('')+'</div>'+
+    '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
+  setI("Peppa's Animal Walk!",'和佩琪认识小动物！','');
+}
+
+var lnC=0,lnB=false;
+function initM1(){
+  lnC=0;lnB=false;
+  document.getElementById('m1').innerHTML=
+    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="60"><div class="bbl">Tap to find animals!</div></div>'+
+    '<div class="g3">'+W.map(function(w,i){
+      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
+        svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
+    }).join('')+'</div>';
+  setI('Tap to find animals!','点一点，帮佩琪找动物！',stars(0,5));
+}
+function lnTap(i){
+  var c=document.getElementById('lc'+i);
+  if(c.classList.contains('rev')){speak(W[i].w);return}
+  if(lnB)return;lnB=true;
+  c.classList.add('rev');c.style.background='#fff';lnC++;
+  playOk();pepBounce();
+  setI('I see a '+W[i].w+'!','找到啦！I see a '+W[i].w+'!',stars(lnC,5));
+  speak(W[i].w,function(){lnB=false});
+}
+
+var pjS=0,pjI=0,pjB=false,pjOrd=[];
+function initM2(){
+  pjS=0;pjI=0;pjB=false;
+  pjOrd=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  renderPJ();
+}
+function renderPJ(){
+  if(pjI>=W.length){
+    setI('Animal Jump Done!','全部找到了，太棒啦！',stars(5,5));
+    document.getElementById('m2').innerHTML='<img src="'+PP+'peppa-and-george-ooo.png" width="145"><div style="font-size:24px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 2px 4px rgba(0,0,0,.2)">All animals found!</div>';
+    return;
+  }
+  var tgt=W[pjOrd[pjI]];
+  setI('Jump to '+tgt.w+'!','快点：哪个是 '+tgt.w+'？',stars(pjS,5));
+  speak(tgt.w);
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'george-superhero-costume.png" width="70"><div class="bbl">I see a '+tgt.w+'!</div></div>'+
+    '<div class="puddle-row">'+W.map(function(w,j){
+      return '<div class="puddle" style="background:'+w.clr+'" onclick="pjTap('+j+')">'+svgOf(j,75)+'</div>'
+    }).join('')+'</div>';
+}
+function pjTap(j){
+  if(pjB)return;pjB=true;
+  if(j===pjOrd[pjI]){
+    playOk();pjS++;pjI++;pepBounce();
+    setI('Yes! I see a '+W[j].w+'!','答对啦！就是 '+W[j].w+'！',stars(pjS,5));
+    speak('I see a '+W[j].w,function(){pjB=false;setTimeout(renderPJ,700)});
+  }else{
+    playNo();
+    setI('Try again!','再试一次，找 '+W[pjOrd[pjI]].w+'！',stars(pjS,5));
+    speak(W[pjOrd[pjI]].w,function(){pjB=false});
+  }
+}
+
+var lfS=0,lfI=0,lfB=false,lfOrd=[];
+function initM3(){
+  lfS=0;lfI=0;lfB=false;
+  lfOrd=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  document.getElementById('m3').innerHTML=
+    '<div class="pr" id="lfPr"><img src="'+PP+'daddy-pig-standing.png" width="60"><div class="bbl" id="lfBbl">Listen and tap!</div></div>'+
+    '<div class="g3">'+W.map(function(w,i){
+      return '<div class="card rev" onclick="lfTap('+i+')" style="min-height:90px">'+svgOf(i,90)+'</div>'
+    }).join('')+'</div>';
+  lfAsk();
+}
+function lfAsk(){
+  if(lfI>=W.length){
+    setI('Perfect!','全部听对啦！',stars(5,5));
+    document.getElementById('lfBbl').textContent='You found all animals!';
+    return;
+  }
+  var w=W[lfOrd[lfI]];
+  setI('Find '+w.w+'!','听一听，哪个是 '+w.w+'？',stars(lfS,5));
+  document.getElementById('lfBbl').textContent='Where is '+w.w+'?';
+  speak(w.w);
+}
+function lfTap(i){
+  if(lfB||lfI>=W.length)return;lfB=true;
+  if(i===lfOrd[lfI]){
+    playOk();lfS++;lfI++;pepBounce();
+    setI('Great! '+W[i].w+'!','答对啦，是 '+W[i].w+'！',stars(lfS,5));
+    speak('I see a '+W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
+  }else{
+    playNo();
+    setI('Oops, try again!','再找找，哪个是 '+W[lfOrd[lfI]].w+'？',stars(lfS,5));
+    speak(W[lfOrd[lfI]].w,function(){lfB=false});
+  }
+}
+
+var fF=-1,fM=0,fLk=false,fCards=[];
+function initM4(){
+  fF=-1;fM=0;fLk=false;
+  var pairs=W.slice(0,4);fCards=[];
+  pairs.forEach(function(w,i){fCards.push({wi:i,w:w.w,clr:w.clr});fCards.push({wi:i,w:w.w,clr:w.clr})});
+  fCards.sort(function(){return Math.random()-.5});
+  document.getElementById('m4').innerHTML=
+    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="60"><div class="bbl">Find the pairs!</div></div>'+
+    '<div class="flip-grid">'+fCards.map(function(c,i){
+      return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
+        '<div class="ff">🐷</div>'+
+        '<div class="fb" style="background:'+c.clr+'22">'+
+        '<svg width="70" height="70" viewBox="0 0 160 160">'+W[c.wi].svg+'</svg>'+
+        '<div style="font-size:18px;font-weight:700;color:#2c3e50">'+c.w+'</div></div></div></div>'
+    }).join('')+'</div>';
+  setI('Memory Flip!','翻开两张一样的小动物！',stars(fM,4));
+}
+function fTap(i){
+  if(fLk)return;
+  var el=document.getElementById('fc'+i);
+  if(el.classList.contains('fl')||el.classList.contains('mt'))return;
+  el.classList.add('fl');speak(fCards[i].w);
+  if(fF<0){fF=i;return}
+  var s=fF;fLk=true;
+  if(fCards[s].wi===fCards[i].wi){
+    playOk();fM++;pepBounce();
+    setTimeout(function(){
+      document.getElementById('fc'+s).classList.add('mt');
+      document.getElementById('fc'+i).classList.add('mt');
+      fF=-1;fLk=false;
+      setI('Match!','配对成功啦！',stars(fM,4));
+      if(fM>=4){setTimeout(function(){goM(1)},700);}
+    },600);
+  }else{
+    playNo();
+    setTimeout(function(){
+      document.getElementById('fc'+s).classList.remove('fl');
+      document.getElementById('fc'+i).classList.remove('fl');
+      fF=-1;fLk=false;
+    },1000);
+  }
+}
+
+function initM5(){
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="185" style="margin-bottom:10px">'+
+    '<div class="bbl" style="font-size:28px">All Done!</div>'+
+    '<div style="font-size:36px;font-weight:800;color:#e91e8c;margin-top:16px">You Did It!</div>'+
+    '<div style="font-size:22px;color:#e67e22;margin-top:8px">I see a cat, dog, fish, bird, duck!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:18px" onclick="goToStart()">Play Again</button>';
+  setI('All Done!','闯关完成，太棒啦！',stars(5,5));
+}
+
+function goToStart(){
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=0;
+  document.getElementById(mods[cur]).classList.add('on');
+  inits[cur]();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=true;
+  var xb=document.getElementById('xb');xb.textContent='Next ▶';xb.disabled=false;
+}
+
+var mods=['m0','m1','m2','m3','m4','m5'];
+var inits=[initM0,initM1,initM2,initM3,initM4,initM5];
+function goM(d){
+  var n=cur+d;if(n<0||n>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=n;
+  document.getElementById(mods[cur]).classList.add('on');
+  inits[cur]();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}
+  else{xb.textContent='Next ▶';xb.disabled=false}
+}
+initM0();
+</script>
+</body>
+</html>

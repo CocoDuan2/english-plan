@@ -26,12 +26,13 @@ h1{font-size:26px;color:#555;margin:12px 0}
 <body>
 <div class="container">
   <img class="logo" src="assets/peppa/peppa-pig-title-logo.png" alt="Peppa">
-  <h1>🌟 跟着佩琪学英语</h1>
+  <h1>跟着佩琪学英语</h1>
   <div id="lessons"></div>
 </div>
 <script>
 var lessons=[
-  {day:1,dir:'day1-colors',emoji:'',theme:'Colors',words:'red, blue, yellow, green, orange'}
+  {day:1,dir:'day1-colors',emoji:'',theme:'Colors',words:'red, blue, yellow, green, orange'},
+  {day:2,dir:'day2-animals',emoji:'',theme:'Animals',words:'cat, dog, fish, bird, duck'}
 ];
 var wrap=document.getElementById('lessons');
 lessons.forEach(function(l){
