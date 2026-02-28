@@ -1,9 +1,18 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 10 - Review
+- 当前: Day 11 - Colors
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 11 - Colors 🎨
+- 新词: red, blue, yellow, green, orange
+- 句式: It's ___!
+- teach: Color Picnic 故事线 + Day10 微复习页(jump/purple/pig) + color bucket 揭示 + rainbow train 总览
+- review: Day10 微复习(3题) + 灰卡揭示学词 + Lunch Box Hunt 听音找色 + 看图配词四选一 + Done 完成页
+- 差异化: teach 从 review station 改为 picnic 打包流程；review 去除上一课 stamp sentence/listen sentence/shadow，改为 reveal/hunt/match 新路径
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 10 - Review 🎯
 - 复习: Day 6-9 全部 20 词 + 4 个句式
@@ -46,7 +55,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- 本轮 Day 1-10 已完成，可重置到 Day 1 重新循环。
+- Day 12 - Animals（cat, dog, fish, bird, duck），句式 I see a ___!
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
