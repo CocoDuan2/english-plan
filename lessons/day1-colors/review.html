@@ -3,380 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 1 Review - Colors</title>
+<title>Day 1 - Colors (Review)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-body{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 50%,#ff9a9e 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
-
-.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
-  padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;
-  border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
-.top-bar .title{font-size:16px;font-weight:700;color:#e67e22;display:flex;align-items:center;gap:6px}
-.top-bar .dots{display:flex;gap:6px}
-.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
-.top-bar .dot.active{background:#e67e22;transform:scale(1.2)}
-.top-bar .dot.done{background:#f39c12}
-
-.main{width:100%;max-width:500px;flex:1;overflow:auto;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center}
-.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}
-.module.active{display:flex}
-
-.instr-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 14px;margin-bottom:8px;width:100%;max-width:500px}
-.instr-en{font-size:22px;font-weight:700;color:#2d3436;line-height:1.3}
-.instr-zh{font-size:17px;color:rgba(0,0,0,.5);margin-top:2px;line-height:1.3}
-.instr-stars{display:flex;gap:5px;margin-top:4px}
+html,body{height:100%;font-family:"Segoe UI",system-ui,sans-serif}
+body{background:#fce4ec;display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
+.top-bar{position:sticky;top:0;z-index:100;width:100%;background:rgba(252,228,236,.95);backdrop-filter:blur(8px);text-align:center;padding:8px 16px;border-bottom:1px solid rgba(0,0,0,.05)}
+.ie{font-size:20px;font-weight:700;color:#2d3436}
+.iz{font-size:16px;color:rgba(0,0,0,.5);margin-top:2px}
+.sb{margin-top:4px;font-size:18px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
+.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
+.card:active{transform:scale(.95)}
+.card .dot{width:70px;height:70px;border-radius:50%;background:#ccc;transition:background .4s,box-shadow .4s}
+.card .lbl{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px;opacity:0;transition:opacity .4s}
+.card.rev .lbl{opacity:1}
+.pr{display:flex;align-items:center;gap:10px;margin:12px 0}
+.pr img{width:60px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:18px;font-weight:600;color:#e67e22;position:relative}
+.bbl::before{content:"";position:absolute;left:-8px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-right-color:#fff}
+.start-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px}
+.start-btn{font-size:28px;font-weight:700;padding:16px 50px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s}
+.start-btn:active{transform:scale(.95)}
+.balloon-wrap{position:relative;width:100%;max-width:400px;height:300px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,#87CEEB,#E0F7FA);margin:10px auto}
+.balloon{position:absolute;bottom:-90px;cursor:pointer;transition:transform .15s;animation:bup 5s linear forwards}
+.balloon:active{transform:scale(.85)}
+.balloon .bb{width:55px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.balloon .bs{width:2px;height:18px;background:#999;margin:0 auto}
+.balloon .bt{font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.balloon.pop{animation:bpop .3s ease forwards}
+@keyframes bup{0%{bottom:-90px}100%{bottom:320px}}
+@keyframes bpop{to{transform:scale(1.5);opacity:0}}
+.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:380px}
+.fc{width:100%;aspect-ratio:1;border-radius:14px;cursor:pointer;perspective:600px;position:relative}
+.fi{width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;position:relative}
+.fc.fl .fi{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center}
+.ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:28px}
+.fb{transform:rotateY(180deg);flex-direction:column;gap:4px}
+.fb .fd{width:40px;height:40px;border-radius:50%}
+.fb .fl2{font-size:12px;font-weight:700;color:#2c3e50}
+.fc.mt{opacity:.4;pointer-events:none}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #fce4ec;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff;transition:all .2s}
+.nb:hover{background:#e91e8c}.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
+.np{font-size:14px;font-weight:600;color:#999}
+.grass{position:fixed;bottom:56px;left:0;right:0;height:25px;background:linear-gradient(to top,#8BC34A,transparent);opacity:.2;pointer-events:none;z-index:50}
+.done-area{text-align:center}
+.done-area button{font-size:18px;padding:12px 30px;border:none;border-radius:12px;cursor:pointer;margin:8px;font-weight:700}
+@media(min-width:768px){.main{max-width:800px}.card .dot{width:90px;height:90px}.card .lbl{font-size:18px}.balloon-wrap{height:380px}.flip-grid{max-width:480px}}
 </style>
 </head>
 <body>
+<div class="main">
 <div class="top-bar">
-  <div class="title" id="topTitle">🎨 Day 1 · Colors Review</div>
-  <div class="dots" id="dots"></div>
+<div class="ie" id="ie">Peppa's Color Game</div>
+<div class="iz" id="iz">和佩琪一起学颜色吧！</div>
+<div class="sb" id="sb"></div>
 </div>
-<div class="main" id="main">
-<div class="instr-banner" id="instrBanner"></div>
-
-<!-- Start Screen -->
-<div class="module active" id="mod0" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
-  <div style="display:flex;gap:12px" id="startIcons"></div>
-  <div style="font-size:32px;font-weight:700;color:#2d3436">准备好了吗？</div>
-  <div style="font-size:18px;color:rgba(0,0,0,.45)">点击开始学颜色！</div>
-  <button onclick="getAudioCtx();goModule(1);document.getElementById('mod0').style.display='none'" style="font-size:28px;padding:16px 50px;border-radius:50px;border:none;background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(230,126,34,.35);letter-spacing:2px">开始玩 ▶</button>
+<div class="mod on" id="m0"></div>
+<div class="mod" id="m1"></div>
+<div class="mod" id="m2"></div>
+<div class="mod" id="m3"></div>
+<div class="mod" id="m4"></div>
+<div class="mod" id="m5"></div>
 </div>
-
-<!-- Module 1: Meet the Colors (no review on Day 1) -->
-<div class="module" id="mod1"></div>
-<!-- Module 2: Tap to Learn -->
-<div class="module" id="mod2"></div>
-<!-- Module 3: Paint Reveal -->
-<div class="module" id="mod3"></div>
-<!-- Module 4: Listen & Find -->
-<div class="module" id="mod4"></div>
-<!-- Module 5: Balloon Pop -->
-<div class="module" id="mod5"></div>
-<!-- Complete -->
-<div class="module" id="mod6">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">
-    <div style="font-size:90px;animation:popIn .6s ease">🌈</div>
-    <div style="font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)">Great Job, Ranran!</div>
-    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">You learned all the colors!</div>
-    <button class="nav-btn nav-next" style="margin-top:20px" onclick="goModule(1)">Play Again</button>
-    <button class="nav-btn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff;border:none" onclick="location.href='../../index.html'">Home</button>
-  </div>
+<div class="grass"></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goM(-1)">◀ Back</button>
+<div style="text-align:center"><div class="np" id="pg">1/6</div></div>
+<button class="nb" id="xb" onclick="goM(1)">Next ▶</button>
 </div>
-</div>
-
-<div id="correctMsg" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(230,126,34,.95);color:#fff;font-size:26px;font-weight:700;padding:14px 26px;border-radius:20px;z-index:500;display:none;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none;white-space:nowrap"></div>
-
-<div class="nav-bar" style="position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid rgba(0,0,0,.06);z-index:100">
-  <button class="nav-btn nav-prev" id="navPrev" onclick="goPrev()">◀ Back</button>
-  <span class="nav-progress" id="navProgress" style="font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center">1/5</span>
-  <button class="nav-btn nav-next" id="navNext" onclick="goNext()">Next ▶</button>
-</div>
-
-<style>
-.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
-.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
-.card:active{transform:scale(.95)}
-.card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
-
-.learn-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;
-  width:calc(33.33% - 8px);min-height:110px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s}
-.learn-card:active{transform:scale(.95)}
-.learn-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333;opacity:0;transition:opacity .3s}
-.learn-card.revealed .label{opacity:1}
-
-.color-circle{width:80px;height:80px;border-radius:50%;transition:background .5s,transform .4s,box-shadow .4s}
-.color-circle.gray{background:#ccc!important;box-shadow:none!important}
-
-/* Paint shapes */
-.paint-shape{width:90px;height:90px;border-radius:20px;background:#ddd;cursor:pointer;transition:background .4s,transform .3s;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.08)}
-.paint-shape:active{transform:scale(.92)}
-.paint-shape.painted{animation:popIn .4s ease}
-
-/* Balloon */
-.balloon-area{position:relative;width:100%;height:300px;overflow:hidden;border-radius:16px;background:rgba(255,255,255,.15)}
-.balloon{position:absolute;width:60px;height:75px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;cursor:pointer;transition:transform .2s;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.balloon:active{transform:scale(.85)}
-.balloon::after{content:'';position:absolute;bottom:-8px;width:2px;height:20px;background:rgba(0,0,0,.2)}
-
-.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,opacity .3s}
-.nav-btn:active{transform:scale(.93)}
-.nav-prev{background:#fff;color:#e67e22;border:2px solid #e67e22}
-.nav-next{color:#fff;background:linear-gradient(135deg,#f39c12,#e67e22);box-shadow:0 4px 15px rgba(230,126,34,.4)}
-.nav-btn:disabled{opacity:.3;pointer-events:none}
-
-.star{opacity:.3;transition:opacity .3s,transform .3s;line-height:1}
-.star.earned{opacity:1;animation:popIn .4s ease}
-.star-burst{position:fixed;pointer-events:none;z-index:999}
-.star-particle{position:absolute;animation:starFly 1s ease-out forwards}
-
-@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-@keyframes floatUp{0%{transform:translateY(0)}100%{transform:translateY(-380px)}}
-
-@media(min-width:768px){
-  .top-bar{max-width:800px}
-  .main{max-width:800px}
-  .color-circle{width:100px;height:100px}
-  .paint-shape{width:110px;height:110px}
-  .balloon-area{height:400px}
-}
-</style>
-
 <script>
-var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
-function twimg(code,sz){return '<img src="'+TW+code+'.svg" width="'+sz+'" height="'+sz+'" alt="">';}
+var PP='../../assets/peppa/';
+var W=[{w:'red',clr:'#e74c3c'},{w:'blue',clr:'#3498db'},{w:'yellow',clr:'#f1c40f'},{w:'green',clr:'#27ae60'},{w:'orange',clr:'#e67e22'}];
+var cur=0,actx=null;
+function getAudioCtx(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function speak(t,cb){var u=t.indexOf(' ')>=0?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';var a=new Audio(u);var done=false;function fin(){if(done)return;done=true;if(cb)cb()}a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin)}
+function playTone(f,d){var c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){playTone(523,.1);setTimeout(function(){playTone(659,.1)},100);setTimeout(function(){playTone(784,.15)},200)}
+function playNo(){playTone(300,.3)}
+function setI(en,zh,stars){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=stars||''}
+function stars(n,tot){var s='';for(var i=0;i<tot;i++)s+=i<n?'⭐':'☆';return s}
 
-var COLORS=[
-  {name:'red',clr:'#e74c3c'},
-  {name:'blue',clr:'#3498db'},
-  {name:'yellow',clr:'#f1c40f'},
-  {name:'green',clr:'#27ae60'},
-  {name:'orange',clr:'#e67e22'}
-];
+// Module 0: Start screen
+function initM0(){
+  var h='<div class="start-screen"><img src="'+PP+'peppa-logo.png" width="120"><div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<div style="width:40px;height:40px;border-radius:50%;background:'+w.clr+'"></div>'}).join('')+'</div><button class="start-btn" onclick="startGame()">开始玩！🎨</button></div>';
+  document.getElementById('m0').innerHTML=h;
+}
+function startGame(){getAudioCtx();goM(1)}
 
-var MODULES=6,currentModule=0;
-var meetIdx=0;
-var learnRevealed=0,learnBusy=false;
-var paintOrder=[],paintRound=0,paintBusy=false;
-var listenOrder=[],listenRound=0,listenBusy=false;
-var balloonOrder=[],balloonRound=0,balloonScore=0,balloonTimer=null,balloonBusy=false;
-
-// === AUDIO ===
-var audioCtx=null;
-function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-function speak(text,cb){
-  var isWord=text.trim().indexOf(' ')===-1;
-  var url=isWord?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2':'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web';
-  var a=new Audio(url);var done=false;
-  var finish=function(){if(!done){done=true;if(cb)setTimeout(cb,50);}};
-  var safety=setTimeout(finish,4000);
-  a.onended=function(){clearTimeout(safety);finish();};
-  a.onerror=function(){clearTimeout(safety);finish();};
-  a.play().catch(finish);
-}
-function playCorrect(){var ctx=getAudioCtx();[523.25,659.25].forEach(function(f,i){var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;var t=ctx.currentTime+i*.15;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.start(t);o.stop(t+.15);});}
-function playWrong(){var ctx=getAudioCtx();var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sawtooth';o.frequency.value=200;g.gain.setValueAtTime(.1,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.2);o.start();o.stop(ctx.currentTime+.2);}
-function playPop(){var ctx=getAudioCtx();var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=800;g.gain.setValueAtTime(.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.08);o.start();o.stop(ctx.currentTime+.08);}
-function playStar(){var ctx=getAudioCtx();var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.setValueAtTime(1200,ctx.currentTime);o.frequency.linearRampToValueAtTime(1800,ctx.currentTime+.2);g.gain.setValueAtTime(.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.2);o.start();o.stop(ctx.currentTime+.2);}
-
-function setInstr(en,zh,starsHtml){
-  var b=document.getElementById('instrBanner');
-  var h='<div class="instr-en">'+en+'</div>';
-  if(zh)h+='<div class="instr-zh">'+zh+'</div>';
-  if(starsHtml)h+='<div class="instr-stars">'+starsHtml+'</div>';
-  b.innerHTML=h;
-}
-function starsBar(total,earned){
-  var h='';for(var i=0;i<total;i++){h+='<span class="star'+(i<earned?' earned':'')+'">'+twimg('2b50',18)+'</span>';}return h;
-}
-function burstStars(x,y){
-  playStar();var c=document.createElement('div');c.className='star-burst';c.style.left=x+'px';c.style.top=y+'px';
-  var codes=['2b50','1f31f','2728','1f4ab'];
-  for(var i=0;i<8;i++){var s=document.createElement('div');s.className='star-particle';var angle=(i/8)*Math.PI*2;var dist=60+Math.random()*40;s.style.setProperty('--tx',Math.cos(angle)*dist+'px');s.style.setProperty('--ty',Math.sin(angle)*dist+'px');s.innerHTML=twimg(codes[i%4],20);c.appendChild(s);}
-  document.body.appendChild(c);setTimeout(function(){c.remove();},1100);
-}
-function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-
-// === NAV ===
-function updateDots(){
-  var dots=document.getElementById('dots');dots.innerHTML='';
-  for(var i=1;i<=5;i++){var d=document.createElement('div');d.className='dot'+(i===currentModule?' active':'')+(i<currentModule?' done':'');dots.appendChild(d);}
-}
-function goModule(n){
-  currentModule=n;
-  document.querySelectorAll('.module').forEach(function(m){m.classList.remove('active');m.style.display='';});
-  var target=document.getElementById('mod'+n);if(target)target.classList.add('active');
-  updateDots();
-  if(n===1)startMeet();if(n===2)initLearn();if(n===3)startPaint();if(n===4)startListen();if(n===5)startBalloon();
-  updateNav();
-}
-function updateNav(){
-  document.getElementById('navPrev').disabled=(currentModule<=1);
-  document.getElementById('navNext').textContent=(currentModule>=5)?'Done!':'Next';
-  document.getElementById('navProgress').textContent=Math.min(currentModule,5)+'/5';
-  document.querySelector('.nav-bar').style.display=(currentModule>=6)?'none':'';
-}
-function goNext(){if(currentModule<6)goModule(currentModule+1);}
-function goPrev(){if(currentModule>1)goModule(currentModule-1);}
-
-// === MODULE 1: Meet the Colors ===
-function startMeet(){
-  meetIdx=0;
-  setInstr('Meet the colors! 👋','认识一下这些颜色吧！点一点每个颜色');
-  var grid=document.getElementById('mod1');
-  grid.innerHTML='<div class="card-grid" id="meetGrid"></div>';
-  var g=document.getElementById('meetGrid');
-  COLORS.forEach(function(c){
-    var card=document.createElement('div');card.className='card';
-    card.innerHTML='<div class="color-circle" style="background:'+c.clr+';box-shadow:0 4px 15px '+c.clr+'44"></div><div class="label">'+c.name+'</div>';
-    card.onclick=function(){speak(c.name);playPop();card.style.transform='scale(1.05)';setTimeout(function(){card.style.transform='';},300);};
-    g.appendChild(card);
-  });
+// Module 1: No review words on Day1, skip to learn - show Peppa greeting
+function initM1(){
+  var h='<div class="pr"><img src="'+PP+'peppa-face.png" width="80"><div class="bbl">Let's learn colors! 🎨</div></div><div style="font-size:16px;color:#888;margin-top:16px">Day 1 没有复习词，直接学新词吧！</div>';
+  document.getElementById('m1').innerHTML=h;
+  setI('Hello!','第一天，没有复习词哦～','');
 }
 
-// === MODULE 2: Tap to Learn ===
-function initLearn(){
-  learnRevealed=0;learnBusy=false;
-  setInstr('Tap to learn! 👆','点一点灰色的圆，看看是什么颜色！');
-  var grid=document.getElementById('mod2');
-  grid.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:12px;width:100%;justify-content:center" id="learnGrid"></div>';
-  var g=document.getElementById('learnGrid');
-  COLORS.forEach(function(c,i){
-    var card=document.createElement('div');card.className='learn-card';
-    card.innerHTML='<div class="color-circle gray" data-clr="'+c.clr+'" style="background:#ccc"></div><div class="label">'+c.name+'</div>';
-    card.onclick=function(e){revealLearn(card,i,e);};
-    g.appendChild(card);
-  });
+// Module 2: Learn new colors
+var learnCount=0,learnBusy=false;
+function initM2(){
+  learnCount=0;learnBusy=false;
+  var h='<div class="g3">'+W.map(function(w,i){return '<div class="card" id="lc'+i+'" onclick="learnTap('+i+')"><div class="dot" id="ld'+i+'"></div><div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'}).join('')+'</div>';
+  document.getElementById('m2').innerHTML=h;
+  setI('Tap to learn!','点一点，学颜色！',stars(0,5));
 }
-function revealLearn(el,idx,e){
-  if(el.classList.contains('revealed')){speak(COLORS[idx].name);return;}
+function learnTap(i){
+  var c=document.getElementById('lc'+i),d=document.getElementById('ld'+i),l=document.getElementById('ll'+i);
+  if(c.classList.contains('rev')){speak(W[i].w);return}
   if(learnBusy)return;learnBusy=true;
-  el.classList.add('revealed');
-  var circle=el.querySelector('.color-circle');
-  circle.classList.remove('gray');
-  circle.style.background=COLORS[idx].clr;
-  circle.style.boxShadow='0 4px 15px '+COLORS[idx].clr+'44';
-  circle.style.transform='scale(1.1)';
-  setTimeout(function(){circle.style.transform='';},300);
-  learnRevealed++;playPop();
-  var rect=el.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
-  speak(COLORS[idx].name,function(){
-    learnBusy=false;
-    if(learnRevealed>=COLORS.length)setInstr('All learned! 🎉','全部学会啦，你真棒！');
-    else setInstr('Tap to learn! 👆','还有灰色的圆没翻开哦，继续点！');
-  });
+  d.style.background=W[i].clr;d.style.boxShadow='0 4px 15px '+W[i].clr+'66';
+  c.classList.add('rev');learnCount++;
+  playOk();speak(W[i].w,function(){learnBusy=false});
+  setI('It's '+W[i].w+'!','这是 '+W[i].w+'！',stars(learnCount,5));
 }
 
-// === MODULE 3: Paint Reveal ===
-function startPaint(){
-  paintRound=0;paintBusy=false;
-  paintOrder=shuffle([0,1,2,3,4]);
-  setInstr('Paint it! 🎨','点一点，把灰色的方块涂上颜色！',starsBar(5,0));
-  var grid=document.getElementById('mod3');
-  grid.innerHTML='<div class="card-grid" id="paintGrid"></div>';
-  buildPaintGrid();showPaintPrompt();
+// Module 3: Balloon pop game
+var bScore=0,bTotal=5,bBusy=false,bTimer=null;
+function initM3(){
+  bScore=0;bBusy=false;
+  document.getElementById('m3').innerHTML='<div class="balloon-wrap" id="bw"></div>';
+  setI('Pop the balloon!','戳破气球！找到对的颜色！',stars(0,5));
+  launchRound();
 }
-function buildPaintGrid(){
-  var g=document.getElementById('paintGrid');g.innerHTML='';
-  shuffle(COLORS).forEach(function(c){
-    var shape=document.createElement('div');shape.className='paint-shape';shape.setAttribute('data-name',c.name);
-    shape.style.background='#ddd';
-    shape.onclick=function(e){checkPaint(shape,c,e);};
-    g.appendChild(shape);
-  });
-}
-function showPaintPrompt(){
-  if(paintRound>=5){setInstr('All painted! 🎨','太厉害了，全部涂好啦！',starsBar(5,5));return;}
-  var target=COLORS[paintOrder[paintRound]];
-  setInstr('Find '+target.name+'!','点一点，哪个要涂成 '+target.name+'？',starsBar(5,paintRound));
-  speak('Find '+target.name);
-}
-function checkPaint(shape,color,e){
-  if(paintRound>=5){return;}if(paintBusy)return;
-  var target=COLORS[paintOrder[paintRound]];
-  if(color.name===target.name){
-    paintBusy=true;
-    shape.style.background=color.clr;shape.classList.add('painted');
-    shape.style.boxShadow='0 4px 15px '+color.clr+'44';
-    var rect=shape.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
-    paintRound++;
-    setInstr('Find '+target.name+'!','答对啦！这是 '+target.name+'！',starsBar(5,paintRound));
-    playCorrect();speak(target.name,function(){paintBusy=false;buildPaintGrid();showPaintPrompt();});
-  }else{
-    playWrong();shape.style.animation='shake .4s ease';setTimeout(function(){shape.style.animation='';},500);
-  }
-}
-
-// === MODULE 4: Listen & Find ===
-function startListen(){
-  listenRound=0;listenBusy=false;
-  listenOrder=shuffle([0,1,2,3,4]);
-  buildListenGrid();showListenPrompt();
-}
-function buildListenGrid(){
-  var grid=document.getElementById('mod4');
-  grid.innerHTML='<div class="card-grid" id="listenGrid"></div>';
-  var g=document.getElementById('listenGrid');
-  shuffle(COLORS).forEach(function(c){
-    var card=document.createElement('div');card.className='card';
-    card.innerHTML='<div class="color-circle" style="background:'+c.clr+';box-shadow:0 4px 15px '+c.clr+'44"></div><div class="label">'+c.name+'</div>';
-    card.onclick=function(e){checkListen(card,c,e);};
-    g.appendChild(card);
-  });
-}
-function showListenPrompt(){
-  if(listenRound>=5){setInstr('All found! 🎉','全部找到啦，耳朵真灵！',starsBar(5,5));return;}
-  var target=COLORS[listenOrder[listenRound]];
-  setInstr('Find '+target.name+'! 🔍','听一听，哪个是 '+target.name+'？点它！',starsBar(5,listenRound));
-  speak('Find '+target.name);
-}
-function checkListen(card,color,e){
-  if(listenRound>=5||listenBusy)return;
-  var target=COLORS[listenOrder[listenRound]];
-  if(color.name===target.name){
-    listenBusy=true;
-    var rect=card.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
-    listenRound++;
-    setInstr('Find '+target.name+'!','找对啦！这是 '+target.name+'！',starsBar(5,listenRound));
-    playCorrect();speak(target.name,function(){listenBusy=false;buildListenGrid();showListenPrompt();});
-  }else{
-    playWrong();card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);
-  }
-}
-
-// === MODULE 5: Balloon Pop ===
-function startBalloon(){
-  balloonRound=0;balloonScore=0;balloonBusy=false;
-  balloonOrder=shuffle([0,1,2,3,4]);
-  var grid=document.getElementById('mod5');
-  grid.innerHTML='<div class="balloon-area" id="balloonArea"></div>';
-  nextBalloonRound();
-}
-function nextBalloonRound(){
-  if(balloonRound>=5){setInstr('All popped! 🎈','气球全部打完啦，你太棒了！',starsBar(5,5));return;}
-  var target=COLORS[balloonOrder[balloonRound]];
-  setInstr('Pop the '+target.name+' balloon! 🎈','快点 '+target.name+' 的气球！',starsBar(5,balloonRound));
-  speak(target.name);
-  spawnBalloons(target);
-}
-function spawnBalloons(target){
-  var area=document.getElementById('balloonArea');area.innerHTML='';
-  if(balloonTimer)clearInterval(balloonTimer);
-  var all=shuffle(COLORS);var spawned=0;
-  balloonTimer=setInterval(function(){
-    if(spawned>=4){clearInterval(balloonTimer);return;}
-    var c=all[spawned%all.length];
+function launchRound(){
+  if(bScore>=bTotal){setI('Amazing!','太厉害了，全部戳破啦！',stars(5,5));return}
+  var bw=document.getElementById('bw');bw.innerHTML='';
+  var target=W[bScore],pool=W.slice(),idxs=[];
+  while(idxs.length<3){var r=Math.floor(Math.random()*pool.length);if(idxs.indexOf(r)<0)idxs.push(r)}
+  if(idxs.indexOf(bScore)<0)idxs[0]=bScore;
+  idxs.sort(function(){return Math.random()-.5});
+  idxs.forEach(function(wi,bi){
     var b=document.createElement('div');b.className='balloon';
-    b.style.background=c.clr;b.style.left=Math.random()*70+10+'%';b.style.bottom='-80px';
-    b.style.animation='floatUp '+(4+Math.random()*2)+'s linear forwards';
-    b.setAttribute('data-name',c.name);
-    b.onclick=function(e){popBalloon(b,c,target,e);};
-    area.appendChild(b);spawned++;
-  },800);
+    b.style.left=(20+bi*35)+'%';b.style.animationDelay=(bi*0.8)+'s';
+    b.innerHTML='<div class="bb" style="background:'+W[wi].clr+'"><span class="bt">'+W[wi].w+'</span></div><div class="bs"></div>';
+    b.onclick=function(){
+      if(bBusy)return;bBusy=true;
+      b.classList.add('pop');
+      if(wi===bScore){playOk();bScore++;setI('It's '+target.w+'!','答对啦！这是 '+target.w+'！',stars(bScore,5));speak(target.w,function(){bBusy=false;setTimeout(launchRound,600)})}
+      else{playNo();bBusy=false}
+    };
+    bw.appendChild(b);
+  });
+  setI('Find '+target.w+'!','找到 '+target.w+'！戳破它！',stars(bScore,5));
 }
-function popBalloon(b,color,target,e){
-  if(balloonBusy)return;
-  if(color.name===target.name){
-    balloonBusy=true;
-    var rect=b.getBoundingClientRect();burstStars(rect.left+rect.width/2,rect.top+rect.height/2);
-    b.style.display='none';balloonRound++;balloonScore++;
-    setInstr('Pop the '+target.name+' balloon! 🎈','打对啦！这是 '+target.name+'！',starsBar(5,balloonRound));
-    playCorrect();speak(target.name,function(){balloonBusy=false;nextBalloonRound();});
+
+// Module 4: Listen & Find
+var lScore=0,lIdx=0,lOrder=[],lBusy=false;
+function initM4(){
+  lScore=0;lIdx=0;lBusy=false;
+  lOrder=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  var h='<div class="g3">'+W.map(function(w,i){return '<div class="card" onclick="listenTap('+i+')"><div class="dot" style="background:'+w.clr+';box-shadow:0 3px 10px '+w.clr+'44"></div><div class="lbl" style="opacity:1">'+w.w+'</div></div>'}).join('')+'</div>';
+  document.getElementById('m4').innerHTML=h;
+  askListen();
+}
+function askListen(){
+  if(lIdx>=W.length){setI('Perfect!','全部找对啦！你真棒！',stars(5,5));return}
+  var w=W[lOrder[lIdx]];
+  setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lScore,5));
+  speak(w.w);
+}
+function listenTap(i){
+  if(lBusy||lIdx>=W.length)return;lBusy=true;
+  if(i===lOrder[lIdx]){playOk();lScore++;lIdx++;setI('Yes! '+W[i].w+'!','答对啦！这是 '+W[i].w+'！',stars(lScore,5));speak(W[i].w,function(){lBusy=false;setTimeout(askListen,800)})}
+  else{playNo();speak(W[i].w,function(){lBusy=false})}
+}
+
+// Module 5: Memory Flip
+var fCards=[],fFirst=-1,fSecond=-1,fMatched=0,fLock=false;
+function initM5(){
+  fFirst=-1;fSecond=-1;fMatched=0;fLock=false;
+  var pairs=W.slice(0,4);
+  fCards=[];pairs.forEach(function(w,i){fCards.push({id:i*2,wi:i,w:w.w,clr:w.clr});fCards.push({id:i*2+1,wi:i,w:w.w,clr:w.clr})});
+  fCards.sort(function(){return Math.random()-.5});
+  var h='<div class="flip-grid">'+fCards.map(function(c,i){return '<div class="fc" id="fc'+i+'" onclick="flipTap('+i+')">'+'<div class="fi"><div class="ff">🐷</div>'+'<div class="fb"><div class="fd" style="background:'+c.clr+'"></div><div class="fl2">'+c.w+'</div></div></div></div>'}).join('')+'</div>';
+  document.getElementById('m5').innerHTML=h;
+  setI('Memory Flip!','翻开两张一样的卡片，配成一对！',stars(fMatched,4));
+}
+function flipTap(i){
+  if(fLock)return;
+  var el=document.getElementById('fc'+i);
+  if(el.classList.contains('fl')||el.classList.contains('mt'))return;
+  el.classList.add('fl');speak(fCards[i].w);
+  if(fFirst<0){fFirst=i;return}
+  fSecond=i;fLock=true;
+  if(fCards[fFirst].wi===fCards[fSecond].wi){
+    playOk();fMatched++;
+    var a=fFirst,b=fSecond;
+    setTimeout(function(){document.getElementById('fc'+a).classList.add('mt');document.getElementById('fc'+b).classList.add('mt');fFirst=-1;fSecond=-1;fLock=false;setI('Match!','配对成功！',stars(fMatched,4));if(fMatched>=4)setI('All Done!','全部配对成功，你真棒！',stars(4,4))},600);
   }else{
-    playWrong();b.style.animation='shake .4s ease';
-    setTimeout(function(){b.style.animation='floatUp 4s linear forwards';},500);
+    playNo();var a=fFirst,b=fSecond;
+    setTimeout(function(){document.getElementById('fc'+a).classList.remove('fl');document.getElementById('fc'+b).classList.remove('fl');fFirst=-1;fSecond=-1;fLock=false},1000);
   }
 }
 
-// === INIT ===
-document.getElementById('startIcons').innerHTML=COLORS.map(function(c){return '<div style="width:50px;height:50px;border-radius:50%;background:'+c.clr+'"></div>';}).join('');
+// Navigation
+var mods=['m0','m1','m2','m3','m4','m5'];
+var inits=[initM0,initM1,initM2,initM3,initM4,initM5];
+function goM(d){
+  var n=cur+d;if(n<0||n>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=n;
+  document.getElementById(mods[cur]).classList.add('on');
+  inits[cur]();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}
+  else{xb.textContent='Next';xb.disabled=false}
+}
+initM0();
 </script>
 </body>
 </html>
