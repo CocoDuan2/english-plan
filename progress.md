@@ -1,9 +1,17 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 14 - Food
+- 当前: Day 15 - Review
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 15 - Review 🎯
+- 复习: Day11-14 全部 20 词 + 4 个句式
+- teach: Adventure Passport 故事线 + Day14 微复习页(apple/milk/egg) + 4 个主题站点轮换 + road sign 揭示句式 + passport map 总览
+- review: Day14 微复习(3题) + Park Line-Up 按站点三选一 + Listen and Pick 听词选图 + Sentence Path 句式路径 + Done 完成页
+- 差异化: teach 从 breakfast train 改为 passport station 结构；review 去除上一课 lunch box/load/listen/shadow 路径，改为 bridge/line-up/listen/path 新链路
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 14 - Food 🍎
 - 新词: apple, banana, milk, bread, egg
@@ -82,7 +90,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 15 - Review（Day11-14 全部复习 20 词 + 4 句式）
+- Day 16 - Colors（red, blue, yellow, green, orange）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

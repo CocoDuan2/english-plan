@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 15 - Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#ffe9ef,#fff7da)}
+.bg-hello{background:linear-gradient(170deg,#e7f5ff,#edf7e7)}
+.bg-yesterday{background:linear-gradient(160deg,#fff4e0,#ffe7cf)}
+.bg-colors{background:linear-gradient(160deg,#ffdbe8,#ffeecd)}
+.bg-animals{background:linear-gradient(160deg,#daf3e2,#e8f6ff)}
+.bg-body{background:linear-gradient(160deg,#dcecff,#e8f8ea)}
+.bg-food{background:linear-gradient(160deg,#ffe9d7,#fff5e4)}
+.bg-signs{background:linear-gradient(160deg,#ece5ff,#f9ecff)}
+.bg-map{background:linear-gradient(160deg,#fff7dc,#e5f4ff)}
+.bg-bye{background:linear-gradient(180deg,#8ec5ff,#9ddc9a 58%,#7bc48a)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#667085}
+.word{font-size:88px;font-weight:900;letter-spacing:3px;margin:8px 0;text-transform:lowercase;color:#2c3e50;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:10px 0}
+.obj svg{width:190px;height:190px}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:760px;margin-top:10px}
+.quick-card{width:200px;background:#fff;border-radius:16px;padding:10px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.quick-card .w{font-size:24px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.station-wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:950px;margin-top:10px}
+.station{width:170px;background:#fff;border-radius:16px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.station .w{font-size:24px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.sign-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin-top:10px}
+.sign{width:230px;height:140px;border:none;border-radius:18px;background:#d6d6d6;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.14);padding:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:.25s}
+.sign:active{transform:scale(.96)}
+.sign .top{font-size:22px;font-weight:900;color:#2c3e50}
+.sign .txt{font-size:20px;font-weight:800;color:#2c3e50;margin-top:4px;opacity:0;transition:.25s}
+.sign.on{background:#fff}
+.sign.on .txt{opacity:1}
+.map{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:860px;margin-top:8px}
+.map-card{width:360px;background:#fff;border-radius:16px;padding:10px 12px;text-align:left;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.map-card .h{font-size:28px;font-weight:900;color:#2c3e50}
+.map-card .s{font-size:22px;font-weight:700;color:#e67e22;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.45);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:320px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .obj svg{width:200px;height:200px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<div class="sl bg-title on">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="150" alt="Peppa family">
+  <div class="ttl">Adventure Passport Day</div>
+  <div class="obj">
+    <svg width="150" height="150" viewBox="0 0 180 160" aria-label="Passport badge">
+      <rect x="30" y="24" width="120" height="112" rx="20" fill="#90caf9"/>
+      <rect x="44" y="38" width="92" height="84" rx="14" fill="#fff"/>
+      <circle cx="90" cy="68" r="20" fill="#f9adc7"/>
+      <rect x="66" y="96" width="48" height="10" rx="5" fill="#8bc34a"/>
+      <rect x="66" y="112" width="36" height="8" rx="4" fill="#ffb74d"/>
+    </svg>
+  </div>
+  <div class="sub">Four stations, four sentence keys.</div>
+</div>
+
+<div class="sl bg-hello">
+  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="150" alt="Peppa and George">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">We stamp our passport today!</div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+    <img src="../../assets/peppa/daddy-pig-standing.png" width="85" alt="Daddy">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" width="85" alt="Candy">
+    <img src="../../assets/peppa/emily-elephant-standing.png" width="85" alt="Emily">
+  </div>
+</div>
+
+<div class="sl bg-yesterday">
+  <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Yesterday Review!</div></div>
+  <div class="ttl" style="font-size:42px">Food Quick Stamp</div>
+  <div class="quick-grid">
+    <div class="quick-card"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div class="w">apple</div></div>
+    <div class="quick-card"><svg width="100" height="100" viewBox="0 0 160 160"><rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/></svg><div class="w">milk</div></div>
+    <div class="quick-card"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/></svg><div class="w">egg</div></div>
+  </div>
+  <div class="sent" style="margin-top:8px">I like apple! I like milk! I like egg!</div>
+</div>
+
+<div class="sl bg-colors">
+  <div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa"><div class="bbl">Color station is open!</div></div>
+  <div class="sent">It's ___!</div>
+  <div class="station-wrap">
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/></svg><div class="w">red</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/></svg><div class="w">blue</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/></svg><div class="w">yellow</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/></svg><div class="w">green</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/></svg><div class="w">orange</div></div>
+  </div>
+</div>
+
+<div class="sl bg-animals">
+  <div class="pr"><img src="../../assets/peppa/george_pig_dinosaur.png" alt="George"><div class="bbl">Animal station, look!</div></div>
+  <div class="sent">I see a ___!</div>
+  <div class="station-wrap">
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="82" r="38" fill="#90a4ae"/><polygon points="40,78 26,66 40,64" fill="#90a4ae"/><polygon points="120,78 134,66 120,64" fill="#90a4ae"/></svg><div class="w">cat</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="42" y="68" width="76" height="42" rx="16" fill="#a1887f"/><circle cx="62" cy="62" r="14" fill="#a1887f"/><circle cx="98" cy="62" r="14" fill="#a1887f"/></svg><div class="w">dog</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="78" cy="82" rx="34" ry="20" fill="#4fc3f7"/><polygon points="108,82 134,66 134,98" fill="#29b6f6"/></svg><div class="w">fish</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="82" rx="30" ry="24" fill="#8d6e63"/><polygon points="66,66 74,48 82,66" fill="#8d6e63"/><polygon points="94,66 102,48 110,66" fill="#8d6e63"/></svg><div class="w">bird</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="36" ry="26" fill="#fdd835"/><circle cx="60" cy="72" r="14" fill="#fdd835"/><polygon points="114,90 136,82 114,74" fill="#ff9800"/></svg><div class="w">duck</div></div>
+  </div>
+</div>
+
+<div class="sl bg-body">
+  <div class="pr"><img src="../../assets/peppa/daddy-pig-walking.png" alt="Daddy"><div class="bbl">Body station, ready!</div></div>
+  <div class="sent">This is my ___!</div>
+  <div class="station-wrap">
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="82" r="50" fill="#ffd6b5"/></svg><div class="w">head</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="62" cy="82" rx="20" ry="12" fill="#fff"/><ellipse cx="98" cy="82" rx="20" ry="12" fill="#fff"/><circle cx="62" cy="82" r="5" fill="#5d4037"/><circle cx="98" cy="82" r="5" fill="#5d4037"/></svg><div class="w">eyes</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="52" cy="82" rx="12" ry="20" fill="#ffccbc"/><ellipse cx="108" cy="82" rx="12" ry="20" fill="#ffccbc"/></svg><div class="w">ears</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="16" ry="12" fill="#ffab91"/></svg><div class="w">nose</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><path d="M58 96 Q80 122 102 96" stroke="#e53935" stroke-width="10" fill="none" stroke-linecap="round"/></svg><div class="w">mouth</div></div>
+  </div>
+</div>
+
+<div class="sl bg-food">
+  <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Food station, yummy!</div></div>
+  <div class="sent">I like ___!</div>
+  <div class="station-wrap">
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div class="w">apple</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><path d="M34 96 Q80 40 126 96 Q84 124 34 96" fill="#f7dc4c"/><path d="M44 94 Q80 54 116 94 Q84 112 44 94" fill="#ffe566"/></svg><div class="w">banana</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/></svg><div class="w">milk</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="28" y="56" width="104" height="66" rx="22" fill="#df9e4b"/><rect x="28" y="56" width="104" height="30" rx="22" fill="#cc8841"/></svg><div class="w">bread</div></div>
+    <div class="station"><svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/></svg><div class="w">egg</div></div>
+  </div>
+</div>
+
+<div class="sl bg-signs">
+  <div class="pr"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa arms"><div class="bbl" id="signBubble">Flip a road sign!</div></div>
+  <div class="sign-grid">
+    <button class="sign" onclick="flipSign(this,'Colors','It\'s ___!')"><div class="top">Colors</div><div class="txt">It's ___!</div></button>
+    <button class="sign" onclick="flipSign(this,'Animals','I see a ___!')"><div class="top">Animals</div><div class="txt">I see a ___!</div></button>
+    <button class="sign" onclick="flipSign(this,'Body','This is my ___!')"><div class="top">Body</div><div class="txt">This is my ___!</div></button>
+    <button class="sign" onclick="flipSign(this,'Food','I like ___!')"><div class="top">Food</div><div class="txt">I like ___!</div></button>
+  </div>
+</div>
+
+<div class="sl bg-map">
+  <img src="../../assets/peppa/peppa_pig_bicycle.png" width="150" alt="Peppa bike">
+  <div class="ttl" style="font-size:52px">Passport Map</div>
+  <div class="map">
+    <div class="map-card"><div class="h">Colors</div><div class="s">red, blue, yellow, green, orange</div></div>
+    <div class="map-card"><div class="h">Animals</div><div class="s">cat, dog, fish, bird, duck</div></div>
+    <div class="map-card"><div class="h">Body</div><div class="s">head, eyes, ears, nose, mouth</div></div>
+    <div class="map-card"><div class="h">Food</div><div class="s">apple, banana, milk, bread, egg</div></div>
+  </div>
+</div>
+
+<div class="sl bg-bye">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="145" alt="Bye">
+  <div class="ttl" style="color:#fff">Passport Complete!</div>
+  <div class="sub" style="color:#f1f8e9">It's ___! I see a ___! This is my ___! I like ___!</div>
+</div>
+
+</div>
+
+<button class="fab" id="F" onclick="toggleNotes()">T</button>
+<div class="pop" id="P"><div id="N"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/10</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var notes=[
+  'Title: image-led passport story setup, no word wall.',
+  'Hello: introduce station mission with family roles only.',
+  'Yesterday review: apple, milk, egg quick recall from Day 14.',
+  'Colors station: 5 words with sentence key It\'s ___.',
+  'Animals station: 5 words with sentence key I see a ___.',
+  'Body station: 5 words with sentence key This is my ___.',
+  'Food station: 5 words with sentence key I like ___.',
+  'Road signs: tap signs and chant each sentence frame.',
+  'Passport map: fast random point drill across 20 words.',
+  'Bye: chant all four sentence keys once and celebrate.'
+];
+var cur=0,open=false;
+var slides=document.querySelectorAll('.sl');
+function update(){
+  slides.forEach(function(s,i){s.classList.toggle('on',i===cur)});
+  document.getElementById('pg').textContent=(cur+1)+'/'+slides.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===slides.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  document.getElementById('N').textContent=notes[cur]||'';
+}
+function go(d){var t=cur+d;if(t<0||t>=slides.length)return;cur=t;update()}
+function toggleNotes(){open=!open;document.getElementById('P').classList.toggle('on',open);document.getElementById('F').classList.toggle('on',open)}
+function flipSign(el,name,text){
+  if(el.classList.contains('on'))return;
+  el.classList.add('on');
+  document.getElementById('signBubble').textContent=name+': '+text;
+}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='t'||e.key==='T')toggleNotes()});
+update();
+</script>
+</body>
+</html>
