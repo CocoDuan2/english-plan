@@ -21,45 +21,40 @@ body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);disp
 .bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
 .start-btn{font-size:28px;font-weight:700;padding:16px 50px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s;margin-top:16px}
 .start-btn:active{transform:scale(.95)}
-/* Color cards for learn module */
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
-.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
+.card{background:#fff;border-radius:16px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
 .card:active{transform:scale(.95)}
-.card .dot{width:70px;height:70px;border-radius:50%;background:#ccc;transition:all .4s}
-.card .lbl{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px;opacity:0;transition:opacity .4s}
+.card svg{opacity:0;transition:opacity .4s}
+.card .lbl{font-size:16px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s}
+.card.rev svg{opacity:1}
 .card.rev .lbl{opacity:1}
-.card .obj{font-size:32px;opacity:0;transition:opacity .4s;margin-top:4px}
-.card.rev .obj{opacity:1}
-/* Puddle jump game */
 .puddle-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.puddle{width:90px;height:36px;border-radius:50%;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.puddle{width:90px;height:90px;border-radius:16px;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
 .puddle:active{transform:scale(.9)}
-.puddle.splashed{animation:splashA .5s ease}
+.puddle.ok{animation:splashA .5s ease}
 @keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
-/* Memory flip */
+@keyframes pepBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.pep-bounce{animation:pepBounce .4s ease 2}
 .flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:360px}
 .fc{aspect-ratio:1;border-radius:14px;cursor:pointer;perspective:600px}
 .fi{width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;position:relative}
 .fc.fl .fi{transform:rotateY(180deg)}
 .ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:28px}
-.fb{transform:rotateY(180deg);gap:4px}
-.fb .fd{width:40px;height:40px;border-radius:50%}
-.fb .fl2{font-size:12px;font-weight:700;color:#2c3e50}
+.fb{transform:rotateY(180deg);gap:4px;padding:4px}
 .fc.mt{opacity:.4;pointer-events:none}
-/* Nav + misc */
 .nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(min-width:768px){.main{max-width:800px}.card .dot{width:90px;height:90px}.flip-grid{max-width:480px}}
+@media(min-width:768px){.main{max-width:800px}.flip-grid{max-width:480px}}
 </style>
 </head>
 <body>
 <div class="main">
 <div class="top-bar">
 <div class="ie" id="ie">Peppa's Color Party!</div>
-<div class="iz" id="iz">和佩琪一起准备派对吧！</div>
+<div class="iz" id="iz"></div>
 <div class="sb" id="sb"></div>
 </div>
 <div class="mod on" id="m0"></div>
@@ -76,12 +71,13 @@ body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);disp
 <script>
 var PP='../../assets/peppa/';
 var W=[
-  {w:'red',clr:'#e74c3c',obj:'\ud83d\udc57'},
-  {w:'blue',clr:'#3498db',obj:'\ud83e\udd95'},
-  {w:'yellow',clr:'#f1c40f',obj:'\u2600\ufe0f'},
-  {w:'green',clr:'#27ae60',obj:'\ud83c\udf3f'},
-  {w:'orange',clr:'#e67e22',obj:'\ud83d\udc20'}
+  {w:'red',clr:'#e74c3c',svg:'<circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#c0392b" stroke-width="3" fill="none"/>'},
+  {w:'blue',clr:'#3498db',svg:'<rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><circle cx="50" cy="120" r="6" fill="#999"/><circle cx="110" cy="120" r="6" fill="#999"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/>'},
+  {w:'yellow',clr:'#f1c40f',svg:'<line x1="135" y1="80" x2="150" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="119" x2="129" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="135" x2="80" y2="150" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="119" x2="31" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="25" y1="80" x2="10" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="41" x2="31" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="25" x2="80" y2="10" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="41" x2="129" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/>'},
+  {w:'green',clr:'#27ae60',svg:'<rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none"/>'},
+  {w:'orange',clr:'#e67e22',svg:'<circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none"/>'}
 ];
+function svgOf(i,sz){return '<svg width="'+(sz||80)+'" height="'+(sz||80)+'" viewBox="0 0 160 160">'+W[i].svg+'</svg>'}
 var cur=0,actx=null;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
 function speak(t,cb){
@@ -95,26 +91,27 @@ function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeo
 function playNo(){tone(300,.3)}
 function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'\u2b50':'\u2606';return s}
+function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.classList.remove('pep-bounce');void el.offsetWidth;el.classList.add('pep-bounce')}}
 
-// M0: Start screen
+// M0: Start
 function initM0(){
   document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'peppa-standing-waving.png" width="100">'+
-    '<div class="pr"><div class="bbl">Help me get ready for George\'s party!</div></div>'+
-    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<div style="width:36px;height:36px;border-radius:50%;background:'+w.clr+'"></div>'}).join('')+'</div>'+
-    '<button class="start-btn" onclick="getAC();goM(1)">开始玩！🎉</button>';
+    '<img src="'+PP+'peppa-pig-standing-waving.png" width="100">'+
+    '<div class="pr"><div class="bbl">Help me find all the colors!</div></div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(_,i){return svgOf(i,50)}).join('')+'</div>'+
+    '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
+  setI("Peppa's Color Party!",'和佩琪一起学颜色吧！','');
 }
 
-// M1: Learn colors - tap to reveal with Peppa story objects
+// M1: Learn - tap to reveal
 var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
   document.getElementById('m1').innerHTML=
+    '<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="60"><div class="bbl">Tap to find colors!</div></div>'+
     '<div class="g3">'+W.map(function(w,i){
-      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')">'+
-        '<div class="dot" id="ld'+i+'"></div>'+
-        '<div class="obj" id="lo'+i+'">'+w.obj+'</div>'+
-        '<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
+      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
+        svgOf(i,70)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
     }).join('')+'</div>';
   setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
 }
@@ -122,42 +119,44 @@ function lnTap(i){
   var c=document.getElementById('lc'+i);
   if(c.classList.contains('rev')){speak(W[i].w);return}
   if(lnB)return;lnB=true;
-  document.getElementById('ld'+i).style.background=W[i].clr;
-  document.getElementById('ld'+i).style.boxShadow='0 4px 15px '+W[i].clr+'66';
-  c.classList.add('rev');lnC++;
-  playOk();
+  c.classList.add('rev');c.style.background='#fff';lnC++;
+  playOk();pepBounce();
   speak(W[i].w,function(){lnB=false});
   setI("It's "+W[i].w+'!','找到啦！这是 '+W[i].w+'！',stars(lnC,5));
 }
 
-// M2: Puddle Jump - jump on the right color puddle!
-var pjS=0,pjI=0,pjB=false,pjOrder=[];
+// M2: Puddle Jump
+var pjS=0,pjI=0,pjB=false,pjOrd=[];
 function initM2(){
   pjS=0;pjI=0;pjB=false;
-  pjOrder=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
-  renderPuddles();
+  pjOrd=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  renderPJ();
 }
-function renderPuddles(){
-  if(pjI>=W.length){setI('Splash!','太厉害了！全部跳对啦！',stars(5,5));
+function renderPJ(){
+  if(pjI>=W.length){
+    setI('Splash!','太厉害了！全部跳对啦！',stars(5,5));
     document.getElementById('m2').innerHTML='<img src="'+PP+'peppa-george-jumping-muddy-puddles.png" width="140"><div style="font-size:24px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 2px 4px rgba(0,0,0,.2)">All puddles jumped!</div>';
-    return}
-  var tgt=W[pjOrder[pjI]];
+    return;
+  }
+  var tgt=W[pjOrd[pjI]];
   setI('Jump in '+tgt.w+'!','跳进 '+tgt.w+' 的泥坑！',stars(pjS,5));
   speak(tgt.w);
-  var h='<img src="'+PP+'peppa-jumping-muddy-puddle.png" width="80" style="margin-bottom:8px">'+
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'peppa-pig-jumping-muddy-puddle.png" width="70"><div class="bbl">Jump in '+tgt.w+'!</div></div>'+
     '<div class="puddle-row">'+W.map(function(w,j){
-      return '<div class="puddle" style="background:radial-gradient(ellipse,'+w.clr+','+w.clr+'aa)" onclick="pjTap('+j+')"></div>'
+      return '<div class="puddle" style="background:'+w.clr+'" onclick="pjTap('+j+')">'+svgOf(j,60)+'</div>'
     }).join('')+'</div>';
-  document.getElementById('m2').innerHTML=h;
 }
 function pjTap(j){
   if(pjB)return;pjB=true;
-  if(j===pjOrder[pjI]){
-    playOk();pjS++;pjI++;
+  if(j===pjOrd[pjI]){
+    playOk();pjS++;pjI++;pepBounce();
     setI("Splash! It's "+W[j].w+'!','答对啦！跳进 '+W[j].w+' 啦！',stars(pjS,5));
-    speak(W[j].w,function(){pjB=false;setTimeout(renderPuddles,600)});
+    speak(W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
   }else{
-    playNo();speak(W[j].w,function(){pjB=false});
+    playNo();
+    setI('Try again!','再试一次！哪个是 '+W[pjOrd[pjI]].w+'？',stars(pjS,5));
+    speak(W[j].w,function(){pjB=false});
   }
 }
 
@@ -166,25 +165,35 @@ var lfS=0,lfI=0,lfB=false,lfOrd=[];
 function initM3(){
   lfS=0;lfI=0;lfB=false;
   lfOrd=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
-  var h='<div class="g3">'+W.map(function(w,i){
-    return '<div class="card" onclick="lfTap('+i+')"><div class="dot" style="background:'+w.clr+';box-shadow:0 3px 10px '+w.clr+'44"></div></div>'
-  }).join('')+'</div>';
-  document.getElementById('m3').innerHTML=h;
+  document.getElementById('m3').innerHTML=
+    '<div class="pr" id="lfPr"><img src="'+PP+'daddy-pig-standing.png" width="60"><div class="bbl" id="lfBbl">Listen and tap!</div></div>'+
+    '<div class="g3">'+W.map(function(w,i){
+      return '<div class="card rev" onclick="lfTap('+i+')" style="min-height:90px">'+svgOf(i,70)+'</div>'
+    }).join('')+'</div>';
   lfAsk();
 }
 function lfAsk(){
-  if(lfI>=W.length){setI('Perfect!','全部找对啦，你真棒！',stars(5,5));return}
+  if(lfI>=W.length){
+    setI('Perfect!','全部找对啦，你真棒！',stars(5,5));
+    document.getElementById('lfBbl').textContent='You found them all!';
+    return;
+  }
   var w=W[lfOrd[lfI]];
   setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lfS,5));
+  document.getElementById('lfBbl').textContent='Where is '+w.w+'?';
   speak(w.w);
 }
 function lfTap(i){
   if(lfB||lfI>=W.length)return;lfB=true;
   if(i===lfOrd[lfI]){
-    playOk();lfS++;lfI++;
+    playOk();lfS++;lfI++;pepBounce();
     setI('Yes! '+W[i].w+'!','答对啦！这是 '+W[i].w+'！',stars(lfS,5));
-    speak(W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
-  }else{playNo();speak(W[i].w,function(){lfB=false})}
+    speak("It's "+W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
+  }else{
+    playNo();
+    setI('Try again!','再试试！哪个是 '+W[lfOrd[lfI]].w+'？',stars(lfS,5));
+    speak(W[i].w,function(){lfB=false});
+  }
 }
 
 // M4: Memory Flip
@@ -194,13 +203,15 @@ function initM4(){
   var pairs=W.slice(0,4);fCards=[];
   pairs.forEach(function(w,i){fCards.push({wi:i,w:w.w,clr:w.clr});fCards.push({wi:i,w:w.w,clr:w.clr})});
   fCards.sort(function(){return Math.random()-.5});
-  var h='<div class="flip-grid">'+fCards.map(function(c,i){
-    return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
-      '<div class="ff">\ud83d\udc37</div>'+
-      '<div class="fb" style="background:'+c.clr+'33"><div class="fd" style="background:'+c.clr+'"></div><div class="fl2">'+c.w+'</div></div>'+
-      '</div></div>'
-  }).join('')+'</div>';
-  document.getElementById('m4').innerHTML=h;
+  document.getElementById('m4').innerHTML=
+    '<div class="pr"><img src="'+PP+'rebecca-rabbit-standing.png" width="60"><div class="bbl">Find the pairs!</div></div>'+
+    '<div class="flip-grid">'+fCards.map(function(c,i){
+      return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
+        '<div class="ff">\ud83d\udc37</div>'+
+        '<div class="fb" style="background:'+c.clr+'22">'+
+        '<svg width="40" height="40" viewBox="0 0 160 160">'+W[c.wi].svg+'</svg>'+
+        '<div style="font-size:12px;font-weight:700;color:#2c3e50">'+c.w+'</div></div></div></div>'
+    }).join('')+'</div>';
   setI('Memory Flip!','翻开两张一样的，配成一对！',stars(fM,4));
 }
 function fTap(i){
@@ -211,7 +222,7 @@ function fTap(i){
   if(fF<0){fF=i;return}
   var s=fF;fLk=true;
   if(fCards[s].wi===fCards[i].wi){
-    playOk();fM++;
+    playOk();fM++;pepBounce();
     setTimeout(function(){
       document.getElementById('fc'+s).classList.add('mt');
       document.getElementById('fc'+i).classList.add('mt');
@@ -242,10 +253,9 @@ function goM(d){
   document.getElementById('pb').disabled=cur===0;
   var xb=document.getElementById('xb');
   if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}
-  else{xb.textContent='Next';xb.disabled=false}
+  else{xb.textContent='Next \u25b6';xb.disabled=false}
 }
 initM0();
-
 </script>
 </body>
 </html>
