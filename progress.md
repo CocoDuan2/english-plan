@@ -1,9 +1,18 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 13 - Body
+- 当前: Day 14 - Food
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 14 - Food 🍎
+- 新词: apple, banana, milk, bread, egg
+- 句式: I like ___!
+- teach: Breakfast Train 故事线 + Day13 微复习页(head/nose/mouth) + lunch lids 揭示 + snack train roll call 总览
+- review: Day13 微复习(3题) + lunch box 翻盖学词 + Load the Train 装车三选一 + Listen and Send 听音送食物 + Shadow Match 影子配词 + Done 完成页
+- 差异化: teach 从 body band parade 改为 breakfast train；review 去除上一课 tap-face/build/listen 路径，改为 bridge/flip-lid/load/listen/shadow 新链路
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 13 - Body 🧩
 - 新词: head, eyes, ears, nose, mouth
@@ -73,7 +82,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 14 - Food（apple, banana, milk, bread, egg），句式 I like ___!
+- Day 15 - Review（Day11-14 全部复习 20 词 + 4 句式）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

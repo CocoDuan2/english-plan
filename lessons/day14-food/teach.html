@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 14 - Food</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#ffe7cc,#fff4df)}
+.bg-hello{background:linear-gradient(175deg,#e8f5e9,#fff8e1)}
+.bg-yesterday{background:linear-gradient(160deg,#e3f2fd,#f3e5f5)}
+.bg-apple{background:linear-gradient(160deg,#ffd7d7,#fff1f1)}
+.bg-banana{background:linear-gradient(160deg,#fff7b7,#fffde8)}
+.bg-milk{background:linear-gradient(160deg,#d7ecff,#eef6ff)}
+.bg-bread{background:linear-gradient(160deg,#ffe0ba,#fff4e6)}
+.bg-egg{background:linear-gradient(160deg,#fff4c9,#fffce7)}
+.bg-lids{background:linear-gradient(160deg,#f6e8ff,#fdeef7)}
+.bg-all{background:linear-gradient(160deg,#fff0dd,#fff8ef)}
+.bg-bye{background:linear-gradient(180deg,#90caf9,#aed581 58%,#81c784)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#667085}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:8px 0;text-transform:lowercase;color:#2c3e50;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:10px 0}
+.obj svg{width:190px;height:190px}
+.y-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:760px;margin-top:8px}
+.y-card{width:180px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.y-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.lid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:500px;margin-top:10px}
+.lid-btn{width:140px;height:140px;border:none;border-radius:20px;background:#d8d8d8;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.14);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:.25s}
+.lid-btn:active{transform:scale(.95)}
+.lid-btn .inner{opacity:0;transform:scale(.72);transition:.25s}
+.lid-btn .lb{position:absolute;bottom:10px;left:0;right:0;font-size:22px;font-weight:900;color:#2c3e50;text-transform:lowercase;opacity:0;transition:.25s}
+.lid-btn.on{background:#fff}
+.lid-btn.on .inner{opacity:1;transform:scale(1)}
+.lid-btn.on .lb{opacity:1}
+.roll{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin-top:10px}
+.roll-card{width:160px;background:#fff;border-radius:16px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.roll-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.45);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:310px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .obj svg{width:200px;height:200px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<div class="sl bg-title on">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="150" alt="Peppa family">
+  <div class="ttl">Breakfast Train</div>
+  <div class="obj">
+    <svg width="150" height="150" viewBox="0 0 200 170" aria-label="Breakfast train">
+      <rect x="22" y="66" width="156" height="56" rx="16" fill="#ffb74d"/>
+      <rect x="38" y="44" width="54" height="28" rx="10" fill="#90caf9"/>
+      <circle cx="58" cy="124" r="16" fill="#333"/>
+      <circle cx="142" cy="124" r="16" fill="#333"/>
+      <circle cx="58" cy="124" r="7" fill="#b0bec5"/>
+      <circle cx="142" cy="124" r="7" fill="#b0bec5"/>
+      <circle cx="118" cy="92" r="12" fill="#fff3e0"/>
+      <circle cx="118" cy="92" r="7" fill="#ef5350"/>
+      <rect x="102" y="32" width="14" height="20" rx="6" fill="#795548"/>
+    </svg>
+  </div>
+  <div class="sub">Peppa's train brings picnic food.</div>
+</div>
+
+<div class="sl bg-hello">
+  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="150" alt="Peppa and George">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-walking.png" alt="Daddy Pig">
+    <div class="bbl">Let's load food on the train!</div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" width="85" alt="Mummy">
+    <img src="../../assets/peppa/emily-elephant-standing.png" width="85" alt="Emily">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" width="85" alt="Candy">
+  </div>
+</div>
+
+<div class="sl bg-yesterday">
+  <div class="pr"><img src="../../assets/peppa/george-superhero-costume.png" alt="George"><div class="bbl">Yesterday Review!</div></div>
+  <div class="ttl" style="font-size:42px">Body Quick Stop</div>
+  <div class="y-grid">
+    <div class="y-card"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/></svg><div class="w">head</div></div>
+    <div class="y-card"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/></svg><div class="w">nose</div></div>
+    <div class="y-card"><svg width="100" height="100" viewBox="0 0 160 160"><path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/></svg><div class="w">mouth</div></div>
+  </div>
+  <div class="sub" style="margin-top:8px">This is my head. This is my nose. This is my mouth.</div>
+</div>
+
+<div class="sl bg-apple">
+  <div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa"><div class="bbl">I like apple!</div></div>
+  <div class="obj"><svg viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="67" cy="78" r="4" fill="#fff" opacity=".35"/></svg></div>
+  <div class="word">apple</div>
+</div>
+
+<div class="sl bg-banana">
+  <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">I like banana!</div></div>
+  <div class="obj"><svg viewBox="0 0 160 160"><path d="M34 96 Q80 40 126 96 Q84 124 34 96" fill="#f7dc4c"/><path d="M44 94 Q80 54 116 94 Q84 112 44 94" fill="#ffe566"/><rect x="74" y="40" width="8" height="16" rx="3" fill="#8d6e63"/></svg></div>
+  <div class="word">banana</div>
+</div>
+
+<div class="sl bg-milk">
+  <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily"><div class="bbl">I like milk!</div></div>
+  <div class="obj"><svg viewBox="0 0 160 160"><rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/><rect x="56" y="34" width="48" height="16" rx="6" fill="#e3f2fd"/><text x="80" y="102" text-anchor="middle" font-size="20" font-weight="900" fill="#42a5f5">MILK</text></svg></div>
+  <div class="word">milk</div>
+</div>
+
+<div class="sl bg-bread">
+  <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">I like bread!</div></div>
+  <div class="obj"><svg viewBox="0 0 160 160"><rect x="28" y="56" width="104" height="66" rx="22" fill="#df9e4b"/><rect x="28" y="56" width="104" height="30" rx="22" fill="#cc8841"/><circle cx="55" cy="78" r="3" fill="#bf7435"/><circle cx="80" cy="82" r="3" fill="#bf7435"/><circle cx="106" cy="78" r="3" fill="#bf7435"/></svg></div>
+  <div class="word">bread</div>
+</div>
+
+<div class="sl bg-egg">
+  <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"><div class="bbl">I like egg!</div></div>
+  <div class="obj"><svg viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/><circle cx="74" cy="78" r="3" fill="#fff" opacity=".45"/></svg></div>
+  <div class="word">egg</div>
+</div>
+
+<div class="sl bg-lids">
+  <div class="pr"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa arms"><div class="bbl" id="lidText">Open a lunch lid!</div></div>
+  <div class="lid-grid">
+    <button class="lid-btn" onclick="openLid(this,'apple')"><div class="inner"><svg width="84" height="84" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg></div><div class="lb">apple</div></button>
+    <button class="lid-btn" onclick="openLid(this,'banana')"><div class="inner"><svg width="84" height="84" viewBox="0 0 160 160"><path d="M34 96 Q80 40 126 96 Q84 124 34 96" fill="#f7dc4c"/><path d="M44 94 Q80 54 116 94 Q84 112 44 94" fill="#ffe566"/></svg></div><div class="lb">banana</div></button>
+    <button class="lid-btn" onclick="openLid(this,'milk')"><div class="inner"><svg width="84" height="84" viewBox="0 0 160 160"><rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/></svg></div><div class="lb">milk</div></button>
+    <button class="lid-btn" onclick="openLid(this,'bread')"><div class="inner"><svg width="84" height="84" viewBox="0 0 160 160"><rect x="28" y="56" width="104" height="66" rx="22" fill="#df9e4b"/><rect x="28" y="56" width="104" height="30" rx="22" fill="#cc8841"/></svg></div><div class="lb">bread</div></button>
+    <button class="lid-btn" onclick="openLid(this,'egg')"><div class="inner"><svg width="84" height="84" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/></svg></div><div class="lb">egg</div></button>
+  </div>
+</div>
+
+<div class="sl bg-all">
+  <img src="../../assets/peppa/peppa_pig_bicycle.png" width="150" alt="Peppa bike">
+  <div class="ttl" style="font-size:52px">Snack Train Roll Call</div>
+  <div class="roll">
+    <div class="roll-card"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div class="w">apple</div></div>
+    <div class="roll-card"><svg width="100" height="100" viewBox="0 0 160 160"><path d="M34 96 Q80 40 126 96 Q84 124 34 96" fill="#f7dc4c"/><path d="M44 94 Q80 54 116 94 Q84 112 44 94" fill="#ffe566"/></svg><div class="w">banana</div></div>
+    <div class="roll-card"><svg width="100" height="100" viewBox="0 0 160 160"><rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/></svg><div class="w">milk</div></div>
+    <div class="roll-card"><svg width="100" height="100" viewBox="0 0 160 160"><rect x="28" y="56" width="104" height="66" rx="22" fill="#df9e4b"/><rect x="28" y="56" width="104" height="30" rx="22" fill="#cc8841"/></svg><div class="w">bread</div></div>
+    <div class="roll-card"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/></svg><div class="w">egg</div></div>
+  </div>
+</div>
+
+<div class="sl bg-bye">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="145" alt="Bye">
+  <div class="ttl" style="color:#fff">Train Is Full!</div>
+  <div class="sub" style="color:#f1f8e9">I like apple, banana, milk, bread, egg!</div>
+</div>
+
+</div>
+
+<button class="fab" id="F" onclick="toggleNotes()">T</button>
+<div class="pop" id="P"><div id="N"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/11</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var notes=[
+  'Title: image-led breakfast train story start.',
+  'Hello: show family roles and train mission, no sentence drill yet.',
+  'Yesterday review: head, nose, mouth quick recall (2 minutes).',
+  'apple: model I like apple.',
+  'banana: model I like banana.',
+  'milk: model I like milk.',
+  'bread: model I like bread.',
+  'egg: model I like egg.',
+  'Lunch lids: tap gray lids and say each word.',
+  'Roll call: point random and ask full sentence.',
+  'Bye: celebrate all five words once together.'
+];
+var cur=0,open=false;
+var slides=document.querySelectorAll('.sl');
+function update(){
+  slides.forEach(function(s,i){s.classList.toggle('on',i===cur)});
+  document.getElementById('pg').textContent=(cur+1)+'/'+slides.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===slides.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  document.getElementById('N').textContent=notes[cur]||'';
+}
+function go(d){var t=cur+d;if(t<0||t>=slides.length)return;cur=t;update()}
+function toggleNotes(){open=!open;document.getElementById('P').classList.toggle('on',open);document.getElementById('F').classList.toggle('on',open)}
+function openLid(el,word){
+  if(el.classList.contains('on'))return;
+  el.classList.add('on');
+  document.getElementById('lidText').textContent='I like '+word+'!';
+}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='t'||e.key==='T')toggleNotes()});
+update();
+</script>
+</body>
+</html>

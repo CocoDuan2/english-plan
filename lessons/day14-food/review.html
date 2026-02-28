@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 14 - Food Review Game</title>
+<style>
+:root{--tip-accent:#e67e22;--tip-bg:#fff4e0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#ffe6c8 0%,#fff5df 54%,#d9efcf 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.quick-wrap{width:100%;max-width:500px}
+.quick-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.quick-btn{width:136px;height:126px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer}
+.quick-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.quick-btn.good{outline:4px solid #66bb6a}
+.quick-btn.bad{outline:4px solid #ef5350}
+.box-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:500px;margin-top:8px}
+.box-card{width:96px;height:118px;border-radius:16px;perspective:700px;cursor:pointer}
+.box-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .45s}
+.box-card.on .box-inner{transform:rotateY(180deg)}
+.box-front,.box-back{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.box-front{background:linear-gradient(145deg,#d7ccc8,#bca28f);box-shadow:0 2px 9px rgba(0,0,0,.1)}
+.box-front::after{content:'LID';font-size:20px;font-weight:900;color:#fff;opacity:.7}
+.box-back{transform:rotateY(180deg);background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.box-back div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase;margin-top:3px}
+.train-wrap{width:100%;max-width:500px;background:rgba(255,255,255,.9);border-radius:18px;padding:12px 10px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.wagons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.wagon{width:92px;height:92px;border-radius:16px;background:linear-gradient(160deg,#90caf9,#64b5f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:900}
+.wagon.on{background:linear-gradient(160deg,#81c784,#66bb6a)}
+.pick-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.pick-btn{width:120px;height:120px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.pick-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.pick-btn.good{outline:4px solid #66bb6a}
+.pick-btn.bad{outline:4px solid #ef5350}
+.listen-wrap{width:100%;max-width:500px}
+.sound-btn{width:220px;height:84px;border:none;border-radius:14px;background:#42a5f5;color:#fff;font-size:26px;font-weight:900;cursor:pointer;display:block;margin:0 auto 10px}
+.listen-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.listen-btn{width:145px;height:132px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.listen-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.listen-btn.good{outline:4px solid #66bb6a}
+.listen-btn.bad{outline:4px solid #ef5350}
+.shadow-wrap{width:100%;max-width:500px;background:rgba(255,255,255,.9);border-radius:18px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.shadow-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.shadow-card{width:96px;height:106px;border-radius:14px;background:linear-gradient(170deg,#eceff1,#f5f7fa);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.shadow-card.on{outline:4px solid #66bb6a}
+.shadow-card svg{filter:brightness(.3) saturate(0)}
+.word-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.word-btn{min-width:90px;height:84px;padding:0 10px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 9px rgba(0,0,0,.08);cursor:pointer;font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.word-btn.good{outline:4px solid #66bb6a}
+.word-btn.bad{outline:4px solid #ef5350}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Breakfast Train Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+  <div class="mod" id="m6"></div>
+</div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/7</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var FOODS=[
+  {w:'apple',svg:'<circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/>'},
+  {w:'banana',svg:'<path d="M34 96 Q80 40 126 96 Q84 124 34 96" fill="#f7dc4c"/><path d="M44 94 Q80 54 116 94 Q84 112 44 94" fill="#ffe566"/>'},
+  {w:'milk',svg:'<rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/><text x="80" y="102" text-anchor="middle" font-size="20" font-weight="900" fill="#42a5f5">MILK</text>'},
+  {w:'bread',svg:'<rect x="28" y="56" width="104" height="66" rx="22" fill="#df9e4b"/><rect x="28" y="56" width="104" height="30" rx="22" fill="#cc8841"/>'},
+  {w:'egg',svg:'<ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/>'}
+];
+var YEST=[
+  {w:'head',svg:'<circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/>'},
+  {w:'nose',svg:'<ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/>'},
+  {w:'mouth',svg:'<path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/>'}
+];
+
+function sFood(i,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+FOODS[i].svg+'</svg>'}
+function sY(i,s){return '<svg width="'+(s||70)+'" height="'+(s||70)+'" viewBox="0 0 160 160">'+YEST[i].svg+'</svg>'}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t}return arr}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;
+  a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5','m6'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  var titles=['Breakfast Train Game','Yesterday Bridge','Open the Lunch Boxes','Load the Train','Listen and Send','Shadow Match','All Done!'];
+  var tips=['','昨天词桥接','点开午餐盒学词','按提示装车','听音送食物','影子配词',''];
+  document.getElementById('en').textContent=titles[cur];
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur];
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  if(cur===6)initM6();
+  ui();
+}
+function go(d){show(cur+d)}
+
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'peppa_pig_princess_fairy.png" width="140" alt="Peppa">'+
+    '<div class="pr"><div class="bbl">Tap, listen, load the train!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'george_pig_dinosaur.png" width="80" alt="George">'+
+      '<img src="'+PP+'emily-elephant-standing.png" width="80" alt="Emily">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);buildY()}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle([t].concat(shuffle(YEST.filter(function(x){return x.w!==t.w})).slice(0,2)));
+  document.getElementById('m1').innerHTML=
+    '<div class="quick-wrap">'+
+      '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">This is my '+t.w+'!</div></div>'+
+      '<div class="quick-row">'+opts.map(function(o){
+        return '<button class="quick-btn" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+sY(YEST.findIndex(function(y){return y.w===o.w}),74)+'<div>'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');score++;ui();playOk();
+    speak('This is my '+correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var boxBusy=false;
+function initM2(){
+  boxBusy=false;
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl" id="boxBubble">Open lunch lids!</div></div>'+
+    '<div class="box-grid">'+FOODS.map(function(f,i){
+      return '<div class="box-card" id="bc'+i+'" onclick="tapBox('+i+')">'+
+        '<div class="box-inner"><div class="box-front"></div><div class="box-back">'+sFood(i,66)+'<div>'+f.w+'</div></div></div></div>';
+    }).join('')+'</div>';
+}
+function tapBox(i){
+  if(boxBusy)return;
+  var el=document.getElementById('bc'+i);
+  if(el.classList.contains('on')){speak(FOODS[i].w);return}
+  boxBusy=true;
+  el.classList.add('on');
+  score++;ui();playOk();
+  document.getElementById('boxBubble').textContent='I like '+FOODS[i].w+'!';
+  speak('I like '+FOODS[i].w,function(){boxBusy=false});
+}
+
+var trainBusy=false,trainQ=0,trainOrder=[];
+function initM3(){trainBusy=false;trainQ=0;trainOrder=shuffle([0,1,2,3,4]);buildTrain()}
+function buildTrain(){
+  if(trainQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=FOODS[trainOrder[trainQ]];
+  var opts=shuffle([tgt].concat(shuffle(FOODS.filter(function(f){return f.w!==tgt.w})).slice(0,2)));
+  document.getElementById('m3').innerHTML=
+    '<div class="train-wrap">'+
+      '<div class="pr"><img src="'+PP+'george-superhero-costume.png" alt="George"><div class="bbl">Train needs '+tgt.w+'!</div></div>'+
+      '<div class="wagons">'+[0,1,2,3,4].map(function(i){
+        return '<div class="wagon'+(i<trainQ?' on':'')+'">'+(i<trainQ?sFood(trainOrder[i],54):'...')+'</div>';
+      }).join('')+'</div>'+
+      '<div class="pick-row">'+opts.map(function(o){
+        return '<button class="pick-btn" data-w="'+o.w+'" onclick="tapTrain(this,\''+tgt.w+'\')">'+sFood(FOODS.findIndex(function(f){return f.w===o.w}),64)+'<div>'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},200);
+}
+function tapTrain(el,correct){
+  if(trainBusy)return;trainBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');score++;ui();playOk();
+    speak('I like '+correct,function(){trainBusy=false;trainQ++;setTimeout(buildTrain,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){trainBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var listenBusy=false,listenQ=0,listenOrder=[];
+function initM4(){listenBusy=false;listenQ=0;listenOrder=shuffle([0,1,2,3,4]);buildListen()}
+function buildListen(){
+  if(listenQ>=5){setTimeout(function(){show(5)},700);return}
+  var tgt=FOODS[listenOrder[listenQ]];
+  var opts=shuffle([tgt].concat(shuffle(FOODS.filter(function(f){return f.w!==tgt.w})).slice(0,2)));
+  document.getElementById('m4').innerHTML=
+    '<div class="listen-wrap">'+
+      '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" alt="Candy"><div class="bbl">Listen. Send food!</div></div>'+
+      '<button class="sound-btn" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+      '<div class="listen-row">'+opts.map(function(o){
+        return '<button class="listen-btn" data-w="'+o.w+'" onclick="tapListen(this,\''+tgt.w+'\')">'+sFood(FOODS.findIndex(function(f){return f.w===o.w}),72)+'<div>'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapListen(el,correct){
+  if(listenBusy)return;listenBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');score++;ui();playOk();
+    speak('I like '+correct,function(){listenBusy=false;listenQ++;setTimeout(buildListen,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){listenBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var shBusy=false,shTarget=0,shLeft=[];
+function initM5(){
+  shBusy=false;shLeft=shuffle([0,1,2,3,4]);
+  shTarget=shLeft[0];
+  renderShadow();
+}
+function renderShadow(){
+  if(shLeft.length===0){setTimeout(function(){show(6)},700);return}
+  shTarget=shLeft[0];
+  document.getElementById('m5').innerHTML=
+    '<div class="shadow-wrap">'+
+      '<div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Match this shadow!</div></div>'+
+      '<div class="shadow-row">'+FOODS.map(function(f,i){
+        return '<div class="shadow-card'+(i===shTarget?' on':'')+'">'+sFood(i,62)+'</div>';
+      }).join('')+'</div>'+
+      '<div class="word-row">'+shuffle(shLeft.slice()).map(function(i){
+        return '<button class="word-btn" data-i="'+i+'" onclick="tapShadow(this)">'+FOODS[i].w+'</button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(FOODS[shTarget].w)},180);
+}
+function tapShadow(el){
+  if(shBusy)return;shBusy=true;
+  var i=parseInt(el.dataset.i,10);
+  if(i===shTarget){
+    el.classList.add('good');score++;ui();playOk();
+    speak('I like '+FOODS[i].w,function(){
+      shLeft=shLeft.filter(function(x){return x!==i});
+      shBusy=false;
+      setTimeout(renderShadow,520);
+    });
+  }else{
+    el.classList.add('bad');playNo();
+    speak(FOODS[shTarget].w,function(){shBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+function initM6(){
+  score=total;ui();
+  document.getElementById('m6').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="170" alt="Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">Breakfast train is ready!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:16px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>
