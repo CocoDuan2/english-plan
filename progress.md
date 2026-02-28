@@ -1,9 +1,17 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 9 - Animals 2
+- 当前: Day 10 - Review
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 10 - Review 🎯
+- 复习: Day 6-9 全部 20 词 + 4 个句式
+- teach: Adventure travel 故事线 + Numbers/Actions/Colors2/Animals2 四站复习 + travel ticket 揭示 + 句型墙 + 精简总览墙
+- review: Day9 动物微复习 + 盖章配句 + 听句找图 + 影子匹配 + Done 完成页
+- 差异化: 去除上一课 window/parade/odd-one-out 路径，改为 station + ticket + shadow 的新交互链路
+- 角色轮换: Peppa/Mummy/George/Daddy/Candy/Emily/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 1 - Colors 🎨
 - 新词: red, blue, yellow, green, orange
@@ -38,7 +46,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 10 - Review: Day 6-9 全部 / 混合句式
+- 本轮 Day 1-10 已完成，可重置到 Day 1 重新循环。
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
