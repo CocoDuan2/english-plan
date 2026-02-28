@@ -1,9 +1,18 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 11 - Colors
+- 当前: Day 12 - Animals
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 12 - Animals 🐾
+- 新词: cat, dog, fish, bird, duck
+- 句式: I see a ___!
+- teach: Zoo Bus 故事线 + Day11 微复习页(red/blue/yellow) + zoo door 揭示 + safari roll call 总览
+- review: Day11 微复习(3题) + bus window 揭示学词 + Seat the Animals 听音入座 + Shadow Match 看影子选词 + Done 完成页
+- 差异化: teach 从 color picnic 改为 zoo bus 路线；review 去除上一课 reveal/hunt/match 路径，改为 bridge/window/seat/shadow 新链路
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 11 - Colors 🎨
 - 新词: red, blue, yellow, green, orange
@@ -55,7 +64,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 12 - Animals（cat, dog, fish, bird, duck），句式 I see a ___!
+- Day 13 - Body（head, eyes, ears, nose, mouth），句式 This is my ___!
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

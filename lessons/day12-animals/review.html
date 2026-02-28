@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 12 - Animals Review Game</title>
+<style>
+:root{--tip-accent:#4caf50;--tip-bg:#eefbf0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#90caf9 0%,#c5e1a5 66%,#8bc34a 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.review-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;max-width:500px}
+.review-btn{width:130px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer}
+.review-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.review-btn.ok{outline:4px solid #66bb6a}
+.review-btn.bad{outline:4px solid #ef5350}
+.review-btn:active{transform:scale(.95)}
+.word-track{width:100%;max-width:500px;background:rgba(255,255,255,.88);border-radius:18px;padding:10px 8px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.window-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.window-card{background:#e0e0e0;border-radius:14px;min-height:100px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.08);position:relative;overflow:hidden}
+.window-card:before{content:'WINDOW';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:900;letter-spacing:1px;transition:.25s}
+.window-card svg{opacity:0;transition:.25s;transform:scale(.8)}
+.window-card .lb{font-size:20px;font-weight:800;color:#2c3e50;opacity:0;text-transform:lowercase;transition:.25s}
+.window-card.on{background:#fff}
+.window-card.on:before{opacity:0}
+.window-card.on svg,.window-card.on .lb{opacity:1;transform:scale(1)}
+.window-card:active{transform:scale(.95)}
+.bus-wrap{width:100%;max-width:500px;display:flex;flex-direction:column;align-items:center}
+.bus-target{font-size:32px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin:8px 0 12px}
+.bus-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.seat{width:120px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.seat div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.seat.good{outline:4px solid #66bb6a}
+.seat.bad{outline:4px solid #ef5350}
+.seat:active{transform:scale(.95)}
+.shadow-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:500px;width:100%}
+.shadow-card{height:126px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.shadow-card div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.shadow-card.good{outline:4px solid #66bb6a}
+.shadow-card.bad{outline:4px solid #ef5350}
+.shadow-card:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Zoo Bus Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var WORDS=[
+  {w:'cat',c:'#f4a460',svg:'<svg width="92" height="92" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/><circle cx="65" cy="88" r="5" fill="#fff"/><circle cx="95" cy="88" r="5" fill="#fff"/><circle cx="66" cy="89" r="2.5" fill="#333"/><circle cx="96" cy="89" r="2.5" fill="#333"/></svg>'},
+  {w:'dog',c:'#8d6e63',svg:'<svg width="92" height="92" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="80" cy="105" rx="18" ry="12" fill="#d7b899"/></svg>'},
+  {w:'fish',c:'#1e88e5',svg:'<svg width="92" height="92" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/><circle cx="58" cy="80" r="5" fill="#fff"/></svg>'},
+  {w:'bird',c:'#fbc02d',svg:'<svg width="92" height="92" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg>'},
+  {w:'duck',c:'#fdd835',svg:'<svg width="92" height="92" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg>'}
+];
+var YEST=[
+  {w:'red',svg:'<svg width="82" height="82" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/></svg>'},
+  {w:'blue',svg:'<svg width="82" height="82" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/></svg>'},
+  {w:'yellow',svg:'<svg width="82" height="82" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/></svg>'}
+];
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;
+  a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t}return arr}
+function gray(svg){return svg.replace(/#[0-9A-Fa-f]{3,6}/g,'#9e9e9e')}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  var titles=['Zoo Bus Game','Yesterday Bridge','Open Bus Windows','Seat the Animals','Shadow Match','All Done!'];
+  var tips=['','昨天颜色+今天句式','点窗户，学动物','听音安排座位','看影子选动物',''];
+  document.getElementById('en').textContent=titles[cur];
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur];
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  ui();
+}
+function go(d){show(cur+d)}
+
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="140" alt="Peppa">'+
+    '<div class="pr"><div class="bbl">Tap, listen, match animals!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'george-playing-ball.png" width="80" alt="George">'+
+      '<img src="'+PP+'emily-elephant-standing.png" width="80" alt="Emily">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){
+  yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);
+  buildY();
+}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle([t].concat(shuffle(YEST.filter(function(x){return x.w!==t.w})).slice(0,2)));
+  document.getElementById('m1').innerHTML=
+    '<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">I see '+t.w+'!</div></div>'+
+    '<div class="review-grid">'+opts.map(function(o){
+      return '<button class="review-btn" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+o.svg+'<div>'+o.w+'</div></button>';
+    }).join('')+'</div>';
+  setTimeout(function(){speak('I see '+t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('ok');score++;ui();playOk();
+    speak('I see '+correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var learnBusy=false;
+function initM2(){
+  learnBusy=false;
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">Open bus windows!</div></div>'+
+    '<div class="word-track"><div class="window-grid">'+WORDS.map(function(w,i){
+      return '<button class="window-card" id="wc'+i+'" onclick="tapLearn('+i+')">'+w.svg+'<div class="lb">'+w.w+'</div></button>';
+    }).join('')+'</div></div>';
+}
+function tapLearn(i){
+  var el=document.getElementById('wc'+i);
+  if(el.classList.contains('on')){speak(WORDS[i].w);return}
+  if(learnBusy)return;learnBusy=true;
+  el.classList.add('on');
+  score++;ui();playOk();
+  speak(WORDS[i].w,function(){learnBusy=false});
+}
+
+var seatBusy=false,seatTarget='',seatQ=0,seatOrder=[];
+function initM3(){
+  seatBusy=false;seatQ=0;seatOrder=shuffle([0,1,2,3,4]);
+  buildSeat();
+}
+function buildSeat(){
+  if(seatQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=WORDS[seatOrder[seatQ]];
+  seatTarget=tgt.w;
+  var opts=shuffle([tgt].concat(shuffle(WORDS.filter(function(w){return w.w!==tgt.w})).slice(0,2)));
+  document.getElementById('m3').innerHTML=
+    '<div class="bus-wrap">'+
+    '<div class="pr"><img src="'+PP+'george-superhero-costume.png" alt="George"><div class="bbl">Seat '+tgt.w+'!</div></div>'+
+    '<button style="width:220px;height:84px;border:none;border-radius:14px;background:#42a5f5;color:#fff;font-size:26px;font-weight:900;cursor:pointer;margin-bottom:10px" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+    '<div class="bus-target">'+tgt.w+'</div>'+
+    '<div class="bus-row">'+opts.map(function(o){
+      return '<button class="seat" data-w="'+o.w+'" onclick="tapSeat(this)">'+o.svg+'<div>'+o.w+'</div></button>';
+    }).join('')+'</div></div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapSeat(el){
+  if(seatBusy)return;seatBusy=true;
+  if(el.dataset.w===seatTarget){
+    el.classList.add('good');score++;ui();playOk();
+    speak('I see a '+seatTarget,function(){seatBusy=false;seatQ++;setTimeout(buildSeat,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(seatTarget,function(){seatBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var shadowBusy=false,shadowQ=0,shadowOrder=[];
+function initM4(){shadowBusy=false;shadowQ=0;shadowOrder=shuffle([0,1,2,3,4]);buildShadow()}
+function buildShadow(){
+  if(shadowQ>=5){setTimeout(function(){show(5)},700);return}
+  var target=WORDS[shadowOrder[shadowQ]];
+  var options=shuffle([target].concat(shuffle(WORDS.filter(function(w){return w.w!==target.w})).slice(0,3)));
+  document.getElementById('m4').innerHTML=
+    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" alt="Candy"><div class="bbl">Pick the shadow friend!</div></div>'+
+    '<div style="margin:6px 0">'+gray(target.svg).replace('width="92" height="92"','width="110" height="110"')+'</div>'+
+    '<div class="shadow-wrap">'+options.map(function(o){
+      return '<button class="shadow-card" data-w="'+o.w+'" onclick="tapShadow(this,\''+target.w+'\')"><div>'+o.w+'</div></button>';
+    }).join('')+'</div>';
+}
+function tapShadow(el,correct){
+  if(shadowBusy)return;shadowBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');score++;ui();playOk();
+    speak(correct,function(){shadowBusy=false;shadowQ++;buildShadow()});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){shadowBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+function initM5(){
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="170" alt="Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">You found all animals!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:16px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>
