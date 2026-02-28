@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 5 - Review Party</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 74px;text-align:center;overflow-y:auto}
+.sl.on{display:flex}
+.bg0{background:linear-gradient(165deg,#fce4ec,#f3e5f5)}
+.bg1{background:linear-gradient(180deg,#fff0f5,#ffe9f0)}
+.bg2{background:linear-gradient(160deg,#ffe0e0,#fff8e1)}
+.bg3{background:linear-gradient(160deg,#e8f5e9,#dcedc8)}
+.bg4{background:linear-gradient(160deg,#d6ecff,#e3f2fd)}
+.bg5{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.bg6{background:linear-gradient(160deg,#e8eaf6,#d1c4e9)}
+.bg7{background:linear-gradient(160deg,#e0f7fa,#b2ebf2)}
+.bg8{background:linear-gradient(160deg,#fff9c4,#fffde7)}
+.bg9{background:linear-gradient(160deg,#f3e5f5,#fce4ec)}
+.bg10{background:linear-gradient(160deg,#ffe9c8,#fff4e0)}
+.bg11{background:linear-gradient(180deg,#81c784,#aed581 58%,#dce775)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:6px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;font-size:26px;font-weight:700;color:#e67e22;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-transform:lowercase;color:#2c3e50;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.obj{margin:8px 0}
+.theme-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:760px;margin-top:12px}
+.tc{width:130px;min-height:130px;background:#fff;border-radius:18px;padding:10px;box-shadow:0 3px 12px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tc div{font-size:22px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:620px;margin-top:10px}
+.gb{width:130px;height:130px;border:none;border-radius:20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;transition:.3s;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.gb.shut{background:linear-gradient(145deg,#f9adc7,#e91e8c)}
+.gb.shut::after{content:'🎁';font-size:48px}
+.gb.open{background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.gb span{font-size:22px;font-weight:900;text-transform:lowercase;color:#2c3e50}
+.mega{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:900px;margin-top:8px}
+.mi{background:#fff;border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mi div{font-size:18px;font-weight:800;color:#2c3e50;text-transform:lowercase;margin-top:2px}
+.mi .ms{font-size:13px;font-weight:700;color:#e67e22;margin-top:1px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:50px;height:50px;border-radius:50%;background:#f9adc7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:126px;right:16px;z-index:199;width:330px;max-height:42vh;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 16px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#f9adc7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .ttl{font-size:46px}.sub{font-size:24px}.word{font-size:100px}.sent{font-size:38px}
+  .obj svg{width:200px;height:200px}
+  .tc{width:150px;min-height:150px}
+  .gb{width:150px;height:150px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- Slide 1: Title — Peppa + party decorations, image-led -->
+<div class="sl bg0 on">
+  <img src="../../assets/peppa/peppa_pig_arms_open.png" width="140" alt="Peppa">
+  <div class="ttl">Peppa's Party!</div>
+  <div style="display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+    <img src="../../assets/peppa/george-standing.png" width="75" alt="George">
+    <img src="../../assets/peppa/emily-elephant-standing.png" width="75" alt="Emily">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" width="75" alt="Candy">
+    <img src="../../assets/peppa/daddy-pig-standing.png" width="75" alt="Daddy">
+  </div>
+  <div style="font-size:52px;margin-top:10px">🎈🎉🎊🎈</div>
+</div>
+
+<!-- Slide 2: Hello — George invites everyone, image-led -->
+<div class="sl bg1">
+  <img src="../../assets/peppa/george_pig_dinosaur.png" width="140" alt="George">
+  <div class="ttl" style="font-size:38px">Party Games!</div>
+  <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;justify-content:center">
+    <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg>
+    <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="28" fill="#ff9800"/><circle cx="70" cy="74" r="4" fill="#fff"/><circle cx="90" cy="74" r="4" fill="#fff"/><circle cx="70" cy="74" r="2" fill="#333"/><circle cx="90" cy="74" r="2" fill="#333"/><ellipse cx="80" cy="88" rx="6" ry="4" fill="#333"/><path d="M56 60 Q50 40 60 50" stroke="#ff9800" stroke-width="4" fill="none"/><path d="M104 60 Q110 40 100 50" stroke="#ff9800" stroke-width="4" fill="none"/></svg>
+    <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/></svg>
+    <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg>
+  </div>
+  <div class="sent" style="margin-top:14px">Let's play together!</div>
+</div>
+
+<!-- Slide 3: Colors Review — Daddy Pig + 5 color SVGs -->
+<div class="sl bg2">
+  <div class="pr"><img src="../../assets/peppa/daddy-pig-walking.png" alt="Daddy"><div class="bbl">Party balloons!</div></div>
+  <div class="theme-row">
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="40" fill="#e74c3c"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/></svg><div>red</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="40" fill="#2196f3"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/></svg><div>blue</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="40" fill="#fdd835"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/></svg><div>yellow</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="40" fill="#4CAF50"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/></svg><div>green</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="40" fill="#ff9800"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/></svg><div>orange</div></div>
+  </div>
+  <div class="sent">It's ___!</div>
+</div>
+
+<!-- Slide 4: Animals Review — Emily + 5 animal SVGs -->
+<div class="sl bg3">
+  <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily"><div class="bbl">Party pets!</div></div>
+  <div class="theme-row">
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="28" fill="#ff9800"/><circle cx="70" cy="74" r="4" fill="#fff"/><circle cx="90" cy="74" r="4" fill="#fff"/><circle cx="70" cy="74" r="2" fill="#333"/><circle cx="90" cy="74" r="2" fill="#333"/><ellipse cx="80" cy="88" rx="6" ry="4" fill="#333"/><path d="M56 60 Q50 40 60 50" stroke="#ff9800" stroke-width="4" fill="none"/><path d="M104 60 Q110 40 100 50" stroke="#ff9800" stroke-width="4" fill="none"/></svg><div>cat</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="30" fill="#8d6e63"/><circle cx="68" cy="74" r="4" fill="#fff"/><circle cx="92" cy="74" r="4" fill="#fff"/><circle cx="68" cy="74" r="2" fill="#333"/><circle cx="92" cy="74" r="2" fill="#333"/><ellipse cx="80" cy="90" rx="8" ry="5" fill="#333"/><ellipse cx="52" cy="58" rx="10" ry="16" fill="#6d4c41"/><ellipse cx="108" cy="58" rx="10" ry="16" fill="#6d4c41"/></svg><div>dog</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="80" rx="36" ry="22" fill="#42a5f5"/><circle cx="96" cy="74" r="4" fill="#fff"/><circle cx="96" cy="74" r="2" fill="#333"/><path d="M110 80 L130 68 L130 92 Z" fill="#42a5f5"/></svg><div>fish</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="82" rx="22" ry="26" fill="#ffeb3b"/><circle cx="74" cy="76" r="3" fill="#333"/><polygon points="80,92 74,100 86,100" fill="#ff9800"/><path d="M58 70 Q40 50 56 62" stroke="#ffeb3b" stroke-width="6" fill="none"/><path d="M102 70 Q120 50 104 62" stroke="#ffeb3b" stroke-width="6" fill="none"/></svg><div>bird</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="82" rx="28" ry="24" fill="#fff"/><circle cx="72" cy="76" r="3" fill="#333"/><ellipse cx="80" cy="90" rx="8" ry="4" fill="#ffb300"/></svg><div>duck</div></div>
+  </div>
+  <div class="sent">I see a ___!</div>
+</div>
+
+<!-- Slide 5: Body Review — Candy Cat + body SVGs -->
+<div class="sl bg4">
+  <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"><div class="bbl">Party faces!</div></div>
+  <div class="theme-row">
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/><path d="M62 112 Q80 126 98 112" stroke="#e57373" stroke-width="5" fill="none" stroke-linecap="round"/></svg><div>head</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="52" cy="78" rx="20" ry="14" fill="#fff"/><ellipse cx="108" cy="78" rx="20" ry="14" fill="#fff"/><circle cx="52" cy="80" r="6" fill="#333"/><circle cx="108" cy="80" r="6" fill="#333"/></svg><div>eyes</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="40" cy="80" rx="12" ry="22" fill="#ffd6b5"/><ellipse cx="120" cy="80" rx="12" ry="22" fill="#ffd6b5"/><ellipse cx="40" cy="80" rx="6" ry="14" fill="#ffab91"/><ellipse cx="120" cy="80" rx="6" ry="14" fill="#ffab91"/></svg><div>ears</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/></svg><div>nose</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/></svg><div>mouth</div></div>
+  </div>
+  <div class="sent">This is my ___!</div>
+</div>
+
+<!-- Slide 6: Food Review — Mummy Pig + 5 food SVGs -->
+<div class="sl bg5">
+  <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Party snacks!</div></div>
+  <div class="theme-row">
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div>apple</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="42" ry="30" fill="#f9e44c"/><ellipse cx="80" cy="88" rx="32" ry="22" fill="#ffe066"/><rect x="72" y="38" width="6" height="24" rx="3" fill="#8d6e63"/></svg><div>banana</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><rect x="46" y="48" width="68" height="76" rx="10" fill="#fff"/><rect x="46" y="48" width="68" height="24" rx="10" fill="#42a5f5"/><text x="80" y="106" text-anchor="middle" font-size="20" font-weight="900" fill="#42a5f5">MILK</text></svg><div>milk</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><rect x="30" y="56" width="100" height="64" rx="20" fill="#e6a84c"/><rect x="30" y="56" width="100" height="32" rx="20" fill="#d4943c"/></svg><div>bread</div></div>
+    <div class="tc"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="42" fill="#fff8e1"/><ellipse cx="80" cy="82" rx="22" ry="22" fill="#ffb300"/></svg><div>egg</div></div>
+  </div>
+  <div class="sent">I like ___!</div>
+</div>
+
+<!-- Slide 7: Gift Box Reveal — Colors (tap to unwrap) -->
+<div class="sl bg6">
+  <div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl" id="giftBbl1">Unwrap the gifts!</div></div>
+  <div class="gift-grid" id="giftGrid1"></div>
+</div>
+
+<!-- Slide 8: Gift Box Reveal — Animals (tap to unwrap) -->
+<div class="sl bg7">
+  <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl" id="giftBbl2">More gifts!</div></div>
+  <div class="gift-grid" id="giftGrid2"></div>
+</div>
+
+<!-- Slide 9: Mix & Match — teacher taps SVG, kids say sentence -->
+<div class="sl bg8">
+  <div class="pr"><img src="../../assets/peppa/peppa_pig_bicycle.png" alt="Peppa bike"><div class="bbl">Mix and match!</div></div>
+  <div class="sent" id="mixSent" style="min-height:44px"></div>
+  <div class="theme-row" id="mixGrid"></div>
+</div>
+
+<!-- Slide 10: All Together Mega Grid — 20 words -->
+<div class="sl bg9">
+  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="130" alt="Peppa and George">
+  <div class="ttl" style="font-size:52px">All Words!</div>
+  <div class="mega" id="megaGrid"></div>
+</div>
+
+<!-- Slide 11: Sentence Chant — each theme's sentence with character -->
+<div class="sl bg10">
+  <div class="ttl" style="font-size:38px">Say It Together!</div>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-top:10px;max-width:600px;width:100%">
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <img src="../../assets/peppa/daddy-pig-walking.png" width="60" alt="Daddy">
+      <div class="sent" style="margin:0;font-size:30px">It's red!</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <img src="../../assets/peppa/emily-elephant-standing.png" width="60" alt="Emily">
+      <div class="sent" style="margin:0;font-size:30px">I see a cat!</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <img src="../../assets/peppa/candy-cat-green-dress.png" width="60" alt="Candy">
+      <div class="sent" style="margin:0;font-size:30px">This is my nose!</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <img src="../../assets/peppa/mummy-pig-standing-grass.png" width="60" alt="Mummy">
+      <div class="sent" style="margin:0;font-size:30px">I like banana!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Bye — Party celebration -->
+<div class="sl bg11">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="160" alt="Peppa family">
+  <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)">Party Time!</div>
+  <div style="font-size:52px;margin:8px 0">🎉🎈🎊🎉</div>
+  <div class="sub" style="color:rgba(255,255,255,.92);font-size:22px;font-weight:700">We know 20 words!</div>
+</div>
+</div><!-- end deck -->
+<button class="fab" id="F" onclick="tn()">&#x1F4CB;</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
+  <div class="np" id="pg">1/12</div>
+  <button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function svgTag(d,sz){return '<svg width="'+(sz||80)+'" height="'+(sz||80)+'" viewBox="0 0 160 160">'+d+'</svg>'}
+
+var colors=[
+  {w:'red',svg:'<circle cx="80" cy="70" r="40" fill="#e74c3c"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/>',s:"It's red!"},
+  {w:'blue',svg:'<circle cx="80" cy="70" r="40" fill="#2196f3"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/>',s:"It's blue!"},
+  {w:'yellow',svg:'<circle cx="80" cy="70" r="40" fill="#fdd835"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/>',s:"It's yellow!"},
+  {w:'green',svg:'<circle cx="80" cy="70" r="40" fill="#4CAF50"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/>',s:"It's green!"},
+  {w:'orange',svg:'<circle cx="80" cy="70" r="40" fill="#ff9800"/><rect x="78" y="110" width="4" height="30" rx="2" fill="#999"/>',s:"It's orange!"}
+];
+var animals=[
+  {w:'cat',svg:'<circle cx="80" cy="80" r="28" fill="#ff9800"/><circle cx="70" cy="74" r="4" fill="#fff"/><circle cx="90" cy="74" r="4" fill="#fff"/><circle cx="70" cy="74" r="2" fill="#333"/><circle cx="90" cy="74" r="2" fill="#333"/><ellipse cx="80" cy="88" rx="6" ry="4" fill="#333"/><path d="M56 60 Q50 40 60 50" stroke="#ff9800" stroke-width="4" fill="none"/><path d="M104 60 Q110 40 100 50" stroke="#ff9800" stroke-width="4" fill="none"/>',s:'I see a cat!'},
+  {w:'dog',svg:'<circle cx="80" cy="80" r="30" fill="#8d6e63"/><circle cx="68" cy="74" r="4" fill="#fff"/><circle cx="92" cy="74" r="4" fill="#fff"/><circle cx="68" cy="74" r="2" fill="#333"/><circle cx="92" cy="74" r="2" fill="#333"/><ellipse cx="80" cy="90" rx="8" ry="5" fill="#333"/><ellipse cx="52" cy="58" rx="10" ry="16" fill="#6d4c41"/><ellipse cx="108" cy="58" rx="10" ry="16" fill="#6d4c41"/>',s:'I see a dog!'},
+  {w:'fish',svg:'<ellipse cx="80" cy="80" rx="36" ry="22" fill="#42a5f5"/><circle cx="96" cy="74" r="4" fill="#fff"/><circle cx="96" cy="74" r="2" fill="#333"/><path d="M110 80 L130 68 L130 92 Z" fill="#42a5f5"/>',s:'I see a fish!'},
+  {w:'bird',svg:'<ellipse cx="80" cy="82" rx="22" ry="26" fill="#ffeb3b"/><circle cx="74" cy="76" r="3" fill="#333"/><polygon points="80,92 74,100 86,100" fill="#ff9800"/>',s:'I see a bird!'},
+  {w:'duck',svg:'<ellipse cx="80" cy="82" rx="28" ry="24" fill="#fff"/><circle cx="72" cy="76" r="3" fill="#333"/><ellipse cx="80" cy="90" rx="8" ry="4" fill="#ffb300"/>',s:'I see a duck!'}
+];
+var bodyParts=[
+  {w:'head',svg:'<circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/>',s:'This is my head!'},
+  {w:'eyes',svg:'<ellipse cx="52" cy="78" rx="20" ry="14" fill="#fff"/><ellipse cx="108" cy="78" rx="20" ry="14" fill="#fff"/><circle cx="52" cy="80" r="6" fill="#333"/><circle cx="108" cy="80" r="6" fill="#333"/>',s:'This is my eyes!'},
+  {w:'ears',svg:'<ellipse cx="40" cy="80" rx="12" ry="22" fill="#ffd6b5"/><ellipse cx="120" cy="80" rx="12" ry="22" fill="#ffd6b5"/><ellipse cx="40" cy="80" rx="6" ry="14" fill="#ffab91"/><ellipse cx="120" cy="80" rx="6" ry="14" fill="#ffab91"/>',s:'This is my ears!'},
+  {w:'nose',svg:'<ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/>',s:'This is my nose!'},
+  {w:'mouth',svg:'<path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/>',s:'This is my mouth!'}
+];
+var food=[
+  {w:'apple',svg:'<circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/>',s:'I like apple!'},
+  {w:'banana',svg:'<ellipse cx="80" cy="88" rx="42" ry="30" fill="#f9e44c"/><ellipse cx="80" cy="88" rx="32" ry="22" fill="#ffe066"/><rect x="72" y="38" width="6" height="24" rx="3" fill="#8d6e63"/>',s:'I like banana!'},
+  {w:'milk',svg:'<rect x="46" y="48" width="68" height="76" rx="10" fill="#fff"/><rect x="46" y="48" width="68" height="24" rx="10" fill="#42a5f5"/><text x="80" y="106" text-anchor="middle" font-size="20" font-weight="900" fill="#42a5f5">MILK</text>',s:'I like milk!'},
+  {w:'bread',svg:'<rect x="30" y="56" width="100" height="64" rx="20" fill="#e6a84c"/><rect x="30" y="56" width="100" height="32" rx="20" fill="#d4943c"/>',s:'I like bread!'},
+  {w:'egg',svg:'<ellipse cx="80" cy="88" rx="36" ry="42" fill="#fff8e1"/><ellipse cx="80" cy="82" rx="22" ry="22" fill="#ffb300"/>',s:'I like egg!'}
+];
+var allWords=colors.concat(animals,bodyParts,food);
+
+/* Gift box reveal */
+function initGifts(gridId,bblId,items){
+  var el=document.getElementById(gridId);
+  el.innerHTML=items.map(function(it,i){
+    return '<button class="gb shut" id="'+gridId+'b'+i+'" onclick="openGift(\''+gridId+'\',\''+bblId+'\','+i+')">'+
+      svgTag(it.svg,70)+'<span>'+it.w+'</span></button>';
+  }).join('');
+}
+function openGift(gridId,bblId,i){
+  var items=gridId==='giftGrid1'?colors:animals;
+  var el=document.getElementById(gridId+'b'+i);
+  if(!el||el.classList.contains('open'))return;
+  el.classList.remove('shut');el.classList.add('open');
+  document.getElementById(bblId).textContent=items[i].s;
+}
+
+/* Mix & Match — teacher taps item, sentence appears */
+function initMix(){
+  var pick=[];
+  function r2(arr){var s=shuffle(arr.slice());return[s[0],s[1]]}
+  pick=pick.concat(r2(colors),r2(animals),r2(bodyParts),r2(food));
+  var mixed=shuffle(pick);
+  var el=document.getElementById('mixGrid');
+  el.innerHTML=mixed.map(function(it,i){
+    return '<div class="tc" style="cursor:pointer" onclick="mixTap('+i+')">'+
+      svgTag(it.svg,70)+'<div>'+it.w+'</div></div>';
+  }).join('');
+  window._mixItems=mixed;
+}
+function mixTap(i){
+  document.getElementById('mixSent').textContent=window._mixItems[i].s;
+}
+
+/* Mega grid — all 20 words */
+function initMega(){
+  var el=document.getElementById('megaGrid');
+  el.innerHTML=allWords.map(function(it){
+    return '<div class="mi">'+svgTag(it.svg,60)+'<div>'+it.w+'</div></div>';
+  }).join('');
+}
+
+/* Teacher notes */
+var notes={
+"0":"Title: image-first party theme. Characters + balloons. No drilling.",
+"1":"Hello: George invites everyone. SVG icons preview. Keep visual.",
+"2":"Colors review: point at each balloon. Kids say 'It's red/blue/yellow/green/orange!'",
+"3":"Animals review: point at each pet. Kids say 'I see a cat/dog/fish/bird/duck!'",
+"4":"Body review: point at each part. Kids say 'This is my head/eyes/ears/nose/mouth!'",
+"5":"Food review: point at each snack. Kids say 'I like apple/banana/milk/bread/egg!'",
+"6":"Gift reveal (colors): tap each gift box to unwrap. Ask before tapping.",
+"7":"Gift reveal (animals): tap each gift box. Ask before tapping.",
+"8":"Mix & match: tap any item, sentence appears. Random order. Check retention.",
+"9":"Mega grid: all 20 words. Random point and ask. Mix sentences.",
+"10":"Sentence chant: read each row together. Clap rhythm. Repeat 2x.",
+"11":"Celebrate! We know 20 words and 4 sentences! High fives!"
+};
+
+/* Navigation */
+var cur=0,total=12,tOpen=false;
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sl')[n].classList.add('on');
+  cur=n;
+  document.getElementById('pg').textContent=(cur+1)+'/'+total;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===total-1){xb.textContent='Done';xb.disabled=true}
+  else{xb.textContent='Next \u25B6';xb.disabled=false}
+  document.getElementById('B').innerHTML=notes[cur]||'';
+  if(n===6)initGifts('giftGrid1','giftBbl1',colors);
+  if(n===7)initGifts('giftGrid2','giftBbl2',animals);
+  if(n===8)initMix();
+  if(n===9)initMega();
+}
+function go(d){goTo(cur+d)}
+function tn(){tOpen=!tOpen;document.getElementById('P').classList.toggle('on',tOpen);document.getElementById('F').classList.toggle('on',tOpen)}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft')go(-1);
+  if(e.key==='t'||e.key==='T')tn();
+});
+document.addEventListener('click',function(e){
+  if(tOpen&&!e.target.closest('.pop')&&!e.target.closest('.fab')){
+    tOpen=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on');
+  }
+});
+goTo(0);
+</script>
+</body>
+</html>

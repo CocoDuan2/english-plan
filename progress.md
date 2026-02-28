@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 4 - Food
+- 当前: Day 5 - Review
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -38,4 +38,11 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 5 - Review: Day 1-4 全部 / 混合
+- Day 6 - Numbers: one, two, three, four, five / I have ___!
+
+## Day 5 - Review 🎉
+- 复习: Day 1-4 全部 20 词 + 4 个句式
+- teach: 派对故事线 + 4主题分组复习 + 礼物盒揭示 + 混搭点读 + 20词全览 + 句式朗读
+- review: 分类归组 + 听句找图 + Bingo + 句式选择
+- 角色轮换: Peppa/George/Daddy/Mummy/Emily/Candy 全出场
+- 状态: ✅ 完成

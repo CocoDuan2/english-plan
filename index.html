@@ -130,6 +130,17 @@ var lessons=[
     reviewIcon:'assets/peppa/george_pig_dinosaur.png',
     teachTone:{bg:'#fff4e0',bd:'#ffcc80',txt:'#e65100'},
     reviewTone:{bg:'#fff8e1',bd:'#ffe082',txt:'#f57f17'}
+  },
+  {
+    day:5,
+    dir:'day5-review',
+    theme:'Review',
+    words:'Day 1-4 全部复习 · 20 words',
+    panel:'linear-gradient(135deg,#f3e5f5,#e8eaf6)',
+    teachIcon:'assets/peppa/peppa_pig_arms_open.png',
+    reviewIcon:'assets/peppa/peppa-fairy-princess-small.png',
+    teachTone:{bg:'#f3e5f5',bd:'#ce93d8',txt:'#7b1fa2'},
+    reviewTone:{bg:'#ede7f6',bd:'#b39ddb',txt:'#4527a0'}
   }
 ];
 
@@ -160,7 +171,7 @@ lessons.forEach(function(l){
   g.innerHTML=
     '<div class="day-head" style="background:'+l.panel+'">'+
       '<span>Day '+l.day+' · '+l.theme+'</span>'+
-      '<small>5 words</small>'+
+      '<small>'+(l.theme==='Review'?'20 words':'5 words')+'</small>'+
     '</div>'+
     '<div class="cards">'+cardHtml('teach',l)+cardHtml('review',l)+'</div>';
   wrap.appendChild(g);
