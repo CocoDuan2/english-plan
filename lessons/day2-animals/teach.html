@@ -8,127 +8,131 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
 .deck{width:100%;height:100%;display:flex;flex-direction:column}
-.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:18px 22px 72px;text-align:center}
 .sl.on{display:flex}
 .bg-pink{background:linear-gradient(160deg,#fde2ec,#f8bbd0)}
-.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
-.bg-cat{background:linear-gradient(160deg,#ffe0b2,#fff3e0)}
+.bg-morning{background:linear-gradient(180deg,#8ed0ff,#c8e6c9)}
+.bg-cat{background:linear-gradient(160deg,#ffe0b2,#fff4df)}
 .bg-dog{background:linear-gradient(160deg,#d7ccc8,#efebe9)}
 .bg-fish{background:linear-gradient(160deg,#b3e5fc,#e1f5fe)}
 .bg-bird{background:linear-gradient(160deg,#fff9c4,#fffde7)}
-.bg-duck{background:linear-gradient(160deg,#c8e6c9,#e8f5e9)}
-.bg-lav{background:linear-gradient(160deg,#ede7f6,#f3e5f5)}
-.bg-meadow{background:linear-gradient(180deg,#90caf9,#a5d6a7 58%,#7cb342)}
-.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
-.sub{font-size:22px;color:#6c7a89}
-.word{font-size:88px;font-weight:900;letter-spacing:3px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08);text-transform:lowercase}
-.sent{font-size:34px;font-weight:800;color:#e67e22;margin:8px 0}
+.bg-duck{background:linear-gradient(160deg,#dcedc8,#f1f8e9)}
+.bg-hide{background:linear-gradient(160deg,#ede7f6,#fce4ec)}
+.bg-finish{background:linear-gradient(180deg,#90caf9,#a5d6a7 60%,#7cb342)}
+.ttl{font-size:48px;font-weight:900;color:#2c3e50;margin:6px 0}
+.sub{font-size:26px;color:#6c7a89;line-height:1.3}
+.word{font-size:96px;font-weight:900;letter-spacing:3px;margin:8px 0;text-shadow:0 3px 0 rgba(0,0,0,.08);text-transform:lowercase}
+.sent{font-size:38px;font-weight:800;color:#e67e22;margin:8px 0}
 .pr{display:flex;align-items:center;gap:12px;margin:10px 0}
-.pr img{width:85px;height:auto}
-.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.pr img{width:92px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:28px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
-.obj-wrap{margin:10px 0}
-.reveal-box{width:130px;height:130px;border-radius:18px;background:#ddd;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .4s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
-.reveal-box.on{cursor:default}
-.reveal-box svg{opacity:0;transition:opacity .4s,transform .4s;transform:scale(.7)}
-.reveal-box.on svg{opacity:1;transform:scale(1)}
+.obj-wrap{margin:8px 0}
+.hide-wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:520px;margin:10px auto}
+.hide-box{width:148px;height:148px;border-radius:18px;background:#d9d9d9;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 3px 12px rgba(0,0,0,.12);overflow:hidden}
+.hide-box::after{content:'?';position:absolute;font-size:58px;font-weight:800;color:#fff;opacity:.85;transition:opacity .25s}
+.hide-box svg{opacity:0;transform:scale(.75);transition:opacity .3s,transform .3s}
+.hide-box.on::after{opacity:0}
+.hide-box.on svg{opacity:1;transform:scale(1)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:460px;margin:10px auto}
+.gi{background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.gi div{font-size:30px;font-weight:900;color:#2c3e50;margin-top:6px;text-transform:lowercase}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
 .fab.on{background:#2c3e50}
-.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:320px;max-height:42vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
 .pop.on{display:block}
 .nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(min-width:768px){.word{font-size:104px}.sent{font-size:38px}.reveal-box{width:150px;height:150px}}
+@media(min-width:768px){
+  .ttl{font-size:54px}
+  .sub{font-size:30px}
+  .word{font-size:112px}
+  .sent{font-size:42px}
+  .obj-wrap svg{width:220px;height:220px}
+  .hide-box{width:162px;height:162px}
+}
 </style>
 </head>
 <body>
 <div class="deck">
 <div class="sl bg-pink on">
-  <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="100" alt="Peppa">
+  <img src="../../assets/peppa/peppa-pig-title-logo.png" width="178" alt="Peppa">
   <div class="ttl">Animals</div>
-  <div style="display:flex;gap:12px;margin:12px 0;flex-wrap:wrap;justify-content:center">
-    <div style="background:#fff;border-radius:14px;padding:8px 12px;font-size:26px">cat</div>
-    <div style="background:#fff;border-radius:14px;padding:8px 12px;font-size:26px">dog</div>
-    <div style="background:#fff;border-radius:14px;padding:8px 12px;font-size:26px">fish</div>
-    <div style="background:#fff;border-radius:14px;padding:8px 12px;font-size:26px">bird</div>
-    <div style="background:#fff;border-radius:14px;padding:8px 12px;font-size:26px">duck</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:460px;margin:12px 0">
+    <svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg>
+    <svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/></svg>
+    <svg width="86" height="86" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/></svg>
+    <svg width="86" height="86" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg>
+    <svg width="86" height="86" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg>
   </div>
-  <div class="sub">I see a cat! I see a dog!</div>
 </div>
 
-<div class="sl bg-sky">
-  <img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="140" alt="Peppa">
-  <div class="ttl" style="font-size:46px">Hello!</div>
-  <div class="sent" style="font-size:34px;margin:14px 0">Let's visit animal friends!</div>
-  <div class="sub" style="font-size:24px">Can you say: I see a ___!</div>
-</div>
+<div class="sl bg-morning">
+  <img src="../../assets/peppa/peppa_pig_bicycle.png" width="170" alt="Peppa bike">
+  <div class="ttl">Animal Parade</div>
+  <div class="sent" style="margin-top:14px">Let's find 5 friends!</div>
+  </div>
 
 <div class="sl bg-cat">
-  <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="70" alt="Candy Cat"><div class="bbl">I see a cat!</div></div>
-  <div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/><circle cx="65" cy="88" r="5" fill="#fff"/><circle cx="95" cy="88" r="5" fill="#fff"/><circle cx="66" cy="89" r="2.5" fill="#333"/><circle cx="96" cy="89" r="2.5" fill="#333"/><polygon points="80,98 74,104 86,104" fill="#f06292"/><path d="M72 112 Q80 119 88 112" stroke="#8d4b20" stroke-width="3" fill="none" stroke-linecap="round"/><line x1="40" y1="96" x2="60" y2="98" stroke="#8d4b20" stroke-width="3"/><line x1="120" y1="96" x2="100" y2="98" stroke="#8d4b20" stroke-width="3"/></svg></div>
-  <div class="word" style="color:#f4a460">cat</div>
-  <div class="sent">I see a cat!</div>
+  <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat"><div class="bbl">I see a cat!</div></div>
+  <div class="obj-wrap"><svg width="205" height="205" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/><circle cx="65" cy="88" r="5" fill="#fff"/><circle cx="95" cy="88" r="5" fill="#fff"/><circle cx="66" cy="89" r="2.5" fill="#333"/><circle cx="96" cy="89" r="2.5" fill="#333"/><polygon points="80,98 74,104 86,104" fill="#f06292"/><path d="M72 112 Q80 119 88 112" stroke="#8d4b20" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
+  <div class="word" style="color:#e79a4c">cat</div>
 </div>
 
 <div class="sl bg-dog">
-  <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" width="70" alt="Daddy Pig"><div class="bbl">I see a dog!</div></div>
-  <div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="80" cy="105" rx="18" ry="12" fill="#d7b899"/><circle cx="66" cy="86" r="5" fill="#fff"/><circle cx="94" cy="86" r="5" fill="#fff"/><circle cx="66" cy="87" r="2.5" fill="#333"/><circle cx="94" cy="87" r="2.5" fill="#333"/><circle cx="80" cy="102" r="4" fill="#333"/><path d="M72 112 Q80 118 88 112" stroke="#6d4c41" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="118" cy="120" rx="8" ry="5" fill="#ff7043"/></svg></div>
+  <div class="pr"><img src="../../assets/peppa/daddy-pig-walking.png" alt="Daddy Pig"><div class="bbl">I see a dog!</div></div>
+  <div class="obj-wrap"><svg width="205" height="205" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="80" cy="105" rx="18" ry="12" fill="#d7b899"/><circle cx="66" cy="86" r="5" fill="#fff"/><circle cx="94" cy="86" r="5" fill="#fff"/><circle cx="66" cy="87" r="2.5" fill="#333"/><circle cx="94" cy="87" r="2.5" fill="#333"/><circle cx="80" cy="102" r="4" fill="#333"/><path d="M72 112 Q80 118 88 112" stroke="#6d4c41" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
   <div class="word" style="color:#8d6e63">dog</div>
-  <div class="sent">I see a dog!</div>
 </div>
 
 <div class="sl bg-fish">
-  <div class="pr"><img src="../../assets/peppa/george-standing.png" width="70" alt="George"><div class="bbl">I see a fish!</div></div>
-  <div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/><circle cx="58" cy="80" r="5" fill="#fff"/><circle cx="59" cy="81" r="2.5" fill="#333"/><path d="M60 95 Q76 104 92 95" stroke="#1565c0" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M38 75 Q76 50 112 75" stroke="#64b5f6" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M38 95 Q76 118 112 95" stroke="#64b5f6" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
+  <div class="pr"><img src="../../assets/peppa/george_pig_bubbles.png" alt="George"><div class="bbl">I see a fish!</div></div>
+  <div class="obj-wrap"><svg width="205" height="205" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/><circle cx="58" cy="80" r="5" fill="#fff"/><circle cx="59" cy="81" r="2.5" fill="#333"/><path d="M60 95 Q76 104 92 95" stroke="#1565c0" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M38 75 Q76 50 112 75" stroke="#64b5f6" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
   <div class="word" style="color:#1e88e5">fish</div>
-  <div class="sent">I see a fish!</div>
 </div>
 
 <div class="sl bg-bird">
-  <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" width="70" alt="Mummy Pig"><div class="bbl">I see a bird!</div></div>
-  <div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/><circle cx="104" cy="64" r="4" fill="#fff"/><circle cx="105" cy="65" r="2" fill="#333"/><ellipse cx="74" cy="94" rx="16" ry="12" fill="#ffca28"/><path d="M54 106 Q72 126 94 112" stroke="#fb8c00" stroke-width="4" fill="none" stroke-linecap="round"/><line x1="66" y1="122" x2="66" y2="136" stroke="#ef6c00" stroke-width="4" stroke-linecap="round"/><line x1="86" y1="120" x2="86" y2="134" stroke="#ef6c00" stroke-width="4" stroke-linecap="round"/></svg></div>
-  <div class="word" style="color:#fbc02d">bird</div>
-  <div class="sent">I see a bird!</div>
+  <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig"><div class="bbl">I see a bird!</div></div>
+  <div class="obj-wrap"><svg width="205" height="205" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/><circle cx="104" cy="64" r="4" fill="#fff"/><circle cx="105" cy="65" r="2" fill="#333"/><ellipse cx="74" cy="94" rx="16" ry="12" fill="#ffca28"/><path d="M54 106 Q72 126 94 112" stroke="#fb8c00" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+  <div class="word" style="color:#f2bf22">bird</div>
 </div>
 
 <div class="sl bg-duck">
-  <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="70" alt="Emily"><div class="bbl">I see a duck!</div></div>
-  <div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/><circle cx="103" cy="71" r="4" fill="#fff"/><circle cx="104" cy="72" r="2" fill="#333"/><path d="M52 96 Q74 74 100 90" stroke="#fdd835" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M58 120 Q68 130 80 120" stroke="#f57f17" stroke-width="4" fill="none" stroke-linecap="round"/><line x1="70" y1="122" x2="70" y2="136" stroke="#f57f17" stroke-width="4" stroke-linecap="round"/><line x1="84" y1="122" x2="84" y2="136" stroke="#f57f17" stroke-width="4" stroke-linecap="round"/></svg></div>
-  <div class="word" style="color:#fbc02d">duck</div>
-  <div class="sent">I see a duck!</div>
+  <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily"><div class="bbl">I see a duck!</div></div>
+  <div class="obj-wrap"><svg width="205" height="205" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/><circle cx="103" cy="71" r="4" fill="#fff"/><circle cx="104" cy="72" r="2" fill="#333"/><path d="M52 96 Q74 74 100 90" stroke="#fdd835" stroke-width="8" fill="none" stroke-linecap="round"/></svg></div>
+  <div class="word" style="color:#e8c424">duck</div>
 </div>
 
-<div class="sl bg-lav">
-  <div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="70" alt="Peppa Fairy"><div class="bbl">Tap to find animals!</div></div>
-  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
-    <div class="reveal-box" id="rb0" onclick="reveal(0)"><svg width="92" height="92" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg></div>
-    <div class="reveal-box" id="rb1" onclick="reveal(1)"><svg width="92" height="92" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/></svg></div>
-    <div class="reveal-box" id="rb2" onclick="reveal(2)"><svg width="92" height="92" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/></svg></div>
-    <div class="reveal-box" id="rb3" onclick="reveal(3)"><svg width="92" height="92" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg></div>
-    <div class="reveal-box" id="rb4" onclick="reveal(4)"><svg width="92" height="92" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg></div>
+<div class="sl bg-hide">
+  <div class="pr"><img src="../../assets/peppa/peppa_pig_princess_fairy.png" width="86" alt="Peppa fairy"><div class="bbl">Who is hiding?</div></div>
+  <div class="hide-wrap">
+    <div class="hide-box" id="hb0" onclick="reveal(0)"><svg width="102" height="102" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg></div>
+    <div class="hide-box" id="hb1" onclick="reveal(1)"><svg width="102" height="102" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/></svg></div>
+    <div class="hide-box" id="hb2" onclick="reveal(2)"><svg width="102" height="102" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/></svg></div>
+    <div class="hide-box" id="hb3" onclick="reveal(3)"><svg width="102" height="102" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg></div>
+    <div class="hide-box" id="hb4" onclick="reveal(4)"><svg width="102" height="102" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg></div>
   </div>
   <div class="sent" id="revSent">Tap a box!</div>
 </div>
 
 <div class="sl bg-pink">
-  <div class="pr"><img src="../../assets/peppa/peppa-family-group-outdoors.png" width="130" alt="Peppa Family"><div class="bbl">I see so many animals!</div></div>
-  <div class="ttl" style="font-size:40px">All Together</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:430px;margin:10px auto">
-    <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg><div style="font-size:22px;font-weight:800;color:#2c3e50">cat</div></div>
-    <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/></svg><div style="font-size:22px;font-weight:800;color:#2c3e50">dog</div></div>
-    <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/></svg><div style="font-size:22px;font-weight:800;color:#2c3e50">fish</div></div>
-    <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg><div style="font-size:22px;font-weight:800;color:#2c3e50">bird</div></div>
-    <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg><div style="font-size:22px;font-weight:800;color:#2c3e50">duck</div></div>
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="178" style="margin-bottom:6px" alt="Peppa family">
+  <div class="ttl" style="font-size:56px">Animal Team!</div>
+  <div class="grid">
+    <div class="gi"><svg width="108" height="108" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg><div>cat</div></div>
+    <div class="gi"><svg width="108" height="108" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#b08968"/><ellipse cx="44" cy="84" rx="14" ry="22" fill="#8d6e63"/><ellipse cx="116" cy="84" rx="14" ry="22" fill="#8d6e63"/></svg><div>dog</div></div>
+    <div class="gi"><svg width="108" height="108" viewBox="0 0 160 160"><ellipse cx="76" cy="85" rx="48" ry="32" fill="#42a5f5"/><polygon points="116,85 146,62 146,108" fill="#1e88e5"/></svg><div>fish</div></div>
+    <div class="gi"><svg width="108" height="108" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg><div>bird</div></div>
+    <div class="gi"><svg width="108" height="108" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg><div>duck</div></div>
   </div>
 </div>
 
-<div class="sl bg-meadow">
-  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="150" alt="Peppa and George">
+<div class="sl bg-finish">
+  <img src="../../assets/peppa/george-superhero-costume.png" width="150" alt="George superhero">
   <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Well Done!</div>
-  <div class="sub" style="color:rgba(255,255,255,.88)">I see a cat! I see a dog!</div>
-  <div class="sub" style="color:rgba(255,255,255,.88)">I see a fish, bird, and duck!</div>
+  <div class="sub" style="color:rgba(255,255,255,.92)">I see a cat, dog, fish, bird, duck!</div>
 </div>
 </div>
 
@@ -142,26 +146,26 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <script>
 var N={
-"0":"Sentence: I see a ___! · 5 new animals · big and clear speaking",
-"1":"Story intro: visit animal friends with Peppa",
-"2":"cat: I see a cat! repeat 3 times",
-"3":"dog: I see a dog! repeat 3 times",
-"4":"fish: I see a fish! repeat 3 times",
-"5":"bird: I see a bird! repeat 3 times",
-"6":"duck: I see a duck! repeat 3 times",
-"7":"Tap to reveal, ask child before opening",
-"8":"Point random animal, ask fast rounds",
-"9":"Celebrate and say all 5 animals"
+"0":"Picture-first intro · no sentence prompt on first page",
+"1":"Action story with pictures only · sentence starts from word pages",
+"2":"cat: I see a cat! repeat 3x and point around room",
+"3":"dog: I see a dog! repeat 3x",
+"4":"fish: I see a fish! pretend to swim",
+"5":"bird: I see a bird! flap hands",
+"6":"duck: I see a duck! do duck walk",
+"7":"Who is hiding: ask before each tap",
+"8":"Fast round: random point + ask I see a ___?",
+"9":"Celebrate all 5 words"
 };
 var c=0,t=10,o=false;
 var words=["cat","dog","fish","bird","duck"];
-var colors=["#f4a460","#8d6e63","#1e88e5","#fbc02d","#fdd835"];
-function reveal(j){
-  var b=document.getElementById('rb'+j);
+var bg=["#f4a46022","#8d6e6322","#1e88e522","#fbc02d22","#fdd83522"];
+function reveal(i){
+  var b=document.getElementById('hb'+i);
   if(b.classList.contains('on'))return;
   b.classList.add('on');
-  b.style.background=colors[j]+'22';
-  document.getElementById('revSent').textContent='I see a '+words[j]+'!';
+  b.style.background=bg[i];
+  document.getElementById('revSent').textContent='I see a '+words[i]+'!';
 }
 function goTo(n){
   if(n<0||n>=t)return;
@@ -171,7 +175,7 @@ function goTo(n){
   document.getElementById('pg').textContent=(c+1)+'/'+t;
   document.getElementById('pb').disabled=c===0;
   var b=document.getElementById('xb');
-  if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+  if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}
   document.getElementById('B').innerHTML=N[c]||'';
 }
 function go(d){goTo(c+d)}
