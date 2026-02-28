@@ -97,7 +97,7 @@ function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.clas
 // M0: Start
 function initM0(){
   document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'peppa-pig-standing-waving.png" width="140">'+
+    '<img src="'+PP+'peppa-pig-happy-standing.png" width="140">'+
     '<div class="pr"><div class="bbl">Help me find all the colors!</div></div>'+
     '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(_,i){return svgOf(i,65)}).join('')+'</div>'+
     '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
@@ -109,7 +109,7 @@ var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
   document.getElementById('m1').innerHTML=
-    '<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="60"><div class="bbl">Tap to find colors!</div></div>'+
+    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="60"><div class="bbl">Tap to find colors!</div></div>'+
     '<div class="g3">'+W.map(function(w,i){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
         svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
@@ -136,7 +136,7 @@ function initM2(){
 function renderPJ(){
   if(pjI>=W.length){
     setI('Splash!','太厉害了！全部跳对啦！',stars(5,5));
-    document.getElementById('m2').innerHTML='<img src="'+PP+'peppa-george-jumping-muddy-puddles.png" width="140"><div style="font-size:24px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 2px 4px rgba(0,0,0,.2)">All puddles jumped!</div>';
+    document.getElementById('m2').innerHTML='<img src="'+PP+'peppa-and-george-ooo.png" width="140"><div style="font-size:24px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 2px 4px rgba(0,0,0,.2)">All puddles jumped!</div>';
     return;
   }
   var tgt=W[pjOrd[pjI]];
@@ -205,7 +205,7 @@ function initM4(){
   pairs.forEach(function(w,i){fCards.push({wi:i,w:w.w,clr:w.clr});fCards.push({wi:i,w:w.w,clr:w.clr})});
   fCards.sort(function(){return Math.random()-.5});
   document.getElementById('m4').innerHTML=
-    '<div class="pr"><img src="'+PP+'rebecca-rabbit-standing.png" width="60"><div class="bbl">Find the pairs!</div></div>'+
+    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="60"><div class="bbl">Find the pairs!</div></div>'+
     '<div class="flip-grid">'+fCards.map(function(c,i){
       return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
         '<div class="ff">\ud83d\udc37</div>'+

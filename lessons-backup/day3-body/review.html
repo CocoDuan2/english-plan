@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 3 Review - Body</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:linear-gradient(135deg,#fce4ec 0%,#e8eaf6 50%,#e0f7fa 100%);display:flex;flex-direction:column;align-items:center;padding-bottom:70px}
+.top-bar{position:sticky;top:0;width:100%;max-width:500px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:2px solid rgba(0,0,0,.06);border-radius:0 0 12px 12px}
+.top-bar .title{font-size:16px;font-weight:700;color:#e67e22;display:flex;align-items:center;gap:6px}
+.top-bar .dots{display:flex;gap:6px}
+.top-bar .dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:.3s}
+.top-bar .dot.active{background:#e67e22;transform:scale(1.2)}.top-bar .dot.done{background:#f39c12}
+.main{width:100%;max-width:500px;flex:1;overflow:auto;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center}
+.module{display:none;flex-direction:column;align-items:center;flex:1;width:100%}.module.active{display:flex}
+.instr-banner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 14px;margin-bottom:8px;width:100%;max-width:500px}
+.instr-en{font-size:22px;font-weight:700;color:#2d3436;line-height:1.3}
+.instr-zh{font-size:17px;color:rgba(0,0,0,.5);margin-top:2px;line-height:1.3}
+.instr-stars{display:flex;gap:5px;margin-top:4px}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;justify-items:center}
+.card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;min-height:110px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.95)}
+.card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333}
+.learn-grid{display:flex;flex-wrap:wrap;gap:12px;width:100%;justify-content:center}
+.learn-card{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;width:calc(33.33% - 8px);min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.08);transition:transform .2s}
+.learn-card:active{transform:scale(.95)}
+.learn-card .label{font-size:18px;font-weight:700;margin-top:4px;color:#333;opacity:0;transition:opacity .3s}
+.learn-card.revealed .label{opacity:1}
+.learn-card:not(.revealed) .icon img{filter:grayscale(1) brightness(1.1)}
+.learn-card.revealed .icon img{filter:none;animation:popIn .4s ease}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="title" id="topTitle">👃 Day 3 · Body Review</div>
+  <div class="dots" id="dots"></div>
+</div>
+<div class="main" id="main">
+<div class="instr-banner" id="instrBanner"></div>
+
+<div class="module active" id="mod0" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
+  <div style="display:flex;gap:12px" id="startIcons"></div>
+  <div style="font-size:32px;font-weight:700;color:#2d3436">准备好了吗？</div>
+  <div style="font-size:18px;color:rgba(0,0,0,.45)">点击开始学身体部位！</div>
+  <button onclick="getAudioCtx();goModule(1);this.parentElement.style.display='none'" style="font-size:28px;padding:16px 50px;border-radius:50px;border:none;background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(230,126,34,.35);letter-spacing:2px">开始玩 ▶</button>
+</div>
+
+<div class="module" id="mod1"></div>
+<div class="module" id="mod2"></div>
+<div class="module" id="mod3"></div>
+<div class="module" id="mod4"></div>
+<div class="module" id="mod5"></div>
+<div class="module" id="mod6">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">
+    <div id="completeEmoji" style="animation:popIn .6s ease"></div>
+    <div style="font-size:24px;font-weight:700;color:#fff;margin-top:12px;text-shadow:1px 1px 3px rgba(0,0,0,.2)">Great Job, Ranran!</div>
+    <div style="font-size:16px;color:rgba(255,255,255,.85);margin-top:8px">身体部位全部学会啦！</div>
+    <button class="nbtn nnext" style="margin-top:20px" onclick="goModule(1)">🔄 Play Again</button>
+    <button class="nbtn" style="margin-top:10px;background:rgba(255,255,255,.2);color:#fff;border:none" onclick="location.href='../../index.html'">🏠 Home</button>
+  </div>
+</div>
+</div>
+
+<div class="nav-bar">
+  <button class="nbtn nprev" id="navPrev" onclick="goPrev()">◀ Back</button>
+  <span class="nav-progress" id="navProgress">1/5</span>
+  <button class="nbtn nnext" id="navNext" onclick="goNext()">Next ▶</button>
+</div>
+
+<style>
+.face-builder{position:relative;width:100%;max-width:300px;margin:0 auto}
+.face-canvas{position:relative;width:220px;height:260px;margin:0 auto;border:3px dashed #ccc;border-radius:50%;background:rgba(255,255,255,.3)}
+.face-slot{position:absolute;border:2px dashed rgba(0,0,0,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.face-slot.filled{border-color:transparent;animation:popIn .4s ease}
+.face-slot.highlight{border-color:#e67e22;background:rgba(230,126,34,.12)}
+.fs-head{top:-8px;left:50%;transform:translateX(-50%);width:70px;height:70px}
+.fs-eyes{top:72px;left:50%;transform:translateX(-50%);width:80px;height:50px;border-radius:30%}
+.fs-ears{top:90px;left:8px;width:40px;height:45px}
+.fs-ears2{top:90px;right:8px;width:40px;height:45px}
+.fs-nose{top:135px;left:50%;transform:translateX(-50%);width:45px;height:45px}
+.fs-mouth{top:185px;left:50%;transform:translateX(-50%);width:65px;height:40px;border-radius:30%}
+.part-tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px;width:100%}
+.part-card{background:rgba(255,255,255,.9);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;align-items:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .2s,opacity .3s;min-width:70px}
+.part-card:active{transform:scale(.92)}
+.part-card .pc-label{font-size:13px;font-weight:700;color:#555;margin-top:2px}
+.part-card.used{opacity:.3;pointer-events:none}
+.connect-wrap{display:flex;gap:24px;width:100%;justify-content:center;align-items:flex-start}
+.connect-col{display:flex;flex-direction:column;gap:12px;align-items:center}
+.conn-item{background:rgba(255,255,255,.9);border-radius:12px;padding:10px 16px;min-width:90px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .2s,border .2s;border:3px solid transparent;font-size:20px;font-weight:700;color:#2c3e50}
+.conn-item:active{transform:scale(.95)}
+.conn-item.selected{border-color:#e67e22;background:#fff3e0}
+.conn-item.matched{border-color:#27ae60;background:#e8f5e9;opacity:.6;pointer-events:none}
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:center;gap:12px;padding:10px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid rgba(0,0,0,.06);z-index:100}
+.nbtn{padding:10px 24px;border:none;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,opacity .3s}
+.nbtn:active{transform:scale(.93)}
+.nprev{background:#fff;color:#e67e22;border:2px solid #e67e22}
+.nnext{color:#fff;background:linear-gradient(135deg,#f39c12,#e67e22);box-shadow:0 4px 15px rgba(230,126,34,.4)}
+.nbtn:disabled{opacity:.3;pointer-events:none}
+.nav-progress{font-size:14px;color:#666;align-self:center;font-weight:600;min-width:40px;text-align:center}
+.star{opacity:.3;transition:opacity .3s;line-height:1}.star.earned{opacity:1;animation:popIn .4s ease}
+.star-burst{position:fixed;pointer-events:none;z-index:999}
+.star-particle{position:absolute;animation:starFly 1s ease-out forwards}
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes starFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media(min-width:768px){
+  .top-bar,.main{max-width:800px}
+  .card .icon img,.learn-card .icon img{width:120px!important;height:120px!important}
+  .face-canvas{width:280px;height:320px}
+  .part-card img{width:60px!important;height:60px!important}
+  .conn-item{font-size:24px;min-width:110px;padding:14px 20px}
+}
+</style>
+<script>
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
+function twimg(c,s){return '<img src="'+TW+c+'.svg" width="'+s+'" height="'+s+'" alt="">';}
+
+var BODY=[
+  {name:'head',code:'1f600'},
+  {name:'eyes',code:'1f440'},
+  {name:'ears',code:'1f442'},
+  {name:'nose',code:'1f443'},
+  {name:'mouth',code:'1f444'}
+];
+var REVIEW=[
+  {name:'cat',code:'1f431'},
+  {name:'duck',code:'1f986'},
+  {name:'red',code:null,clr:'#e74c3c'}
+];
+function rIcon(item,sz){
+  return item.code?twimg(item.code,sz):'<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+item.clr+';display:inline-block"></div>';
+}
+
+var MODULES=6,currentModule=0;
+var reviewRound=0,reviewOrder=[],reviewBusy=false;
+var learnRevealed=0,learnBusy=false;
+var fbTarget=0,fbOrder=[],fbBusy=false,fbScore=0;
+var listenRound=0,listenOrder=[],listenBusy=false;
+var connSelected=null,connMatched=0,connBusy=false;
+
+// === AUDIO ===
+var audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function speak(text,cb){
+  var isW=text.trim().indexOf(' ')===-1;
+  var url=isW?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2'
+    :'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web';
+  var a=new Audio(url);var done=false;
+  var fin=function(){if(!done){done=true;if(cb)setTimeout(cb,50);}};
+  var saf=setTimeout(fin,4000);
+  a.onended=function(){clearTimeout(saf);fin();};
+  a.onerror=function(){clearTimeout(saf);fin();};
+  a.play().catch(fin);
+}
+function playCorrect(){var c=getAudioCtx();[523.25,659.25].forEach(function(f,i){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;var t=c.currentTime+i*.15;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.start(t);o.stop(t+.15);});}
+function playWrong(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.value=200;g.gain.setValueAtTime(.1,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.start();o.stop(c.currentTime+.2);}
+function playPop(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=800;g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.08);o.start();o.stop(c.currentTime+.08);}
+function playStar(){var c=getAudioCtx();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(1200,c.currentTime);o.frequency.linearRampToValueAtTime(1800,c.currentTime+.2);g.gain.setValueAtTime(.25,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.start();o.stop(c.currentTime+.2);}
+function setInstr(en,zh,sh){var b=document.getElementById('instrBanner');var h='<div class="instr-en">'+en+'</div>';if(zh)h+='<div class="instr-zh">'+zh+'</div>';if(sh)h+='<div class="instr-stars">'+sh+'</div>';b.innerHTML=h;}
+function starsBar(t,e){var h='';for(var i=0;i<t;i++)h+='<span class="star'+(i<e?' earned':'')+'">'+twimg('2b50',18)+'</span>';return h;}
+function burstStars(x,y){playStar();var c=document.createElement('div');c.className='star-burst';c.style.left=x+'px';c.style.top=y+'px';var codes=['2b50','1f31f','2728','1f4ab'];for(var i=0;i<8;i++){var s=document.createElement('div');s.className='star-particle';var a=(i/8)*Math.PI*2;var d=60+Math.random()*40;s.style.setProperty('--tx',Math.cos(a)*d+'px');s.style.setProperty('--ty',Math.sin(a)*d+'px');s.innerHTML=twimg(codes[i%4],20);c.appendChild(s);}document.body.appendChild(c);setTimeout(function(){c.remove();},1100);}
+function shuffle(a){var r=a.slice();for(var i=r.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=r[i];r[i]=r[j];r[j]=t;}return r;}
+
+// === NAV ===
+function updateDots(){var d=document.getElementById('dots');d.innerHTML='';for(var i=1;i<=5;i++){var e=document.createElement('div');e.className='dot'+(i===currentModule?' active':'')+(i<currentModule?' done':'');d.appendChild(e);}}
+function goModule(n){currentModule=n;document.querySelectorAll('.module').forEach(function(m){m.classList.remove('active');m.style.display='';});var t=document.getElementById('mod'+n);if(t)t.classList.add('active');updateDots();if(n===1)startReview();if(n===2)initLearn();if(n===3)startFaceBuilder();if(n===4)startListen();if(n===5)startConnect();updateNav();}
+function updateNav(){document.getElementById('navPrev').disabled=(currentModule<=1);document.getElementById('navNext').textContent=(currentModule>=5)?'Done!':'Next ▶';document.getElementById('navProgress').textContent=Math.min(currentModule,5)+'/5';document.querySelector('.nav-bar').style.display=(currentModule>=6)?'none':'';}
+function goNext(){if(currentModule<6)goModule(currentModule+1);}
+function goPrev(){if(currentModule>1)goModule(currentModule-1);}
+
+// === MODULE 1: Review Warm-up (cat, duck, red) ===
+function startReview(){reviewRound=0;reviewOrder=shuffle([0,1,2]);reviewBusy=false;buildReviewGrid();showReviewPrompt();}
+function buildReviewGrid(){var g=document.getElementById('mod1');g.innerHTML='<div class="card-grid" id="reviewGrid"></div>';var grid=document.getElementById('reviewGrid');shuffle(REVIEW).forEach(function(r){var c=document.createElement('div');c.className='card';c.innerHTML='<div class="icon">'+rIcon(r,80)+'</div><div class="label">'+r.name+'</div>';c.onclick=function(e){checkReview(c,r,e);};grid.appendChild(c);});}
+function showReviewPrompt(){if(reviewRound>=3){setInstr('Great memory! 🌟','太厉害了，全部找对啦！',starsBar(3,3));return;}var t=REVIEW[reviewOrder[reviewRound]];setInstr('Find: '+t.name+'!','点一点，哪个是 '+t.name+'？',starsBar(3,reviewRound));speak('Find '+t.name);}
+function checkReview(card,item,e){if(reviewRound>=3){speak(item.name);return;}if(reviewBusy)return;var t=REVIEW[reviewOrder[reviewRound]];if(item.name===t.name){reviewBusy=true;var r=card.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);reviewRound++;setInstr('Find: '+t.name+'!','答对啦！这是 '+t.name+'！',starsBar(3,reviewRound));playCorrect();speak(t.name);setTimeout(function(){reviewBusy=false;buildReviewGrid();showReviewPrompt();},1200);}else{speak(item.name);playWrong();card.style.animation='shake .4s ease';setTimeout(function(){card.style.animation='';},500);}}
+// === MODULE 2: Tap to Learn ===
+function initLearn(){learnRevealed=0;learnBusy=false;setInstr('Tap to learn! 👆','点一点卡片，学习新单词吧！');var g=document.getElementById('mod2');g.innerHTML='<div class="learn-grid" id="learnGrid"></div>';var grid=document.getElementById('learnGrid');BODY.forEach(function(a,i){var c=document.createElement('div');c.className='learn-card';c.innerHTML='<div class="icon">'+twimg(a.code,80)+'</div><div class="label">'+a.name+'</div>';c.onclick=function(e){revealLearn(c,i,e);};grid.appendChild(c);});}
+function revealLearn(el,idx,e){if(el.classList.contains('revealed')){speak(BODY[idx].name);return;}if(learnBusy)return;learnBusy=true;el.classList.add('revealed');learnRevealed++;playPop();var r=el.getBoundingClientRect();burstStars(r.left+r.width/2,r.top+r.height/2);speak(BODY[idx].name,function(){learnBusy=false;if(learnRevealed>=BODY.length)setInstr('All learned! 🎉','全部学会啦，你真棒！');else setInstr('Tap to learn! 👆','还有卡片没翻开哦，继续点！');});}
+// === MODULE 3: Face Builder ===
+function startFaceBuilder(){
+  fbTarget=0;fbScore=0;fbBusy=false;
+  fbOrder=shuffle([0,1,2,3,4]);
+  var g=document.getElementById('mod3');
+  g.innerHTML='<div class="face-builder">'+
+    '<div class="face-canvas" id="faceCanvas">'+
+      '<div class="face-slot fs-head" id="slot-head"></div>'+
+      '<div class="face-slot fs-eyes" id="slot-eyes"></div>'+
+      '<div class="face-slot fs-ears" id="slot-ears"></div>'+
+      '<div class="face-slot fs-ears2" id="slot-ears2"></div>'+
+      '<div class="face-slot fs-nose" id="slot-nose"></div>'+
+      '<div class="face-slot fs-mouth" id="slot-mouth"></div>'+
+    '</div>'+
+    '<div class="part-tray" id="partTray"></div>'+
+  '</div>';
+  buildPartTray();
+  showFbPrompt();
+}
+function buildPartTray(){
+  var tray=document.getElementById('partTray');
+  tray.innerHTML='';
+  shuffle(BODY).forEach(function(b){
+    var pc=document.createElement('div');
+    pc.className='part-card';
+    pc.setAttribute('data-name',b.name);
+    pc.innerHTML=twimg(b.code,50)+'<div class="pc-label">'+b.name+'</div>';
+    pc.onclick=function(e){pickPart(pc,b,e);};
+    tray.appendChild(pc);
+  });
+}
+function showFbPrompt(){
+  if(fbTarget>=5){
+    setInstr('Face complete! 🎉','太厉害了，脸拼好啦！',starsBar(5,5));
+    return;
+  }
+  var target=BODY[fbOrder[fbTarget]];
+  // highlight the target slot
+  document.querySelectorAll('.face-slot').forEach(function(s){s.classList.remove('highlight');});
+  var slotId='slot-'+target.name;
+  var slot=document.getElementById(slotId);
+  if(slot)slot.classList.add('highlight');
+  if(target.name==='ears'){var s2=document.getElementById('slot-ears2');if(s2)s2.classList.add('highlight');}
+  setInstr('Find '+target.name+'! '+twimg(target.code,24),'找到 '+target.name+'！点它放到脸上！',starsBar(5,fbScore));
+  speak(target.name);
+}
+function pickPart(pc,bodyItem,e){
+  if(fbTarget>=5||fbBusy)return;
+  var target=BODY[fbOrder[fbTarget]];
+  if(bodyItem.name===target.name){
+    fbBusy=true;
+    pc.classList.add('used');
+    // fill the slot
+    var slot=document.getElementById('slot-'+target.name);
+    if(slot){slot.innerHTML=twimg(bodyItem.code,45);slot.classList.add('filled');slot.classList.remove('highlight');}
+    if(target.name==='ears'){var s2=document.getElementById('slot-ears2');if(s2){s2.innerHTML=twimg(bodyItem.code,35);s2.classList.add('filled');s2.classList.remove('highlight');}}
+    var r=pc.getBoundingClientRect();
+    burstStars(r.left+r.width/2,r.top+r.height/2);
+    fbScore++;fbTarget++;
+    setInstr('Find '+target.name+'!','答对啦！这是 '+target.name+'！',starsBar(5,fbScore));
+    playCorrect();
+    speak(target.name,function(){
+      fbBusy=false;
+      showFbPrompt();
+    });
+  } else {
+    playWrong();
+    speak(bodyItem.name);
+    pc.style.animation='shake .4s ease';
+    setTimeout(function(){pc.style.animation='';},500);
+  }
+}
+// === MODULE 4: Listen & Find ===
+function startListen(){
+  listenRound=0;listenBusy=false;
+  listenOrder=shuffle([0,1,2,3,4]);
+  buildListenGrid();
+  showListenPrompt();
+}
+function buildListenGrid(){
+  var g=document.getElementById('mod4');
+  g.innerHTML='<div class="card-grid" id="listenGrid"></div>';
+  var grid=document.getElementById('listenGrid');
+  shuffle(BODY).forEach(function(a){
+    var c=document.createElement('div');
+    c.className='card';
+    c.innerHTML='<div class="icon">'+twimg(a.code,80)+'</div><div class="label">'+a.name+'</div>';
+    c.onclick=function(e){checkListen(c,a,e);};
+    grid.appendChild(c);
+  });
+}
+function showListenPrompt(){
+  if(listenRound>=5){
+    setInstr('All found! 🎉','全部找到啦，耳朵真灵！',starsBar(5,5));
+    return;
+  }
+  var t=BODY[listenOrder[listenRound]];
+  setInstr('Find the '+t.name+'! 🔍','听一听，哪个是 '+t.name+'？点它！',starsBar(5,listenRound));
+  speak('Find the '+t.name);
+}
+function checkListen(card,animal,e){
+  if(listenRound>=5||listenBusy)return;
+  var t=BODY[listenOrder[listenRound]];
+  if(animal.name===t.name){
+    listenBusy=true;
+    var r=card.getBoundingClientRect();
+    burstStars(r.left+r.width/2,r.top+r.height/2);
+    listenRound++;
+    setInstr('Find the '+t.name+'!','找对啦！这是 '+t.name+'！',starsBar(5,listenRound));
+    playCorrect();
+    speak(t.name,function(){
+      listenBusy=false;
+      buildListenGrid();
+      showListenPrompt();
+    });
+  } else {
+    playWrong();
+    speak(animal.name);
+    card.style.animation='shake .4s ease';
+    setTimeout(function(){card.style.animation='';},500);
+  }
+}
+// === MODULE 5: Connect (word ↔ picture matching) ===
+function startConnect(){
+  connSelected=null;connMatched=0;connBusy=false;
+  setInstr('Match them! 🔗','左边是单词，右边是图片，点一点配对！',starsBar(5,0));
+  var g=document.getElementById('mod5');
+  var wordOrder=shuffle(BODY.slice());
+  var picOrder=shuffle(BODY.slice());
+  var h='<div class="connect-wrap">';
+  h+='<div class="connect-col" id="connWords">';
+  wordOrder.forEach(function(b){
+    h+='<div class="conn-item conn-word" data-name="'+b.name+'" onclick="pickConn(this,\'word\',\''+b.name+'\')">'+b.name+'</div>';
+  });
+  h+='</div><div class="connect-col" id="connPics">';
+  picOrder.forEach(function(b){
+    h+='<div class="conn-item conn-pic" data-name="'+b.name+'" onclick="pickConn(this,\'pic\',\''+b.name+'\')">'+twimg(b.code,50)+'</div>';
+  });
+  h+='</div></div>';
+  g.innerHTML=h;
+}
+function pickConn(el,type,name){
+  if(el.classList.contains('matched')||connBusy)return;
+  // click already-matched: replay sound
+  if(!connSelected){
+    // first pick
+    document.querySelectorAll('.conn-item').forEach(function(e){e.classList.remove('selected');});
+    el.classList.add('selected');
+    connSelected={el:el,type:type,name:name};
+    speak(name);
+    return;
+  }
+  // second pick — must be different column
+  if(connSelected.type===type){
+    connSelected.el.classList.remove('selected');
+    el.classList.add('selected');
+    connSelected={el:el,type:type,name:name};
+    speak(name);
+    return;
+  }
+  // check match
+  if(connSelected.name===name){
+    connBusy=true;
+    el.classList.add('matched');
+    connSelected.el.classList.add('matched');
+    connMatched++;
+    var r=el.getBoundingClientRect();
+    burstStars(r.left+r.width/2,r.top+r.height/2);
+    setInstr('Match them! 🔗','配对成功！这是 '+name+'！',starsBar(5,connMatched));
+    playCorrect();
+    speak(name,function(){
+      connSelected=null;connBusy=false;
+      if(connMatched>=5){
+        setInstr('All matched! 🎉','全部配对成功，你太棒了！',starsBar(5,5));
+      }
+    });
+  } else {
+    playWrong();
+    el.style.animation='shake .4s ease';
+    connSelected.el.style.animation='shake .4s ease';
+    var prev=connSelected.el;
+    setTimeout(function(){
+      el.style.animation='';prev.style.animation='';
+      el.classList.remove('selected');prev.classList.remove('selected');
+    },500);
+    connSelected=null;
+  }
+}
+
+// === INIT ===
+document.getElementById('startIcons').innerHTML=BODY.map(function(a){return twimg(a.code,60);}).join('');
+document.getElementById('completeEmoji').innerHTML=twimg('1f389',90);
+</script>
+</body>
+</html>

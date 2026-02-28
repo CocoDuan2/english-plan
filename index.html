@@ -25,7 +25,7 @@ h1{font-size:26px;color:#555;margin:12px 0}
 </head>
 <body>
 <div class="container">
-  <img class="logo" src="assets/peppa/peppa-logo.png" alt="Peppa">
+  <img class="logo" src="assets/peppa/peppa-pig-title-logo.png" alt="Peppa">
   <h1>🌟 跟着佩琪学英语</h1>
   <div id="lessons"></div>
 </div>
@@ -39,7 +39,7 @@ lessons.forEach(function(l){
   g.innerHTML='<div class="day-label">Day '+l.day+' · '+l.theme+'</div>'; 
   var t=document.createElement('a');t.className='card';
   t.href='lessons/'+l.dir+'/teach.html';
-  t.innerHTML='<div class="icon"><img src="assets/peppa/peppa-pig-standing-waving.png" style="width:28px;height:28px;object-fit:contain"></div><div class="info"><div class="title">老师课件</div><div class="desc">'+l.words+'</div></div>'; 
+  t.innerHTML='<div class="icon"><img src="assets/peppa/peppa-pig-happy-standing.png" style="width:28px;height:28px;object-fit:contain"></div><div class="info"><div class="title">老师课件</div><div class="desc">'+l.words+'</div></div>'; 
   g.appendChild(t);
   var r=document.createElement('a');r.className='card';
   r.href='lessons/'+l.dir+'/review.html';

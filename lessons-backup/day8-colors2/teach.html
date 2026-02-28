@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 8 - Colors 2 (Teach)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{display:flex;flex-direction:column;align-items:center}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center;overflow-y:auto}
+.sl.on{display:flex}
+.bg0{background:linear-gradient(160deg,#fef9ef,#fdf2e9)}
+.bg1{background:linear-gradient(160deg,#e8f8f5,#d5f5e3)}
+.bg2{background:linear-gradient(160deg,#fdebd0,#f5eef8)}
+.bg3{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
+.bg4{background:linear-gradient(160deg,#f9ebea,#fdedec)}
+.bg5{background:linear-gradient(160deg,#f5eef8,#ebdef0)}
+.bg6{background:linear-gradient(160deg,#fef9ef,#fdebd0)}
+.sec{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.ttl{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
+.sub{font-size:18px;color:#7f8c8d;margin-bottom:16px}
+.wd{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
+.ks{font-size:30px;font-weight:600;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22}
+
+/* Color circle */
+.color-dot{border-radius:50%;display:inline-block;margin:6px 0}
+.color-dot-sm{width:52px;height:52px;border-radius:50%;display:inline-block}
+
+/* Flash grid */
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
+.fc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:100px}
+.fc img{width:52px;height:52px}
+.fc .fw{font-size:15px;font-weight:700;color:#2c3e50;margin-top:4px}
+
+/* Gift box */
+.gift-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:520px;margin:12px auto}
+.gift-box{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:pointer;min-height:140px;transition:transform .3s}
+.gift-box:active{transform:scale(.95)}
+.gift-box .gift-icon{font-size:60px;line-height:1;transition:transform .4s}
+.gift-box.opened .gift-icon{transform:scale(0);position:absolute}
+.gift-box .reveal{display:none;flex-direction:column;align-items:center;animation:popIn .5s ease}
+.gift-box.opened .reveal{display:flex}
+.gift-box .reveal .rw{font-size:18px;font-weight:700;color:#2c3e50;margin-top:6px}
+
+/* Color sort */
+.sort-area{display:flex;gap:16px;width:100%;max-width:560px;margin:10px auto;justify-content:center;flex-wrap:wrap}
+.sort-bucket{background:rgba(255,255,255,.7);border-radius:16px;padding:12px;min-width:100px;min-height:120px;display:flex;flex-direction:column;align-items:center;gap:6px;border:3px dashed #ccc;transition:border-color .3s}
+.sort-bucket.highlight{border-color:#27ae60}
+.sort-bucket .bucket-label{font-size:14px;font-weight:700;color:#2c3e50}
+.sort-items{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px auto;max-width:520px}
+.sort-item{width:60px;height:60px;border-radius:50%;cursor:pointer;transition:transform .2s,opacity .3s;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.sort-item:active{transform:scale(.9)}
+.sort-item.placed{opacity:.3;pointer-events:none}
+
+/* FAB & popup */
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.fab:hover{background:#2980b9;transform:scale(1.08)}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:340px;max-height:45vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(52,152,219,.2)}
+.pop.on{display:block;animation:fu .2s ease}
+.pop-t{font-size:12px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee}
+.pop ul{margin:4px 0 4px 18px}.pop li{margin:3px 0}.pop b{color:#2c3e50}
+.pop .tc{font-weight:700;color:#3498db;margin-top:8px;display:block;font-size:13px}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Nav */
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#3498db;color:#fff}
+.nb:hover{background:#2980b9}
+.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
+.np{font-size:14px;font-weight:600;color:#999}
+.nk{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
+
+@keyframes popIn{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+@media(min-width:768px){
+  .color-dot{width:220px!important;height:220px!important}
+  .wd{font-size:72px}
+  .ks{font-size:34px}
+  .ttl{font-size:38px}
+  .fc img{width:68px;height:68px}
+  .fc .fw{font-size:18px}
+  .gift-box{min-height:160px;padding:20px}
+  .gift-box .gift-icon{font-size:72px}
+  .gift-box .reveal .rw{font-size:22px}
+  .pop{width:400px}
+  .sort-item{width:70px;height:70px}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="D"></div>
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div class="pop-t">📋 Teacher Notes</div><div id="B"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">◀ Back</button>
+  <div style="text-align:center"><div class="np" id="pg">1/14</div><div class="nk">← → · T=tips</div></div>
+  <button class="nb" id="nb" onclick="go(1)">Next ▶</button>
+</div>
+<script>
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
+var N={},c=0,t=0,o=false;
+
+var COLORS=[
+  {w:'pink',   hex:'#e91e8c', border:false},
+  {w:'purple', hex:'#9b59b6', border:false},
+  {w:'white',  hex:'#ecf0f1', border:true},
+  {w:'black',  hex:'#2c3e50', border:false},
+  {w:'brown',  hex:'#8b4513', border:false}
+];
+var RW=[
+  {w:'jump', svg:'1f938', sentence:'I can jump!'},
+  {w:'two',  svg:'32-20e3', sentence:'I have two!'},
+  {w:'stand',svg:'1f9cd', sentence:'I can stand!'}
+];
+
+function img(svg,sz){return '<img src="'+TW+svg+'.svg" width="'+sz+'" height="'+sz+'" alt="">'}
+function dot(hex,sz,bdr){
+  var style='width:'+sz+'px;height:'+sz+'px;background:'+hex;
+  if(bdr) style+=';border:1px solid #bbb';
+  return '<div class="color-dot" style="'+style+'"></div>';
+}
+function dotSm(hex,bdr){
+  var style='width:52px;height:52px;background:'+hex;
+  if(bdr) style+=';border:1px solid #bbb';
+  return '<div class="color-dot-sm" style="'+style+'"></div>';
+}
+function mk(i,bg,x){return '<div class="sl '+bg+(i===0?' on':'')+'" data-i="'+i+'">'+x+'</div>'}
+
+function build(){
+var h='',i=0;
+
+// 1 Title
+h+=mk(i++,'bg0',
+  '<div style="display:flex;gap:10px;margin:6px 0">'+COLORS.map(function(c){return dotSm(c.hex,c.border)}).join('')+'</div>'+
+  '<div class="ttl">Colors 2 🌈</div>'+
+  '<div class="sub">pink · purple · white · black · brown</div>');
+N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>It\'s ___!</b></li><li>Ask: <b>What color is it?</b></li><li>New: pink, purple, white, black, brown</li><li>Review: jump, two, stand</li></ul>';
+
+// 2 Review (jump/two/stand with their original sentences)
+h+=mk(i++,'bg1',
+  '<div class="sec">Review</div><div class="ttl">Let\'s remember! 🧠</div>'+
+  '<div class="fg">'+RW.map(function(r){
+    return '<div class="fc">'+img(r.svg,52)+'<div class="fw">'+r.w+'</div></div>';
+  }).join('')+'</div>'+
+  '<div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">'+
+  RW.map(function(r){return '<div class="ks" style="font-size:24px;padding:8px 18px">'+r.sentence+'</div>'}).join('')+'</div>');
+N[1]='<span class="tc">🗣️ Review</span><ul><li>Point to each: "What\'s this?"</li><li>jump → "I can jump!" (do the action)</li><li>two → "I have two!" (hold up 2 fingers)</li><li>stand → "I can stand!" (stand up)</li><li>Quick 2-3 rounds</li></ul>';
+
+// 3-7 New Words (one per page)
+COLORS.forEach(function(clr,j){
+  h+=mk(i++,'bg2',
+    '<div class="sec">New Word '+(j+1)+'/5</div>'+
+    dot(clr.hex,180,clr.border)+
+    '<div class="wd">'+clr.w+'</div>'+
+    '<div class="ks">It\'s '+clr.w+'!</div>');
+  N[i-1]='<span class="tc">🗣️</span><ul><li>"What color is it?" → "It\'s '+clr.w+'!"</li><li>Repeat: slow → normal → fast</li><li>Point to things in the room that are '+clr.w+'</li></ul>';
+});
+
+// 8 Gift Box Unboxing
+h+=mk(i++,'bg5',
+  '<div class="sec">Gift Box Unboxing</div><div class="ttl">What\'s inside? 🎁</div>'+
+  '<div class="sub">Tap a gift to open it!</div>'+
+  '<div class="gift-grid" id="giftGrid"></div>');
+N[i-1]='<span class="tc">🎮 Gift Box</span><ul><li>Ask: "Which gift do you want to open?"</li><li>Child picks a gift → tap to reveal color</li><li>"What color is it?" → "It\'s ___!"</li><li>Go through all 5 gifts</li></ul>';
+
+// 9-13 Gift reveal pages (individual, for pacing control)
+// Actually let's keep it as one interactive page — the teacher taps each box
+
+// 9 Color Sort
+h+=mk(i++,'bg3',
+  '<div class="sec">Color Sort</div><div class="ttl">Sort the colors! 🎨</div>'+
+  '<div class="sub">Tap a circle, then tap the matching bucket!</div>'+
+  '<div class="sort-items" id="sortItems"></div>'+
+  '<div class="sort-area" id="sortArea"></div>'+
+  '<div id="sortMsg" style="font-size:22px;font-weight:700;color:#27ae60;margin-top:10px;min-height:30px"></div>');
+N[i-1]='<span class="tc">🎮 Color Sort</span><ul><li>Mixed color circles at top</li><li>Teacher taps a circle: "What color is it?"</li><li>Child answers: "It\'s pink!"</li><li>Then tap the matching bucket below</li><li>Go through all items</li></ul>';
+
+// 10 Bye
+h+=mk(i++,'bg6',
+  img('2b50',180)+
+  '<div class="ttl">Well Done!</div>'+
+  '<div class="sub">See you next time! 👋</div>');
+N[i-1]='<span class="tc">👋</span><ul><li>"Say bye to the colors!"</li><li>"Bye pink! Bye purple!"</li></ul>';
+
+document.getElementById('D').innerHTML=h;
+t=i;goTo(0);initGifts();initSort();
+}
+
+// === Navigation ===
+function goTo(i){if(i<0||i>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[i].classList.add('on');c=i;
+  document.getElementById('pg').textContent=(c+1)+'/'+t;
+  document.getElementById('pb').disabled=c===0;
+  var b=document.getElementById('nb');
+  if(c===t-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+  document.getElementById('B').innerHTML=N[c]||'';
+}
+function go(d){goTo(c+d)}
+
+// === Teacher Notes ===
+function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
+document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
+
+// === Gift Box Unboxing ===
+function initGifts(){
+  var grid=document.getElementById('giftGrid');
+  if(!grid)return;
+  var order=shuffle(COLORS.slice());
+  grid.innerHTML='';
+  order.forEach(function(clr){
+    var box=document.createElement('div');
+    box.className='gift-box';
+    box.innerHTML='<div class="gift-icon">'+img('1f381',60)+'</div>'+
+      '<div class="reveal">'+dot(clr.hex,80,clr.border)+'<div class="rw">'+clr.w+'</div></div>';
+    box.onclick=function(){
+      if(box.classList.contains('opened'))return;
+      box.classList.add('opened');
+    };
+    grid.appendChild(box);
+  });
+}
+
+// === Color Sort ===
+var sortSelected=null;
+function initSort(){
+  var items=document.getElementById('sortItems');
+  var area=document.getElementById('sortArea');
+  if(!items||!area)return;
+
+  // Create mixed items (2 of each color = 10 items)
+  var allItems=[];
+  COLORS.forEach(function(clr){
+    allItems.push({hex:clr.hex,name:clr.w,border:clr.border});
+    allItems.push({hex:clr.hex,name:clr.w,border:clr.border});
+  });
+  allItems=shuffle(allItems);
+
+  items.innerHTML='';
+  allItems.forEach(function(it,idx){
+    var el=document.createElement('div');
+    el.className='sort-item';
+    el.style.background=it.hex;
+    if(it.border)el.style.border='1px solid #bbb';
+    el.setAttribute('data-name',it.name);
+    el.setAttribute('data-idx',idx);
+    el.onclick=function(){selectSortItem(el,it)};
+    items.appendChild(el);
+  });
+
+  // Create buckets
+  area.innerHTML='';
+  COLORS.forEach(function(clr){
+    var bucket=document.createElement('div');
+    bucket.className='sort-bucket';
+    bucket.innerHTML='<div class="bucket-label">'+clr.w+'</div>'+
+      '<div style="width:40px;height:40px;border-radius:50%;background:'+clr.hex+
+      (clr.border?';border:1px solid #bbb':'')+';margin:4px 0"></div>'+
+      '<div class="bucket-count" data-color="'+clr.w+'">0/2</div>';
+    bucket.setAttribute('data-color',clr.w);
+    bucket.onclick=function(){dropInBucket(bucket,clr)};
+    area.appendChild(bucket);
+  });
+}
+
+function selectSortItem(el,it){
+  if(el.classList.contains('placed'))return;
+  document.querySelectorAll('.sort-item').forEach(function(s){s.style.outline=''});
+  el.style.outline='3px solid #3498db';
+  sortSelected={el:el,item:it};
+}
+
+var sortCount={};
+function dropInBucket(bucket,clr){
+  if(!sortSelected)return;
+  var msg=document.getElementById('sortMsg');
+  if(sortSelected.item.name===clr.w){
+    sortSelected.el.classList.add('placed');
+    if(!sortCount[clr.w])sortCount[clr.w]=0;
+    sortCount[clr.w]++;
+    bucket.querySelector('.bucket-count').textContent=sortCount[clr.w]+'/2';
+    bucket.classList.add('highlight');
+    setTimeout(function(){bucket.classList.remove('highlight')},500);
+    msg.textContent='It\'s '+clr.w+'! ✓';
+    msg.style.color='#27ae60';
+    sortSelected.el.style.outline='';
+    sortSelected=null;
+    // Check complete
+    var total=0;
+    COLORS.forEach(function(c){total+=(sortCount[c.w]||0)});
+    if(total>=10) msg.textContent='All sorted! Great job! 🎉';
+  } else {
+    msg.textContent='Try again!';
+    msg.style.color='#e74c3c';
+    sortSelected.el.style.animation='shake .4s ease';
+    setTimeout(function(){if(sortSelected)sortSelected.el.style.animation=''},500);
+  }
+}
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
+
+// === Keyboard ===
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft')go(-1);
+  if(e.key==='t'||e.key==='T')tn();
+});
+
+build();
+</script>
+</body>
+</html>

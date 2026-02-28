@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 - Animals (Teach)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{display:flex;flex-direction:column;align-items:center}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center;overflow-y:auto}
+.sl.on{display:flex}
+.bg0{background:linear-gradient(160deg,#fef9ef,#fdf2e9)}
+.bg1{background:linear-gradient(160deg,#e8f8f5,#d5f5e3)}
+.bg2{background:linear-gradient(160deg,#fef9ef,#ebf5fb)}
+.bg3{background:linear-gradient(160deg,#fdebd0,#fadbd8)}
+.bg4{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
+.bg5{background:linear-gradient(160deg,#f9ebea,#fdedec)}
+.bg6{background:linear-gradient(160deg,#fef9ef,#fdebd0)}
+.sec{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.ttl{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
+.sub{font-size:18px;color:#7f8c8d;margin-bottom:16px}
+.wd{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
+.ks{font-size:30px;font-weight:600;color:#e67e22;margin:12px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:560px;margin:10px auto}
+.fc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:100px}
+.fc img{width:52px;height:52px}
+.fc .fw{font-size:15px;font-weight:700;color:#2c3e50;margin-top:4px}
+.peek{position:relative;width:200px;height:200px;margin:10px 0}
+.peek img{width:100%;height:100%;transition:filter .6s}
+.peek.blur img{filter:blur(30px) saturate(0.3)}
+.peek.half img{filter:blur(10px)}
+.peek.show img{filter:none}
+.peek-label{font-size:16px;color:#3498db;margin-top:8px;font-weight:600;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:480px;margin:12px auto}
+.cc{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:default}
+.cc img{width:80px;height:80px}
+.cc .cw{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(52,152,219,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.fab:hover{background:#2980b9;transform:scale(1.08)}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:340px;max-height:45vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(52,152,219,.2)}
+.pop.on{display:block;animation:fu .2s ease}
+.pop-t{font-size:12px;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee}
+.pop ul{margin:4px 0 4px 18px}.pop li{margin:3px 0}.pop b{color:#2c3e50}
+.pop .tc{font-weight:700;color:#3498db;margin-top:8px;display:block;font-size:13px}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#3498db;color:#fff}
+.nb:hover{background:#2980b9}
+.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
+.np{font-size:14px;font-weight:600;color:#999}
+.nk{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
+@media(min-width:768px){
+  .wd{font-size:72px}.ks{font-size:34px}.ttl{font-size:38px}
+  .fc img{width:68px;height:68px}.fc .fw{font-size:18px}
+  .peek{width:240px;height:240px}
+  .cc img{width:100px;height:100px}.pop{width:400px}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="D"></div>
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div class="pop-t">📋 Teacher Notes</div><div id="B"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">◀ Back</button>
+  <div style="text-align:center"><div class="np" id="pg">1/14</div><div class="nk">← → · T=tips</div></div>
+  <button class="nb" id="nb" onclick="go(1)">Next ▶</button>
+</div>
+<script>
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/svg/';
+var N={},c=0,t=0,o=false;
+var RW=[
+  {w:'red',svg:'2764',clr:'#e74c3c'},
+  {w:'blue',svg:'1f499',clr:'#3498db'},
+  {w:'yellow',svg:'1f49b',clr:'#f1c40f'}
+];
+var NW=[
+  {w:'cat',svg:'1f431',act:'Meow! Lick your paws!'},
+  {w:'dog',svg:'1f436',act:'Woof! Wag your tail!'},
+  {w:'fish',svg:'1f41f',act:'Swim swim! Move your hands!'},
+  {w:'bird',svg:'1f426',act:'Flap your wings! Tweet!'},
+  {w:'duck',svg:'1f986',act:'Waddle waddle! Quack!'}
+];
+function img(svg,sz){return '<img src="'+TW+svg+'.svg" width="'+sz+'" height="'+sz+'" alt="">';}
+function mk(i,bg,x){return '<div class="sl '+bg+(i===0?' on':'')+'" data-i="'+i+'">'+x+'</div>';}
+
+function build(){
+var h='',i=0;
+// Title
+h+=mk(i++,'bg0',
+  '<div style="display:flex;gap:8px;margin:6px 0">'+NW.map(function(w){return img(w.svg,60)}).join('')+'</div>'+
+  '<div class="ttl">Animals</div>'+
+  '<div class="sub">cat · dog · fish · bird · duck</div>');
+N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>I see a ___!</b></li><li>Ask: <b>What do you see?</b></li><li>New: cat, dog, fish, bird, duck</li><li>Review: red, blue, yellow</li></ul>';
+
+// Review (Day 1 Colors)
+h+=mk(i++,'bg1',
+  '<div class="sec">Review</div><div class="ttl">It\'s ___! 🎨</div>'+
+  '<div class="fg">'+RW.map(function(w){return '<div class="fc"><div style="width:52px;height:52px;border-radius:50%;background:'+w.clr+'"></div><div class="fw">'+w.w+'</div></div>'}).join('')+'</div>'+
+  '<div class="ks">It\'s ___!</div>');
+N[1]='<span class="tc">🗣️ Review</span><ul><li>Point: "What color is it?"</li><li>Child: "It\'s red / blue / yellow!"</li><li>Quick 2-3 rounds</li></ul>';
+
+// New Words 1-5
+NW.forEach(function(w,j){
+  h+=mk(i++,'bg2',
+    '<div class="sec">New Word '+(j+1)+'/5</div>'+
+    img(w.svg,180)+
+    '<div class="wd">'+w.w+'</div>'+
+    '<div class="ks">I see a '+w.w+'!</div>');
+  N[i-1]='<span class="tc">🗣️</span><ul><li>"What do you see?" → "I see a '+w.w+'!"</li><li>Repeat: slow → normal → fast</li></ul><span class="tc">🤚 TPR</span><ul><li>"'+w.act+'"</li></ul>';
+});
+
+// Peek-a-boo (one per animal)
+NW.forEach(function(w,j){
+  h+=mk(i++,'bg4',
+    '<div class="sec">Guess '+(j+1)+'/5</div><div class="ttl">What do you see? 🙈</div>'+
+    '<div class="peek blur" id="peek'+j+'" style="cursor:pointer">'+img(w.svg,200)+'</div>'+
+    '<div class="peek-label" id="peekL'+j+'">👆 Tap the picture!</div>'+
+    '<div class="ks" id="peekS'+j+'">I see a ___?</div>');
+  N[i-1]='<span class="tc">🎮 Peek-a-boo</span><ul><li>Image is blurry — ask "Can you guess?"</li><li>Tap once → less blurry</li><li>Tap again → reveal! "I see a '+w.w+'!"</li></ul>';
+});
+
+// Find it
+h+=mk(i++,'bg5',
+  '<div class="sec">Find it!</div><div class="ttl">Where is the ___? 🔍</div>'+
+  '<div class="cg">'+NW.map(function(w){return '<div class="cc">'+img(w.svg,64)+'<div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
+N[i-1]='<span class="tc">🎮 How</span><ul><li>"Where is the cat?" → child points</li><li>"I see a cat!"</li><li>All 5, random order, speed round!</li></ul>';
+
+// Bye
+h+=mk(i++,'bg6',
+  '<div style="font-size:120px;margin-bottom:10px">🐾</div>'+
+  '<div class="ttl">Well Done!</div>'+
+  '<div class="sub">See you next time! 👋</div>');
+N[i-1]='<span class="tc">👋</span><ul><li>"Say bye! Bye cat! Bye dog!"</li></ul>';
+
+document.getElementById('D').innerHTML=h;
+t=i;goTo(0);initPeek();
+}
+
+function initPeek(){
+  NW.forEach(function(w,j){
+    var pk=document.getElementById('peek'+j);if(!pk)return;
+    var state=0;
+    pk.onclick=function(){
+      if(state===0){pk.className='peek half';state=1;document.getElementById('peekL'+j).textContent='👆 Tap again!';}
+      else if(state===1){pk.className='peek show';state=2;
+        document.getElementById('peekL'+j).textContent='';
+        document.getElementById('peekS'+j).textContent='I see a '+w.w+'!';}
+    };
+  });
+}
+
+function goTo(i){if(i<0||i>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[i].classList.add('on');c=i;
+  document.getElementById('pg').textContent=(c+1)+'/'+t;
+  document.getElementById('pb').disabled=c===0;
+  var b=document.getElementById('nb');
+  if(c===t-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+  document.getElementById('B').innerHTML=N[c]||'';
+}
+function go(d){goTo(c+d)}
+function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
+document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft')go(-1);
+  if(e.key==='t'||e.key==='T')tn();
+});
+build();
+</script>
+</body>
+</html>
