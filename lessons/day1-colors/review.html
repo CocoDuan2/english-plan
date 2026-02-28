@@ -6,62 +6,60 @@
 <title>Day 1 - Colors (Review)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:"Segoe UI",system-ui,sans-serif}
-body{background:#fce4ec;display:flex;flex-direction:column;align-items:center}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);display:flex;flex-direction:column;align-items:center}
 .main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
-.top-bar{position:sticky;top:0;z-index:100;width:100%;background:rgba(252,228,236,.95);backdrop-filter:blur(8px);text-align:center;padding:8px 16px;border-bottom:1px solid rgba(0,0,0,.05)}
+.top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
 .ie{font-size:20px;font-weight:700;color:#2d3436}
 .iz{font-size:16px;color:rgba(0,0,0,.5);margin-top:2px}
 .sb{margin-top:4px;font-size:18px;letter-spacing:2px}
 .mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
 .mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:60px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:18px;font-weight:600;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:28px;font-weight:700;padding:16px 50px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s;margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+/* Color cards for learn module */
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
 .card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
 .card:active{transform:scale(.95)}
-.card .dot{width:70px;height:70px;border-radius:50%;background:#ccc;transition:background .4s,box-shadow .4s}
+.card .dot{width:70px;height:70px;border-radius:50%;background:#ccc;transition:all .4s}
 .card .lbl{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px;opacity:0;transition:opacity .4s}
 .card.rev .lbl{opacity:1}
-.pr{display:flex;align-items:center;gap:10px;margin:12px 0}
-.pr img{width:60px;height:auto}
-.bbl{background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:18px;font-weight:600;color:#e67e22;position:relative}
-.bbl::before{content:"";position:absolute;left:-8px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-right-color:#fff}
-.start-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px}
-.start-btn{font-size:28px;font-weight:700;padding:16px 50px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s}
-.start-btn:active{transform:scale(.95)}
-.balloon-wrap{position:relative;width:100%;max-width:400px;height:300px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,#87CEEB,#E0F7FA);margin:10px auto}
-.balloon{position:absolute;bottom:-90px;cursor:pointer;transition:transform .15s;animation:bup 5s linear forwards}
-.balloon:active{transform:scale(.85)}
-.balloon .bb{width:55px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.balloon .bs{width:2px;height:18px;background:#999;margin:0 auto}
-.balloon .bt{font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.balloon.pop{animation:bpop .3s ease forwards}
-@keyframes bup{0%{bottom:-90px}100%{bottom:320px}}
-@keyframes bpop{to{transform:scale(1.5);opacity:0}}
-.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:380px}
-.fc{width:100%;aspect-ratio:1;border-radius:14px;cursor:pointer;perspective:600px;position:relative}
+.card .obj{font-size:32px;opacity:0;transition:opacity .4s;margin-top:4px}
+.card.rev .obj{opacity:1}
+/* Puddle jump game */
+.puddle-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.puddle{width:90px;height:36px;border-radius:50%;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.puddle:active{transform:scale(.9)}
+.puddle.splashed{animation:splashA .5s ease}
+@keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+/* Memory flip */
+.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:360px}
+.fc{aspect-ratio:1;border-radius:14px;cursor:pointer;perspective:600px}
 .fi{width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;position:relative}
 .fc.fl .fi{transform:rotateY(180deg)}
-.ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center}
+.ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:28px}
-.fb{transform:rotateY(180deg);flex-direction:column;gap:4px}
+.fb{transform:rotateY(180deg);gap:4px}
 .fb .fd{width:40px;height:40px;border-radius:50%}
 .fb .fl2{font-size:12px;font-weight:700;color:#2c3e50}
 .fc.mt{opacity:.4;pointer-events:none}
-.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #fce4ec;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
-.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff;transition:all .2s}
-.nb:hover{background:#e91e8c}.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
-.np{font-size:14px;font-weight:600;color:#999}
-.grass{position:fixed;bottom:56px;left:0;right:0;height:25px;background:linear-gradient(to top,#8BC34A,transparent);opacity:.2;pointer-events:none;z-index:50}
-.done-area{text-align:center}
-.done-area button{font-size:18px;padding:12px 30px;border:none;border-radius:12px;cursor:pointer;margin:8px;font-weight:700}
-@media(min-width:768px){.main{max-width:800px}.card .dot{width:90px;height:90px}.card .lbl{font-size:18px}.balloon-wrap{height:380px}.flip-grid{max-width:480px}}
+/* Nav + misc */
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){.main{max-width:800px}.card .dot{width:90px;height:90px}.flip-grid{max-width:480px}}
 </style>
 </head>
 <body>
 <div class="main">
 <div class="top-bar">
-<div class="ie" id="ie">Peppa's Color Game</div>
-<div class="iz" id="iz">和佩琪一起学颜色吧！</div>
+<div class="ie" id="ie">Peppa's Color Party!</div>
+<div class="iz" id="iz">和佩琪一起准备派对吧！</div>
 <div class="sb" id="sb"></div>
 </div>
 <div class="mod on" id="m0"></div>
@@ -69,140 +67,171 @@ body{background:#fce4ec;display:flex;flex-direction:column;align-items:center}
 <div class="mod" id="m2"></div>
 <div class="mod" id="m3"></div>
 <div class="mod" id="m4"></div>
-<div class="mod" id="m5"></div>
 </div>
-<div class="grass"></div>
 <div class="nav">
-<button class="nb" id="pb" onclick="goM(-1)">◀ Back</button>
-<div style="text-align:center"><div class="np" id="pg">1/6</div></div>
-<button class="nb" id="xb" onclick="goM(1)">Next ▶</button>
+<button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/5</div></div>
+<button class="nb" id="xb" onclick="goM(1)">Next &#9654;</button>
 </div>
 <script>
 var PP='../../assets/peppa/';
-var W=[{w:'red',clr:'#e74c3c'},{w:'blue',clr:'#3498db'},{w:'yellow',clr:'#f1c40f'},{w:'green',clr:'#27ae60'},{w:'orange',clr:'#e67e22'}];
+var W=[
+  {w:'red',clr:'#e74c3c',obj:'\ud83d\udc57'},
+  {w:'blue',clr:'#3498db',obj:'\ud83e\udd95'},
+  {w:'yellow',clr:'#f1c40f',obj:'\u2600\ufe0f'},
+  {w:'green',clr:'#27ae60',obj:'\ud83c\udf3f'},
+  {w:'orange',clr:'#e67e22',obj:'\ud83d\udc20'}
+];
 var cur=0,actx=null;
-function getAudioCtx(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
-function speak(t,cb){var u=t.indexOf(' ')>=0?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';var a=new Audio(u);var done=false;function fin(){if(done)return;done=true;if(cb)cb()}a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin)}
-function playTone(f,d){var c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
-function playOk(){playTone(523,.1);setTimeout(function(){playTone(659,.1)},100);setTimeout(function(){playTone(784,.15)},200)}
-function playNo(){playTone(300,.3)}
-function setI(en,zh,stars){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=stars||''}
-function stars(n,tot){var s='';for(var i=0;i<tot;i++)s+=i<n?'⭐':'☆';return s}
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function speak(t,cb){
+  var u=t.indexOf(' ')>=0?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var a=new Audio(u),done=false;
+  function fin(){if(done)return;done=true;if(cb)cb()}
+  a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin);
+}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200)}
+function playNo(){tone(300,.3)}
+function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
+function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'\u2b50':'\u2606';return s}
 
-// Module 0: Start screen
+// M0: Start screen
 function initM0(){
-  var h='<div class="start-screen"><img src="'+PP+'peppa-logo.png" width="120"><div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<div style="width:40px;height:40px;border-radius:50%;background:'+w.clr+'"></div>'}).join('')+'</div><button class="start-btn" onclick="startGame()">开始玩！🎨</button></div>';
-  document.getElementById('m0').innerHTML=h;
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'peppa-standing-waving.png" width="100">'+
+    '<div class="pr"><div class="bbl">Help me get ready for George\'s party!</div></div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<div style="width:36px;height:36px;border-radius:50%;background:'+w.clr+'"></div>'}).join('')+'</div>'+
+    '<button class="start-btn" onclick="getAC();goM(1)">开始玩！🎉</button>';
 }
-function startGame(){getAudioCtx();goM(1)}
 
-// Module 1: No review words on Day1, skip to learn - show Peppa greeting
+// M1: Learn colors - tap to reveal with Peppa story objects
+var lnC=0,lnB=false;
 function initM1(){
-  var h='<div class="pr"><img src="'+PP+'peppa-face.png" width="80"><div class="bbl">Let's learn colors! 🎨</div></div><div style="font-size:16px;color:#888;margin-top:16px">Day 1 没有复习词，直接学新词吧！</div>';
-  document.getElementById('m1').innerHTML=h;
-  setI('Hello!','第一天，没有复习词哦～','');
+  lnC=0;lnB=false;
+  document.getElementById('m1').innerHTML=
+    '<div class="g3">'+W.map(function(w,i){
+      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')">'+
+        '<div class="dot" id="ld'+i+'"></div>'+
+        '<div class="obj" id="lo'+i+'">'+w.obj+'</div>'+
+        '<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
+    }).join('')+'</div>';
+  setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
 }
-
-// Module 2: Learn new colors
-var learnCount=0,learnBusy=false;
-function initM2(){
-  learnCount=0;learnBusy=false;
-  var h='<div class="g3">'+W.map(function(w,i){return '<div class="card" id="lc'+i+'" onclick="learnTap('+i+')"><div class="dot" id="ld'+i+'"></div><div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'}).join('')+'</div>';
-  document.getElementById('m2').innerHTML=h;
-  setI('Tap to learn!','点一点，学颜色！',stars(0,5));
-}
-function learnTap(i){
-  var c=document.getElementById('lc'+i),d=document.getElementById('ld'+i),l=document.getElementById('ll'+i);
+function lnTap(i){
+  var c=document.getElementById('lc'+i);
   if(c.classList.contains('rev')){speak(W[i].w);return}
-  if(learnBusy)return;learnBusy=true;
-  d.style.background=W[i].clr;d.style.boxShadow='0 4px 15px '+W[i].clr+'66';
-  c.classList.add('rev');learnCount++;
-  playOk();speak(W[i].w,function(){learnBusy=false});
-  setI('It's '+W[i].w+'!','这是 '+W[i].w+'！',stars(learnCount,5));
+  if(lnB)return;lnB=true;
+  document.getElementById('ld'+i).style.background=W[i].clr;
+  document.getElementById('ld'+i).style.boxShadow='0 4px 15px '+W[i].clr+'66';
+  c.classList.add('rev');lnC++;
+  playOk();
+  speak(W[i].w,function(){lnB=false});
+  setI("It's "+W[i].w+'!','找到啦！这是 '+W[i].w+'！',stars(lnC,5));
 }
 
-// Module 3: Balloon pop game
-var bScore=0,bTotal=5,bBusy=false,bTimer=null;
+// M2: Puddle Jump - jump on the right color puddle!
+var pjS=0,pjI=0,pjB=false,pjOrder=[];
+function initM2(){
+  pjS=0;pjI=0;pjB=false;
+  pjOrder=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  renderPuddles();
+}
+function renderPuddles(){
+  if(pjI>=W.length){setI('Splash!','太厉害了！全部跳对啦！',stars(5,5));
+    document.getElementById('m2').innerHTML='<img src="'+PP+'peppa-george-jumping-muddy-puddles.png" width="140"><div style="font-size:24px;font-weight:700;color:#fff;margin-top:10px;text-shadow:0 2px 4px rgba(0,0,0,.2)">All puddles jumped!</div>';
+    return}
+  var tgt=W[pjOrder[pjI]];
+  setI('Jump in '+tgt.w+'!','跳进 '+tgt.w+' 的泥坑！',stars(pjS,5));
+  speak(tgt.w);
+  var h='<img src="'+PP+'peppa-jumping-muddy-puddle.png" width="80" style="margin-bottom:8px">'+
+    '<div class="puddle-row">'+W.map(function(w,j){
+      return '<div class="puddle" style="background:radial-gradient(ellipse,'+w.clr+','+w.clr+'aa)" onclick="pjTap('+j+')"></div>'
+    }).join('')+'</div>';
+  document.getElementById('m2').innerHTML=h;
+}
+function pjTap(j){
+  if(pjB)return;pjB=true;
+  if(j===pjOrder[pjI]){
+    playOk();pjS++;pjI++;
+    setI("Splash! It's "+W[j].w+'!','答对啦！跳进 '+W[j].w+' 啦！',stars(pjS,5));
+    speak(W[j].w,function(){pjB=false;setTimeout(renderPuddles,600)});
+  }else{
+    playNo();speak(W[j].w,function(){pjB=false});
+  }
+}
+
+// M3: Listen & Find
+var lfS=0,lfI=0,lfB=false,lfOrd=[];
 function initM3(){
-  bScore=0;bBusy=false;
-  document.getElementById('m3').innerHTML='<div class="balloon-wrap" id="bw"></div>';
-  setI('Pop the balloon!','戳破气球！找到对的颜色！',stars(0,5));
-  launchRound();
+  lfS=0;lfI=0;lfB=false;
+  lfOrd=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  var h='<div class="g3">'+W.map(function(w,i){
+    return '<div class="card" onclick="lfTap('+i+')"><div class="dot" style="background:'+w.clr+';box-shadow:0 3px 10px '+w.clr+'44"></div></div>'
+  }).join('')+'</div>';
+  document.getElementById('m3').innerHTML=h;
+  lfAsk();
 }
-function launchRound(){
-  if(bScore>=bTotal){setI('Amazing!','太厉害了，全部戳破啦！',stars(5,5));return}
-  var bw=document.getElementById('bw');bw.innerHTML='';
-  var target=W[bScore],pool=W.slice(),idxs=[];
-  while(idxs.length<3){var r=Math.floor(Math.random()*pool.length);if(idxs.indexOf(r)<0)idxs.push(r)}
-  if(idxs.indexOf(bScore)<0)idxs[0]=bScore;
-  idxs.sort(function(){return Math.random()-.5});
-  idxs.forEach(function(wi,bi){
-    var b=document.createElement('div');b.className='balloon';
-    b.style.left=(20+bi*35)+'%';b.style.animationDelay=(bi*0.8)+'s';
-    b.innerHTML='<div class="bb" style="background:'+W[wi].clr+'"><span class="bt">'+W[wi].w+'</span></div><div class="bs"></div>';
-    b.onclick=function(){
-      if(bBusy)return;bBusy=true;
-      b.classList.add('pop');
-      if(wi===bScore){playOk();bScore++;setI('It's '+target.w+'!','答对啦！这是 '+target.w+'！',stars(bScore,5));speak(target.w,function(){bBusy=false;setTimeout(launchRound,600)})}
-      else{playNo();bBusy=false}
-    };
-    bw.appendChild(b);
-  });
-  setI('Find '+target.w+'!','找到 '+target.w+'！戳破它！',stars(bScore,5));
-}
-
-// Module 4: Listen & Find
-var lScore=0,lIdx=0,lOrder=[],lBusy=false;
-function initM4(){
-  lScore=0;lIdx=0;lBusy=false;
-  lOrder=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
-  var h='<div class="g3">'+W.map(function(w,i){return '<div class="card" onclick="listenTap('+i+')"><div class="dot" style="background:'+w.clr+';box-shadow:0 3px 10px '+w.clr+'44"></div><div class="lbl" style="opacity:1">'+w.w+'</div></div>'}).join('')+'</div>';
-  document.getElementById('m4').innerHTML=h;
-  askListen();
-}
-function askListen(){
-  if(lIdx>=W.length){setI('Perfect!','全部找对啦！你真棒！',stars(5,5));return}
-  var w=W[lOrder[lIdx]];
-  setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lScore,5));
+function lfAsk(){
+  if(lfI>=W.length){setI('Perfect!','全部找对啦，你真棒！',stars(5,5));return}
+  var w=W[lfOrd[lfI]];
+  setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lfS,5));
   speak(w.w);
 }
-function listenTap(i){
-  if(lBusy||lIdx>=W.length)return;lBusy=true;
-  if(i===lOrder[lIdx]){playOk();lScore++;lIdx++;setI('Yes! '+W[i].w+'!','答对啦！这是 '+W[i].w+'！',stars(lScore,5));speak(W[i].w,function(){lBusy=false;setTimeout(askListen,800)})}
-  else{playNo();speak(W[i].w,function(){lBusy=false})}
+function lfTap(i){
+  if(lfB||lfI>=W.length)return;lfB=true;
+  if(i===lfOrd[lfI]){
+    playOk();lfS++;lfI++;
+    setI('Yes! '+W[i].w+'!','答对啦！这是 '+W[i].w+'！',stars(lfS,5));
+    speak(W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
+  }else{playNo();speak(W[i].w,function(){lfB=false})}
 }
 
-// Module 5: Memory Flip
-var fCards=[],fFirst=-1,fSecond=-1,fMatched=0,fLock=false;
-function initM5(){
-  fFirst=-1;fSecond=-1;fMatched=0;fLock=false;
-  var pairs=W.slice(0,4);
-  fCards=[];pairs.forEach(function(w,i){fCards.push({id:i*2,wi:i,w:w.w,clr:w.clr});fCards.push({id:i*2+1,wi:i,w:w.w,clr:w.clr})});
+// M4: Memory Flip
+var fF=-1,fM=0,fLk=false,fCards=[];
+function initM4(){
+  fF=-1;fM=0;fLk=false;
+  var pairs=W.slice(0,4);fCards=[];
+  pairs.forEach(function(w,i){fCards.push({wi:i,w:w.w,clr:w.clr});fCards.push({wi:i,w:w.w,clr:w.clr})});
   fCards.sort(function(){return Math.random()-.5});
-  var h='<div class="flip-grid">'+fCards.map(function(c,i){return '<div class="fc" id="fc'+i+'" onclick="flipTap('+i+')">'+'<div class="fi"><div class="ff">🐷</div>'+'<div class="fb"><div class="fd" style="background:'+c.clr+'"></div><div class="fl2">'+c.w+'</div></div></div></div>'}).join('')+'</div>';
-  document.getElementById('m5').innerHTML=h;
-  setI('Memory Flip!','翻开两张一样的卡片，配成一对！',stars(fMatched,4));
+  var h='<div class="flip-grid">'+fCards.map(function(c,i){
+    return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
+      '<div class="ff">\ud83d\udc37</div>'+
+      '<div class="fb" style="background:'+c.clr+'33"><div class="fd" style="background:'+c.clr+'"></div><div class="fl2">'+c.w+'</div></div>'+
+      '</div></div>'
+  }).join('')+'</div>';
+  document.getElementById('m4').innerHTML=h;
+  setI('Memory Flip!','翻开两张一样的，配成一对！',stars(fM,4));
 }
-function flipTap(i){
-  if(fLock)return;
+function fTap(i){
+  if(fLk)return;
   var el=document.getElementById('fc'+i);
   if(el.classList.contains('fl')||el.classList.contains('mt'))return;
   el.classList.add('fl');speak(fCards[i].w);
-  if(fFirst<0){fFirst=i;return}
-  fSecond=i;fLock=true;
-  if(fCards[fFirst].wi===fCards[fSecond].wi){
-    playOk();fMatched++;
-    var a=fFirst,b=fSecond;
-    setTimeout(function(){document.getElementById('fc'+a).classList.add('mt');document.getElementById('fc'+b).classList.add('mt');fFirst=-1;fSecond=-1;fLock=false;setI('Match!','配对成功！',stars(fMatched,4));if(fMatched>=4)setI('All Done!','全部配对成功，你真棒！',stars(4,4))},600);
+  if(fF<0){fF=i;return}
+  var s=fF;fLk=true;
+  if(fCards[s].wi===fCards[i].wi){
+    playOk();fM++;
+    setTimeout(function(){
+      document.getElementById('fc'+s).classList.add('mt');
+      document.getElementById('fc'+i).classList.add('mt');
+      fF=-1;fLk=false;
+      setI('Match!','配对成功！',stars(fM,4));
+      if(fM>=4)setI('All Done!','全部配对啦，你真棒！',stars(4,4));
+    },600);
   }else{
-    playNo();var a=fFirst,b=fSecond;
-    setTimeout(function(){document.getElementById('fc'+a).classList.remove('fl');document.getElementById('fc'+b).classList.remove('fl');fFirst=-1;fSecond=-1;fLock=false},1000);
+    playNo();
+    setTimeout(function(){
+      document.getElementById('fc'+s).classList.remove('fl');
+      document.getElementById('fc'+i).classList.remove('fl');
+      fF=-1;fLk=false;
+    },1000);
   }
 }
 
 // Navigation
-var mods=['m0','m1','m2','m3','m4','m5'];
-var inits=[initM0,initM1,initM2,initM3,initM4,initM5];
+var mods=['m0','m1','m2','m3','m4'];
+var inits=[initM0,initM1,initM2,initM3,initM4];
 function goM(d){
   var n=cur+d;if(n<0||n>=mods.length)return;
   document.getElementById(mods[cur]).classList.remove('on');
@@ -216,6 +245,7 @@ function goM(d){
   else{xb.textContent='Next';xb.disabled=false}
 }
 initM0();
+
 </script>
 </body>
 </html>

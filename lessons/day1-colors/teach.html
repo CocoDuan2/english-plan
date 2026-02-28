@@ -3,104 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 1 - Colors (Teach)</title>
+<title>Day 1 - Colors</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;flex-direction:column}
 .deck{width:100%;height:100%;display:flex;flex-direction:column}
-.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 30px 70px;text-align:center;overflow-y:auto}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center;overflow-y:auto;position:relative}
 .sl.on{display:flex}
-.bg0{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
-.bg1{background:linear-gradient(160deg,#e3f2fd,#bbdefb)}
-.bg2{background:linear-gradient(160deg,#fdebd0,#fadbd8)}
-.bg3{background:linear-gradient(160deg,#ebf5fb,#d6eaf8)}
-.bg4{background:linear-gradient(160deg,#fef9ef,#fff9c4)}
-.bg5{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
-.bg6{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
-.bg7{background:linear-gradient(160deg,#f3e5f5,#e1bee7)}
-.bg8{background:linear-gradient(160deg,#e0f7fa,#b2ebf2)}
-.sec{font-size:13px;font-weight:600;color:#b0b0b0;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
-.ttl{font-size:32px;font-weight:800;color:#2c3e50;margin-bottom:12px}
-.sub{font-size:18px;color:#7f8c8d;margin-bottom:16px}
-.wd{font-size:60px;font-weight:800;color:#2c3e50;margin:10px 0;letter-spacing:3px}
-.ks{font-size:28px;font-weight:600;color:#e67e22;margin:8px 0;background:rgba(230,126,34,.08);border-radius:12px;padding:10px 24px;border-left:4px solid #e67e22}
-.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
-.pr img{width:70px;height:auto;flex-shrink:0}
-.bbl{position:relative;background:#fff;border-radius:16px;padding:10px 18px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:24px;font-weight:700;color:#e67e22}
-.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
-.cdot{width:180px;height:180px;border-radius:50%;margin:6px 0}
-.pal{position:relative;width:300px;height:260px;margin:10px auto}
-.pal-bg{width:100%;height:100%;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#d5d5d5;position:absolute;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.blob{position:absolute;width:70px;height:70px;border-radius:50%;background:#ccc;cursor:pointer;transition:background .5s,transform .3s;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 2px 6px rgba(0,0,0,.1)}
-.blob:hover{transform:scale(1.1)}
-.blob.ok .bl{opacity:1}
-.bl{position:absolute;bottom:-22px;font-size:14px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .4s;white-space:nowrap}
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:480px;margin:12px auto}
-.cc{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.cc .cw{font-size:16px;font-weight:700;color:#2c3e50;margin-top:6px}
-.grass{position:fixed;bottom:56px;left:0;right:0;height:25px;background:linear-gradient(to top,#8BC34A,transparent);opacity:.25;pointer-events:none;z-index:50}
-.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.fab:hover{transform:scale(1.08)}.fab.on{background:#2c3e50}
-.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:340px;max-height:45vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:16px 20px;display:none;font-size:14px;line-height:1.7;color:#555;border:1px solid rgba(249,173,199,.3)}
-.pop.on{display:block;animation:fu .2s ease}
-.pop-t{font-size:12px;font-weight:700;color:#F9ADC7;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #fce4ec}
-.pop ul{margin:4px 0 4px 18px}.pop li{margin:3px 0}.pop b{color:#2c3e50}
-.pop .tc{font-weight:700;color:#F9ADC7;margin-top:8px;display:block;font-size:13px}
-@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #fce4ec;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
-.nb{padding:10px 22px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff;transition:all .2s}
-.nb:hover{background:#e91e8c}.nb:disabled{background:#e0e0e0;color:#bbb;cursor:default}
-.np{font-size:14px;font-weight:600;color:#999}
-.nk{font-size:11px;color:#ccc;margin-top:2px;text-align:center}
-@media(min-width:768px){.cdot{width:220px;height:220px}.wd{font-size:72px}.ttl{font-size:38px}.bbl{font-size:28px}.pr img{width:90px}.pal{width:380px;height:320px}.blob{width:85px;height:85px}.pop{width:400px}}
+
+/* Scene backgrounds - each color has its own world */
+.bg-title{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%)}
+.bg-story{background:linear-gradient(180deg,#FFE0B2 0%,#FFF9C4 100%)}
+.bg-red{background:linear-gradient(180deg,#FFCDD2 0%,#FFEBEE 100%)}
+.bg-blue{background:linear-gradient(180deg,#BBDEFB 0%,#E3F2FD 100%)}
+.bg-yellow{background:linear-gradient(180deg,#FFF9C4 0%,#FFFDE7 100%)}
+.bg-green{background:linear-gradient(180deg,#C8E6C9 0%,#E8F5E9 100%)}
+.bg-orange{background:linear-gradient(180deg,#FFE0B2 0%,#FFF3E0 100%)}
+.bg-paint{background:linear-gradient(180deg,#F3E5F5 0%,#FCE4EC 100%)}
+.bg-hunt{background:linear-gradient(180deg,#B3E5FC 0%,#E1F5FE 100%)}
+.bg-muddy{background:linear-gradient(180deg,#87CEEB 0%,#A5D6A7 60%,#795548 100%)}
+
+/* Ground/grass for outdoor scenes */
+.ground{position:absolute;bottom:56px;left:0;right:0;height:80px;background:linear-gradient(to top,#689F38,#8BC34A);border-radius:50% 50% 0 0/30px 30px 0 0}
+.clouds{position:absolute;top:20px;left:0;right:0;display:flex;justify-content:space-around;opacity:.6;pointer-events:none}
+.cloud{background:#fff;width:60px;height:24px;border-radius:20px;position:relative}
+.cloud::before{content:'';position:absolute;background:#fff;width:30px;height:20px;border-radius:50%;top:-10px;left:10px}
+.cloud::after{content:'';position:absolute;background:#fff;width:24px;height:16px;border-radius:50%;top:-6px;right:8px}
+
+/* Characters */
+.scene{position:relative;width:100%;max-width:420px;margin:0 auto}
+.char{position:absolute;transition:all .5s ease}
+.char img{height:auto}
+
+/* Speech bubble */
+.speech{position:relative;background:#fff;border-radius:20px;padding:12px 20px;box-shadow:0 3px 15px rgba(0,0,0,.1);margin:8px 0;display:inline-block;max-width:90%}
+.speech::after{content:'';position:absolute;bottom:-12px;left:40px;border:8px solid transparent;border-top-color:#fff}
+.speech .who{font-size:12px;font-weight:700;color:#F9ADC7;margin-bottom:2px}
+.speech .say{font-size:22px;font-weight:700;color:#2c3e50}
+
+/* Big word display */
+.bigword{font-size:64px;font-weight:900;letter-spacing:4px;margin:8px 0;text-shadow:0 3px 0 rgba(0,0,0,.1)}
+.sentence{font-size:26px;font-weight:700;color:#e67e22;margin:6px 0}
+
+/* Color object - the thing that IS the color */
+.color-obj{margin:10px 0;transition:transform .3s}
+.color-obj:hover{transform:scale(1.05)}
+
+/* Painting canvas */
+.canvas-frame{background:#fff;border:8px solid #8D6E63;border-radius:8px;width:280px;height:200px;margin:10px auto;position:relative;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.canvas-item{position:absolute;transition:opacity .6s,transform .6s;opacity:0;transform:scale(.5)}
+.canvas-item.show{opacity:1;transform:scale(1)}
+
+/* Muddy puddle */
+.puddle{width:120px;height:40px;background:radial-gradient(ellipse,#5D4037,#795548);border-radius:50%;margin:6px auto;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+
+/* Interactive: tap to reveal */
+.tap-area{cursor:pointer;transition:transform .2s,filter .2s;filter:grayscale(1) brightness(0.3)}
+.tap-area.revealed{filter:none;animation:popIn .4s ease}
+@keyframes popIn{0%{transform:scale(.6)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@keyframes splash{0%{transform:scale(1)}50%{transform:scale(1.3) translateY(-20px)}100%{transform:scale(1)}}
+
+/* Teacher notes */
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:320px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.pop b{color:#2c3e50}
+.pop .tc{font-weight:700;color:#F9ADC7;display:block;margin-top:6px}
+.pop ul{margin:4px 0 4px 16px}
+
+/* Nav */
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+
+@media(min-width:768px){.bigword{font-size:80px}.sentence{font-size:32px}.canvas-frame{width:360px;height:260px}.speech .say{font-size:26px}}
 </style>
 </head>
 <body>
 <div class="deck" id="D"></div>
-<div class="grass"></div>
 <button class="fab" id="F" onclick="tn()">📋</button>
-<div class="pop" id="P"><div class="pop-t">📋 Teacher Notes</div><div id="B"></div></div>
+<div class="pop" id="P"><div id="B"></div></div>
 <div class="nav">
 <button class="nb" id="pb" onclick="go(-1)">◀ Back</button>
-<div style="text-align:center"><div class="np" id="pg">1/10</div><div class="nk">← → · T=tips</div></div>
-<button class="nb" id="nb" onclick="go(1)">Next ▶</button>
+<div style="text-align:center"><div class="np" id="pg">1/12</div></div>
+<button class="nb" id="xb" onclick="go(1)">Next ▶</button>
 </div>
 <script>
 var PP='../../assets/peppa/',N={},c=0,t=0,o=false;
-var W=[{w:'red',clr:'#e74c3c'},{w:'blue',clr:'#3498db'},{w:'yellow',clr:'#f1c40f'},{w:'green',clr:'#27ae60'},{w:'orange',clr:'#e67e22'}];
-function pi(f,s){return '<img src="'+PP+f+'" width="'+(s||70)+'" alt="">'}
+var W=[
+  {w:'red',clr:'#e74c3c',obj:'Peppa\'s dress',objSvg:'👗',canvas:{x:60,y:30,el:'👗',sz:40}},
+  {w:'blue',clr:'#3498db',obj:'George\'s dinosaur',objSvg:'🦕',canvas:{x:180,y:100,el:'🦕',sz:36}},
+  {w:'yellow',clr:'#f1c40f',obj:'the sun',objSvg:'☀️',canvas:{x:220,y:10,el:'☀️',sz:44}},
+  {w:'green',clr:'#27ae60',obj:'the grass',objSvg:'🌿',canvas:{x:40,y:140,el:'🌿',sz:36}},
+  {w:'orange',clr:'#e67e22',obj:'Goldie the fish',objSvg:'🐠',canvas:{x:150,y:50,el:'🐠',sz:36}}
+];
+function pi(f,s){return '<img src="'+PP+f+'" width="'+(s||80)+'" style="display:block;margin:0 auto">'}
 function mk(i,bg,x){return '<div class="sl '+bg+(i===0?' on':'')+'" data-i="'+i+'">'+x+'</div>'}
+function bubble(who,txt){return '<div class="speech"><div class="who">'+who+'</div><div class="say">'+txt+'</div></div>'}
 function build(){
 var h='',i=0;
-// Title
-h+=mk(i++,'bg0',pi('peppa-logo.png',120)+'<div class="ttl" style="margin-top:12px">Colors 🎨</div><div style="display:flex;gap:10px;margin:10px 0">'+W.map(function(w){return '<div style="width:44px;height:44px;border-radius:50%;background:'+w.clr+'"></div>'}).join('')+'</div><div class="sub">red · blue · yellow · green · orange</div>');
-N[0]='<span class="tc">🎯 Today</span><ul><li>Sentence: <b>It\'s ___!</b></li><li>Ask: <b>What color is it?</b></li><li>5 new colors, no review (Day 1)</li></ul>';
-// Intro
-h+=mk(i++,'bg1','<div class="pr">'+pi('peppa-face.png',80)+'<div class="bbl">Hello! I\'m Peppa! 🐷</div></div><div class="sub" style="margin-top:20px">Let\'s learn colors today!</div>'+pi('peppa-jumping.png',100));
-N[i-1]='<span class="tc">👋 Intro</span><ul><li>Day 1 — no review words</li><li>"Say hello to Peppa!"</li></ul>';
-// 5 color words
+
+// 1 Title - Peppa's house, outdoor scene
+h+=mk(i++,'bg-title',
+  '<div class="clouds"><div class="cloud"></div><div class="cloud"></div></div>'+
+  pi('peppa-standing-waving.png',100)+
+  bubble('Peppa','Hello! Let\'s paint a picture! 🎨')+
+  '<div style="margin-top:8px;font-size:16px;color:#555">We need 5 colors!</div>'+
+  '<div class="ground"></div>');
+N[0]='<span class="tc">🎯 Story Setup</span><ul><li>Peppa wants to paint a picture for George</li><li>"Peppa needs to find colors! Can you help?"</li><li>Sentence: <b>It\'s ___!</b></li></ul>';
+
+// 2 Story setup - Peppa shows blank canvas
+h+=mk(i++,'bg-story',
+  pi('peppa-standing-waving.png',70)+
+  bubble('Peppa','I want to paint a picture for George!')+
+  '<div class="canvas-frame" id="cv0">'+
+  '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:48px">?</div>'+
+  '</div>'+
+  '<div style="font-size:15px;color:#888;margin-top:6px">Let\'s find the colors!</div>');
+N[i-1]='<span class="tc">🖼️ The Canvas</span><ul><li>Show the empty canvas</li><li>"Peppa wants to paint, but she has no colors!"</li><li>"Let\'s help Peppa find colors!"</li></ul>';
+
+// 3-7 Five color scenes - each color tied to a Peppa world object
 W.forEach(function(w,j){
-h+=mk(i++,'bg'+(2+j),'<div class="sec">New Color '+(j+1)+'/5</div><div class="cdot" style="background:'+w.clr+';box-shadow:0 8px 30px '+w.clr+'44"></div><div class="wd">'+w.w+'</div><div class="pr">'+pi('peppa-face.png',60)+'<div class="bbl">It\'s '+w.w+'!</div></div>');
-N[i-1]='<span class="tc">🗣️ '+w.w+'</span><ul><li>"What color is it?" → "It\'s '+w.w+'!"</li><li>Slow → normal → fast</li><li>Point to '+w.w+' things in the room</li></ul>';
+  var sceneImg = j===0?'peppa-standing-waving.png':j===1?'george-standing.png':j===2?'peppa-standing-waving.png':j===3?'peppa-george-jumping-muddy-puddles.png':'peppa-standing-waving.png';
+  var sceneSize = j===3?100:80;
+  h+=mk(i++,'bg-'+w.w,
+    pi(sceneImg,sceneSize)+
+    bubble('Peppa','Look! '+w.obj+' is <b style="color:'+w.clr+'">'+w.w+'</b>!')+
+    '<div class="color-obj" style="font-size:80px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))">'+w.objSvg+'</div>'+
+    '<div class="bigword" style="color:'+w.clr+'">'+w.w+'</div>'+
+    '<div class="sentence">It\'s '+w.w+'!</div>');
+  N[i-1]='<span class="tc">🗣️ '+w.w+' — '+w.obj+'</span><ul><li>"What color is '+w.obj+'?"</li><li>"It\'s '+w.w+'!" (repeat 3x)</li><li>Point to '+w.w+' things in the room</li></ul>';
 });
-// Palette
-h+=mk(i++,'bg7','<div class="sec">Color Palette</div><div class="pr">'+pi('peppa-face.png',60)+'<div class="bbl" id="palK">Tap to paint!</div></div><div class="pal" id="pal"><div class="pal-bg"></div></div>');
-N[i-1]='<span class="tc">🎨 Palette</span><ul><li>Tap each blob to reveal color</li><li>"What color is it?"</li></ul>';
-// Hunt
-h+=mk(i++,'bg8','<div class="sec">Color Hunt</div><div class="pr">'+pi('peppa-face.png',60)+'<div class="bbl">Where is red? 🔍</div></div><div class="cg">'+W.concat([W[0]]).map(function(w){return '<div class="cc"><div style="width:80px;height:80px;border-radius:50%;background:'+w.clr+'"></div><div class="cw">'+w.w+'</div></div>'}).join('')+'</div>');
-N[i-1]='<span class="tc">🔍 Hunt</span><ul><li>"What color is it?" random order</li></ul>';
-// Bye
-h+=mk(i++,'bg0',pi('peppa-jumping.png',120)+'<div class="ttl" style="margin-top:12px">Well Done! 🌈</div><div class="sub">Peppa says bye-bye! 👋</div>'+pi('family-group.png',160));
-N[i-1]='<span class="tc">👋</span><ul><li>"Bye red! Bye blue!" etc.</li></ul>';
-document.getElementById('D').innerHTML=h;t=i;goTo(0);initPal();
+
+// 8 Painting - tap colors to add to canvas
+h+=mk(i++,'bg-paint',
+  pi('peppa-standing-waving.png',60)+
+  bubble('Peppa','Let\'s paint! Tap each color!')+
+  '<div class="canvas-frame" id="cvMain">'+
+  W.map(function(w,j){return '<div class="canvas-item" id="ci'+j+'" style="left:'+w.canvas.x+'px;top:'+w.canvas.y+'px;font-size:'+w.canvas.sz+'px">'+w.canvas.el+'</div>'}).join('')+
+  '</div>'+
+  '<div style="display:flex;gap:10px;margin-top:12px;justify-content:center" id="paintBtns">'+
+  W.map(function(w,j){return '<div class="tap-area" id="pb'+j+'" onclick="paintTap('+j+')" style="width:52px;height:52px;border-radius:50%;background:'+w.clr+';cursor:pointer"></div>'}).join('')+
+  '</div>');
+N[i-1]='<span class="tc">🎨 Paint Together</span><ul><li>Tap each color circle below the canvas</li><li>Item appears on canvas + ask "What color?"</li><li>Child: "It\'s red!" etc.</li></ul>';
+
+// 9 Color Hunt - Peppa asks "Where is ___?"
+h+=mk(i++,'bg-hunt',
+  pi('peppa-standing-waving.png',60)+
+  bubble('Peppa','Where is <span id="huntTarget">red</span>? 🔍')+
+  '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:360px;margin:12px auto" id="huntGrid">'+
+  W.concat([W[0]]).map(function(w,j){return '<div style="background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer" onclick="huntTap(this,\''+w.w+'\')"><div style="width:70px;height:70px;border-radius:50%;background:'+w.clr+'"></div><div style="font-size:15px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0" class="hlbl">'+w.w+'</div></div>'}).join('')+
+  '</div>');
+N[i-1]='<span class="tc">🔍 Color Hunt</span><ul><li>Teacher says a color, child points</li><li>Tap to reveal label</li><li>Go random, get faster!</li></ul>';
+
+// 10 Completed painting reveal
+h+=mk(i++,'bg-story',
+  pi('peppa-standing-waving.png',60)+
+  bubble('Peppa','We found all the colors!')+
+  '<div class="canvas-frame" id="cvFinal">'+
+  W.map(function(w,j){return '<div class="canvas-item show" style="left:'+w.canvas.x+'px;top:'+w.canvas.y+'px;font-size:'+w.canvas.sz+'px">'+w.canvas.el+'</div>'}).join('')+
+  '</div>'+
+  '<div class="sentence">red · blue · yellow · green · orange</div>');
+N[i-1]='<span class="tc">🖼️ Finished!</span><ul><li>"Look at our painting!"</li><li>Point to each item: "What color?"</li></ul>';
+
+// 11 Muddy puddles celebration
+h+=mk(i++,'bg-muddy',
+  '<div class="clouds"><div class="cloud"></div><div class="cloud"></div></div>'+
+  pi('peppa-george-jumping-muddy-puddles.png',140)+
+  '<div class="puddle" id="puddle1"></div>'+
+  bubble('Peppa','Jump in muddy puddles! 💦')+
+  '<div style="font-size:28px;font-weight:800;color:#fff;margin-top:8px;text-shadow:0 2px 4px rgba(0,0,0,.3)">Well Done! 🌈</div>'+
+  '<div class="ground"></div>');
+N[i-1]='<span class="tc">💦 Celebrate!</span><ul><li>"Peppa and George are so happy!"</li><li>"Say bye! Bye red! Bye blue!"</li></ul>';
+
+document.getElementById('D').innerHTML=h;t=i;goTo(0);
 }
-function initPal(){
-var el=document.getElementById('pal');if(!el)return;
-var ps=[{t:'30px',l:'30px'},{t:'20px',l:'130px'},{t:'30px',r:'30px'},{t:'130px',l:'60px'},{t:'130px',r:'60px'}];
-W.forEach(function(w,j){var b=document.createElement('div');b.className='blob';b.style.top=ps[j].t;if(ps[j].l)b.style.left=ps[j].l;if(ps[j].r)b.style.right=ps[j].r;var lb=document.createElement('div');lb.className='bl';lb.textContent=w.w;b.appendChild(lb);b.onclick=function(){if(b.classList.contains('ok'))return;b.style.background=w.clr;b.classList.add('ok');b.style.boxShadow='0 4px 15px '+w.clr+'66';document.getElementById('palK').textContent="It's "+w.w+'!';};el.appendChild(b);});
+
+// Paint interaction
+function paintTap(j){
+  var btn=document.getElementById('pb'+j);
+  if(btn.classList.contains('revealed'))return;
+  btn.classList.add('revealed');
+  document.getElementById('ci'+j).classList.add('show');
 }
-function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('nb');if(c===t-1){b.textContent='Done 🎉';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}document.getElementById('B').innerHTML=N[c]||'';}
+
+// Hunt interaction
+function huntTap(el,w){
+  el.querySelector('.hlbl').style.opacity='1';
+  el.style.transform='scale(1.05)';
+  setTimeout(function(){el.style.transform=''},300);
+}
+
+// Navigation
+function goTo(n){
+  if(n<0||n>=t)return;
+  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sl')[n].classList.add('on');
+  c=n;
+  document.getElementById('pg').textContent=(c+1)+'/'+t;
+  document.getElementById('pb').disabled=c===0;
+  var b=document.getElementById('xb');
+  if(c===t-1){b.textContent='Done';b.disabled=true}
+  else{b.textContent='Next \u25b6';b.disabled=false}
+  document.getElementById('B').innerHTML=N[c]||'';
+}
 function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
 document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
