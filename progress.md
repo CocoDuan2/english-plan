@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 7 - Actions
+- 当前: Day 8 - Colors 2
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -38,7 +38,16 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 8 - Colors 2: pink, purple, white, black, brown / It's ___!
+- Day 9 - Animals 2: rabbit, pig, cow, horse, sheep / I see a ___!
+
+## Day 8 - Colors 2 🎨
+- 新词: pink, purple, white, black, brown
+- 句式: It's ___!
+- SVG物品: 粉花朵、紫蝴蝶、白云朵、黑猫咪、棕泰迪熊
+- teach: 画室故事线 + 昨日actions复习页 + 颜料管揭示互动 + 画廊展览墙
+- review: 昨日actions微复习 + 颜料点学词 + 画板听音选色 + 看图选色名三选一 + 影子配对
+- 角色轮换: Candy Cat/Emily/George/Daddy/Peppa/Peppa-fairy/Peppa-family 全出场
+- 状态: ✅ 完成
 
 ## Day 7 - Actions 🏃
 - 新词: run, jump, walk, sit, stand

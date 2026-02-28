@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 8 - Colors 2 (Review)</title>
+<style>
+:root{--tip-accent:#8e24aa;--tip-bg:#f3e5f5}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#f3e5f5 0%,#e1bee7 50%,#ce93d8 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;width:100%;padding:10px 16px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.08);text-align:center;z-index:100}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;font-weight:800;color:var(--tip-accent);margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.stars{font-size:22px;letter-spacing:2px;margin-top:3px}
+.mod{display:none;flex:1;width:100%;padding:18px 16px 74px;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#8e24aa;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:28px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:38px;background:linear-gradient(135deg,#ce93d8,#8e24aa);color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(142,36,170,.35);margin-top:16px}
+.start-btn:active{transform:scale(.96)}
+/* Module 1: Paint blob learn cards */
+.blob-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:500px;margin-top:12px}
+.blob-card{width:90px;height:120px;border-radius:18px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:.3s;background:linear-gradient(145deg,#e0e0e0,#bdbdbd)}
+.blob-card.on{background:#fff}
+.blob-card .blob-svg{opacity:0;transition:.3s}
+.blob-card.on .blob-svg{opacity:1}
+.blob-card .blabel{font-size:20px;font-weight:800;text-transform:lowercase;opacity:0;transition:.3s}
+.blob-card.on .blabel{opacity:1;color:#2c3e50}
+/* Yesterday micro-review */
+.micro-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.micro-btn{width:100px;height:100px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.micro-btn div{font-size:18px;font-weight:800;color:#2c3e50}
+.micro-btn.good{outline:4px solid #66bb6a}
+.micro-btn.bad{outline:4px solid #ef5350}
+/* Module 2: Easel painting — hear color, tap easel */
+.easel-area{width:100%;max-width:500px}
+.easel-prompt{font-size:28px;font-weight:900;color:#8e24aa;margin:8px 0}
+.easel-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.easel-btn{width:105px;height:130px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:#fff;transition:.2s;padding:8px}
+.easel-btn:active{transform:scale(.94)}
+.easel-btn span{font-size:16px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.easel-btn.good{outline:5px solid #66bb6a;transform:scale(1.05)}
+.easel-btn.bad{outline:5px solid #ef5350}
+/* Module 3: Color bin sorting */
+.bin-area{width:100%;max-width:500px}
+.bin-item{width:120px;height:120px;background:#fff;border-radius:18px;box-shadow:0 3px 12px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;margin:10px auto}
+.bin-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.bin-opt{width:90px;height:90px;border:none;border-radius:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;transition:.2s;font-size:20px;font-weight:800;color:#fff;text-transform:lowercase}
+.bin-opt:active{transform:scale(.94)}
+.bin-opt.good{outline:4px solid #66bb6a}
+.bin-opt.bad{outline:4px solid #ef5350}
+/* Module 4: Shadow match */
+.shadow-area{width:100%;max-width:500px}
+.shadow-pair{display:flex;gap:20px;align-items:center;justify-content:center;margin:10px 0}
+.shadow-box{width:110px;height:110px;background:#e0e0e0;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.shadow-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.shadow-btn{width:100px;height:100px;border:none;border-radius:16px;cursor:pointer;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;transition:.2s}
+.shadow-btn:active{transform:scale(.94)}
+.shadow-btn.good{outline:4px solid #66bb6a}
+.shadow-btn.bad{outline:4px solid #ef5350}
+/* Nav */
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#ce93d8;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){.main{max-width:800px}.easel-btn{width:120px;height:150px}.shadow-btn{width:120px;height:120px}}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Art Studio Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="stars" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="goMod(-1)">Back</button>
+  <span class="np" id="pg"></span>
+  <button class="nb" id="nx" onclick="goMod(1)">Next</button>
+</div>
+
+<script>
+/* ===== AUDIO ===== */
+var actx=null;
+function ensureAudio(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)()}
+function playTone(freq,dur,type){ensureAudio();var o=actx.createOscillator(),g=actx.createGain();o.type=type||'sine';o.frequency.value=freq;g.gain.value=0.18;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+dur)}
+function playOk(){playTone(523,.08);setTimeout(function(){playTone(659,.08)},90);setTimeout(function(){playTone(784,.12)},180)}
+function playNo(){playTone(330,.15,'square');setTimeout(function(){playTone(262,.2,'square')},160)}
+function speak(text,cb){
+  var done=false;
+  function finish(){if(!done){done=true;if(cb)cb()}}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=finish;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=finish;b.onerror=finish;b.play().catch(finish);
+  };
+  a.play().catch(function(){finish()});
+  setTimeout(finish,4000);
+}
+
+/* ===== DATA ===== */
+var WORDS=[
+  {w:'pink',color:'#e91e63',svg:'<svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="56" r="14" fill="#f48fb1"/><circle cx="100" cy="68" r="14" fill="#f48fb1"/><circle cx="96" cy="90" r="14" fill="#f48fb1"/><circle cx="72" cy="90" r="14" fill="#f48fb1"/><circle cx="62" cy="68" r="14" fill="#f48fb1"/><circle cx="80" cy="76" r="10" fill="#e91e63"/><rect x="77" y="100" width="6" height="30" rx="3" fill="#4CAF50"/></svg>'},
+  {w:'purple',color:'#9c27b0',svg:'<svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="55" cy="70" rx="30" ry="22" fill="#9c27b0" transform="rotate(-15,55,70)"/><ellipse cx="105" cy="70" rx="30" ry="22" fill="#9c27b0" transform="rotate(15,105,70)"/><ellipse cx="55" cy="100" rx="24" ry="18" fill="#ba68c8" transform="rotate(10,55,100)"/><ellipse cx="105" cy="100" rx="24" ry="18" fill="#ba68c8" transform="rotate(-10,105,100)"/><ellipse cx="80" cy="85" rx="6" ry="14" fill="#4a148c"/></svg>'},
+  {w:'white',color:'#9e9e9e',svg:'<svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="52" ry="30" fill="#fff"/><circle cx="55" cy="72" r="24" fill="#fff"/><circle cx="85" cy="60" r="28" fill="#fff"/><circle cx="110" cy="74" r="20" fill="#fff"/><circle cx="70" cy="78" r="4" fill="#333"/><circle cx="92" cy="78" r="4" fill="#333"/><path d="M76 88 Q81 93 86 88" stroke="#333" stroke-width="2.5" fill="none"/></svg>'},
+  {w:'black',color:'#333',svg:'<svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="110" rx="32" ry="24" fill="#333"/><circle cx="80" cy="62" r="26" fill="#333"/><polygon points="58,42 66,62 50,58" fill="#333"/><polygon points="102,42 94,62 110,58" fill="#333"/><circle cx="72" cy="58" r="5" fill="#8BC34A"/><circle cx="88" cy="58" r="5" fill="#8BC34A"/><ellipse cx="80" cy="68" rx="4" ry="2.5" fill="#e91e63"/></svg>'},
+  {w:'brown',color:'#795548',svg:'<svg width="90" height="90" viewBox="0 0 160 160"><circle cx="52" cy="38" r="14" fill="#795548"/><circle cx="108" cy="38" r="14" fill="#795548"/><circle cx="52" cy="38" r="8" fill="#a1887f"/><circle cx="108" cy="38" r="8" fill="#a1887f"/><circle cx="80" cy="55" r="28" fill="#795548"/><ellipse cx="80" cy="100" rx="34" ry="30" fill="#795548"/><ellipse cx="80" cy="100" rx="22" ry="20" fill="#a1887f"/><circle cx="70" cy="50" r="4" fill="#333"/><circle cx="90" cy="50" r="4" fill="#333"/><ellipse cx="80" cy="60" rx="5" ry="3.5" fill="#333"/></svg>'}
+];
+var YESTERDAY=[
+  {w:'run',svg:'<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="30" r="18" fill="#FF9800"/><line x1="80" y1="48" x2="80" y2="90" stroke="#FF9800" stroke-width="8" stroke-linecap="round"/><line x1="80" y1="90" x2="55" y2="130" stroke="#FF9800" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="90" x2="110" y2="120" stroke="#FF9800" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="62" x2="50" y2="72" stroke="#FF9800" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="62" x2="115" y2="55" stroke="#FF9800" stroke-width="7" stroke-linecap="round"/></svg>'},
+  {w:'jump',svg:'<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="24" r="18" fill="#e91e63"/><line x1="80" y1="42" x2="80" y2="82" stroke="#e91e63" stroke-width="8" stroke-linecap="round"/><line x1="80" y1="82" x2="58" y2="110" stroke="#e91e63" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="82" x2="102" y2="110" stroke="#e91e63" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="56" x2="50" y2="38" stroke="#e91e63" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="56" x2="110" y2="38" stroke="#e91e63" stroke-width="7" stroke-linecap="round"/></svg>'},
+  {w:'walk',svg:'<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="30" r="18" fill="#00bcd4"/><line x1="80" y1="48" x2="80" y2="92" stroke="#00bcd4" stroke-width="8" stroke-linecap="round"/><line x1="80" y1="92" x2="65" y2="135" stroke="#00bcd4" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="92" x2="95" y2="135" stroke="#00bcd4" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="62" x2="55" y2="78" stroke="#00bcd4" stroke-width="7" stroke-linecap="round"/><line x1="80" y1="62" x2="105" y2="78" stroke="#00bcd4" stroke-width="7" stroke-linecap="round"/></svg>'}
+];
+
+/* ===== NAV ===== */
+var modN=6,curMod=0,score=0,total=0;
+function showMod(n){curMod=n;for(var i=0;i<modN;i++){var m=document.getElementById('m'+i);m.classList.toggle('on',i===n)}document.getElementById('pg').textContent=(n+1)+'/'+modN;document.getElementById('pb').disabled=n===0;document.getElementById('nx').disabled=n===modN-1;updBar()}
+function goMod(d){showMod(Math.max(0,Math.min(modN-1,curMod+d)))}
+function updBar(){
+  var titles=['Art Studio Game','Paint & Learn','Easel Painting','Color Sorting','Shadow Match','All Done!'];
+  var hints=['','点一点，学颜色！','听一听，点画板！','看图片，选颜色！','找影子，配一配！',''];
+  document.getElementById('en').textContent=titles[curMod];
+  document.getElementById('zh').textContent=hints[curMod];
+  document.getElementById('zh').style.display=hints[curMod]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';document.getElementById('st').textContent=s;
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+/* ===== M0: START PAGE ===== */
+(function(){
+  var m=document.getElementById('m0');
+  m.innerHTML='<img src="../../assets/peppa/candy-cat-green-dress.png" width="140" alt="Candy Cat">'+
+    '<div class="pr"><div class="bbl" style="color:#8e24aa">Let\'s paint colors!</div></div>'+
+    '<button class="start-btn" onclick="ensureAudio();showMod(1);initM1()">Start!</button>';
+})();
+
+/* ===== M1: PAINT & LEARN (yesterday micro-review + new words) ===== */
+var m1busy=false;
+function initM1(){
+  var m=document.getElementById('m1');
+  total+=WORDS.length;
+  // Yesterday micro-review section
+  var h='<div style="background:rgba(255,255,255,.8);border-radius:20px;padding:12px 10px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.08)">'+
+    '<div style="font-size:24px;font-weight:900;color:#2c3e50">Yesterday\'s Words</div>'+
+    '<div class="micro-row" id="microRow">';
+  YESTERDAY.forEach(function(y){
+    h+='<div class="micro-btn" data-w="'+y.w+'" onclick="microTap(this)">'+y.svg+'<div>'+y.w+'</div></div>';
+  });
+  h+='</div></div>';
+  // New color blob cards
+  h+='<div class="pr"><img src="../../assets/peppa/george-standing.png" width="80" alt="George"><div class="bbl">Tap to see!</div></div>';
+  h+='<div class="blob-row" id="blobRow">';
+  WORDS.forEach(function(w,i){
+    h+='<div class="blob-card" data-i="'+i+'" onclick="blobTap(this,'+i+')">'+
+      '<div class="blob-svg">'+w.svg+'</div>'+
+      '<div class="blabel" style="color:'+w.color+'">'+w.w+'</div></div>';
+  });
+  h+='</div>';
+  m.innerHTML=h;
+  updBar();
+}
+function microTap(el){
+  if(el.classList.contains('good'))return;
+  el.classList.add('good');
+  speak(el.dataset.w);
+}
+function blobTap(el,i){
+  if(el.classList.contains('on'))return speak(WORDS[i].w);
+  el.classList.add('on');
+  playOk();score++;updBar();
+  speak("It's "+WORDS[i].w+'!');
+}
+
+/* ===== M2: EASEL PAINTING — hear color, tap correct easel ===== */
+var m2busy=false,m2q=0,m2order=[];
+function initM2(){
+  m2q=0;m2order=shuffle([0,1,2,3,4]);
+  total+=5;
+  buildM2();
+}
+function buildM2(){
+  if(m2q>=5){setTimeout(function(){showMod(3);initM3()},800);return}
+  var target=WORDS[m2order[m2q]];
+  var m=document.getElementById('m2');
+  var h='<div class="easel-area">';
+  h+='<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="80" alt="Emily"><div class="bbl" style="color:#8e24aa">Find '+target.w+'!</div></div>';
+  // Play sound automatically
+  h+='<div class="easel-grid" id="easelGrid">';
+  var opts=shuffle(WORDS.slice());
+  // Ensure target is in the options (pick 3 including target)
+  var picks=[target];
+  opts.forEach(function(o){if(picks.length<3&&o.w!==target.w)picks.push(o)});
+  picks=shuffle(picks);
+  picks.forEach(function(p){
+    h+='<button class="easel-btn" data-w="'+p.w+'" onclick="easelTap(this,\''+target.w+'\')">'+
+      p.svg+'<span>'+p.w+'</span></button>';
+  });
+  h+='</div></div>';
+  m.innerHTML=h;
+  setTimeout(function(){speak("It's "+target.w+'!')},300);
+}
+function easelTap(el,correct){
+  if(m2busy)return;m2busy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');playOk();score++;updBar();
+    speak(correct,function(){m2busy=false;m2q++;buildM2()});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){m2busy=false;setTimeout(function(){el.classList.remove('bad')},400)});
+  }
+}
+
+/* ===== M3: COLOR SORTING — see SVG, pick correct color name ===== */
+var m3busy=false,m3q=0,m3order=[];
+function initM3(){
+  m3q=0;m3order=shuffle([0,1,2,3,4]);
+  total+=5;
+  buildM3();
+}
+function buildM3(){
+  if(m3q>=5){setTimeout(function(){showMod(4);initM4()},800);return}
+  var target=WORDS[m3order[m3q]];
+  var m=document.getElementById('m3');
+  var h='<div class="bin-area">';
+  h+='<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" width="80" alt="Daddy Pig"><div class="bbl" style="color:#5d4037">What color?</div></div>';
+  h+='<div class="bin-item">'+target.svg.replace(/width="90" height="90"/,'width="110" height="110"')+'</div>';
+  // 3 color name options
+  var opts=[target];
+  var others=WORDS.filter(function(w){return w.w!==target.w});
+  shuffle(others);
+  opts.push(others[0],others[1]);
+  opts=shuffle(opts);
+  h+='<div class="bin-row">';
+  opts.forEach(function(o){
+    h+='<button class="bin-opt" style="background:'+o.color+'" data-w="'+o.w+'" onclick="binTap(this,\''+target.w+'\')">'+o.w+'</button>';
+  });
+  h+='</div></div>';
+  m.innerHTML=h;
+  updBar();
+}
+function binTap(el,correct){
+  if(m3busy)return;m3busy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');playOk();score++;updBar();
+    speak("It's "+correct+'!',function(){m3busy=false;m3q++;buildM3()});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){m3busy=false;setTimeout(function(){el.classList.remove('bad')},400)});
+  }
+}
+
+/* ===== M4: SHADOW MATCH — grey silhouette, pick colored version ===== */
+var m4busy=false,m4q=0,m4order=[];
+function initM4(){
+  m4q=0;m4order=shuffle([0,1,2,3,4]);
+  total+=5;
+  buildM4();
+}
+function greyify(svg){
+  return svg.replace(/fill="#[^"]+"/g,'fill="#bbb"')
+            .replace(/stroke="#[^"]+"/g,'stroke="#999"');
+}
+function buildM4(){
+  if(m4q>=5){setTimeout(function(){showMod(5);initM5()},800);return}
+  var target=WORDS[m4order[m4q]];
+  var m=document.getElementById('m4');
+  var h='<div class="shadow-area">';
+  h+='<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess-small.png" width="80" alt="Peppa Fairy">';
+  h+='<div class="bbl" style="color:#8e24aa">Match the shadow!</div></div>';
+  // Shadow silhouette
+  h+='<div class="shadow-pair"><div class="shadow-box">'+greyify(target.svg)+'</div></div>';
+  // 3 colored options
+  var opts=[target];
+  var others=WORDS.filter(function(w){return w.w!==target.w});
+  shuffle(others);
+  opts.push(others[0],others[1]);
+  opts=shuffle(opts);
+  h+='<div class="shadow-opts">';
+  opts.forEach(function(o){
+    h+='<button class="shadow-btn" data-w="'+o.w+'" onclick="shadowTap(this,\''+target.w+'\')">'+o.svg+'</button>';
+  });
+  h+='</div></div>';
+  m.innerHTML=h;
+  updBar();
+}
+function shadowTap(el,correct){
+  if(m4busy)return;m4busy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');playOk();score++;updBar();
+    speak("It's "+correct+'!',function(){m4busy=false;m4q++;buildM4()});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){m4busy=false;setTimeout(function(){el.classList.remove('bad')},400)});
+  }
+}
+
+/* ===== M5: DONE PAGE ===== */
+function initM5(){
+  total=score;updBar();
+  var m=document.getElementById('m5');
+  m.innerHTML='<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="160" alt="Peppa Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#8e24aa;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#5d4037;margin-bottom:8px">Great painting today!</div>'+
+    '<div style="font-size:28px;letter-spacing:3px">'+Array(score+1).join('⭐')+'</div>'+
+    '<button class="start-btn" style="margin-top:16px" onclick="location.reload()">Play Again</button>';
+}
+
+/* ===== INIT ===== */
+updBar();
+</script>
+</body>
+</html>
