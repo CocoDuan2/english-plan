@@ -10,26 +10,26 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
 body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);display:flex;flex-direction:column;align-items:center}
 .main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
 .top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
-.ie{font-size:20px;font-weight:700;color:#2d3436}
-.iz{font-size:16px;color:rgba(0,0,0,.5);margin-top:2px}
-.sb{margin-top:4px;font-size:18px;letter-spacing:2px}
+.ie{font-size:26px;font-weight:800;color:#e91e8c}
+.iz{font-size:20px;color:#e67e22;font-weight:600;margin-top:2px}
+.sb{margin-top:4px;font-size:22px;letter-spacing:2px}
 .mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
 .mod.on{display:flex}
 .pr{display:flex;align-items:center;gap:10px;margin:10px 0}
-.pr img{width:60px;height:auto}
-.bbl{background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:18px;font-weight:600;color:#e67e22;position:relative}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
 .bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
-.start-btn{font-size:28px;font-weight:700;padding:16px 50px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s;margin-top:16px}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);transition:transform .2s;margin-top:16px}
 .start-btn:active{transform:scale(.95)}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
-.card{background:#fff;border-radius:16px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
+.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
 .card:active{transform:scale(.95)}
 .card svg{opacity:0;transition:opacity .4s}
-.card .lbl{font-size:16px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s}
+.card .lbl{font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s}
 .card.rev svg{opacity:1}
 .card.rev .lbl{opacity:1}
 .puddle-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.puddle{width:90px;height:90px;border-radius:16px;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.puddle{width:105px;height:105px;border-radius:16px;cursor:pointer;transition:transform .2s;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
 .puddle:active{transform:scale(.9)}
 .puddle.ok{animation:splashA .5s ease}
 @keyframes splashA{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
@@ -40,7 +40,7 @@ body{background:linear-gradient(180deg,#87CEEB 0%,#B6E3B5 70%,#8BC34A 100%);disp
 .fi{width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;position:relative}
 .fc.fl .fi{transform:rotateY(180deg)}
 .ff,.fb{position:absolute;width:100%;height:100%;border-radius:14px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:28px}
+.ff{background:linear-gradient(135deg,#F9ADC7,#f48fb1);font-size:36px}
 .fb{transform:rotateY(180deg);gap:4px;padding:4px}
 .fc.mt{opacity:.4;pointer-events:none}
 .nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
@@ -77,7 +77,7 @@ var W=[
   {w:'green',clr:'#27ae60',svg:'<rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none"/>'},
   {w:'orange',clr:'#e67e22',svg:'<circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none"/>'}
 ];
-function svgOf(i,sz){return '<svg width="'+(sz||80)+'" height="'+(sz||80)+'" viewBox="0 0 160 160">'+W[i].svg+'</svg>'}
+function svgOf(i,sz){return '<svg width="'+(sz||100)+'" height="'+(sz||100)+'" viewBox="0 0 160 160">'+W[i].svg+'</svg>'}
 var cur=0,actx=null;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
 function speak(t,cb){
@@ -96,9 +96,9 @@ function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.clas
 // M0: Start
 function initM0(){
   document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'peppa-pig-standing-waving.png" width="100">'+
+    '<img src="'+PP+'peppa-pig-standing-waving.png" width="140">'+
     '<div class="pr"><div class="bbl">Help me find all the colors!</div></div>'+
-    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(_,i){return svgOf(i,50)}).join('')+'</div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(_,i){return svgOf(i,65)}).join('')+'</div>'+
     '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
   setI("Peppa's Color Party!",'和佩琪一起学颜色吧！','');
 }
@@ -111,7 +111,7 @@ function initM1(){
     '<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="60"><div class="bbl">Tap to find colors!</div></div>'+
     '<div class="g3">'+W.map(function(w,i){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
-        svgOf(i,70)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
+        svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
     }).join('')+'</div>';
   setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
 }
@@ -144,7 +144,7 @@ function renderPJ(){
   document.getElementById('m2').innerHTML=
     '<div class="pr"><img src="'+PP+'peppa-pig-jumping-muddy-puddle.png" width="70"><div class="bbl">Jump in '+tgt.w+'!</div></div>'+
     '<div class="puddle-row">'+W.map(function(w,j){
-      return '<div class="puddle" style="background:'+w.clr+'" onclick="pjTap('+j+')">'+svgOf(j,60)+'</div>'
+      return '<div class="puddle" style="background:'+w.clr+'" onclick="pjTap('+j+')">'+svgOf(j,75)+'</div>'
     }).join('')+'</div>';
 }
 function pjTap(j){
@@ -168,7 +168,7 @@ function initM3(){
   document.getElementById('m3').innerHTML=
     '<div class="pr" id="lfPr"><img src="'+PP+'daddy-pig-standing.png" width="60"><div class="bbl" id="lfBbl">Listen and tap!</div></div>'+
     '<div class="g3">'+W.map(function(w,i){
-      return '<div class="card rev" onclick="lfTap('+i+')" style="min-height:90px">'+svgOf(i,70)+'</div>'
+      return '<div class="card rev" onclick="lfTap('+i+')" style="min-height:90px">'+svgOf(i,90)+'</div>'
     }).join('')+'</div>';
   lfAsk();
 }
@@ -209,8 +209,8 @@ function initM4(){
       return '<div class="fc" id="fc'+i+'" onclick="fTap('+i+')"><div class="fi">'+
         '<div class="ff">\ud83d\udc37</div>'+
         '<div class="fb" style="background:'+c.clr+'22">'+
-        '<svg width="40" height="40" viewBox="0 0 160 160">'+W[c.wi].svg+'</svg>'+
-        '<div style="font-size:12px;font-weight:700;color:#2c3e50">'+c.w+'</div></div></div></div>'
+        '<svg width="55" height="55" viewBox="0 0 160 160">'+W[c.wi].svg+'</svg>'+
+        '<div style="font-size:15px;font-weight:700;color:#2c3e50">'+c.w+'</div></div></div></div>'
     }).join('')+'</div>';
   setI('Memory Flip!','翻开两张一样的，配成一对！',stars(fM,4));
 }
