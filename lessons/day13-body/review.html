@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 13 - Body Review Game</title>
+<style>
+:root{--tip-accent:#42a5f5;--tip-bg:#eaf4ff}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#9bd8ff 0%,#c9e8ff 52%,#bde6bf 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.review-grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;max-width:500px}
+.review-btn{width:140px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer}
+.review-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.review-btn.ok{outline:4px solid #66bb6a}
+.review-btn.bad{outline:4px solid #ef5350}
+.review-btn:active{transform:scale(.95)}
+.face-zone{position:relative;width:320px;height:320px;border-radius:50%;background:#ffe1cd;box-shadow:inset 0 -14px 0 rgba(255,255,255,.35),0 5px 16px rgba(0,0,0,.12)}
+.spot{position:absolute;border:none;background:transparent;cursor:pointer;border-radius:50%;min-width:82px;min-height:82px}
+.spot::after{content:'';position:absolute;inset:0;border-radius:50%;border:4px dashed rgba(255,255,255,.85);opacity:0}
+.spot.hit::after{opacity:1}
+.s-head{left:118px;top:24px;width:84px;height:84px}
+.s-eyes{left:70px;top:108px;width:180px;height:68px;border-radius:36px}
+.s-ears{left:10px;top:104px;width:300px;height:90px;border-radius:45px}
+.s-nose{left:128px;top:154px;width:68px;height:68px}
+.s-mouth{left:102px;top:214px;width:120px;height:72px;border-radius:36px}
+.learn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:500px;margin-top:12px}
+.learn-card{width:92px;height:92px;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:.45;transition:.2s}
+.learn-card.on{opacity:1;transform:translateY(-3px)}
+.learn-card div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.stage{width:100%;max-width:500px;background:rgba(255,255,255,.88);border-radius:18px;padding:12px 10px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.target{font-size:32px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin:6px 0 10px;text-align:center}
+.mannequin{height:170px;border-radius:14px;background:linear-gradient(180deg,#fff8e1,#e3f2fd);display:flex;align-items:center;justify-content:center;position:relative}
+.part-slot{position:absolute;opacity:0;transition:.2s}
+.part-slot.on{opacity:1}
+.slot-head{top:18px;left:124px}
+.slot-eyes{top:62px;left:116px}
+.slot-ears{top:58px;left:74px}
+.slot-nose{top:90px;left:136px}
+.slot-mouth{top:120px;left:122px}
+.pick-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.pick-btn{width:120px;height:120px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.pick-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.pick-btn.good{outline:4px solid #66bb6a}
+.pick-btn.bad{outline:4px solid #ef5350}
+.pick-btn:active{transform:scale(.95)}
+.listen-wrap{width:100%;max-width:500px}
+.listen-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.listen-btn{width:145px;height:135px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.listen-btn div{font-size:20px;font-weight:800;color:#2c3e50;text-transform:lowercase}
+.listen-btn.good{outline:4px solid #66bb6a}
+.listen-btn.bad{outline:4px solid #ef5350}
+.listen-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Body Band Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var PARTS=[
+  {w:'head',svg:'<circle cx="80" cy="82" r="52" fill="#ffd6b5"/><circle cx="63" cy="71" r="3" fill="#333"/><circle cx="99" cy="71" r="3" fill="#333"/><path d="M62 112 Q80 126 98 112" stroke="#e57373" stroke-width="5" fill="none" stroke-linecap="round"/>'},
+  {w:'eyes',svg:'<ellipse cx="52" cy="78" rx="20" ry="14" fill="#fff"/><ellipse cx="108" cy="78" rx="20" ry="14" fill="#fff"/><circle cx="52" cy="80" r="6" fill="#333"/><circle cx="108" cy="80" r="6" fill="#333"/>'},
+  {w:'ears',svg:'<ellipse cx="34" cy="84" rx="14" ry="20" fill="#ffd8bf"/><ellipse cx="126" cy="84" rx="14" ry="20" fill="#ffd8bf"/><ellipse cx="34" cy="84" rx="7" ry="10" fill="#ffccbc"/><ellipse cx="126" cy="84" rx="7" ry="10" fill="#ffccbc"/>'},
+  {w:'nose',svg:'<ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/>'},
+  {w:'mouth',svg:'<path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M62 106 Q80 116 98 106" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>'}
+];
+var YEST=[
+  {w:'cat',svg:'<svg width="88" height="88" viewBox="0 0 160 160"><circle cx="80" cy="90" r="42" fill="#f4a460"/><polygon points="50,60 65,30 78,62" fill="#f4a460"/><polygon points="110,60 95,30 82,62" fill="#f4a460"/></svg>'},
+  {w:'bird',svg:'<svg width="88" height="88" viewBox="0 0 160 160"><circle cx="78" cy="88" r="36" fill="#ffd54f"/><circle cx="108" cy="68" r="20" fill="#ffe082"/><polygon points="126,68 144,74 126,80" fill="#ff8f00"/></svg>'},
+  {w:'duck',svg:'<svg width="88" height="88" viewBox="0 0 160 160"><ellipse cx="78" cy="92" rx="40" ry="28" fill="#ffeb3b"/><circle cx="108" cy="76" r="22" fill="#fff176"/><polygon points="126,78 148,86 126,94" fill="#ff9800"/></svg>'}
+];
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;
+  a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t}return arr}
+function svgPart(i,s){return '<svg width="'+(s||80)+'" height="'+(s||80)+'" viewBox="0 0 160 160">'+PARTS[i].svg+'</svg>'}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  var titles=['Body Band Game','Yesterday Bridge','Tap My Face','Build the Band','Listen and Point','All Done!'];
+  var tips=['','昨天动物+今天句式','点脸学词','给乐队选部位','听音找部位',''];
+  document.getElementById('en').textContent=titles[cur];
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur];
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  ui();
+}
+function go(d){show(cur+d)}
+
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'peppa_pig_princess_fairy.png" width="140" alt="Peppa">'+
+    '<div class="pr"><div class="bbl">Tap, listen, make the band!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'george-standing.png" width="80" alt="George">'+
+      '<img src="'+PP+'candy-cat-green-dress.png" width="80" alt="Candy">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);buildY()}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle([t].concat(shuffle(YEST.filter(function(x){return x.w!==t.w})).slice(0,2)));
+  document.getElementById('m1').innerHTML=
+    '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">I see a '+t.w+'!</div></div>'+
+    '<div class="review-grid">'+opts.map(function(o){
+      return '<button class="review-btn" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+o.svg+'<div>'+o.w+'</div></button>';
+    }).join('')+'</div>';
+  setTimeout(function(){speak('I see a '+t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('ok');score++;ui();playOk();
+    speak('I see a '+correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var learnBusy=false,learnDone={};
+function initM2(){
+  learnBusy=false;learnDone={};
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" alt="Emily"><div class="bbl" id="learnBubble">Tap my face!</div></div>'+
+    '<div class="face-zone">'+
+      '<button class="spot s-head" onclick="tapLearn(0,this)"></button>'+
+      '<button class="spot s-eyes" onclick="tapLearn(1,this)"></button>'+
+      '<button class="spot s-ears" onclick="tapLearn(2,this)"></button>'+
+      '<button class="spot s-nose" onclick="tapLearn(3,this)"></button>'+
+      '<button class="spot s-mouth" onclick="tapLearn(4,this)"></button>'+
+      '<svg width="320" height="320" viewBox="0 0 160 160" style="position:absolute;left:0;top:0;pointer-events:none"><circle cx="80" cy="84" r="48" fill="#ffd8bf"/><ellipse cx="34" cy="84" rx="14" ry="20" fill="#ffd8bf"/><ellipse cx="126" cy="84" rx="14" ry="20" fill="#ffd8bf"/><ellipse cx="52" cy="78" rx="20" ry="14" fill="#fff"/><ellipse cx="108" cy="78" rx="20" ry="14" fill="#fff"/><circle cx="52" cy="80" r="6" fill="#333"/><circle cx="108" cy="80" r="6" fill="#333"/><ellipse cx="80" cy="94" rx="16" ry="12" fill="#ffab91"/><circle cx="74" cy="94" r="3" fill="#8d6e63"/><circle cx="86" cy="94" r="3" fill="#8d6e63"/><path d="M58 106 Q80 132 102 106" stroke="#e53935" stroke-width="9" fill="none" stroke-linecap="round"/></svg>'+
+    '</div>'+
+    '<div class="learn-row">'+PARTS.map(function(p,i){return '<div class="learn-card" id="lc'+i+'">'+svgPart(i,58)+'<div>'+p.w+'</div></div>'}).join('')+'</div>';
+}
+function tapLearn(i,btn){
+  if(learnBusy)return;
+  if(learnDone[i]){speak(PARTS[i].w);return}
+  learnBusy=true;learnDone[i]=1;
+  btn.classList.add('hit');
+  document.getElementById('lc'+i).classList.add('on');
+  document.getElementById('learnBubble').textContent='This is my '+PARTS[i].w+'!';
+  score++;ui();playOk();
+  speak('This is my '+PARTS[i].w,function(){learnBusy=false});
+}
+
+var bandBusy=false,bandQ=0,bandOrder=[];
+function initM3(){bandBusy=false;bandQ=0;bandOrder=shuffle([0,1,2,3,4]);resetSlots();buildBand()}
+function resetSlots(){['head','eyes','ears','nose','mouth'].forEach(function(n){var el=document.getElementById('slot-'+n);if(el)el.classList.remove('on')})}
+function buildBand(){
+  if(bandQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=PARTS[bandOrder[bandQ]];
+  var opts=shuffle([tgt].concat(shuffle(PARTS.filter(function(p){return p.w!==tgt.w})).slice(0,2)));
+  document.getElementById('m3').innerHTML=
+    '<div class="pr"><img src="'+PP+'george-superhero-costume.png" alt="George"><div class="bbl">Band needs '+tgt.w+'!</div></div>'+
+    '<div class="stage">'+
+      '<div class="target">'+tgt.w+'</div>'+
+      '<div class="mannequin">'+
+        '<svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="84" r="48" fill="#ffe0cc"/><ellipse cx="34" cy="84" rx="14" ry="20" fill="#ffe0cc"/><ellipse cx="126" cy="84" rx="14" ry="20" fill="#ffe0cc"/></svg>'+
+        '<div class="part-slot slot-head" id="slot-head">'+svgPart(0,46)+'</div>'+
+        '<div class="part-slot slot-eyes" id="slot-eyes">'+svgPart(1,62)+'</div>'+
+        '<div class="part-slot slot-ears" id="slot-ears">'+svgPart(2,86)+'</div>'+
+        '<div class="part-slot slot-nose" id="slot-nose">'+svgPart(3,44)+'</div>'+
+        '<div class="part-slot slot-mouth" id="slot-mouth">'+svgPart(4,56)+'</div>'+
+      '</div>'+
+      '<div class="pick-row">'+opts.map(function(o){
+        return '<button class="pick-btn" data-w="'+o.w+'" onclick="tapBand(this,\''+tgt.w+'\')">'+svgPart(PARTS.findIndex(function(p){return p.w===o.w}),64)+'<div>'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  revealBuilt();
+  setTimeout(function(){speak(tgt.w)},200);
+}
+function revealBuilt(){
+  for(var i=0;i<bandQ;i++){var w=PARTS[bandOrder[i]].w;var el=document.getElementById('slot-'+w);if(el)el.classList.add('on')}
+}
+function tapBand(el,correct){
+  if(bandBusy)return;bandBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');
+    var slot=document.getElementById('slot-'+correct);if(slot)slot.classList.add('on');
+    score++;ui();playOk();
+    speak('This is my '+correct,function(){bandBusy=false;bandQ++;setTimeout(buildBand,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){bandBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+var listenBusy=false,listenQ=0,listenOrder=[];
+function initM4(){listenBusy=false;listenQ=0;listenOrder=shuffle([0,1,2,3,4]);buildListen()}
+function buildListen(){
+  if(listenQ>=5){setTimeout(function(){show(5)},700);return}
+  var tgt=PARTS[listenOrder[listenQ]];
+  var opts=shuffle([tgt].concat(shuffle(PARTS.filter(function(p){return p.w!==tgt.w})).slice(0,2)));
+  document.getElementById('m4').innerHTML=
+    '<div class="listen-wrap">'+
+      '<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Find '+tgt.w+'!</div></div>'+
+      '<button style="width:220px;height:84px;border:none;border-radius:14px;background:#42a5f5;color:#fff;font-size:26px;font-weight:900;cursor:pointer;display:block;margin:0 auto 10px" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+      '<div class="listen-row">'+opts.map(function(o){
+        return '<button class="listen-btn" data-w="'+o.w+'" onclick="tapListen(this,\''+tgt.w+'\')">'+svgPart(PARTS.findIndex(function(p){return p.w===o.w}),72)+'<div>'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapListen(el,correct){
+  if(listenBusy)return;listenBusy=true;
+  if(el.dataset.w===correct){
+    el.classList.add('good');score++;ui();playOk();
+    speak('This is my '+correct,function(){listenBusy=false;listenQ++;setTimeout(buildListen,520)});
+  }else{
+    el.classList.add('bad');playNo();
+    speak(correct,function(){listenBusy=false;setTimeout(function(){el.classList.remove('bad')},320)});
+  }
+}
+
+function initM5(){
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="170" alt="Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">Body band is ready!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:16px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>

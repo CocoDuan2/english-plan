@@ -1,9 +1,18 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 12 - Animals
+- 当前: Day 13 - Body
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 13 - Body 🧩
+- 新词: head, eyes, ears, nose, mouth
+- 句式: This is my ___!
+- teach: Body Band Parade 故事线 + Day12 微复习页(cat/bird/duck) + sticker rack 揭示 + parade line-up 总览
+- review: Day12 微复习(3题) + 点脸部位学词 + Build the Band 选部位装配 + Listen and Point 听音找部位 + Done 完成页
+- 差异化: teach 从 zoo bus 改为 body band parade；review 去除上一课 window/seat/shadow 链路，改为 bridge/tap-face/build/listen 新路径
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 12 - Animals 🐾
 - 新词: cat, dog, fish, bird, duck
@@ -64,7 +73,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 13 - Body（head, eyes, ears, nose, mouth），句式 This is my ___!
+- Day 14 - Food（apple, banana, milk, bread, egg），句式 I like ___!
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
