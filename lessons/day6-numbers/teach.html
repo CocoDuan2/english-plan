@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 6 - Numbers</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 74px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#e8f5e9,#c8e6c9)}
+.bg-hello{background:linear-gradient(180deg,#dcedc8,#f1f8e9)}
+.bg-yesterday{background:linear-gradient(160deg,#fff4e0,#ffe8cc)}
+.bg-one{background:linear-gradient(160deg,#fff9c4,#fffde7)}
+.bg-two{background:linear-gradient(160deg,#fce4ec,#fff0f5)}
+.bg-three{background:linear-gradient(160deg,#e8f5e9,#f1f8e9)}
+.bg-four{background:linear-gradient(160deg,#e3f2fd,#e8eaf6)}
+.bg-five{background:linear-gradient(160deg,#f3e5f5,#fce4ec)}
+.bg-count{background:linear-gradient(160deg,#fff8e1,#fff3e0)}
+.bg-team{background:linear-gradient(160deg,#e0f7fa,#e8f5e9)}
+.bg-bye{background:linear-gradient(180deg,#66bb6a,#aed581 58%,#dce775)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:6px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-transform:lowercase;color:#2c3e50;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#43a047;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;font-size:26px;font-weight:700;color:#43a047;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:8px 0}
+.dots{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.dots svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.1))}
+.review-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:760px;margin-top:14px}
+.review-card{width:160px;min-height:160px;background:#fff;border-radius:20px;padding:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.review-word{font-size:30px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:6px}
+.count-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:700px;margin-top:10px}
+.c-btn{width:130px;height:130px;border:none;border-radius:20px;background:linear-gradient(145deg,#a5d6a7,#81c784);color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden;transition:.3s}
+.c-btn span{font-size:22px;font-weight:900;text-transform:lowercase;opacity:0;transform:translateY(10px);transition:.3s}
+.c-btn .inner{opacity:0;transform:scale(.6);transition:.3s}
+.c-btn.on span,.c-btn.on .inner{opacity:1;transform:translateY(0) scale(1)}
+.c-btn.on{background:#fff;color:#2c3e50;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin-top:10px}
+.ti{background:#fff;border-radius:16px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.ti .num{font-size:42px;font-weight:900;color:#43a047}
+.ti .wlabel{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:50px;height:50px;border-radius:50%;background:#81c784;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(129,199,132,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:126px;right:16px;z-index:199;width:330px;max-height:42vh;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 16px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#81c784;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){.ttl{font-size:46px}.sub{font-size:24px}.word{font-size:100px}.sent{font-size:38px}.c-btn{width:150px;height:150px}}
+</style>
+</head>
+<body>
+<div class="deck">
+  <!-- S1: Title — George superhero + treasure icons -->
+  <div class="sl bg-title on">
+    <img src="../../assets/peppa/george-superhero-costume.png" width="140" alt="George Superhero">
+    <div class="ttl">Peppa's Treasure Hunt</div>
+    <div style="display:flex;gap:18px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+      <svg width="70" height="70" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/><circle cx="72" cy="72" r="3" fill="#333"/><circle cx="90" cy="72" r="3" fill="#333"/><path d="M72 82 Q80 90 88 82" stroke="#333" stroke-width="2" fill="none"/></svg>
+      <svg width="70" height="70" viewBox="0 0 160 160"><path d="M80 130 C30 100 10 60 80 28 C150 60 130 100 80 130Z" fill="#e91e63"/></svg>
+      <svg width="70" height="70" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="80" cy="120" rx="12" ry="10" fill="#FF9800"/></svg>
+      <svg width="70" height="70" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/><rect x="78" y="88" width="4" height="30" rx="2" fill="#8d6e63"/></svg>
+      <svg width="70" height="70" viewBox="0 0 160 160"><circle cx="80" cy="58" r="34" fill="#ab47bc"/><rect x="78" y="90" width="4" height="44" rx="2" fill="#8d6e63"/></svg>
+    </div>
+  </div>
+
+  <!-- S2: Hello — Peppa + Emily, image-led -->
+  <div class="sl bg-hello">
+    <div style="display:flex;gap:16px;align-items:flex-end;justify-content:center">
+      <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" alt="Peppa">
+      <img src="../../assets/peppa/emily-elephant-standing.png" width="100" alt="Emily">
+    </div>
+    <div class="ttl" style="margin-top:10px">Let's count treasures!</div>
+    <div style="display:flex;gap:12px;margin-top:10px;justify-content:center">
+      <svg width="50" height="50" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/></svg>
+      <svg width="50" height="50" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/></svg>
+      <svg width="50" height="50" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/></svg>
+    </div>
+  </div>
+
+  <!-- S3: Yesterday Review — food quick recall -->
+  <div class="sl bg-yesterday">
+    <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig"><div class="bbl" style="color:#e67e22">Yesterday Review!</div></div>
+    <div class="review-row">
+      <div class="review-card">
+        <svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg>
+        <div class="review-word">apple</div>
+      </div>
+      <div class="review-card">
+        <svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="42" ry="30" fill="#f9e44c"/><ellipse cx="80" cy="88" rx="32" ry="22" fill="#ffe066"/><rect x="72" y="38" width="6" height="24" rx="3" fill="#8d6e63"/></svg>
+        <div class="review-word">banana</div>
+      </div>
+      <div class="review-card">
+        <svg width="90" height="90" viewBox="0 0 160 160"><ellipse cx="80" cy="88" rx="36" ry="42" fill="#fff8e1"/><ellipse cx="80" cy="82" rx="22" ry="22" fill="#ffb300"/></svg>
+        <div class="review-word">egg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: ONE — George + 1 star -->
+  <div class="sl bg-one">
+    <div class="pr"><img src="../../assets/peppa/george-superhero-costume.png" alt="George"><div class="bbl">I have one!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/><circle cx="72" cy="72" r="4" fill="#333"/><circle cx="90" cy="72" r="4" fill="#333"/><path d="M72 84 Q80 94 88 84" stroke="#333" stroke-width="3" fill="none"/></svg></div>
+    <div class="word">one</div>
+  </div>
+
+  <!-- S5: TWO — Emily + 2 hearts -->
+  <div class="sl bg-two">
+    <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily"><div class="bbl">I have two!</div></div>
+    <div class="dots">
+      <svg width="120" height="120" viewBox="0 0 160 160"><path d="M80 130 C30 100 10 60 80 28 C150 60 130 100 80 130Z" fill="#e91e63"/><circle cx="68" cy="68" r="4" fill="#fff"/><circle cx="88" cy="68" r="4" fill="#fff"/><path d="M70 82 Q80 92 90 82" stroke="#fff" stroke-width="3" fill="none"/></svg>
+      <svg width="120" height="120" viewBox="0 0 160 160"><path d="M80 130 C30 100 10 60 80 28 C150 60 130 100 80 130Z" fill="#e91e63"/><circle cx="68" cy="68" r="4" fill="#fff"/><circle cx="88" cy="68" r="4" fill="#fff"/><path d="M70 82 Q80 92 90 82" stroke="#fff" stroke-width="3" fill="none"/></svg>
+    </div>
+    <div class="word">two</div>
+  </div>
+
+  <!-- S6: THREE — Daddy + 3 flowers -->
+  <div class="sl bg-three">
+    <div class="pr"><img src="../../assets/peppa/daddy-pig-walking.png" alt="Daddy"><div class="bbl">I have three!</div></div>
+    <div class="dots">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="80" cy="120" rx="12" ry="10" fill="#FF9800"/><circle cx="72" cy="64" r="4" fill="#333"/><circle cx="88" cy="64" r="4" fill="#333"/><path d="M74 76 Q80 84 86 76" stroke="#333" stroke-width="2" fill="none"/></svg>
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="80" cy="120" rx="12" ry="10" fill="#FF9800"/><circle cx="72" cy="64" r="4" fill="#333"/><circle cx="88" cy="64" r="4" fill="#333"/><path d="M74 76 Q80 84 86 76" stroke="#333" stroke-width="2" fill="none"/></svg>
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="80" cy="120" rx="12" ry="10" fill="#FF9800"/><circle cx="72" cy="64" r="4" fill="#333"/><circle cx="88" cy="64" r="4" fill="#333"/><path d="M74 76 Q80 84 86 76" stroke="#333" stroke-width="2" fill="none"/></svg>
+    </div>
+    <div class="word">three</div>
+  </div>
+
+  <!-- S7: FOUR — Candy + 4 butterflies -->
+  <div class="sl bg-four">
+    <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"><div class="bbl">I have four!</div></div>
+    <div class="dots">
+      <svg width="80" height="80" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/><circle cx="72" cy="72" r="3" fill="#fff"/><circle cx="88" cy="72" r="3" fill="#fff"/><rect x="78" y="88" width="4" height="30" rx="2" fill="#8d6e63"/></svg>
+      <svg width="80" height="80" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/><circle cx="72" cy="72" r="3" fill="#fff"/><circle cx="88" cy="72" r="3" fill="#fff"/><rect x="78" y="88" width="4" height="30" rx="2" fill="#8d6e63"/></svg>
+      <svg width="80" height="80" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/><circle cx="72" cy="72" r="3" fill="#fff"/><circle cx="88" cy="72" r="3" fill="#fff"/><rect x="78" y="88" width="4" height="30" rx="2" fill="#8d6e63"/></svg>
+      <svg width="80" height="80" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/><circle cx="72" cy="72" r="3" fill="#fff"/><circle cx="88" cy="72" r="3" fill="#fff"/><rect x="78" y="88" width="4" height="30" rx="2" fill="#8d6e63"/></svg>
+    </div>
+    <div class="word">four</div>
+  </div>
+
+  <!-- S8: FIVE — Peppa + 5 balloons -->
+  <div class="sl bg-five">
+    <div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">I have five!</div></div>
+    <div class="dots">
+      <svg width="56" height="76" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#ab47bc"/><circle cx="42" cy="38" r="3" fill="#fff"/><circle cx="58" cy="38" r="3" fill="#fff"/><path d="M44 50 Q50 56 56 50" stroke="#fff" stroke-width="2" fill="none"/><rect x="48" y="76" width="4" height="50" rx="2" fill="#8d6e63"/></svg>
+      <svg width="56" height="76" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#e91e63"/><circle cx="42" cy="38" r="3" fill="#fff"/><circle cx="58" cy="38" r="3" fill="#fff"/><path d="M44 50 Q50 56 56 50" stroke="#fff" stroke-width="2" fill="none"/><rect x="48" y="76" width="4" height="50" rx="2" fill="#8d6e63"/></svg>
+      <svg width="56" height="76" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#43a047"/><circle cx="42" cy="38" r="3" fill="#fff"/><circle cx="58" cy="38" r="3" fill="#fff"/><path d="M44 50 Q50 56 56 50" stroke="#fff" stroke-width="2" fill="none"/><rect x="48" y="76" width="4" height="50" rx="2" fill="#8d6e63"/></svg>
+      <svg width="56" height="76" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#FFD600"/><circle cx="42" cy="38" r="3" fill="#333"/><circle cx="58" cy="38" r="3" fill="#333"/><path d="M44 50 Q50 56 56 50" stroke="#333" stroke-width="2" fill="none"/><rect x="48" y="76" width="4" height="50" rx="2" fill="#8d6e63"/></svg>
+      <svg width="56" height="76" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#42a5f5"/><circle cx="42" cy="38" r="3" fill="#fff"/><circle cx="58" cy="38" r="3" fill="#fff"/><path d="M44 50 Q50 56 56 50" stroke="#fff" stroke-width="2" fill="none"/><rect x="48" y="76" width="4" height="50" rx="2" fill="#8d6e63"/></svg>
+    </div>
+    <div class="word">five</div>
+  </div>
+
+  <!-- S9: Count & Reveal — tap treasure chests -->
+  <div class="sl bg-count">
+    <div class="pr"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"><div class="bbl" id="countBbl">Open the treasure!</div></div>
+    <div class="count-grid">
+      <button class="c-btn" id="cb0" onclick="countTap(0)"><div class="inner">
+        <svg width="60" height="60" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/></svg>
+      </div><span>one</span></button>
+      <button class="c-btn" id="cb1" onclick="countTap(1)"><div class="inner">
+        <svg width="50" height="50" viewBox="0 0 160 160"><path d="M80 130 C30 100 10 60 80 28 C150 60 130 100 80 130Z" fill="#e91e63"/></svg>
+      </div><span>two</span></button>
+      <button class="c-btn" id="cb2" onclick="countTap(2)"><div class="inner">
+        <svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/></svg>
+      </div><span>three</span></button>
+      <button class="c-btn" id="cb3" onclick="countTap(3)"><div class="inner">
+        <svg width="50" height="50" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/></svg>
+      </div><span>four</span></button>
+      <button class="c-btn" id="cb4" onclick="countTap(4)"><div class="inner">
+        <svg width="50" height="50" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#ab47bc"/><rect x="48" y="76" width="4" height="40" rx="2" fill="#8d6e63"/></svg>
+      </div><span>five</span></button>
+    </div>
+  </div>
+
+  <!-- S10: All Together — number grid -->
+  <div class="sl bg-team">
+    <img src="../../assets/peppa/peppa-and-george-ooo.png" width="130" alt="Peppa and George">
+    <div class="ttl" style="font-size:52px">All the Numbers!</div>
+    <div class="team-grid">
+      <div class="ti"><svg width="80" height="80" viewBox="0 0 160 160"><polygon points="80,18 95,62 142,62 104,92 118,138 80,110 42,138 56,92 18,62 65,62" fill="#FFD600"/></svg><div class="num">1</div><div class="wlabel">one</div></div>
+      <div class="ti"><svg width="80" height="80" viewBox="0 0 160 160"><path d="M80 130 C30 100 10 60 80 28 C150 60 130 100 80 130Z" fill="#e91e63"/></svg><div class="num">2</div><div class="wlabel">two</div></div>
+      <div class="ti"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="28" fill="#FF9800"/><ellipse cx="68" cy="108" rx="18" ry="12" fill="#FF9800"/><ellipse cx="92" cy="108" rx="18" ry="12" fill="#FF9800"/></svg><div class="num">3</div><div class="wlabel">three</div></div>
+      <div class="ti"><svg width="80" height="80" viewBox="0 0 160 160"><path d="M50 90 Q80 30 110 90" fill="#42a5f5"/><path d="M60 90 Q80 40 100 90" fill="#64b5f6"/></svg><div class="num">4</div><div class="wlabel">four</div></div>
+      <div class="ti"><svg width="80" height="80" viewBox="0 0 100 140"><circle cx="50" cy="44" r="34" fill="#ab47bc"/><rect x="48" y="76" width="4" height="40" rx="2" fill="#8d6e63"/></svg><div class="num">5</div><div class="wlabel">five</div></div>
+    </div>
+  </div>
+
+  <!-- S11: Bye — treasure hunt celebration -->
+  <div class="sl bg-bye">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="160" alt="Peppa family">
+    <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)">We Found Treasures!</div>
+    <div class="sub" style="color:rgba(255,255,255,.92);font-size:22px;font-weight:700;margin-top:6px">I have one, two, three, four, five!</div>
+  </div>
+</div>
+<button class="fab" id="F" onclick="tn()">&#x1F4CB;</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
+  <div class="np" id="pg">1/11</div>
+  <button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
+</div>
+<script>
+var notes={
+"0":"Title page: George in superhero costume leads treasure hunt. Kids look at treasure icons (star, heart, flower, butterfly, balloon). No words yet.",
+"1":"Story setup: Peppa and Emily go treasure hunting in the garden. Image-led, no sentence drills.",
+"2":"Yesterday review: 3 food items quick recall. Teacher points, kids say 'I like apple/banana/egg'. 2 min max.",
+"3":"one: Show 1 star. 'I have one!' Kids repeat 3x. Count together: one!",
+"4":"two: Show 2 hearts. 'I have two!' Count together: one, two!",
+"5":"three: Show 3 flowers. 'I have three!' Count together: one, two, three!",
+"6":"four: Show 4 butterflies. 'I have four!' Count: one, two, three, four!",
+"7":"five: Show 5 balloons. 'I have five!' Count all: one, two, three, four, five!",
+"8":"Count & Reveal: Teacher taps each treasure chest. Ask 'How many?' before revealing.",
+"9":"All Together: Random point and ask. 'How many stars? I have one!' Mix up order.",
+"10":"Celebrate! Count 1-5 together one final time."
+};
+
+var numWords=["one","two","three","four","five"];
+
+function countTap(i){
+  var el=document.getElementById('cb'+i);
+  if(!el||el.classList.contains('on'))return;
+  el.classList.add('on');
+  document.getElementById('countBbl').textContent='I have '+numWords[i]+'!';
+}
+
+var cur=0,total=11,open=false;
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sl')[n].classList.add('on');
+  cur=n;
+  document.getElementById('pg').textContent=(cur+1)+'/'+total;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===total-1){xb.textContent='Done';xb.disabled=true}else{xb.textContent='Next \u25B6';xb.disabled=false}
+  document.getElementById('B').innerHTML=notes[cur]||'';
+}
+function go(d){goTo(cur+d)}
+function tn(){open=!open;document.getElementById('P').classList.toggle('on',open);document.getElementById('F').classList.toggle('on',open)}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft')go(-1);
+  if(e.key==='t'||e.key==='T')tn();
+});
+document.addEventListener('click',function(e){
+  if(open&&!e.target.closest('.pop')&&!e.target.closest('.fab')){
+    open=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on');
+  }
+});
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 5 - Review
+- 当前: Day 6 - Numbers
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -38,7 +38,16 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 6 - Numbers: one, two, three, four, five / I have ___!
+- Day 7 - Actions: run, jump, walk, sit, stand / I can ___!
+
+## Day 6 - Numbers 🔢
+- 新词: one, two, three, four, five
+- 句式: I have ___!
+- SVG物品: 金星星(one)、粉爱心(two)、橙花朵(three)、蓝蝴蝶(four)、彩气球(five)
+- teach: 寻宝故事线 + 昨日food复习页 + 宝箱揭示互动 + 数量可视化(dots)
+- review: 昨日food微复习 + 点数学词 + 点击收集(Count&Collect) + 听音找点阵 + 数字路径排序
+- 角色轮换: George-superhero/Emily/Daddy/Candy/Peppa/Mummy 全出场
+- 状态: ✅ 完成
 
 ## Day 5 - Review 🎉
 - 复习: Day 1-4 全部 20 词 + 4 个句式
