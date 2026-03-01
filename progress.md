@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 25 - Review
+- 当前: Day 26 - Colors
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 26 - Colors 🎨 🎯
+- 新词: red, blue, yellow, green, orange
+- 句式: It's ___!
+- teach: Rainbow Factory 故事线 + Day25 微复习页(rabbit/pig/cow) + Rainbow Machine 机器按钮揭示 + Rainbow Belt 传送带总览
+- review: Day25 微复习(3题) + Paint Mixer 调色盘揭示学词 + Color Sorter 分拣机三选一 + Rainbow Builder 拼彩虹四选一 + Done 完成页
+- 差异化: teach 从 space mission 改为 rainbow factory 工厂制作流程；review 去除上一课 planet-hop/alien-delivery/rocket-fuel 路径，改为 paint-mixer/color-sorter/rainbow-builder 新链路
+- SVG物品: 红樱桃(带叶)、蓝瓶子(带盖)、黄星星(带表情)、绿冰淇淋(多层)、橙蛋糕(带装饰)——与Day1/11/16/23完全不同（工厂产品主题）
+- 角色轮换: Candy/Peppa-bicycle/Emily/George-ball/Mummy/Daddy/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 25 - Review 🎯 🚀
 - 复习: Day 21-24 全部 20 词 + 4 个句式

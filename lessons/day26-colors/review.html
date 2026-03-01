@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 26 - Colors Game</title>
+<style>
+:root{--tip-accent:#e67e22;--tip-bg:#fff3e0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#ff6b9d 0%,#c44569 50%,#e17055 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(232,67,147,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.y-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.y-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.y-card:active{transform:scale(.95)}
+.y-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.y-card.wrong{border-color:#ef5350;background:#ffebee}
+.y-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.mixer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:440px;margin-top:10px}
+.mixer-card{width:120px;height:120px;background:#ddd;border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.mixer-card:active{transform:scale(.95)}
+.mixer-card.on{background:#fff}
+.mixer-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px;opacity:0;transition:.2s}
+.mixer-card.on .lb{opacity:1}
+.sorter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.sorter-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.sorter-card:active{transform:scale(.95)}
+.sorter-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.sorter-card.wrong{border-color:#ef5350;background:#ffebee}
+.sorter-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.builder-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.builder-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.builder-card:active{transform:scale(.95)}
+.builder-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.builder-card.wrong{border-color:#ef5350;background:#ffebee}
+.builder-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.done-wrap img{width:160px;height:auto}
+.done-ttl{font-size:48px;font-weight:900;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.done-msg{font-size:22px;color:#ffeaa7;text-align:center}
+.play-again{font-size:28px;font-weight:700;padding:16px 48px;border:none;border-radius:32px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,199,.4);margin-top:8px}
+.play-again:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Rainbow Factory</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var WORDS=[
+  {w:'red',svg:'<ellipse cx="80" cy="100" rx="35" ry="20" fill="#c0392b"/><circle cx="80" cy="75" r="40" fill="#e74c3c"/><circle cx="65" cy="65" r="8" fill="#fff" opacity=".7"/><rect x="76" y="30" width="8" height="20" rx="4" fill="#27ae60"/><ellipse cx="80" cy="32" rx="12" ry="6" fill="#27ae60"/>'},
+  {w:'blue',svg:'<rect x="50" y="50" width="60" height="80" rx="30" fill="#3498db"/><ellipse cx="80" cy="50" rx="30" ry="15" fill="#5dade2"/><rect x="70" y="40" width="20" height="15" rx="8" fill="#2980b9"/><circle cx="65" cy="70" r="6" fill="#fff" opacity=".6"/>'},
+  {w:'yellow',svg:'<circle cx="80" cy="80" r="45" fill="#f1c40f"/><path d="M80 35 L85 60 L110 60 L90 75 L95 100 L80 85 L65 100 L70 75 L50 60 L75 60 Z" fill="#f39c12"/><circle cx="70" cy="70" r="8" fill="#fff" opacity=".5"/>'},
+  {w:'green',svg:'<ellipse cx="80" cy="110" rx="25" ry="15" fill="#27ae60"/><ellipse cx="80" cy="95" rx="30" ry="20" fill="#2ecc71"/><ellipse cx="80" cy="75" rx="32" ry="22" fill="#2ecc71"/><ellipse cx="80" cy="55" rx="28" ry="18" fill="#2ecc71"/><circle cx="70" cy="60" r="6" fill="#fff" opacity=".5"/>'},
+  {w:'orange',svg:'<ellipse cx="80" cy="110" rx="30" ry="18" fill="#d35400"/><rect x="50" y="60" width="60" height="50" rx="8" fill="#e67e22"/><ellipse cx="80" cy="60" rx="30" ry="15" fill="#f39c12"/><circle cx="65" cy="75" r="7" fill="#fff" opacity=".6"/><rect x="76" y="35" width="8" height="25" rx="4" fill="#c0392b"/>'}
+];
+var YESTERDAY=[
+  {w:'rabbit',svg:'<ellipse cx="66" cy="58" rx="8" ry="20" fill="#e1bee7"/><ellipse cx="94" cy="58" rx="8" ry="20" fill="#e1bee7"/><circle cx="80" cy="90" r="28" fill="#f3e5f5"/><circle cx="70" cy="85" r="4" fill="#424242"/><circle cx="90" cy="85" r="4" fill="#424242"/><ellipse cx="80" cy="95" rx="8" ry="5" fill="#f48fb1"/>'},
+  {w:'pig',svg:'<circle cx="80" cy="80" r="28" fill="#f48fb1"/><ellipse cx="80" cy="88" rx="14" ry="9" fill="#f06292"/><circle cx="70" cy="75" r="4" fill="#424242"/><circle cx="90" cy="75" r="4" fill="#424242"/><circle cx="72" cy="86" r="3" fill="#424242"/><circle cx="88" cy="86" r="3" fill="#424242"/>'},
+  {w:'cow',svg:'<ellipse cx="80" cy="95" rx="32" ry="24" fill="#fff"/><circle cx="80" cy="70" r="26" fill="#fff"/><circle cx="60" cy="65" r="8" fill="#424242"/><circle cx="90" cy="75" r="10" fill="#424242"/><ellipse cx="80" cy="80" rx="10" ry="6" fill="#f48fb1"/>'}
+];
+var ac=null,cur=0,tot=6,stars=0,busy=false;
+function init(){
+  ac=new (window.AudioContext||window.webkitAudioContext)();
+  buildStart();
+  buildYesterday();
+  buildMixer();
+  buildSorter();
+  buildBuilder();
+  buildDone();
+  go(0);
+}
+function go(d){
+  var m=document.querySelectorAll('.mod');
+  m[cur].classList.remove('on');
+  cur+=d;
+  if(cur<0)cur=0;
+  if(cur>=tot)cur=tot-1;
+  m[cur].classList.add('on');
+  document.getElementById('pg').textContent=(cur+1)+'/'+tot;
+  document.getElementById('pb').disabled=(cur===0);
+  document.getElementById('nb').disabled=(cur===tot-1);
+  updateTop();
+}
+function updateTop(){
+  var titles=['Start','Yesterday','Paint Mixer','Color Sorter','Rainbow Builder','Done'];
+  var tips=['点开始玩','昨天学的,还记得吗?','点一点,看看是什么颜色','听一听,哪个是对的?','听一听,找到颜色','完成啦!'];
+  document.getElementById('en').textContent=titles[cur]||'';
+  document.getElementById('zh').textContent=tips[cur]||'';
+  document.getElementById('st').textContent='⭐'.repeat(stars);
+}
+function buildStart(){
+  var h='<img src="'+PP+'candy-cat-green-dress.png" width="140" alt="Candy">';
+  h+='<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" alt="Candy"><div class="bbl">Let\'s make rainbows!</div></div>';
+  h+='<button class="start-btn" onclick="go(1)">Start</button>';
+  document.getElementById('m0').innerHTML=h;
+}
+function buildYesterday(){
+  var h='<div class="pr"><img src="'+PP+'emily-elephant-standing.png" alt="Emily"><div class="bbl">Yesterday Review!</div></div>';
+  h+='<div class="y-grid">';
+  YESTERDAY.forEach(function(it){
+    h+='<div class="y-card" onclick="yClick(this,\''+it.w+'\')">';
+    h+='<svg width="90" height="90" viewBox="0 0 160 160">'+it.svg+'</svg>';
+    h+='<div class="lb">'+it.w+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('m1').innerHTML=h;
+}
+function yClick(el,w){
+  if(busy||el.classList.contains('correct'))return;
+  busy=true;
+  el.classList.add('correct');
+  playOk();
+  speak(w,function(){
+    busy=false;
+  });
+}
+function buildMixer(){
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-bicycle.png" alt="Peppa"><div class="bbl">Tap to see colors!</div></div>';
+  h+='<div class="mixer-grid">';
+  WORDS.forEach(function(it){
+    h+='<div class="mixer-card" onclick="mixerClick(this,\''+it.w+'\')">';
+    h+='<svg width="90" height="90" viewBox="0 0 160 160">'+it.svg+'</svg>';
+    h+='<div class="lb">'+it.w+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('m2').innerHTML=h;
+}
+function mixerClick(el,w){
+  if(el.classList.contains('on'))return speak(w);
+  el.classList.add('on');
+  speak(w);
+}
+function buildSorter(){
+  var pool=WORDS.slice();
+  shuffle(pool);
+  var q=pool[0];
+  var opts=[q];
+  var others=pool.slice(1);
+  shuffle(others);
+  opts.push(others[0],others[1]);
+  shuffle(opts);
+  var h='<div class="pr"><img src="'+PP+'george-pig-ball.png" alt="George"><div class="bbl">Which is '+q.w+'?</div></div>';
+  h+='<div class="sorter-grid">';
+  opts.forEach(function(it){
+    h+='<div class="sorter-card" onclick="sorterClick(this,\''+it.w+'\',\''+q.w+'\')">';
+    h+='<svg width="90" height="90" viewBox="0 0 160 160">'+it.svg+'</svg>';
+    h+='<div class="lb">'+it.w+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('m3').innerHTML=h;
+}
+function sorterClick(el,w,ans){
+  if(busy)return;
+  busy=true;
+  if(w===ans){
+    el.classList.add('correct');
+    playOk();
+    stars++;
+    speak(w,function(){
+      setTimeout(function(){go(1);busy=false},1200);
+    });
+  }else{
+    el.classList.add('wrong');
+    playNo();
+    speak(ans,function(){
+      setTimeout(function(){el.classList.remove('wrong');busy=false},1200);
+    });
+  }
+}
+function buildBuilder(){
+  var pool=WORDS.slice();
+  shuffle(pool);
+  var q=pool[0];
+  var opts=[q];
+  var others=pool.slice(1);
+  shuffle(others);
+  opts.push(others[0],others[1],others[2]);
+  shuffle(opts);
+  var h='<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Find '+q.w+'!</div></div>';
+  h+='<div class="builder-grid">';
+  opts.forEach(function(it){
+    h+='<div class="builder-card" onclick="builderClick(this,\''+it.w+'\',\''+q.w+'\')">';
+    h+='<svg width="90" height="90" viewBox="0 0 160 160">'+it.svg+'</svg>';
+    h+='<div class="lb">'+it.w+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('m4').innerHTML=h;
+}
+function builderClick(el,w,ans){
+  if(busy)return;
+  busy=true;
+  if(w===ans){
+    el.classList.add('correct');
+    playOk();
+    stars++;
+    speak(w,function(){
+      setTimeout(function(){go(1);busy=false},1200);
+    });
+  }else{
+    el.classList.add('wrong');
+    playNo();
+    speak(ans,function(){
+      setTimeout(function(){el.classList.remove('wrong');busy=false},1200);
+    });
+  }
+}
+function buildDone(){
+  var h='<div class="done-wrap">';
+  h+='<img src="'+PP+'peppa-pig-family.png" alt="Peppa Family">';
+  h+='<div class="done-ttl">All Done!</div>';
+  h+='<div class="done-msg">You made beautiful rainbows!</div>';
+  h+='<button class="play-again" onclick="location.reload()">Play Again</button>';
+  h+='</div>';
+  document.getElementById('m5').innerHTML=h;
+}
+function speak(txt,cb){
+  var u='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+  var a=new Audio(u);
+  var done=false;
+  function fin(){if(!done){done=true;if(cb)cb()}}
+  a.onended=fin;
+  a.onerror=fin;
+  a.play().catch(fin);
+  setTimeout(fin,4000);
+}
+function playOk(){
+  if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g);g.connect(ac.destination);
+  o.frequency.value=800;g.gain.value=.15;
+  o.start();o.stop(ac.currentTime+.08);
+  setTimeout(function(){
+    var o2=ac.createOscillator(),g2=ac.createGain();
+    o2.connect(g2);g2.connect(ac.destination);
+    o2.frequency.value=1000;g2.gain.value=.15;
+    o2.start();o2.stop(ac.currentTime+.08);
+  },80);
+}
+function playNo(){
+  if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g);g.connect(ac.destination);
+  o.frequency.value=300;g.gain.value=.2;
+  o.start();o.stop(ac.currentTime+.3);
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}}
+init();
+</script>
+</body>
+</html>
