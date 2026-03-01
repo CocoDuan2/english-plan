@@ -137,8 +137,18 @@
 - 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-family 轮换出场
 - 状态: ✅ 完成
 
+## Day 21 - Numbers 🔢 🎯
+- 新词: one, two, three, four, five
+- 句式: I have ___!
+- teach: Treasure Hunt 故事线 + Day20 微复习页(apple/milk/egg) + treasure chest 揭示 + treasure map 总览
+- review: Day20 微复习(3题) + Island Dig 挖沙揭示学词 + Treasure Collect 收集对应数量 + Pirate Ship 听音装载宝箱 + Done 完成页
+- 差异化: teach 从 cooking show 改为 treasure hunt 寻宝冒险；review 去除上一课 fridge-peek/cooking-pot/taste-test 路径，改为 island-dig/treasure-collect/pirate-ship 新链路
+- SVG物品: 金星星(one)、粉爱心(two)、橙花朵(three)、蓝蝴蝶(four)、彩气球(five)——与Day6完全不同的画法（Day6用点阵，Day21用具象物品）
+- 角色轮换: George-superhero/Peppa-fairy/Daddy/Candy/Mummy/Emily/George-dinosaur/Peppa-bicycle/Peppa-family 轮换出场
+- 状态: ✅ 完成
+
 ## 下一课
-- Day 21 - Numbers（one, two, three, four, five）
+- Day 22 - Actions（run, jump, walk, sit, stand）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

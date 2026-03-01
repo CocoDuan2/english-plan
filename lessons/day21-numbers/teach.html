@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 21 - Numbers</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#fff9c4,#ffeb3b)}
+.bg-hello{background:linear-gradient(170deg,#e1f5fe,#b3e5fc)}
+.bg-yesterday{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.bg-one{background:linear-gradient(160deg,#fff9c4,#fffde7)}
+.bg-two{background:linear-gradient(160deg,#f8bbd0,#fce4ec)}
+.bg-three{background:linear-gradient(160deg,#ffe0b2,#fff3e0)}
+.bg-four{background:linear-gradient(160deg,#bbdefb,#e3f2fd)}
+.bg-five{background:linear-gradient(160deg,#e1bee7,#f3e5f5)}
+.bg-chest{background:linear-gradient(160deg,#c8e6c9,#dcedc8)}
+.bg-map{background:linear-gradient(160deg,#fff9c4,#ffeb3b)}
+.bg-bye{background:linear-gradient(180deg,#ffb74d,#F9ADC7 60%,#ce93d8)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#5f6c7b}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:8px 0;text-shadow:0 3px 0 rgba(0,0,0,.08);text-transform:lowercase}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:10px 0}
+.obj svg{width:190px;height:190px}
+.y-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:760px;margin-top:8px}
+.y-card{width:180px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.y-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.chest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:480px;margin-top:10px}
+.chest-btn{width:130px;height:130px;border:none;border-radius:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:.25s}
+.chest-btn.closed{background:linear-gradient(145deg,#8d6e63,#6d4c41)}
+.chest-btn.closed::after{content:'🔒';font-size:36px}
+.chest-btn:active{transform:scale(.95)}
+.chest-btn .inner{opacity:0;transform:scale(.72);transition:.25s}
+.chest-btn .lb{position:absolute;bottom:8px;left:0;right:0;font-size:22px;font-weight:900;color:#2c3e50;text-transform:lowercase;opacity:0;transition:.25s}
+.chest-btn.on{background:#fff}
+.chest-btn.on::after{display:none}
+.chest-btn.on .inner{opacity:1;transform:scale(1)}
+.chest-btn.on .lb{opacity:1}
+.map-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:700px;margin-top:10px}
+.map-card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:center;position:relative}
+.map-card .num{position:absolute;top:4px;right:8px;font-size:32px;font-weight:900;color:#ff6f00}
+.map-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.45);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:310px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .obj svg{width:200px;height:200px}
+  .chest-btn{width:150px;height:150px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1. Title: Treasure Hunt -->
+<div class="sl bg-title on">
+  <img src="../../assets/peppa/george-pig-superhero.png" width="120" alt="George Superhero">
+  <div class="obj">
+    <svg width="150" height="150" viewBox="0 0 160 160" aria-label="Treasure chest">
+      <rect x="30" y="70" width="100" height="60" rx="8" fill="#8d6e63"/>
+      <rect x="30" y="70" width="100" height="12" fill="#6d4c41"/>
+      <rect x="30" y="118" width="100" height="12" fill="#6d4c41"/>
+      <rect x="70" y="70" width="20" height="60" fill="#6d4c41"/>
+      <path d="M30 70 Q80 40 130 70" fill="#a1887f"/>
+      <circle cx="80" cy="100" r="8" fill="#ffd700"/>
+      <rect x="76" y="96" width="8" height="12" fill="#ffd700"/>
+    </svg>
+  </div>
+  <div class="ttl">Treasure Hunt!</div>
+  <div class="sub">Find the treasures!</div>
+</div>
+
+<!-- 2. Hello: George and Peppa ready to hunt -->
+<div class="sl bg-hello">
+  <div style="display:flex;gap:14px;align-items:flex-end;margin-bottom:6px">
+    <img src="../../assets/peppa/george-pig-superhero.png" width="85" alt="George">
+    <img src="../../assets/peppa/peppa-pig-fairy.png" width="85" alt="Peppa">
+  </div>
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+    <div class="bbl">Let's find treasures!</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:8px">
+    <svg width="60" height="60" viewBox="0 0 80 80"><rect x="10" y="30" width="60" height="36" rx="6" fill="#8d6e63"/><path d="M10 30 Q40 15 70 30" fill="#a1887f"/><circle cx="40" cy="48" r="6" fill="#ffd700"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><polygon points="40,10 50,35 75,35 55,50 62,75 40,58 18,75 25,50 5,35 30,35" fill="#ffd700"/></svg>
+  </div>
+</div>
+
+<!-- 3. Yesterday Review: Day 20 Food — apple, milk, egg -->
+<div class="sl bg-yesterday">
+  <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily"><div class="bbl">Yesterday Review!</div></div>
+  <div class="ttl" style="font-size:42px">Quick Recall</div>
+  <div class="y-grid">
+    <div class="y-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="90" r="48" fill="#e53935"/><circle cx="60" cy="72" r="12" fill="#ef5350" opacity=".5"/><rect x="76" y="30" width="8" height="24" rx="4" fill="#6d4c41"/><ellipse cx="92" cy="38" rx="14" ry="8" fill="#66bb6a"/></svg>
+      <div class="w">apple</div>
+    </div>
+    <div class="y-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><rect x="42" y="40" width="76" height="90" rx="10" fill="#e3f2fd"/><rect x="42" y="40" width="76" height="28" rx="10" fill="#42a5f5"/><text x="80" y="62" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">MILK</text></svg>
+      <div class="w">milk</div>
+    </div>
+    <div class="y-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="55" ry="42" fill="#fff" stroke="#f5f5f5" stroke-width="2"/><circle cx="80" cy="85" r="24" fill="#ffc107"/><circle cx="80" cy="85" r="16" fill="#ffca28"/></svg>
+      <div class="w">egg</div>
+    </div>
+  </div>
+  <div class="sent" style="margin-top:8px">I like apple! I like milk!</div>
+</div>
+
+<!-- 4. One — Candy leads -->
+<div class="sl bg-one">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+    <div class="bbl">I have one!</div>
+  </div>
+  <div class="obj">
+    <svg viewBox="0 0 160 160">
+      <polygon points="80,25 95,70 145,70 110,95 125,140 80,110 35,140 50,95 15,70 65,70" fill="#ffd700"/>
+      <polygon points="80,35 90,65 115,65 95,80 103,110 80,92 57,110 65,80 45,65 70,65" fill="#ffeb3b"/>
+      <circle cx="80" cy="70" r="8" fill="#fff" opacity=".6"/>
+      <circle cx="70" cy="85" r="5" fill="#fff" opacity=".4"/>
+    </svg>
+  </div>
+  <div class="word" style="color:#ffd700">one</div>
+</div>
+
+<!-- 5. Two — Mummy leads -->
+<div class="sl bg-two">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">I have two!</div>
+  </div>
+  <div class="obj">
+    <svg viewBox="0 0 160 160">
+      <path d="M60 50 Q50 30 70 20 Q80 15 90 20 Q110 30 100 50 Q95 65 80 80 L80 100 Q70 90 60 80 Q45 65 60 50 Z" fill="#ec407a"/>
+      <path d="M60 50 Q55 40 65 32 Q75 28 80 35 Q75 45 70 55 Q65 62 60 50 Z" fill="#f48fb1" opacity=".6"/>
+      <path d="M100 50 Q105 40 95 32 Q85 28 80 35 Q85 45 90 55 Q95 62 100 50 Z" fill="#f48fb1" opacity=".6"/>
+      <circle cx="70" cy="45" r="4" fill="#fff" opacity=".5"/>
+      <circle cx="90" cy="45" r="4" fill="#fff" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="word" style="color:#ec407a">two</div>
+</div>
+
+<!-- 6. Three — Daddy leads -->
+<div class="sl bg-three">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+    <div class="bbl">I have three!</div>
+  </div>
+  <div class="obj">
+    <svg viewBox="0 0 160 160">
+      <ellipse cx="80" cy="95" rx="35" ry="25" fill="#ff9800"/>
+      <ellipse cx="80" cy="85" rx="32" ry="22" fill="#ffb74d"/>
+      <ellipse cx="80" cy="75" rx="28" ry="18" fill="#ffc107"/>
+      <circle cx="80" cy="70" r="18" fill="#fff9c4"/>
+      <circle cx="75" cy="65" r="5" fill="#fff" opacity=".6"/>
+      <circle cx="85" cy="68" r="4" fill="#fff" opacity=".5"/>
+      <rect x="76" y="40" width="8" height="30" rx="4" fill="#66bb6a"/>
+      <ellipse cx="80" cy="42" rx="12" ry="6" fill="#81c784"/>
+    </svg>
+  </div>
+  <div class="word" style="color:#ff9800">three</div>
+</div>
+
+<!-- 7. Four — Peppa leads -->
+<div class="sl bg-four">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-bicycle.png" alt="Peppa">
+    <div class="bbl">I have four!</div>
+  </div>
+  <div class="obj">
+    <svg viewBox="0 0 160 160">
+      <ellipse cx="80" cy="80" rx="45" ry="35" fill="#42a5f5"/>
+      <ellipse cx="80" cy="75" rx="40" ry="30" fill="#64b5f6"/>
+      <path d="M50 75 Q45 60 55 50 Q65 45 70 55 L75 70 Z" fill="#1e88e5"/>
+      <path d="M110 75 Q115 60 105 50 Q95 45 90 55 L85 70 Z" fill="#1e88e5"/>
+      <circle cx="65" cy="60" r="3" fill="#333"/>
+      <circle cx="95" cy="60" r="3" fill="#333"/>
+      <path d="M70 85 Q80 90 90 85" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="70" r="4" fill="#fff" opacity=".5"/>
+      <circle cx="100" cy="70" r="4" fill="#fff" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="word" style="color:#42a5f5">four</div>
+</div>
+
+<!-- 8. Five — George leads -->
+<div class="sl bg-five">
+  <div class="pr">
+    <img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
+    <div class="bbl">I have five!</div>
+  </div>
+  <div class="obj">
+    <svg viewBox="0 0 160 160">
+      <ellipse cx="80" cy="110" rx="12" ry="35" fill="#e0e0e0"/>
+      <circle cx="80" cy="70" r="35" fill="#e53935"/>
+      <circle cx="75" cy="65" r="8" fill="#fff" opacity=".5"/>
+      <circle cx="90" cy="68" r="6" fill="#fff" opacity=".4"/>
+      <rect x="76" y="35" width="8" height="40" rx="4" fill="#fff"/>
+      <path d="M76 35 Q80 25 84 35" fill="#fff"/>
+      <circle cx="50" cy="85" r="28" fill="#ffc107"/>
+      <circle cx="110" cy="85" r="28" fill="#4caf50"/>
+      <circle cx="35" cy="60" r="25" fill="#2196f3"/>
+      <circle cx="125" cy="60" r="25" fill="#9c27b0"/>
+    </svg>
+  </div>
+  <div class="word" style="color:#9c27b0">five</div>
+</div>
+
+<!-- 9. Treasure Chest Reveal -->
+<div class="sl bg-chest">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-fairy.png" alt="Peppa">
+    <div class="bbl">Open the chests!</div>
+  </div>
+  <div class="ttl" style="font-size:42px">Treasure Chests</div>
+  <div class="chest-grid">
+    <button class="chest-btn closed" onclick="reveal(this,'one','#ffd700','<polygon points=&quot;80,25 95,70 145,70 110,95 125,140 80,110 35,140 50,95 15,70 65,70&quot; fill=&quot;#ffd700&quot;/>')"><div class="inner"></div><div class="lb">one</div></button>
+    <button class="chest-btn closed" onclick="reveal(this,'two','#ec407a','<path d=&quot;M60 50 Q50 30 70 20 Q80 15 90 20 Q110 30 100 50 Q95 65 80 80 L80 100 Q70 90 60 80 Q45 65 60 50 Z&quot; fill=&quot;#ec407a&quot;/>')"><div class="inner"></div><div class="lb">two</div></button>
+    <button class="chest-btn closed" onclick="reveal(this,'three','#ff9800','<ellipse cx=&quot;80&quot; cy=&quot;95&quot; rx=&quot;35&quot; ry=&quot;25&quot; fill=&quot;#ff9800&quot;/><ellipse cx=&quot;80&quot; cy=&quot;85&quot; rx=&quot;32&quot; ry=&quot;22&quot; fill=&quot;#ffb74d&quot;/><rect x=&quot;76&quot; y=&quot;40&quot; width=&quot;8&quot; height=&quot;30&quot; rx=&quot;4&quot; fill=&quot;#66bb6a&quot;/>')"><div class="inner"></div><div class="lb">three</div></button>
+    <button class="chest-btn closed" onclick="reveal(this,'four','#42a5f5','<ellipse cx=&quot;80&quot; cy=&quot;80&quot; rx=&quot;45&quot; ry=&quot;35&quot; fill=&quot;#42a5f6&quot;/><circle cx=&quot;65&quot; cy=&quot;60&quot; r=&quot;3&quot; fill=&quot;#333&quot;/><circle cx=&quot;95&quot; cy=&quot;60&quot; r=&quot;3&quot; fill=&quot;#333&quot;/>')"><div class="inner"></div><div class="lb">four</div></button>
+    <button class="chest-btn closed" onclick="reveal(this,'five','#9c27b0','<circle cx=&quot;80&quot; cy=&quot;70&quot; r=&quot;35&quot; fill=&quot;#e53935&quot;/><circle cx=&quot;50&quot; cy=&quot;85&quot; r=&quot;28&quot; fill=&quot;#ffc107&quot;/><circle cx=&quot;110&quot; cy=&quot;85&quot; r=&quot;28&quot; fill=&quot;#4caf50&quot;/>')"><div class="inner"></div><div class="lb">five</div></button>
+  </div>
+</div>
+
+<!-- 10. Treasure Map: All Together -->
+<div class="sl bg-map">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+    <div class="bbl">Treasure Map!</div>
+  </div>
+  <div class="ttl" style="font-size:52px">All Treasures</div>
+  <div class="map-grid">
+    <div class="map-card">
+      <div class="num">1</div>
+      <svg width="80" height="80" viewBox="0 0 160 160"><polygon points="80,25 95,70 145,70 110,95 125,140 80,110 35,140 50,95 15,70 65,70" fill="#ffd700"/></svg>
+      <div class="w">one</div>
+    </div>
+    <div class="map-card">
+      <div class="num">2</div>
+      <svg width="80" height="80" viewBox="0 0 160 160"><path d="M60 50 Q50 30 70 20 Q80 15 90 20 Q110 30 100 50 Q95 65 80 80 L80 100 Q70 90 60 80 Q45 65 60 50 Z" fill="#ec407a"/></svg>
+      <div class="w">two</div>
+    </div>
+    <div class="map-card">
+      <div class="num">3</div>
+      <svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="95" rx="35" ry="25" fill="#ff9800"/><ellipse cx="80" cy="85" rx="32" ry="22" fill="#ffb74d"/><rect x="76" y="40" width="8" height="30" rx="4" fill="#66bb6a"/></svg>
+      <div class="w">three</div>
+    </div>
+    <div class="map-card">
+      <div class="num">4</div>
+      <svg width="80" height="80" viewBox="0 0 160 160"><ellipse cx="80" cy="80" rx="45" ry="35" fill="#42a5f5"/><circle cx="65" cy="60" r="3" fill="#333"/><circle cx="95" cy="60" r="3" fill="#333"/></svg>
+      <div class="w">four</div>
+    </div>
+    <div class="map-card">
+      <div class="num">5</div>
+      <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="70" r="35" fill="#e53935"/><circle cx="50" cy="85" r="28" fill="#ffc107"/><circle cx="110" cy="85" r="28" fill="#4caf50"/></svg>
+      <div class="w">five</div>
+    </div>
+  </div>
+</div>
+
+<!-- 11. Bye: Peppa family celebrates -->
+<div class="sl bg-bye">
+  <img src="../../assets/peppa/peppa-pig-family.png" width="160" alt="Peppa Family">
+  <div class="ttl" style="font-size:52px;color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.2)">Great Job!</div>
+  <div class="sub" style="font-size:28px;color:#fff;margin-top:8px">We found all treasures!</div>
+  <div style="font-size:48px;margin-top:12px">🏆✨🎉</div>
+</div>
+
+</div>
+
+<!-- Teacher Notes FAB -->
+<button class="fab" id="fab" onclick="toggleNotes()">T</button>
+<div class="pop" id="pop">
+<strong>Teacher Notes</strong><br><br>
+<strong>Slide 1 (Title):</strong> "Today we're going on a treasure hunt! We'll find numbers!"<br><br>
+<strong>Slide 2 (Hello):</strong> "George and Peppa are ready! Let's find treasures together!"<br><br>
+<strong>Slide 3 (Yesterday):</strong> "Quick review! Point and say: apple, milk, egg. I like apple!"<br><br>
+<strong>Slides 4-8 (Numbers):</strong> Each number shows treasure items. Count together: "One star! Two hearts! Three flowers! Four butterflies! Five balloons!" Use fingers to count.<br><br>
+<strong>Slide 9 (Chests):</strong> Click each chest to reveal. "Let's open the chests! What's inside? One! Two! Three!"<br><br>
+<strong>Slide 10 (Map):</strong> Point randomly. "How many? One! Two! Three! Four! Five!" Encourage counting with fingers.<br><br>
+<strong>Slide 11 (Bye):</strong> "We found all the treasures! Great job! See you next time!"<br><br>
+<strong>Sentence Practice:</strong> "I have one! I have two!" Repeat with gestures.
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nb" id="pb" onclick="nav(-1)">Back</button>
+  <div class="np" id="pg">1/11</div>
+  <button class="nb" id="nb" onclick="nav(1)">Next</button>
+</div>
+
+<script>
+var cur=0,total=11;
+function show(i){
+  if(i<0||i>=total)return;
+  var all=document.querySelectorAll('.sl');
+  all.forEach(function(s){s.classList.remove('on')});
+  all[i].classList.add('on');
+  cur=i;
+  document.getElementById('pg').textContent=(cur+1)+'/'+total;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===total-1;
+}
+function nav(d){show(cur+d)}
+function toggleNotes(){
+  var f=document.getElementById('fab'),p=document.getElementById('pop');
+  f.classList.toggle('on');p.classList.toggle('on');
+}
+function reveal(btn,word,color,svg){
+  if(btn.classList.contains('on'))return;
+  btn.classList.remove('closed');
+  btn.classList.add('on');
+  btn.querySelector('.inner').innerHTML='<svg width="74" height="74" viewBox="0 0 160 160">'+svg+'</svg>';
+  btn.querySelector('.lb').style.color=color;
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')nav(-1);
+  if(e.key==='ArrowRight')nav(1);
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+show(0);
+</script>
+</body>
+</html>
