@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 19 - Food
+- 当前: Day 23 - Colors 2
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -147,6 +147,16 @@
 - 角色轮换: George-superhero/Peppa-fairy/Daddy/Candy/Mummy/Emily/George-dinosaur/Peppa-bicycle/Peppa-family 轮换出场
 - 状态: ✅ 完成
 
+## Day 23 - Colors 2 🎨 🎯
+- 新词: pink, purple, white, black, brown
+- 句式: It's ___!
+- teach: Art Gallery 故事线 + Day22 微复习页(run/jump/walk) + paint tube 挤颜料揭示 + gallery wall 画廊墙总览
+- review: Day22 微复习(3题) + Paint Palette 调色盘揭示学词 + Canvas Match 听色选画布三选一 + Color Hunt 找颜色物品四选一 + Done 完成页
+- 差异化: teach 从 sports day 改为 art gallery 艺术画廊故事线；review 去除上一课 whistle-cards/race-track/action-simon 路径，改为 palette/canvas-match/color-hunt 新链路
+- SVG物品: 粉画笔(刷头+手柄)、紫颜料管(软管+盖子)、白画布(方框+支架)、黑墨水瓶(瓶身+标签)、棕相框(木质边框+挂钩)——与Day1/Day8/Day11/Day16完全不同（艺术工具主题）
+- 角色轮换: Candy/Peppa-fairy/George-superhero/Emily/Daddy/Mummy/Peppa-bicycle/Peppa-family 轮换出场
+- 状态: ✅ 完成
+
 ## Day 22 - Actions 🏃 🎯
 - 新词: run, jump, walk, sit, stand
 - 句式: I can ___!
@@ -158,7 +168,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 23 - Colors 2（pink, purple, white, black, brown）
+- Day 24 - Animals 2（rabbit, pig, cow, horse, sheep）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 23 - Colors 2 Review Game</title>
+<style>
+:root{--tip-accent:#f48fb1;--tip-bg:#fce4ec}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#f8bbd0 0%,#f48fb1 50%,#ce93d8 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#f48fb1,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(249,173,199,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.y-wrap{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
+.y-q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:8px}
+.y-q .sent{font-size:22px;font-weight:700;color:#2c3e50;margin-bottom:4px}
+.y-opts{display:flex;gap:8px;justify-content:center}
+.y-opt{width:100px;height:100px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.y-opt:active{transform:scale(.95)}
+.y-opt.ok{background:#c8e6c9;box-shadow:0 0 0 3px #66bb6a}
+.y-opt.no{background:#ffcdd2;box-shadow:0 0 0 3px #e57373}
+.y-opt .w{font-size:18px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.palette-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:420px}
+.palette-card{width:100%;aspect-ratio:1;border:none;border-radius:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:.25s;position:relative}
+.palette-card.closed{background:linear-gradient(145deg,#bdbdbd,#9e9e9e)}
+.palette-card.closed::after{content:'🎨';font-size:48px}
+.palette-card:active{transform:scale(.95)}
+.palette-card .inner{opacity:0;transform:scale(.7);transition:.25s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.palette-card.on{background:#fff}
+.palette-card.on::after{display:none}
+.palette-card.on .inner{opacity:1;transform:scale(1)}
+.palette-card .w{font-size:20px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.canvas-wrap{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.canvas-q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:10px}
+.canvas-prompt{font-size:26px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.canvas-opts{display:flex;gap:8px;justify-content:center}
+.canvas-btn{width:110px;height:110px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.canvas-btn:active{transform:scale(.95)}
+.canvas-btn.ok{background:#c8e6c9;box-shadow:0 0 0 3px #66bb6a}
+.canvas-btn.no{background:#ffcdd2;box-shadow:0 0 0 3px #e57373}
+.canvas-btn .w{font-size:18px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.hunt-wrap{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.hunt-q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hunt-prompt{font-size:26px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.hunt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.hunt-btn{width:100%;aspect-ratio:1;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.hunt-btn:active{transform:scale(.95)}
+.hunt-btn.ok{background:#c8e6c9;box-shadow:0 0 0 3px #66bb6a}
+.hunt-btn.no{background:#ffcdd2;box-shadow:0 0 0 3px #e57373}
+.hunt-btn .w{font-size:16px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.done-wrap img{width:160px;height:auto}
+.done-ttl{font-size:48px;font-weight:900;color:#2c3e50}
+.done-msg{font-size:22px;color:#5f6c7b;text-align:center}
+.play-again{font-size:28px;font-weight:700;padding:16px 48px;border:none;border-radius:32px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,199,.4);margin-top:8px}
+.play-again:active{transform:scale(.95)}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Art Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/',ac,busy=false;
+var COLS=[
+  {w:'pink',svg:'<rect x="45" y="20" width="70" height="90" rx="35" fill="#f48fb1"/><rect x="70" y="105" width="20" height="45" rx="3" fill="#8d6e63"/><ellipse cx="80" cy="152" rx="8" ry="4" fill="#6d4c41"/>'},
+  {w:'purple',svg:'<ellipse cx="80" cy="90" rx="28" ry="50" fill="#ce93d8"/><rect x="65" y="35" width="30" height="15" rx="7" fill="#9c27b0"/><rect x="75" y="25" width="10" height="15" fill="#7b1fa2"/><line x1="70" y1="70" x2="90" y2="70" stroke="#ab47bc" stroke-width="3"/><line x1="70" y1="85" x2="90" y2="85" stroke="#ab47bc" stroke-width="3"/><line x1="70" y1="100" x2="90" y2="100" stroke="#ab47bc" stroke-width="3"/>'},
+  {w:'white',svg:'<rect x="35" y="40" width="90" height="80" rx="4" fill="#fff" stroke="#bdbdbd" stroke-width="4"/><rect x="30" y="115" width="10" height="25" fill="#8d6e63"/><rect x="120" y="115" width="10" height="25" fill="#8d6e63"/><rect x="25" y="135" width="110" height="8" rx="4" fill="#8d6e63"/>'},
+  {w:'black',svg:'<rect x="50" y="70" width="60" height="60" rx="8" fill="#424242"/><rect x="60" y="50" width="40" height="25" rx="6" fill="#616161"/><ellipse cx="80" cy="50" rx="15" ry="8" fill="#757575"/><rect x="65" y="85" width="30" height="20" rx="4" fill="#fff"/><text x="80" y="98" font-size="12" fill="#424242" text-anchor="middle" font-weight="700">INK</text>'},
+  {w:'brown',svg:'<rect x="30" y="40" width="100" height="80" rx="6" fill="#a1887f"/><rect x="45" y="55" width="70" height="50" fill="#fff"/><circle cx="80" cy="50" r="4" fill="#6d4c41"/><line x1="60" y1="75" x2="100" y2="75" stroke="#8d6e63" stroke-width="3"/><line x1="60" y1="85" x2="100" y2="85" stroke="#8d6e63" stroke-width="3"/>'}
+];
+var YEST=[
+  {w:'run',sent:'I can run!',svg:'<circle cx="80" cy="30" r="18" fill="#ff6f00"/><ellipse cx="80" cy="70" rx="22" ry="30" fill="#ff6f00"/><rect x="58" y="55" width="8" height="35" rx="4" fill="#ff6f00" transform="rotate(-35 62 72)"/><rect x="94" y="55" width="8" height="35" rx="4" fill="#ff6f00" transform="rotate(45 98 72)"/><rect x="58" y="90" width="8" height="40" rx="4" fill="#ff6f00" transform="rotate(-25 62 110)"/><rect x="94" y="90" width="8" height="40" rx="4" fill="#ff6f00" transform="rotate(55 98 110)"/>'},
+  {w:'jump',sent:'I can jump!',svg:'<circle cx="80" cy="35" r="18" fill="#ec407a"/><ellipse cx="80" cy="75" rx="22" ry="28" fill="#ec407a"/><rect x="50" y="60" width="8" height="32" rx="4" fill="#ec407a" transform="rotate(-45 54 76)"/><rect x="102" y="60" width="8" height="32" rx="4" fill="#ec407a" transform="rotate(45 106 76)"/><rect x="58" y="95" width="8" height="28" rx="4" fill="#ec407a" transform="rotate(-15 62 109)"/><rect x="94" y="95" width="8" height="28" rx="4" fill="#ec407a" transform="rotate(15 98 109)"/>'},
+  {w:'walk',sent:'I can walk!',svg:'<circle cx="80" cy="32" r="18" fill="#26a69a"/><ellipse cx="80" cy="72" rx="22" ry="30" fill="#26a69a"/><rect x="60" y="58" width="8" height="32" rx="4" fill="#26a69a" transform="rotate(-10 64 74)"/><rect x="92" y="58" width="8" height="32" rx="4" fill="#26a69a" transform="rotate(10 96 74)"/><rect x="60" y="95" width="8" height="38" rx="4" fill="#26a69a"/><rect x="92" y="95" width="8" height="38" rx="4" fill="#26a69a" transform="rotate(25 96 114)"/>'}
+];
+var CANVAS=[
+  {prompt:'pink',opts:['pink','purple','white'],ans:'pink'},
+  {prompt:'black',opts:['black','brown','pink'],ans:'black'},
+  {prompt:'white',opts:['white','purple','brown'],ans:'white'},
+  {prompt:'purple',opts:['purple','pink','black'],ans:'purple'},
+  {prompt:'brown',opts:['brown','white','purple'],ans:'brown'}
+];
+var HUNT=[
+  {prompt:'pink',items:[{w:'pink',ok:true},{w:'purple',ok:false},{w:'white',ok:false},{w:'black',ok:false}]},
+  {prompt:'brown',items:[{w:'brown',ok:true},{w:'pink',ok:false},{w:'purple',ok:false},{w:'white',ok:false}]},
+  {prompt:'white',items:[{w:'white',ok:true},{w:'black',ok:false},{w:'pink',ok:false},{w:'brown',ok:false}]},
+  {prompt:'purple',items:[{w:'purple',ok:true},{w:'pink',ok:false},{w:'brown',ok:false},{w:'white',ok:false}]},
+  {prompt:'black',items:[{w:'black',ok:true},{w:'purple',ok:false},{w:'brown',ok:false},{w:'pink',ok:false}]}
+];
+function speak(t,cb){
+  if(!ac)ac=new AudioContext();
+  var u=t.length>15?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var a=new Audio(u);
+  var done=false;
+  a.onended=function(){if(!done){done=true;if(cb)cb();}};
+  a.onerror=function(){if(!done){done=true;if(cb)cb();}};
+  a.play().catch(function(){if(!done){done=true;if(cb)cb();}});
+  setTimeout(function(){if(!done){done=true;a.pause();if(cb)cb();}},4000);
+}
+function playOk(){
+  if(!ac)ac=new AudioContext();
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g);g.connect(ac.destination);
+  o.frequency.value=800;g.gain.value=.15;
+  o.start();o.stop(ac.currentTime+.15);
+}
+function playNo(){
+  if(!ac)ac=new AudioContext();
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g);g.connect(ac.destination);
+  o.frequency.value=200;g.gain.value=.15;
+  o.start();o.stop(ac.currentTime+.25);
+}
+var cur=0,mods=document.querySelectorAll('.mod');
+function go(d){
+  mods[cur].classList.remove('on');
+  cur+=d;
+  if(cur<0)cur=0;
+  if(cur>=mods.length)cur=mods.length-1;
+  mods[cur].classList.add('on');
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===mods.length-1;
+  updateTop();
+}
+function updateTop(){
+  var titles=['Start','Yesterday','Learn','Canvas','Hunt','Done'];
+  var tips=['','点一点,复习昨天的动作!','点一点,学新颜色!','听一听,选对的画布!','找一找,哪个是这个颜色?',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  document.getElementById('zh').textContent=tips[cur]||'';
+  var st='';
+  if(cur===0)st='';
+  else if(cur===mods.length-1)st='★★★★★';
+  else st='★'.repeat(cur)+('☆'.repeat(mods.length-1-cur));
+  document.getElementById('st').textContent=st;
+}
+function buildStart(){
+  var m=document.getElementById('m0');
+  m.innerHTML='<img src="'+PP+'candy-cat.png" width="140" alt="Candy Cat"><div class="pr"><img src="'+PP+'peppa-pig-fairy.png" alt="Peppa"><div class="bbl">Let\'s paint!</div></div><button class="start-btn" onclick="startGame()">Start</button>';
+}
+function startGame(){
+  if(!ac)ac=new AudioContext();
+  go(1);
+}
+function buildYesterday(){
+  var m=document.getElementById('m1'),h='<div class="y-wrap">';
+  YEST.forEach(function(y){
+    h+='<div class="y-q"><div class="sent">'+y.sent+'</div><div class="y-opts">';
+    var opts=[y.w];
+    while(opts.length<3){
+      var r=YEST[Math.floor(Math.random()*YEST.length)].w;
+      if(opts.indexOf(r)===-1)opts.push(r);
+    }
+    opts.sort(function(){return Math.random()-.5});
+    opts.forEach(function(o){
+      var oc=YEST.find(function(x){return x.w===o;});
+      h+='<button class="y-opt" data-w="'+o+'" data-ans="'+y.w+'"><svg width="60" height="60" viewBox="0 0 160 160">'+oc.svg+'</svg><div class="w">'+o+'</div></button>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div>';
+  m.innerHTML=h;
+  m.querySelectorAll('.y-opt').forEach(function(b){
+    b.onclick=function(){
+      if(busy||b.classList.contains('ok')||b.classList.contains('no'))return;
+      busy=true;
+      var w=b.dataset.w,ans=b.dataset.ans;
+      if(w===ans){
+        b.classList.add('ok');
+        playOk();
+        speak(w,function(){busy=false;});
+      }else{
+        b.classList.add('no');
+        playNo();
+        var ok=b.parentNode.querySelector('[data-w="'+ans+'"]');
+        if(ok)ok.classList.add('ok');
+        speak(ans,function(){busy=false;});
+      }
+    };
+  });
+}
+function buildLearn(){
+  var m=document.getElementById('m2'),h='<div class="palette-grid">';
+  COLS.forEach(function(c){
+    h+='<button class="palette-card closed" data-w="'+c.w+'"><div class="inner"><svg width="90" height="90" viewBox="0 0 160 160">'+c.svg+'</svg><div class="w">'+c.w+'</div></div></button>';
+  });
+  h+='</div>';
+  m.innerHTML=h;
+  m.querySelectorAll('.palette-card').forEach(function(b){
+    b.onclick=function(){
+      if(busy)return;
+      if(!b.classList.contains('on')){
+        busy=true;
+        b.classList.add('on');
+        speak(b.dataset.w,function(){busy=false;});
+      }else{
+        busy=true;
+        speak(b.dataset.w,function(){busy=false;});
+      }
+    };
+  });
+}
+var canvasIdx=0;
+function buildCanvas(){
+  var m=document.getElementById('m3');
+  showCanvasQ();
+  function showCanvasQ(){
+    if(canvasIdx>=CANVAS.length){go(1);return;}
+    var q=CANVAS[canvasIdx],h='<div class="canvas-wrap"><div class="canvas-q"><div class="canvas-prompt">'+q.prompt+'</div><div class="canvas-opts">';
+    q.opts.forEach(function(o){
+      var oc=COLS.find(function(x){return x.w===o;});
+      h+='<button class="canvas-btn" data-w="'+o+'" data-ans="'+q.ans+'"><svg width="70" height="70" viewBox="0 0 160 160">'+oc.svg+'</svg><div class="w">'+o+'</div></button>';
+    });
+    h+='</div></div></div>';
+    m.innerHTML=h;
+    m.querySelectorAll('.canvas-btn').forEach(function(b){
+      b.onclick=function(){
+        if(busy||b.classList.contains('ok')||b.classList.contains('no'))return;
+        busy=true;
+        var w=b.dataset.w,ans=b.dataset.ans;
+        if(w===ans){
+          b.classList.add('ok');
+          playOk();
+          speak(w,function(){
+            busy=false;
+            canvasIdx++;
+            setTimeout(showCanvasQ,600);
+          });
+        }else{
+          b.classList.add('no');
+          playNo();
+          var ok=b.parentNode.querySelector('[data-w="'+ans+'"]');
+          if(ok)ok.classList.add('ok');
+          speak(ans,function(){busy=false;});
+        }
+      };
+    });
+  }
+}
+var huntIdx=0;
+function buildHunt(){
+  var m=document.getElementById('m4');
+  showHuntQ();
+  function showHuntQ(){
+    if(huntIdx>=HUNT.length){go(1);return;}
+    var q=HUNT[huntIdx],h='<div class="hunt-wrap"><div class="hunt-q"><div class="hunt-prompt">'+q.prompt+'</div><div class="hunt-grid">';
+    q.items.forEach(function(it){
+      var ic=COLS.find(function(x){return x.w===it.w;});
+      h+='<button class="hunt-btn" data-w="'+it.w+'" data-ok="'+it.ok+'"><svg width="70" height="70" viewBox="0 0 160 160">'+ic.svg+'</svg><div class="w">'+it.w+'</div></button>';
+    });
+    h+='</div></div></div>';
+    m.innerHTML=h;
+    m.querySelectorAll('.hunt-btn').forEach(function(b){
+      b.onclick=function(){
+        if(busy||b.classList.contains('ok')||b.classList.contains('no'))return;
+        busy=true;
+        var ok=b.dataset.ok==='true';
+        if(ok){
+          b.classList.add('ok');
+          playOk();
+          speak(b.dataset.w,function(){
+            busy=false;
+            huntIdx++;
+            setTimeout(showHuntQ,600);
+          });
+        }else{
+          b.classList.add('no');
+          playNo();
+          var okb=b.parentNode.querySelector('[data-ok="true"]');
+          if(okb)okb.classList.add('ok');
+          speak(okb.dataset.w,function(){busy=false;});
+        }
+      };
+    });
+  }
+}
+function buildDone(){
+  var m=document.getElementById('m5');
+  m.innerHTML='<div class="done-wrap"><img src="'+PP+'peppa-pig-family.png" alt="Peppa Family"><div class="done-ttl">All Done!</div><div class="done-msg">Great painting! 🎨</div><button class="play-again" onclick="location.reload()">Play Again</button></div>';
+}
+buildStart();
+buildYesterday();
+buildLearn();
+buildCanvas();
+buildHunt();
+buildDone();
+updateTop();
+</script>
+</body>
+</html>
