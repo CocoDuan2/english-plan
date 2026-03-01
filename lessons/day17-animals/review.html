@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 17 - Animals Review Game</title>
+<style>
+:root{--tip-accent:#4CAF50;--tip-bg:#e8f5e9}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#e3f2fd 0%,#c8e6c9 50%,#fff9c4 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#42a5f5,#1e88e5);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(33,150,243,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Animal Rescue</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var WORDS=[
+  {w:'cat',svg:'<ellipse cx="80" cy="100" rx="52" ry="32" fill="#f5a623"/><circle cx="52" cy="78" r="22" fill="#f5a623"/><polygon points="38,62 44,42 56,66" fill="#f5a623"/><polygon points="58,58 64,38 72,62" fill="#f5a623"/><ellipse cx="46" cy="80" rx="3" ry="2" fill="#333"/><ellipse cx="60" cy="80" r="3" fill="#333"/><ellipse cx="53" cy="84" rx="4" ry="2.5" fill="#f48fb1"/><path d="M49 87 Q53 91 57 87" stroke="#333" stroke-width="1.5" fill="none"/><path d="M110 88 Q132 82 140 92" stroke="#f5a623" stroke-width="6" fill="none" stroke-linecap="round"/>'},
+  {w:'dog',svg:'<ellipse cx="80" cy="95" rx="38" ry="42" fill="#a1887f"/><circle cx="80" cy="62" r="30" fill="#a1887f"/><ellipse cx="54" cy="50" rx="16" ry="22" fill="#8d6e63" transform="rotate(-15,54,50)"/><ellipse cx="106" cy="50" rx="16" ry="22" fill="#8d6e63" transform="rotate(15,106,50)"/><circle cx="70" cy="58" r="5" fill="#fff"/><circle cx="90" cy="58" r="5" fill="#fff"/><circle cx="71" cy="59" r="3" fill="#333"/><circle cx="91" cy="59" r="3" fill="#333"/><ellipse cx="80" cy="70" rx="7" ry="5" fill="#333"/>'},
+  {w:'fish',svg:'<ellipse cx="78" cy="80" rx="48" ry="34" fill="#42a5f5"/><polygon points="126,80 148,58 148,102" fill="#42a5f5"/><ellipse cx="78" cy="80" rx="38" ry="24" fill="#64b5f6" opacity=".5"/><circle cx="58" cy="74" r="7" fill="#fff"/><circle cx="59" cy="75" r="4" fill="#333"/><path d="M50 92 Q62 100 74 92" stroke="#1565c0" stroke-width="2.5" fill="none" stroke-linecap="round"/>'},
+  {w:'bird',svg:'<ellipse cx="80" cy="90" rx="32" ry="36" fill="#f9a825"/><circle cx="80" cy="58" r="24" fill="#f9a825"/><circle cx="72" cy="52" r="5" fill="#fff"/><circle cx="88" cy="52" r="5" fill="#fff"/><circle cx="73" cy="53" r="3" fill="#333"/><circle cx="89" cy="53" r="3" fill="#333"/><polygon points="80,60 72,66 88,66" fill="#ff8f00"/><rect x="68" y="126" width="8" height="16" rx="3" fill="#ff8f00"/><rect x="84" y="126" width="8" height="16" rx="3" fill="#ff8f00"/>'},
+  {w:'duck',svg:'<ellipse cx="80" cy="110" rx="60" ry="14" fill="#90caf9" opacity=".35"/><ellipse cx="75" cy="92" rx="40" ry="28" fill="#fff"/><circle cx="62" cy="62" r="22" fill="#fff"/><circle cx="55" cy="56" r="4" fill="#333"/><polygon points="72,62 92,56 92,68" fill="#ff8f00"/>'}
+];
+var YEST=[
+  {w:'red',sent:"It's red!",svg:'<path d="M80 30 Q50 50 40 90 Q40 140 80 145 Q120 140 120 90 Q110 50 80 30Z" fill="#e74c3c"/><ellipse cx="80" cy="24" rx="16" ry="10" fill="#4CAF50"/>'},
+  {w:'blue',sent:"It's blue!",svg:'<polygon points="80,18 130,80 80,110 30,80" fill="#3498db"/><line x1="80" y1="110" x2="80" y2="150" stroke="#795548" stroke-width="3"/>'},
+  {w:'yellow',sent:"It's yellow!",svg:'<polygon points="80,10 95,58 148,58 106,88 120,138 80,108 40,138 54,88 12,58 65,58" fill="#f1c40f"/><circle cx="72" cy="68" r="4" fill="#333"/><circle cx="92" cy="68" r="4" fill="#333"/><path d="M72 82 Q80 92 88 82" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>'}
+];
+
+function draw(svg,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+svg+'</svg>'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5'];
+
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}
+  else{n.disabled=false;n.textContent='Next'}
+  var titles=['Animal Rescue','Yesterday Bridge','Raindrop Reveal','Rescue Run','Who\'s Calling?','All Done!'];
+  var tips=['','昨天复习桥','点雨滴，找动物','救动物回家','听一听，谁在叫？',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  ui();
+}
+function go(d){show(cur+d)}
+
+/* M0: Start page */
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'mummy-pig-standing-grass.png" width="140" alt="Mummy Pig">'+
+    '<div class="pr"><div class="bbl">Rescue the animals!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'george_pig_dinosaur.png" width="80" alt="George">'+
+      '<img src="'+PP+'emily-elephant-standing.png" width="80" alt="Emily">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+/* M1: Yesterday Bridge — 3 color words micro-review */
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);buildY()}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle(YEST.slice());
+  document.getElementById('m1').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" alt="Candy"><div class="bbl">'+t.sent+'</div></div>'+
+      '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+opts.map(function(o){
+        return '<button style="width:130px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+
+          draw(o.svg,74)+'<div style="font-size:20px;font-weight:800;color:#2c3e50">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak(correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M2: Raindrop Reveal — tap big raindrops to reveal animals + learn */
+var rdBusy=false,rdIdx=0,rdOrder=[];
+function initM2(){rdBusy=false;rdIdx=0;rdOrder=shuffle([0,1,2,3,4]);buildRd()}
+function buildRd(){
+  if(rdIdx>=5){setTimeout(function(){show(3)},700);return}
+  var w=WORDS[rdOrder[rdIdx]];
+  var drops='';
+  var order=shuffle([0,1,2,3,4]);
+  for(var i=0;i<5;i++){
+    var idx=order[i];
+    var revealed=rdOrder.indexOf(idx)<rdIdx;
+    if(revealed){
+      drops+='<div style="width:90px;height:105px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.08)">'+
+        draw(WORDS[idx].svg,60)+'<div style="font-size:18px;font-weight:800;color:#2c3e50">'+WORDS[idx].w+'</div></div>';
+    }else if(idx===rdOrder[rdIdx]){
+      drops+='<button style="width:90px;height:105px;border:none;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:linear-gradient(180deg,#64b5f6,#42a5f5);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(66,165,245,.3)" onclick="tapRd(this,'+idx+')">'+
+        '<span style="font-size:32px">💧</span>'+
+      '</button>';
+    }else{
+      drops+='<div style="width:90px;height:105px;border:none;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:linear-gradient(180deg,#90caf9,#bbdefb);display:flex;align-items:center;justify-content:center;opacity:.4">'+
+        '<span style="font-size:28px">💧</span>'+
+      '</div>';
+    }
+  }
+  document.getElementById('m2').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">Tap the raindrop!</div></div>'+
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+drops+'</div>'+
+    '</div>';
+}
+function tapRd(el,idx){
+  if(rdBusy)return;rdBusy=true;
+  var w=WORDS[idx];
+  el.style.background='#fff';
+  el.style.borderRadius='16px';
+  el.style.boxShadow='0 2px 8px rgba(0,0,0,.08)';
+  el.innerHTML=draw(w.svg,60)+'<div style="font-size:18px;font-weight:800;color:#2c3e50">'+w.w+'</div>';
+  el.style.display='flex';el.style.flexDirection='column';el.style.alignItems='center';el.style.justifyContent='center';
+  score++;ui();playOk();
+  speak("I see a "+w.w,function(){rdBusy=false;rdIdx++;setTimeout(buildRd,520)});
+}
+
+/* M3: Rescue Run — hear "I see a ___", pick correct animal from 3 to bring home */
+var rrBusy=false,rrQ=0,rrOrder=[];
+function initM3(){rrBusy=false;rrQ=0;rrOrder=shuffle([0,1,2,3,4]);buildRR()}
+function buildRR(){
+  if(rrQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=WORDS[rrOrder[rrQ]];
+  var others=WORDS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,2)));
+  /* House SVG at top */
+  var house='<svg width="80" height="80" viewBox="0 0 100 100">'+
+    '<polygon points="50,10 10,50 90,50" fill="#e57373"/>'+
+    '<rect x="25" y="50" width="50" height="40" rx="4" fill="#ffcc80"/>'+
+    '<rect x="40" y="60" width="20" height="30" rx="3" fill="#8d6e63"/>'+
+    '<circle cx="55" cy="76" r="2.5" fill="#f9a825"/>'+
+  '</svg>';
+  document.getElementById('m3').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">I see a '+tgt.w+'!</div></div>'+
+      '<div style="text-align:center;margin:4px 0">'+house+'</div>'+
+      '<div style="font-size:20px;color:#5f6c7b;font-weight:700;margin:4px 0">Rescue it home!</div>'+
+      '<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px">'+opts.map(function(o){
+        return '<button style="width:130px;height:140px;border:none;border-radius:18px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;transition:.2s" data-w="'+o.w+'" onclick="tapRR(this,\''+tgt.w+'\')">'+
+          draw(o.svg,80)+'<div style="font-size:20px;font-weight:800;color:#2c3e50">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak("I see a "+tgt.w)},200);
+}
+function tapRR(el,correct){
+  if(rrBusy)return;rrBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';
+    el.style.transform='translateY(-12px)';
+    score++;ui();playOk();
+    speak(correct,function(){rrBusy=false;rrQ++;setTimeout(buildRR,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){rrBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M4: Who's Calling — hear animal word, pick from 4 picture-only buttons */
+var wcBusy=false,wcQ=0,wcOrder=[];
+function initM4(){wcBusy=false;wcQ=0;wcOrder=shuffle([0,1,2,3,4]);buildWC()}
+function buildWC(){
+  if(wcQ>=5){setTimeout(function(){show(5)},700);return}
+  var tgt=WORDS[wcOrder[wcQ]];
+  var others=WORDS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,3)));
+  document.getElementById('m4').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'george-superhero-costume.png" alt="George"><div class="bbl">Who\'s calling?</div></div>'+
+      '<button style="width:200px;height:70px;border:none;border-radius:14px;background:#66bb6a;color:#fff;font-size:24px;font-weight:900;cursor:pointer;display:block;margin:0 auto 10px;box-shadow:0 3px 12px rgba(102,187,106,.3)" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:320px;margin:0 auto">'+
+      opts.map(function(o){
+        return '<button style="width:100%;height:120px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center" data-w="'+o.w+'" onclick="tapWC(this,\''+tgt.w+'\')">'+
+          draw(o.svg,80)+'</button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapWC(el,correct){
+  if(wcBusy)return;wcBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak("I see a "+correct,function(){wcBusy=false;wcQ++;setTimeout(buildWC,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){wcBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M5: Done page */
+function initM5(){
+  score=total;ui();
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="170" alt="Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">All animals rescued!</div>'+
+    '<div style="display:flex;gap:8px;justify-content:center;margin:10px 0">'+
+      WORDS.map(function(w){return draw(w.svg,50)}).join('')+
+    '</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:12px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>

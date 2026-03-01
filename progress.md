@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 16 - Colors
+- 当前: Day 17 - Animals
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 17 - Animals 🐾 🎯
+- 新词: cat, dog, fish, bird, duck
+- 句式: I see a ___!
+- teach: Rainy Day Rescue 故事线 + Day16 微复习页(red/blue/yellow) + umbrella lift 揭示 + shelter lineup 总览
+- review: Day16 微复习(3题) + Raindrop Reveal 点雨滴揭示学词 + Rescue Run 救动物回家三选一 + Who's Calling 听音选图四选一 + Done 完成页
+- 差异化: teach 从 treasure map 改为 rainy day rescue 伞下找动物；review 去除上一课 dig/chest-match/gem-catch，改为 raindrop/rescue-run/whos-calling 新链路
+- SVG物品: 蜷缩猫咪、正面小狗(吐舌)、热带条纹鱼、圆胖知更鸟、游泳鸭子（全部与Day2/Day12不同）
+- 角色轮换: Mummy/Daddy/Candy/Emily/George-dinosaur/Peppa/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 16 - Colors 🎨 🎯
 - 新词: red, blue, yellow, green, orange
@@ -100,7 +110,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 17 - Animals（cat, dog, fish, bird, duck）
+- Day 18 - Body（head, eyes, ears, nose, mouth）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
