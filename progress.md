@@ -1,9 +1,17 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 24 - Animals 2
+- 当前: Day 25 - Review
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 25 - Review 🎯 🚀
+- 复习: Day 21-24 全部 20 词 + 4 个句式
+- teach: Space Mission 故事线 + 4 个星球站点轮换 + Rocket Launch 揭示句式 + 20词全览
+- review: Planet Hop 星球选站 + Alien Delivery 听音送货三选一 + Rocket Fuel 句式加油配对 + Done 完成页
+- 差异化: teach 从 adventure park 改为 space mission 太空任务结构；review 去除上一课 park-map/ride-tickets/carousel 路径，改为 planet-hop/alien-delivery/rocket-fuel 新链路
+- 角色轮换: George-superhero/Peppa-fairy/Emily/Candy/Mummy/Daddy/Peppa-bicycle/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 19 - Food 🍎 🎯
 - 新词: apple, banana, milk, bread, egg
