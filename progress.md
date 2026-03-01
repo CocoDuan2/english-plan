@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 17 - Animals
+- 当前: Day 18 - Body
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 18 - Body 🧩 🎯
+- 新词: head, eyes, ears, nose, mouth
+- 句式: This is my ___!
+- teach: Bath Time Fun 故事线 + Day17 微复习页(cat/dog/fish) + bubble pop 揭示 + mirror face 总览
+- review: Day17 微复习(3题) + Sponge Wash 海绵揭示学词 + Mirror Match 灰色轮廓三选一 + Bubble Pop 听音戳泡泡四选一 + Done 完成页
+- 差异化: teach 从 body band parade 改为 bath time fun 洗澡故事线；review 去除上一课 tap-face/build-band/listen-point，改为 sponge-wash/mirror-match/bubble-pop 新链路
+- SVG物品: 全脸+高亮目标部位（虚线圈头、紫色圈眼、青色圈耳、橙色圈鼻、粉色大嘴）——与Day3/Day13孤立部位画法完全不同
+- 角色轮换: George-bubbles/Peppa-bicycle/George-ball/Daddy/Emily/Candy/Daddy-walking/Peppa-fairy/Peppa-and-George 轮换出场
+- 状态: ✅ 完成
 
 ## Day 17 - Animals 🐾 🎯
 - 新词: cat, dog, fish, bird, duck
@@ -110,7 +120,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 18 - Body（head, eyes, ears, nose, mouth）
+- Day 19 - Food（apple, banana, milk, bread, egg）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

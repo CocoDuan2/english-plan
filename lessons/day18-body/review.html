@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 18 - Body Review Game</title>
+<style>
+:root{--tip-accent:#0097a7;--tip-bg:#e0f7fa}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#e0f7fa 0%,#b2ebf2 50%,#fff9c4 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#4dd0e1,#00acc1);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,172,193,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Bath Time Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var PARTS=[
+  {w:'head',color:'#ff9800',svg:'<circle cx="80" cy="78" r="55" fill="#ffd6b5" stroke="#ff9800" stroke-width="3"/><circle cx="62" cy="68" r="4" fill="#333" opacity=".3"/><circle cx="98" cy="68" r="4" fill="#333" opacity=".3"/>'},
+  {w:'eyes',color:'#9c27b0',svg:'<ellipse cx="55" cy="72" rx="20" ry="15" fill="#fff" stroke="#9c27b0" stroke-width="2.5"/><ellipse cx="105" cy="72" rx="20" ry="15" fill="#fff" stroke="#9c27b0" stroke-width="2.5"/><circle cx="55" cy="74" r="7" fill="#5d4037"/><circle cx="105" cy="74" r="7" fill="#5d4037"/><circle cx="51" cy="70" r="3" fill="#fff"/><circle cx="101" cy="70" r="3" fill="#fff"/>'},
+  {w:'ears',color:'#00897b',svg:'<ellipse cx="28" cy="78" rx="16" ry="24" fill="#ffd8bf" stroke="#00897b" stroke-width="2.5"/><ellipse cx="132" cy="78" rx="16" ry="24" fill="#ffd8bf" stroke="#00897b" stroke-width="2.5"/><ellipse cx="28" cy="78" rx="8" ry="12" fill="#ffccbc"/><ellipse cx="132" cy="78" rx="8" ry="12" fill="#ffccbc"/>'},
+  {w:'nose',color:'#e64a19',svg:'<ellipse cx="80" cy="90" rx="18" ry="14" fill="#ffab91" stroke="#e64a19" stroke-width="2.5"/><circle cx="74" cy="90" r="3.5" fill="#8d6e63"/><circle cx="86" cy="90" r="3.5" fill="#8d6e63"/>'},
+  {w:'mouth',color:'#e91e63',svg:'<path d="M58 102 Q80 128 102 102" stroke="#e91e63" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M70 110 Q80 118 90 110" fill="#e57373" opacity=".6"/>'}
+];
+var YEST=[
+  {w:'cat',sent:'I see a cat!',svg:'<ellipse cx="80" cy="100" rx="52" ry="32" fill="#f5a623"/><circle cx="52" cy="78" r="22" fill="#f5a623"/><polygon points="38,62 44,42 56,66" fill="#f5a623"/><polygon points="58,58 64,38 72,62" fill="#f5a623"/><ellipse cx="46" cy="80" rx="3" ry="2" fill="#333"/><ellipse cx="60" cy="80" r="3" fill="#333"/>'},
+  {w:'dog',sent:'I see a dog!',svg:'<ellipse cx="80" cy="95" rx="38" ry="42" fill="#a1887f"/><circle cx="80" cy="62" r="30" fill="#a1887f"/><circle cx="70" cy="58" r="5" fill="#fff"/><circle cx="90" cy="58" r="5" fill="#fff"/><circle cx="71" cy="59" r="3" fill="#333"/><circle cx="91" cy="59" r="3" fill="#333"/><ellipse cx="80" cy="70" rx="7" ry="5" fill="#333"/>'},
+  {w:'fish',sent:'I see a fish!',svg:'<ellipse cx="78" cy="80" rx="48" ry="34" fill="#42a5f5"/><polygon points="126,80 148,58 148,102" fill="#42a5f5"/><circle cx="58" cy="74" r="7" fill="#fff"/><circle cx="59" cy="75" r="4" fill="#333"/>'}
+];
+
+function draw(svg,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+svg+'</svg>'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}
+  else{n.disabled=false;n.textContent='Next'}
+  var titles=['Bath Time Game','Yesterday Bridge','Sponge Wash','Mirror Match','Bubble Pop','All Done!'];
+  var tips=['','昨天复习桥','用海绵洗一洗','照镜子，找部位','听一听，戳泡泡',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  ui();
+}
+function go(d){show(cur+d)}
+
+/* M0: Start page */
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'george_pig_bubbles.png" width="140" alt="George">'+
+    '<div class="pr"><div class="bbl">Splash! Let\'s play!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'peppa_pig_bicycle.png" width="80" alt="Peppa">'+
+      '<img src="'+PP+'daddy-pig-walking.png" width="80" alt="Daddy">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+/* M1: Yesterday Bridge — 3 animal words micro-review */
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);buildY()}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle(YEST.slice());
+  document.getElementById('m1').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" alt="Emily"><div class="bbl">'+t.sent+'</div></div>'+
+      '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+opts.map(function(o){
+        return '<button style="width:130px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+
+          draw(o.svg,74)+'<div style="font-size:20px;font-weight:800;color:#2c3e50">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak(correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M2: Sponge Wash — tap sponge cards to wash & reveal body parts */
+var swBusy=false,swIdx=0,swOrder=[];
+function initM2(){swBusy=false;swIdx=0;swOrder=shuffle([0,1,2,3,4]);buildSW()}
+function buildSW(){
+  if(swIdx>=5){setTimeout(function(){show(3)},700);return}
+  var p=PARTS[swOrder[swIdx]];
+  var revealed=[];
+  for(var i=0;i<swIdx;i++)revealed.push(swOrder[i]);
+  var cards='';
+  var order=shuffle([0,1,2,3,4]);
+  for(var j=0;j<5;j++){
+    var idx=order[j];
+    if(revealed.indexOf(idx)>=0){
+      cards+='<div style="width:90px;height:105px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.08)">'+
+        draw(PARTS[idx].svg,60)+'<div style="font-size:18px;font-weight:800;color:#2c3e50">'+PARTS[idx].w+'</div></div>';
+    }else if(idx===swOrder[swIdx]){
+      cards+='<button style="width:90px;height:105px;border:none;border-radius:16px;background:linear-gradient(135deg,#fff9c4,#ffecb3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 3px 12px rgba(255,193,7,.25)" onclick="tapSW(this,'+idx+')">'+
+        '<span style="font-size:36px">🧽</span>'+
+        '<div style="font-size:14px;color:#f57f17;font-weight:700;margin-top:2px">Wash!</div>'+
+      '</button>';
+    }else{
+      cards+='<div style="width:90px;height:105px;border-radius:16px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;opacity:.35">'+
+        '<span style="font-size:28px">🧽</span>'+
+      '</div>';
+    }
+  }
+  document.getElementById('m2').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">Wash the '+p.w+'!</div></div>'+
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+cards+'</div>'+
+    '</div>';
+}
+function tapSW(el,idx){
+  if(swBusy)return;swBusy=true;
+  var p=PARTS[idx];
+  el.style.background='#fff';
+  el.innerHTML=draw(p.svg,60)+'<div style="font-size:18px;font-weight:800;color:#2c3e50">'+p.w+'</div>';
+  el.style.display='flex';el.style.flexDirection='column';el.style.alignItems='center';el.style.justifyContent='center';
+  score++;ui();playOk();
+  speak('This is my '+p.w,function(){swBusy=false;swIdx++;setTimeout(buildSW,520)});
+}
+
+/* M3: Mirror Match — see outline shape, pick matching body part from 3 */
+var mmBusy=false,mmQ=0,mmOrder=[];
+function initM3(){mmBusy=false;mmQ=0;mmOrder=shuffle([0,1,2,3,4]);buildMM()}
+function buildMM(){
+  if(mmQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=PARTS[mmOrder[mmQ]];
+  var others=PARTS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,2)));
+  /* Outline SVG: same shape but gray/dashed */
+  var outline=tgt.svg.replace(/fill="[^"]*"/g,'fill="#ccc"').replace(/stroke="[^"]*"/g,'stroke="#999"');
+  document.getElementById('m3').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'george-playing-ball.png" alt="George"><div class="bbl">Which part is this?</div></div>'+
+      '<div style="text-align:center;margin:6px 0;background:#f5f5f5;border-radius:18px;padding:14px;display:inline-block">'+
+        '<svg width="100" height="100" viewBox="0 0 160 160">'+outline+'</svg>'+
+        '<div style="font-size:16px;color:#999;font-weight:700;margin-top:2px">???</div>'+
+      '</div>'+
+      '<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:10px">'+
+      opts.map(function(o){
+        return '<button style="width:130px;height:140px;border:none;border-radius:18px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;transition:.2s" data-w="'+o.w+'" onclick="tapMM(this,\''+tgt.w+'\')">'+
+          draw(o.svg,80)+'<div style="font-size:20px;font-weight:800;color:#2c3e50">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},200);
+}
+function tapMM(el,correct){
+  if(mmBusy)return;mmBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';
+    el.style.transform='translateY(-8px)';
+    score++;ui();playOk();
+    speak('This is my '+correct,function(){mmBusy=false;mmQ++;setTimeout(buildMM,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){mmBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M4: Bubble Pop — hear body word, pop correct bubble from 4 */
+var bpBusy=false,bpQ=0,bpOrder=[];
+function initM4(){bpBusy=false;bpQ=0;bpOrder=shuffle([0,1,2,3,4]);buildBP()}
+function buildBP(){
+  if(bpQ>=5){setTimeout(function(){show(5)},700);return}
+  var tgt=PARTS[bpOrder[bpQ]];
+  var others=PARTS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,3)));
+  var colors=['#90caf9','#ce93d8','#80cbc4','#ffab91'];
+  document.getElementById('m4').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'peppa-fairy-princess-small.png" alt="Peppa fairy"><div class="bbl">Pop the right bubble!</div></div>'+
+      '<button style="width:200px;height:70px;border:none;border-radius:14px;background:#4dd0e1;color:#fff;font-size:24px;font-weight:900;cursor:pointer;display:block;margin:0 auto 10px;box-shadow:0 3px 12px rgba(77,208,225,.3)" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:340px;margin:0 auto">'+
+      opts.map(function(o,i){
+        return '<button style="width:100%;height:130px;border:none;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.6),'+colors[i]+' 70%);box-shadow:0 4px 16px rgba(0,0,0,.12);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative" data-w="'+o.w+'" onclick="tapBP(this,\''+tgt.w+'\')">'+
+          '<div style="position:absolute;top:14px;left:24px;width:16px;height:10px;border-radius:50%;background:rgba(255,255,255,.5)"></div>'+
+          draw(o.svg,60)+
+        '</button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapBP(el,correct){
+  if(bpBusy)return;bpBusy=true;
+  if(el.dataset.w===correct){
+    el.style.background='#fff';el.style.borderRadius='16px';
+    el.style.boxShadow='0 2px 8px rgba(0,0,0,.08)';
+    el.innerHTML=draw(PARTS.find(function(p){return p.w===correct}).svg,60)+'<div style="font-size:18px;font-weight:800;color:#2c3e50;margin-top:4px">'+correct+'</div>';
+    el.style.display='flex';el.style.flexDirection='column';el.style.alignItems='center';el.style.justifyContent='center';
+    score++;ui();playOk();
+    speak('This is my '+correct,function(){bpBusy=false;bpQ++;setTimeout(buildBP,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){bpBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M5: Done page */
+function initM5(){
+  score=total;ui();
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-and-george-ooo.png" width="170" alt="Peppa and George">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">All clean and fresh!</div>'+
+    '<div style="display:flex;gap:8px;justify-content:center;margin:10px 0">'+
+      PARTS.map(function(p){return draw(p.svg,50)}).join('')+
+    '</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:12px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>
