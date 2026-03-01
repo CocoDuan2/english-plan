@@ -129,8 +129,16 @@
 - review: 昨日body微复习 + 翻牌学词 + 喂朋友三选一 + 听音三选一 + 购物清单顺序
 - 状态: ✅ 完成
 
+## Day 20 - Review 🎯
+- 复习: Day 16-19 全部 20 词 + 4 个句式
+- teach: Adventure Park 故事线 + 4 个主题站点轮换 + Ticket Booth 揭示句式 + 20词全览
+- review: Park Map 地图选站 + Ride Tickets 听音配票三选一 + Sentence Carousel 旋转木马句式选择 + Done 完成页
+- 差异化: teach 从 cooking show 改为 adventure park 游乐园结构；review 去除上一课 fridge/cooking-pot/taste-test 路径，改为 map/ride-tickets/carousel 新链路
+- 角色轮换: Peppa/George/Mummy/Daddy/Candy/Emily/Peppa-family 轮换出场
+- 状态: ✅ 完成
+
 ## 下一课
-- Day 20 - Review（Day 16-19 全部复习 · 20 words）
+- Day 21 - Numbers（one, two, three, four, five）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

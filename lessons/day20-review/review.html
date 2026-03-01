@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 20 - Review Game</title>
+<style>
+:root{--tip-accent:#9c27b0;--tip-bg:#f3e5f5}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#f3e5f5 0%,#e1bee7 50%,#c5e1a5 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#ab47bc,#7b1fa2);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(123,31,162,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:440px;margin-top:10px}
+.map-btn{width:190px;height:140px;border:none;border-radius:20px;cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.12);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.map-btn:active{transform:scale(.95)}
+.map-btn .icon{font-size:48px}
+.map-btn .t{font-size:24px;font-weight:900;color:#2c3e50}
+.ride-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.ride-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.ride-card:active{transform:scale(.95)}
+.ride-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.ride-card.wrong{border-color:#ef5350;background:#ffebee}
+.ride-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.carousel-grid{display:flex;flex-direction:column;gap:12px;max-width:440px;margin-top:10px}
+.carousel-q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);text-align:center}
+.carousel-q .w{font-size:32px;font-weight:900;color:#2c3e50;margin:8px 0}
+.carousel-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.carousel-opt{padding:14px;border:none;border-radius:14px;background:#f5f5f5;font-size:20px;font-weight:700;color:#2c3e50;cursor:pointer;transition:.2s}
+.carousel-opt:active{transform:scale(.95)}
+.carousel-opt.correct{background:#66bb6a;color:#fff}
+.carousel-opt.wrong{background:#ef5350;color:#fff}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Park Adventure</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/5</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var COLORS=[
+  {w:'red',sent:"It's red!",svg:'<path d="M50 80 L80 30 L110 80 Z" fill="#e53935"/>'},
+  {w:'blue',sent:"It's blue!",svg:'<rect x="40" y="50" width="80" height="60" rx="12" fill="#42a5f5"/>'},
+  {w:'yellow',sent:"It's yellow!",svg:'<circle cx="80" cy="80" r="45" fill="#ffc107"/>'},
+  {w:'green',sent:"It's green!",svg:'<ellipse cx="80" cy="100" rx="35" ry="45" fill="#66bb6a"/>'},
+  {w:'orange',sent:"It's orange!",svg:'<circle cx="80" cy="80" r="40" fill="#ff9800"/>'}
+];
+var ANIMALS=[
+  {w:'cat',sent:'I see a cat!',svg:'<ellipse cx="70" cy="80" rx="18" ry="22" fill="#ff9800"/><circle cx="70" cy="70" r="14" fill="#ff9800"/><circle cx="66" cy="68" r="3" fill="#333"/>'},
+  {w:'dog',sent:'I see a dog!',svg:'<ellipse cx="80" cy="90" rx="25" ry="20" fill="#795548"/><circle cx="80" cy="75" r="20" fill="#795548"/><circle cx="76" cy="72" r="3" fill="#333"/>'},
+  {w:'fish',sent:'I see a fish!',svg:'<ellipse cx="80" cy="80" rx="35" ry="18" fill="#42a5f5"/><circle cx="75" cy="78" r="3" fill="#333"/><path d="M115 80 L130 70 L130 90 Z" fill="#42a5f5"/>'},
+  {w:'bird',sent:'I see a bird!',svg:'<circle cx="80" cy="85" r="28" fill="#ffc107"/><circle cx="75" cy="80" r="3" fill="#333"/><path d="M50 75 L65 80 L50 85 Z" fill="#ff9800"/>'},
+  {w:'duck',sent:'I see a duck!',svg:'<ellipse cx="80" cy="90" rx="30" ry="22" fill="#fff"/><circle cx="80" cy="75" r="18" fill="#ffc107"/><circle cx="76" cy="72" r="3" fill="#333"/>'}
+];
+var BODY=[
+  {w:'head',sent:'This is my head!',svg:'<circle cx="80" cy="80" r="45" fill="#ffd8bf"/><circle cx="68" cy="75" r="4" fill="#333"/><circle cx="92" cy="75" r="4" fill="#333"/>'},
+  {w:'eyes',sent:'This is my eyes!',svg:'<circle cx="65" cy="80" r="12" fill="#333"/><circle cx="95" cy="80" r="12" fill="#333"/><circle cx="68" cy="77" r="4" fill="#fff"/>'},
+  {w:'ears',sent:'This is my ears!',svg:'<ellipse cx="50" cy="80" rx="18" ry="28" fill="#ffab91"/><ellipse cx="110" cy="80" rx="18" ry="28" fill="#ffab91"/>'},
+  {w:'nose',sent:'This is my nose!',svg:'<circle cx="80" cy="80" r="40" fill="#ffd8bf" opacity=".3"/><ellipse cx="80" cy="80" rx="18" ry="14" fill="#ffab91"/><circle cx="75" cy="80" r="3" fill="#8d6e63"/>'},
+  {w:'mouth',sent:'This is my mouth!',svg:'<path d="M50 80 Q80 105 110 80" stroke="#e91e8c" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M65 88 Q80 96 95 88" fill="#e57373" opacity=".6"/>'}
+];
+var FOOD=[
+  {w:'apple',sent:'I like apple!',svg:'<circle cx="80" cy="85" r="35" fill="#e53935"/><circle cx="68" cy="75" r="10" fill="#ef5350" opacity=".5"/><rect x="76" y="45" width="8" height="18" rx="4" fill="#6d4c41"/><ellipse cx="88" cy="52" rx="12" ry="7" fill="#66bb6a"/>'},
+  {w:'banana',sent:'I like banana!',svg:'<path d="M50 100 Q45 70 75 55 Q90 50 100 65 Q95 63 85 68 Q70 78 68 100 Z" fill="#f9a825"/><path d="M50 100 Q45 70 75 55 Q70 65 68 85 Q66 95 68 100 Z" fill="#fdd835" opacity=".5"/>'},
+  {w:'milk',sent:'I like milk!',svg:'<rect x="55" y="50" width="50" height="60" rx="8" fill="#e3f2fd"/><rect x="55" y="50" width="50" height="20" rx="8" fill="#42a5f5"/><text x="80" y="68" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">MILK</text>'},
+  {w:'bread',sent:'I like bread!',svg:'<ellipse cx="80" cy="85" rx="40" ry="28" fill="#d4a056"/><ellipse cx="80" cy="75" rx="38" ry="22" fill="#e6b566"/><path d="M55 72 Q70 62 80 72 Q90 62 105 72" stroke="#c8943e" stroke-width="2" fill="none"/>'},
+  {w:'egg',sent:'I like egg!',svg:'<ellipse cx="80" cy="80" rx="38" ry="30" fill="#fff" stroke="#f5f5f5" stroke-width="2"/><ellipse cx="80" cy="78" rx="35" ry="26" fill="#fffde7"/><circle cx="80" cy="76" r="18" fill="#ffc107"/>'}
+];
+var ALL=[].concat(COLORS,ANIMALS,BODY,FOOD);
+
+function draw(svg,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+svg+'</svg>'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=20;
+var mods=['m0','m1','m2','m3','m4'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}
+  else{n.disabled=false;n.textContent='Next'}
+  var titles=['Park Adventure','Park Map','Ride Tickets','Sentence Carousel','All Done!'];
+  var tips=['','选一个站点玩','听一听，选票','句子旋转木马',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+  mods.forEach(function(m,i){document.getElementById(m).classList.toggle('on',i===cur)});
+}
+function go(d){
+  if(d>0&&cur===mods.length-1)return;
+  cur=Math.max(0,Math.min(mods.length-1,cur+d));ui();
+}
+
+// Module 0: Start
+document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standing.png" width="140" alt="Peppa"><div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Let\'s explore the park!</div></div><button class="start-btn" onclick="startGame()">Start!</button>';
+
+function startGame(){ac();go(1);buildMap()}
+
+// Module 1: Park Map (choose station)
+var mapBusy=false;
+function buildMap(){
+  var h='<div class="pr"><img src="'+PP+'george_pig_dinosaur.png" alt="George"><div class="bbl">Pick a station!</div></div><div class="map-grid">';
+  h+='<button class="map-btn" onclick="playStation(0)"><div class="icon">🎨</div><div class="t">Colors</div></button>';
+  h+='<button class="map-btn" onclick="playStation(1)"><div class="icon">🐾</div><div class="t">Animals</div></button>';
+  h+='<button class="map-btn" onclick="playStation(2)"><div class="icon">🧩</div><div class="t">Body</div></button>';
+  h+='<button class="map-btn" onclick="playStation(3)"><div class="icon">🍎</div><div class="t">Food</div></button>';
+  h+='</div>';
+  document.getElementById('m1').innerHTML=h;
+}
+
+function playStation(idx){
+  if(mapBusy)return;
+  mapBusy=true;
+  playOk();
+  setTimeout(function(){go(1);buildRide(idx);mapBusy=false},600);
+}
+
+// Module 2: Ride Tickets (listen & match)
+var rideBusy=false,rideData=[],rideIdx=0;
+function buildRide(station){
+  var sets=[COLORS,ANIMALS,BODY,FOOD];
+  var data=sets[station];
+  rideData=shuffle(data.slice()).slice(0,3);
+  rideIdx=0;
+  showRideQ();
+}
+
+function showRideQ(){
+  if(rideIdx>=rideData.length){
+    setTimeout(function(){go(1);buildCarousel()},800);
+    return;
+  }
+  var item=rideData[rideIdx];
+  var opts=shuffle([item.w,ALL[Math.floor(Math.random()*ALL.length)].w]);
+  var h='<div class="pr"><img src="'+PP+'candy-cat.png" alt="Candy"><div class="bbl">Find the ticket!</div></div>';
+  h+='<div class="ride-grid">';
+  opts.forEach(function(w){
+    var it=ALL.find(function(x){return x.w===w});
+    h+='<div class="ride-card" onclick="checkRide(\''+w+'\',this)">'+draw(it.svg,90)+'<div class="lb">'+w+'</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('m2').innerHTML=h;
+  setTimeout(function(){speak(item.w)},300);
+}
+
+function checkRide(w,el){
+  if(rideBusy)return;
+  rideBusy=true;
+  var correct=rideData[rideIdx].w;
+  if(w===correct){
+    el.classList.add('correct');
+    playOk();
+    score++;
+    ui();
+    setTimeout(function(){rideIdx++;rideBusy=false;showRideQ()},1200);
+  }else{
+    el.classList.add('wrong');
+    playNo();
+    speak(correct);
+    setTimeout(function(){el.classList.remove('wrong');rideBusy=false},1200);
+  }
+}
+
+// Module 3: Sentence Carousel (sentence matching)
+var carouselBusy=false,carouselData=[],carouselIdx=0;
+function buildCarousel(){
+  carouselData=shuffle(ALL.slice()).slice(0,5);
+  carouselIdx=0;
+  showCarouselQ();
+}
+
+function showCarouselQ(){
+  if(carouselIdx>=carouselData.length){
+    setTimeout(function(){go(1);buildDone()},800);
+    return;
+  }
+  var item=carouselData[carouselIdx];
+  var sents=['It\'s ___!','I see a ___!','This is my ___!','I like ___!'];
+  var correct=item.sent;
+  var wrong=sents.filter(function(s){return s!==correct.replace(item.w,'___')})[Math.floor(Math.random()*3)];
+  var opts=shuffle([correct.replace(item.w,'___'),wrong]);
+  
+  var h='<div class="pr"><img src="'+PP+'emily-elephant.png" alt="Emily"><div class="bbl">Pick the sentence!</div></div>';
+  h+='<div class="carousel-grid"><div class="carousel-q">'+draw(item.svg,100)+'<div class="w">'+item.w+'</div></div>';
+  h+='<div class="carousel-opts">';
+  opts.forEach(function(s){
+    h+='<button class="carousel-opt" onclick="checkCarousel(\''+s+'\',this)">'+s+'</button>';
+  });
+  h+='</div></div>';
+  document.getElementById('m3').innerHTML=h;
+  setTimeout(function(){speak(item.w)},300);
+}
+
+function checkCarousel(s,el){
+  if(carouselBusy)return;
+  carouselBusy=true;
+  var item=carouselData[carouselIdx];
+  var correct=item.sent.replace(item.w,'___');
+  if(s===correct){
+    el.classList.add('correct');
+    playOk();
+    score++;
+    ui();
+    setTimeout(function(){carouselIdx++;carouselBusy=false;showCarouselQ()},1200);
+  }else{
+    el.classList.add('wrong');
+    playNo();
+    speak(item.sent);
+    setTimeout(function(){el.classList.remove('wrong');carouselBusy=false},1200);
+  }
+}
+
+// Module 4: Done
+function buildDone(){
+  var h='<img src="'+PP+'peppa-pig-family.png" width="160" alt="Peppa Family">';
+  h+='<div style="font-size:52px;font-weight:900;color:#e91e8c;margin:12px 0">All Done!</div>';
+  h+='<div style="font-size:24px;color:#5f6c7b;margin:8px 0">Great park adventure!</div>';
+  h+='<div class="st" style="font-size:28px;margin:12px 0">';
+  for(var i=0;i<total;i++)h+=i<score?'⭐':'☆';
+  h+='</div>';
+  h+='<button class="start-btn" onclick="location.reload()">Play Again</button>';
+  document.getElementById('m4').innerHTML=h;
+}
+
+ui();
+</script>
+</body>
+</html>

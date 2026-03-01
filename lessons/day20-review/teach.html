@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 20 - Review (Day 16-19)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#fff3e0,#ffe0b2)}
+.bg-hello{background:linear-gradient(170deg,#e8f5e9,#fff8e1)}
+.bg-colors{background:linear-gradient(160deg,#ffebee,#fff3e0)}
+.bg-animals{background:linear-gradient(160deg,#e8f5e9,#f1f8e9)}
+.bg-body{background:linear-gradient(160deg,#e3f2fd,#e8eaf6)}
+.bg-food{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.bg-ticket{background:linear-gradient(160deg,#e0f2f1,#b2dfdb)}
+.bg-all{background:linear-gradient(160deg,#f3e5f5,#e1bee7)}
+.bg-bye{background:linear-gradient(180deg,#ff8a65,#F9ADC7 60%,#ce93d8)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#5f6c7b}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:8px 0;text-shadow:0 3px 0 rgba(0,0,0,.08);text-transform:lowercase}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:10px 0}
+.obj svg{width:190px;height:190px}
+.station-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:600px;margin-top:10px}
+.station-card{background:#fff;border-radius:20px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,.1);text-align:center}
+.station-card .icon{font-size:48px;margin:6px 0}
+.station-card .t{font-size:28px;font-weight:900;color:#2c3e50;margin:6px 0}
+.station-card .words{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.station-card .w{font-size:18px;font-weight:700;color:#666;background:#f5f5f5;padding:4px 10px;border-radius:8px}
+.ticket-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:480px;margin-top:10px}
+.ticket-btn{width:200px;height:140px;border:none;border-radius:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:.25s;background:linear-gradient(145deg,#e0e0e0,#bdbdbd)}
+.ticket-btn.closed::after{content:'🎫';font-size:48px}
+.ticket-btn:active{transform:scale(.95)}
+.ticket-btn .inner{opacity:0;transform:scale(.72);transition:.25s;text-align:center}
+.ticket-btn .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px;opacity:0;transition:.25s}
+.ticket-btn.on{background:#fff}
+.ticket-btn.on::after{display:none}
+.ticket-btn.on .inner{opacity:1;transform:scale(1)}
+.ticket-btn.on .lb{opacity:1}
+.all-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;max-width:800px;margin-top:10px}
+.all-card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:center}
+.all-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.45);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:310px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .obj svg{width:200px;height:200px}
+  .ticket-btn{width:220px;height:150px}
+  .all-card .w{font-size:30px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1. Title: Adventure Park -->
+<div class="sl bg-title on">
+  <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="120" alt="Peppa">
+  <div class="obj">
+    <svg width="150" height="150" viewBox="0 0 160 160" aria-label="Ferris wheel">
+      <circle cx="80" cy="80" r="60" stroke="#e91e8c" stroke-width="4" fill="none"/>
+      <circle cx="80" cy="80" r="6" fill="#2c3e50"/>
+      <line x1="80" y1="80" x2="80" y2="20" stroke="#e91e8c" stroke-width="3"/>
+      <line x1="80" y1="80" x2="132" y2="80" stroke="#42a5f5" stroke-width="3"/>
+      <line x1="80" y1="80" x2="80" y2="140" stroke="#ffc107" stroke-width="3"/>
+      <line x1="80" y1="80" x2="28" y2="80" stroke="#66bb6a" stroke-width="3"/>
+      <rect x="74" y="10" width="12" height="16" rx="4" fill="#e91e8c"/>
+      <rect x="126" y="74" width="12" height="16" rx="4" fill="#42a5f5"/>
+      <rect x="74" y="134" width="12" height="16" rx="4" fill="#ffc107"/>
+      <rect x="22" y="74" width="12" height="16" rx="4" fill="#66bb6a"/>
+    </svg>
+  </div>
+  <div class="ttl">Adventure Park!</div>
+  <div class="sub">Let's ride and play!</div>
+</div>
+
+<!-- 2. Hello: Family at park entrance -->
+<div class="sl bg-hello">
+  <div style="display:flex;gap:14px;align-items:flex-end;margin-bottom:6px">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" width="85" alt="Mummy">
+    <img src="../../assets/peppa/daddy-pig-standing.png" width="85" alt="Daddy">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="85" alt="Peppa">
+    <img src="../../assets/peppa/george_pig_dinosaur.png" width="85" alt="George">
+  </div>
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Four fun stations today!</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:8px">
+    <svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="#e91e8c"/><circle cx="40" cy="40" r="18" fill="#f48fb1"/><circle cx="40" cy="40" r="8" fill="#fff"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><rect x="15" y="25" width="50" height="30" rx="8" fill="#42a5f5"/><circle cx="25" cy="55" r="8" fill="#333"/><circle cx="55" cy="55" r="8" fill="#333"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="45" r="22" fill="#ffd8bf"/><circle cx="32" cy="40" r="3" fill="#333"/><circle cx="48" cy="40" r="3" fill="#333"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="45" r="20" fill="#e53935"/><rect x="36" y="20" width="8" height="12" rx="4" fill="#6d4c41"/></svg>
+  </div>
+</div>
+
+<!-- 3. Station 1: Colors (Day 16) -->
+<div class="sl bg-colors">
+  <div class="pr">
+    <img src="../../assets/peppa/george-pig-superhero.png" alt="George">
+    <div class="bbl">Color Station!</div>
+  </div>
+  <div class="station-card">
+    <div class="icon">🎨</div>
+    <div class="t">Colors</div>
+    <div class="words">
+      <div class="w">red</div>
+      <div class="w">blue</div>
+      <div class="w">yellow</div>
+      <div class="w">green</div>
+      <div class="w">orange</div>
+    </div>
+  </div>
+  <div class="obj">
+    <svg width="100" height="100" viewBox="0 0 160 160">
+      <path d="M50 80 L80 30 L110 80 Z" fill="#e53935"/>
+      <path d="M110 80 L140 80 L110 130 Z" fill="#42a5f5"/>
+      <path d="M110 130 L80 130 L80 160 Z" fill="#ffc107"/>
+      <path d="M80 130 L50 130 L50 80 Z" fill="#66bb6a"/>
+      <circle cx="80" cy="95" r="25" fill="#ff9800"/>
+    </svg>
+  </div>
+  <div class="sent">It's ___!</div>
+</div>
+
+<!-- 4. Station 2: Animals (Day 17) -->
+<div class="sl bg-animals">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat.png" alt="Candy">
+    <div class="bbl">Animal Station!</div>
+  </div>
+  <div class="station-card">
+    <div class="icon">🐾</div>
+    <div class="t">Animals</div>
+    <div class="words">
+      <div class="w">cat</div>
+      <div class="w">dog</div>
+      <div class="w">fish</div>
+      <div class="w">bird</div>
+      <div class="w">duck</div>
+    </div>
+  </div>
+  <div class="obj">
+    <svg width="100" height="100" viewBox="0 0 160 160">
+      <ellipse cx="50" cy="80" rx="18" ry="22" fill="#ff9800"/>
+      <circle cx="50" cy="70" r="14" fill="#ff9800"/>
+      <circle cx="44" cy="68" r="3" fill="#333"/>
+      <ellipse cx="90" cy="85" rx="20" ry="18" fill="#795548"/>
+      <circle cx="90" cy="75" r="16" fill="#795548"/>
+      <circle cx="86" cy="72" r="3" fill="#333"/>
+      <ellipse cx="130" cy="80" rx="12" ry="18" fill="#42a5f5"/>
+      <circle cx="128" cy="76" r="2" fill="#333"/>
+    </svg>
+  </div>
+  <div class="sent">I see a ___!</div>
+</div>
+
+<!-- 5. Station 3: Body (Day 18) -->
+<div class="sl bg-body">
+  <div class="pr">
+    <img src="../../assets/peppa/emily-elephant.png" alt="Emily">
+    <div class="bbl">Body Station!</div>
+  </div>
+  <div class="station-card">
+    <div class="icon">🧩</div>
+    <div class="t">Body</div>
+    <div class="words">
+      <div class="w">head</div>
+      <div class="w">eyes</div>
+      <div class="w">ears</div>
+      <div class="w">nose</div>
+      <div class="w">mouth</div>
+    </div>
+  </div>
+  <div class="obj">
+    <svg width="100" height="100" viewBox="0 0 160 160">
+      <circle cx="80" cy="80" r="50" fill="#ffd8bf"/>
+      <circle cx="62" cy="70" r="6" fill="#333"/>
+      <circle cx="98" cy="70" r="6" fill="#333"/>
+      <ellipse cx="80" cy="90" rx="12" ry="8" fill="#ffab91"/>
+      <path d="M60 105 Q80 115 100 105" stroke="#e91e8c" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="sent">This is my ___!</div>
+</div>
+
+<!-- 6. Station 4: Food (Day 19) -->
+<div class="sl bg-food">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+    <div class="bbl">Food Station!</div>
+  </div>
+  <div class="station-card">
+    <div class="icon">🍎</div>
+    <div class="t">Food</div>
+    <div class="words">
+      <div class="w">apple</div>
+      <div class="w">banana</div>
+      <div class="w">milk</div>
+      <div class="w">bread</div>
+      <div class="w">egg</div>
+    </div>
+  </div>
+  <div class="obj">
+    <svg width="100" height="100" viewBox="0 0 160 160">
+      <circle cx="50" cy="60" r="18" fill="#e53935"/>
+      <rect x="48" y="40" width="4" height="10" rx="2" fill="#6d4c41"/>
+      <path d="M80 90 Q75 70 95 60 Q105 58 110 70 Q105 68 95 72 Q85 80 84 90 Z" fill="#f9a825"/>
+      <rect x="115" y="50" width="30" height="36" rx="4" fill="#42a5f5"/>
+      <ellipse cx="50" cy="110" rx="20" ry="14" fill="#ffc107"/>
+    </svg>
+  </div>
+  <div class="sent">I like ___!</div>
+</div>
+
+<!-- 7. Ticket Booth: Reveal sentences -->
+<div class="sl bg-ticket">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+    <div class="bbl">Get your tickets!</div>
+  </div>
+  <div class="ttl">Ticket Booth</div>
+  <div class="ticket-grid">
+    <button class="ticket-btn closed" onclick="reveal(this,'It\\'s ___!')">
+      <div class="inner">🎨</div>
+      <div class="lb">It's ___!</div>
+    </button>
+    <button class="ticket-btn closed" onclick="reveal(this,'I see a ___!')">
+      <div class="inner">🐾</div>
+      <div class="lb">I see a ___!</div>
+    </button>
+    <button class="ticket-btn closed" onclick="reveal(this,'This is my ___!')">
+      <div class="inner">🧩</div>
+      <div class="lb">This is my ___!</div>
+    </button>
+    <button class="ticket-btn closed" onclick="reveal(this,'I like ___!')">
+      <div class="inner">🍎</div>
+      <div class="lb">I like ___!</div>
+    </button>
+  </div>
+</div>
+
+<!-- 8. All Together: 20 words grid -->
+<div class="sl bg-all">
+  <div class="ttl" style="font-size:52px">All Together!</div>
+  <div class="all-grid">
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><path d="M50 80 L80 30 L110 80 Z" fill="#e53935"/></svg>
+      <div class="w">red</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><rect x="40" y="50" width="80" height="60" rx="12" fill="#42a5f5"/></svg>
+      <div class="w">blue</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="80" r="45" fill="#ffc107"/></svg>
+      <div class="w">yellow</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="100" rx="35" ry="45" fill="#66bb6a"/></svg>
+      <div class="w">green</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="80" r="40" fill="#ff9800"/></svg>
+      <div class="w">orange</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="70" cy="80" rx="18" ry="22" fill="#ff9800"/><circle cx="70" cy="70" r="14" fill="#ff9800"/></svg>
+      <div class="w">cat</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="25" ry="20" fill="#795548"/><circle cx="80" cy="75" r="20" fill="#795548"/></svg>
+      <div class="w">dog</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="80" rx="35" ry="18" fill="#42a5f5"/><circle cx="75" cy="78" r="3" fill="#333"/></svg>
+      <div class="w">fish</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="28" fill="#ffc107"/><circle cx="75" cy="80" r="3" fill="#333"/></svg>
+      <div class="w">bird</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="30" ry="22" fill="#fff"/><circle cx="80" cy="75" r="18" fill="#ffc107"/></svg>
+      <div class="w">duck</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="80" r="45" fill="#ffd8bf"/></svg>
+      <div class="w">head</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="65" cy="80" r="12" fill="#333"/><circle cx="95" cy="80" r="12" fill="#333"/></svg>
+      <div class="w">eyes</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="50" cy="80" rx="18" ry="28" fill="#ffab91"/><ellipse cx="110" cy="80" rx="18" ry="28" fill="#ffab91"/></svg>
+      <div class="w">ears</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="80" rx="18" ry="14" fill="#ffab91"/></svg>
+      <div class="w">nose</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><path d="M50 80 Q80 105 110 80" stroke="#e91e8c" stroke-width="8" fill="none"/></svg>
+      <div class="w">mouth</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="35" fill="#e53935"/><rect x="76" y="45" width="8" height="18" rx="4" fill="#6d4c41"/></svg>
+      <div class="w">apple</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><path d="M50 100 Q45 70 75 55 Q90 50 100 65 Q95 63 85 68 Q70 78 68 100 Z" fill="#f9a825"/></svg>
+      <div class="w">banana</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><rect x="55" y="50" width="50" height="60" rx="8" fill="#42a5f5"/><text x="80" y="72" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">MILK</text></svg>
+      <div class="w">milk</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="85" rx="40" ry="28" fill="#d4a056"/></svg>
+      <div class="w">bread</div>
+    </div>
+    <div class="all-card">
+      <svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="80" rx="38" ry="30" fill="#fff"/><circle cx="80" cy="78" r="18" fill="#ffc107"/></svg>
+      <div class="w">egg</div>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Bye: Family celebration -->
+<div class="sl bg-bye">
+  <img src="../../assets/peppa/peppa-pig-family.png" width="160" alt="Peppa Family">
+  <div class="word" style="color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.3)">Great Job!</div>
+  <div class="sub" style="color:#fff;font-size:26px">See you next time!</div>
+</div>
+
+</div>
+
+<button class="fab" id="fab" onclick="toggleNotes()">T</button>
+<div class="pop" id="pop">
+<strong>Teacher Notes - Day 20 Review</strong><br><br>
+<strong>Slide 1-2:</strong> Welcome to Adventure Park! Four stations = four themes (Day 16-19).<br><br>
+<strong>Slides 3-6:</strong> Review each station: Colors (It's ___!), Animals (I see a ___!), Body (This is my ___!), Food (I like ___!). Point and ask students to say words + sentences.<br><br>
+<strong>Slide 7:</strong> Ticket Booth - Click each ticket to reveal the sentence pattern. Practice all four patterns.<br><br>
+<strong>Slide 8:</strong> All Together - 20 words grid. Point randomly and ask: "What's this?" Students respond with word + sentence.<br><br>
+<strong>Slide 9:</strong> Celebration! Great job reviewing 20 words and 4 sentence patterns!<br><br>
+<strong>Keyboard:</strong> ← → arrows to navigate, T to toggle notes.
+</div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/9</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var cur=0,total=9;
+function ui(){
+  var sls=document.querySelectorAll('.sl');
+  sls.forEach(function(s,i){s.classList.toggle('on',i===cur)});
+  document.getElementById('pg').textContent=(cur+1)+'/'+total;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===total-1;
+}
+function go(d){cur=Math.max(0,Math.min(total-1,cur+d));ui()}
+function toggleNotes(){
+  var f=document.getElementById('fab'),p=document.getElementById('pop');
+  f.classList.toggle('on');p.classList.toggle('on');
+}
+function reveal(btn,txt){
+  if(btn.classList.contains('on'))return;
+  btn.classList.add('on');
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')go(-1);
+  else if(e.key==='ArrowRight')go(1);
+  else if(e.key==='t'||e.key==='T')toggleNotes();
+});
+ui();
+</script>
+</body>
+</html>
