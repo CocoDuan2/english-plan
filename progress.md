@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 23 - Colors 2
+- 当前: Day 24 - Animals 2
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
 
@@ -147,6 +147,16 @@
 - 角色轮换: George-superhero/Peppa-fairy/Daddy/Candy/Mummy/Emily/George-dinosaur/Peppa-bicycle/Peppa-family 轮换出场
 - 状态: ✅ 完成
 
+## Day 24 - Animals 2 🐾 🎯
+- 新词: rabbit, pig, cow, horse, sheep
+- 句式: I see a ___!
+- teach: Safari Rescue 故事线 + Day23 微复习页(pink/purple/white) + helicopter drop 直升机投放揭示 + safari map 总览
+- review: Day23 微复习(3题) + Binocular Peek 望远镜搜寻学词 + Rescue Net 听音选动物三选一 + Listen & Find 听音找图四选一 + Done 完成页
+- 差异化: teach 从 art gallery 改为 safari rescue 直升机救援故事线；review 去除上一课 palette/canvas-match/color-hunt 路径,改为 binocular-peek/rescue-net/listen-find 新链路
+- SVG物品: 紫兔子(长耳+粉内耳)、粉小猪(圆鼻孔)、白奶牛(黑斑点)、棕马(鬃毛)、白绵羊(蓬松云朵)——与Day9/Day12完全不同(Day9用农场风格,Day24用野生动物风格)
+- 角色轮换: Emily/Peppa-bicycle/Candy/George-dinosaur/Peppa-family 轮换出场
+- 状态: ✅ 完成
+
 ## Day 23 - Colors 2 🎨 🎯
 - 新词: pink, purple, white, black, brown
 - 句式: It's ___!
@@ -168,7 +178,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 24 - Animals 2（rabbit, pig, cow, horse, sheep）
+- Day 25 - Review (Day 21-24 全部复习)
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
