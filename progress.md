@@ -147,8 +147,18 @@
 - 角色轮换: George-superhero/Peppa-fairy/Daddy/Candy/Mummy/Emily/George-dinosaur/Peppa-bicycle/Peppa-family 轮换出场
 - 状态: ✅ 完成
 
+## Day 22 - Actions 🏃 🎯
+- 新词: run, jump, walk, sit, stand
+- 句式: I can ___!
+- teach: Sports Day 故事线 + Day21 微复习页(one/two/three) + whistle blow 揭示 + race track 总览
+- review: Day21 微复习(3题) + Whistle Cards 哨子揭示学词 + Race Track 听音选赛道 + Action Simon 听指令做动作 + Done 完成页
+- 差异化: teach 从 treasure hunt 改为 sports day 运动会故事线；review 去除上一课 island-dig/treasure-collect/pirate-ship 路径，改为 whistle-cards/race-track/action-simon 新链路
+- SVG物品: 动作小人剪影（跑步橙/跳跃粉/走路青/坐着紫/站立黄）——与Day7/Day21完全不同（Day7用姿势卡，Day21用具象物品，Day22用动作剪影）
+- 角色轮换: Mummy/Peppa-bicycle/Emily/Candy/George-ball/Daddy-walking/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
+
 ## 下一课
-- Day 22 - Actions（run, jump, walk, sit, stand）
+- Day 23 - Colors 2（pink, purple, white, black, brown）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

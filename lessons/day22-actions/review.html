@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 22 - Actions Review Game</title>
+<style>
+:root{--tip-accent:#66bb6a;--tip-bg:#e8f5e9}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#a5d6a7 0%,#66bb6a 50%,#ffb74d 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(67,160,71,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.y-wrap{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
+.y-q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:8px}
+.y-q .sent{font-size:22px;font-weight:700;color:#2c3e50;margin-bottom:4px}
+.y-opts{display:flex;gap:8px;justify-content:center}
+.y-opt{width:100px;height:100px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.y-opt:active{transform:scale(.95)}
+.y-opt.ok{background:#c8e6c9;box-shadow:0 0 0 3px #66bb6a}
+.y-opt.no{background:#ffcdd2;box-shadow:0 0 0 3px #e57373}
+.y-opt .w{font-size:18px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.learn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:420px}
+.learn-card{width:100%;aspect-ratio:1;border:none;border-radius:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:.25s;position:relative}
+.learn-card.closed{background:linear-gradient(145deg,#bdbdbd,#9e9e9e)}
+.learn-card.closed::after{content:'?';font-size:48px;color:#fff;font-weight:900}
+.learn-card:active{transform:scale(.95)}
+.learn-card .inner{opacity:0;transform:scale(.7);transition:.25s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.learn-card.on{background:#fff}
+.learn-card.on::after{display:none}
+.learn-card.on .inner{opacity:1;transform:scale(1)}
+.learn-card .w{font-size:20px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.race-wrap{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.race-lane{background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s;border:3px solid transparent}
+.race-lane:active{transform:scale(.98)}
+.race-lane.ok{background:#c8e6c9;border-color:#66bb6a}
+.race-lane.no{background:#ffcdd2;border-color:#e57373}
+.race-lane .w{font-size:24px;font-weight:900;color:#2c3e50;text-transform:lowercase;flex:1;text-align:center}
+.simon-wrap{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px}
+.simon-card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:10px}
+.simon-prompt{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.simon-opts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.simon-btn{width:100px;height:100px;border:none;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.2s}
+.simon-btn:active{transform:scale(.95)}
+.simon-btn.ok{background:#c8e6c9;box-shadow:0 0 0 3px #66bb6a}
+.simon-btn.no{background:#ffcdd2;box-shadow:0 0 0 3px #e57373}
+.simon-btn .w{font-size:18px;font-weight:900;color:#2c3e50;text-transform:lowercase}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.done-wrap img{width:160px;height:auto}
+.done-ttl{font-size:48px;font-weight:900;color:#2c3e50}
+.done-msg{font-size:22px;color:#5f6c7b;text-align:center}
+.play-again{font-size:28px;font-weight:700;padding:16px 48px;border:none;border-radius:32px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,199,.4);margin-top:8px}
+.play-again:active{transform:scale(.95)}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Sports Game</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var ACTS=[
+  {w:'run',svg:'<circle cx="80" cy="30" r="18" fill="#ff6f00"/><ellipse cx="80" cy="70" rx="22" ry="30" fill="#ff6f00"/><rect x="58" y="55" width="8" height="35" rx="4" fill="#ff6f00" transform="rotate(-35 62 72)"/><rect x="94" y="55" width="8" height="35" rx="4" fill="#ff6f00" transform="rotate(45 98 72)"/><rect x="58" y="90" width="8" height="40" rx="4" fill="#ff6f00" transform="rotate(-25 62 110)"/><rect x="94" y="90" width="8" height="40" rx="4" fill="#ff6f00" transform="rotate(55 98 110)"/>'},
+  {w:'jump',svg:'<circle cx="80" cy="35" r="18" fill="#ec407a"/><ellipse cx="80" cy="75" rx="22" ry="28" fill="#ec407a"/><rect x="50" y="60" width="8" height="32" rx="4" fill="#ec407a" transform="rotate(-45 54 76)"/><rect x="102" y="60" width="8" height="32" rx="4" fill="#ec407a" transform="rotate(45 106 76)"/><rect x="58" y="95" width="8" height="28" rx="4" fill="#ec407a" transform="rotate(-15 62 109)"/><rect x="94" y="95" width="8" height="28" rx="4" fill="#ec407a" transform="rotate(15 98 109)"/>'},
+  {w:'walk',svg:'<circle cx="80" cy="32" r="18" fill="#26a69a"/><ellipse cx="80" cy="72" rx="22" ry="30" fill="#26a69a"/><rect x="60" y="58" width="8" height="32" rx="4" fill="#26a69a" transform="rotate(-10 64 74)"/><rect x="92" y="58" width="8" height="32" rx="4" fill="#26a69a" transform="rotate(10 96 74)"/><rect x="60" y="95" width="8" height="38" rx="4" fill="#26a69a"/><rect x="92" y="95" width="8" height="38" rx="4" fill="#26a69a" transform="rotate(25 96 114)"/>'},
+  {w:'sit',svg:'<circle cx="80" cy="40" r="18" fill="#9575cd"/><ellipse cx="80" cy="80" rx="22" ry="26" fill="#9575cd"/><rect x="60" y="68" width="8" height="28" rx="4" fill="#9575cd" transform="rotate(-25 64 82)"/><rect x="92" y="68" width="8" height="28" rx="4" fill="#9575cd" transform="rotate(25 96 82)"/><rect x="50" y="100" width="40" height="8" rx="4" fill="#9575cd"/><rect x="70" y="100" width="40" height="8" rx="4" fill="#9575cd"/>'},
+  {w:'stand',svg:'<circle cx="80" cy="35" r="18" fill="#fdd835"/><ellipse cx="80" cy="75" rx="22" ry="32" fill="#fdd835"/><rect x="60" y="62" width="8" height="30" rx="4" fill="#fdd835"/><rect x="92" y="62" width="8" height="30" rx="4" fill="#fdd835"/><rect x="60" y="100" width="8" height="38" rx="4" fill="#fdd835"/><rect x="92" y="100" width="8" height="38" rx="4" fill="#fdd835"/>'}
+];
+var YEST=[
+  {w:'one',sent:'I have one!',svg:'<polygon points="80,25 95,70 145,70 110,95 125,140 80,110 35,140 50,95 15,70 65,70" fill="#ffd700"/>'},
+  {w:'two',sent:'I have two!',svg:'<path d="M60 50 Q50 30 70 20 Q80 15 90 20 Q110 30 100 50 Q95 65 80 80 L80 100 Q70 90 60 80 Q45 65 60 50 Z" fill="#ec407a"/>'},
+  {w:'three',sent:'I have three!',svg:'<ellipse cx="80" cy="95" rx="35" ry="25" fill="#ff9800"/><ellipse cx="80" cy="85" rx="32" ry="22" fill="#ffb74d"/><rect x="76" y="40" width="8" height="30" rx="4" fill="#66bb6a"/>'}
+];
+
+function draw(svg,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+svg+'</svg>'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=18;
+var mods=['m0','m1','m2','m3','m4','m5'];
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}
+  else{n.disabled=false;n.textContent='Next'}
+  var titles=['Sports Game','Yesterday Bridge','Whistle Cards','Race Track','Action Simon','All Done!'];
+  var tips=['','昨天复习桥','点哨子学动作','听音选赛道','听指令做动作',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function go(d){
+  var n=cur+d;
+  if(n<0||n>=mods.length)return;
+  cur=n;
+  mods.forEach(function(id,i){document.getElementById(id).classList.toggle('on',i===cur)});
+  ui();
+}
+
+// M0: Start
+document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-fairy.png" width="140" alt="Peppa"><div class="pr"><img src="'+PP+'mummy-pig-standing.png" alt="Mummy"><div class="bbl">Let\'s play sports!</div></div><button class="start-btn" onclick="ac();go(1)">Start!</button>';
+
+// M1: Yesterday Bridge
+var m1=document.getElementById('m1');
+var yq=shuffle(YEST.slice()).slice(0,3);
+var yh='<div class="y-wrap">';
+yq.forEach(function(q){
+  var opts=shuffle([q.w].concat(ACTS.slice(0,2).map(function(a){return a.w})));
+  yh+='<div class="y-q"><div class="sent">'+q.sent+'</div>'+draw(q.svg,90)+'<div class="y-opts">';
+  opts.forEach(function(w){
+    yh+='<button class="y-opt" data-ans="'+q.w+'" data-word="'+w+'" onclick="ycheck(this)">'+draw((YEST.concat(ACTS)).find(function(x){return x.w===w}).svg,60)+'<div class="w">'+w+'</div></button>';
+  });
+  yh+='</div></div>';
+});
+yh+='</div><div class="pr" style="margin-top:12px"><img src="'+PP+'candy-cat.png" alt="Candy"><div class="bbl">昨天学的！</div></div>';
+m1.innerHTML=yh;
+var ybusy=false,ydone=0;
+function ycheck(b){
+  if(ybusy||b.classList.contains('ok'))return;
+  ybusy=true;
+  var ans=b.dataset.ans,w=b.dataset.word;
+  if(w===ans){
+    b.classList.add('ok');
+    playOk();
+    speak(w);
+    score++;
+    ydone++;
+    setTimeout(function(){ybusy=false;if(ydone===3)setTimeout(function(){go(1)},800)},1200);
+  }else{
+    b.classList.add('no');
+    playNo();
+    speak(ans);
+    setTimeout(function(){b.classList.remove('no');ybusy=false},1200);
+  }
+  ui();
+}
+
+// M2: Whistle Cards (Learn)
+var m2=document.getElementById('m2');
+var lh='<div class="learn-grid">';
+ACTS.forEach(function(a){
+  lh+='<button class="learn-card closed" onclick="lreveal(this,\''+a.w+'\')"><div class="inner">'+draw(a.svg,90)+'<div class="w">'+a.w+'</div></div></button>';
+});
+lh+='</div><div class="pr" style="margin-top:12px"><img src="'+PP+'peppa-pig-bicycle.png" alt="Peppa"><div class="bbl">点哨子！</div></div>';
+m2.innerHTML=lh;
+function lreveal(b,w){
+  if(b.classList.contains('on')){speak(w);return}
+  b.classList.remove('closed');
+  b.classList.add('on');
+  speak(w);
+}
+
+// M3: Race Track (Listen & Pick)
+var m3=document.getElementById('m3');
+var rq=shuffle(ACTS.slice());
+var rh='<div class="race-wrap" id="rw"></div><div class="pr" style="margin-top:12px"><img src="'+PP+'emily-elephant.png" alt="Emily"><div class="bbl">听音选赛道！</div></div>';
+m3.innerHTML=rh;
+var ridx=0,rbusy=false;
+function rnext(){
+  if(ridx>=rq.length){setTimeout(function(){go(1)},800);return}
+  var q=rq[ridx];
+  var opts=shuffle([q].concat(shuffle(ACTS.filter(function(a){return a.w!==q.w})).slice(0,3)));
+  var rw=document.getElementById('rw');
+  rw.innerHTML='';
+  opts.forEach(function(a){
+    var lane=document.createElement('div');
+    lane.className='race-lane';
+    lane.innerHTML=draw(a.svg,80)+'<div class="w">'+a.w+'</div>';
+    lane.onclick=function(){rcheck(lane,a.w,q.w)};
+    rw.appendChild(lane);
+  });
+  setTimeout(function(){speak('I can '+q.w)},300);
+}
+function rcheck(lane,w,ans){
+  if(rbusy)return;
+  rbusy=true;
+  if(w===ans){
+    lane.classList.add('ok');
+    playOk();
+    speak(w);
+    score++;
+    ridx++;
+    setTimeout(function(){rbusy=false;rnext()},1200);
+  }else{
+    lane.classList.add('no');
+    playNo();
+    speak(ans);
+    setTimeout(function(){lane.classList.remove('no');rbusy=false},1200);
+  }
+  ui();
+}
+setTimeout(function(){if(cur===3)rnext()},100);
+
+// M4: Action Simon (Listen & Choose)
+var m4=document.getElementById('m4');
+var sq=shuffle(ACTS.slice());
+var sh='<div class="simon-wrap" id="sw"></div><div class="pr" style="margin-top:12px"><img src="'+PP+'george-pig-ball.png" alt="George"><div class="bbl">听指令做动作！</div></div>';
+m4.innerHTML=sh;
+var sidx=0,sbusy=false;
+function snext(){
+  if(sidx>=sq.length){setTimeout(function(){go(1)},800);return}
+  var q=sq[sidx];
+  var opts=shuffle(ACTS.slice());
+  var sw=document.getElementById('sw');
+  sw.innerHTML='<div class="simon-card"><div class="simon-prompt">Simon says...</div><div class="simon-opts" id="so"></div></div>';
+  var so=document.getElementById('so');
+  opts.forEach(function(a){
+    var btn=document.createElement('button');
+    btn.className='simon-btn';
+    btn.innerHTML=draw(a.svg,60)+'<div class="w">'+a.w+'</div>';
+    btn.onclick=function(){scheck(btn,a.w,q.w)};
+    so.appendChild(btn);
+  });
+  setTimeout(function(){speak(q.w)},300);
+}
+function scheck(btn,w,ans){
+  if(sbusy)return;
+  sbusy=true;
+  if(w===ans){
+    btn.classList.add('ok');
+    playOk();
+    speak(w);
+    score++;
+    sidx++;
+    setTimeout(function(){sbusy=false;snext()},1200);
+  }else{
+    btn.classList.add('no');
+    playNo();
+    speak(ans);
+    setTimeout(function(){btn.classList.remove('no');sbusy=false},1200);
+  }
+  ui();
+}
+setTimeout(function(){if(cur===4)snext()},100);
+
+// M5: Done
+document.getElementById('m5').innerHTML='<div class="done-wrap"><img src="'+PP+'peppa-pig-family.png" alt="Peppa Family"><div class="done-ttl">All Done!</div><div class="done-msg">Great job! You can do it!</div><div style="font-size:42px;margin-top:8px">🏆🎉</div><button class="play-again" onclick="location.reload()">Play Again</button></div>';
+
+ui();
+</script>
+</body>
+</html>
