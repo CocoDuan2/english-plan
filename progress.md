@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 26 - Colors
+- 当前: Day 27 - Animals
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 27 - Animals 🐾 🎯
+- 新词: cat, dog, fish, bird, duck
+- 句式: I see a ___!
+- teach: Jungle Safari 故事线 + Day26 微复习页(red/blue/yellow) + Binocular Peek 望远镜揭示 + Safari Line-Up 总览
+- review: Day26 微复习(3题) + Jungle Path 拨开树叶学词 + Animal Rescue 听音救援三选一 + Safari Jeep 听音装载四选一 + Done 完成页
+- 差异化: teach 从 rainbow factory 改为 jungle safari 丛林探险；review 去除上一课 paint-mixer/color-sorter/rainbow-builder 路径，改为 jungle-path/animal-rescue/safari-jeep 新链路
+- SVG物品: 侧面猫(橙色+胡须+耳朵)、正面狗(蓝色+垂耳+吐舌)、跳跃鱼(青色+鳍+鳞片)、飞翔鸟(紫色+翅膀展开)、游泳鸭(黄色+扁嘴+脚蹼)——与Day2/Day12/Day17完全不同（丛林写实风格）
+- 角色轮换: Emily/George-dinosaur/Daddy/Peppa-fairy/Mummy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 26 - Colors 🎨 🎯
 - 新词: red, blue, yellow, green, orange
