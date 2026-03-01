@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 15 - Review
+- 当前: Day 16 - Colors
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 16 - Colors 🎨 🎯
+- 新词: red, blue, yellow, green, orange
+- 句式: It's ___!
+- teach: Color Treasure Map 故事线 + Day15 微复习页(apple/milk/egg) + treasure chest 揭示 + treasure map trail 总览
+- review: Day15 微复习(3题) + Dig for Colors 挖土堆揭示学词 + Treasure Chest Match 听色选图三选一 + Listen & Catch 宝石听音选色 + Done 完成页
+- 差异化: teach 从 passport station 改为 treasure map 寻宝路线；review 去除上一课 line-up/listen-pick/sentence-path，改为 dig/chest-match/gem-catch 新链路
+- SVG物品: 红草莓、蓝风筝、黄星星(带表情)、绿青蛙(带表情)、橙南瓜（全部与Day1/Day11不同）
+- 角色轮换: George-superhero/Daddy/Candy/Emily/Peppa/Mummy/George-dinosaur/Peppa-fairy 轮换出场
+- 状态: ✅ 完成
 
 ## Day 15 - Review 🎯
 - 复习: Day11-14 全部 20 词 + 4 个句式
@@ -90,7 +100,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 16 - Colors（red, blue, yellow, green, orange）
+- Day 17 - Animals（cat, dog, fish, bird, duck）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep

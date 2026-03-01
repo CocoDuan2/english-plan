@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 16 - Colors Review Game</title>
+<style>
+:root{--tip-accent:#e67e22;--tip-bg:#fff6ec}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#e8f5e9 0%,#fff9c4 50%,#ffe0b2 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#8BC34A,#4CAF50);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(76,175,80,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Color Treasure Hunt</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var WORDS=[
+  {w:'red',c:'#e74c3c',svg:'<path d="M80 30 Q50 50 40 90 Q40 140 80 145 Q120 140 120 90 Q110 50 80 30Z" fill="#e74c3c"/><ellipse cx="80" cy="24" rx="16" ry="10" fill="#4CAF50"/><circle cx="68" cy="85" r="5" fill="#fff" opacity=".5"/>'},
+  {w:'blue',c:'#3498db',svg:'<polygon points="80,18 130,80 80,110 30,80" fill="#3498db"/><line x1="80" y1="110" x2="80" y2="150" stroke="#795548" stroke-width="3"/><circle cx="70" cy="60" r="4" fill="#fff" opacity=".5"/>'},
+  {w:'yellow',c:'#f1c40f',svg:'<polygon points="80,10 95,58 148,58 106,88 120,138 80,108 40,138 54,88 12,58 65,58" fill="#f1c40f"/><circle cx="72" cy="68" r="4" fill="#333"/><circle cx="92" cy="68" r="4" fill="#333"/><path d="M72 82 Q80 92 88 82" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>'},
+  {w:'green',c:'#27ae60',svg:'<ellipse cx="80" cy="90" rx="50" ry="38" fill="#27ae60"/><circle cx="60" cy="58" r="16" fill="#2ecc71"/><circle cx="100" cy="58" r="16" fill="#2ecc71"/><circle cx="60" cy="56" r="6" fill="#fff"/><circle cx="100" cy="56" r="6" fill="#fff"/><circle cx="61" cy="57" r="3" fill="#333"/><circle cx="101" cy="57" r="3" fill="#333"/>'},
+  {w:'orange',c:'#e67e22',svg:'<ellipse cx="80" cy="95" rx="52" ry="45" fill="#e67e22"/><ellipse cx="60" cy="95" rx="28" ry="42" fill="#f39c12" opacity=".5"/><rect x="74" y="38" width="12" height="20" rx="6" fill="#795548"/><ellipse cx="92" cy="42" rx="12" ry="7" fill="#4CAF50"/>'}
+];
+var YEST=[
+  {w:'apple',sent:'I like apple!',svg:'<circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="92" cy="32" rx="14" ry="9" fill="#4CAF50"/>'},
+  {w:'milk',sent:'I like milk!',svg:'<rect x="44" y="46" width="72" height="78" rx="10" fill="#fff"/><rect x="44" y="46" width="72" height="24" rx="10" fill="#42a5f5"/>'},
+  {w:'egg',sent:'I like egg!',svg:'<ellipse cx="80" cy="88" rx="36" ry="44" fill="#fff8e7"/><ellipse cx="80" cy="82" rx="21" ry="21" fill="#ffb300"/>'}
+];
+
+function draw(svg,s){return '<svg width="'+(s||76)+'" height="'+(s||76)+'" viewBox="0 0 160 160">'+svg+'</svg>'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d,type){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+
+var cur=0,score=0,total=16;
+var mods=['m0','m1','m2','m3','m4','m5'];
+
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===mods.length-1){n.disabled=true;n.textContent='Done'}else{n.disabled=false;n.textContent='Next'}
+  var titles=['Color Treasure Hunt','Yesterday Bridge','Dig for Colors','Treasure Chest Match','Listen & Catch','All Done!'];
+  var tips=['','昨天复习桥','挖一挖，找颜色','开宝箱，配一配','听一听，抓宝石',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<total;i++)s+=i<score?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=i;
+  document.getElementById(mods[cur]).classList.add('on');
+  if(cur===1)initM1();
+  if(cur===2)initM2();
+  if(cur===3)initM3();
+  if(cur===4)initM4();
+  if(cur===5)initM5();
+  ui();
+}
+function go(d){show(cur+d)}
+
+/* M0: Start page */
+(function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'george-superhero-costume.png" width="140" alt="George superhero">'+
+    '<div class="pr"><div class="bbl">Find color treasures!</div></div>'+
+    '<div style="display:flex;gap:10px;margin:8px 0">'+
+      '<img src="'+PP+'peppa-pig-happy-standing.png" width="80" alt="Peppa">'+
+      '<img src="'+PP+'candy-cat-green-dress.png" width="80" alt="Candy">'+
+    '</div>'+
+    '<button class="start-btn" onclick="ac();show(1)">Start!</button>';
+  ui();
+})();
+
+/* M1: Yesterday Bridge — 3 food words micro-review */
+var yBusy=false,yQ=0,yOrder=[];
+function initM1(){yBusy=false;yQ=0;yOrder=shuffle([0,1,2]);buildY()}
+function buildY(){
+  if(yQ>=3){setTimeout(function(){show(2)},700);return}
+  var t=YEST[yOrder[yQ]];
+  var opts=shuffle(YEST.slice());
+  document.getElementById('m1').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">'+t.sent+'</div></div>'+
+      '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+opts.map(function(o){
+        return '<button style="width:130px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" data-w="'+o.w+'" onclick="tapY(this,\''+t.w+'\')">'+
+          draw(o.svg,74)+'<div style="font-size:20px;font-weight:800;color:#2c3e50">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(t.w)},180);
+}
+function tapY(el,correct){
+  if(yBusy)return;yBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak(correct,function(){yBusy=false;yQ++;setTimeout(buildY,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){yBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M2: Dig for Colors — tap dirt mounds to reveal color items + learn */
+var digBusy=false,digIdx=0,digOrder=[];
+function initM2(){digBusy=false;digIdx=0;digOrder=shuffle([0,1,2,3,4]);buildDig()}
+function buildDig(){
+  if(digIdx>=5){setTimeout(function(){show(3)},700);return}
+  var w=WORDS[digOrder[digIdx]];
+  var mounds='';
+  var order=shuffle([0,1,2,3,4]);
+  for(var i=0;i<5;i++){
+    var idx=order[i];
+    var revealed=digOrder.indexOf(idx)<digIdx;
+    if(revealed){
+      mounds+='<div style="width:90px;height:100px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.08)">'+
+        draw(WORDS[idx].svg,60)+'<div style="font-size:18px;font-weight:800;color:'+WORDS[idx].c+'">'+WORDS[idx].w+'</div></div>';
+    }else if(idx===digOrder[digIdx]){
+      mounds+='<button style="width:90px;height:100px;border:none;border-radius:16px;background:linear-gradient(180deg,#8d6e63,#a1887f);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.15)" onclick="tapDig(this,'+idx+')">'+
+        '<svg width="50" height="50" viewBox="0 0 80 80"><ellipse cx="40" cy="50" rx="35" ry="20" fill="#6d4c41"/><ellipse cx="40" cy="44" rx="28" ry="14" fill="#8d6e63"/><text x="40" y="38" text-anchor="middle" font-size="22">❓</text></svg>'+
+      '</button>';
+    }else{
+      mounds+='<div style="width:90px;height:100px;border:none;border-radius:16px;background:linear-gradient(180deg,#8d6e63,#a1887f);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.15);opacity:.5">'+
+        '<svg width="50" height="50" viewBox="0 0 80 80"><ellipse cx="40" cy="50" rx="35" ry="20" fill="#6d4c41"/><ellipse cx="40" cy="44" rx="28" ry="14" fill="#8d6e63"/></svg>'+
+      '</div>';
+    }
+  }
+  document.getElementById('m2').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" alt="Daddy"><div class="bbl">Dig here!</div></div>'+
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+mounds+'</div>'+
+    '</div>';
+}
+function tapDig(el,idx){
+  if(digBusy)return;digBusy=true;
+  var w=WORDS[idx];
+  el.style.background='#fff';
+  el.style.boxShadow='0 2px 8px rgba(0,0,0,.08)';
+  el.innerHTML=draw(w.svg,60)+'<div style="font-size:18px;font-weight:800;color:'+w.c+'">'+w.w+'</div>';
+  el.style.display='flex';el.style.flexDirection='column';el.style.alignItems='center';el.style.justifyContent='center';
+  score++;ui();playOk();
+  speak("It's "+w.w,function(){digBusy=false;digIdx++;setTimeout(buildDig,520)});
+}
+
+/* M3: Treasure Chest Match — hear color, pick correct SVG from 3 */
+var chBusy=false,chQ=0,chOrder=[];
+function initM3(){chBusy=false;chQ=0;chOrder=shuffle([0,1,2,3,4]);buildCh()}
+function buildCh(){
+  if(chQ>=5){setTimeout(function(){show(4)},700);return}
+  var tgt=WORDS[chOrder[chQ]];
+  var others=WORDS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,2)));
+  document.getElementById('m3').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" alt="Emily"><div class="bbl">It\'s '+tgt.w+'!</div></div>'+
+      '<div style="text-align:center;margin:6px 0">'+
+        '<button style="width:180px;height:70px;border:none;border-radius:14px;background:'+tgt.c+';color:#fff;font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.15)" onclick="speak(\''+tgt.w+'\')">🔊 '+tgt.w+'</button>'+
+      '</div>'+
+      '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">'+opts.map(function(o){
+        return '<button style="width:130px;height:140px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" data-w="'+o.w+'" onclick="tapCh(this,\''+tgt.w+'\')">'+
+          draw(o.svg,80)+'</button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},200);
+}
+function tapCh(el,correct){
+  if(chBusy)return;chBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak("It's "+correct,function(){chBusy=false;chQ++;setTimeout(buildCh,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){chBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M4: Listen & Catch — hear color, tap matching colored gem */
+var lisBusy=false,lisQ=0,lisOrder=[];
+function initM4(){lisBusy=false;lisQ=0;lisOrder=shuffle([0,1,2,3,4]);buildLis()}
+function buildLis(){
+  if(lisQ>=3){setTimeout(function(){show(5)},700);return}
+  var tgt=WORDS[lisOrder[lisQ]];
+  var others=WORDS.filter(function(x){return x.w!==tgt.w});
+  var opts=shuffle([tgt].concat(shuffle(others).slice(0,2)));
+  var gemSvg=function(c){
+    return '<svg width="70" height="70" viewBox="0 0 100 100">'+
+      '<polygon points="50,8 90,38 78,88 22,88 10,38" fill="'+c+'" opacity=".85"/>'+
+      '<polygon points="50,8 70,38 50,58 30,38" fill="#fff" opacity=".25"/>'+
+    '</svg>';
+  };
+  document.getElementById('m4').innerHTML=
+    '<div style="width:100%;max-width:500px">'+
+      '<div class="pr"><img src="'+PP+'peppa-fairy-princess-small.png" alt="Peppa fairy"><div class="bbl">Catch the gem!</div></div>'+
+      '<button style="width:200px;height:74px;border:none;border-radius:14px;background:#42a5f5;color:#fff;font-size:26px;font-weight:900;cursor:pointer;display:block;margin:0 auto 10px" onclick="speak(\''+tgt.w+'\')">🔊 Listen</button>'+
+      '<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">'+opts.map(function(o){
+        return '<button style="width:120px;height:130px;border:none;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" data-w="'+o.w+'" onclick="tapLis(this,\''+tgt.w+'\')">'+
+          gemSvg(o.c)+'<div style="font-size:20px;font-weight:800;color:'+o.c+'">'+o.w+'</div></button>';
+      }).join('')+'</div>'+
+    '</div>';
+  setTimeout(function(){speak(tgt.w)},220);
+}
+function tapLis(el,correct){
+  if(lisBusy)return;lisBusy=true;
+  if(el.dataset.w===correct){
+    el.style.outline='4px solid #66bb6a';score++;ui();playOk();
+    speak("It's "+correct,function(){lisBusy=false;lisQ++;setTimeout(buildLis,520)});
+  }else{
+    el.style.outline='4px solid #ef5350';playNo();
+    speak(correct,function(){lisBusy=false;setTimeout(function(){el.style.outline='none'},320)});
+  }
+}
+
+/* M5: Done page */
+function initM5(){
+  score=total;ui();
+  document.getElementById('m5').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="170" alt="Family">'+
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22">All color treasures found!</div>'+
+    '<div style="display:flex;gap:8px;justify-content:center;margin:10px 0">'+
+      WORDS.map(function(w){return draw(w.svg,50)}).join('')+
+    '</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:12px" onclick="location.reload()">Play Again</button>';
+}
+</script>
+</body>
+</html>
