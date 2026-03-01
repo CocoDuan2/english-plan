@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 27 - Animals
+- 当前: Day 28 - Body
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 28 - Body 🧩 🎯
+- 新词: head, eyes, ears, nose, mouth
+- 句式: This is my ___!
+- teach: Doctor Checkup 故事线 + Day27 微复习页(cat/dog/fish) + Stethoscope Tap 听诊器点按揭示 + Health Chart 健康图表总览
+- review: Day27 微复习(3题) + Mirror Wipe 擦镜子揭示学词 + Doctor's Bag 医生包找工具三选一 + Body Bingo 听音标记身体部位 + Done 完成页
+- 差异化: teach 从 jungle safari 改为 doctor checkup 医疗检查故事线；review 去除上一课 jungle-path/animal-rescue/safari-jeep 路径，改为 mirror-wipe/doctor-bag/body-bingo 新链路
+- SVG物品: 医生检查视角（头部+表情、双眼+瞳孔、双耳+内耳、鼻子+鼻孔、嘴巴+牙齿）——与Day3/13/18完全不同（Day3孤立部位，Day13乐队装配，Day18洗澡高亮，Day28医疗检查）
+- 角色轮换: Mummy/Daddy/Candy/Peppa/George/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 27 - Animals 🐾 🎯
 - 新词: cat, dog, fish, bird, duck

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 28 - Body</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#42a5f5,#1e88e5)}
+.bg-hello{background:linear-gradient(170deg,#90caf9,#64b5f6)}
+.bg-yesterday{background:linear-gradient(160deg,#dfe6e9,#b2bec3)}
+.bg-head{background:linear-gradient(160deg,#ffb74d,#ff9800)}
+.bg-eyes{background:linear-gradient(160deg,#ab47bc,#8e24aa)}
+.bg-ears{background:linear-gradient(160deg,#26c6da,#00acc1)}
+.bg-nose{background:linear-gradient(160deg,#ef5350,#e53935)}
+.bg-mouth{background:linear-gradient(160deg,#ec407a,#d81b60)}
+.bg-stethoscope{background:linear-gradient(160deg,#66bb6a,#43a047)}
+.bg-chart{background:linear-gradient(160deg,#5c6bc0,#3949ab)}
+.bg-bye{background:linear-gradient(180deg,#90caf9,#42a5f5 60%,#1e88e5)}
+.ttl{font-size:42px;font-weight:800;color:#fff;margin:8px 0;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.sub{font-size:22px;color:#fff;opacity:.9}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:8px 0;text-shadow:0 3px 0 rgba(0,0,0,.08);text-transform:lowercase}
+.sent{font-size:34px;font-weight:700;color:#fff;margin:8px 0;text-shadow:0 2px 6px rgba(0,0,0,.2)}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:10px 0}
+.obj svg{width:190px;height:190px}
+.y-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:760px;margin-top:8px}
+.y-card{width:180px;background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.y-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.stethoscope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:480px;margin-top:10px}
+.stethoscope-btn{width:130px;height:130px;border:none;border-radius:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:.25s}
+.stethoscope-btn.closed{background:linear-gradient(145deg,#1e88e5,#1565c0)}
+.stethoscope-btn.closed::after{content:'🩺';font-size:36px}
+.stethoscope-btn:active{transform:scale(.95)}
+.stethoscope-btn .inner{opacity:0;transform:scale(.72);transition:.25s}
+.stethoscope-btn .lb{position:absolute;bottom:8px;left:0;right:0;font-size:22px;font-weight:900;color:#2c3e50;text-transform:lowercase;opacity:0;transition:.25s}
+.stethoscope-btn.on{background:#fff}
+.stethoscope-btn.on::after{display:none}
+.stethoscope-btn.on .inner{opacity:1;transform:scale(1)}
+.stethoscope-btn.on .lb{opacity:1}
+.chart-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:700px;margin-top:10px}
+.chart-card{background:#fff;border-radius:16px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:center}
+.chart-card .w{font-size:28px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.45);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:310px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .obj svg{width:200px;height:200px}
+  .stethoscope-btn{width:150px;height:150px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1. Title: Doctor Checkup -->
+<div class="sl bg-title on">
+  <img src="../../assets/peppa/mummy-pig.png" width="120" alt="Mummy Pig">
+  <div class="obj">
+    <svg width="150" height="150" viewBox="0 0 160 160" aria-label="Doctor">
+      <rect x="50" y="60" width="60" height="70" rx="8" fill="#fff"/>
+      <rect x="50" y="60" width="60" height="20" rx="8" fill="#e74c3c"/>
+      <circle cx="80" cy="100" r="18" fill="#42a5f5"/>
+      <circle cx="80" cy="100" r="12" fill="#fff"/>
+      <circle cx="80" cy="100" r="6" fill="#e74c3c"/>
+      <rect x="75" y="118" width="10" height="25" rx="2" fill="#42a5f5"/>
+    </svg>
+  </div>
+  <div class="ttl">Doctor Checkup!</div>
+  <div class="sub">Let's check your body!</div>
+</div>
+
+<!-- 2. Hello: Mummy and Daddy as doctors -->
+<div class="sl bg-hello">
+  <div style="display:flex;gap:14px;align-items:flex-end;margin-bottom:6px">
+    <img src="../../assets/peppa/mummy-pig.png" width="85" alt="Mummy">
+    <img src="../../assets/peppa/daddy-pig.png" width="85" alt="Daddy">
+  </div>
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig.png" alt="Mummy">
+    <div class="bbl">Five parts to check!</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:8px">
+    <svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#ff9800"/><circle cx="35" cy="35" r="3" fill="#424242"/><circle cx="45" cy="35" r="3" fill="#424242"/><path d="M30 48 Q40 52 50 48" stroke="#424242" stroke-width="2" fill="none"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><ellipse cx="30" cy="40" rx="8" ry="10" fill="#8e24aa"/><circle cx="30" cy="40" r="4" fill="#424242"/><ellipse cx="50" cy="40" rx="8" ry="10" fill="#8e24aa"/><circle cx="50" cy="40" r="4" fill="#424242"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><ellipse cx="25" cy="40" rx="10" ry="14" fill="#26c6da"/><ellipse cx="55" cy="40" rx="10" ry="14" fill="#26c6da"/><path d="M35 40 Q40 35 45 40" stroke="#00acc1" stroke-width="2" fill="none"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><ellipse cx="40" cy="45" rx="12" ry="16" fill="#e53935"/><ellipse cx="40" cy="40" rx="6" ry="8" fill="#ef5350"/></svg>
+    <svg width="60" height="60" viewBox="0 0 80 80"><ellipse cx="40" cy="45" rx="16" ry="10" fill="#d81b60"/><path d="M28 42 Q40 48 52 42" stroke="#c2185b" stroke-width="2" fill="none"/></svg>
+  </div>
+</div>
+
+<!-- 3. Yesterday Review: Day 27 Animals -->
+<div class="sl bg-yesterday">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig.png" alt="Mummy">
+    <div class="bbl">Yesterday we found animals!</div>
+  </div>
+  <div class="y-grid">
+    <div class="y-card">
+      <svg width="90" height="90" viewBox="0 0 160 160">
+        <ellipse cx="80" cy="100" rx="28" ry="18" fill="#ff9800"/>
+        <circle cx="80" cy="70" r="30" fill="#ff9800"/>
+        <path d="M50 50 L45 30 L55 45 Z" fill="#ff9800"/>
+        <path d="M110 50 L115 30 L105 45 Z" fill="#ff9800"/>
+        <circle cx="68" cy="65" r="5" fill="#424242"/>
+        <circle cx="92" cy="65" r="5" fill="#424242"/>
+      </svg>
+      <div class="w">cat</div>
+    </div>
+    <div class="y-card">
+      <svg width="90" height="90" viewBox="0 0 160 160">
+        <ellipse cx="80" cy="110" rx="32" ry="20" fill="#42a5f5"/>
+        <circle cx="80" cy="75" r="32" fill="#42a5f5"/>
+        <ellipse cx="60" cy="55" rx="12" ry="18" fill="#42a5f5"/>
+        <ellipse cx="100" cy="55" rx="12" ry="18" fill="#42a5f5"/>
+        <circle cx="70" cy="70" r="5" fill="#424242"/>
+        <circle cx="90" cy="70" r="5" fill="#424242"/>
+      </svg>
+      <div class="w">dog</div>
+    </div>
+    <div class="y-card">
+      <svg width="90" height="90" viewBox="0 0 160 160">
+        <ellipse cx="85" cy="80" rx="35" ry="22" fill="#26c6da"/>
+        <path d="M50 80 L30 70 L30 90 Z" fill="#26c6da"/>
+        <path d="M110 65 L130 55 L120 75 Z" fill="#00acc1"/>
+        <circle cx="100" cy="75" r="5" fill="#424242"/>
+      </svg>
+      <div class="w">fish</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. New Word: head -->
+<div class="sl bg-head">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig.png" alt="Mummy">
+    <div class="bbl">This is my head!</div>
+  </div>
+  <div class="obj">
+    <svg width="190" height="190" viewBox="0 0 160 160" aria-label="head">
+      <circle cx="80" cy="80" r="50" fill="#ff9800"/>
+      <circle cx="65" cy="70" r="6" fill="#424242"/>
+      <circle cx="95" cy="70" r="6" fill="#424242"/>
+      <path d="M60 95 Q80 105 100 95" stroke="#424242" stroke-width="3" fill="none"/>
+      <ellipse cx="80" cy="50" rx="35" ry="15" fill="#f57c00"/>
+      <circle cx="70" cy="65" r="3" fill="#fff" opacity=".6"/>
+      <circle cx="90" cy="65" r="3" fill="#fff" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="word">head</div>
+</div>
+
+<!-- 5. New Word: eyes -->
+<div class="sl bg-eyes">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig.png" alt="Daddy">
+    <div class="bbl">This is my eyes!</div>
+  </div>
+  <div class="obj">
+    <svg width="190" height="190" viewBox="0 0 160 160" aria-label="eyes">
+      <ellipse cx="55" cy="80" rx="22" ry="28" fill="#ab47bc"/>
+      <circle cx="55" cy="80" r="14" fill="#fff"/>
+      <circle cx="55" cy="80" r="8" fill="#424242"/>
+      <circle cx="50" cy="75" r="4" fill="#fff" opacity=".8"/>
+      <ellipse cx="105" cy="80" rx="22" ry="28" fill="#ab47bc"/>
+      <circle cx="105" cy="80" r="14" fill="#fff"/>
+      <circle cx="105" cy="80" r="8" fill="#424242"/>
+      <circle cx="100" cy="75" r="4" fill="#fff" opacity=".8"/>
+      <path d="M35 65 Q45 60 55 65" stroke="#8e24aa" stroke-width="3" fill="none"/>
+      <path d="M85 65 Q95 60 105 65" stroke="#8e24aa" stroke-width="3" fill="none"/>
+    </svg>
+  </div>
+  <div class="word">eyes</div>
+</div>
+
+<!-- 6. New Word: ears -->
+<div class="sl bg-ears">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat.png" alt="Candy">
+    <div class="bbl">This is my ears!</div>
+  </div>
+  <div class="obj">
+    <svg width="190" height="190" viewBox="0 0 160 160" aria-label="ears">
+      <ellipse cx="40" cy="80" rx="18" ry="35" fill="#26c6da"/>
+      <ellipse cx="40" cy="80" rx="10" ry="25" fill="#80deea"/>
+      <path d="M40 50 Q35 60 40 70" stroke="#00acc1" stroke-width="2" fill="none"/>
+      <ellipse cx="120" cy="80" rx="18" ry="35" fill="#26c6da"/>
+      <ellipse cx="120" cy="80" rx="10" ry="25" fill="#80deea"/>
+      <path d="M120 50 Q125 60 120 70" stroke="#00acc1" stroke-width="2" fill="none"/>
+      <circle cx="80" cy="80" r="35" fill="#b2ebf2" opacity=".3"/>
+    </svg>
+  </div>
+  <div class="word">ears</div>
+</div>
+
+<!-- 7. New Word: nose -->
+<div class="sl bg-nose">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig.png" alt="Peppa">
+    <div class="bbl">This is my nose!</div>
+  </div>
+  <div class="obj">
+    <svg width="190" height="190" viewBox="0 0 160 160" aria-label="nose">
+      <ellipse cx="80" cy="85" rx="28" ry="38" fill="#ef5350"/>
+      <ellipse cx="80" cy="75" rx="18" ry="28" fill="#e57373"/>
+      <ellipse cx="70" cy="75" rx="6" ry="10" fill="#c62828"/>
+      <ellipse cx="90" cy="75" rx="6" ry="10" fill="#c62828"/>
+      <circle cx="75" cy="70" r="3" fill="#fff" opacity=".5"/>
+      <circle cx="85" cy="70" r="3" fill="#fff" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="word">nose</div>
+</div>
+
+<!-- 8. New Word: mouth -->
+<div class="sl bg-mouth">
+  <div class="pr">
+    <img src="../../assets/peppa/george-pig.png" alt="George">
+    <div class="bbl">This is my mouth!</div>
+  </div>
+  <div class="obj">
+    <svg width="190" height="190" viewBox="0 0 160 160" aria-label="mouth">
+      <ellipse cx="80" cy="85" rx="40" ry="28" fill="#ec407a"/>
+      <path d="M50 80 Q80 95 110 80" stroke="#c2185b" stroke-width="3" fill="none"/>
+      <rect x="65" y="70" width="10" height="14" rx="2" fill="#fff"/>
+      <rect x="77" y="70" width="10" height="14" rx="2" fill="#fff"/>
+      <rect x="89" y="70" width="10" height="14" rx="2" fill="#fff"/>
+      <ellipse cx="80" cy="95" rx="18" ry="12" fill="#f48fb1"/>
+      <circle cx="70" cy="75" r="2" fill="#fff" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="word">mouth</div>
+</div>
+
+<!-- 9. Stethoscope Tap: Tap to check -->
+<div class="sl bg-stethoscope">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig.png" alt="Mummy">
+    <div class="bbl">Tap the stethoscope!</div>
+  </div>
+  <div class="stethoscope-grid" id="stethoscope-grid"></div>
+</div>
+
+<!-- 10. Health Chart: All body parts -->
+<div class="sl bg-chart">
+  <div class="ttl">Health Chart</div>
+  <div class="sub">All checked!</div>
+  <div class="chart-grid">
+    <div class="chart-card">
+      <svg width="80" height="80" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="50" fill="#ff9800"/>
+        <circle cx="65" cy="70" r="6" fill="#424242"/>
+        <circle cx="95" cy="70" r="6" fill="#424242"/>
+        <path d="M60 95 Q80 105 100 95" stroke="#424242" stroke-width="3" fill="none"/>
+      </svg>
+      <div class="w">head</div>
+    </div>
+    <div class="chart-card">
+      <svg width="80" height="80" viewBox="0 0 160 160">
+        <ellipse cx="55" cy="80" rx="22" ry="28" fill="#ab47bc"/>
+        <circle cx="55" cy="80" r="14" fill="#fff"/>
+        <circle cx="55" cy="80" r="8" fill="#424242"/>
+        <ellipse cx="105" cy="80" rx="22" ry="28" fill="#ab47bc"/>
+        <circle cx="105" cy="80" r="14" fill="#fff"/>
+        <circle cx="105" cy="80" r="8" fill="#424242"/>
+      </svg>
+      <div class="w">eyes</div>
+    </div>
+    <div class="chart-card">
+      <svg width="80" height="80" viewBox="0 0 160 160">
+        <ellipse cx="40" cy="80" rx="18" ry="35" fill="#26c6da"/>
+        <ellipse cx="40" cy="80" rx="10" ry="25" fill="#80deea"/>
+        <ellipse cx="120" cy="80" rx="18" ry="35" fill="#26c6da"/>
+        <ellipse cx="120" cy="80" rx="10" ry="25" fill="#80deea"/>
+      </svg>
+      <div class="w">ears</div>
+    </div>
+    <div class="chart-card">
+      <svg width="80" height="80" viewBox="0 0 160 160">
+        <ellipse cx="80" cy="85" rx="28" ry="38" fill="#ef5350"/>
+        <ellipse cx="80" cy="75" rx="18" ry="28" fill="#e57373"/>
+        <ellipse cx="70" cy="75" rx="6" ry="10" fill="#c62828"/>
+        <ellipse cx="90" cy="75" rx="6" ry="10" fill="#c62828"/>
+      </svg>
+      <div class="w">nose</div>
+    </div>
+    <div class="chart-card">
+      <svg width="80" height="80" viewBox="0 0 160 160">
+        <ellipse cx="80" cy="85" rx="40" ry="28" fill="#ec407a"/>
+        <path d="M50 80 Q80 95 110 80" stroke="#c2185b" stroke-width="3" fill="none"/>
+        <rect x="65" y="70" width="10" height="14" rx="2" fill="#fff"/>
+        <rect x="77" y="70" width="10" height="14" rx="2" fill="#fff"/>
+      </svg>
+      <div class="w">mouth</div>
+    </div>
+  </div>
+</div>
+
+<!-- 11. Bye: Peppa family celebration -->
+<div class="sl bg-bye">
+  <img src="../../assets/peppa/peppa-family.png" width="180" alt="Peppa Family">
+  <div class="ttl">All Healthy!</div>
+  <div class="sub">Great job! 🩺</div>
+</div>
+
+</div>
+
+<button class="fab" id="fab" onclick="toggleNotes()">T</button>
+<div class="pop" id="pop"></div>
+
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/11</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+
+<script>
+var WORDS=[
+  {w:'head',svg:'<circle cx="80" cy="80" r="50" fill="#ff9800"/><circle cx="65" cy="70" r="6" fill="#424242"/><circle cx="95" cy="70" r="6" fill="#424242"/><path d="M60 95 Q80 105 100 95" stroke="#424242" stroke-width="3" fill="none"/><ellipse cx="80" cy="50" rx="35" ry="15" fill="#f57c00"/>'},
+  {w:'eyes',svg:'<ellipse cx="55" cy="80" rx="22" ry="28" fill="#ab47bc"/><circle cx="55" cy="80" r="14" fill="#fff"/><circle cx="55" cy="80" r="8" fill="#424242"/><ellipse cx="105" cy="80" rx="22" ry="28" fill="#ab47bc"/><circle cx="105" cy="80" r="14" fill="#fff"/><circle cx="105" cy="80" r="8" fill="#424242"/>'},
+  {w:'ears',svg:'<ellipse cx="40" cy="80" rx="18" ry="35" fill="#26c6da"/><ellipse cx="40" cy="80" rx="10" ry="25" fill="#80deea"/><ellipse cx="120" cy="80" rx="18" ry="35" fill="#26c6da"/><ellipse cx="120" cy="80" rx="10" ry="25" fill="#80deea"/>'},
+  {w:'nose',svg:'<ellipse cx="80" cy="85" rx="28" ry="38" fill="#ef5350"/><ellipse cx="80" cy="75" rx="18" ry="28" fill="#e57373"/><ellipse cx="70" cy="75" rx="6" ry="10" fill="#c62828"/><ellipse cx="90" cy="75" rx="6" ry="10" fill="#c62828"/>'},
+  {w:'mouth',svg:'<ellipse cx="80" cy="85" rx="40" ry="28" fill="#ec407a"/><path d="M50 80 Q80 95 110 80" stroke="#c2185b" stroke-width="3" fill="none"/><rect x="65" y="70" width="10" height="14" rx="2" fill="#fff"/><rect x="77" y="70" width="10" height="14" rx="2" fill="#fff"/>'}
+];
+var NOTES={
+  0:'Title slide: Doctor Checkup theme. Mummy Pig introduces the medical checkup.',
+  1:'Hello: Mummy and Daddy as doctors. Five body parts to check today.',
+  2:'Yesterday Review: Quick recall of Day 27 animals (cat, dog, fish). Teacher asks: "What animal is this?"',
+  3:'New word: head. Mummy says "This is my head!" Show the SVG head with medical theme.',
+  4:'New word: eyes. Daddy says "This is my eyes!" Show the SVG eyes with detailed pupils.',
+  5:'New word: ears. Candy says "This is my ears!" Show the SVG ears with inner detail.',
+  6:'New word: nose. Peppa says "This is my nose!" Show the SVG nose with nostrils.',
+  7:'New word: mouth. George says "This is my mouth!" Show the SVG mouth with teeth.',
+  8:'Stethoscope Tap: Teacher taps each stethoscope button to reveal body parts. Interactive reveal.',
+  9:'Health Chart: All five body parts displayed in a medical chart grid. Teacher randomly points and asks.',
+  10:'Bye: Peppa family celebrates. All healthy! Great job!'
+};
+var cur=0,tot=11,notesOn=false;
+function init(){
+  buildStethoscope();
+  render();
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft')go(-1);
+    if(e.key==='ArrowRight')go(1);
+    if(e.key==='t'||e.key==='T')toggleNotes();
+  });
+}
+function buildStethoscope(){
+  var g=document.getElementById('stethoscope-grid');
+  WORDS.forEach(d=>{
+    var b=document.createElement('button');
+    b.className='stethoscope-btn closed';
+    b.innerHTML='<div class="inner"><svg width="90" height="90" viewBox="0 0 160 160">'+d.svg+'</svg></div><div class="lb">'+d.w+'</div>';
+    b.onclick=()=>{
+      if(b.classList.contains('on'))return;
+      b.classList.remove('closed');
+      b.classList.add('on');
+    };
+    g.appendChild(b);
+  });
+}
+function go(d){
+  cur+=d;
+  if(cur<0)cur=0;
+  if(cur>=tot)cur=tot-1;
+  render();
+}
+function render(){
+  document.querySelectorAll('.sl').forEach((s,i)=>s.classList.toggle('on',i===cur));
+  document.getElementById('pg').textContent=(cur+1)+'/'+tot;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===tot-1;
+  if(notesOn)showNotes();
+}
+function toggleNotes(){
+  notesOn=!notesOn;
+  document.getElementById('fab').classList.toggle('on',notesOn);
+  document.getElementById('pop').classList.toggle('on',notesOn);
+  if(notesOn)showNotes();
+}
+function showNotes(){
+  document.getElementById('pop').innerHTML='<strong>Slide '+(cur+1)+':</strong><br>'+NOTES[cur];
+}
+init();
+</script>
+</body>
+</html>
