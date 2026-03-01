@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 18 - Body
+- 当前: Day 19 - Food
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 19 - Food 🍎 🎯
+- 新词: apple, banana, milk, bread, egg
+- 句式: I like ___!
+- teach: Cooking Show 故事线 + Day18 微复习页(head/nose/mouth) + fridge door 揭示 + recipe card 总览
+- review: Day18 微复习(3题) + Fridge Peek 开冰箱揭示学词 + Cooking Pot 放食材三选一 + Taste Test 听音选盘子四选一 + Done 完成页
+- 差异化: teach 从 bath time fun 改为 cooking show 烹饪故事线；review 去除上一课 sponge-wash/mirror-match/bubble-pop，改为 fridge-peek/cooking-pot/taste-test 新链路
+- SVG物品: 红苹果(带虫子+双叶)、弯香蕉(带棕蒂)、蓝牛奶盒(带吸管)、圆面包(带刻痕)、煎蛋太阳面——与Day4/Day14食物画法完全不同
+- 角色轮换: Mummy/George-dinosaur/Peppa-happy/Emily/Daddy/Candy/George-superhero/Peppa-bicycle/Peppa-fairy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 18 - Body 🧩 🎯
 - 新词: head, eyes, ears, nose, mouth
@@ -120,7 +130,7 @@
 - 状态: ✅ 完成
 
 ## 下一课
-- Day 19 - Food（apple, banana, milk, bread, egg）
+- Day 20 - Review（Day 16-19 全部复习 · 20 words）
 
 ## Day 9 - Animals 2 🐑
 - 新词: rabbit, pig, cow, horse, sheep
