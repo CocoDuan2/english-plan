@@ -20,7 +20,7 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
 .confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
-.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
@@ -34,7 +34,7 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 <div id="m3" class="mod"></div>
 <div id="m4" class="mod"></div>
 <div class="nav">
-<button class="nb" id="pBtn" onclick="goM(-1)" disabled>&#9664; Back</button>
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
 <div class="np" id="pg">1/5</div>
 <button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
 </div>
@@ -47,7 +47,7 @@ var W=[
   {w:'green',clr:'#27ae60',svg:'<ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><path d="M40 70 Q40 100 80 110 Q120 100 120 70" fill="#229954"/><circle cx="68" cy="62" r="5" fill="#fff"/><circle cx="92" cy="62" r="5" fill="#fff"/><circle cx="69" cy="63" r="2.5" fill="#333"/><circle cx="93" cy="63" r="2.5" fill="#333"/>'},
   {w:'orange',clr:'#e67e22',svg:'<circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none" stroke-linecap="round"/>'}
 ];
-var actx,curM=0,score=0,totalQ=0;
+var actx,curM=0;
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
 function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
@@ -57,18 +57,129 @@ function showConfetti(){var w=document.createElement("div");w.className="confett
 function speak(t){var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';var a=new Audio(primary);a.play().catch(function(){var b=new Audio(fallback);b.play().catch(function(){})})}
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'🩶';return s}
 function goM(d){curM+=d;if(curM<0)curM=0;if(curM>4)curM=4;document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});document.getElementById('m'+curM).classList.add('on');document.getElementById('pg').textContent=(curM+1)+'/5';document.getElementById('pBtn').disabled=curM===0;var nb=document.getElementById('nBtn');if(curM===0){nb.textContent='Start!';nb.disabled=false}else if(curM>=4){nb.textContent='Done';nb.disabled=true}else{nb.textContent='Next ▶';nb.disabled=false}if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();}
-document.getElementById('m0').innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="'+PP+'peppa-pig-happy-standing.png" width="110"><div style="font-size:36px;font-weight:900;color:#e91e8c;margin:12px 0">Peppa\\'s Colorful Day!</div><div style="font-size:22px;color:#666">red · blue · yellow · green · orange</div></div>';
+
+document.getElementById('m0').innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="'+PP+'peppa-pig-happy-standing.png" width="110"><div style="font-size:36px;font-weight:900;color:#e91e8c;margin:12px 0">Peppa\'s Colorful Day!</div><div style="font-size:22px;color:#666">red · blue · yellow · green · orange</div></div>';
+
 var lnC=0,lnB=false;
-function initM1(){lnC=0;lnB=false;var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div><div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">';for(var i=0;i<5;i++)h+='<div id="lc'+i+'" onclick="lnTap('+i+')" style="width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)"><svg width="75" height="75" viewBox="0 0 160 160" style="opacity:0" id="lci'+i+'">'+W[i].svg+'</svg></div>';h+='</div>';document.getElementById('m1').innerHTML=h}
-function lnTap(i){if(lnB)return;lnB=true;var card=document.getElementById('lc'+i);if(card.style.background==='rgb(255, 255, 255)'){speak(W[i].w);lnB=false;return}card.style.background='#fff';document.getElementById('lci'+i).style.opacity='1';lnC++;document.getElementById('m1s').innerHTML=stars(lnC,5);playOk();speak(W[i].w);setTimeout(function(){lnB=false},1200)}
+function initM1(){
+  lnC=0;lnB=false;
+  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div><div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">';
+  for(var i=0;i<5;i++){
+    h+='<div id="lc'+i+'" onclick="lnTap('+i+')" style="width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)"><svg width="75" height="75" viewBox="0 0 160 160" style="opacity:0" id="lci'+i+'">'+W[i].svg+'</svg></div>';
+  }
+  h+='</div>';
+  document.getElementById('m1').innerHTML=h;
+}
+function lnTap(i){
+  if(lnB)return;
+  lnB=true;
+  var card=document.getElementById('lc'+i);
+  if(card.style.background==='rgb(255, 255, 255)'){
+    speak(W[i].w);
+    lnB=false;
+    return;
+  }
+  card.style.background='#fff';
+  document.getElementById('lci'+i).style.opacity='1';
+  lnC++;
+  document.getElementById('m1s').innerHTML=stars(lnC,5);
+  playOk();
+  speak(W[i].w);
+  setTimeout(function(){lnB=false},1200);
+}
+
 var pjS=0,pjI=0,pjB=false,pjOrd=[];
-function initM2(){pjS=0;pjI=0;pjB=false;pjOrd=shuffle([0,1,2,3,4]);renderPJ()}
-function renderPJ(){if(pjI>=5){setTimeout(function(){goM(1)},800);return}var tgt=W[pjOrd[pjI]];var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div><div class="pr"><img src="'+PP+'peppa-and-george-ooo.png"><div class="bbl">Jump in '+tgt.w+'!</div></div><div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">';for(var j=0;j<5;j++)h+='<div onclick="pjTap('+j+')" style="width:105px;height:105px;border-radius:50%;background:'+W[j].clr+';cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.15)"></div>';h+='</div>';document.getElementById('m2').innerHTML=h;speak(tgt.w)}
-function pjTap(j){if(pjB)return;pjB=true;if(j===pjOrd[pjI]){playOk();pjS++;pjI++;setTimeout(function(){pjB=false;renderPJ()},1200)}else{playNo();setTimeout(function(){pjB=false},800)}}
+function initM2(){
+  pjS=0;pjI=0;pjB=false;
+  pjOrd=shuffle([0,1,2,3,4]);
+  renderPJ();
+}
+function renderPJ(){
+  if(pjI>=5){
+    setTimeout(function(){goM(1)},800);
+    return;
+  }
+  var tgt=W[pjOrd[pjI]];
+  var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div>';
+  h+='<div class="pr"><img src="'+PP+'peppa-and-george-ooo.png"><div class="bbl">Jump in '+tgt.w+'!</div></div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">';
+  for(var j=0;j<5;j++){
+    h+='<div onclick="pjTap('+j+')" style="width:105px;height:105px;border-radius:50%;background:'+W[j].clr+';cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.15)"></div>';
+  }
+  h+='</div>';
+  document.getElementById('m2').innerHTML=h;
+  speak(tgt.w);
+}
+function pjTap(j){
+  if(pjB)return;
+  pjB=true;
+  if(j===pjOrd[pjI]){
+    playOk();
+    pjS++;
+    pjI++;
+    setTimeout(function(){pjB=false;renderPJ()},1200);
+  }else{
+    playNo();
+    setTimeout(function(){pjB=false},800);
+  }
+}
+
 var fCards=[],fFlip=[],fMatch=0,fB=false;
-function initM3(){fMatch=0;fFlip=[];fB=false;var pairs=[];for(var i=0;i<4;i++)pairs.push({idx:i,w:W[i].w,svg:W[i].svg},{idx:i,w:W[i].w,svg:W[i].svg});fCards=shuffle(pairs);var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m3s">'+stars(0,4)+'</div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:10px auto">';for(var i=0;i<8;i++)h+='<div id="fc'+i+'" onclick="fTap('+i+')" style="width:85px;height:85px;border-radius:14px;background:#F9ADC7;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 2px 8px rgba(0,0,0,.1)">❓</div>';h+='</div>';document.getElementById('m3').innerHTML=h}
-function fTap(i){if(fB||fFlip.length>=2)return;var el=document.getElementById('fc'+i);if(el.classList.contains('done')||fFlip.indexOf(i)>=0)return;el.innerHTML='<svg width="55" height="55" viewBox="0 0 160 160">'+fCards[i].svg+'</svg>';el.style.background='#fff';fFlip.push(i);speak(fCards[i].w);if(fFlip.length===2){fB=true;var a=fFlip[0],b=fFlip[1];if(fCards[a].idx===fCards[b].idx){playOk();fMatch++;document.getElementById('m3s').innerHTML=stars(fMatch,4);document.getElementById('fc'+a).classList.add('done');document.getElementById('fc'+b).classList.add('done');fFlip=[];fB=false;if(fMatch>=4)setTimeout(function(){goM(1)},1200)}else{playNo();setTimeout(function(){document.getElementById('fc'+a).innerHTML='❓';document.getElementById('fc'+a).style.background='#F9ADC7';document.getElementById('fc'+b).innerHTML='❓';document.getElementById('fc'+b).style.background='#F9ADC7';fFlip=[];fB=false},1200)}}}
-function initM4(){document.getElementById('m4').innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin-bottom:10px"><div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div><div style="font-size:24px;color:#666;margin:6px 0">What a colorful day!</div><div style="font-size:28px;margin:10px 0">'+stars(5,5)+'</div><button onclick="location.reload()" style="margin-top:16px;padding:14px 32px;border:none;border-radius:12px;font-size:20px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(249,173,199,.4)">Play Again 🔄</button></div>'}
+function initM3(){
+  fMatch=0;fFlip=[];fB=false;
+  var pairs=[];
+  for(var i=0;i<4;i++){
+    pairs.push({idx:i,w:W[i].w,svg:W[i].svg},{idx:i,w:W[i].w,svg:W[i].svg});
+  }
+  fCards=shuffle(pairs);
+  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m3s">'+stars(0,4)+'</div></div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:10px auto">';
+  for(var i=0;i<8;i++){
+    h+='<div id="fc'+i+'" onclick="fTap('+i+')" style="width:85px;height:85px;border-radius:14px;background:#F9ADC7;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 2px 8px rgba(0,0,0,.1)">❓</div>';
+  }
+  h+='</div>';
+  document.getElementById('m3').innerHTML=h;
+}
+function fTap(i){
+  if(fB||fFlip.length>=2)return;
+  var el=document.getElementById('fc'+i);
+  if(el.classList.contains('done')||fFlip.indexOf(i)>=0)return;
+  el.innerHTML='<svg width="55" height="55" viewBox="0 0 160 160">'+fCards[i].svg+'</svg>';
+  el.style.background='#fff';
+  fFlip.push(i);
+  speak(fCards[i].w);
+  if(fFlip.length===2){
+    fB=true;
+    var a=fFlip[0],b=fFlip[1];
+    if(fCards[a].idx===fCards[b].idx){
+      playOk();
+      fMatch++;
+      document.getElementById('m3s').innerHTML=stars(fMatch,4);
+      document.getElementById('fc'+a).classList.add('done');
+      document.getElementById('fc'+b).classList.add('done');
+      fFlip=[];
+      fB=false;
+      if(fMatch>=4){
+        setTimeout(function(){goM(1)},1200);
+      }
+    }else{
+      playNo();
+      setTimeout(function(){
+        document.getElementById('fc'+a).innerHTML='❓';
+        document.getElementById('fc'+a).style.background='#F9ADC7';
+        document.getElementById('fc'+b).innerHTML='❓';
+        document.getElementById('fc'+b).style.background='#F9ADC7';
+        fFlip=[];
+        fB=false;
+      },1200);
+    }
+  }
+}
+
+function initM4(){
+  document.getElementById('m4').innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin-bottom:10px"><div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div><div style="font-size:24px;color:#666;margin:6px 0">What a colorful day!</div><div style="font-size:28px;margin:10px 0">'+stars(5,5)+'</div><button onclick="location.reload()" style="margin-top:16px;padding:14px 32px;border:none;border-radius:12px;font-size:20px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(249,173,199,.4)">Play Again 🔄</button></div>';
+}
+
 goM(0);
 </script>
 </body>
