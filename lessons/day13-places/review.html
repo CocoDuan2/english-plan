@@ -174,10 +174,10 @@ document.getElementById('s1').innerHTML=stars(0,W.length);
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div style="font-size:44px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">❓</div><div class="card-inner"><div style="font-size:50px">'+item.face+'</div><div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-inner" style="opacity:0;transition:opacity .5s"><div style="font-size:50px">'+item.face+'</div><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
-c.classList.add('revealed');speak(item.w);m1rev.push(i);
+c.style.background='#fff';c.querySelector('.card-inner').style.opacity='1';speak(item.w);m1rev.push(i);
 st[0]=m1rev.length;document.getElementById('s1').innerHTML=stars(st[0],W.length);
 };
 g.appendChild(c);
