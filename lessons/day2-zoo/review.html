@@ -15,11 +15,11 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .bg-blue{background:linear-gradient(160deg,#b3e5fc,#81d4fa)}
 .bg-purple{background:linear-gradient(160deg,#e1bee7,#ce93d8)}
 .bg-party{background:linear-gradient(160deg,#fff9c4,#ffecb3)}
-.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.ttl{font-size:26px;font-weight:800;color:#e91e8c}
-.tz{font-size:20px;font-weight:800;color:#fff;background:linear-gradient(135deg,#66bb6a,#81c784);padding:8px 16px;border-radius:25px;box-shadow:0 3px 12px rgba(102,187,106,.3);position:relative}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#66bb6a,#81c784);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(102,187,106,.35);margin:8px 0;letter-spacing:.5px;position:relative;transform:translateY(0);transition:transform .2s,box-shadow .2s}
 .tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:60%;height:4px;background:rgba(255,255,255,.4);border-radius:2px}
-.st{display:flex;gap:4px;font-size:22px}
+.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
 .pr{display:flex;align-items:center;gap:12px;margin:10px 0}
 .pr img{width:75px;height:auto}
 .bbl{position:relative;background:#fff;border-radius:18px;padding:10px 18px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22}
@@ -109,10 +109,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- M1: Learn Words -->
 <div class="m bg-green">
-<div class="hd">
-<div class="ttl">Learn Words</div>
+<div class="top">
+<div class="te">Learn Words</div>
 <div class="tz">👆 点一点，学单词</div>
-<div class="st" id="s1"></div>
+<div class="sb" id="s1"></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">Tap to see!</div></div>
 <div class="cg" id="cg1"></div>
@@ -120,10 +120,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- M2: Feed Animals -->
 <div class="m bg-zoo">
-<div class="hd">
-<div class="ttl">Feed the Animals</div>
+<div class="top">
+<div class="te">Feed the Animals</div>
 <div class="tz">🍖 给动物喂食物</div>
-<div class="st" id="s2"></div>
+<div class="sb" id="s2"></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/george-standing.png"><div class="bbl">Feed them!</div></div>
 <div class="feed-zone" id="feedZone"></div>
@@ -131,10 +131,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- M3: Listen & Find -->
 <div class="m bg-blue">
-<div class="hd">
-<div class="ttl">Listen & Find</div>
+<div class="top">
+<div class="te">Listen & Find</div>
 <div class="tz">👂 听一听，找一找</div>
-<div class="st" id="s3"></div>
+<div class="sb" id="s3"></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png"><div class="bbl">Find it!</div></div>
 <div style="text-align:center;margin:10px 0">
@@ -145,10 +145,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- M4: Memory Flip -->
 <div class="m bg-purple">
-<div class="hd">
-<div class="ttl">Memory Flip</div>
+<div class="top">
+<div class="te">Memory Flip</div>
 <div class="tz">🎴 翻一翻，配一配</div>
-<div class="st" id="s4"></div>
+<div class="sb" id="s4"></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png"><div class="bbl">Match them!</div></div>
 <div class="mg" id="mg4"></div>
@@ -160,7 +160,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <img src="../../assets/peppa/peppa-family-group-outdoors.png">
 <div class="done-ttl">All Done!</div>
 <div class="done-msg">You learned 5 animals today!</div>
-<div class="st" style="font-size:28px;margin:10px 0">⭐⭐⭐⭐⭐</div>
+<div class="sb" style="font-size:28px;margin:10px 0">⭐⭐⭐⭐⭐</div>
 <button class="btn-again" onclick="goM(0)">Play Again</button>
 </div>
 </div>
