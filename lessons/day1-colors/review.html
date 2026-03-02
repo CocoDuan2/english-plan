@@ -46,6 +46,8 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
 .confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
 .nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
 .nb:disabled{background:#ddd;color:#bbb}
@@ -106,6 +108,8 @@ function initM1(){
   document.getElementById('m1').innerHTML=h;
 }
 function lnTap(i){
+  var peppaImg=document.querySelector("#m1 .pr img");
+
   if(lnB)return;
   lnB=true;
   var card=document.getElementById('lc'+i);
@@ -115,6 +119,7 @@ function lnTap(i){
     return;
   }
   card.style.background='#fff';
+  if(peppaImg){peppaImg.classList.add("peppa-jumping");setTimeout(function(){peppaImg.classList.remove("peppa-jumping")},600)}
   document.getElementById('lci'+i).style.opacity='1';
   lnC++;
   document.getElementById('m1s').innerHTML=stars(lnC,5);
@@ -146,9 +151,12 @@ function renderPJ(){
   speak(tgt.w);
 }
 function pjTap(j){
+  var peppaImg=document.querySelector("#m2 .pr img");
+
   if(pjB)return;
   pjB=true;
   if(j===pjOrd[pjI]){
+    if(peppaImg){peppaImg.classList.add("peppa-jumping");setTimeout(function(){peppaImg.classList.remove("peppa-jumping")},600)}
     playOk();
     pjS++;
     pjI++;
@@ -182,9 +190,12 @@ function renderLS(){
   setTimeout(function(){speak(tgt.w)},300);
 }
 function lsTap(j){
+  var peppaImg=document.querySelector("#m3 .pr img");
+
   if(lsB)return;
   lsB=true;
   if(j===lsOrd[lsI]){
+    if(peppaImg){peppaImg.classList.add("peppa-jumping");setTimeout(function(){peppaImg.classList.remove("peppa-jumping")},600)}
     playOk();
     lsS++;
     lsI++;
@@ -224,6 +235,8 @@ function fTap(i){
     fB=true;
     var a=fFlip[0],b=fFlip[1];
     if(fCards[a].idx===fCards[b].idx){
+      var peppaImg=document.querySelector("#m4 .pr img");
+      if(peppaImg){peppaImg.classList.add("peppa-jumping");setTimeout(function(){peppaImg.classList.remove("peppa-jumping")},600)}
       playOk();
       fMatch++;
       document.getElementById('m4s').innerHTML=stars(fMatch,4);
