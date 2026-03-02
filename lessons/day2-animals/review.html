@@ -182,40 +182,41 @@ function smTap(i){
   }
 }
 
-// M3: Feed the Animal (tap correct food)
-var fdOrder,fdCur=0,fdBusy=false;
-var foods=['🍎','🦴','🐛','🌾','🍞'];
+// M3: Find the Animal (3-choice)
+var faOrder,faCur=0,faBusy=false;
 function initM3(){
-  fdCur=0;fdBusy=false;fdOrder=shuffle([0,1,2,3,4]);
-  renderFD();
-  setI("Feed Time!",'喂小动物吃东西！',stars(0,5));
+  faCur=0;faBusy=false;faOrder=shuffle([0,1,2,3,4]);
+  renderFA();
+  setI("Find the Animal!",'找到对的动物！',stars(0,5));
 }
-function renderFD(){
-  var idx=fdOrder[fdCur];
-  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Feed the '+W[idx].w+'!</div></div>';
-  h+='<div style="margin:10px 0">'+twImg(W[idx].tw,110)+'</div>';
-  h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
-  var opts=shuffle([0,1,2,3,4]);
+function renderFA(){
+  var idx=faOrder[faCur];
+  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Find the '+W[idx].w+'!</div></div>';
+  h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0">';
+  var opts=shuffle([0,1,2,3,4]).slice(0,3);
+  if(opts.indexOf(idx)===-1)opts[Math.floor(Math.random()*3)]=idx;
   for(var i=0;i<opts.length;i++){
-    h+='<div onclick="fdTap('+opts[i]+')" style="width:90px;height:90px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:transform .2s">'+foods[opts[i]]+'</div>';
+    h+='<div onclick="faTap('+opts[i]+')" style="width:110px;height:110px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12);transition:transform .2s">'+twImg(W[opts[i]].tw,80)+'</div>';
   }
-  h+='</div><div id="fdfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  h+='</div><div id="fafb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
   document.getElementById('m3').innerHTML=h;
+  speak('Find the '+W[idx].w);
 }
-function fdTap(i){
-  if(fdBusy)return;fdBusy=true;
-  var correct=fdOrder[fdCur];
+function faTap(i){
+  if(faBusy)return;faBusy=true;
+  var correct=faOrder[faCur];
   if(i===correct){
-    playOk();fdCur++;score++;totalQ++;
-    document.getElementById('fdfb').textContent='Yummy! The '+W[correct].w+' is happy!';
-    speakSent('I see a '+W[correct].w);
-    setI("Feed Time!",'喂小动物吃东西！',stars(fdCur,5));
-    if(fdCur>=5){setTimeout(function(){document.getElementById('fdfb').textContent='All fed!';fdBusy=false},1200);return}
-    setTimeout(function(){renderFD();fdBusy=false},1400);
+    playOk();showConfetti();faCur++;score++;totalQ++;
+    document.getElementById('fafb').textContent='Yes! It\'s a '+W[correct].w+'!';
+    speak('It\'s a '+W[correct].w);
+    setI("Find the Animal!",'找到对的动物！',stars(faCur,5));
+    if(faCur>=5){setTimeout(function(){document.getElementById('fafb').textContent='All found!';faBusy=false},1200);return}
+    setTimeout(function(){renderFA();faBusy=false},1600);
   } else {
     playNo();totalQ++;
-    document.getElementById('fdfb').textContent='Wrong food! Try again!';
-    setTimeout(function(){document.getElementById('fdfb').textContent='';fdBusy=false},800);
+    document.getElementById('fafb').textContent='Try again!';
+    speak(W[correct].w);
+    setTimeout(function(){document.getElementById('fafb').textContent='';faBusy=false},1000);
   }
 }
 
