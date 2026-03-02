@@ -265,7 +265,7 @@ card.classList.add('flipped');speak(card.dataset.word);m4flipped.push(card);
 if(m4flipped.length===2){
 busy=true;var c1=m4flipped[0],c2=m4flipped[1];
 if(c1.dataset.word===c2.dataset.word&&c1.dataset.idx!==c2.dataset.idx){
-playOk();speak(c1.dataset.word);c1.classList.add('matched');c2.classList.add('matched');m4matched++;st[3]++;document.getElementById('s4').innerHTML=stars(st[3],W.length);m4flipped=[];busy=false;if(m4matched===W.length)setTimeout(function(){goM(1)},1000);
+playOk();speak(c1.dataset.word);c1.classList.add('matched');c1.style.transform='rotateY(180deg)';c2.classList.add('matched');c2.style.transform='rotateY(180deg)';m4matched++;st[3]++;document.getElementById('s4').innerHTML=stars(st[3],W.length);m4flipped=[];setTimeout(function(){busy=false;if(m4matched===W.length)goM(1)},800);
 }else{
 playNo();setTimeout(function(){c1.classList.remove('flipped');c2.classList.remove('flipped');m4flipped=[];busy=false},1000);
 }
