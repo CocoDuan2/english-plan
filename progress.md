@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 13 - Where We Go ✅
-- 更新时间: 2026-03-02 21:22
+- 当前: Day 14 - Rainbow Colors ✅
+- 更新时间: 2026-03-02 21:28
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
