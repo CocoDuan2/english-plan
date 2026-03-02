@@ -178,30 +178,34 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S8: Animal Sounds -->
+<!-- S8: Guess the Animal -->
 <div class="sl bg-green">
-<div class="ttl">Animal Sounds</div>
+<div class="ttl">Guess the Animal!</div>
 <div class="pr">
 <img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
-<div class="bbl">Click to hear the sound!</div>
+<div class="bbl" id="guessBbl">Click the speaker, then pick!</div>
 </div>
-<div class="sound-grid">
-<button class="sound-btn" style="background:linear-gradient(135deg,#FFB6C1,#FFC0CB)" onclick="playAnimalSound('cat')">
+<div style="margin:12px 0">
+<button class="sound-btn" style="background:linear-gradient(135deg,#66bb6a,#81c784);margin:0 auto;font-size:44px" onclick="playGuess()">&#x1F50A;</button>
+</div>
+<div class="sound-grid" id="guessGrid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#FFB6C1,#FFC0CB)" onclick="checkGuess('cat',this)">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="50" alt="cat">
 </button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#DEB887,#F4A460)" onclick="playAnimalSound('dog')">
+<button class="sound-btn" style="background:linear-gradient(135deg,#DEB887,#F4A460)" onclick="checkGuess('dog',this)">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="50" alt="dog">
 </button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#87CEEB,#B0E0E6)" onclick="playAnimalSound('fish')">
+<button class="sound-btn" style="background:linear-gradient(135deg,#87CEEB,#B0E0E6)" onclick="checkGuess('fish',this)">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="50" alt="fish">
 </button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#98D8C8,#A8E6CF)" onclick="playAnimalSound('bird')">
+<button class="sound-btn" style="background:linear-gradient(135deg,#98D8C8,#A8E6CF)" onclick="checkGuess('bird',this)">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="50" alt="bird">
 </button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#F0E68C,#FFD700)" onclick="playAnimalSound('duck')">
+<button class="sound-btn" style="background:linear-gradient(135deg,#F0E68C,#FFD700)" onclick="checkGuess('duck',this)">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="50" alt="duck">
 </button>
 </div>
+<div id="guessScore" style="font-size:22px;font-weight:700;color:#2e7d32;margin-top:8px"></div>
 </div>
 
 <!-- S9: All Together -->
@@ -265,7 +269,7 @@ var N={
 5:'New word: bird. Daddy says "I see a bird!" Point to the bird.',
 6:'New word: duck. Mummy says "I see a duck!" Point to the duck.',
 7:'Listen & Say: Click each animal to hear the word. Repeat together.',
-8:'Animal Sounds: Click to hear animal sounds (meow/woof/blub/tweet/quack), then click the matching animal. Interactive listening game.',
+8:'Guess the Animal: Click speaker to hear the word, then pick the right animal. Encourages listening comprehension.',
 9:'All Together: Review all 5 animals. Point randomly and ask "What do you see?"',
 10:'Bye: Celebrate! Preview tomorrow: Morning Routine (body parts).'
 };
@@ -280,36 +284,31 @@ b.play().catch(function(){});
 });
 }
 
-function getAC(){
-if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
-return window.actx;
+var guessAnimals=['cat','dog','fish','bird','duck'];
+var guessOrder=[],guessIdx=0,guessRight=0;
+function shuffleArr(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function resetGuess(){guessOrder=shuffleArr(guessAnimals.slice());guessIdx=0;guessRight=0}
+resetGuess();
+function playGuess(){if(guessIdx<guessOrder.length)speak(guessOrder[guessIdx])}
+function checkGuess(animal,btn){
+if(guessIdx>=guessOrder.length)return;
+var bbl=document.getElementById('guessBbl');
+if(animal===guessOrder[guessIdx]){
+guessRight++;btn.style.boxShadow='0 0 0 4px #4caf50';btn.style.transform='scale(1.1)';
+bbl.textContent='Yes! It is a '+animal+'!';
+document.getElementById('guessScore').textContent=guessRight+'/'+guessOrder.length;
+guessIdx++;
+setTimeout(function(){
+document.querySelectorAll('#guessGrid .sound-btn').forEach(function(b){b.style.boxShadow='';b.style.transform='';b.style.opacity='1'});
+if(guessIdx<guessOrder.length){bbl.textContent='Click the speaker, then pick!';playGuess()}
+else{bbl.textContent='All done! Great job!'}
+},1200);
+}else{
+btn.style.boxShadow='0 0 0 4px #ef5350';btn.style.opacity='0.5';
+bbl.textContent='Oops! Try again!';
+speak(guessOrder[guessIdx]);
+setTimeout(function(){btn.style.boxShadow='';btn.style.opacity='1'},800);
 }
-
-function playAnimalSound(animal){
-var sounds={
-cat:{freq:[400,500,600],dur:[0.1,0.1,0.15]},
-dog:{freq:[200,150],dur:[0.15,0.2]},
-fish:{freq:[800,700,800],dur:[0.08,0.08,0.08]},
-bird:{freq:[1200,1400,1200],dur:[0.1,0.08,0.12]},
-duck:{freq:[300,250,300],dur:[0.2,0.15,0.2]}
-};
-var s=sounds[animal];
-if(!s)return;
-var ctx=getAC();
-var time=ctx.currentTime;
-for(var i=0;i<s.freq.length;i++){
-var osc=ctx.createOscillator();
-var gain=ctx.createGain();
-osc.connect(gain);
-gain.connect(ctx.destination);
-osc.frequency.value=s.freq[i];
-gain.gain.value=0.2;
-osc.start(time);
-gain.gain.exponentialRampToValueAtTime(0.001,time+s.dur[i]);
-osc.stop(time+s.dur[i]);
-time+=s.dur[i]+0.05;
-}
-setTimeout(function(){speak(animal)},800);
 }
 
 function goTo(n){
