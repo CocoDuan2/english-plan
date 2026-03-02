@@ -205,8 +205,8 @@ var c=document.createElement('div');c.className='card';
 c.innerHTML='<div class="card-icon">👕</div><div class="card-inner"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
-c.classList.add('revealed');speak(item.w);m1rev.push(i);
-if(m1rev.length===W.length){st[0]=W.length;document.getElementById('s1').innerHTML=stars(st[0],W.length)}
+c.classList.add('revealed');playOk();speak(item.w);m1rev.push(i);
+st[0]=m1rev.length;document.getElementById('s1').innerHTML=stars(st[0],W.length)
 };
 g.appendChild(c);
 });

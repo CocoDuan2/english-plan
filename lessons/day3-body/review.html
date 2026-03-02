@@ -202,8 +202,8 @@ c.onclick=function(){
 if(c.classList.contains('revealed'))return;
 c.classList.add('revealed');
 c.innerHTML=(item.svg?headSvg.replace(/WW/g,'90'):'<img class="card-img" src="'+item.img+'" alt="'+item.w+'">')+'<div class="card-label">'+item.w+'</div>';
-speak(item.w);m1rev.push(i);
-if(m1rev.length===W.length){st[0]=W.length;document.getElementById('s1').innerHTML=stars(st[0],W.length)}
+playOk();speak(item.w);m1rev.push(i);
+st[0]=m1rev.length;document.getElementById('s1').innerHTML=stars(st[0],W.length)
 };
 g.appendChild(c);
 });
