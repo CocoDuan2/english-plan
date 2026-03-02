@@ -3,352 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 3 - Body (Review)</title>
+<title>Day 3 Review - Body</title>
 <style>
-:root{--tip-accent:#2196F3;--tip-bg:#e3f2fd}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:linear-gradient(180deg,#E3F2FD 0%,#F3E5F5 70%,#FFE0B2 100%);display:flex;flex-direction:column;align-items:center}
-.main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
-.top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
-.ie{font-size:26px;font-weight:800;color:#e91e8c}
-.iz{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
-.sb{margin-top:4px;font-size:22px;letter-spacing:2px}
-.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+body{background:linear-gradient(160deg,#e1f5fe,#f3e5f5);overflow:hidden}
+.mod{display:none;flex-direction:column;height:100%;padding:20px 20px 80px}
 .mod.on{display:flex}
-.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
-.pr img{width:80px;height:auto}
-.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
-.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
-.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#64B5F6,#2196F3);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(33,150,243,.3);transition:transform .2s;margin-top:16px}
-.start-btn:active{transform:scale(.95)}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
-.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
-.card:active{transform:scale(.95)}
-.card img{opacity:0;transition:opacity .4s;width:90px;height:90px}
-.card .lbl{font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s}
-.card.rev img{opacity:1}
-.card.rev .lbl{opacity:1}
-.face-zone{position:relative;width:280px;height:320px;background:#fff;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.1);margin:10px 0}
-.drop-slot{position:absolute;width:70px;height:70px;border:3px dashed #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .3s}
-.drop-slot.filled{border-color:#4CAF50;border-style:solid}
-.drop-slot img{width:60px;height:60px}
-.part-tray{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.part-btn{width:80px;height:80px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.part-btn:active{transform:scale(.9)}
-.part-btn.used{opacity:.3;pointer-events:none}
-.part-btn img{width:60px;height:60px}
-.bingo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:360px;margin:10px 0}
-.bingo-cell{aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .2s;position:relative}
-.bingo-cell:active{transform:scale(.95)}
-.bingo-cell img{width:60px;height:60px}
-.bingo-cell div{font-size:16px;font-weight:700;color:#2c3e50;margin-top:4px}
-.bingo-cell.marked::after{content:'✓';position:absolute;top:4px;right:4px;width:28px;height:28px;background:#4CAF50;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900}
-.match-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.match-card{width:140px;height:160px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .2s;padding:10px}
-.match-card:active{transform:scale(.95)}
-.match-card img{width:70px;height:70px}
-.match-card div{font-size:18px;font-weight:700;color:#2c3e50;text-align:center}
-.match-card.correct{background:#c8e6c9;box-shadow:0 0 0 4px #4CAF50}
-.trio{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.trio-card{width:100px;height:110px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .2s;gap:4px}
-.trio-card:active{transform:scale(.92)}
-.trio-card.correct{background:#c8e6c9;box-shadow:0 0 0 4px #4CAF50}
-.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
-.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#2196F3;color:#fff}
-.nb:disabled{background:#ddd;color:#bbb}
-.np{font-size:13px;color:#999}
+.top{text-align:center;margin-bottom:12px}
+.te{font-size:26px;font-weight:900;color:#e91e8c;margin:4px 0}
+.tz{font-size:20px;font-weight:700;color:#e67e22;background:#fff;border-radius:12px;padding:8px 14px;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,.08);border:2px solid #ce93d8}
+.sb{font-size:22px;font-weight:700;color:#666;margin:4px 0}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
+.pr img{width:75px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
 .confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
-@keyframes pepBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
-.pep-bounce{animation:pepBounce .4s ease 2}
-@media(max-width:480px){
-  .main{max-width:100%}
-  .ie{font-size:22px}
-  .iz{font-size:16px;padding:4px 10px}
-  .pr img{width:60px}
-  .bbl{font-size:18px;padding:8px 12px}
-  .start-btn{font-size:26px;padding:16px 44px}
-  .face-zone{width:220px;height:260px}
-  .drop-slot{width:55px;height:55px}
-  .drop-slot img{width:45px;height:45px}
-  .part-btn{width:65px;height:65px}
-  .part-btn img{width:50px;height:50px}
-  .bingo-grid{max-width:280px}
-  .bingo-cell img{width:50px;height:50px}
-  .bingo-cell div{font-size:14px}
-  .match-card{width:110px;height:130px}
-  .match-card img{width:55px;height:55px}
-  .match-card div{font-size:15px}
-}
-@media(min-width:768px){.main{max-width:800px}}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:center;padding:0 20px}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+@media(max-width:480px){.te{font-size:22px}.tz{font-size:18px}.bbl{font-size:20px}.pr img{width:65px}}
 </style>
 </head>
 <body>
-<div class="main">
-<div class="top-bar">
-<div class="ie" id="ie">Doctor Peppa!</div>
-<div class="iz" id="iz"></div>
-<div class="sb" id="sb"></div>
-</div>
-<div class="mod on" id="m0"></div>
-<div class="mod" id="m1"></div>
-<div class="mod" id="m2"></div>
-<div class="mod" id="m3"></div>
-<div class="mod" id="m4"></div>
-<div class="mod" id="m5"></div>
-<div class="mod" id="m6"></div>
-</div>
-<div class="nav">
-<button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
-<div><div class="np" id="pg">1/7</div></div>
-<button class="nb" id="xb" onclick="goM(1)">Next &#9654;</button>
-</div>
+<div id="m0" class="mod on"></div>
+<div id="m1" class="mod"></div>
+<div id="m2" class="mod"></div>
+<div id="m3" class="mod"></div>
+<div id="m4" class="mod"></div>
+<div id="m5" class="mod"></div>
+<div class="nav"><button class="nb" id="nBtn" onclick="goM(1)">Start!</button></div>
 <script>
 var PP='../../assets/peppa/';
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
 var W=[
-  {w:'head',emoji:'1f9d1'},
-  {w:'eyes',emoji:'1f440'},
-  {w:'ears',emoji:'1f442'},
-  {w:'nose',emoji:'1f443'},
-  {w:'mouth',emoji:'1f444'}
+  {w:'head',tw:'1f600'},{w:'eyes',tw:'1f440'},{w:'ears',tw:'1f442'},
+  {w:'nose',tw:'1f443'},{w:'mouth',tw:'1f444'}
 ];
-var D2=[
-  {w:'cat',emoji:'1f431'},
-  {w:'dog',emoji:'1f436'},
-  {w:'fish',emoji:'1f41f'}
-];
-function emojiUrl(code){return 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+code+'.svg'}
-var cur=0,actx=null;
+var D2=[{w:'cat',tw:'1f431'},{w:'dog',tw:'1f436'},{w:'fish',tw:'1f41f'}];
+var actx,curM=0,score=0,totalQ=0;
+function twImg(c,s){return '<img src="'+TW+c+'.svg" width="'+(s||90)+'">'}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
+function playNo(){tone(300,.3)}
+function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#2196F3","#4CAF50","#FF9800","#E91E8C","#9C27B0"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
 function speak(t,cb){
   var isSent=t.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
   var fallback=isSent?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2':'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
-  var done=false;
-  function fin(){if(done)return;done=true;if(cb)cb()}
-  var a=new Audio(primary);a.onended=fin;a.onerror=function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)};
+  var done=false;function fin(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio(primary);a.onended=fin;
+  a.onerror=function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)};
   setTimeout(fin,4000);a.play().catch(function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)});
 }
-function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
-function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
-function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#2196F3","#4CAF50","#FF9800","#E91E8C","#9C27B0"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
-function playNo(){tone(300,.3)}
-function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'🩶';return s}
-function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.classList.remove('pep-bounce');void el.offsetWidth;el.classList.add('pep-bounce')}}
-function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
-
-// M0: Start
-function initM0(){
-  document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'mummy-pig-standing-grass.png" width="110">'+
-    '<div class="pr"><div class="bbl">Let\'s learn body parts!</div></div>'+
-    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<img src="'+emojiUrl(w.emoji)+'" width="60">'}).join('')+'</div>'+
-    '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
-  setI("Doctor Peppa!",'和佩琪一起认识身体！','');
+function goM(d){
+  curM+=d;document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+  document.getElementById('m'+curM).classList.add('on');
+  var btn=document.getElementById('nBtn');
+  if(curM===0){btn.textContent='Start!';btn.onclick=function(){goM(1)}}
+  else if(curM>=5){btn.style.display='none'}
+  else{btn.textContent='Next Game ▶';btn.onclick=function(){goM(1)}}
+  if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();
 }
-
-// M1: Learn - tap cards to reveal body parts
-var lnC=0,lnB=false;
+// M0: Start
+document.getElementById('m0').innerHTML=
+  '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">'+
+  '<img src="'+PP+'george_pig_dinosaur.png" width="110">'+
+  '<div style="font-size:36px;font-weight:900;color:#e91e8c;margin:12px 0">My Body!</div>'+
+  '<div style="font-size:22px;color:#666">head · eyes · ears · nose · mouth</div></div>';
+// M1: Learn - tap cards
+var lnI=0,lnB=false;
 function initM1(){
-  lnC=0;lnB=false;
-  document.getElementById('m1').innerHTML=
-    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">Tap to learn!</div></div>'+
-    '<div class="g3">'+W.map(function(w,i){
-      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
-        '<img src="'+emojiUrl(w.emoji)+'"><div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
-    }).join('')+'</div>';
-  speak('Tap to learn');setI('Learn Body Parts!','点一点，认识身体部位！',stars(0,5));
+  lnI=0;lnB=false;
+  var h='<div class="top"><div class="te">Learn Body Parts!</div><div class="tz">点一点，认识身体部位！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">';
+  for(var i=0;i<5;i++){
+    h+='<div id="lc'+i+'" onclick="lnTap('+i+')" style="width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1);transition:background .4s">';
+    h+='<div style="opacity:0;transition:opacity .4s" id="lci'+i+'">'+twImg(W[i].tw,75)+'<div style="font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px">'+W[i].w+'</div></div></div>';
+  }
+  h+='</div>';
+  document.getElementById('m1').innerHTML=h;
+  speak('Tap to find body parts');
 }
 function lnTap(i){
-  var c=document.getElementById('lc'+i);
-  if(c.classList.contains('rev')){speak(W[i].w);return}
   if(lnB)return;lnB=true;
-  c.classList.add('rev');c.style.background='#fff';lnC++;
-  playOk();pepBounce();
-  speak(W[i].w,function(){lnB=false});
-  setI('This is my '+W[i].w+'!','找到啦！这是 '+W[i].w+'！',stars(lnC,5));
+  var card=document.getElementById('lc'+i);
+  if(card.style.background==='#fff'){speak(W[i].w);lnB=false;return}
+  card.style.background='#fff';document.getElementById('lci'+i).style.opacity='1';
+  lnI++;document.getElementById('m1s').innerHTML=stars(lnI,5);
+  playOk();speak(W[i].w,function(){lnB=false});
 }
-
-// M2: Yesterday Review (Day2 animals micro-review)
-var rvS=0,rvI=0,rvB=false,rvOrd=[];
+// M2: Yesterday Review (Day2 animals)
+var rvOrd,rvCur=0,rvB=false;
 function initM2(){
-  rvS=0;rvI=0;rvB=false;
-  rvOrd=shuffle([0,1,2]);
-  renderRV();
+  rvCur=0;rvB=false;rvOrd=shuffle([0,1,2]);renderRV();
 }
 function renderRV(){
-  if(rvI>=3){
-    setI('Animals done!','动物复习完成！',stars(3,3));
-    document.getElementById('m2').innerHTML='<img src="'+PP+'george-standing.png" width="75"><div style="font-size:24px;font-weight:700;color:#2c3e50;margin-top:10px">Great memory!</div>';
-    return;
-  }
-  var tgt=D2[rvOrd[rvI]];
-  setI('Find '+tgt.w+'!','点一点,哪个是 '+tgt.w+'？',stars(rvS,3));
-  speak('Find '+tgt.w);
+  var idx=rvOrd[rvCur];
+  var h='<div class="top"><div class="te">Remember Animals?</div><div class="tz">还记得动物吗？</div><div class="sb" id="m2s">'+stars(rvCur,3)+'</div></div>';
+  h+='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">Find '+D2[idx].w+'!</div></div>';
+  h+='<div style="display:flex;gap:16px;justify-content:center;margin:20px 0">';
   var opts=shuffle([0,1,2]);
-  document.getElementById('m2').innerHTML=
-    '<div class="pr"><img src="'+PP+'george-standing.png" width="75"><div class="bbl">Where is '+tgt.w+'?</div></div>'+
-    '<div class="trio">'+opts.map(function(j){
-      return '<div class="trio-card" onclick="rvTap('+j+')"><img src="'+emojiUrl(D2[j].emoji)+'" width="70"></div>'
-    }).join('')+'</div>';
+  for(var i=0;i<3;i++)h+='<div onclick="rvTap('+opts[i]+')" style="width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12)">'+twImg(D2[opts[i]].tw,70)+'</div>';
+  h+='</div><div id="rvfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
+  document.getElementById('m2').innerHTML=h;speak('Find '+D2[idx].w);
 }
-function rvTap(j){
-  if(rvB)return;rvB=true;
-  if(j===rvOrd[rvI]){
-    playOk();rvS++;rvI++;pepBounce();
-    setI('Yes! '+D2[j].w+'!','答对啦！',stars(rvS,3));
-    speak('I see a '+D2[j].w,function(){rvB=false;setTimeout(renderRV,600)});
-  }else{
-    playNo();
-    setI('Try again!','再试试！',stars(rvS,3));
-    speak(D2[j].w,function(){rvB=false});
-  }
+function rvTap(i){
+  if(rvB)return;rvB=true;var correct=rvOrd[rvCur];
+  if(i===correct){playOk();rvCur++;document.getElementById('m2s').innerHTML=stars(rvCur,3);
+    if(rvCur>=3){setTimeout(function(){goM(1)},1200);return}
+    setTimeout(function(){renderRV();rvB=false},1400);
+  }else{playNo();document.getElementById('rvfb').textContent='Try again!';setTimeout(function(){document.getElementById('rvfb').textContent='';rvB=false},800)}
 }
-
 // M3: Touch Your Body (hear word, pick from 3)
-var tbOrder,tbCur=0,tbBusy=false;
+var tbOrd,tbCur=0,tbB=false;
 function initM3(){
-  tbCur=0;tbBusy=false;tbOrder=shuffle([0,1,2,3,4]);
-  renderTB();
-  setI("Touch Your Body!",'听一听，点对的身体部位！',stars(0,5));
+  tbCur=0;tbB=false;tbOrd=shuffle([0,1,2,3,4]);renderTB();
 }
 function renderTB(){
-  var idx=tbOrder[tbCur];
-  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Touch your '+W[idx].w+'!</div></div>';
+  var idx=tbOrd[tbCur];
+  var h='<div class="top"><div class="te">Touch Your Body!</div><div class="tz">听一听，点对的身体部位！</div><div class="sb" id="m3s">'+stars(tbCur,5)+'</div></div>';
+  h+='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Touch your '+W[idx].w+'!</div></div>';
   h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0">';
   var opts=shuffle([0,1,2,3,4]).slice(0,3);
   if(opts.indexOf(idx)===-1)opts[Math.floor(Math.random()*3)]=idx;
-  for(var i=0;i<opts.length;i++){
-    h+='<div onclick="tbTap('+opts[i]+')" style="width:110px;height:110px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12);transition:transform .2s"><img src="'+emojiUrl(W[opts[i]].emoji)+'" width="75"></div>';
-  }
-  h+='</div><div id="tbfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
-  document.getElementById('m3').innerHTML=h;
-  speak('Touch your '+W[idx].w);
+  for(var i=0;i<opts.length;i++)h+='<div onclick="tbTap('+opts[i]+')" style="width:110px;height:110px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12)">'+twImg(W[opts[i]].tw,75)+'</div>';
+  h+='</div><div id="tbfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
+  document.getElementById('m3').innerHTML=h;speak('Touch your '+W[idx].w);
 }
 function tbTap(i){
-  if(tbBusy)return;tbBusy=true;
-  var correct=tbOrder[tbCur];
-  if(i===correct){
-    playOk();showConfetti();tbCur++;score++;totalQ++;
+  if(tbB)return;tbB=true;var correct=tbOrd[tbCur];
+  if(i===correct){playOk();tbCur++;score++;totalQ++;
+    document.getElementById('m3s').innerHTML=stars(tbCur,5);
     document.getElementById('tbfb').textContent='Yes! This is my '+W[correct].w+'!';
     speak('This is my '+W[correct].w);
-    setI("Touch Your Body!",'听一听，点对的身体部位！',stars(tbCur,5));
     if(tbCur>=5){setTimeout(function(){goM(1)},1200);return}
-    setTimeout(function(){renderTB();tbBusy=false},1600);
-  } else {
-    playNo();totalQ++;
-    document.getElementById('tbfb').textContent='Try again!';
-    speak(W[correct].w);
-    setTimeout(function(){document.getElementById('tbfb').textContent='';tbBusy=false},1000);
-  }
+    setTimeout(function(){renderTB();tbB=false},1600);
+  }else{playNo();totalQ++;document.getElementById('tbfb').textContent='Try again!';
+    setTimeout(function(){document.getElementById('tbfb').textContent='';tbB=false},1000)}
 }
-
-// M4: Body Part Bingo (mark off as called)
-var bgS=0,bgI=0,bgB=false,bgOrd=[],bgMarked=[];
+// M4: Memory Flip
+var fCards=[],fFlip=[],fMatch=0,fB=false;
 function initM4(){
-  bgS=0;bgI=0;bgB=false;bgMarked=Array(5).fill(false);
-  bgOrd=shuffle([0,1,2,3,4]);
-  document.getElementById('m4').innerHTML=
-    '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" width="75"><div class="bbl" id="bgBbl">Listen and mark!</div></div>'+
-    '<div class="bingo-grid">'+W.map(function(w,i){
-      return '<div class="bingo-cell" id="bg'+i+'" onclick="bgTap('+i+')"><img src="'+emojiUrl(w.emoji)+'"><div>'+w.w+'</div></div>'
-    }).join('')+'</div>';
-  setI('Body Bingo!','听一听，点对应的部位！',stars(0,5));
-  bgAsk();
+  fMatch=0;fFlip=[];fB=false;
+  var pairs=[];for(var i=0;i<4;i++)pairs.push({idx:i,w:W[i].w,tw:W[i].tw},{idx:i,w:W[i].w,tw:W[i].tw});
+  fCards=shuffle(pairs);
+  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:10px auto">';
+  for(var i=0;i<8;i++)h+='<div id="fc'+i+'" onclick="fTap('+i+')" style="width:85px;height:85px;border-radius:14px;background:#ce93d8;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 2px 8px rgba(0,0,0,.1)">❓</div>';
+  h+='</div>';document.getElementById('m4').innerHTML=h;
 }
-function bgAsk(){
-  if(bgI>=5){
-    setI('Bingo!','全部找对啦！',stars(5,5));
-    document.getElementById('bgBbl').textContent='Bingo! You win!';
-    return;
-  }
-  var w=W[bgOrd[bgI]];
-  speak(w.w);
-  document.getElementById('bgBbl').textContent='Find '+w.w+'!';
-}
-function bgTap(i){
-  if(bgB||bgMarked[i])return;bgB=true;
-  if(i===bgOrd[bgI]){
-    bgMarked[i]=true;
-    document.getElementById('bg'+i).classList.add('marked');
-    playOk();bgS++;bgI++;pepBounce();
-    setI('This is my '+W[i].w+'!','答对啦！',stars(bgS,5));
-    speak('This is my '+W[i].w,function(){bgB=false;setTimeout(bgAsk,800)});
-  }else{
-    playNo();
-    setI('Try again!','再听一次！',stars(bgS,5));
-    setTimeout(function(){bgB=false},600);
+function fTap(i){
+  if(fB||fFlip.length>=2)return;var el=document.getElementById('fc'+i);
+  if(el.classList.contains('done')||fFlip.indexOf(i)>=0)return;
+  el.innerHTML=twImg(fCards[i].tw,55);el.style.background='#fff';fFlip.push(i);speak(fCards[i].w);
+  if(fFlip.length===2){fB=true;var a=fFlip[0],b=fFlip[1];
+    if(fCards[a].idx===fCards[b].idx){playOk();fMatch++;document.getElementById('m4s').innerHTML=stars(fMatch,4);
+      document.getElementById('fc'+a).classList.add('done');document.getElementById('fc'+b).classList.add('done');
+      fFlip=[];fB=false;if(fMatch>=4)setTimeout(function(){goM(1)},1200);
+    }else{playNo();setTimeout(function(){
+      document.getElementById('fc'+a).innerHTML='❓';document.getElementById('fc'+a).style.background='#ce93d8';
+      document.getElementById('fc'+b).innerHTML='❓';document.getElementById('fc'+b).style.background='#ce93d8';
+      fFlip=[];fB=false},800)}
   }
 }
-
-// M5: Match the Pair (body part + function)
-var mpS=0,mpB=false;
-var mpPairs=[
-  {part:1,func:'see',emoji:'1f441-fe0f'},
-  {part:2,func:'hear',emoji:'1f442'},
-  {part:3,func:'smell',emoji:'1f443'},
-  {part:4,func:'eat',emoji:'1f374'}
-];
-var mpDone=[false,false,false,false];
+// M5: Done
 function initM5(){
-  mpS=0;mpB=false;mpDone=[false,false,false,false];
-  var shuffled=shuffle([0,1,2,3]);
   document.getElementById('m5').innerHTML=
-    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="75"><div class="bbl">Match them!</div></div>'+
-    '<div class="match-row">'+shuffled.map(function(i){
-      var p=mpPairs[i];
-      return '<div class="match-card" id="mp'+i+'" onclick="mpTap('+i+')"><img src="'+emojiUrl(W[p.part].emoji)+'"><div>'+p.func+'</div></div>'
-    }).join('')+'</div>';
-  setI('Match Pairs!','连一连，哪个部位做什么？',stars(0,4));
-}
-function mpTap(i){
-  if(mpB||mpDone[i])return;mpB=true;
-  var p=mpPairs[i];
-  speak(W[p.part].w+' '+p.func);
-  document.getElementById('mp'+i).classList.add('correct');
-  mpDone[i]=true;mpS++;
-  playOk();pepBounce();
-  setI(W[p.part].w+' → '+p.func,'答对啦！',stars(mpS,4));
-  setTimeout(function(){mpB=false;if(mpS>=4){setTimeout(function(){goM(1)},800)}},600);
-}
-
-// M6: Done
-function initM6(){
-  document.getElementById('m6').innerHTML=
+    '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">'+
     '<img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin-bottom:10px">'+
-    '<div class="bbl" style="font-size:28px">Healthy!</div>'+
-    '<div style="font-size:34px;font-weight:800;color:#e91e8c;margin-top:16px">All Done!</div>'+
-    '<div style="font-size:22px;color:#e67e22;margin-top:8px">You know your body!</div>'+
-    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:18px" onclick="goToStart()">Play Again</button>';
-  setI('All Done!','今天太棒了！身体部位都认识了！',stars(5,5));
+    '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>'+
+    '<div style="font-size:24px;color:#666;margin:6px 0">My body! 😀👀👂👃👄</div>'+
+    '<div style="font-size:28px;margin:10px 0">'+stars(5,5)+'</div>'+
+    '<button onclick="location.reload()" style="margin-top:16px;padding:14px 32px;border:none;border-radius:12px;font-size:20px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(249,173,199,.4)">Play Again 🔄</button></div>';
 }
-
-function goToStart(){
-  document.getElementById(mods[cur]).classList.remove('on');
-  cur=0;document.getElementById(mods[cur]).classList.add('on');
-  inits[cur]();
-  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
-  document.getElementById('pb').disabled=true;
-  var xb=document.getElementById('xb');xb.textContent='Next ▶';xb.disabled=false;
-}
-
-var mods=['m0','m1','m2','m3','m4','m5','m6'];
-var inits=[initM0,initM1,initM2,initM3,initM4,initM5,initM6];
-function goM(d){
-  var n=cur+d;if(n<0||n>=mods.length)return;
-  document.getElementById(mods[cur]).classList.remove('on');
-  cur=n;document.getElementById(mods[cur]).classList.add('on');
-  inits[cur]();
-  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
-  document.getElementById('pb').disabled=cur===0;
-  var xb=document.getElementById('xb');
-  if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}
-  else{xb.textContent='Next \u25b6';xb.disabled=false}
-}
-initM0();
+goM(0);
 </script>
 </body>
 </html>
