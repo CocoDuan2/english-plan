@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 30 - Doctor Visit ✅
-- 更新时间: 2026-03-03 06:04
+- 当前: Day 31 - Helping at Home ✅
+- 更新时间: 2026-03-03 06:57
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -215,8 +215,16 @@
 - Review 游戏: Learn (reveal) → Clinic Game (听词点图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 31 - Helping at Home
+## Day 31 - Helping at Home
 - 新词: clean, wash, help, tidy, sweep
 - 句式: I can ___!
-- 互动: Listen & Say → Chore Helper → All Together
+- Teach 互动: Listen & Say → Chore Helper → All Together
+- Review 游戏: Learn (reveal) → Chore Helper (听词点家务) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 32 - School Day
+- 新词: teacher, friend, learn, draw, write
+- 句式: I can ___!
+- 互动: Listen & Say → School Activities → All Together
+
