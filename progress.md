@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 12 - Weather Watch ✅
-- 更新时间: 2026-03-02 20:24
+- 当前: Day 13 - Where We Go ✅
+- 更新时间: 2026-03-02 21:22
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -89,8 +89,15 @@
 - Review 游戏: Learn (drop-in) → Weather Match (听词点天气) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 13 - Where We Go
+## Day 13 - Where We Go
 - 新词: home, school, park, shop, zoo
 - 句式: Let's go to ___!
-- 互动: Place Map → Destination Picker → Places Parade
+- Teach 互动: Place Map → Destination Picker → Places Parade
+- Review 游戏: Learn (slide-right) → Road Trip (听词点地方) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 14 - Rainbow Colors
+- 新词: pink, purple, white, black, brown
+- 句式: It's ___!
+- 互动: Color Mixing → Color Hunt → Color Parade
