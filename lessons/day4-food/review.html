@@ -108,7 +108,7 @@ function initM1(){
   h+='</div>';
   document.getElementById('m1').innerHTML=h;
   document.getElementById('m1s').innerHTML=stars(0,5);
-  speak('Tap to find food');
+  
 }
 function lnTap(i){
   if(lnB)return;lnB=true;
@@ -138,7 +138,7 @@ function renderRV(){
   }
   h+='</div><div id="rvfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
   document.getElementById('m2').innerHTML=h;
-  speak('Find '+D3[idx].w);
+  speak(D3[idx].w);
 }
 function rvTap(i){
   if(rvB)return;rvB=true;
@@ -173,7 +173,7 @@ function renderSH(){
   }
   h+='</div><div id="shfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
   document.getElementById('m3').innerHTML=h;
-  speak('I like '+W[idx].w);
+  speak(W[idx].w);
 }
 function shTap(i){
   if(shB)return;shB=true;

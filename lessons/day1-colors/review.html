@@ -151,7 +151,7 @@ function initM1(){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
         svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
     }).join('')+'</div>';
-  speak('Tap to find colors');setI('Tap to find colors!','帮佩琪找今天看到的颜色！',stars(0,5));
+  setI('Tap to find colors!','帮佩琪找今天看到的颜色！',stars(0,5));
 }
 function lnTap(i){
   var c=document.getElementById('lc'+i);
@@ -190,7 +190,7 @@ function pjTap(j){
   if(j===pjOrd[pjI]){
     playOk();pjS++;pjI++;pepBounce();
     setI("Splash! It's "+W[j].w+'!','答对啦！跳进 '+W[j].w+' 啦！',stars(pjS,5));
-    speak("Jump in "+W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
+    speak(W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
   }else{
     playNo();
     setI('Try again!','再试一次！哪个是 '+W[pjOrd[pjI]].w+'？',stars(pjS,5));
@@ -219,14 +219,14 @@ function lfAsk(){
   var w=W[lfOrd[lfI]];
   setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lfS,5));
   document.getElementById('lfBbl').textContent='Where is '+w.w+'?';
-  speak('Find '+w.w);
+  speak(w.w);
 }
 function lfTap(i){
   if(lfB||lfI>=W.length)return;lfB=true;
   if(i===lfOrd[lfI]){
     playOk();lfS++;lfI++;pepBounce();
     setI('Yes! '+W[i].w+'!','答对啦！这是 '+W[i].w+'！',stars(lfS,5));
-    speak("It's "+W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
+    speak(W[i].w,function(){lfB=false;setTimeout(lfAsk,800)});
   }else{
     playNo();
     setI('Try again!','再试试！哪个是 '+W[lfOrd[lfI]].w+'？',stars(lfS,5));

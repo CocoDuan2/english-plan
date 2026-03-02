@@ -200,7 +200,7 @@ function renderFA(){
   }
   h+='</div><div id="fafb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
   document.getElementById('m3').innerHTML=h;
-  speak('Find the '+W[idx].w);
+  speak(W[idx].w);
 }
 function faTap(i){
   if(faBusy)return;faBusy=true;
@@ -208,7 +208,7 @@ function faTap(i){
   if(i===correct){
     playOk();showConfetti();faCur++;score++;totalQ++;
     document.getElementById('fafb').textContent='Yes! It\'s a '+W[correct].w+'!';
-    speak('It\'s a '+W[correct].w);
+    speak(W[correct].w);
     setI("Find the Animal!",'找到对的动物！',stars(faCur,5));
     if(faCur>=5){setTimeout(function(){document.getElementById('fafb').textContent='All found!';faBusy=false},1200);return}
     setTimeout(function(){renderFA();faBusy=false},1600);
