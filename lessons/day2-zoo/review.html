@@ -315,13 +315,13 @@ var lb=document.createElement('div');
 lb.className='match-btn';
 lb.dataset.word=item.w;
 lb.innerHTML='<img src="'+item.img+'" alt="'+item.w+'">';
-lb.onclick=function(){selectLeft(lb)};
+lb.onclick=(function(b){return function(){selectLeft(b)}})(lb);
 leftCol.appendChild(lb);
 var rb=document.createElement('div');
 rb.className='match-btn';
 rb.dataset.word=shuffled[i].w;
 rb.innerHTML='<img src="'+shuffled[i].img+'" alt="'+shuffled[i].w+'">';
-rb.onclick=function(){selectRight(rb)};
+rb.onclick=(function(b){return function(){selectRight(b)}})(rb);
 rightCol.appendChild(rb);
 });
 }
