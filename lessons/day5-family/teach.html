@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 5 - Family</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 74px;text-align:center}
+.sl.on{display:flex}
+.bg-title{background:linear-gradient(165deg,#fce4ec,#f8bbd0)}
+.bg-hello{background:linear-gradient(180deg,#f3e5f5,#e1bee7)}
+.bg-yesterday{background:linear-gradient(160deg,#fff4e0,#ffe0b2)}
+.bg-mom{background:linear-gradient(160deg,#fce4ec,#fff0f5)}
+.bg-dad{background:linear-gradient(160deg,#e3f2fd,#bbdefb)}
+.bg-baby{background:linear-gradient(160deg,#fff9c4,#fffde7)}
+.bg-brother{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
+.bg-sister{background:linear-gradient(160deg,#f3e5f5,#e1bee7)}
+.bg-photo{background:linear-gradient(160deg,#ffe0b2,#ffccbc)}
+.bg-team{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-bye{background:linear-gradient(180deg,#ce93d8,#f48fb1 58%,#ffab91)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:6px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-transform:lowercase;color:#2c3e50;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#8e24aa;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;font-size:26px;font-weight:700;color:#8e24aa;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj{margin:8px 0}
+.frame-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:560px;margin-top:8px}
+.frame{width:150px;height:170px;border:none;border-radius:16px;background:linear-gradient(145deg,#e1bee7,#ce93d8);color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;transition:.3s}
+.frame span{font-size:24px;font-weight:900;text-transform:lowercase;opacity:0;transform:translateY(10px);transition:.3s}
+.frame svg{opacity:0;transform:scale(.6);transition:.3s}
+.frame.on span,.frame.on svg{opacity:1;transform:translateY(0) scale(1)}
+.frame.on{background:#fff;color:#2c3e50;box-shadow:0 4px 16px rgba(0,0,0,.1);border:4px solid #ce93d8}
+.frame::before{content:'📷';font-size:36px;position:absolute;transition:.3s}
+.frame.on::before{opacity:0}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin-top:10px}
+.ti{background:#fff;border-radius:16px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.ti div{font-size:30px;font-weight:900;color:#2c3e50;text-transform:lowercase;margin-top:4px}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:50px;height:50px;border-radius:50%;background:#ce93d8;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(206,147,216,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:126px;right:16px;z-index:199;width:330px;max-height:42vh;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 16px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#ce93d8;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}.bbl{font-size:20px;padding:8px 14px}.pr img{width:60px}
+.obj svg{width:130px!important;height:130px!important}
+.frame{width:100px;height:120px}.frame span{font-size:18px}
+.frame-grid,.team-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;max-width:320px!important}
+.ti svg{width:70px!important;height:70px!important}.ti div{font-size:20px!important}
+}
+@media(min-width:481px) and (max-width:767px){
+.ttl{font-size:36px}.word{font-size:72px}
+.frame-grid,.team-grid{grid-template-columns:repeat(3,1fr)!important;max-width:420px!important}
+.ti svg{width:80px!important;height:80px!important}
+}
+@media(min-width:768px){
+.word{font-size:100px}.sent{font-size:38px}.frame{width:170px;height:190px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+  <!-- S1: Title — Family group photo -->
+  <div class="sl bg-title on">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="150" alt="Peppa Family">
+    <div class="ttl">Peppa's Family Album</div>
+    <div style="display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+      <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="60" r="32" fill="#f48fb1"/><rect x="55" y="88" width="50" height="50" rx="14" fill="#f48fb1"/><circle cx="70" cy="55" r="4" fill="#fff"/><circle cx="90" cy="55" r="4" fill="#fff"/><path d="M70 68 Q80 76 90 68" stroke="#fff" stroke-width="3" fill="none"/></svg>
+      <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="55" r="36" fill="#64b5f6"/><rect x="52" y="88" width="56" height="52" rx="14" fill="#64b5f6"/><circle cx="68" cy="50" r="4" fill="#fff"/><circle cx="92" cy="50" r="4" fill="#fff"/><rect x="62" y="30" width="36" height="8" rx="4" fill="#1e88e5"/></svg>
+      <svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="68" r="24" fill="#fff9c4"/><rect x="62" y="88" width="36" height="36" rx="10" fill="#fff9c4"/><circle cx="74" cy="65" r="3" fill="#333"/><circle cx="86" cy="65" r="3" fill="#333"/><path d="M74 76 Q80 82 86 76" stroke="#e57373" stroke-width="2.5" fill="none"/></svg>
+    </div>
+  </div>
+
+  <!-- S2: Hello — Peppa leads, image-first -->
+  <div class="sl bg-hello">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="130" alt="Peppa">
+    <div class="ttl">Photo Time!</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+      <img src="../../assets/peppa/george_pig_dinosaur.png" width="85" alt="George">
+      <img src="../../assets/peppa/daddy-pig-standing.png" width="85" alt="Daddy">
+      <img src="../../assets/peppa/mummy-pig-standing-grass.png" width="85" alt="Mummy">
+    </div>
+    <div class="sent" style="margin-top:14px">Meet my family!</div>
+  </div>
+
+  <!-- S3: Yesterday Review — food -->
+  <div class="sl bg-yesterday">
+    <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"><div class="bbl">Yesterday Review!</div></div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+      <div style="width:170px;background:#fff;border-radius:20px;padding:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center">
+        <svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="90" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg>
+        <div style="font-size:34px;font-weight:900;color:#2c3e50">apple</div>
+      </div>
+      <div style="width:170px;background:#fff;border-radius:20px;padding:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center">
+        <svg width="100" height="100" viewBox="0 0 160 160"><rect x="46" y="48" width="68" height="76" rx="10" fill="#fff"/><rect x="46" y="48" width="68" height="24" rx="10" fill="#42a5f5"/><text x="80" y="106" text-anchor="middle" font-size="20" font-weight="900" fill="#42a5f5">MILK</text></svg>
+        <div style="font-size:34px;font-weight:900;color:#2c3e50">milk</div>
+      </div>
+      <div style="width:170px;background:#fff;border-radius:20px;padding:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center">
+        <svg width="100" height="100" viewBox="0 0 160 160"><rect x="30" y="56" width="100" height="64" rx="20" fill="#e6a84c"/><rect x="30" y="56" width="100" height="32" rx="20" fill="#d4943c"/></svg>
+        <div style="font-size:34px;font-weight:900;color:#2c3e50">bread</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: mom — Mummy Pig -->
+  <div class="sl bg-mom">
+    <div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">This is my mom!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="58" r="34" fill="#f48fb1"/><rect x="52" y="88" width="56" height="52" rx="16" fill="#f48fb1"/><circle cx="70" cy="53" r="4" fill="#fff"/><circle cx="90" cy="53" r="4" fill="#fff"/><path d="M70 66 Q80 74 90 66" stroke="#fff" stroke-width="3" fill="none"/><ellipse cx="80" cy="36" rx="18" ry="6" fill="#ec407a"/></svg></div>
+    <div class="word">mom</div>
+  </div>
+
+  <!-- S5: dad — Daddy Pig -->
+  <div class="sl bg-dad">
+    <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">This is my dad!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="55" r="38" fill="#64b5f6"/><rect x="50" y="88" width="60" height="54" rx="16" fill="#64b5f6"/><circle cx="68" cy="50" r="4" fill="#fff"/><circle cx="92" cy="50" r="4" fill="#fff"/><path d="M68 64 Q80 72 92 64" stroke="#fff" stroke-width="3" fill="none"/><rect x="60" y="28" width="40" height="8" rx="4" fill="#1e88e5"/></svg></div>
+    <div class="word">dad</div>
+  </div>
+
+  <!-- S6: baby — George -->
+  <div class="sl bg-baby">
+    <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">This is my baby!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="68" r="26" fill="#fff9c4"/><rect x="60" y="90" width="40" height="38" rx="12" fill="#fff9c4"/><circle cx="73" cy="65" r="3.5" fill="#333"/><circle cx="87" cy="65" r="3.5" fill="#333"/><path d="M73 76 Q80 82 87 76" stroke="#e57373" stroke-width="2.5" fill="none"/><circle cx="80" cy="42" r="6" fill="#ffe082"/></svg></div>
+    <div class="word">baby</div>
+  </div>
+
+  <!-- S7: brother — George with ball -->
+  <div class="sl bg-brother">
+    <div class="pr"><img src="../../assets/peppa/george-playing-ball.png" alt="George ball"><div class="bbl">This is my brother!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#81c784"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#81c784"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/><path d="M71 66 Q80 73 89 66" stroke="#fff" stroke-width="3" fill="none"/><rect x="68" y="34" width="24" height="6" rx="3" fill="#388e3c"/></svg></div>
+    <div class="word">brother</div>
+  </div>
+
+  <!-- S8: sister — Peppa fairy -->
+  <div class="sl bg-sister">
+    <div class="pr"><img src="../../assets/peppa/peppa-fairy-princess-small.png" alt="Peppa fairy"><div class="bbl">This is my sister!</div></div>
+    <div class="obj"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#ce93d8"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#ce93d8"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/><path d="M71 66 Q80 73 89 66" stroke="#fff" stroke-width="3" fill="none"/><polygon points="80,28 86,42 74,42" fill="#ab47bc"/></svg></div>
+    <div class="word">sister</div>
+  </div>
+
+  <!-- S9: Photo Frame Reveal — tap frames to reveal family -->
+  <div class="sl bg-photo">
+    <div class="pr"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"><div class="bbl" id="frameBbl">Open the photos!</div></div>
+    <div class="frame-grid">
+      <button class="frame" id="ff0" onclick="frameTap(0)"><svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="58" r="34" fill="#f48fb1"/><rect x="52" y="88" width="56" height="52" rx="16" fill="#f48fb1"/><circle cx="70" cy="53" r="4" fill="#fff"/><circle cx="90" cy="53" r="4" fill="#fff"/><path d="M70 66 Q80 74 90 66" stroke="#fff" stroke-width="3" fill="none"/></svg><span>mom</span></button>
+      <button class="frame" id="ff1" onclick="frameTap(1)"><svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="55" r="38" fill="#64b5f6"/><rect x="50" y="88" width="60" height="54" rx="16" fill="#64b5f6"/><circle cx="68" cy="50" r="4" fill="#fff"/><circle cx="92" cy="50" r="4" fill="#fff"/><rect x="60" y="28" width="40" height="8" rx="4" fill="#1e88e5"/></svg><span>dad</span></button>
+      <button class="frame" id="ff2" onclick="frameTap(2)"><svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="68" r="26" fill="#fff9c4"/><rect x="60" y="90" width="40" height="38" rx="12" fill="#fff9c4"/><circle cx="73" cy="65" r="3.5" fill="#333"/><circle cx="87" cy="65" r="3.5" fill="#333"/></svg><span>baby</span></button>
+      <button class="frame" id="ff3" onclick="frameTap(3)"><svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#81c784"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#81c784"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/></svg><span>brother</span></button>
+      <button class="frame" id="ff4" onclick="frameTap(4)"><svg width="86" height="86" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#ce93d8"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#ce93d8"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/></svg><span>sister</span></button>
+    </div>
+  </div>
+
+  <!-- S10: All Together — family grid -->
+  <div class="sl bg-team">
+    <img src="../../assets/peppa/peppa-and-george-ooo.png" width="130" alt="Peppa and George">
+    <div class="ttl" style="font-size:36px">My Family!</div>
+    <div class="team-grid">
+      <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="58" r="34" fill="#f48fb1"/><rect x="52" y="88" width="56" height="52" rx="16" fill="#f48fb1"/><circle cx="70" cy="53" r="4" fill="#fff"/><circle cx="90" cy="53" r="4" fill="#fff"/><path d="M70 66 Q80 74 90 66" stroke="#fff" stroke-width="3" fill="none"/></svg><div>mom</div></div>
+      <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="55" r="38" fill="#64b5f6"/><rect x="50" y="88" width="60" height="54" rx="16" fill="#64b5f6"/><circle cx="68" cy="50" r="4" fill="#fff"/><circle cx="92" cy="50" r="4" fill="#fff"/><rect x="60" y="28" width="40" height="8" rx="4" fill="#1e88e5"/></svg><div>dad</div></div>
+      <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="68" r="26" fill="#fff9c4"/><rect x="60" y="90" width="40" height="38" rx="12" fill="#fff9c4"/><circle cx="73" cy="65" r="3.5" fill="#333"/><circle cx="87" cy="65" r="3.5" fill="#333"/></svg><div>baby</div></div>
+      <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#81c784"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#81c784"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/></svg><div>brother</div></div>
+      <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="58" r="30" fill="#ce93d8"/><rect x="55" y="84" width="50" height="48" rx="14" fill="#ce93d8"/><circle cx="71" cy="54" r="4" fill="#fff"/><circle cx="89" cy="54" r="4" fill="#fff"/></svg><div>sister</div></div>
+    </div>
+  </div>
+
+  <!-- S11: Bye — family celebration -->
+  <div class="sl bg-bye">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="160" alt="Peppa family">
+    <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)">Family Photo!</div>
+    <div class="sub" style="color:rgba(255,255,255,.92);font-size:22px;font-weight:700;margin-top:6px">This is my mom, dad, baby, brother, sister!</div>
+  </div>
+</div>
+<button class="fab" id="F" onclick="tn()">&#x1F4CB;</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
+</div>
+<script>
+var notes={
+"0":"Title: image-first, family SVG icons preview. Peppa family group leads.",
+"1":"Hello: Peppa invites to see family album. Characters shown, no word wall.",
+"2":"Yesterday review: 3 food words quick recall. Teacher points, kids say 'I like apple/milk/bread'. 2 min max.",
+"3":"mom: 'This is my mom!' Kids repeat 3x. Pink figure = mom.",
+"4":"dad: 'This is my dad!' Repeat. Blue figure with hat = dad.",
+"5":"baby: 'This is my baby!' Repeat. Small yellow figure = baby.",
+"6":"brother: 'This is my brother!' Repeat. Green figure = brother.",
+"7":"sister: 'This is my sister!' Repeat. Purple figure with crown = sister.",
+"8":"Photo reveal: Teacher taps each photo frame. Ask 'Who is it?' before tapping.",
+"9":"All Together: Random point and ask. Mix up order. 'This is my ___!'",
+"10":"Celebrate! Say the full family chain once together."
+};
+var familyWords=["mom","dad","baby","brother","sister"];
+function frameTap(i){
+  var el=document.getElementById('ff'+i);
+  if(!el||el.classList.contains('on'))return;
+  el.classList.add('on');
+  document.getElementById('frameBbl').textContent='This is my '+familyWords[i]+'!';
+}
+var cur=0,total=11,open=false;
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sl')[n].classList.add('on');
+  cur=n;
+  document.getElementById('pg').textContent=(cur+1)+'/'+total;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===total-1){xb.textContent='Done';xb.disabled=true}else{xb.textContent='Next \u25B6';xb.disabled=false}
+  document.getElementById('B').innerHTML=notes[cur]||'';
+}
+function go(d){goTo(cur+d)}
+function tn(){open=!open;document.getElementById('P').classList.toggle('on',open);document.getElementById('F').classList.toggle('on',open)}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft')go(-1);
+  if(e.key==='t'||e.key==='T')tn();
+});
+document.addEventListener('click',function(e){
+  if(open&&!e.target.closest('.pop')&&!e.target.closest('.fab')){
+    open=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on');
+  }
+});
+goTo(0);
+</script>
+</body>
+</html>
