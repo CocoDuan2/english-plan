@@ -79,7 +79,9 @@ document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standin
 var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
-  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div><div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
+  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
+  h+='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png"><div class="bbl">Tap to learn!</div></div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
   for(var i=0;i<5;i++){
     h+='<div id="lc'+i+'" onclick="lnTap('+i+')" style="width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)"><svg width="75" height="75" viewBox="0 0 160 160" style="opacity:0" id="lci'+i+'">'+W[i].svg+'</svg></div>';
   }
@@ -153,7 +155,8 @@ function renderLS(){
   }
   var tgt=W[lsOrd[lsI]];
   var h='<div class="top"><div class="te">Listen & Find!</div><div class="tz">听一听，找出来！</div><div class="sb">'+stars(lsS,5)+'</div></div>';
-  h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:20px">';
+  h+='<div class="pr"><img src="'+PP+'george-standing.png"><div class="bbl">Listen!</div></div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:12px">';
   for(var j=0;j<5;j++){
     h+='<div onclick="lsTap('+j+')" style="width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)"><svg width="70" height="70" viewBox="0 0 160 160">'+W[j].svg+'</svg></div>';
   }
@@ -184,6 +187,7 @@ function initM4(){
   }
   fCards=shuffle(pairs);
   var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
+  h+='<div class="pr"><img src="'+PP+'candy-cat-green-dress.png"><div class="bbl">Find pairs!</div></div>';
   h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px">';
   for(var i=0;i<8;i++){
     h+='<div id="fc'+i+'" onclick="fTap('+i+')" style="width:85px;height:85px;border-radius:14px;background:#F9ADC7;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 2px 8px rgba(0,0,0,.1)">❓</div>';
