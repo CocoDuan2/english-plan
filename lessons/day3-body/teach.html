@@ -72,14 +72,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sub">Wash my face!</div>
 </div>
 
-<!-- S1: Hello -->
-<div class="sl bg-sky">
-<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Time to wash up!</div>
-<div class="sent">This is my ___!</div>
-</div>
-
-<!-- S2: Yesterday Review -->
+<!-- S1: Yesterday Review -->
 <div class="sl bg-lav">
 <div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png"><div class="bbl">Remember these?</div></div>
 <div style="display:flex;gap:14px;margin:10px 0;flex-wrap:wrap;justify-content:center">
@@ -136,9 +129,9 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S9: Tap to Reveal -->
+<!-- S8: Simon Says -->
 <div class="sl bg-sky">
-<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png"><div class="bbl">Tap to find body parts!</div></div>
+<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png" width="75"><div class="bbl">Simon says: Touch your...</div></div>
 <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
 <div class="reveal-box" id="rb0" onclick="reveal(0)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f600.svg" width="75"></div>
 <div class="reveal-box" id="rb1" onclick="reveal(1)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" width="75"></div>
@@ -146,7 +139,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="reveal-box" id="rb3" onclick="reveal(3)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" width="75"></div>
 <div class="reveal-box" id="rb4" onclick="reveal(4)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" width="75"></div>
 </div>
-<div class="sent" id="revSent">Tap a box!</div>
+<div class="sent" id="revSent">Tap to play!</div>
 </div>
 
 <!-- S10: All Together -->
@@ -181,7 +174,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['head','eyes','ears','nose','mouth'];
 var N={"0":"Story: Morning Routine · Wash face with Peppa","1":"Peppa wakes up and washes her face","2":"Quick review: cat, dog, fish from yesterday","3":"This is my head! · Repeat 3x","4":"This is my eyes! · Repeat 3x","5":"This is my ears! · Repeat 3x","6":"This is my nose! · Repeat 3x","7":"This is my mouth! · Repeat 3x","8":"Tap each button to hear · Can tap multiple times","9":"Tap gray boxes to reveal · Ask: What body part?","10":"Point randomly: What is this? · Go faster","11":"Say bye to each body part!"};
-var c=0,t=12,o=false;
+var c=0,t=11,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';

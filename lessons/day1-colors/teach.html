@@ -76,13 +76,6 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sub">A day full of colors!</div>
 </div>
 
-<!-- S1: Hello -->
-<div class="sl bg-sky">
-<img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Come with me!</div>
-<div class="sent">Let's find colors today!</div>
-</div>
-
 <!-- S2: Red Dress -->
 <div class="sl bg-red">
 <div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png"><div class="bbl">It's red!</div></div>
@@ -174,8 +167,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['red','blue','yellow','green','orange'];
 var clrs=[['red','#e74c3c'],['blue','#3498db'],['yellow','#f1c40f'],['green','#27ae60'],['orange','#e67e22']];
-var N={"0":"Story: Peppa's Colorful Day · 5 colors in her day","1":"Peppa invites you: Come with me!","2":"Peppa wears a red dress · It's red!","3":"Look at the blue sky · It's blue!","4":"Peppa plays with a yellow ball · It's yellow!","5":"Run on green grass · It's green!","6":"Eat an orange for snack · It's orange!","7":"Tap color buttons to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What color?","9":"Review all colors from Peppa's day","10":"Say goodbye · Preview tomorrow: zoo visit!"};
-var c=0,t=11,o=false;
+var N={"0":"Story: Peppa's Colorful Day · 5 colors in her day","1":"Peppa wears a red dress · It's red!","2":"Peppa wears a red dress · It's red!","3":"Look at the blue sky · It's blue!","4":"Peppa plays with a yellow ball · It's yellow!","5":"Run on green grass · It's green!","6":"Eat an orange for snack · It's orange!","7":"Tap color buttons to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What color?","9":"Review all colors from Peppa's day","10":"Say goodbye · Preview tomorrow: zoo visit!"};
+var c=0,t=10,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';

@@ -71,14 +71,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sub">Let's see the animals!</div>
 </div>
 
-<!-- S1: Hello -->
-<div class="sl bg-sky">
-<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Come to the zoo!</div>
-<div class="sent">I see a ___!</div>
-</div>
-
-<!-- S2: Cat -->
+<!-- S1: Cat -->
 <div class="sl bg-cat">
 <div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">I see a cat!</div></div>
 <div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="160"></div>
@@ -125,17 +118,17 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S8: Tap to Reveal -->
-<div class="sl bg-sky">
-<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png"><div class="bbl">Tap to find animals!</div></div>
-<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
-<div class="reveal-box" id="rb0" onclick="reveal(0)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="75"></div>
-<div class="reveal-box" id="rb1" onclick="reveal(1)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="75"></div>
-<div class="reveal-box" id="rb2" onclick="reveal(2)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="75"></div>
-<div class="reveal-box" id="rb3" onclick="reveal(3)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="75"></div>
-<div class="reveal-box" id="rb4" onclick="reveal(4)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="75"></div>
+<!-- S7: Animal Sounds -->
+<div class="sl bg-lav">
+<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png" width="75"><div class="bbl">Listen to the sounds!</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:10px 0">
+<div style="text-align:center"><button class="sound-btn" onclick="playSound(0)">🐱</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">cat</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playSound(1)">🐶</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">dog</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playSound(2)">🐟</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">fish</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playSound(3)">🐦</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">bird</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playSound(4)">🦆</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">duck</div></div>
 </div>
-<div class="sent" id="revSent">Tap a box!</div>
+<div class="sent" id="soundFb">Tap to hear!</div>
 </div>
 
 <!-- S9: All Together -->
@@ -170,14 +163,14 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['cat','dog','fish','bird','duck'];
 var N={"0":"Story: Visit the Zoo · See animals with Peppa","1":"Peppa invites you to the zoo!","2":"What animal? → I see a cat! · Repeat 3x","3":"I see a dog! · Repeat 3x","4":"I see a fish! · Repeat 3x","5":"I see a bird! · Repeat 3x","6":"I see a duck! · Repeat 3x","7":"Tap each button to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What animal?","9":"Point randomly: What animal? · Go faster","10":"Say bye to each animal!"};
-var c=0,t=11,o=false;
+var c=0,t=10,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
   var a=new Audio(primary);a.play().catch(function(){});
 }
 function playWord(i){speak(words[i])}
-function reveal(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');document.getElementById('revSent').textContent="I see a "+words[j]+'!';speak(words[j])}
+function playSound(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');document.getElementById('soundFb').textContent="I see a "+words[j]+'!';speak(words[j])}
 function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
 function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
