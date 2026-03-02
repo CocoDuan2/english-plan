@@ -96,8 +96,15 @@
 - Review 游戏: Learn (slide-right) → Road Trip (听词点地方) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 14 - Rainbow Colors
+## Day 14 - Rainbow Colors
 - 新词: pink, purple, white, black, brown
 - 句式: It's ___!
-- 互动: Color Mixing → Color Hunt → Color Parade
+- Teach 互动: Color Mixing → Color Hunt → Color Parade
+- Review 游戏: Learn (fade-in) → Rainbow Paint (听词涂彩虹) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 15 - Garden Walk
+- 新词: tree, flower, grass, rock, water
+- 句式: I see a ___!
+- 互动: Garden Map → Nature Hunt → Garden Parade
