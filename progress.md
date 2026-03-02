@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 18 - Daily Actions ✅
-- 更新时间: 2026-03-02 23:38
+- 当前: Day 19 - My Room ✅
+- 更新时间: 2026-03-03 00:29
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -131,8 +131,15 @@
 - Review 游戏: Learn (reveal) → Daily Routine (按顺序点) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 19 - My Room
+## Day 19 - My Room
 - 新词: bed, door, window, chair, table
 - 句式: It's in the ___!
-- 互动: Room Tour → Find Objects → Room Parade
+- Teach 互动: Room Tour → Find Objects → Room Parade
+- Review 游戏: Learn (reveal) → Room Builder (听词布置房间) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 20 - Outside Fun
+- 新词: sky, sun, tree, grass, flower
+- 句式: I see the ___!
+- 互动: Nature Walk → Sky & Ground → Nature Parade
