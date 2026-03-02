@@ -151,7 +151,7 @@ function initM1(){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
         svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
     }).join('')+'</div>';
-  setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
+  speak('Tap to find colors');setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
 }
 function lnTap(i){
   var c=document.getElementById('lc'+i);
@@ -178,7 +178,7 @@ function renderPJ(){
   }
   var tgt=W[pjOrd[pjI]];
   setI('Jump in '+tgt.w+'!','跳进 '+tgt.w+' 的泥坑！',stars(pjS,5));
-  speak(tgt.w);
+  speak('Jump in '+tgt.w);
   document.getElementById('m2').innerHTML=
     '<div class="pr"><img src="'+PP+'peppa-and-george-ooo.png" width="75"><div class="bbl">Jump in '+tgt.w+'!</div></div>'+
     '<div class="puddle-row">'+W.map(function(w,j){
@@ -219,7 +219,7 @@ function lfAsk(){
   var w=W[lfOrd[lfI]];
   setI('Find '+w.w+'!','点一点，哪个是 '+w.w+'？',stars(lfS,5));
   document.getElementById('lfBbl').textContent='Where is '+w.w+'?';
-  speak(w.w);
+  speak('Find '+w.w);
 }
 function lfTap(i){
   if(lfB||lfI>=W.length)return;lfB=true;
