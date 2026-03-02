@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 7 - Toy Box Fun ✅
-- 更新时间: 2026-03-02 18:31
+- 当前: Day 8 - Big and Small ✅
+- 更新时间: 2026-03-02 18:37
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -54,8 +54,15 @@
 - Review 游戏: Learn (bounce-in) → Toy Box Sort (点击放入箱子) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 8 - Big and Small
+## Day 8 - Big and Small
 - 新词: big, small, long, short, round
 - 句式: It's ___!
-- 互动: Size Compare → Sorting Game → Size Parade
+- Teach 互动: Size Compare → Sorting Game → Size Parade
+- Review 游戏: Learn (scale-reveal) → Size Match (听词找图) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 9 - Counting Game
+- 新词: one, two, three, four, five
+- 句式: I have ___!
+- 互动: Counting Fingers → Number Hunt → Number Parade

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 8 - Big and Small</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-size{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
+.bg-compare{background:linear-gradient(180deg,#e3f2fd,#bbdefb)}
+.bg-word{background:linear-gradient(180deg,#fff3e0,#ffe0b2)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.compare-wrap{display:flex;align-items:flex-end;gap:30px;margin:16px 0}
+/* S7: Size Compare */
+.compare-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px;margin:16px 0}
+.compare-btn{width:110px;height:110px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s;background:#fff}
+.compare-btn:active{transform:scale(.9)}
+.compare-btn .clabel{font-size:18px;font-weight:700;color:#2c3e50}
+/* S8: Sorting Game */
+.sort-wrap{display:flex;gap:40px;justify-content:center;margin:16px 0}
+.sort-bucket{width:140px;min-height:160px;background:linear-gradient(180deg,#a5d6a7,#66bb6a);border-radius:0 0 20px 20px;border:4px solid #43a047;display:flex;flex-direction:column;align-items:center;padding:12px 8px;gap:8px;position:relative}
+.sort-bucket::before{content:attr(data-label);position:absolute;top:-34px;left:50%;transform:translateX(-50%);background:#43a047;color:#fff;padding:6px 16px;border-radius:10px 10px 0 0;font-size:18px;font-weight:700;white-space:nowrap}
+.sort-items{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:16px 0}
+.sort-btn{width:90px;height:90px;background:#fff;border-radius:16px;border:3px solid #66bb6a;box-shadow:0 4px 10px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all .2s}
+.sort-btn:active{transform:scale(.92)}
+.sort-btn.used{opacity:.3;pointer-events:none}
+.sort-btn .slabel{font-size:14px;font-weight:700;color:#2c3e50}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#66bb6a;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(102,187,106,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#66bb6a;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.compare-btn{width:80px;height:80px}.compare-btn .clabel{font-size:14px}
+.sort-bucket{width:110px;min-height:120px}.sort-btn{width:75px;height:75px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-size on">
+<div class="pr big"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig"></div>
+<div class="ttl">Big and Small</div>
+<div class="sub">Let's compare things!</div>
+<div class="compare-wrap" style="margin-top:20px">
+<svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#66bb6a"/><circle cx="60" cy="70" r="6" fill="#333"/><circle cx="100" cy="70" r="6" fill="#333"/><path d="M60 100 Q80 120 100 100" stroke="#333" stroke-width="4" fill="none"/></svg>
+<svg width="40" height="40" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#42a5f5"/><circle cx="60" cy="70" r="6" fill="#333"/><circle cx="100" cy="70" r="6" fill="#333"/><path d="M60 100 Q80 120 100 100" stroke="#333" stroke-width="4" fill="none"/></svg>
+<svg width="80" height="30" viewBox="0 0 200 60"><rect x="5" y="10" width="190" height="40" rx="20" fill="#ff7043"/><circle cx="30" cy="30" r="5" fill="#333"/><circle cx="170" cy="30" r="5" fill="#333"/></svg>
+<svg width="40" height="30" viewBox="0 0 100 60"><rect x="5" y="10" width="90" height="40" rx="20" fill="#ab47bc"/><circle cx="25" cy="30" r="5" fill="#333"/><circle cx="75" cy="30" r="5" fill="#333"/></svg>
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#ffa726"/><circle cx="60" cy="65" r="6" fill="#333"/><circle cx="100" cy="65" r="6" fill="#333"/><path d="M60 100 Q80 115 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-compare">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:52px">Let's find big and small things!</div>
+</div>
+
+<!-- S2: big -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">It's big!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#66bb6a"/><circle cx="58" cy="68" r="7" fill="#333"/><circle cx="102" cy="68" r="7" fill="#333"/><path d="M55 100 Q80 125 105 100" stroke="#333" stroke-width="4" fill="none"/></svg>
+</div>
+<div class="word" style="color:#2e7d32">big</div>
+</div>
+
+<!-- S3: small -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">It's small!</div>
+</div>
+<div class="obj-wrap">
+<svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#42a5f5"/><circle cx="60" cy="70" r="6" fill="#333"/><circle cx="100" cy="70" r="6" fill="#333"/><path d="M60 100 Q80 118 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>
+</div>
+<div class="word" style="color:#1565c0">small</div>
+</div>
+
+<!-- S4: long -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">It's long!</div>
+</div>
+<div class="obj-wrap">
+<svg width="240" height="60" viewBox="0 0 300 60"><rect x="5" y="5" width="290" height="50" rx="25" fill="#ff7043"/><circle cx="40" cy="30" r="6" fill="#333"/><circle cx="260" cy="30" r="6" fill="#333"/><path d="M140 38 Q150 46 160 38" stroke="#333" stroke-width="2" fill="none"/></svg>
+</div>
+<div class="word" style="color:#e65100">long</div>
+</div>
+
+<!-- S5: short -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">It's short!</div>
+</div>
+<div class="obj-wrap">
+<svg width="100" height="60" viewBox="0 0 120 60"><rect x="5" y="5" width="110" height="50" rx="25" fill="#ab47bc"/><circle cx="30" cy="30" r="5" fill="#333"/><circle cx="90" cy="30" r="5" fill="#333"/><path d="M50 38 Q60 44 70 38" stroke="#333" stroke-width="2" fill="none"/></svg>
+</div>
+<div class="word" style="color:#7b1fa2">short</div>
+</div>
+
+<!-- S6: round -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+<div class="bbl">It's round!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#ffa726"/><circle cx="60" cy="65" r="6" fill="#333"/><circle cx="100" cy="65" r="6" fill="#333"/><path d="M60 100 Q80 115 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>
+</div>
+<div class="word" style="color:#e65100">round</div>
+</div>
+
+<!-- S7: Size Compare - Listen & Say -->
+<div class="sl bg-size">
+<div class="ttl">Size Compare</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">What size is it?</div>
+</div>
+<div class="compare-grid" id="compareGrid"></div>
+</div>
+
+<!-- S8: Sorting Game -->
+<div class="sl bg-compare">
+<div class="ttl">Sorting Game!</div>
+<div class="pr">
+<img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
+<div class="bbl">Tap to sort!</div>
+</div>
+<div class="sort-items" id="sortItems"></div>
+<div class="sort-wrap">
+<div class="sort-bucket" data-label="BIG" id="bucketBig"></div>
+<div class="sort-bucket" data-label="SMALL" id="bucketSmall" style="background:linear-gradient(180deg,#90caf9,#42a5f5);border-color:#1e88e5"></div>
+</div>
+</div>
+
+<!-- S9: All Together - Size Parade -->
+<div class="sl bg-size">
+<div class="ttl">Size Parade</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid">
+<div class="all-item">
+<svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#66bb6a"/><circle cx="58" cy="68" r="7" fill="#333"/><circle cx="102" cy="68" r="7" fill="#333"/><path d="M55 100 Q80 125 105 100" stroke="#333" stroke-width="4" fill="none"/></svg>
+<div class="all-label">big</div>
+</div>
+<div class="all-item">
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#42a5f5"/><circle cx="60" cy="70" r="6" fill="#333"/><circle cx="100" cy="70" r="6" fill="#333"/><path d="M60 100 Q80 118 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>
+<div class="all-label">small</div>
+</div>
+<div class="all-item">
+<svg width="100" height="40" viewBox="0 0 300 60"><rect x="5" y="5" width="290" height="50" rx="25" fill="#ff7043"/><circle cx="40" cy="30" r="6" fill="#333"/><circle cx="260" cy="30" r="6" fill="#333"/></svg>
+<div class="all-label">long</div>
+</div>
+<div class="all-item">
+<svg width="50" height="40" viewBox="0 0 120 60"><rect x="5" y="5" width="110" height="50" rx="25" fill="#ab47bc"/><circle cx="30" cy="30" r="5" fill="#333"/><circle cx="90" cy="30" r="5" fill="#333"/></svg>
+<div class="all-label">short</div>
+</div>
+<div class="all-item">
+<svg width="70" height="70" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#ffa726"/><circle cx="60" cy="65" r="6" fill="#333"/><circle cx="100" cy="65" r="6" fill="#333"/><path d="M60 100 Q80 115 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>
+<div class="all-label">round</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-compare">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Big or small, we love them all!</div>
+<div class="sub">Great job today!</div>
+<div style="font-size:34px;font-weight:700;color:#e67e22;margin-top:20px">Tomorrow: Counting Game!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=11;
+var CL=[
+{w:'big',color:'#2e7d32',svg:'<svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#66bb6a"/><circle cx="58" cy="68" r="7" fill="#333"/><circle cx="102" cy="68" r="7" fill="#333"/><path d="M55 100 Q80 125 105 100" stroke="#333" stroke-width="4" fill="none"/></svg>',size:70,cat:'big'},
+{w:'small',color:'#1565c0',svg:'<svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#42a5f5"/><circle cx="60" cy="70" r="6" fill="#333"/><circle cx="100" cy="70" r="6" fill="#333"/><path d="M60 100 Q80 118 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>',size:40,cat:'small'},
+{w:'long',color:'#e65100',svg:'<svg viewBox="0 0 300 60"><rect x="5" y="5" width="290" height="50" rx="25" fill="#ff7043"/><circle cx="40" cy="30" r="6" fill="#333"/><circle cx="260" cy="30" r="6" fill="#333"/></svg>',size:60,cat:'big'},
+{w:'short',color:'#7b1fa2',svg:'<svg viewBox="0 0 120 60"><rect x="5" y="5" width="110" height="50" rx="25" fill="#ab47bc"/><circle cx="30" cy="30" r="5" fill="#333"/><circle cx="90" cy="30" r="5" fill="#333"/></svg>',size:60,cat:'small'},
+{w:'round',color:'#e65100',svg:'<svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#ffa726"/><circle cx="60" cy="65" r="6" fill="#333"/><circle cx="100" cy="65" r="6" fill="#333"/><path d="M60 100 Q80 115 100 100" stroke="#333" stroke-width="3" fill="none"/></svg>',size:60,cat:'big'}
+];
+var N={
+0:'Title: Big and Small. Daddy Pig is big! Show size comparison SVGs.',
+1:'Hello: Peppa invites us to find big and small things around the house!',
+2:'New word: big. Daddy Pig is big! "It\'s big!" Have kids stretch arms wide.',
+3:'New word: small. George is small! "It\'s small!" Have kids show tiny with fingers.',
+4:'New word: long. Mummy\'s scarf is long! "It\'s long!" Have kids stretch arms out.',
+5:'New word: short. Candy Cat\'s tail is short! "It\'s short!" Show short with hands.',
+6:'New word: round. A ball is round! "It\'s round!" Draw circle in the air.',
+7:'Size Compare: Tap each shape to hear the size word. Ask "Is it big or small?"',
+8:'Sorting Game: Tap items to sort into BIG or SMALL buckets. Fun categorization!',
+9:'Size Parade: All 5 size words displayed. Point randomly and ask "What is it?"',
+10:'Bye: Great job! Tomorrow we count things!'
+};
+function speak(txt){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web').play().catch(function(){})});
+}
+function showConfetti(){var w=document.createElement("div");w.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999";var colors=["#66bb6a","#42a5f5","#ff7043","#ab47bc","#ffa726"];for(var i=0;i<20;i++){var p=document.createElement("div");p.style.cssText="position:absolute;width:"+(6+Math.random()*8)+"px;height:"+(6+Math.random()*8)+"px;border-radius:50%;left:"+Math.random()*100+"%;top:"+Math.random()*30+"%;background:"+colors[i%5]+";animation:cfall 1.2s ease-out "+Math.random()*.3+"s forwards;opacity:0";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+// S7: Size Compare
+var compareInit=false;
+function initCompare(){
+if(compareInit)return;compareInit=true;
+var g=document.getElementById('compareGrid');g.innerHTML='';
+CL.forEach(function(item){
+var b=document.createElement('div');b.className='compare-btn';b.style.border='3px solid '+item.color;
+b.innerHTML='<div style="width:'+item.size+'px;height:'+item.size+'px">'+item.svg+'</div><div class="clabel">'+item.w+'</div>';
+b.onclick=function(){speak(item.w);b.style.animation='bounce .5s ease';setTimeout(function(){b.style.animation=''},600)};
+g.appendChild(b);
+});
+}
+// S8: Sorting Game
+var sortInit=false,sortRound=0,sortOrder=[];
+function initSort(){
+if(sortInit)return;sortInit=true;
+sortOrder=CL.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var items=document.getElementById('sortItems');items.innerHTML='';
+CL.forEach(function(item,i){
+var b=document.createElement('div');b.className='sort-btn';b.dataset.idx=i;
+b.innerHTML='<div style="width:50px;height:50px">'+item.svg+'</div><div class="slabel">'+item.w+'</div>';
+b.onclick=function(){checkSort(i,b)};
+items.appendChild(b);
+});
+highlightSort();
+}
+function highlightSort(){
+if(sortRound>=CL.length)return;
+var idx=sortOrder[sortRound];
+speak(CL[idx].w);
+}
+function checkSort(idx,btn){
+if(sortRound>=CL.length)return;
+var correct=sortOrder[sortRound];
+if(idx===correct){
+btn.classList.add('used');
+var item=CL[idx];
+var bucket=document.getElementById(item.cat==='big'?'bucketBig':'bucketSmall');
+var slot=document.createElement('div');slot.style.cssText='width:40px;height:40px';slot.innerHTML=item.svg;
+bucket.appendChild(slot);
+speak(item.w);showConfetti();
+sortRound++;
+setTimeout(function(){if(sortRound<CL.length)highlightSort()},1200);
+}
+}
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initCompare();
+if(c===8)initSort();
+}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+<style>@keyframes cfall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}@keyframes bounce{0%{transform:translateY(0)}30%{transform:translateY(-20px)}60%{transform:translateY(-10px)}100%{transform:translateY(0)}}</style>
+</body>
+</html>
