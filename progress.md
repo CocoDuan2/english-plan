@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 4 - Peppa's Picnic ✅
-- 更新时间: 2026-03-02 16:30
+- 当前: Day 1 - Peppa's Colorful Day ✅
+- 更新时间: 2026-03-02 16:33
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -12,29 +12,8 @@
 - Review 游戏: Learn → Jump in Puddles → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## Day 2 - Visit the Zoo
+## 下一课
+- Day 2 - Visit the Zoo
 - 新词: cat, dog, fish, bird, duck
 - 句式: I see a ___!
-- Teach 互动: Animal Sounds → Zoo Map → Animal Parade
-- Review 游戏: Learn → Match Animals → Listen & Find → Memory Match
-- 状态: ✅ 完成
-
-## Day 3 - Morning Routine
-- 新词: head, eyes, ears, nose, mouth
-- 句式: This is my ___!
-- Teach 互动: Mirror Game → Wash Sequence → Body Check
-- Review 游戏: Learn → Touch Your Body → Listen & Find → Memory Flip
-- 状态: ✅ 完成
-
-## Day 4 - Peppa's Picnic
-- 新词: apple, banana, milk, bread, egg
-- 句式: I like ___!
-- Teach 互动: Picnic Basket → Pack the Basket → Picnic Spread
-- Review 游戏: Learn → Picnic Sort → Listen & Find → Memory Flip
-- 状态: ✅ 完成
-
-## 下一课
-- Day 5 - Family Photo Day
-- 新词: mom, dad, baby, brother, sister
-- 句式: This is my ___!
-- 互动: Family Tree → Photo Album → Family Portrait
+- 互动: Animal Sounds → Zoo Map → Animal Parade
