@@ -178,7 +178,7 @@ function renderPJ(){
   }
   var tgt=W[pjOrd[pjI]];
   setI('Jump in '+tgt.w+'!','跳进 '+tgt.w+' 的泥坑！',stars(pjS,5));
-  speak('Jump in '+tgt.w);
+  speak(tgt.w);
   document.getElementById('m2').innerHTML=
     '<div class="pr"><img src="'+PP+'peppa-and-george-ooo.png" width="75"><div class="bbl">Jump in '+tgt.w+'!</div></div>'+
     '<div class="puddle-row">'+W.map(function(w,j){
@@ -190,7 +190,7 @@ function pjTap(j){
   if(j===pjOrd[pjI]){
     playOk();pjS++;pjI++;pepBounce();
     setI("Splash! It's "+W[j].w+'!','答对啦！跳进 '+W[j].w+' 啦！',stars(pjS,5));
-    speak("It's "+W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
+    speak("Jump in "+W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
   }else{
     playNo();
     setI('Try again!','再试一次！哪个是 '+W[pjOrd[pjI]].w+'？',stars(pjS,5));
