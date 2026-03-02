@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 29 - Shopping Trip ✅
-- 更新时间: 2026-03-03 05:49
+- 当前: Day 30 - Doctor Visit ✅
+- 更新时间: 2026-03-03 06:04
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -208,8 +208,15 @@
 - Review 游戏: Learn (reveal) → Shopping Game (听词买东西) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 30 - Doctor Visit
+## Day 30 - Doctor Visit
 - 新词: doctor, nurse, sick, medicine, better
 - 句式: I am ___!
-- 互动: Listen & Say → Doctor's Office → All Together
+- Teach 互动: Listen & Say → Doctor's Office → All Together
+- Review 游戏: Learn (reveal) → Clinic Game (听词点图) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 31 - Helping at Home
+- 新词: clean, wash, help, tidy, sweep
+- 句式: I can ___!
+- 互动: Listen & Say → Chore Helper → All Together
