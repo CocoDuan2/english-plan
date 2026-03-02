@@ -1,7 +1,7 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 5 - Family (已完成)
+- 当前: Day 6 - Clothes (已完成)
 - 重置日期: 2026-03-02
 - 课程体系: RAZ递进式，无复习日，词汇不重复
 - 视觉: 颜色主题用SVG，其他主题用Twemoji
@@ -36,8 +36,14 @@
 - 视觉: Twemoji CDN
 - 状态: ✅ 完成
 
-## 下一课
-- Day 6 - Clothes 👕
+## Day 6 - Clothes 👕
 - 新词: hat, shoes, shirt, pants, socks
 - 句式: I have ___!
+- 视觉: Twemoji CDN
+- 状态: ✅ 完成
+
+## 下一课
+- Day 7 - Toys 🧸
+- 新词: ball, car, doll, bear, block
+- 句式: I like my ___!
 - 视觉: Twemoji CDN
