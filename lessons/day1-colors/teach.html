@@ -78,7 +78,6 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="ttl" style="font-size:52px">Hello! Let's play!</div>
 <div style="font-size:48px;margin-top:12px">👋</div>
 </div>
-</div>
 
 <!-- S2: Red -->
 <div class="sl bg-red">
@@ -165,13 +164,13 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="pop" id="P"><div id="B"></div></div>
 <div class="nav">
 <button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
-<div><div class="np" id="pg">1/10</div></div>
+<div><div class="np" id="pg">1/11</div></div>
 <button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
 </div>
 <script>
 var words=['red','blue','yellow','green','orange'];
 var N={"0":"Story: Peppa's Colorful Day","1":"Hello! Let's play!","2":"Red apple · It's red!","3":"Blue car · It's blue!","4":"Yellow ball · It's yellow!","5":"Green grass · It's green!","6":"Orange fruit · It's orange!","7":"Tap color buttons to hear","8":"Tap balloons to hear colors","9":"Point randomly: What color?","10":"Bye! Tomorrow: zoo visit"};
-var c=0,t=10,o=false;
+var c=0,t=11,o=false;
 function speak(txt){var isSent=txt.indexOf(' ')>-1;var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(primary);a.play().catch(function(){})}
 function playWord(i){speak(words[i])}
 function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
