@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 - Animals (Review)</title>
+<style>
+:root{--tip-accent:#4CAF50;--tip-bg:#e8f5e9}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#A8E6CF 0%,#DCEDC1 60%,#FFD3B6 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
+.top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.ie{font-size:26px;font-weight:800;color:#e91e8c}
+.iz{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.sb{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#A8E6CF,#4CAF50);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(76,175,80,.3);transition:transform .2s;margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes pepBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.pep-bounce{animation:pepBounce .4s ease 2}
+</style>
+</head>
+<body>
+<div class="main">
+<div class="top-bar">
+<div class="ie" id="ie">Peppa's Zoo Day!</div>
+<div class="iz" id="iz"></div>
+<div class="sb" id="sb"></div>
+</div>
+<div class="mod on" id="m0"></div>
+<div class="mod" id="m1"></div>
+<div class="mod" id="m2"></div>
+<div class="mod" id="m3"></div>
+<div class="mod" id="m4"></div>
+<div class="mod" id="m5"></div>
+<div class="mod" id="m6"></div>
+</div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/7</div></div>
+<button class="nb" id="xb" onclick="goM(1)">Next &#9654;</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var W=[
+  {w:'cat',emoji:'🐱',tw:'1f431'},
+  {w:'dog',emoji:'🐶',tw:'1f436'},
+  {w:'fish',emoji:'🐟',tw:'1f41f'},
+  {w:'bird',emoji:'🐦',tw:'1f426'},
+  {w:'duck',emoji:'🦆',tw:'1f986'}
+];
+var YW=[
+  {w:'red',clr:'#e74c3c',svg:'<circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/>'},
+  {w:'blue',clr:'#3498db',svg:'<rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/>'},
+  {w:'yellow',clr:'#f1c40f',svg:'<circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/>'}
+];
+function twImg(code,sz){return '<img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/'+code+'.svg" width="'+(sz||90)+'">';}
+function svgY(i,sz){return '<svg width="'+(sz||70)+'" height="'+(sz||70)+'" viewBox="0 0 160 160">'+YW[i].svg+'</svg>';}
+var cur=0,actx=null,score=0,totalQ=0;
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function speak(t,cb){
+  var u='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var done=false;function fin(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio(u);a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin);
+}
+function speakSent(t,cb){
+  var u='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+  var done=false;function fin(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio(u);a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin);
+}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
+function playNo(){tone(300,.3)}
+function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#4CAF50","#FF9800","#2196F3","#E91E63","#9C27B0","#FFEB3B"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%6];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
+function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'🩶';return s}
+function pepBounce(){var el=document.querySelector('.mod.on img[src*=peppa]');if(el){el.classList.remove('pep-bounce');void el.offsetWidth;el.classList.add('pep-bounce')}}
+function goM(d){
+  var nx=cur+d;if(nx<0||nx>6)return;
+  document.getElementById('m'+cur).classList.remove('on');
+  cur=nx;document.getElementById('m'+cur).classList.add('on');
+  document.getElementById('pg').textContent=(cur+1)+'/7';
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('xb').disabled=cur===6;
+  if(cur===1)initM1();if(cur===2)initM2();if(cur===3)initM3();if(cur===4)initM4();if(cur===5)initM5();if(cur===6)initM6();
+}
+
+// M0: Start
+(function(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'george-standing.png" width="140">'+
+    '<div class="pr"><div class="bbl">Let\'s play with animals!</div></div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0;font-size:50px">🐱🐶🐟🐦🦆</div>'+
+    '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
+  setI("Peppa's Zoo Day!",'和佩琪去动物园玩！','');
+})();
+
+// M1: Yesterday Micro-Review (colors)
+var yr=0,yBusy=false;
+function initM1(){
+  yr=0;yBusy=false;
+  var sh=shuffle([0,1,2]);
+  document.getElementById('m1').yOrder=sh;
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="80"><div class="bbl">Remember colors?</div></div>';
+  h+='<div id="yq" style="margin:10px 0;font-size:26px;font-weight:700;color:#2c3e50">Tap the '+YW[sh[0]].w+' one!</div>';
+  h+='<div style="display:flex;gap:16px;margin:10px 0">';
+  for(var i=0;i<3;i++) h+='<div onclick="yTap('+i+')" style="cursor:pointer;border-radius:16px;padding:10px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);min-width:90px;min-height:90px;display:flex;align-items:center;justify-content:center" id="yc'+i+'">'+svgY(i,80)+'</div>';
+  h+='</div><div id="yfb" style="font-size:22px;font-weight:700;margin:8px 0;min-height:30px"></div>';
+  document.getElementById('m1').innerHTML=h;
+  setI("Peppa's Zoo Day!",'还记得昨天的颜色吗？',stars(0,3));
+}
+function yTap(i){
+  if(yBusy)return;yBusy=true;
+  var sh=document.getElementById('m1').yOrder;
+  var correct=sh[yr];
+  if(i===correct){
+    playOk();yr++;score++;totalQ++;
+    document.getElementById('yfb').textContent="It's "+YW[correct].w+'! ✓';
+    document.getElementById('yc'+i).style.border='4px solid #4CAF50';
+    setI("Peppa's Zoo Day!",'还记得昨天的颜色吗？',stars(yr,3));
+    if(yr>=3){setTimeout(function(){document.getElementById('yfb').textContent='Great! Now let\'s learn animals!';yBusy=false},1000);return}
+    setTimeout(function(){
+      document.getElementById('yq').textContent='Tap the '+YW[sh[yr]].w+' one!';
+      for(var j=0;j<3;j++)document.getElementById('yc'+j).style.border='none';
+      document.getElementById('yfb').textContent='';yBusy=false;
+    },1200);
+  } else {
+    playNo();totalQ++;
+    document.getElementById('yfb').textContent='Try again!';
+    document.getElementById('yc'+i).style.opacity='.4';
+    setTimeout(function(){document.getElementById('yc'+i).style.opacity='1';document.getElementById('yfb').textContent='';yBusy=false},800);
+  }
+}
+
+// M2: Shadow Match
+var smOrder,smCur=0,smBusy=false;
+function initM2(){
+  smCur=0;smBusy=false;smOrder=shuffle([0,1,2,3,4]);
+  renderSM();
+  setI("Shadow Match!",'点一点，哪个是它的影子？',stars(0,5));
+}
+function renderSM(){
+  var idx=smOrder[smCur];
+  var opts=shuffle([0,1,2,3,4]);
+  var h='<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="80"><div class="bbl">Find the shadow!</div></div>';
+  h+='<div style="margin:10px 0">'+twImg(W[idx].tw,100)+'</div>';
+  h+='<div style="font-size:26px;font-weight:700;color:#2c3e50;margin:6px 0">'+W[idx].w+'</div>';
+  h+='<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
+  for(var i=0;i<opts.length;i++){
+    h+='<div onclick="smTap('+opts[i]+')" style="width:90px;height:90px;border-radius:16px;background:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:transform .2s" class="sh-opt">';
+    h+='<div style="filter:brightness(0);opacity:.7">'+twImg(W[opts[i]].tw,60)+'</div></div>';
+  }
+  h+='</div><div id="smfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  document.getElementById('m2').innerHTML=h;
+}
+function smTap(i){
+  if(smBusy)return;smBusy=true;
+  var correct=smOrder[smCur];
+  if(i===correct){
+    playOk();smCur++;score++;totalQ++;
+    document.getElementById('smfb').textContent='I see a '+W[correct].w+'! ✓';
+    setI("Shadow Match!",'点一点，哪个是它的影子？',stars(smCur,5));
+    if(smCur>=5){setTimeout(function(){document.getElementById('smfb').textContent='All found!';smBusy=false},1000);return}
+    setTimeout(function(){renderSM();smBusy=false},1200);
+  } else {
+    playNo();totalQ++;
+    document.getElementById('smfb').textContent='Not this one!';
+    setTimeout(function(){document.getElementById('smfb').textContent='';smBusy=false},800);
+  }
+}
+
+// M3: Feed the Animal (tap correct food)
+var fdOrder,fdCur=0,fdBusy=false;
+var foods=['🍎','🦴','🐛','🌾','🍞'];
+function initM3(){
+  fdCur=0;fdBusy=false;fdOrder=shuffle([0,1,2,3,4]);
+  renderFD();
+  setI("Feed Time!",'喂小动物吃东西！',stars(0,5));
+}
+function renderFD(){
+  var idx=fdOrder[fdCur];
+  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="80"><div class="bbl">Feed the '+W[idx].w+'!</div></div>';
+  h+='<div style="margin:10px 0">'+twImg(W[idx].tw,110)+'</div>';
+  h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
+  var opts=shuffle([0,1,2,3,4]);
+  for(var i=0;i<opts.length;i++){
+    h+='<div onclick="fdTap('+opts[i]+')" style="width:90px;height:90px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:transform .2s">'+foods[opts[i]]+'</div>';
+  }
+  h+='</div><div id="fdfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  document.getElementById('m3').innerHTML=h;
+}
+function fdTap(i){
+  if(fdBusy)return;fdBusy=true;
+  var correct=fdOrder[fdCur];
+  if(i===correct){
+    playOk();fdCur++;score++;totalQ++;
+    document.getElementById('fdfb').textContent='Yummy! The '+W[correct].w+' is happy!';
+    speakSent('I see a '+W[correct].w);
+    setI("Feed Time!",'喂小动物吃东西！',stars(fdCur,5));
+    if(fdCur>=5){setTimeout(function(){document.getElementById('fdfb').textContent='All fed!';fdBusy=false},1200);return}
+    setTimeout(function(){renderFD();fdBusy=false},1400);
+  } else {
+    playNo();totalQ++;
+    document.getElementById('fdfb').textContent='Wrong food! Try again!';
+    setTimeout(function(){document.getElementById('fdfb').textContent='';fdBusy=false},800);
+  }
+}
+
+// M4: Listen & Pick (3-choice)
+var lpOrder,lpCur=0,lpBusy=false;
+function initM4(){
+  lpCur=0;lpBusy=false;lpOrder=shuffle([0,1,2,3,4]);
+  renderLP();
+  setI("Listen & Find!",'听一听，找到对的动物！',stars(0,5));
+}
+function renderLP(){
+  var idx=lpOrder[lpCur];
+  speak(W[idx].w);
+  var opts=[idx];
+  while(opts.length<3){var r=Math.floor(Math.random()*5);if(opts.indexOf(r)===-1)opts.push(r)}
+  opts=shuffle(opts);
+  var h='<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" width="80"><div class="bbl">Which one?</div></div>';
+  h+='<div onclick="speak(\''+W[idx].w+'\')" style="width:80px;height:80px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin:8px 0">🔊</div>';
+  h+='<div style="display:flex;gap:16px;margin:14px 0">';
+  for(var i=0;i<opts.length;i++){
+    h+='<div onclick="lpTap('+opts[i]+')" style="width:120px;height:120px;border-radius:20px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.08);transition:transform .2s">'+twImg(W[opts[i]].tw,80)+'</div>';
+  }
+  h+='</div><div id="lpfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  document.getElementById('m4').innerHTML=h;
+}
+function lpTap(i){
+  if(lpBusy)return;lpBusy=true;
+  var correct=lpOrder[lpCur];
+  if(i===correct){
+    playOk();lpCur++;score++;totalQ++;
+    document.getElementById('lpfb').textContent='I see a '+W[correct].w+'! ✓';
+    setI("Listen & Find!",'听一听，找到对的动物！',stars(lpCur,5));
+    if(lpCur>=5){setTimeout(function(){document.getElementById('lpfb').textContent='All correct!';lpBusy=false},1000);return}
+    setTimeout(function(){renderLP();lpBusy=false},1200);
+  } else {
+    playNo();totalQ++;
+    speak(W[correct].w);
+    document.getElementById('lpfb').textContent='That\'s a '+W[i].w+'. Try again!';
+    setTimeout(function(){document.getElementById('lpfb').textContent='';lpBusy=false},1000);
+  }
+}
+
+// M5: Sequence Game (put animals in order)
+var seqTarget,seqPicked,seqBusy;
+function initM5(){
+  seqTarget=shuffle([0,1,2,3,4]);seqPicked=[];seqBusy=false;
+  renderSeq();
+  setI("Animal Parade!",'按顺序排好小动物！',stars(0,5));
+}
+function renderSeq(){
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" width="80"><div class="bbl">Tap in order!</div></div>';
+  h+='<div style="display:flex;gap:8px;margin:10px 0">';
+  for(var i=0;i<5;i++){
+    if(i<seqPicked.length){
+      h+='<div style="width:80px;height:80px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1)">'+twImg(W[seqTarget[i]].tw,55)+'</div>';
+    } else if(i===seqPicked.length){
+      h+='<div style="width:80px;height:80px;border-radius:16px;border:3px dashed #4CAF50;display:flex;align-items:center;justify-content:center;font-size:28px;color:#4CAF50">?</div>';
+    } else {
+      h+='<div style="width:80px;height:80px;border-radius:16px;border:3px dashed #ddd;display:flex;align-items:center;justify-content:center;font-size:28px;color:#ddd">?</div>';
+    }
+  }
+  h+='</div>';
+  // Show target word
+  if(seqPicked.length<5){
+    var tIdx=seqTarget[seqPicked.length];
+    h+='<div style="font-size:26px;font-weight:700;color:#2c3e50;margin:8px 0">Find: '+W[tIdx].w+'</div>';
+    // Shuffled options
+    var avail=[];for(var i=0;i<5;i++){if(seqPicked.indexOf(i)===-1)avail.push(i)}
+    avail=shuffle(avail);
+    h+='<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
+    for(var i=0;i<avail.length;i++){
+      h+='<div onclick="seqTap('+avail[i]+')" style="width:90px;height:90px;border-radius:16px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.08)">'+twImg(W[avail[i]].tw,65)+'</div>';
+    }
+    h+='</div>';
+  }
+  h+='<div id="sqfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  document.getElementById('m5').innerHTML=h;
+}
+function seqTap(i){
+  if(seqBusy)return;seqBusy=true;
+  var expected=seqTarget[seqPicked.length];
+  if(i===expected){
+    playOk();seqPicked.push(i);score++;totalQ++;
+    speak(W[i].w);
+    setI("Animal Parade!",'按顺序排好小动物！',stars(seqPicked.length,5));
+    setTimeout(function(){
+      if(seqPicked.length>=5){
+        document.getElementById('sqfb').textContent='Parade complete!';
+        setTimeout(function(){goM(1)},1500);
+      } else {renderSeq()}
+      seqBusy=false;
+    },1000);
+  } else {
+    playNo();totalQ++;
+    document.getElementById('sqfb').textContent='Not that one!';
+    setTimeout(function(){document.getElementById('sqfb').textContent='';seqBusy=false},800);
+  }
+}
+
+// M6: Done
+function initM6(){
+  var h='<img src="'+PP+'peppa-family-group-outdoors.png" width="200" style="margin:10px 0">';
+  h+='<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>';
+  h+='<div style="font-size:26px;color:#2c3e50;margin:6px 0">Great zoo adventure!</div>';
+  h+='<div style="font-size:30px;margin:10px 0">'+stars(5,5)+'</div>';
+  h+='<button class="start-btn" onclick="location.reload()">Play Again</button>';
+  document.getElementById('m6').innerHTML=h;
+  setI("Peppa's Zoo Day!",'太棒了！全部完成！','⭐⭐⭐⭐⭐');
+  showConfetti();
+}
+
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t}return b}
+document.getElementById('pb').disabled=true;
+</script>
+</body>
+</html>
