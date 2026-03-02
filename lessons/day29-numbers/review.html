@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 29 - Numbers Game</title>
+<style>
+:root{--tip-accent:#e91e8c;--tip-bg:#fce4ec}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#F9ADC7 0%,#e91e8c 50%,#ffc107 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;min-height:100%;display:flex;flex-direction:column;align-items:center}
+.top{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.en{font-size:26px;font-weight:800;color:#e91e8c}
+.zh{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.st{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(233,30,140,.3);margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.y-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.y-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.y-card:active{transform:scale(.95)}
+.y-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.y-card.wrong{border-color:#ef5350;background:#ffebee}
+.y-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.candle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:440px;margin-top:10px}
+.candle-card{width:120px;height:120px;background:linear-gradient(145deg,#ffc107,#ff9800);border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;border:3px solid transparent;position:relative}
+.candle-card:active{transform:scale(.95)}
+.candle-card.on{background:#fff}
+.candle-card::before{content:'🕯️';font-size:36px;position:absolute}
+.candle-card.on::before{display:none}
+.candle-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px;opacity:0;transition:.2s}
+.candle-card.on .lb{opacity:1}
+.cake-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.cake-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.cake-card:active{transform:scale(.95)}
+.cake-card.correct{border-color:#66bb6a;background:#e8f5e9}
+.cake-card.wrong{border-color:#ef5350;background:#ffebee}
+.cake-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.hat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:440px;margin-top:10px}
+.hat-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:.2s;border:3px solid transparent}
+.hat-card:active{transform:scale(.95)}
+.hat-card.marked{border-color:#fdd835;background:#fffde7}
+.hat-card .lb{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.done-wrap img{width:160px;height:auto}
+.done-ttl{font-size:48px;font-weight:900;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.done-msg{font-size:22px;color:#ffeaa7;text-align:center}
+.play-again{font-size:28px;font-weight:700;padding:16px 48px;border:none;border-radius:32px;background:linear-gradient(135deg,#F9ADC7,#e91e8c);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,199,.4);margin-top:8px}
+.play-again:active{transform:scale(.95)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="top">
+    <div class="en" id="en">Birthday Party</div>
+    <div class="zh" id="zh"></div>
+    <div class="st" id="st"></div>
+  </div>
+  <div class="mod on" id="m0"></div>
+  <div class="mod" id="m1"></div>
+  <div class="mod" id="m2"></div>
+  <div class="mod" id="m3"></div>
+  <div class="mod" id="m4"></div>
+  <div class="mod" id="m5"></div>
+</div>
+<div class="nav">
+  <button class="nb" id="pb" onclick="go(-1)">Back</button>
+  <div class="np" id="pg">1/6</div>
+  <button class="nb" id="nb" onclick="go(1)">Next</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var NUMS=[
+  {w:'one',n:1,svg:'<rect x="68" y="60" width="24" height="70" rx="6" fill="#e91e8c"/><ellipse cx="80" cy="40" rx="12" ry="20" fill="#ff6f00"/>'},
+  {w:'two',n:2,svg:'<path d="M40 80 L80 40 L80 120 Z" fill="#ffc107"/><path d="M120 80 L80 40 L80 120 Z" fill="#ffc107"/><circle cx="50" cy="70" r="4" fill="#e91e8c"/><circle cx="110" cy="70" r="4" fill="#e91e8c"/>'},
+  {w:'three',n:3,svg:'<path d="M30 110 L50 50 L70 110 Z" fill="#ff9800"/><circle cx="50" cy="50" r="6" fill="#ffc107"/><path d="M60 110 L80 50 L100 110 Z" fill="#ff9800"/><circle cx="80" cy="50" r="6" fill="#ffc107"/><path d="M90 110 L110 50 L130 110 Z" fill="#ff9800"/><circle cx="110" cy="50" r="6" fill="#ffc107"/>'},
+  {w:'four',n:4,svg:'<rect x="25" y="60" width="30" height="30" rx="4" fill="#42a5f5"/><rect x="37" y="60" width="6" height="30" fill="#1e88e5"/><rect x="65" y="60" width="30" height="30" rx="4" fill="#42a5f5"/><rect x="77" y="60" width="6" height="30" fill="#1e88e5"/><rect x="105" y="60" width="30" height="30" rx="4" fill="#42a5f5"/><rect x="117" y="60" width="6" height="30" fill="#1e88e5"/><rect x="45" y="100" width="30" height="30" rx="4" fill="#42a5f5"/><rect x="57" y="100" width="6" height="30" fill="#1e88e5"/>'},
+  {w:'five',n:5,svg:'<ellipse cx="40" cy="50" rx="16" ry="22" fill="#e91e8c"/><path d="M40 72 L38 100" stroke="#666" stroke-width="2" fill="none"/><ellipse cx="70" cy="50" rx="16" ry="22" fill="#9c27b0"/><path d="M70 72 L68 100" stroke="#666" stroke-width="2" fill="none"/><ellipse cx="100" cy="50" rx="16" ry="22" fill="#42a5f5"/><path d="M100 72 L98 100" stroke="#666" stroke-width="2" fill="none"/><ellipse cx="55" cy="85" rx="16" ry="22" fill="#ffc107"/><path d="M55 107 L53 130" stroke="#666" stroke-width="2" fill="none"/><ellipse cx="85" cy="85" rx="16" ry="22" fill="#66bb6a"/><path d="M85 107 L83 130" stroke="#666" stroke-width="2" fill="none"/>'}
+];
+var YESTERDAY=[
+  {w:'head',sent:'This is my head!',svg:'<circle cx="80" cy="80" r="50" fill="#ff9800"/><circle cx="65" cy="70" r="6" fill="#424242"/><circle cx="95" cy="70" r="6" fill="#424242"/><path d="M60 95 Q80 105 100 95" stroke="#424242" stroke-width="3" fill="none"/>'},
+  {w:'nose',sent:'This is my nose!',svg:'<ellipse cx="80" cy="85" rx="28" ry="38" fill="#ef5350"/><ellipse cx="80" cy="75" rx="18" ry="28" fill="#e57373"/><ellipse cx="70" cy="75" rx="6" ry="10" fill="#c62828"/><ellipse cx="90" cy="75" rx="6" ry="10" fill="#c62828"/>'},
+  {w:'mouth',sent:'This is my mouth!',svg:'<ellipse cx="80" cy="85" rx="40" ry="28" fill="#ec407a"/><path d="M50 80 Q80 95 110 80" stroke="#c2185b" stroke-width="3" fill="none"/><rect x="65" y="70" width="10" height="14" rx="2" fill="#fff"/><rect x="77" y="70" width="10" height="14" rx="2" fill="#fff"/>'}
+];
+
+var ac=null,cur=0,tot=6,stars=0,busy=false;
+function init(){
+  ac=new (window.AudioContext||window.webkitAudioContext)();
+  buildStart();
+  buildYesterday();
+  buildCandle();
+  buildCake();
+  buildHat();
+  buildDone();
+  ui();
+}
+function ui(){
+  document.getElementById('pg').textContent=(cur+1)+'/'+tot;
+  document.getElementById('pb').disabled=cur===0;
+  var n=document.getElementById('nb');
+  if(cur===tot-1){n.disabled=true;n.textContent='Done'}
+  else{n.disabled=false;n.textContent='Next'}
+  var titles=['Birthday Party','Yesterday Bridge','Candle Count','Cake Slice','Party Hat','All Done!'];
+  var tips=['','昨天复习桥','点蜡烛学数字','听音选蛋糕','听音标记帽子',''];
+  document.getElementById('en').textContent=titles[cur]||'';
+  var zh=document.getElementById('zh');
+  zh.textContent=tips[cur]||'';
+  zh.style.display=tips[cur]?'inline-block':'none';
+  var s='';for(var i=0;i<18;i++)s+=i<stars?'⭐':'☆';
+  document.getElementById('st').textContent=s;
+}
+function show(i){
+  if(i<0||i>=tot)return;
+  document.getElementById('m'+cur).classList.remove('on');
+  cur=i;
+  document.getElementById('m'+cur).classList.add('on');
+  ui();
+}
+function go(d){show(cur+d)}
+function tone(f,d,type){var o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.value=.16;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}
+function playOk(){tone(523,.08);setTimeout(function(){tone(659,.08)},90);setTimeout(function(){tone(784,.12)},180)}
+function playNo(){tone(310,.15,'square');setTimeout(function(){tone(262,.18,'square')},150)}
+function speak(text,cb){
+  var done=false;
+  function end(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=2');
+  a.onended=end;a.onerror=function(){
+    var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(text)+'&spd=4&source=web');
+    b.onended=end;b.onerror=end;b.play().catch(end);
+  };
+  a.play().catch(end);
+  setTimeout(end,4000);
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function draw(svg,s){return '<svg width="'+(s||90)+'\" height="'+(s||90)+'\" viewBox=\"0 0 160 160\">'+svg+'</svg>'}
+
+/* M0: Start */
+function buildStart(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'candy-cat-standing.png" width="140" alt="Candy">'+
+    '<div class="pr"><div class="bbl">Let\'s count at the party!</div></div>'+
+    '<button class="start-btn" onclick="ac=new(window.AudioContext||window.webkitAudioContext)();go(1)">Start</button>';
+}
+
+/* M1: Yesterday Bridge */
+function buildYesterday(){
+  var h='<div class="pr"><img src="'+PP+'emily-elephant-standing.png" alt="Emily"><div class="bbl">Yesterday Review!</div></div>';
+  h+='<div class="y-grid" id="yg"></div>';
+  document.getElementById('m1').innerHTML=h;
+}
+function initM1(){
+  var g=document.getElementById('yg');
+  if(g.dataset.init)return;
+  g.dataset.init='1';
+  var pool=YESTERDAY.slice();
+  var q=shuffle(pool).slice(0,3);
+  var idx=0;
+  function ask(){
+    if(idx>=q.length){stars+=3;setTimeout(function(){go(1)},800);return}
+    var tgt=q[idx];
+    var opts=shuffle([tgt,pool.filter(function(x){return x.w!==tgt.w})[Math.floor(Math.random()*(pool.length-1))]]);
+    g.innerHTML='';
+    opts.forEach(function(o){
+      var c=document.createElement('div');
+      c.className='y-card';
+      c.innerHTML=draw(o.svg,90)+'<div class="lb">'+o.w+'</div>';
+      c.onclick=function(){
+        if(busy)return;busy=true;
+        if(o.w===tgt.w){
+          c.classList.add('correct');playOk();speak(tgt.sent,function(){busy=false;idx++;ask()});
+        }else{
+          c.classList.add('wrong');playNo();speak(tgt.sent,function(){busy=false});
+        }
+      };
+      g.appendChild(c);
+    });
+    speak(tgt.sent);
+  }
+  ask();
+}
+
+/* M2: Candle Count */
+function buildCandle(){
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-happy.png" alt="Peppa"><div class="bbl">点蜡烛,学数字!</div></div>';
+  h+='<div class="candle-grid" id="cg"></div>';
+  document.getElementById('m2').innerHTML=h;
+}
+function initM2(){
+  var g=document.getElementById('cg');
+  if(g.dataset.init)return;
+  g.dataset.init='1';
+  NUMS.forEach(function(o){
+    var c=document.createElement('div');
+    c.className='candle-card';
+    c.innerHTML=draw(o.svg,70)+'<div class="lb">'+o.w+'</div>';
+    c.onclick=function(){
+      if(c.classList.contains('on'))return speak(o.w);
+      c.classList.add('on');stars++;ui();speak(o.w);
+    };
+    g.appendChild(c);
+  });
+}
+
+/* M3: Cake Slice */
+function buildCake(){
+  var h='<div class="pr"><img src="'+PP+'george-pig-ball.png" alt="George"><div class="bbl">听音选蛋糕!</div></div>';
+  h+='<div class="cake-grid" id="ckg"></div>';
+  document.getElementById('m3').innerHTML=h;
+}
+function initM3(){
+  var g=document.getElementById('ckg');
+  if(g.dataset.init)return;
+  g.dataset.init='1';
+  var pool=NUMS.slice();
+  var q=shuffle(pool).slice(0,3);
+  var idx=0;
+  function ask(){
+    if(idx>=q.length){setTimeout(function(){go(1)},800);return}
+    var tgt=q[idx];
+    var opts=shuffle([tgt,pool.filter(function(x){return x.w!==tgt.w})[Math.floor(Math.random()*(pool.length-1))]]);
+    g.innerHTML='';
+    opts.forEach(function(o){
+      var c=document.createElement('div');
+      c.className='cake-card';
+      c.innerHTML=draw(o.svg,90)+'<div class="lb">'+o.w+'</div>';
+      c.onclick=function(){
+        if(busy)return;busy=true;
+        if(o.w===tgt.w){
+          c.classList.add('correct');playOk();stars++;ui();speak('I have '+tgt.w+'!',function(){busy=false;idx++;ask()});
+        }else{
+          c.classList.add('wrong');playNo();speak('I have '+tgt.w+'!',function(){busy=false});
+        }
+      };
+      g.appendChild(c);
+    });
+    speak('I have '+tgt.w+'!');
+  }
+  ask();
+}
+
+/* M4: Party Hat */
+function buildHat(){
+  var h='<div class="pr"><img src="'+PP+'mummy-pig.png" alt="Mummy"><div class="bbl">听音标记帽子!</div></div>';
+  h+='<div class="hat-grid" id="hg"></div>';
+  document.getElementById('m4').innerHTML=h;
+}
+function initM4(){
+  var g=document.getElementById('hg');
+  if(g.dataset.init)return;
+  g.dataset.init='1';
+  var pool=NUMS.slice();
+  var q=shuffle(pool).slice(0,4);
+  var idx=0;
+  function ask(){
+    if(idx>=q.length){setTimeout(function(){go(1)},800);return}
+    var tgt=q[idx];
+    speak('I have '+tgt.w+'!');
+    idx++;
+    setTimeout(ask,3000);
+  }
+  pool.forEach(function(o){
+    var c=document.createElement('div');
+    c.className='hat-card';
+    c.innerHTML=draw(o.svg,90)+'<div class="lb">'+o.w+'</div>';
+    c.onclick=function(){
+      if(c.classList.contains('marked'))return;
+      c.classList.add('marked');stars++;ui();playOk();speak(o.w);
+    };
+    g.appendChild(c);
+  });
+  ask();
+}
+
+/* M5: Done */
+function buildDone(){
+  document.getElementById('m5').innerHTML=
+    '<div class="done-wrap">'+
+    '<img src="'+PP+'peppa-pig-family.png" alt="Peppa Family">'+
+    '<div class="done-ttl">All Done!</div>'+
+    '<div class="done-msg">Great counting at the party!</div>'+
+    '<button class="play-again" onclick="location.reload()">Play Again</button>'+
+    '</div>';
+}
+function initM5(){
+  stars=18;ui();
+}
+
+init();
+</script>
+</body>
+</html>

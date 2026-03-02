@@ -1,9 +1,19 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 28 - Body
+- 当前: Day 29 - Numbers
 - 重置日期: 2026-02-28
 - 风格: 🐷 Peppa Pig + SVG 物品
+
+## Day 29 - Numbers 🔢 🎯
+- 新词: one, two, three, four, five
+- 句式: I have ___!
+- teach: Birthday Party 故事线 + Day28 微复习页(head/nose/mouth) + Balloon Pop 戳气球揭示 + Party Table 派对桌总览
+- review: Day28 微复习(3题) + Candle Count 点蜡烛学词 + Cake Slice 听音选蛋糕三选一 + Party Hat 听音标记帽子四选一 + Done 完成页
+- 差异化: teach 从 doctor checkup 改为 birthday party 生日派对故事线；review 去除上一课 mirror-wipe/doctor-bag/body-bingo 路径，改为 candle-count/cake-slice/party-hat 新链路
+- SVG物品: 蜡烛(one)、蛋糕片(two)、派对帽(three)、礼物盒(four)、气球(five)——与Day6/Day21完全不同（Day6用点阵，Day21用具象物品，Day29用派对元素）
+- 角色轮换: Candy/Peppa-happy/Emily/George-ball/Mummy/Daddy/Peppa-family 轮换出场
+- 状态: ✅ 完成
 
 ## Day 28 - Body 🧩 🎯
 - 新词: head, eyes, ears, nose, mouth
