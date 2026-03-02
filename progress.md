@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 11 - Feelings Today ✅
-- 更新时间: 2026-03-02 20:10
+- 当前: Day 12 - Weather Watch ✅
+- 更新时间: 2026-03-02 20:24
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -82,8 +82,15 @@
 - Review 游戏: Learn (rotate-in) → Emotion Faces (听词点表情) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 12 - Weather Watch
+## Day 12 - Weather Watch
 - 新词: sun, rain, cloud, wind, snow
 - 句式: I see ___!
-- 互动: Weather Window → Weather Dress Up → Weather Parade
+- Teach 互动: Weather Window → Weather Dress Up → Weather Parade
+- Review 游戏: Learn (drop-in) → Weather Match (听词点天气) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 13 - Where We Go
+- 新词: home, school, park, shop, zoo
+- 句式: Let's go to ___!
+- 互动: Place Map → Destination Picker → Places Parade
