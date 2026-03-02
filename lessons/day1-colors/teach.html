@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 1 - Colors</title>
+<title>Day 1 - Peppa's Colorful Day</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
@@ -28,8 +28,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
 .obj-wrap{margin:10px 0}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:48px;box-shadow:0 4px 15px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s;background:linear-gradient(135deg,#a8e6cf,#88d8b0)}
+.sound-btn:active{transform:scale(.9);box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .reveal-box{width:130px;height:130px;border-radius:18px;background:#ddd;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .4s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
-.reveal-box.on{cursor:default}
+.reveal-box.on{cursor:default;background:#fff}
 .reveal-box svg{opacity:0;transition:opacity .4s,transform .4s;transform:scale(.7)}
 .reveal-box.on svg{opacity:1;transform:scale(1)}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
@@ -41,38 +43,29 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
-  .ttl{font-size:30px}
-  .sub{font-size:16px}
-  .word{font-size:56px;letter-spacing:2px}
-  .sent{font-size:24px}
+  .ttl{font-size:30px}.sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
   .bbl{font-size:20px;padding:8px 14px}
-  .pr img{width:60px}
-  .obj-wrap svg{width:130px;height:130px}
+  .sound-btn{width:80px;height:80px;font-size:36px}
   .reveal-box{width:95px;height:95px}
-  .reveal-box svg{width:60px;height:60px}
-  .grid,.team-grid,.clinic-grid,.basket-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;max-width:320px!important}
-  .gi svg,.ti svg,.ci svg,.bi svg{width:70px!important;height:70px!important}
-  .gi div,.ti div,.ci div,.bi div{font-size:20px!important}
+  .reveal-box svg{width:55px!important}
 }
 @media(min-width:481px) and (max-width:767px){
-  .ttl{font-size:36px}
-  .word{font-size:72px}
-  .grid,.team-grid,.clinic-grid,.basket-grid{grid-template-columns:repeat(3,1fr)!important;max-width:420px!important}
-  .gi svg,.ti svg,.ci svg,.bi svg{width:80px!important;height:80px!important}
+  .ttl{font-size:36px}.word{font-size:72px}
 }
 @media(min-width:768px){
-  .word{font-size:100px}
-  .sent{font-size:38px}
+  .word{font-size:100px}.sent{font-size:38px}
   .reveal-box{width:150px;height:150px}
 }
 </style>
 </head>
 <body>
 <div class="deck">
+
 <!-- S0: Title -->
 <div class="sl bg-pink on">
 <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110">
-<div class="ttl">Colors</div>
+<div class="ttl">Peppa's Colorful Day</div>
 <div style="display:flex;gap:12px;margin:12px 0">
 <div style="width:52px;height:52px;border-radius:50%;background:#e74c3c"></div>
 <div style="width:52px;height:52px;border-radius:50%;background:#3498db"></div>
@@ -80,75 +73,80 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div style="width:52px;height:52px;border-radius:50%;background:#27ae60"></div>
 <div style="width:52px;height:52px;border-radius:50%;background:#e67e22"></div>
 </div>
-<div class="sub">red · blue · yellow · green · orange</div>
+<div class="sub">A day full of colors!</div>
 </div>
 
 <!-- S1: Hello -->
 <div class="sl bg-sky">
 <img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="110" style="margin-bottom:10px">
-<div class="ttl" >Hello!</div>
-<div class="sent" style="font-size:34px;margin:14px 0">Let's find colors!</div>
-<div style="display:flex;gap:12px;margin:16px 0">
-<div style="width:52px;height:52px;border-radius:50%;background:#e74c3c"></div>
-<div style="width:52px;height:52px;border-radius:50%;background:#3498db"></div>
-<div style="width:52px;height:52px;border-radius:50%;background:#f1c40f"></div>
-<div style="width:52px;height:52px;border-radius:50%;background:#27ae60"></div>
-<div style="width:52px;height:52px;border-radius:50%;background:#e67e22"></div>
-</div>
+<div class="ttl">Come with me!</div>
+<div class="sent">Let's find colors today!</div>
 </div>
 
-<!-- S2: Red - Apple (Daddy Pig) -->
+<!-- S2: Red Dress -->
 <div class="sl bg-red">
-<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" width="75"><div class="bbl">It's red!</div></div>
+<div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png"><div class="bbl">I wear a red dress!</div></div>
 <div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#c0392b" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#e74c3c">red</div>
 </div>
 
-<!-- S3: Blue - Car (George) -->
+<!-- S3: Blue Sky -->
 <div class="sl bg-blue">
-<div class="pr"><img src="../../assets/peppa/george-standing.png" width="75"><div class="bbl">It's blue!</div></div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png"><div class="bbl">Look! The sky is blue!</div></div>
 <div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><circle cx="50" cy="120" r="6" fill="#999"/><circle cx="110" cy="120" r="6" fill="#999"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><circle cx="130" cy="82" r="5" fill="#f1c40f"/><circle cx="130" cy="82" r="2" fill="#fff"/></svg></div>
 <div class="word" style="color:#3498db">blue</div>
 </div>
 
-<!-- S4: Yellow - Sun (Mummy Pig) -->
+<!-- S4: Yellow Ball -->
 <div class="sl bg-yel">
-<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" width="75"><div class="bbl">It's yellow!</div></div>
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png"><div class="bbl">Peppa plays with a yellow ball!</div></div>
 <div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><line x1="135" y1="80" x2="150" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="119" x2="129" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="135" x2="80" y2="150" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="119" x2="31" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="25" y1="80" x2="10" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="41" x2="31" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="25" x2="80" y2="10" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="41" x2="129" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/></svg></div>
 <div class="word" style="color:#f1c40f">yellow</div>
 </div>
 
-<!-- S5: Green - Tree (Rebecca Rabbit) -->
+<!-- S5: Green Grass -->
 <div class="sl bg-grn">
-<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="75"><div class="bbl">It's green!</div></div>
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">We run on green grass!</div></div>
 <div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#27ae60">green</div>
 </div>
 
-<!-- S6: Orange (Emily Elephant) -->
+<!-- S6: Orange Snack -->
 <div class="sl bg-org">
-<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="75"><div class="bbl">It's orange!</div></div>
+<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png"><div class="bbl">Yummy! An orange for snack!</div></div>
 <div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#e67e22">orange</div>
 </div>
 
-<!-- S7: Tap to Reveal -->
+<!-- S7: Listen & Say -->
 <div class="sl bg-lav">
-<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="75"><div class="bbl">Tap to find colors!</div></div>
+<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png"><div class="bbl">Tap to hear the colors!</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:10px 0">
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(0)" style="background:#e74c3c;color:#fff;font-size:32px">●</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">red</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(1)" style="background:#3498db;color:#fff;font-size:32px">●</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">blue</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(2)" style="background:#f1c40f;color:#fff;font-size:32px">●</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">yellow</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(3)" style="background:#27ae60;color:#fff;font-size:32px">●</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">green</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(4)" style="background:#e67e22;color:#fff;font-size:32px">●</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">orange</div></div>
+</div>
+</div>
+
+<!-- S8: Tap to Reveal -->
+<div class="sl bg-sky">
+<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png"><div class="bbl">Find the colors in Peppa's day!</div></div>
 <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
-<div class="reveal-box" id="rb0" onclick="reveal(0)"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/></svg></div>
-<div class="reveal-box" id="rb1" onclick="reveal(1)"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/></svg></div>
-<div class="reveal-box" id="rb2" onclick="reveal(2)"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/></svg></div>
-<div class="reveal-box" id="rb3" onclick="reveal(3)"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/></svg></div>
-<div class="reveal-box" id="rb4" onclick="reveal(4)"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/></svg></div>
+<div class="reveal-box" id="rb0" onclick="reveal(0)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg></div>
+<div class="reveal-box" id="rb1" onclick="reveal(1)"><svg width="75" height="75" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/></svg></div>
+<div class="reveal-box" id="rb2" onclick="reveal(2)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/></svg></div>
+<div class="reveal-box" id="rb3" onclick="reveal(3)"><svg width="75" height="75" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/></svg></div>
+<div class="reveal-box" id="rb4" onclick="reveal(4)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/></svg></div>
 </div>
 <div class="sent" id="revSent">Tap a box!</div>
 </div>
 
-<!-- S8: All Together -->
+<!-- S9: All Together -->
 <div class="sl bg-pink">
 <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
-<div class="ttl" style="font-size:36px">All the colors!</div>
+<div class="ttl" style="font-size:36px">What a colorful day!</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:380px;margin:10px auto">
 <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div style="font-size:24px;font-weight:900;color:#2c3e50">red</div></div>
 <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/></svg><div style="font-size:24px;font-weight:900;color:#2c3e50">blue</div></div>
@@ -158,12 +156,11 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S9: Bye - Muddy Puddles -->
+<!-- S10: Bye -->
 <div class="sl bg-mud">
 <img src="../../assets/peppa/peppa-and-george-ooo.png" width="110">
-<div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Well Done!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye red! Bye blue! Bye yellow!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye green! Bye orange!</div>
+<div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">See you tomorrow!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">Tomorrow we'll visit the zoo!</div>
 </div>
 </div>
 
@@ -171,15 +168,22 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="pop" id="P"><div id="B"></div></div>
 <div class="nav">
 <button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
-<div><div class="np" id="pg">1/10</div></div>
+<div><div class="np" id="pg">1/11</div></div>
 <button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
 </div>
 <script>
-var N={"0":"Sentence: It's ___! \u00b7 Ask: What color is it? \u00b7 5 new colors","1":"Say hi! \u00b7 Day 1, no review words","2":"What color is this apple? \u2192 It's red! \u00b7 Repeat 3x \u00b7 Point to red things","3":"What color is this car? \u2192 It's blue! \u00b7 Repeat 3x \u00b7 Point to blue things","4":"What color is this sun? \u2192 It's yellow! \u00b7 Repeat 3x \u00b7 Point to yellow things","5":"What color is this tree? \u2192 It's green! \u00b7 Repeat 3x \u00b7 Point to green things","6":"What color is this orange? \u2192 It's orange! \u00b7 Repeat 3x \u00b7 Point to orange things","7":"Tap each gray box to reveal \u00b7 Ask What color? after each","8":"Point randomly: What color? \u00b7 Go faster each round","9":"Say bye to each color! \u00b7 Peppa is so happy!"};
-var c=0,t=10,o=false;
-var clrs=[["red","#e74c3c"],["blue","#3498db"],["yellow","#f1c40f"],["green","#27ae60"],["orange","#e67e22"]];
-function reveal(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');b.style.background=clrs[j][1]+'22';document.getElementById('revSent').textContent="It's "+clrs[j][0]+'!';}
-function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||'';}
+var words=['red','blue','yellow','green','orange'];
+var clrs=[['red','#e74c3c'],['blue','#3498db'],['yellow','#f1c40f'],['green','#27ae60'],['orange','#e67e22']];
+var N={"0":"Story: Peppa's Colorful Day · 5 colors in her day","1":"Peppa invites you: Come with me!","2":"Peppa wears a red dress · It's red!","3":"Look at the blue sky · It's blue!","4":"Peppa plays with a yellow ball · It's yellow!","5":"Run on green grass · It's green!","6":"Eat an orange for snack · It's orange!","7":"Tap color buttons to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What color?","9":"Review all colors from Peppa's day","10":"Say goodbye · Preview tomorrow: zoo visit!"};
+var c=0,t=11,o=false;
+function speak(txt){
+  var isSent=txt.indexOf(' ')>-1;
+  var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+  var a=new Audio(primary);a.play().catch(function(){});
+}
+function playWord(i){speak(words[i])}
+function reveal(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');b.style.background=clrs[j][1]+'22';document.getElementById('revSent').textContent="It's "+clrs[j][0]+'!';speak(clrs[j][0])}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
 function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
 document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
