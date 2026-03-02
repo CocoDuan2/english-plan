@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 28 - Birthday Party ✅
-- 更新时间: 2026-03-03 05:01
+- 当前: Day 29 - Shopping Trip ✅
+- 更新时间: 2026-03-03 05:49
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -201,8 +201,15 @@
 - Review 游戏: Learn (reveal) → Party Collect (听词点物品) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 29 - Shopping Trip
+## Day 29 - Shopping Trip
 - 新词: shop, buy, money, bag, toy
 - 句式: I want ___!
-- 互动: Listen & Say → Shopping Game → All Together
+- Teach 互动: Listen & Say → Shopping Game (点击收集物品) → All Together
+- Review 游戏: Learn (reveal) → Shopping Game (听词买东西) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 30 - Doctor Visit
+- 新词: doctor, nurse, sick, medicine, better
+- 句式: I am ___!
+- 互动: Listen & Say → Doctor's Office → All Together
