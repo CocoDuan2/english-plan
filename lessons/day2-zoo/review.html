@@ -326,23 +326,30 @@ rightCol.appendChild(rb);
 });
 }
 
-function selectLeft(btn){
+function selectLeft(btn){selectMatch(btn,'left')}
+function selectRight(btn){selectMatch(btn,'right')}
+function selectMatch(btn,side){
 if(busy||btn.classList.contains('matched'))return;
-document.querySelectorAll('#leftCol .match-btn').forEach(function(b){b.classList.remove('selected')});
+if(!m2first){
+document.querySelectorAll('.match-btn').forEach(function(b){b.classList.remove('selected')});
 btn.classList.add('selected');
-m2left=btn;
+m2first=btn;
+m2firstSide=side;
+}else{
+if(side===m2firstSide){
+document.querySelectorAll('.match-btn').forEach(function(b){b.classList.remove('selected')});
+btn.classList.add('selected');
+m2first=btn;
+return;
 }
-
-function selectRight(btn){
-if(busy||!m2left||btn.classList.contains('matched'))return;
 busy=true;
-var leftWord=m2left.dataset.word;
-var rightWord=btn.dataset.word;
-if(leftWord===rightWord){
-playOk();speak(leftWord);
-m2left.classList.add('matched');
+var word1=m2first.dataset.word;
+var word2=btn.dataset.word;
+if(word1===word2){
+playOk();speak(word1);
+m2first.classList.add('matched');
 btn.classList.add('matched');
-drawLine(m2left,btn);
+drawLine(m2first,btn);
 m2pairs++;
 st[1]++;
 document.getElementById('s2').innerHTML=stars(st[1],W.length);
@@ -352,15 +359,18 @@ var imgs=document.querySelectorAll('.pr img');
 imgs.forEach(function(img){img.classList.add('peppa-jumping')});
 },300);
 }
-m2left=null;
+m2first=null;
+m2firstSide=null;
 busy=false;
 }else{
 playNo();
 setTimeout(function(){
-m2left.classList.remove('selected');
-m2left=null;
+m2first.classList.remove('selected');
+m2first=null;
+m2firstSide=null;
 busy=false;
 },800);
+}
 }
 }
 
