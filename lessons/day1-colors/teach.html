@@ -75,7 +75,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <!-- S1: Hello -->
 <div class="sl bg-sky">
 <img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Come with me!</div>
+<div class="ttl">Hello! Let's play!</div>
 <div class="sent">Let's find colors today!</div>
 </div>
 
@@ -169,7 +169,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 <script>
 var words=['red','blue','yellow','green','orange'];
-var N={"0":"Story: Peppa's Colorful Day","1":"Come with me! Let's find colors!","2":"Red apple · It's red!","3":"Blue car · It's blue!","4":"Yellow ball · It's yellow!","5":"Green grass · It's green!","6":"Orange fruit · It's orange!","7":"Tap color buttons to hear","8":"Tap balloons to hear colors","9":"Point randomly: What color?","10":"Bye! Tomorrow: zoo visit"};
+var N={"0":"Story: Peppa's Colorful Day","1":"Hello! Let's play! Find colors today!","2":"Red apple · It's red!","3":"Blue car · It's blue!","4":"Yellow ball · It's yellow!","5":"Green grass · It's green!","6":"Orange fruit · It's orange!","7":"Tap color buttons to hear","8":"Tap balloons to hear colors","9":"Point randomly: What color?","10":"Bye! Tomorrow: zoo visit"};
 var c=0,t=10,o=false;
 function speak(txt){var isSent=txt.indexOf(' ')>-1;var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(primary);a.play().catch(function(){})}
 function playWord(i){speak(words[i])}
