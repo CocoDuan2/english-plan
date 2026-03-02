@@ -44,7 +44,7 @@ var W=[
   {w:'head',tw:'1f600'},{w:'eyes',tw:'1f440'},{w:'ears',tw:'1f442'},
   {w:'nose',tw:'1f443'},{w:'mouth',tw:'1f444'}
 ];
-var D2=[{w:'cat',tw:'1f431'},{w:'dog',tw:'1f436'},{w:'fish',tw:'1f41f'}];
+
 var actx,curM=0,score=0,totalQ=0;
 function twImg(c,s){return '<img src="'+TW+c+'.svg" width="'+(s||90)+'">'}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
@@ -64,16 +64,16 @@ function speak(t,cb){
 }
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'🩶';return s}
 function goM(d){
-  curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;
+  curM+=d;if(curM<0)curM=0;if(curM>4)curM=5;
   document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
   document.getElementById('m'+curM).classList.add('on');
-  document.getElementById('pg').textContent=(curM+1)+'/6';
+  document.getElementById('pg').textContent=(curM+1)+'/5';
   document.getElementById('pBtn').disabled=curM===0;
   var nb=document.getElementById('nBtn');
   if(curM===0){nb.textContent='Start!'}
-  else if(curM>=5){nb.textContent='Done';nb.disabled=true}
+  else if(curM>=4){nb.textContent='Done';nb.disabled=true}
   else{nb.textContent='Next ▶';nb.disabled=false}
-  if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();
+  if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();
 }
 // M0: Start
 document.getElementById('m0').innerHTML=
@@ -103,29 +103,7 @@ function lnTap(i){
   lnI++;document.getElementById('m1s').innerHTML=stars(lnI,5);
   playOk();speak(W[i].w,function(){lnB=false});
 }
-// M2: Yesterday Review (Day2 animals)
-var rvOrd,rvCur=0,rvB=false;
-function initM2(){
-  rvCur=0;rvB=false;rvOrd=shuffle([0,1,2]);renderRV();
-}
-function renderRV(){
-  var idx=rvOrd[rvCur];
-  var h='<div class="top"><div class="te">Remember Animals?</div><div class="tz">还记得动物吗？</div><div class="sb" id="m2s">'+stars(rvCur,3)+'</div></div>';
-  h+='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">Find '+D2[idx].w+'!</div></div>';
-  h+='<div style="display:flex;gap:16px;justify-content:center;margin:20px 0">';
-  var opts=shuffle([0,1,2]);
-  for(var i=0;i<3;i++)h+='<div onclick="rvTap('+opts[i]+')" style="width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12)">'+twImg(D2[opts[i]].tw,70)+'</div>';
-  h+='</div><div id="rvfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
-  document.getElementById('m2').innerHTML=h;speak(D2[idx].w);
-}
-function rvTap(i){
-  if(rvB)return;rvB=true;var correct=rvOrd[rvCur];
-  if(i===correct){playOk();rvCur++;document.getElementById('m2s').innerHTML=stars(rvCur,3);
-    if(rvCur>=3){setTimeout(function(){goM(1)},1200);return}
-    setTimeout(function(){renderRV();rvB=false},1400);
-  }else{playNo();document.getElementById('rvfb').textContent='Try again!';setTimeout(function(){document.getElementById('rvfb').textContent='';rvB=false},800)}
-}
-// M3: Touch Your Body (hear word, pick from 3)
+// M2: Touch Your Body (hear word, pick from 3)
 var tbOrd,tbCur=0,tbB=false;
 function initM3(){
   tbCur=0;tbB=false;tbOrd=shuffle([0,1,2,3,4]);renderTB();
@@ -139,7 +117,7 @@ function renderTB(){
   if(opts.indexOf(idx)===-1)opts[Math.floor(Math.random()*3)]=idx;
   for(var i=0;i<opts.length;i++)h+='<div onclick="tbTap('+opts[i]+')" style="width:110px;height:110px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12)">'+twImg(W[opts[i]].tw,75)+'</div>';
   h+='</div><div id="tbfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0;text-align:center"></div>';
-  document.getElementById('m3').innerHTML=h;speak(W[idx].w);
+  document.getElementById('m2').innerHTML=h;speak(W[idx].w);
 }
 function tbTap(i){
   if(tbB)return;tbB=true;var correct=tbOrd[tbCur];
@@ -152,7 +130,7 @@ function tbTap(i){
   }else{playNo();totalQ++;document.getElementById('tbfb').textContent='Try again!';
     setTimeout(function(){document.getElementById('tbfb').textContent='';tbB=false},1000)}
 }
-// M4: Memory Flip
+// M3: Memory Flip
 var fCards=[],fFlip=[],fMatch=0,fB=false;
 function initM4(){
   fMatch=0;fFlip=[];fB=false;
@@ -161,7 +139,7 @@ function initM4(){
   var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
   h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:10px auto">';
   for(var i=0;i<8;i++)h+='<div id="fc'+i+'" onclick="fTap('+i+')" style="width:85px;height:85px;border-radius:14px;background:#ce93d8;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 2px 8px rgba(0,0,0,.1)">❓</div>';
-  h+='</div>';document.getElementById('m4').innerHTML=h;
+  h+='</div>';document.getElementById('m3').innerHTML=h;
 }
 function fTap(i){
   if(fB||fFlip.length>=2)return;var el=document.getElementById('fc'+i);
@@ -177,9 +155,9 @@ function fTap(i){
       fFlip=[];fB=false},800)}
   }
 }
-// M5: Done
+// M4: Done
 function initM5(){
-  document.getElementById('m5').innerHTML=
+  document.getElementById('m4').innerHTML=
     '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">'+
     '<img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin-bottom:10px">'+
     '<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All clean!</div>'+
