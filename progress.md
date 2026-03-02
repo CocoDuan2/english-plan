@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 14 - Rainbow Colors ✅
-- 更新时间: 2026-03-02 21:28
+- 当前: Day 15 - Garden Walk ✅
+- 更新时间: 2026-03-02 22:23
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -103,8 +103,15 @@
 - Review 游戏: Learn (fade-in) → Rainbow Paint (听词涂彩虹) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 15 - Garden Walk
+## Day 15 - Garden Walk
 - 新词: tree, flower, grass, rock, water
 - 句式: I see a ___!
-- 互动: Garden Map → Nature Hunt → Garden Parade
+- Teach 互动: Listen & Say → Nature Hunt → Garden Parade
+- Review 游戏: Learn (reveal) → Garden Explorer (听词找图) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 16 - Kitchen Helper
+- 新词: cup, plate, spoon, bowl, fork
+- 句式: Give me ___!
+- 互动: Kitchen Shelf → Set the Table → Kitchen Parade
