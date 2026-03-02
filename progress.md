@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 10 - Playground Fun ✅
-- 更新时间: 2026-03-02 19:11
+- 当前: Day 11 - Feelings Today ✅
+- 更新时间: 2026-03-02 20:10
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -75,8 +75,15 @@
 - Review 游戏: Learn (fade-scale) → Simon Says (听词点动作) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 11 - Feelings Today
+## Day 11 - Feelings Today
 - 新词: happy, sad, angry, scared, sleepy
 - 句式: I am ___!
-- 互动: Emotion Mirror → Mood Wheel → Feelings Parade
+- Teach 互动: Emotion Mirror → Mood Wheel → Feelings Parade
+- Review 游戏: Learn (rotate-in) → Emotion Faces (听词点表情) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 12 - Weather Watch
+- 新词: sun, rain, cloud, wind, snow
+- 句式: I see ___!
+- 互动: Weather Window → Weather Dress Up → Weather Parade
