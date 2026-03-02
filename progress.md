@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 31 - Helping at Home ✅
-- 更新时间: 2026-03-03 06:57
+- 当前: Day 32 - School Day ✅
+- 更新时间: 2026-03-03 07:07
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -222,9 +222,16 @@
 - Review 游戏: Learn (reveal) → Chore Helper (听词点家务) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 32 - School Day
+## Day 32 - School Day
 - 新词: teacher, friend, learn, draw, write
 - 句式: I can ___!
-- 互动: Listen & Say → School Activities → All Together
+- Teach 互动: Listen & Say → School Activities → All Together
+- Review 游戏: Learn (reveal) → School Game (点击活动) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 33 - Pet Care
+- 新词: pet, feed, walk, play, love
+- 句式: I ___ my pet!
+- 互动: Listen & Say → Pet Care Game → All Together
 
