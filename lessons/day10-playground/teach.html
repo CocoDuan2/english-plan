@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 10 - Playground Fun</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-play{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB 40%,#8BC34A)}
+.bg-word{background:linear-gradient(180deg,#e1f5fe,#b3e5fc)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Action Ring */
+.action-ring{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px;margin:16px 0}
+.action-btn{width:110px;height:110px;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s;background:#fff}
+.action-btn:active{transform:scale(.9)}
+.action-btn .alabel{font-size:16px;font-weight:700;color:#2c3e50}
+/* S8: Simon Says */
+.simon-word{font-size:56px;font-weight:900;color:#2e7d32;margin:16px 0;padding:16px 36px;background:#fff;border-radius:20px;box-shadow:0 4px 16px rgba(0,0,0,.1);min-height:100px;display:flex;align-items:center;justify-content:center}
+.simon-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:500px;margin:10px 0}
+.simon-opt{width:90px;height:90px;border-radius:16px;border:3px solid #ddd;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all .2s;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.simon-opt:active{transform:scale(.92)}
+.simon-opt.correct{border-color:#4caf50;background:#e8f5e9}
+.simon-opt.wrong{border-color:#e53935;background:#ffebee}
+.simon-opt .slabel{font-size:13px;font-weight:700;color:#555}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#4caf50;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(76,175,80,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#4caf50;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.action-btn{width:80px;height:80px}.action-btn .alabel{font-size:13px}
+.simon-word{font-size:40px;padding:12px 24px;min-height:70px}
+.simon-opt{width:75px;height:75px}.simon-opt .slabel{font-size:11px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-play on">
+<div class="pr big"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"></div>
+<div class="ttl">Playground Fun</div>
+<div class="sub">Let's play outside!</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="50" alt="run">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" width="50" alt="jump">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="50" alt="walk">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="50" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="50" alt="stand">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:48px">Let's go to the playground!</div>
+</div>
+
+<!-- S2: run -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I can run!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="160" alt="run">
+</div>
+<div class="word" style="color:#e53935">run</div>
+</div>
+
+<!-- S3: jump -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">I can jump!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" width="160" alt="jump">
+</div>
+<div class="word" style="color:#ff6f00">jump</div>
+</div>
+
+<!-- S4: walk -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">I can walk!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="160" alt="walk">
+</div>
+<div class="word" style="color:#2e7d32">walk</div>
+</div>
+
+<!-- S5: sit -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">I can sit!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="160" alt="sit">
+</div>
+<div class="word" style="color:#1565c0">sit</div>
+</div>
+
+<!-- S6: stand -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">I can stand!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="160" alt="stand">
+</div>
+<div class="word" style="color:#6a1b9a">stand</div>
+</div>
+
+<!-- S7: Action Show - animated action buttons -->
+<div class="sl bg-play">
+<div class="ttl">Action Show!</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">Do it with me!</div>
+</div>
+<div class="action-ring" id="actionRing"></div>
+</div>
+
+<!-- S8: Simon Says -->
+<div class="sl bg-sky">
+<div class="ttl">Simon Says!</div>
+<div class="pr">
+<img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
+<div class="bbl">Can you do it?</div>
+</div>
+<div class="simon-word" id="simonWord"></div>
+<div class="simon-btns" id="simonBtns"></div>
+</div>
+
+<!-- S9: All Together - Action Parade -->
+<div class="sl bg-play">
+<div class="ttl">Action Parade</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid" id="allGrid"></div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-sky">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Run, jump, walk, sit, stand!</div>
+<div class="sub">You can do it all!</div>
+<div style="font-size:34px;font-weight:700;color:#e67e22;margin-top:20px">Level 1 Complete!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+</body>
+</html>

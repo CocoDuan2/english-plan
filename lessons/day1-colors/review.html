@@ -98,7 +98,7 @@ document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standin
 var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
-  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">👆 点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png"><div class="bbl">Tap to learn!</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
   for(var i=0;i<5;i++){
@@ -140,7 +140,7 @@ function renderPJ(){
     return;
   }
   var tgt=W[pjOrd[pjI]];
-  var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">💦 跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'peppa-and-george-ooo.png"><div class="bbl">Jump in '+tgt.w+'!</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
   for(var j=0;j<5;j++){
@@ -179,7 +179,7 @@ function renderLS(){
     return;
   }
   var tgt=W[lsOrd[lsI]];
-  var h='<div class="top"><div class="te">Listen & Find!</div><div class="tz">👂 听一听，找出来！</div><div class="sb">'+stars(lsS,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Listen & Find!</div><div class="tz">听一听，找出来！</div><div class="sb">'+stars(lsS,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'george-standing.png"><div class="bbl">Listen!</div><div onclick="speak(W[lsOrd[lsI]].w)" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:12px">';
   for(var j=0;j<5;j++){
@@ -214,7 +214,7 @@ function initM4(){
     pairs.push({idx:i,w:W[i].w,svg:W[i].svg},{idx:i,w:W[i].w,svg:W[i].svg});
   }
   fCards=shuffle(pairs);
-  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">🎴 翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
+  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'candy-cat-green-dress.png"><div class="bbl">Find pairs!</div></div>';
   h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px">';
   for(var i=0;i<8;i++){
