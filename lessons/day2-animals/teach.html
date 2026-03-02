@@ -61,3 +61,129 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </head>
 <body>
 <div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<img src="../../assets/peppa/george_pig_dinosaur.png" width="110">
+<div class="ttl">Animals</div>
+<div style="display:flex;gap:12px;margin:12px 0">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="42">
+</div>
+<div class="sub">cat · dog · fish · bird · duck</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" style="margin-bottom:10px">
+<div class="ttl">Let's find animals!</div>
+<div class="sent">I see a ___!</div>
+</div>
+
+<!-- S2: Cat -->
+<div class="sl bg-cat">
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">I see a cat!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="160"></div>
+<div class="word" style="color:#ff9800">cat</div>
+</div>
+
+<!-- S3: Dog -->
+<div class="sl bg-dog">
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png"><div class="bbl">I see a dog!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="160"></div>
+<div class="word" style="color:#8d6e63">dog</div>
+</div>
+
+<!-- S4: Fish -->
+<div class="sl bg-fish">
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png"><div class="bbl">I see a fish!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="160"></div>
+<div class="word" style="color:#ff6f00">fish</div>
+</div>
+
+<!-- S5: Bird -->
+<div class="sl bg-bird">
+<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png"><div class="bbl">I see a bird!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="160"></div>
+<div class="word" style="color:#42a5f5">bird</div>
+</div>
+
+<!-- S6: Duck -->
+<div class="sl bg-duck">
+<div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png"><div class="bbl">I see a duck!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="160"></div>
+<div class="word" style="color:#fdd835">duck</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-lav">
+<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png"><div class="bbl">Tap to hear!</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:10px 0">
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(0)">🐱</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">cat</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(1)">🐶</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">dog</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(2)">🐟</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">fish</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(3)">🐦</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">bird</div></div>
+<div style="text-align:center"><button class="sound-btn" onclick="playWord(4)">🦆</button><div style="margin-top:6px;font-size:20px;font-weight:700;color:#2c3e50">duck</div></div>
+</div>
+</div>
+
+<!-- S8: Tap to Reveal -->
+<div class="sl bg-sky">
+<div class="pr"><img src="../../assets/peppa/george-superhero-costume.png"><div class="bbl">Tap to find animals!</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
+<div class="reveal-box" id="rb0" onclick="reveal(0)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="75"></div>
+<div class="reveal-box" id="rb1" onclick="reveal(1)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="75"></div>
+<div class="reveal-box" id="rb2" onclick="reveal(2)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="75"></div>
+<div class="reveal-box" id="rb3" onclick="reveal(3)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="75"></div>
+<div class="reveal-box" id="rb4" onclick="reveal(4)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="75"></div>
+</div>
+<div class="sent" id="revSent">Tap a box!</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-pink">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
+<div class="ttl" style="font-size:36px">All the animals!</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:380px;margin:10px auto">
+<div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="80"><div style="font-size:24px;font-weight:900;color:#2c3e50">cat</div></div>
+<div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="80"><div style="font-size:24px;font-weight:900;color:#2c3e50">dog</div></div>
+<div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="80"><div style="font-size:24px;font-weight:900;color:#2c3e50">fish</div></div>
+<div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="80"><div style="font-size:24px;font-weight:900;color:#2c3e50">bird</div></div>
+<div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="80"><div style="font-size:24px;font-weight:900;color:#2c3e50">duck</div></div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-mud">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" width="110">
+<div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Well Done!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">Bye cat! Bye dog! Bye fish!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">Bye bird! Bye duck!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">&#x1F4CB;</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/11</div></div>
+<button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
+</div>
+<script>
+var words=['cat','dog','fish','bird','duck'];
+var N={"0":"Sentence: I see a ___! · 5 new animals","1":"Say hi! · Today we find animals","2":"What animal? → I see a cat! · Repeat 3x","3":"I see a dog! · Repeat 3x","4":"I see a fish! · Repeat 3x","5":"I see a bird! · Repeat 3x","6":"I see a duck! · Repeat 3x","7":"Tap each button to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What animal?","9":"Point randomly: What animal? · Go faster","10":"Say bye to each animal!"};
+var c=0,t=11,o=false;
+function speak(txt){
+  var isSent=txt.indexOf(' ')>-1;
+  var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+  var a=new Audio(primary);a.play().catch(function(){});
+}
+function playWord(i){speak(words[i])}
+function reveal(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');document.getElementById('revSent').textContent="I see a "+words[j]+'!';speak(words[j])}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
+function go(d){goTo(c+d)}
+function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
+document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+</body>
+</html>
