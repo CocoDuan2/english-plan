@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 6 - Getting Dressed ✅
-- 更新时间: 2026-03-02 18:05
+- 当前: Day 7 - Toy Box Fun ✅
+- 更新时间: 2026-03-02 18:31
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -47,8 +47,15 @@
 - Review 游戏: Learn (zoom-in) → Dress Up (点击穿衣服) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 7 - Toy Box Fun
+## Day 7 - Toy Box Fun
 - 新词: ball, car, doll, bear, block
 - 句式: I like my ___!
-- 互动: Toy Shelf → Toy Parade → Toy Box
+- Teach 互动: Toy Shelf → Toy Parade → My Toy Box
+- Review 游戏: Learn (bounce-in) → Toy Box Sort (点击放入箱子) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 8 - Big and Small
+- 新词: big, small, long, short, round
+- 句式: It's ___!
+- 互动: Size Compare → Sorting Game → Size Parade
