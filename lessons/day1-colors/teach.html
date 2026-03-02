@@ -30,10 +30,9 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .obj-wrap{margin:10px 0}
 .color-btn{width:90px;height:90px;border-radius:50%;border:none;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.12);transition:transform .15s}
 .color-btn:active{transform:scale(.9)}
-.reveal-box{width:130px;height:130px;border-radius:18px;background:#ddd;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .4s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
-.reveal-box.on{cursor:default;background:#fff}
-.reveal-box svg{opacity:0;transition:opacity .4s,transform .4s;transform:scale(.7)}
-.reveal-box.on svg{opacity:1;transform:scale(1)}
+.balloon{width:100px;height:120px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .2s;position:relative}
+.balloon:active{transform:scale(.95)}
+.balloon::after{content:'';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:2px;height:20px;background:#999}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
 .fab.on{background:#2c3e50}
 .pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
@@ -47,15 +46,13 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
   .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
   .bbl{font-size:20px;padding:8px 14px}
   .color-btn{width:70px;height:70px}
-  .reveal-box{width:95px;height:95px}
-  .reveal-box svg{width:55px!important}
+  .balloon{width:80px;height:96px}
 }
 @media(min-width:481px) and (max-width:767px){
   .ttl{font-size:36px}.word{font-size:72px}
 }
 @media(min-width:768px){
   .word{font-size:100px}.sent{font-size:38px}
-  .reveal-box{width:150px;height:150px}
 }
 </style>
 </head>
@@ -98,15 +95,15 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S4: Yellow -->
 <div class="sl bg-yel">
-<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png"><div class="bbl">It's yellow!</div></div>
-<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">It's yellow!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="5" fill="#fff"/><circle cx="92" cy="72" r="5" fill="#fff"/><circle cx="69" cy="73" r="2.5" fill="#333"/><circle cx="93" cy="73" r="2.5" fill="#333"/><path d="M70 88 Q80 96 90 88" stroke="#f39c12" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#f1c40f">yellow</div>
 </div>
 
 <!-- S5: Green -->
 <div class="sl bg-grn">
-<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png"><div class="bbl">It's green!</div></div>
-<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png"><div class="bbl">It's green!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><path d="M40 70 Q40 100 80 110 Q120 100 120 70" fill="#229954"/><circle cx="68" cy="62" r="5" fill="#fff"/><circle cx="92" cy="62" r="5" fill="#fff"/><circle cx="69" cy="63" r="2.5" fill="#333"/><circle cx="93" cy="63" r="2.5" fill="#333"/></svg></div>
 <div class="word" style="color:#27ae60">green</div>
 </div>
 
@@ -129,29 +126,29 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S8: Find in Picture -->
+<!-- S8: Find Colors (Balloons) -->
 <div class="sl bg-sky">
 <div class="pr"><img src="../../assets/peppa/george-superhero-costume.png"><div class="bbl">Find colors!</div></div>
-<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
-<div class="reveal-box" id="rb0" onclick="reveal(0)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/></svg></div>
-<div class="reveal-box" id="rb1" onclick="reveal(1)"><svg width="75" height="75" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/></svg></div>
-<div class="reveal-box" id="rb2" onclick="reveal(2)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/></svg></div>
-<div class="reveal-box" id="rb3" onclick="reveal(3)"><svg width="75" height="75" viewBox="0 0 160 160"><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/></svg></div>
-<div class="reveal-box" id="rb4" onclick="reveal(4)"><svg width="75" height="75" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/></svg></div>
+<div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:10px 0">
+<div class="balloon" onclick="playWord(0)" style="background:#e74c3c"></div>
+<div class="balloon" onclick="playWord(1)" style="background:#3498db"></div>
+<div class="balloon" onclick="playWord(2)" style="background:#f1c40f"></div>
+<div class="balloon" onclick="playWord(3)" style="background:#27ae60"></div>
+<div class="balloon" onclick="playWord(4)" style="background:#e67e22"></div>
 </div>
-<div class="sent" id="revSent">Tap to find!</div>
+<div class="sent">Tap the balloons!</div>
 </div>
 
-<!-- S9: Color Parade -->
+<!-- S9: Color Parade (Learned Objects) -->
 <div class="sl bg-pink">
 <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
 <div class="ttl" style="font-size:36px">Color Parade!</div>
 <div style="display:flex;gap:16px;justify-content:center;margin:10px 0;flex-wrap:wrap">
-<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">red</div></div>
-<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">blue</div></div>
-<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">yellow</div></div>
-<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">green</div></div>
-<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">orange</div></div>
+<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#c0392b" stroke-width="3" fill="none" stroke-linecap="round"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">red</div></div>
+<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><circle cx="50" cy="120" r="6" fill="#999"/><circle cx="110" cy="120" r="6" fill="#999"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">blue</div></div>
+<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="5" fill="#fff"/><circle cx="92" cy="72" r="5" fill="#fff"/><circle cx="69" cy="73" r="2.5" fill="#333"/><circle cx="93" cy="73" r="2.5" fill="#333"/><path d="M70 88 Q80 96 90 88" stroke="#f39c12" stroke-width="3" fill="none" stroke-linecap="round"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">yellow</div></div>
+<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><path d="M40 70 Q40 100 80 110 Q120 100 120 70" fill="#229954"/><circle cx="68" cy="62" r="5" fill="#fff"/><circle cx="92" cy="62" r="5" fill="#fff"/><circle cx="69" cy="63" r="2.5" fill="#333"/><circle cx="93" cy="63" r="2.5" fill="#333"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">green</div></div>
+<div style="text-align:center"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none" stroke-linecap="round"/></svg><div style="font-size:28px;font-weight:900;color:#2c3e50;margin-top:4px">orange</div></div>
 </div>
 </div>
 
@@ -172,12 +169,11 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 <script>
 var words=['red','blue','yellow','green','orange'];
-var N={"0":"Story: Peppa's Colorful Day","1":"Come with me! Let's find colors!","2":"Red dress · It's red!","3":"Blue sky · It's blue!","4":"Yellow ball · It's yellow!","5":"Green grass · It's green!","6":"Orange snack · It's orange!","7":"Tap color buttons to hear","8":"Tap to reveal colors","9":"Point randomly: What color?","10":"Bye! Tomorrow: zoo visit"};
+var N={"0":"Story: Peppa's Colorful Day","1":"Come with me! Let's find colors!","2":"Red apple · It's red!","3":"Blue car · It's blue!","4":"Yellow ball · It's yellow!","5":"Green grass · It's green!","6":"Orange fruit · It's orange!","7":"Tap color buttons to hear","8":"Tap balloons to hear colors","9":"Point randomly: What color?","10":"Bye! Tomorrow: zoo visit"};
 var c=0,t=10,o=false;
 function speak(txt){var isSent=txt.indexOf(' ')>-1;var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(primary);a.play().catch(function(){})}
 function playWord(i){speak(words[i])}
-function reveal(j){var b=document.getElementById('rb'+j);if(b.classList.contains('on'))return;b.classList.add('on');document.getElementById('revSent').textContent="It's "+words[j]+'!';speak(words[j])}
-function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next \\u25b6';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
 function go(d){goTo(c+d)}
 function tn(){o=!o;document.getElementById('P').classList.toggle('on',o);document.getElementById('F').classList.toggle('on',o)}
 document.addEventListener('click',function(e){if(o&&!e.target.closest('.pop')&&!e.target.closest('.fab')){o=false;document.getElementById('P').classList.remove('on');document.getElementById('F').classList.remove('on')}});
