@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 20 - Snack Time ✅
-- 更新时间: 2026-03-03 00:41
+- 当前: Day 21 - Going Places ✅
+- 更新时间: 2026-03-03 01:34
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -145,8 +145,15 @@
 - Review 游戏: Learn (reveal) → Pick a Snack (听词点零食) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 21 - Going Places
+## Day 21 - Going Places
 - 新词: bus, bike, boat, train, plane
 - 句式: I go by ___!
-- 互动: Listen & Say → Transportation Game → All Together
+- Teach 互动: Listen & Say → Transportation Game → All Together
+- Review 游戏: Learn (rotate-in) → Road Trip (听词点交通工具) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 22 - Opposites Game
+- 新词: hot, cold, up, down, fast
+- 句式: It's ___!
+- 互动: Listen & Say → Opposites Match → All Together
