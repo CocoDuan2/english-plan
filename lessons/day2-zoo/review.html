@@ -339,7 +339,7 @@ busy=true;
 var leftWord=m2left.dataset.word;
 var rightWord=btn.dataset.word;
 if(leftWord===rightWord){
-playOk();
+playOk();speak(leftWord);
 m2left.classList.add('matched');
 btn.classList.add('matched');
 drawLine(m2left,btn);
