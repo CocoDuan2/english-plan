@@ -67,7 +67,7 @@ var YW=[
   {w:'blue',clr:'#3498db',svg:'<rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/>'},
   {w:'yellow',clr:'#f1c40f',svg:'<circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/>'}
 ];
-function twImg(code,sz){return '<img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/'+code+'.svg" width="'+(sz||90)+'">';}
+function twImg(code,sz){return '<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+code+'.svg" width="'+(sz||90)+'">';}
 function svgY(i,sz){return '<svg width="'+(sz||70)+'" height="'+(sz||70)+'" viewBox="0 0 160 160">'+YW[i].svg+'</svg>';}
 var cur=0,actx=null,score=0,totalQ=0;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
@@ -101,7 +101,7 @@ function goM(d){
 // M0: Start
 (function(){
   document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'george-standing.png" width="140">'+
+    '<img src="'+PP+'george-standing.png" width="110">'+
     '<div class="pr"><div class="bbl">Let\'s play with animals!</div></div>'+
     '<div style="display:flex;gap:8px;margin:10px 0;font-size:50px">🐱🐶🐟🐦🦆</div>'+
     '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
@@ -114,7 +114,7 @@ function initM1(){
   yr=0;yBusy=false;
   var sh=shuffle([0,1,2]);
   document.getElementById('m1').yOrder=sh;
-  var h='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="80"><div class="bbl">Remember colors?</div></div>';
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">Remember colors?</div></div>';
   h+='<div id="yq" style="margin:10px 0;font-size:26px;font-weight:700;color:#2c3e50">Tap the '+YW[sh[0]].w+' one!</div>';
   h+='<div style="display:flex;gap:16px;margin:10px 0">';
   for(var i=0;i<3;i++) h+='<div onclick="yTap('+i+')" style="cursor:pointer;border-radius:16px;padding:10px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);min-width:90px;min-height:90px;display:flex;align-items:center;justify-content:center" id="yc'+i+'">'+svgY(i,80)+'</div>';
@@ -155,7 +155,7 @@ function initM2(){
 function renderSM(){
   var idx=smOrder[smCur];
   var opts=shuffle([0,1,2,3,4]);
-  var h='<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="80"><div class="bbl">Find the shadow!</div></div>';
+  var h='<div class="pr"><img src="'+PP+'suzy-sheep-standing.png" width="75"><div class="bbl">Find the shadow!</div></div>';
   h+='<div style="margin:10px 0">'+twImg(W[idx].tw,100)+'</div>';
   h+='<div style="font-size:26px;font-weight:700;color:#2c3e50;margin:6px 0">'+W[idx].w+'</div>';
   h+='<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
@@ -192,7 +192,7 @@ function initM3(){
 }
 function renderFD(){
   var idx=fdOrder[fdCur];
-  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="80"><div class="bbl">Feed the '+W[idx].w+'!</div></div>';
+  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Feed the '+W[idx].w+'!</div></div>';
   h+='<div style="margin:10px 0">'+twImg(W[idx].tw,110)+'</div>';
   h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:10px 0">';
   var opts=shuffle([0,1,2,3,4]);
@@ -232,7 +232,7 @@ function renderLP(){
   var opts=[idx];
   while(opts.length<3){var r=Math.floor(Math.random()*5);if(opts.indexOf(r)===-1)opts.push(r)}
   opts=shuffle(opts);
-  var h='<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" width="80"><div class="bbl">Which one?</div></div>';
+  var h='<div class="pr"><img src="'+PP+'mummy-pig-standing-grass.png" width="75"><div class="bbl">Which one?</div></div>';
   h+='<div onclick="speak(\''+W[idx].w+'\')" style="width:80px;height:80px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin:8px 0">🔊</div>';
   h+='<div style="display:flex;gap:16px;margin:14px 0">';
   for(var i=0;i<opts.length;i++){
@@ -266,7 +266,7 @@ function initM5(){
   setI("Animal Parade!",'按顺序排好小动物！',stars(0,5));
 }
 function renderSeq(){
-  var h='<div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" width="80"><div class="bbl">Tap in order!</div></div>';
+  var h='<div class="pr"><img src="'+PP+'peppa-pig-happy-standing.png" width="75"><div class="bbl">Tap in order!</div></div>';
   h+='<div style="display:flex;gap:8px;margin:10px 0">';
   for(var i=0;i<5;i++){
     if(i<seqPicked.length){
@@ -317,7 +317,7 @@ function seqTap(i){
 
 // M6: Done
 function initM6(){
-  var h='<img src="'+PP+'peppa-family-group-outdoors.png" width="200" style="margin:10px 0">';
+  var h='<img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin:10px 0">';
   h+='<div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div>';
   h+='<div style="font-size:26px;color:#2c3e50;margin:6px 0">Great zoo adventure!</div>';
   h+='<div style="font-size:30px;margin:10px 0">'+stars(5,5)+'</div>';
