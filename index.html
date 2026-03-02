@@ -86,74 +86,7 @@ h1{font-size:30px;line-height:1.1;color:#394867}
   <div id="lessons"></div>
 </div>
 <script>
-var lessons=[
-  {
-    day:1,
-    dir:'day1-colors',
-    theme:'Colors',
-    words:'red, blue, yellow, green, orange',
-    panel:'linear-gradient(135deg,#ffe0eb,#ffe9c8)',
-    teachIcon:'assets/peppa/peppa-pig-happy-standing.png',
-    reviewIcon:'assets/peppa/george_pig_bubbles.png',
-    teachTone:{bg:'#ffe4ec',bd:'#ff9ec2',txt:'#c2185b'},
-    reviewTone:{bg:'#e8f3ff',bd:'#8ec5ff',txt:'#1565c0'}
-  },
-  {
-    day:2,
-    dir:'day2-animals',
-    theme:'Animals',
-    words:'cat, dog, fish, bird, duck',
-    panel:'linear-gradient(135deg,#d4f1d4,#fff4d9)',
-    teachIcon:'assets/peppa/george-standing.png',
-    reviewIcon:'assets/peppa/george_pig_dinosaur.png',
-    teachTone:{bg:'#e8f5e9',bd:'#81c784',txt:'#2e7d32'},
-    reviewTone:{bg:'#fff3e0',bd:'#ffb74d',txt:'#e65100'}
-  },
-  {
-    day:3,
-    dir:'day3-body',
-    theme:'Body',
-    words:'head, eyes, ears, nose, mouth',
-    panel:'linear-gradient(135deg,#d6eaf8,#f5eef8)',
-    teachIcon:'assets/peppa/mummy-pig-standing-grass.png',
-    reviewIcon:'assets/peppa/peppa-pig-red-polka-dot-dress.png',
-    teachTone:{bg:'#e3f2fd',bd:'#64b5f6',txt:'#1565c0'},
-    reviewTone:{bg:'#f3e5f5',bd:'#ba68c8',txt:'#7b1fa2'}
-  },
-  {
-    day:4,
-    dir:'day4-food',
-    theme:'Food',
-    words:'apple, banana, milk, bread, egg',
-    panel:'linear-gradient(135deg,#fff3e0,#ffe0b2)',
-    teachIcon:'assets/peppa/peppa-pig-happy-standing.png',
-    reviewIcon:'assets/peppa/george_pig_dinosaur.png',
-    teachTone:{bg:'#fff3e0',bd:'#ffb74d',txt:'#e65100'},
-    reviewTone:{bg:'#fff8e1',bd:'#ffd54f',txt:'#f57f17'}
-  },
-  {
-    day:5,
-    dir:'day5-family',
-    theme:'Family',
-    words:'mom, dad, baby, brother, sister',
-    panel:'linear-gradient(135deg,#fce4ec,#f3e5f5)',
-    teachIcon:'assets/peppa/peppa-family-group-outdoors.png',
-    reviewIcon:'assets/peppa/peppa-pig-red-polka-dot-dress.png',
-    teachTone:{bg:'#fce4ec',bd:'#f48fb1',txt:'#c2185b'},
-    reviewTone:{bg:'#f3e5f5',bd:'#ce93d8',txt:'#7b1fa2'}
-  },
-  {
-    day:6,
-    dir:'day6-clothes',
-    theme:'Clothes',
-    words:'hat, shoes, shirt, pants, socks',
-    panel:'linear-gradient(135deg,#FFE5B4,#FFDAB9)',
-    teachIcon:'assets/peppa/peppa-pig-in-bed.png',
-    reviewIcon:'assets/peppa/george-standing.png',
-    teachTone:{bg:'#fff3e0',bd:'#ffb74d',txt:'#e65100'},
-    reviewTone:{bg:'#ffe0b2',bd:'#ff9800',txt:'#e65100'}
-  }
-];
+var lessons=[];
 
 function cardHtml(kind,l){
   var isTeach=kind==='teach';
