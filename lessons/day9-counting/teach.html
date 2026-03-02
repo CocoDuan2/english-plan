@@ -242,7 +242,7 @@ var positions=[{x:20,y:20},{x:200,y:30},{x:110,y:100},{x:30,y:170},{x:220,y:170}
 WD.forEach(function(item,i){
 var d=document.createElement('div');d.className='hunt-item';
 d.style.left=positions[i].x+'px';d.style.top=positions[i].y+'px';
-var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'" width="20" style="margin:1px">';
+var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'.svg'+'" width="20" style="margin:1px">';
 d.innerHTML=dots+'<div class="hlabel">'+item.w+'</div>';
 d.onclick=function(){
 if(d.classList.contains('found'))return;
@@ -257,7 +257,7 @@ function initAll(){
 if(allInit)return;allInit=true;
 var g=document.getElementById('allGrid');g.innerHTML='';
 WD.forEach(function(item){
-var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'" width="30" style="margin:2px">';
+var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'.svg'+'" width="30" style="margin:2px">';
 var d=document.createElement('div');d.className='all-item';
 d.innerHTML='<div>'+dots+'</div><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
 g.appendChild(d);
