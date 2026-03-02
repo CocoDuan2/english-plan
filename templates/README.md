@@ -7,6 +7,33 @@
 - ✅ 保留：CSS 样式、导航、通用函数、HTML 结构
 - ❌ 不保留：具体词汇、游戏逻辑、动画细节
 
+## 视觉规范（必须遵循）
+
+### 提示词 (.tz)
+- **禁止使用 emoji**，提示词只用纯中文文字
+- 不要在 CSS 伪元素 (::before/::after) 中添加 emoji
+- 示例：`点一点，看看是什么！` ✅ / `👆 点一点` ❌
+
+### 星星评分 (.sb)
+- 初始状态必须是灰色：`<span style="color:#bbb">★</span>`
+- 禁止在 HTML 中写死黄色 ⭐，只有答对后通过 JS stars() 函数动态变黄
+
+### M1 学新词 (Tap to Learn)
+- 使用 flex 布局：`display:flex;flex-wrap:wrap;gap:14px;justify-content:center`
+- 卡片固定尺寸：`width:110px;height:110px;border-radius:18px;background:#ddd`
+- 禁止使用 grid 布局或 aspect-ratio
+
+### M3 听力游戏 (Listen & Find)
+- 🔊 按钮放在 .pr 行内（和 peppa 图片、bbl 同一行），不要单独一行
+- listen 卡片使用 flex 布局，卡片固定 `width:100px;height:100px;border-radius:18px`
+
+### M4 翻牌配对 (Memory Match)
+- .mem-card 必须包含 `transform-style:preserve-3d`（否则翻转不生效）
+
+### teach 课件
+- 不要用 Web Audio API 合成声音，互动用"听词猜图"方式
+
+
 ## 文件说明
 
 ### review-template.html
