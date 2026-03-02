@@ -63,7 +63,7 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 .nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#ff7043;color:#fff;box-shadow:0 4px 12px rgba(255,112,67,.4)}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(max-width:480px){
+@media(max-width:480px){.pr{gap:6px!important}
 .te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}
 .pr img{width:65px}.pr.big img{width:90px}.tz-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
 .sb{font-size:22px}
@@ -150,7 +150,34 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 <script>
 var PP='../../assets/peppa/';
 var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
-var DOLL_SVG='<svg viewBox="0 0 160 160"><circle cx="80" cy="50" r="30" fill="#f48fb1"/><circle cx="70" cy="44" r="4" fill="#333"/><circle cx="90" cy="44" r="4" fill="#333"/><path d="M72 56 Q80 64 88 56" stroke="#333" stroke-width="2" fill="none"/><rect x="60" y="78" width="40" height="50" rx="8" fill="#ce93d8"/><circle cx="80" cy="36" r="6" fill="#f48fb1"/><rect x="55" y="85" width="12" height="30" rx="6" fill="#f48fb1"/><rect x="93" y="85" width="12" height="30" rx="6" fill="#f48fb1"/></svg>';
+var DOLL_SVG='<svg viewBox="0 0 160 160">
+  <!-- Hair -->
+  <ellipse cx="80" cy="45" rx="32" ry="28" fill="#8B4513"/>
+  <!-- Face -->
+  <circle cx="80" cy="55" r="28" fill="#FFD4A3"/>
+  <!-- Eyes -->
+  <circle cx="72" cy="50" r="3" fill="#333"/>
+  <circle cx="88" cy="50" r="3" fill="#333"/>
+  <!-- Blush -->
+  <ellipse cx="68" cy="58" rx="4" ry="3" fill="#FFB6C1" opacity="0.6"/>
+  <ellipse cx="92" cy="58" rx="4" ry="3" fill="#FFB6C1" opacity="0.6"/>
+  <!-- Smile -->
+  <path d="M72 62 Q80 68 88 62" stroke="#333" stroke-width="2" fill="none"/>
+  <!-- Dress -->
+  <path d="M80 80 L60 85 L55 130 L105 130 L100 85 Z" fill="#FF69B4"/>
+  <circle cx="80" cy="82" r="3" fill="#FFD700"/>
+  <circle cx="80" cy="92" r="3" fill="#FFD700"/>
+  <circle cx="80" cy="102" r="3" fill="#FFD700"/>
+  <!-- Arms -->
+  <ellipse cx="58" cy="95" rx="6" ry="18" fill="#FFD4A3"/>
+  <ellipse cx="102" cy="95" rx="6" ry="18" fill="#FFD4A3"/>
+  <!-- Legs -->
+  <rect x="68" y="128" width="10" height="25" rx="5" fill="#FFD4A3"/>
+  <rect x="82" y="128" width="10" height="25" rx="5" fill="#FFD4A3"/>
+  <!-- Shoes -->
+  <ellipse cx="73" cy="152" rx="8" ry="4" fill="#FF1493"/>
+  <ellipse cx="87" cy="152" rx="8" ry="4" fill="#FF1493"/>
+</svg>';
 var W=[
 {w:'ball',img:TW+'26bd.svg',isSvg:false},
 {w:'car',img:TW+'1f697.svg',isSvg:false},
