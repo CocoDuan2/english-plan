@@ -24,7 +24,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
 .sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
 .pr{display:flex;align-items:center;gap:12px;margin:10px 0}
-.pr img{width:85px;height:auto}
+.pr img{width:75px;height:auto}
 .bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
 .obj-wrap{margin:10px 0}
@@ -40,18 +40,6 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-.word{font-size:56px;letter-spacing:2px}
-  .sent{font-size:24px}
-  .bbl{font-size:20px;padding:8px 14px}
-  .pr img{width:65px}
-  .obj-wrap svg{width:130px;height:130px}
-  .reveal-box{width:88px;height:88px}
-  .reveal-box svg{width:55px;height:55px}
-}
-.word{font-size:72px}
-}
-.sent{font-size:38px}.reveal-box{width:150px;height:150px}}.sent{font-size:38px}.reveal-box{width:150px;height:150px}}
-
 @media(max-width:480px){
   .ttl{font-size:30px}
   .sub{font-size:16px}
@@ -83,7 +71,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="deck">
 <!-- S0: Title -->
 <div class="sl bg-pink on">
-<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="100">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110">
 <div class="ttl">Colors</div>
 <div style="display:flex;gap:12px;margin:12px 0">
 <div style="width:52px;height:52px;border-radius:50%;background:#e74c3c"></div>
@@ -97,8 +85,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S1: Hello -->
 <div class="sl bg-sky">
-<img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="140" style="margin-bottom:10px">
-<div class="ttl" style="font-size:46px">Hello!</div>
+<img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="110" style="margin-bottom:10px">
+<div class="ttl" >Hello!</div>
 <div class="sent" style="font-size:34px;margin:14px 0">Let's find colors!</div>
 <div style="display:flex;gap:12px;margin:16px 0">
 <div style="width:52px;height:52px;border-radius:50%;background:#e74c3c"></div>
@@ -111,42 +99,42 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S2: Red - Apple (Daddy Pig) -->
 <div class="sl bg-red">
-<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" width="70"><div class="bbl">It's red!</div></div>
-<div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#c0392b" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" width="75"><div class="bbl">It's red!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#c0392b" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#e74c3c">red</div>
 </div>
 
 <!-- S3: Blue - Car (George) -->
 <div class="sl bg-blue">
-<div class="pr"><img src="../../assets/peppa/george-standing.png" width="70"><div class="bbl">It's blue!</div></div>
-<div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><circle cx="50" cy="120" r="6" fill="#999"/><circle cx="110" cy="120" r="6" fill="#999"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><circle cx="130" cy="82" r="5" fill="#f1c40f"/><circle cx="130" cy="82" r="2" fill="#fff"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png" width="75"><div class="bbl">It's blue!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><circle cx="50" cy="120" r="6" fill="#999"/><circle cx="110" cy="120" r="6" fill="#999"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><circle cx="130" cy="82" r="5" fill="#f1c40f"/><circle cx="130" cy="82" r="2" fill="#fff"/></svg></div>
 <div class="word" style="color:#3498db">blue</div>
 </div>
 
 <!-- S4: Yellow - Sun (Mummy Pig) -->
 <div class="sl bg-yel">
-<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" width="70"><div class="bbl">It's yellow!</div></div>
-<div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><line x1="135" y1="80" x2="150" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="119" x2="129" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="135" x2="80" y2="150" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="119" x2="31" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="25" y1="80" x2="10" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="41" x2="31" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="25" x2="80" y2="10" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="41" x2="129" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" width="75"><div class="bbl">It's yellow!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><line x1="135" y1="80" x2="150" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="119" x2="129" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="135" x2="80" y2="150" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="119" x2="31" y2="129" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="25" y1="80" x2="10" y2="80" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="41" y1="41" x2="31" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="25" x2="80" y2="10" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><line x1="119" y1="41" x2="129" y2="31" stroke="#f1c40f" stroke-width="6" stroke-linecap="round"/><circle cx="80" cy="80" r="42" fill="#f1c40f"/><circle cx="68" cy="72" r="4" fill="#F57F17"/><circle cx="92" cy="72" r="4" fill="#F57F17"/><path d="M68 90 Q80 100 92 90" stroke="#F57F17" stroke-width="3" fill="none"/></svg></div>
 <div class="word" style="color:#f1c40f">yellow</div>
 </div>
 
 <!-- S5: Green - Tree (Rebecca Rabbit) -->
 <div class="sl bg-grn">
-<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="70"><div class="bbl">It's green!</div></div>
-<div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="75"><div class="bbl">It's green!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><rect x="70" y="100" width="20" height="45" rx="4" fill="#795548"/><ellipse cx="80" cy="70" rx="48" ry="45" fill="#27ae60"/><circle cx="68" cy="65" r="4" fill="#fff"/><circle cx="92" cy="65" r="4" fill="#fff"/><circle cx="69" cy="66" r="2" fill="#1a5e2a"/><circle cx="93" cy="66" r="2" fill="#1a5e2a"/><path d="M72 80 Q80 87 88 80" stroke="#1a5e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#27ae60">green</div>
 </div>
 
 <!-- S6: Orange (Emily Elephant) -->
 <div class="sl bg-org">
-<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="70"><div class="bbl">It's orange!</div></div>
-<div class="obj-wrap"><svg width="190" height="190" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
+<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="75"><div class="bbl">It's orange!</div></div>
+<div class="obj-wrap"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/><path d="M70 95 Q80 103 90 95" stroke="#d35400" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
 <div class="word" style="color:#e67e22">orange</div>
 </div>
 
 <!-- S7: Tap to Reveal -->
 <div class="sl bg-lav">
-<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="70"><div class="bbl">Tap to find colors!</div></div>
+<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="75"><div class="bbl">Tap to find colors!</div></div>
 <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
 <div class="reveal-box" id="rb0" onclick="reveal(0)"><svg width="90" height="90" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/><circle cx="69" cy="79" r="2.5" fill="#333"/><circle cx="93" cy="79" r="2.5" fill="#333"/></svg></div>
 <div class="reveal-box" id="rb1" onclick="reveal(1)"><svg width="90" height="90" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/><rect x="55" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/><rect x="83" y="50" width="22" height="18" rx="3" fill="#B3E5FC"/></svg></div>
@@ -159,7 +147,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S8: All Together -->
 <div class="sl bg-pink">
-<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="160" style="margin-bottom:6px">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
 <div class="ttl" style="font-size:36px">All the colors!</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:380px;margin:10px auto">
 <div style="background:#fff;border-radius:16px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><svg width="80" height="80" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/></svg><div style="font-size:24px;font-weight:900;color:#2c3e50">red</div></div>
@@ -172,7 +160,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S9: Bye - Muddy Puddles -->
 <div class="sl bg-mud">
-<img src="../../assets/peppa/peppa-and-george-ooo.png" width="140">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" width="110">
 <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Well Done!</div>
 <div class="sub" style="color:rgba(255,255,255,.8)">Bye red! Bye blue! Bye yellow!</div>
 <div class="sub" style="color:rgba(255,255,255,.8)">Bye green! Bye orange!</div>
