@@ -1,47 +1,102 @@
 # 课件模板使用说明
 
-## 为什么需要模板？
+## 模板设计原则
 
-每次从零生成完整 HTML 容易出现：
-- 结构不一致（CSS 类名、布局）
-- 遗漏关键代码（initM3/M4 调用、响应式样式）
-- 星星/tips 样式不统一
-- 交互逻辑错误
+**只保留框架结构，不包含具体内容**
 
-**模板方案：** 提供固定框架，agent 只填充可变内容。
+- ✅ 保留：CSS 样式、导航、通用函数、HTML 结构
+- ❌ 不保留：具体词汇、游戏逻辑、动画细节
 
----
-
-## 使用方法
+## 文件说明
 
 ### review-template.html
-- 基于 Day 1 review 创建
-- 固定：CSS、导航、通用函数（speak/playOk/goM/stars）
-- 可变：词汇数组、M2 主题游戏、动画效果
+纯框架模板，包含：
+- 完整的 CSS 样式（.top/.te/.tz/.sb/.pr/.bbl 等）
+- 响应式 @media 样式
+- 6 个模块容器（m0-m5）
+- 导航栏结构
+- 通用函数：speak/playOk/playNo/showConfetti/stars/goM
+- 占位符注释：`/* {{PLACEHOLDER}} */`
+
+**agent 需要填充：**
+- 词汇数组 W
+- M0 开始页内容
+- M1-M5 各模块的 initM 函数
+- M2 游戏的自定义样式
 
 ### teach-template.html
-- 基于 Day 1 teach 创建
-- 固定：CSS、导航、通用函数
-- 可变：Hello 标题、新词内容、S8 主题互动
+纯框架模板，包含：
+- 完整的 CSS 样式
+- 响应式 @media 样式
+- 10 个幻灯片容器（.sl）
+- 导航栏结构
+- 通用函数：speak/goTo/tn
+- Teacher Notes 功能
+- 占位符注释：`<!-- {{PLACEHOLDER}} -->`
 
----
+**agent 需要填充：**
+- 10 页幻灯片内容（Title/Hello/5新词/Listen/Game/All/Bye）
+- Teacher Notes 对象 N
+- 自定义样式（如果需要）
 
-## 生成流程
+## 使用流程
 
-**当前方式（容易出错）：**
+1. **读取模板** - agent 先读取对应模板文件
+2. **理解结构** - 了解哪些是固定的，哪些需要填充
+3. **填充内容** - 只修改占位符标记的部分
+4. **保持一致** - 不改变 CSS 类名、函数名、结构
+
+## 关键约束
+
+- **禁止从零生成** - 必须基于模板修改
+- **保持类名** - 不要改 CSS 类名
+- **完整的 goM** - review 必须包含 initM1-5 所有调用
+- **响应式样式** - 不要删除 @media 样式
+- **通用函数** - speak/playOk/stars 等不要改
+
+## 占位符说明
+
+### review-template.html
+```javascript
+/* {{WORDS_ARRAY}} */ - 词汇数组
+/* {{M0_START_PAGE}} */ - 开始页
+/* {{M1_LEARN}} */ - 学新词
+/* {{M2_GAME}} */ - 主题游戏（每天不同）
+/* {{M3_LISTEN}} */ - 听力游戏
+/* {{M4_MEMORY}} */ - 记忆翻牌
+/* {{M5_DONE}} */ - 完成页
+/* {{CUSTOM_STYLES}} */ - 自定义样式
 ```
-agent → 从零生成完整 HTML → 容易遗漏/错误
+
+### teach-template.html
+```html
+<!-- {{SLIDES}} --> - 10 页幻灯片
+<!-- {{TEACHER_NOTES}} --> - Teacher Notes
+<!-- {{CUSTOM_STYLES}} --> - 自定义样式
 ```
 
-**模板方式（更可靠）：**
+## 示例
+
+**错误方式：**
+```javascript
+// 从零生成，容易遗漏
+function goM(d){
+  curM+=d;
+  // 忘记写 initM3/initM4 调用
+}
 ```
-agent → 读取模板 → 参考结构生成 → 确保一致性
+
+**正确方式：**
+```javascript
+// 基于模板，goM 已经完整
+function goM(d){
+  curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;
+  // ... 模板已包含所有 initM1-5 调用
+  if(curM===1)initM1();
+  if(curM===2)initM2();
+  if(curM===3)initM3();
+  if(curM===4)initM4();
+  if(curM===5)initM5();
+}
+// agent 只需实现各个 initM 函数
 ```
-
----
-
-## 下一步
-
-1. 完善模板（标记关键可变部分）
-2. 更新 AGENTS.md，要求 agent 参考模板生成
-3. 测试：用模板重新生成 Day 2
