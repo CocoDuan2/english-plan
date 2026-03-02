@@ -190,7 +190,7 @@ function pjTap(j){
   if(j===pjOrd[pjI]){
     playOk();pjS++;pjI++;pepBounce();
     setI("Splash! It's "+W[j].w+'!','答对啦！跳进 '+W[j].w+' 啦！',stars(pjS,5));
-    speak(W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
+    speak("It's "+W[j].w,function(){pjB=false;setTimeout(renderPJ,600)});
   }else{
     playNo();
     setI('Try again!','再试一次！哪个是 '+W[pjOrd[pjI]].w+'？',stars(pjS,5));
