@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 22 - Opposites Game</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-opposite{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:48px;margin:12px;transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:20px 0}
+.opposite-pair{display:flex;align-items:center;gap:30px;margin:20px 0;max-width:600px}
+.opposite-item{display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;padding:20px;background:#fff;border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:transform .2s;flex:1}
+.opposite-item:active{transform:scale(.95)}
+.opposite-item svg{width:120px;height:120px}
+.opposite-item .lbl{font-size:32px;font-weight:700;color:#2c3e50}
+.vs{font-size:48px;font-weight:900;color:#e67e22}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:20px 0;max-width:600px}
+.grid-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.grid-item svg{width:80px;height:80px}
+.grid-item .lbl{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(min-width:768px){.word{font-size:100px}.sent{font-size:38px}.grid-item svg{width:100px}}
+@media(max-width:480px){.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.sound-btn{width:80px;height:80px;font-size:36px}.opposite-pair{flex-direction:column;gap:20px}.opposite-item svg{width:100px;height:100px}.opposite-item .lbl{font-size:28px}.vs{font-size:36px}.grid{grid-template-columns:repeat(2,1fr);gap:16px}.grid-item svg{width:70px;height:70px}.grid-item .lbl{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin:10px 0" alt="Peppa">
+<div class="ttl">Opposites Game</div>
+<div class="sub">Let's find opposites!</div>
+<div style="display:flex;gap:20px;margin-top:20px">
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#ff6b6b"/><text x="80" y="100" font-size="60" text-anchor="middle" fill="#fff" font-weight="bold">H</text></svg>
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#4ecdc4"/><text x="80" y="100" font-size="60" text-anchor="middle" fill="#fff" font-weight="bold">C</text></svg>
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M80 20 L80 140 M60 40 L80 20 L100 40" stroke="#2c3e50" stroke-width="8" fill="none"/></svg>
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M80 140 L80 20 M60 120 L80 140 L100 120" stroke="#2c3e50" stroke-width="8" fill="none"/></svg>
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M30 80 L130 80 M110 60 L130 80 L110 100" stroke="#2c3e50" stroke-width="8" fill="none"/></svg>
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<img src="../../assets/peppa/george-standing.png" style="width:110px;margin:10px 0" alt="George">
+<div class="ttl" style="font-size:52px">Let's find opposites!</div>
+</div>
+
+<!-- S2: hot -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">It's hot!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#ff6b6b"/>
+<circle cx="80" cy="80" r="50" fill="#ff4757"/>
+<circle cx="80" cy="80" r="30" fill="#ff3838"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff" font-weight="bold">🔥</text>
+</svg>
+</div>
+<div class="word">hot</div>
+</div>
+
+<!-- S3: cold -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">It's cold!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#4ecdc4"/>
+<circle cx="80" cy="80" r="50" fill="#45b7d1"/>
+<circle cx="80" cy="80" r="30" fill="#3ba3c7"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff" font-weight="bold">❄️</text>
+</svg>
+</div>
+<div class="word">cold</div>
+</div>
+
+<!-- S4: up -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">It's up!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<path d="M80 20 L80 140" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<path d="M50 50 L80 20 L110 50" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<circle cx="80" cy="30" r="15" fill="#ff6b6b"/>
+</svg>
+</div>
+<div class="word">up</div>
+</div>
+
+<!-- S5: down -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">It's down!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<path d="M80 140 L80 20" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<path d="M50 110 L80 140 L110 110" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<circle cx="80" cy="130" r="15" fill="#4ecdc4"/>
+</svg>
+</div>
+<div class="word">down</div>
+</div>
+
+<!-- S6: fast -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">It's fast!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<path d="M30 80 L130 80" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<path d="M100 60 L130 80 L100 100" stroke="#2c3e50" stroke-width="12" fill="none"/>
+<path d="M20 70 L50 70" stroke="#ff6b6b" stroke-width="6" opacity="0.6"/>
+<path d="M30 90 L60 90" stroke="#ff6b6b" stroke-width="6" opacity="0.6"/>
+<circle cx="130" cy="80" r="15" fill="#ff6b6b"/>
+</svg>
+</div>
+<div class="word">fast</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and say!</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#ff6b6b,#ff4757)" onclick="speak('hot')">
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#fff"/><text x="80" y="110" font-size="80" text-anchor="middle">🔥</text></svg>
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#4ecdc4,#45b7d1)" onclick="speak('cold')">
+<svg width="50" height="50" viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="#fff"/><text x="80" y="110" font-size="80" text-anchor="middle">❄️</text></svg>
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffa502,#ff7f50)" onclick="speak('up')">
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M80 20 L80 140 M60 40 L80 20 L100 40" stroke="#fff" stroke-width="8" fill="none"/></svg>
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#5f27cd,#8e44ad)" onclick="speak('down')">
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M80 140 L80 20 M60 120 L80 140 L100 120" stroke="#fff" stroke-width="8" fill="none"/></svg>
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#00d2ff,#3a7bd5)" onclick="speak('fast')">
+<svg width="50" height="50" viewBox="0 0 160 160"><path d="M30 80 L130 80 M110 60 L130 80 L110 100" stroke="#fff" stroke-width="8" fill="none"/></svg>
+</button>
+</div>
+</div>
+
+<!-- S8: Opposites Match -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Find the opposites!</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div class="opposite-pair">
+<div class="opposite-item" onclick="speak('hot')">
+<svg width="120" height="120" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#ff6b6b"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff">🔥</text>
+</svg>
+<div class="lbl">hot</div>
+</div>
+<div class="vs">VS</div>
+<div class="opposite-item" onclick="speak('cold')">
+<svg width="120" height="120" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#4ecdc4"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff">❄️</text>
+</svg>
+<div class="lbl">cold</div>
+</div>
+</div>
+<div class="opposite-pair">
+<div class="opposite-item" onclick="speak('up')">
+<svg width="120" height="120" viewBox="0 0 160 160">
+<path d="M80 20 L80 140 M60 40 L80 20 L100 40" stroke="#2c3e50" stroke-width="10" fill="none"/>
+</svg>
+<div class="lbl">up</div>
+</div>
+<div class="vs">VS</div>
+<div class="opposite-item" onclick="speak('down')">
+<svg width="120" height="120" viewBox="0 0 160 160">
+<path d="M80 140 L80 20 M60 120 L80 140 L100 120" stroke="#2c3e50" stroke-width="10" fill="none"/>
+</svg>
+<div class="lbl">down</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-opposite">
+<div class="pr">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" style="width:120px" alt="Family">
+<div class="bbl">All together!</div>
+</div>
+<div class="grid">
+<div class="grid-item">
+<svg width="80" height="80" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#ff6b6b"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff">🔥</text>
+</svg>
+<div class="lbl">hot</div>
+</div>
+<div class="grid-item">
+<svg width="80" height="80" viewBox="0 0 160 160">
+<circle cx="80" cy="80" r="70" fill="#4ecdc4"/>
+<text x="80" y="110" font-size="80" text-anchor="middle" fill="#fff">❄️</text>
+</svg>
+<div class="lbl">cold</div>
+</div>
+<div class="grid-item">
+<svg width="80" height="80" viewBox="0 0 160 160">
+<path d="M80 20 L80 140 M60 40 L80 20 L100 40" stroke="#2c3e50" stroke-width="10" fill="none"/>
+</svg>
+<div class="lbl">up</div>
+</div>
+<div class="grid-item">
+<svg width="80" height="80" viewBox="0 0 160 160">
+<path d="M80 140 L80 20 M60 120 L80 140 L100 120" stroke="#2c3e50" stroke-width="10" fill="none"/>
+</svg>
+<div class="lbl">down</div>
+</div>
+<div class="grid-item">
+<svg width="80" height="80" viewBox="0 0 160 160">
+<path d="M30 80 L130 80 M110 60 L130 80 L110 100" stroke="#2c3e50" stroke-width="10" fill="none"/>
+</svg>
+<div class="lbl">fast</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" style="width:110px;margin:10px 0" alt="Peppa and George">
+<div class="ttl">Bye bye!</div>
+<div class="sub">Tomorrow: In the Garden!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page. Story: Opposites Game - Peppa and George discover things that are opposite.',
+1:'Hello page. George invites: "Let\'s find opposites!"',
+2:'New word: hot. Sentence: "It\'s hot!" The sun is hot in summer.',
+3:'New word: cold. Sentence: "It\'s cold!" Ice cream is cold.',
+4:'New word: up. Sentence: "It\'s up!" The balloon goes up.',
+5:'New word: down. Sentence: "It\'s down!" The ball falls down.',
+6:'New word: fast. Sentence: "It\'s fast!" The car goes fast.',
+7:'Listen & Say. Click each button to hear the word. Encourage repetition.',
+8:'Opposites Match. Click each item to hear its name. Discuss: "What is the opposite of hot?"',
+9:'All Together. Point to each item randomly and ask: "What is this?" or "It\'s ___?"',
+10:'Bye page. Preview tomorrow: In the Garden (flower/tree/bee/butterfly/ladybug).'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>
