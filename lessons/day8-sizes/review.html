@@ -89,16 +89,15 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 <div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Tap to see!</div></div>
 <div class="card-grid" id="cg1"></div>
 </div>
-<!-- M2: Size Match -->
+<!-- M2: Compare & Find -->
 <div id="m2" class="mod">
 <div class="top">
-<div class="te">Size Match</div>
-<div class="tz">听一听，找到对的！</div>
+<div class="te">Compare & Find</div>
+<div class="tz">找出最大/最小的！</div>
 <div class="sb" id="s2"></div>
 </div>
-<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Find it!</div><div onclick="playM2Round()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div></div>
-<div class="size-prompt" id="m2prompt"></div>
-<div class="size-options" id="m2opts"></div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl" id="m2bbl">Find the big one!</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:16px 0" id="m2compare"></div>
 </div>
 <!-- M3: Listen & Find -->
 <div id="m3" class="mod">
@@ -191,36 +190,48 @@ g.appendChild(c);
 });
 }
 // M2: Size Match - hear word, tap correct visual
-var m2round=0,m2order=[];
+var m2round=0,m2questions=[];
+// M2: Compare & Find
+var m2round=0,m2questions=[];
 function initM2(){
-if(m2order.length>0)return;
+if(m2round>0)return;
 document.getElementById('s2').innerHTML=stars(0,W.length);
-m2order=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
-buildM2Options();
+// Generate questions: "Find the big/small/long/short one"
+m2questions=[
+{q:'Find the big one!',target:'big',items:['big','small']},
+{q:'Find the small one!',target:'small',items:['small','big']},
+{q:'Find the long one!',target:'long',items:['long','short']},
+{q:'Find the short one!',target:'short',items:['short','long']},
+{q:'Find the round one!',target:'round',items:['round','big']}
+];
+m2questions.sort(function(){return Math.random()-.5});
 playM2Round();
 }
-function buildM2Options(){
-var g=document.getElementById('m2opts');g.innerHTML='';
-W.forEach(function(item,i){
-var b=document.createElement('div');b.className='size-opt';
-b.innerHTML=svgHTML(item,60)+'<div class="olabel">'+item.w+'</div>';
-b.onclick=function(){checkM2(i)};
-g.appendChild(b);
+function playM2Round(){
+if(m2round>=m2questions.length)return;
+var q=m2questions[m2round];
+document.getElementById('m2bbl').textContent=q.q;
+speak(q.q.replace('Find the ','').replace(' one!',''));
+var g=document.getElementById('m2compare');g.innerHTML='';
+q.items.forEach(function(w){
+var item=W.find(function(x){return x.w===w});
+var d=document.createElement('div');
+d.style.cssText='width:120px;height:120px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:transform .2s';
+d.innerHTML=svgHTML(item,90);
+d.onmouseover=function(){d.style.transform='scale(1.05)'};
+d.onmouseout=function(){d.style.transform='scale(1)'};
+d.onclick=function(){checkM2(w)};
+g.appendChild(d);
 });
 }
-function playM2Round(){
-if(m2round>=W.length)return;
-var idx=m2order[m2round];
-document.getElementById('m2prompt').textContent=W[idx].w;
-speak(W[idx].w);
-}
-function checkM2(idx){
-if(busy||m2round>=W.length)return;
-if(idx===m2order[m2round]){
-busy=true;playOk();
-st[1]++;document.getElementById('s2').innerHTML=stars(st[1],W.length);
+function checkM2(w){
+if(busy)return;
+var q=m2questions[m2round];
+if(w===q.target){
+busy=true;playOk();st[1]++;
+document.getElementById('s2').innerHTML=stars(st[1],m2questions.length);
 m2round++;
-setTimeout(function(){if(m2round<W.length)playM2Round();busy=false},1200);
+setTimeout(function(){if(m2round<m2questions.length)playM2Round();busy=false},1200);
 }else{playNo()}
 }
 // M3: Listen & Find
