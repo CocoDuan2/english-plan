@@ -137,39 +137,22 @@ english-plan/lessons/dayN-topic/
 ### 定位
 外教屏幕共享，老师控制翻页节奏。**幻灯片，不是游戏。**
 
+
 ### 结构（10页，固定）
 1. **Title** — 故事标题 + 主题预览
-2. **Hello** — 引导页（Come with me! 今天要做什么）
-3-7. **New Words** — 每词一页：佩琪气泡说句式 + Twemoji/SVG 物品 + 大单词
-8. **第一个互动** — 听词互动（每天不同，见下方规划）
-9. **第二个互动** — 游戏互动（每天不同，见下方规划）
+2. **Hello** — 佩琪打招呼，介绍今天要做什么（简单故事线）
+3-7. **New Words** — 每词一页：佩琪气泡说句式 + SVG/Twemoji 物品 + 大单词
+7. **Listen \& Say** — 带SVG图标的圆形按钮，点击听发音（可多次点击）
+8. **主题互动** — 差异化互动（每课不同，见 Day 1-6 规范）
+9. **All Together** — 所有词网格展示，老师随机指问
 10. **Bye** — 佩琪庆祝 + 预告明天
 
 ### 互动差异化（核心！）
 - **禁止每天都用同样的互动**（如每天都 Tap to Reveal）
-- 每课的互动页（Listen & Say 后面）必须有差异化设计
-- 示例：
-  - Day 1: Tap to Reveal（点灰盒揭示）
-  - Day 2: Animal Sounds（听叫声点动物）
-  - Day 3: Simon Says（老师说 Touch your nose，小孩做动作）
-  - Day 4: Shopping Basket（点食物装篮子）
-  - Day 5: Family Match（配对家人照片）
-- 互动要符合故事主题，不是为了互动而互动
+- S8 主题互动必须每课不同，符合故事主题
+- 互动要有明确目标（找、装、排序等），不是为了互动而互动
 
-1. **Title** — 故事标题 + 主题预览
-2-6. **New Words** — 每词一页：佩琪气泡说句式 + SVG/Twemoji 物品 + 大单词
-7. **第一个互动** — 听声音按钮（可多次点击）
-8. **第二个互动** — 差异化互动（每课不同）
-9. **第三个互动** — 所有词网格，老师随机指问
-10. **Bye** — 佩琪庆祝 + 预告明天
-2. **Hello** — 佩琪打招呼，介绍今天要做什么（简单故事线）
-2-6. **New Words** — 每词一页：佩琪气泡说句式 + SVG物品大图 + 大单词 + 句式
-8. **Tap to Reveal** — 灰色方块点击揭示（唯一互动，老师操作）
-9. **All Together** — 所有词网格，老师随机指问
-10. **Bye** — 佩琪跳泥坑庆祝
 
-### 每页布局（宁大勿小！3岁小孩要看得清）
-### 每页布局（宁大勿小！3岁小孩要看得清）
 - 佩琪角色图（.pr img）：75px
 - 首页/Hello/Bye 页角色图：110px
 - 对话气泡：26px+ 字号，加粗
@@ -241,12 +224,6 @@ english-plan/lessons/dayN-topic/
 4. **记忆翻牌** — 配对游戏
 5. **Done 页** — 佩琪全家庆祝 + "All Done" + Play Again
 
-
-
-
-
-
-
 ### 佩琪在 review 中
 - 开始页：佩琪大图（140px）邀请玩游戏
 - 每个游戏都有佩琪引导：角色图（75px）+ 气泡提示
@@ -254,10 +231,23 @@ english-plan/lessons/dayN-topic/
 - 角色轮换：不同游戏用不同角色（Peppa/George/Candy Cat 等）
 - 完成：佩琪全家福（120px）
 
+### 🎮 Review 游戏差异化规范（Day 1-6）
 
+每天的"主题游戏"（M2）必须不同，不能每天都是同一种玩法。
 
+| Day | 主题 | M2 主题游戏 |
+|-----|------|-------------|
+| 1 | Colors | Jump in Puddles — 跳进指定颜色泥坑 |
+| 2 | Animals | Feed the Animals — 拖食物喂动物 |
+| 3 | Body | Touch Your Body — 听指令点身体部位 |
+| 4 | Food | Picnic Sort — 把食物分类到盘子里 |
+| 5 | Family | Family Photo — 把家人拖到正确位置 |
+| 6 | Clothes | Dress Up — 给佩琪穿上指定衣服 |
 
-
+M1（学新词）、M3（听力）、M4（记忆翻牌）结构固定，但视觉和交互细节要有变化：
+- M1：卡片揭示动画每天不同（翻转/滑入/淡入等）
+- M3：🔊按钮颜色跟随主题色
+- M4：卡片数量可变（4-6对），背面图案跟随主题
 
 ### 语音
 - **review 游戏中只读单词，不读句子**（句子播放慢且易失败，体验差）
@@ -401,8 +391,8 @@ english-plan/lessons/dayN-topic/
 - 三个页面递进：S7 听词 → S8 互动游戏 → S9 总复习
 
 ### Day 1: Peppa's Colorful Day
-- S7: **Color Buttons** — 5个彩色圆按钮，点击听颜色
-- S8: **Find in Picture** — 佩琪房间场景图，点击物品说颜色
+- S7: **Listen & Say** — 5个带SVG图标的渐变圆形按钮，点击听颜色发音
+- S8: **Find Colors (Balloons)** — 5个彩色气球，点击听颜色
 - S9: **Color Parade** — 5个颜色横排展示，老师随机指
 
 ### Day 2: Visit the Zoo
@@ -451,11 +441,11 @@ english-plan/lessons/dayN-topic/
 - [ ] Bye 页有预告明天
 
 ### Review 课件
-- [ ] 5 模块：Start → Learn → Game → Memory → Done
+- [ ] 6 模块：Start → Learn → Game → Listen & Find → Memory → Done
 - [ ] 游戏语音只读单词（不读句子）
 - [ ] 点错不读单词（只播放错误音效）
 - [ ] 答对有撒花效果
-- [ ] 星星用 ⭐/🩶
+- [ ] 星星用 ⭐（已得）/★ color:#bbb（未得）
 - [ ] 导航完整（Back/页码/Next）
 - [ ] Done 页有 Play Again 按钮
 
