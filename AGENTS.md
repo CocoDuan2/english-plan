@@ -285,7 +285,7 @@ english-plan/lessons/dayN-topic/
 - 答对：playOk() + speak(word) + 1200ms 后继续
 - 答对视觉效果：playOk() 必须触发 showConfetti() 撒花动画（20个彩色圆点飘落）
 - 答错：playNo() + speak(正确词) + 不跳转
-- 星星样式：已得⭐，未得⭐（统一用⭐，禁止用黑色空心☆或灰心🩶）
+- 星星样式：已得⭐（彩色），未得⭐（灰色 grayscale+opacity:.4），禁止用黑色空心☆或灰心🩶
 - 已揭示卡片可重复点击发音
 - 每模块独立 busy lock 防重复点击
 - 中文提示口语化：「点一点，哪个是 red？」「答对啦！」
