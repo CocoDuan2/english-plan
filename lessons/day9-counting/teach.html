@@ -266,9 +266,9 @@ function initAll(){
 if(allInit)return;allInit=true;
 var g=document.getElementById('allGrid');g.innerHTML='';
 WD.forEach(function(item){
-var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'.svg'+'" width="30" style="margin:2px">';
+var dots='';for(var j=0;j<item.n;j++)dots+='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.emoji+'.svg'+'" width="28" style="margin:0">';
 var d=document.createElement('div');d.className='all-item';
-d.innerHTML='<div>'+dots+'</div><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
+d.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:180px">'+dots+'</div><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
 g.appendChild(d);
 });
 }
