@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 8 - Big and Small ✅
-- 更新时间: 2026-03-02 18:37
+- 当前: Day 9 - Counting Game ✅
+- 更新时间: 2026-03-02 19:01
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -61,8 +61,15 @@
 - Review 游戏: Learn (scale-reveal) → Size Match (听词找图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 9 - Counting Game
+## Day 9 - Counting Game
 - 新词: one, two, three, four, five
 - 句式: I have ___!
-- 互动: Counting Fingers → Number Hunt → Number Parade
+- Teach 互动: Counting Fingers → Number Hunt → Number Parade
+- Review 游戏: Learn (slide-up) → Count & Tap (点星星数数) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 10 - Playground Fun
+- 新词: run, jump, walk, sit, stand
+- 句式: I can ___!
+- 互动: Action Show → Simon Says → Action Parade
