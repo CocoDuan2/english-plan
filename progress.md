@@ -3,8 +3,9 @@
 ## 当前状态
 - 当前: Day 4 - Food (已完成)
 - 重置日期: 2026-03-02
-- 课程体系: RAZ递进式，词汇不重复，主题不循环
+- 课程体系: RAZ递进式，无复习日，词汇不重复
 - 风格: 🐷 Peppa Pig + SVG 物品
+
 ## Day 1 - Colors 🎨
 - 新词: red, blue, yellow, green, orange
 - 句式: It's ___!
@@ -37,8 +38,7 @@
 - review: 昨日body微复习 + 翻牌学词 + 喂朋友三选一 + 听音三选一 + 购物清单顺序
 - 状态: ✅ 完成
 
-
 ## 下一课
-- Day 5 - Review 1 (Day 1-4 混合 20 词)
-- 复习: red, blue, yellow, green, orange, cat, dog, fish, bird, duck, head, eyes, ears, nose, mouth, apple, banana, milk, bread, egg
-- 句式混合: It's ___ / I see a ___ / This is my ___ / I like ___
+- Day 5 - Family 👨‍👩‍👧‍👦
+- 新词: mom, dad, baby, brother, sister
+- 句式: This is my ___!
