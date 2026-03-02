@@ -74,7 +74,7 @@ function speak(t){var primary='https://dict.youdao.com/dictvoice?audio='+encodeU
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';return s}
 function goM(d){curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});document.getElementById('m'+curM).classList.add('on');document.getElementById('pg').textContent=(curM+1)+'/6';document.getElementById('pBtn').disabled=curM===0;var nb=document.getElementById('nBtn');if(curM===0){nb.textContent='Start!';nb.disabled=false}else if(curM>=5){nb.textContent='Done';nb.disabled=true}else{nb.textContent='Next ▶';nb.disabled=false}if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();}
 
-document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standing.png" width="140" style="margin-bottom:16px"><div style="font-size:48px;margin:12px 0">🔴🔵🟡🟢🟠</div><div style="font-size:28px;font-weight:900;color:#e91e8c">Let\'s Play!</div>';
+document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standing.png" width="140" style="margin-bottom:16px"><div style="display:flex;gap:12px;justify-content:center;margin:12px 0">'+W.map(function(x){return '<svg width="60" height="60" viewBox="0 0 160 160">'+x.svg+'</svg>'}).join('')+'</div><div style="font-size:28px;font-weight:900;color:#e91e8c">Let\'s Play!</div>';
 
 var lnC=0,lnB=false;
 function initM1(){
