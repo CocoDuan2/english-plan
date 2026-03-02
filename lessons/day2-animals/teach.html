@@ -163,7 +163,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['cat','dog','fish','bird','duck'];
 var N={"0":"Story: Visit the Zoo · See animals with Peppa","1":"Peppa invites you to the zoo!","2":"What animal? → I see a cat! · Repeat 3x","3":"I see a dog! · Repeat 3x","4":"I see a fish! · Repeat 3x","5":"I see a bird! · Repeat 3x","6":"I see a duck! · Repeat 3x","7":"Tap each button to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What animal?","9":"Point randomly: What animal? · Go faster","10":"Say bye to each animal!"};
-var c=0,t=10,o=false;
+var c=0,t=11,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';

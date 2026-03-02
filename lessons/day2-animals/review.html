@@ -253,7 +253,7 @@ function lpTap(i){
     setTimeout(function(){renderLP();lpBusy=false},1200);
   } else {
     playNo();totalQ++;
-    speak(W[correct].w);
+    
     document.getElementById('lpfb').textContent='That\'s a '+W[i].w+'. Try again!';
     setTimeout(function(){document.getElementById('lpfb').textContent='';lpBusy=false},1000);
   }
