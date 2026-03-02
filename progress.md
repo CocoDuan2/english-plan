@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 17 - Farm Visit ✅
-- 更新时间: 2026-03-02 23:26
+- 当前: Day 18 - Daily Actions ✅
+- 更新时间: 2026-03-02 23:38
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -124,8 +124,15 @@
 - Review 游戏: Learn (reveal) → Farm Sounds (听声音找动物) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 18 - Daily Actions
+## Day 18 - Daily Actions
 - 新词: eat, drink, sleep, wash, play
 - 句式: I want to ___!
-- 互动: Action Show → Daily Routine → Action Parade
+- Teach 互动: Listen & Say → Daily Routine Clock → Action Parade
+- Review 游戏: Learn (reveal) → Daily Routine (按顺序点) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 19 - My Room
+- 新词: bed, door, window, chair, table
+- 句式: It's in the ___!
+- 互动: Room Tour → Find Objects → Room Parade
