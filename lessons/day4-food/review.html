@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 4 Review - Peppa's Picnic</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
+.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
+.mod.on{display:flex}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#2e7d32;margin:8px 0;text-shadow:0 2px 4px rgba(46,125,50,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#66bb6a,#ffa726);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(102,187,106,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(102,187,106,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#1b5e20;margin:6px 0;letter-spacing:2px}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
+.pr img{width:75px}
+.pr.big img{width:110px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+/* M1 cards - flip reveal */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px}
+.card{width:100%;aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .5s;transform-style:preserve-3d;position:relative}
+.card.revealed{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px}
+.card-front{background:linear-gradient(135deg,#a5d6a7,#66bb6a);font-size:44px}
+.card-back{transform:rotateY(180deg);background:#fff}
+.card-back img{width:90px;height:90px}
+.card-back .card-label{font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px}
+/* M2 Picnic Sort */
+.plate-area{display:flex;gap:24px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.plate{width:140px;min-height:140px;background:radial-gradient(circle,#fff,#f5f5f5);border-radius:50%;border:4px solid #e0e0e0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.plate-label{font-size:16px;font-weight:700;color:#666;margin-top:6px}
+.food-shelf{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:500px;margin:16px 0}
+.food-btn{width:90px;height:90px;background:#fff;border-radius:16px;border:3px solid #a5d6a7;box-shadow:0 4px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.food-btn:hover{transform:scale(1.08)}
+.food-btn.sorted{opacity:.3;pointer-events:none;border-color:#ccc}
+.food-btn img{width:60px;height:60px}
+/* M3 Listen */
+.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px}
+.listen-card{width:100%;aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+.listen-card:hover{transform:scale(1.05)}
+.listen-card img{width:80px;height:80px}
+.listen-card-label{font-size:18px;font-weight:700;color:#2c3e50;margin-top:8px}
+.speaker-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#66bb6a,#43a047);border:none;color:#fff;font-size:28px;cursor:pointer;box-shadow:0 4px 12px rgba(102,187,106,.4);margin:12px 0}
+.prompt-word{font-size:36px;font-weight:900;color:#2e7d32;margin:12px 0;padding:10px 24px;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+/* M4 Memory */
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:560px}
+.mem-card{aspect-ratio:1;background:#fff;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s;transform-style:preserve-3d;position:relative}
+.mem-card.flipped{transform:rotateY(180deg)}
+.mem-card.matched{opacity:.6;pointer-events:none}
+.mem-front,.mem-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;border-radius:12px}
+.mem-front{background:linear-gradient(135deg,#66bb6a,#43a047);font-size:44px}
+.mem-back{transform:rotateY(180deg);background:#fff;flex-direction:column;gap:4px}
+.mem-back img{width:70px;height:70px}
+.mem-back-label{font-size:18px;font-weight:700;color:#2c3e50}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #8BC34A;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#8BC34A;color:#fff;box-shadow:0 4px 12px rgba(139,195,74,.4)}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}
+.pr img{width:65px}.pr.big img{width:90px}.sb{font-size:22px}
+.card-grid{grid-template-columns:repeat(2,1fr);gap:12px}.card-back img{width:70px;height:70px}.card-back .card-label{font-size:18px}
+.food-btn{width:75px;height:75px}.food-btn img{width:50px;height:50px}
+.plate{width:110px;min-height:110px}
+.listen-grid{grid-template-columns:repeat(2,1fr)}
+.memory-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+.mem-back img{width:55px;height:55px}.mem-back-label{font-size:16px}
+.prompt-word{font-size:28px}
+}
+</style>
+</head>
+<body>
+<!-- M0: Start -->
+<div id="m0" class="mod on">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="te">Peppa's Picnic</div>
+<div class="sb">Let's play!</div>
+<div style="display:flex;gap:16px;margin:20px 0">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" width="50" alt="apple">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" width="50" alt="banana">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="50" alt="milk">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" width="50" alt="bread">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" width="50" alt="egg">
+</div>
+</div>
+
+<!-- M1: Learn - flip reveal -->
+<div id="m1" class="mod">
+<div class="top">
+<div class="te">Learn New Words</div>
+<div class="tz">👆 点一点，翻开看看！</div>
+<div class="sb" id="s1">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Tap to flip!</div></div>
+<div class="card-grid" id="cg1"></div>
+</div>
+
+<!-- M2: Picnic Sort -->
+<div id="m2" class="mod">
+<div class="top">
+<div class="te">Picnic Sort</div>
+<div class="tz">🧺 听一听，放到盘子里！</div>
+<div class="sb" id="s2">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Find the food!</div></div>
+<button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button>
+<div class="prompt-word" id="m2prompt"></div>
+<div class="food-shelf" id="foodShelf"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div id="m3" class="mod">
+<div class="top">
+<div class="te">Listen & Find</div>
+<div class="tz">👂 听一听，点一点！</div>
+<div class="sb" id="s3">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Listen carefully!</div></div>
+<button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button>
+<div class="listen-grid" id="lg3"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div id="m4" class="mod">
+<div class="top">
+<div class="te">Memory Match</div>
+<div class="tz">🎴 翻一翻，找一对！</div>
+<div class="sb" id="s4">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"><div class="bbl">Find pairs!</div></div>
+<div class="memory-grid" id="mg4"></div>
+</div>
+
+<!-- M5: Done -->
+<div id="m5" class="mod">
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="te" style="font-size:48px">All Done!</div>
+<div class="sb">Yummy picnic! 🎉</div>
+<div class="sb" id="s5">⭐⭐⭐⭐⭐</div>
+<button class="nb" onclick="location.reload()" style="margin-top:20px;font-size:20px;padding:16px 40px">Play Again</button>
+</div>
+
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
+var W=[
+{w:'apple',img:TW+'1f34e.svg'},
+{w:'banana',img:TW+'1f34c.svg'},
+{w:'milk',img:TW+'1f95b.svg'},
+{w:'bread',img:TW+'1f35e.svg'},
+{w:'egg',img:TW+'1f95a.svg'}
+];
+var curM=0,busy=false;
+var st=[0,0,0,0,0];
+
+function speak(t){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web').play().catch(function(){})});
+}
+function getAC(){if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();return window.actx}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
+function playNo(){tone(300,.3)}
+function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';return s}
+
+function goM(d){
+curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;
+document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+document.getElementById('m'+curM).classList.add('on');
+document.getElementById('pg').textContent=(curM+1)+'/6';
+document.getElementById('pBtn').disabled=curM===0;
+var nb=document.getElementById('nBtn');
+if(curM===0){nb.textContent='Start!';nb.disabled=false}
+else if(curM>=5){nb.textContent='Done';nb.disabled=true}
+else{nb.textContent='Next ▶';nb.disabled=false}
+if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();
+}
+
+// M1: Learn - flip reveal
+var m1rev=[];
+function initM1(){
+if(m1rev.length>0)return;
+var g=document.getElementById('cg1');g.innerHTML='';
+W.forEach(function(item,i){
+var c=document.createElement('div');c.className='card';
+c.innerHTML='<div class="card-front">🧺</div><div class="card-back"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
+c.onclick=function(){
+if(c.classList.contains('revealed')){speak(item.w);return}
+c.classList.add('revealed');
+speak(item.w);m1rev.push(i);
+if(m1rev.length===W.length){st[0]=W.length;document.getElementById('s1').innerHTML=stars(st[0],W.length)}
+};
+g.appendChild(c);
+});
+}
+
+// M2: Picnic Sort - tap food to match prompt
+var m2round=0,m2order=[];
+function initM2(){
+if(m2order.length>0)return;
+m2order=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var g=document.getElementById('foodShelf');g.innerHTML='';
+W.forEach(function(item,i){
+var b=document.createElement('div');b.className='food-btn';b.dataset.idx=i;
+b.innerHTML='<img src="'+item.img+'" alt="'+item.w+'">';
+b.onclick=function(){checkM2(i,b)};
+g.appendChild(b);
+});
+playM2Round();
+}
+function playM2Round(){
+if(m2round>=W.length)return;
+var idx=m2order[m2round];
+document.getElementById('m2prompt').textContent=W[idx].w;
+speak(W[idx].w);
+}
+function checkM2(idx,btn){
+if(busy||m2round>=W.length)return;
+var correct=m2order[m2round];
+if(idx===correct){
+busy=true;playOk();btn.classList.add('sorted');
+st[1]++;document.getElementById('s2').innerHTML=stars(st[1],W.length);
+m2round++;
+setTimeout(function(){
+if(m2round<W.length)playM2Round();
+busy=false;
+},1200);
+}else{playNo()}
+}
+
+// M3: Listen & Find
+var m3round=0,m3order=[];
+function initM3(){
+if(m3order.length>0)return;
+m3order=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var g=document.getElementById('lg3');g.innerHTML='';
+W.forEach(function(item,i){
+var c=document.createElement('div');c.className='listen-card';
+c.innerHTML='<img src="'+item.img+'" alt="'+item.w+'"><div class="listen-card-label">'+item.w+'</div>';
+c.onclick=function(){checkM3(i)};
+g.appendChild(c);
+});
+playM3Round();
+}
+function playM3Round(){if(m3round>=W.length)return;speak(W[m3order[m3round]].w)}
+function checkM3(idx){
+if(busy||m3round>=W.length)return;
+if(idx===m3order[m3round]){
+busy=true;playOk();st[2]++;document.getElementById('s3').innerHTML=stars(st[2],W.length);
+m3round++;
+setTimeout(function(){if(m3round<W.length)playM3Round();busy=false},1200);
+}else{playNo()}
+}
+
+// M4: Memory Match
+var m4flipped=[],m4matched=0;
+function initM4(){
+if(m4matched>0)return;
+var g=document.getElementById('mg4');g.innerHTML='';
+var pairs=[];
+W.forEach(function(item){pairs.push({w:item.w,img:item.img});pairs.push({w:item.w,img:item.img})});
+pairs.sort(function(){return Math.random()-.5});
+pairs.forEach(function(item,i){
+var c=document.createElement('div');c.className='mem-card';c.dataset.word=item.w;c.dataset.idx=i;
+c.innerHTML='<div class="mem-front">🍽️</div><div class="mem-back"><img src="'+item.img+'" alt="'+item.w+'"><div class="mem-back-label">'+item.w+'</div></div>';
+c.onclick=function(){flipCard(c)};
+g.appendChild(c);
+});
+}
+function flipCard(card){
+if(busy||card.classList.contains('flipped')||card.classList.contains('matched'))return;
+card.classList.add('flipped');m4flipped.push(card);
+if(m4flipped.length===2){
+busy=true;var c1=m4flipped[0],c2=m4flipped[1];
+if(c1.dataset.word===c2.dataset.word&&c1.dataset.idx!==c2.dataset.idx){
+playOk();setTimeout(function(){c1.classList.add('matched');c2.classList.add('matched');m4matched++;st[3]++;document.getElementById('s4').innerHTML=stars(st[3],W.length);m4flipped=[];busy=false;if(m4matched===W.length)setTimeout(function(){goM(1)},1000)},600);
+}else{
+playNo();setTimeout(function(){c1.classList.remove('flipped');c2.classList.remove('flipped');m4flipped=[];busy=false},1000);
+}
+}
+}
+
+function initM5(){document.getElementById('s5').innerHTML=stars(5,5)}
+goM(0);
+</script>
+</body>
+</html>
