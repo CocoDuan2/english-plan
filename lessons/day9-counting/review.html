@@ -34,8 +34,8 @@ body{background:linear-gradient(160deg,#fff3e0,#ffe0b2);overflow:hidden}
 .count-item.tapped{background:#ffd54f;border-color:#ff6d00;pointer-events:none}
 .count-progress{font-size:28px;font-weight:700;color:#e65100;margin:8px 0}
 .speaker-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#ff8f00,#ff6d00);border:none;color:#fff;font-size:28px;cursor:pointer;box-shadow:0 4px 12px rgba(255,143,0,.4);margin:0}
-.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px}
-.listen-card{width:100%;aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+.listen-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.listen-card{width:100px;height:100px;background:#fff;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
 .listen-card:active{transform:scale(.95)}
 .listen-card-label{font-size:18px;font-weight:700;color:#2c3e50;margin-top:8px}
 .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:560px}
@@ -106,10 +106,10 @@ body{background:linear-gradient(160deg,#fff3e0,#ffe0b2);overflow:hidden}
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz-row"><div class="tz">听一听，点一点！</div><button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button></div>
+<div class="tz">听一听，点一点！</div>
 <div class="sb" id="s3"></div>
 </div>
-<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Listen carefully!</div></div>
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"><div class="bbl">Listen carefully!</div><div onclick="playM3Round()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div></div>
 <div class="listen-grid" id="lg3"></div>
 </div>
 <!-- M4: Memory Match -->

@@ -61,10 +61,10 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 <div id="m2" class="mod">
 <div class="top">
 <div class="te">Dress Up Peppa</div>
-<div class="tz-row"><div class="tz">听一听，帮佩琪穿上衣服！</div><button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button></div>
+<div class="tz">听一听，帮佩琪穿上衣服！</div>
 <div class="sb" id="s2"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
-<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Help Peppa!</div></div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Help Peppa!</div><div onclick="playM2Round()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div></div>
 <div class="dress-prompt" id="m2prompt"></div>
 <div class="dress-pick" id="m2pick"></div>
 <div class="dress-frame" id="m2frame"></div>
@@ -74,10 +74,10 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz-row"><div class="tz">听一听，点一点！</div><button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button></div>
+<div class="tz">听一听，点一点！</div>
 <div class="sb" id="s3"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
-<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Listen carefully!</div></div>
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Listen carefully!</div><div onclick="playM3Round()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div></div>
 <div class="listen-grid" id="lg3"></div>
 </div>
 
@@ -121,10 +121,10 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 .dress-btn.used{opacity:.3;pointer-events:none}
 .dress-btn img{width:55px;height:55px}
 /* M3 Listen */
-.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px}
-.listen-card{width:100%;aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+.listen-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.listen-card{width:100px;height:100px;background:#fff;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
 .listen-card:active{transform:scale(.95)}
-.listen-card img{width:80px;height:80px}
+.listen-card img{width:70px;height:70px}
 .listen-card-label{font-size:18px;font-weight:700;color:#2c3e50;margin-top:8px}
 /* M4 Memory */
 .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:560px}

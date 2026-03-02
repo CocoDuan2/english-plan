@@ -36,10 +36,10 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 .match-btn.matched{background:linear-gradient(135deg,#a8e6cf,#88d8b0);border-color:#66bb6a;opacity:.5;pointer-events:none}
 .match-btn img{width:70px;height:70px}
 .match-line{position:absolute;pointer-events:none;z-index:1}
-.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px}
-.listen-card{width:100%;aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+.listen-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.listen-card{width:100px;height:100px;background:#fff;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
 .listen-card:hover{transform:scale(1.05)}
-.listen-card img{width:80px;height:80px}
+.listen-card img{width:70px;height:70px}
 .listen-card-label{font-size:18px;font-weight:700;color:#2c3e50;margin-top:8px}
 .speaker-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#66bb6a,#81c784);border:none;color:#fff;font-size:28px;cursor:pointer;box-shadow:0 4px 12px rgba(102,187,106,.4);margin:0}
 .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:90%;max-width:560px}
@@ -74,7 +74,7 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 .match-area{gap:20px}
 .match-btn{width:70px;height:70px}
 .match-btn img{width:55px;height:55px}
-.listen-grid{grid-template-columns:repeat(3,1fr)}
+
 .memory-grid{grid-template-columns:repeat(3,1fr);gap:10px}
 .mem-back img{width:55px;height:55px}
 .mem-back-label{font-size:16px}
@@ -134,12 +134,13 @@ body{background:linear-gradient(160deg,#e8f5e9,#c8e6c9);overflow:hidden}
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz-row"><div class="tz">听一听，点一点！</div><button class="speaker-btn" id="spk3" onclick="playListenRound()">🔊</button></div>
+<div class="tz">听一听，点一点！</div>
 <div class="sb" id="s3"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
 <div class="pr">
 <img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
 <div class="bbl">Listen carefully!</div>
+<div onclick="playListenRound()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 3px 10px rgba(0,0,0,.12);margin-left:8px">🔊</div>
 </div>
 <div class="listen-grid" id="lg3"></div>
 </div>
