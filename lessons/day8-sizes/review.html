@@ -151,7 +151,7 @@ var W=[
 {w:'round',svg:SVGS.round}
 ];
 var curM=0,busy=false,st=[0,0,0,0,0];
-function svgHTML(item,sz){return '<div style="width:'+sz+'px;height:'+sz+'px">'+item.svg+'</div>'}
+function svgHTML(item,sz){return '<div style="width:'+sz+'px;height:'+sz+'px;display:flex;align-items:center;justify-content:center;overflow:hidden"><div style="max-width:100%;max-height:100%">'+item.svg+'</div></div>'}
 function speak(t){
 var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2');
 a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web').play().catch(function(){})});
