@@ -11,87 +11,93 @@
 
 ## 视觉风格
 - 佩琪作为引导角色深度融入每页
-- 物品用 SVG 画图（颜色精确对应教学内容）
+- 颜色主题用 SVG，其他主题用 Twemoji CDN
 - 佩琪风配色：粉色 #F9ADC7、天蓝 #7EC8E3、草绿 #8BC34A
 
-## 课程规划（RAZ 递进式，无专门复习日）
+## 课程设计理念（故事化学习）
 
-### 设计原则
-- 每天 5 个新词，连续推进不停顿
-- 句式从简到难递进
-- 无专门复习日，旧词通过每课的复习桥接页和故事线自然复现
-- 主题持续推进，不循环
+### 核心原则
+- **每课一个故事**：不是孤立的词汇表，而是佩琪的一天/一次冒险
+- **情境化学习**：词汇出现在真实场景中（野餐、动物园、早晨起床...）
+- **情感连接**：小孩能想象自己和佩琪一起做这件事
+- **RAZ 递进式**：无专门复习日，旧词通过故事线自然复现
 
-### Level 1: 认知启蒙（Day 1-10）
+### Level 1: 佩琪的日常冒险（Day 1-10）
 
-| Day | 主题 | 新词 | 句式 |
-|-----|------|------|------|
-| 1 | Colors | red, blue, yellow, green, orange | It's ___! |
-| 2 | Animals | cat, dog, fish, bird, duck | I see a ___! |
-| 3 | Body | head, eyes, ears, nose, mouth | This is my ___! |
-| 4 | Food | apple, banana, milk, bread, egg | I like ___! |
-| 5 | Family | mom, dad, baby, brother, sister | This is my ___! |
-| 6 | Clothes | hat, shoes, shirt, pants, socks | I have ___! |
-| 7 | Toys | ball, car, doll, bear, block | I like my ___! |
-| 8 | Size | big, small, long, short, round | It's ___! |
-| 9 | Numbers | one, two, three, four, five | I have ___! |
-| 10 | Actions | run, jump, walk, sit, stand | I can ___! |
+| Day | 故事主题 | 新词 | 句式 | 场景 |
+|-----|---------|------|------|------|
+| 1 | Peppa's Colorful Day<br>佩琪的彩色一天 | red, blue, yellow, green, orange | It's ___! | 早上穿红裙子、看蓝天、玩黄球、在绿草地、吃橙子 |
+| 2 | Visit the Zoo<br>去动物园 | cat, dog, fish, bird, duck | I see a ___! | 和家人去动物园，看到各种动物 |
+| 3 | Morning Routine<br>早晨起床 | head, eyes, ears, nose, mouth | This is my ___! | 佩琪早上洗脸、照镜子认识身体 |
+| 4 | Peppa's Picnic<br>野餐时间 | apple, banana, milk, bread, egg | I like ___! | 准备野餐篮，带上喜欢的食物 |
+| 5 | Family Photo Day<br>全家福 | mom, dad, baby, brother, sister | This is my ___! | 拍全家福，介绍每个家人 |
+| 6 | Getting Dressed<br>穿衣服 | hat, shoes, shirt, pants, socks | I have ___! | 早上穿衣服准备出门 |
+| 7 | Toy Box Fun<br>玩具箱 | ball, car, doll, bear, block | I like my ___! | 整理玩具箱，介绍最喜欢的玩具 |
+| 8 | Big and Small<br>大小世界 | big, small, long, short, round | It's ___! | 比较家里的东西，发现大小不同 |
+| 9 | Counting Game<br>数数游戏 | one, two, three, four, five | I have ___! | 数玩具、数水果、数家人 |
+| 10 | Playground Fun<br>游乐场 | run, jump, walk, sit, stand | I can ___! | 在游乐场玩，展示能做的动作 |
 
-### Level 2: 场景拓展（Day 11-20）
+### Level 2: 佩琪的社交世界（Day 11-20）
 
-| Day | 主题 | 新词 | 句式 |
-|-----|------|------|------|
-| 11 | Feelings | happy, sad, angry, scared, sleepy | I am ___! |
-| 12 | Weather | sun, rain, cloud, wind, snow | I see ___! |
-| 13 | Places | home, school, park, shop, zoo | Let's go to ___! |
-| 14 | More Colors | pink, purple, white, black, brown | It's ___! |
-| 15 | Nature | tree, flower, grass, rock, water | I see a ___! |
-| 16 | Kitchen | cup, plate, spoon, bowl, fork | Give me ___! |
-| 17 | Farm Animals | pig, cow, horse, sheep, chicken | The ___ says ___! |
-| 18 | More Actions | eat, drink, sleep, wash, play | I want to ___! |
-| 19 | Rooms | bed, door, window, chair, table | It's in the ___! |
-| 20 | More Food | rice, cake, juice, candy, cookie | Can I have ___? |
+| Day | 故事主题 | 新词 | 句式 | 场景 |
+|-----|---------|------|------|------|
+| 11 | Feelings Today<br>今天的心情 | happy, sad, angry, scared, sleepy | I am ___! | 一天中不同时刻的情绪变化 |
+| 12 | Weather Watch<br>看天气 | sun, rain, cloud, wind, snow | I see ___! | 窗外看天气，决定今天穿什么 |
+| 13 | Where We Go<br>我们去哪儿 | home, school, park, shop, zoo | Let's go to ___! | 一周去不同的地方 |
+| 14 | Rainbow Colors<br>彩虹颜色 | pink, purple, white, black, brown | It's ___! | 雨后看彩虹，发现更多颜色 |
+| 15 | Garden Walk<br>花园散步 | tree, flower, grass, rock, water | I see a ___! | 在花园里散步，观察大自然 |
+| 16 | Kitchen Helper<br>厨房小帮手 | cup, plate, spoon, bowl, fork | Give me ___! | 帮妈妈摆餐具 |
+| 17 | Farm Visit<br>农场之旅 | pig, cow, horse, sheep, chicken | The ___ says ___! | 去农场，听动物叫声 |
+| 18 | Daily Actions<br>每天做的事 | eat, drink, sleep, wash, play | I want to ___! | 一天的作息时间表 |
+| 19 | My Room<br>我的房间 | bed, door, window, chair, table | It's in the ___! | 介绍自己的房间 |
+| 20 | Snack Time<br>零食时间 | rice, cake, juice, candy, cookie | Can I have ___? | 下午茶时间，礼貌地要零食 |
 
-### Level 3: 日常表达（Day 21-30）
+### Level 3: 佩琪的探索之旅（Day 21-30）
 
-| Day | 主题 | 新词 | 句式 |
-|-----|------|------|------|
-| 21 | Transport | bus, bike, boat, train, plane | I go by ___! |
-| 22 | Opposites | hot, cold, up, down, fast | It's ___! |
-| 23 | Garden | bug, bee, ant, snail, worm | I found a ___! |
-| 24 | Bath & Bed | soap, towel, brush, pillow, blanket | Time for ___! |
-| 25 | Numbers 2 | six, seven, eight, nine, ten | I have ___! |
-| 26 | Fruit | grape, pear, peach, cherry, lemon | I want ___! |
-| 27 | Helpers | doctor, teacher, driver, cook, farmer | He is a ___! |
-| 28 | Outdoors | sky, star, moon, hill, river | Look at the ___! |
-| 29 | More Body | hand, arm, leg, foot, tummy | Touch your ___! |
-| 30 | Manners | please, thank you, sorry, hello, bye | Say ___! |
+| Day | 故事主题 | 新词 | 句式 | 场景 |
+|-----|---------|------|------|------|
+| 21 | Going Places<br>交通工具 | bus, bike, boat, train, plane | I go by ___! | 不同的出行方式 |
+| 22 | Opposites Game<br>相反词游戏 | hot, cold, up, down, fast | It's ___! | 玩相反词游戏 |
+| 23 | Shapes Around Us<br>形状世界 | circle, square, triangle, star, heart | I see a ___! | 找家里的形状 |
+| 24 | Music Time<br>音乐时间 | sing, dance, clap, drum, piano | I can ___! | 音乐课，学乐器 |
+| 25 | Beach Day<br>海滩一天 | sand, shell, wave, crab, boat | I see ___! | 去海滩玩 |
+| 26 | Bedtime Story<br>睡前故事 | book, bed, moon, star, dream | I see ___! | 睡前准备 |
+| 27 | Birthday Party<br>生日派对 | cake, gift, balloon, candle, friend | I have ___! | 参加生日派对 |
+| 28 | Doctor Visit<br>看医生 | doctor, nurse, sick, medicine, better | I am ___! | 生病了去看医生 |
+| 29 | Shopping Trip<br>购物之旅 | shop, buy, money, bag, toy | I want ___! | 和妈妈去购物 |
+| 30 | Seasons Change<br>四季变化 | spring, summer, fall, winter, season | I like ___! | 一年四季的变化 |
 
-### Level 4: 进阶组合（Day 31-40）
+### Level 4: 佩琪的成长故事（Day 31-40）
 
-| Day | 主题 | 新词 | 句式 |
-|-----|------|------|------|
-| 31 | Pets | hamster, turtle, parrot, kitten, puppy | I love my ___! |
-| 32 | Snacks | ice cream, popcorn, pizza, noodle, soup | I want ___! |
-| 33 | Seasons | spring, summer, fall, winter, warm | I like ___! |
-| 34 | School | book, pen, bag, desk, paper | This is my ___! |
-| 35 | Sports | swim, kick, throw, catch, climb | I can ___! |
-| 36 | Music | drum, bell, sing, dance, clap | I can ___! |
-| 37 | Shapes | circle, square, triangle, heart, star | It's a ___! |
-| 38 | Ocean | whale, shark, crab, shell, sand | I see a ___! |
-| 39 | Bugs | butterfly, spider, ladybug, fly, grasshopper | I found a ___! |
-| 40 | Celebration | balloon, present, candle, party, friend | I have a ___! |
+| Day | 故事主题 | 新词 | 句式 | 场景 |
+|-----|---------|------|------|------|
+| 31 | Helping at Home<br>家务小帮手 | clean, wash, help, tidy, sweep | I can ___! | 帮忙做家务 |
+| 32 | School Day<br>上学的一天 | teacher, friend, learn, draw, write | I can ___! | 幼儿园的一天 |
+| 33 | Pet Care<br>照顾宠物 | pet, feed, walk, play, love | I ___ my pet! | 照顾小宠物 |
+| 34 | Cooking Together<br>一起做饭 | cook, mix, pour, taste, yummy | Let's ___! | 和妈妈一起做饼干 |
+| 35 | Sports Day<br>运动会 | kick, throw, catch, race, win | I can ___! | 幼儿园运动会 |
+| 36 | Library Visit<br>图书馆 | book, read, quiet, story, library | I like to ___! | 去图书馆借书 |
+| 37 | Camping Trip<br>露营冒险 | tent, fire, forest, night, star | I see ___! | 全家去露营 |
+| 38 | Art Class<br>美术课 | paint, draw, color, brush, picture | I can ___! | 美术课画画 |
+| 39 | Sharing is Caring<br>学会分享 | share, give, take, friend, kind | I can ___! | 学会和朋友分享 |
+| 40 | Growing Up<br>我长大了 | grow, big, strong, smart, proud | I am ___! | 回顾这段时间的成长 |
 
-### 自然复现机制
-- teach.html 第 2 页"Yesterday Review"用前一天 2-3 个词快速回顾
-- review.html 开头有前一天微复习模块（2-3 题）
-- 故事线中自然引用已学词（如 Day13 去 zoo 时复现 Day2 的动物）
+## 故事化教学要点
 
-## SVG 物品设计原则
-- 160x160 viewBox，圆润简洁
-- 主体颜色 = 教学颜色（红苹果教 red，蓝汽车教 blue）
-- 2-4个基本形状组合，3岁能认出
-- 可加简单表情增加可爱度
+### teach.html 故事线设计
+- **Title 页**：故事标题 + 场景预告
+- **Hello 页**：佩琪邀请："Come with me!"，引入今天的冒险
+- **Yesterday Review**：快速回顾昨天的故事
+- **新词页**：每个词都在故事情境中出现（不是孤立展示）
+- **All Together**：故事结尾，回顾今天学到的
+- **Bye 页**：佩琪说再见，预告明天的冒险
 
-## 进度
-见 `progress.md`
+### review.html 故事延续
+- 游戏设计要符合故事主题
+- 例如 Day 4 Picnic：不是"找食物"，而是"帮佩琪准备野餐篮"
+- 例如 Day 2 Zoo：不是"点动物"，而是"帮佩琪找走丢的动物"
+
+### 情感连接点
+- 使用第一人称："I see"、"I like"、"I can"
+- 鼓励小孩说出自己的经历："你也去过动物园吗？"
+- 每课结束时的成就感："You helped Peppa! Great job!"
