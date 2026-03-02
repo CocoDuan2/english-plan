@@ -76,17 +76,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sub">Let's take a family photo!</div>
 </div>
 
-<!-- S1: Yesterday Review -->
-<div class="sl bg-lav">
-<div class="pr"><img src="../../assets/peppa/george-standing.png"><div class="bbl">Remember these?</div></div>
-<div style="display:flex;gap:14px;margin:10px 0;flex-wrap:wrap;justify-content:center">
-<div style="background:#fff;border-radius:14px;padding:10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" width="60"><div style="font-size:20px;font-weight:700">apple</div></div>
-<div style="background:#fff;border-radius:14px;padding:10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" width="60"><div style="font-size:20px;font-weight:700">banana</div></div>
-<div style="background:#fff;border-radius:14px;padding:10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="60"><div style="font-size:20px;font-weight:700">milk</div></div>
-</div>
-</div>
-
-<!-- S2: Hello -->
+<!-- S1: Hello -->
 <div class="sl bg-sky">
 <div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png"><div class="bbl">Come meet my family!</div></div>
 <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="140" style="margin:12px 0">
@@ -188,7 +178,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['mom','dad','baby','brother','sister'];
 var N={"0":"Story: Family Photo Day · Take family photo","1":"Peppa introduces her family!","2":"Quick review: apple, banana, milk from yesterday","3":"This is my mom! · Repeat 3x","4":"This is my dad! · Repeat 3x","5":"This is my baby! · Repeat 3x","6":"This is my brother! · Repeat 3x","7":"This is my sister! · Repeat 3x","8":"Family tree · Point and ask: Who is this?","9":"Tap photo frames to reveal · Ask: Who is this?","10":"Point randomly: Who is this? · Go faster","11":"Say bye to each family member!"};
-var c=0,t=11,o=false;
+var c=0,t=10,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';

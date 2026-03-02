@@ -173,7 +173,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['apple','banana','milk','bread','egg'];
 var N={"0":"Story: Peppa's Picnic · Pack food for picnic","1":"Peppa prepares for a picnic!","2":"Quick review: head, eyes, ears from yesterday","3":"I like apple! · Repeat 3x","4":"I like banana! · Repeat 3x","5":"I like milk! · Repeat 3x","6":"I like bread! · Repeat 3x","7":"I like egg! · Repeat 3x","8":"Tap each button to hear · Can tap multiple times","9":"Tap gray boxes to reveal · Ask: What food?","10":"Point randomly: What food? · Go faster","11":"Say bye to each food!"};
-var c=0,t=12,o=false;
+var c=0,t=11,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';

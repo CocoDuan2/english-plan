@@ -174,7 +174,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var words=['head','eyes','ears','nose','mouth'];
 var N={"0":"Story: Morning Routine · Wash face with Peppa","1":"Peppa wakes up and washes her face","2":"Quick review: cat, dog, fish from yesterday","3":"This is my head! · Repeat 3x","4":"This is my eyes! · Repeat 3x","5":"This is my ears! · Repeat 3x","6":"This is my nose! · Repeat 3x","7":"This is my mouth! · Repeat 3x","8":"Tap each button to hear · Can tap multiple times","9":"Tap gray boxes to reveal · Ask: What body part?","10":"Point randomly: What is this? · Go faster","11":"Say bye to each body part!"};
-var c=0,t=12,o=false;
+var c=0,t=11,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
   var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
