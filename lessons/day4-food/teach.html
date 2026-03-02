@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 4 - Food</title>
+<title>Day 4 - Peppa's Picnic</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
@@ -64,17 +64,17 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <!-- S0: Title -->
 <div class="sl bg-pink on">
 <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110">
-<div class="ttl">Food</div>
+<div class="ttl">Peppa's Picnic</div>
 <div style="display:flex;gap:12px;margin:12px 0">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" width="42">
 </div>
-<div class="sub">apple · banana · milk · bread · egg</div>
+<div class="sub">Let's pack the basket!</div>
 </div>
 
 <!-- S1: Hello -->
 <div class="sl bg-sky">
 <img src="../../assets/peppa/george_pig_dinosaur.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Yummy food!</div>
+<div class="ttl">Picnic time!</div>
 <div class="sent">I like ___!</div>
 </div>
 
@@ -165,8 +165,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sl bg-mud">
 <img src="../../assets/peppa/peppa-and-george-ooo.png" width="110">
 <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Yummy!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye apple! Bye banana! Bye milk!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye bread! Bye egg!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">What a yummy picnic!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">Tomorrow: family photo day!</div>
 </div>
 </div>
 
@@ -179,7 +179,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 <script>
 var words=['apple','banana','milk','bread','egg'];
-var N={"0":"Sentence: I like ___! · 5 new foods","1":"Say hi! · Today we learn yummy food","2":"Quick review: head, eyes, ears from yesterday","3":"I like apple! · Repeat 3x","4":"I like banana! · Repeat 3x","5":"I like milk! · Repeat 3x","6":"I like bread! · Repeat 3x","7":"I like egg! · Repeat 3x","8":"Tap each button to hear · Can tap multiple times","9":"Tap gray boxes to reveal · Ask: What food?","10":"Point randomly: What food? · Go faster","11":"Say bye to each food!"};
+var N={"0":"Story: Peppa's Picnic · Pack food for picnic","1":"Peppa prepares for a picnic!","2":"Quick review: head, eyes, ears from yesterday","3":"I like apple! · Repeat 3x","4":"I like banana! · Repeat 3x","5":"I like milk! · Repeat 3x","6":"I like bread! · Repeat 3x","7":"I like egg! · Repeat 3x","8":"Tap each button to hear · Can tap multiple times","9":"Tap gray boxes to reveal · Ask: What food?","10":"Point randomly: What food? · Go faster","11":"Say bye to each food!"};
 var c=0,t=12,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;

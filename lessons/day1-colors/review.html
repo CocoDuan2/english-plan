@@ -151,7 +151,7 @@ function initM1(){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
         svgOf(i,90)+'<div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
     }).join('')+'</div>';
-  speak('Tap to find colors');setI('Tap to find colors!','点一点，帮佩琪找颜色！',stars(0,5));
+  speak('Tap to find colors');setI('Tap to find colors!','帮佩琪找今天看到的颜色！',stars(0,5));
 }
 function lnTap(i){
   var c=document.getElementById('lc'+i);

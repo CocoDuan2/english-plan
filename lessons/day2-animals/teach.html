@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 2 - Animals</title>
+<title>Day 2 - Visit the Zoo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
@@ -64,17 +64,17 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <!-- S0: Title -->
 <div class="sl bg-pink on">
 <img src="../../assets/peppa/george_pig_dinosaur.png" width="110">
-<div class="ttl">Animals</div>
+<div class="ttl">Visit the Zoo</div>
 <div style="display:flex;gap:12px;margin:12px 0">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="42"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="42">
 </div>
-<div class="sub">cat · dog · fish · bird · duck</div>
+<div class="sub">Let's see the animals!</div>
 </div>
 
 <!-- S1: Hello -->
 <div class="sl bg-sky">
 <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" style="margin-bottom:10px">
-<div class="ttl">Let's find animals!</div>
+<div class="ttl">Come to the zoo!</div>
 <div class="sent">I see a ___!</div>
 </div>
 
@@ -155,8 +155,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sl bg-mud">
 <img src="../../assets/peppa/peppa-and-george-ooo.png" width="110">
 <div class="ttl" style="color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);margin-top:8px">Well Done!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye cat! Bye dog! Bye fish!</div>
-<div class="sub" style="color:rgba(255,255,255,.8)">Bye bird! Bye duck!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">So many animals at the zoo!</div>
+<div class="sub" style="color:rgba(255,255,255,.8)">Tomorrow: morning routine!</div>
 </div>
 </div>
 
@@ -169,7 +169,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 <script>
 var words=['cat','dog','fish','bird','duck'];
-var N={"0":"Sentence: I see a ___! · 5 new animals","1":"Say hi! · Today we find animals","2":"What animal? → I see a cat! · Repeat 3x","3":"I see a dog! · Repeat 3x","4":"I see a fish! · Repeat 3x","5":"I see a bird! · Repeat 3x","6":"I see a duck! · Repeat 3x","7":"Tap each button to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What animal?","9":"Point randomly: What animal? · Go faster","10":"Say bye to each animal!"};
+var N={"0":"Story: Visit the Zoo · See animals with Peppa","1":"Peppa invites you to the zoo!","2":"What animal? → I see a cat! · Repeat 3x","3":"I see a dog! · Repeat 3x","4":"I see a fish! · Repeat 3x","5":"I see a bird! · Repeat 3x","6":"I see a duck! · Repeat 3x","7":"Tap each button to hear · Can tap multiple times","8":"Tap gray boxes to reveal · Ask: What animal?","9":"Point randomly: What animal? · Go faster","10":"Say bye to each animal!"};
 var c=0,t=11,o=false;
 function speak(txt){
   var isSent=txt.indexOf(' ')>-1;
