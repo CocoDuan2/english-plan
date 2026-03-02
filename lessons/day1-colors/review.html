@@ -10,21 +10,37 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
 body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .mod{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px 20px 80px}
 .mod.on{display:flex}
-.top{text-align:center;margin-bottom:16px}
-.te{font-size:26px;font-weight:900;color:#e91e8c;margin:4px 0}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
 .tz{
   font-size:20px;
   font-weight:700;
   color:#fff;
   background:linear-gradient(135deg,#ff6b9d,#ffa07a);
-  border-radius:20px;
-  padding:10px 20px;
+  border-radius:25px;
+  padding:12px 24px;
   display:inline-block;
-  box-shadow:0 4px 15px rgba(255,107,157,.3);
-  margin:6px 0;
+  box-shadow:0 6px 20px rgba(255,107,157,.35);
+  margin:8px 0;
+  letter-spacing:.5px;
+  position:relative;
+  transform:translateY(0);
+  transition:transform .2s,box-shadow .2s;
 }
-.sb{font-size:22px;font-weight:700;color:#666;margin:4px 0}
-.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
+.tz::after{
+  content:'';
+  position:absolute;
+  bottom:-4px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80%;
+  height:4px;
+  background:rgba(255,107,157,.2);
+  border-radius:2px;
+  filter:blur(3px);
+}
+.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
 .pr img{width:75px}
 .bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
@@ -35,10 +51,11 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
-  .te{font-size:22px}
-  .tz{font-size:18px;padding:8px 16px}
+  .te{font-size:26px}
+  .tz{font-size:18px;padding:10px 20px}
   .bbl{font-size:20px}
   .pr img{width:65px}
+  .sb{font-size:22px}
 }
 </style>
 </head>
@@ -49,6 +66,12 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 <div id="m3" class="mod"></div>
 <div id="m4" class="mod"></div>
 <div id="m5" class="mod"></div>
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+<script>
 <div class="nav">
 <button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
 <div class="np" id="pg">1/6</div>
@@ -79,7 +102,7 @@ document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-pig-happy-standin
 var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
-  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Learn Colors!</div><div class="tz">👆 点一点，认识颜色！</div><div class="sb" id="m1s">'+stars(0,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png"><div class="bbl">Tap to learn!</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
   for(var i=0;i<5;i++){
@@ -118,7 +141,7 @@ function renderPJ(){
     return;
   }
   var tgt=W[pjOrd[pjI]];
-  var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Jump in Puddles!</div><div class="tz">💦 跳进'+tgt.w+'的泥坑！</div><div class="sb">'+stars(pjS,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'peppa-and-george-ooo.png"><div class="bbl">Jump in '+tgt.w+'!</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">';
   for(var j=0;j<5;j++){
@@ -154,7 +177,7 @@ function renderLS(){
     return;
   }
   var tgt=W[lsOrd[lsI]];
-  var h='<div class="top"><div class="te">Listen & Find!</div><div class="tz">听一听，找出来！</div><div class="sb">'+stars(lsS,5)+'</div></div>';
+  var h='<div class="top"><div class="te">Listen & Find!</div><div class="tz">👂 听一听，找出来！</div><div class="sb">'+stars(lsS,5)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'george-standing.png"><div class="bbl">Listen!</div></div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:12px">';
   for(var j=0;j<5;j++){
@@ -186,7 +209,7 @@ function initM4(){
     pairs.push({idx:i,w:W[i].w,svg:W[i].svg},{idx:i,w:W[i].w,svg:W[i].svg});
   }
   fCards=shuffle(pairs);
-  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
+  var h='<div class="top"><div class="te">Memory Match!</div><div class="tz">🎴 翻牌配对！</div><div class="sb" id="m4s">'+stars(0,4)+'</div></div>';
   h+='<div class="pr"><img src="'+PP+'candy-cat-green-dress.png"><div class="bbl">Find pairs!</div></div>';
   h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px">';
   for(var i=0;i<8;i++){
