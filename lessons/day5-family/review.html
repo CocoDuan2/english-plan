@@ -14,6 +14,7 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 .te{font-size:32px;font-weight:900;color:#7b1fa2;margin:8px 0;text-shadow:0 2px 4px rgba(123,31,162,.2)}
 .tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ce93d8,#f48fb1);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(206,147,216,.35);margin:8px 0;letter-spacing:.5px;position:relative}
 .tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(206,147,216,.2);border-radius:2px;filter:blur(3px)}
+.tz-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
 .sb{font-size:24px;font-weight:700;color:#4a148c;margin:6px 0;letter-spacing:2px}
 .pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
 .pr img{width:75px}
@@ -29,7 +30,7 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 .card img{width:90px;height:90px}
 .card .card-label{font-size:16px;font-weight:700;color:#2c3e50}
 /* M2 Family Photo - tap to place */
-.photo-frame{width:340px;min-height:260px;background:#fff;border-radius:20px;border:6px solid #ce93d8;box-shadow:0 8px 24px rgba(0,0,0,.12);display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;padding:20px;margin:12px 0}
+.photo-frame{width:340px;min-height:260px;background:#fff;border-radius:20px;border:6px solid #ce93d8;box-shadow:0 8px 24px rgba(0,0,0,.12);display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;padding:20px;margin:0}
 .photo-slot{width:90px;height:110px;background:#f3e5f5;border-radius:14px;border:3px dashed #ce93d8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all .3s}
 .photo-slot.filled{border-style:solid;background:#fff;border-color:#ab47bc}
 .photo-slot img{width:50px;height:50px}
@@ -68,7 +69,8 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
 .te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}
-.pr img{width:65px}.pr.big img{width:90px}.sb{font-size:22px}
+.pr img{width:65px}.pr.big img{width:90px}.tz-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
+.sb{font-size:22px}
 .card-grid{grid-template-columns:repeat(2,1fr);gap:12px}.card img{width:70px;height:70px}.card .card-label{font-size:14px}
 .photo-frame{width:280px;min-height:200px;padding:14px}
 .photo-slot{width:75px;height:95px}
@@ -110,11 +112,10 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 <div id="m2" class="mod">
 <div class="top">
 <div class="te">Family Photo</div>
-<div class="tz">听一听，点对的人放进相框！</div>
+<div class="tz-row"><div class="tz">听一听，点对的人放进相框！</div><button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button></div>
 <div class="sb" id="s2"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Find them!</div></div>
-<button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button>
 <div class="prompt-word" id="m2prompt"></div>
 <div class="pick-row" id="pickRow"></div>
 <div class="photo-frame" id="photoFrame"></div>
@@ -124,11 +125,10 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz">听一听，点一点！</div>
+<div class="tz-row"><div class="tz">听一听，点一点！</div><button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button></div>
 <div class="sb" id="s3"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Listen carefully!</div></div>
-<button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button>
 <div class="listen-grid" id="lg3"></div>
 </div>
 

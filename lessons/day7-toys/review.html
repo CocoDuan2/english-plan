@@ -14,6 +14,7 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 .te{font-size:32px;font-weight:900;color:#e65100;margin:8px 0;text-shadow:0 2px 4px rgba(230,81,0,.2)}
 .tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff7043,#ff5722);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,112,67,.35);margin:8px 0;letter-spacing:.5px;position:relative}
 .tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,112,67,.2);border-radius:2px;filter:blur(3px)}
+.tz-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
 .sb{font-size:24px;font-weight:700;color:#bf360c;margin:6px 0;letter-spacing:2px}
 .pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
 .pr img{width:75px}
@@ -32,7 +33,7 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 .toybox-slot{width:60px;height:60px;background:rgba(255,255,255,.15);border-radius:12px;border:2px dashed rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;transition:all .3s}
 .toybox-slot.filled{border-style:solid;background:rgba(255,255,255,.3);border-color:rgba(255,255,255,.6)}
 .toybox-slot img,.toybox-slot svg{width:45px;height:45px}
-.toy-pick{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+.toy-pick{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:0}
 .toy-btn{width:90px;height:90px;background:#fff;border-radius:16px;border:3px solid #ff7043;box-shadow:0 4px 10px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
 .toy-btn:active{transform:scale(.92)}
 .toy-btn.used{opacity:.3;pointer-events:none}
@@ -64,7 +65,8 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
 .te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}
-.pr img{width:65px}.pr.big img{width:90px}.sb{font-size:22px}
+.pr img{width:65px}.pr.big img{width:90px}.tz-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0}
+.sb{font-size:22px}
 .card-grid{grid-template-columns:repeat(2,1fr);gap:12px}.card img,.card svg{width:70px;height:70px}.card .card-label{font-size:14px}
 .toybox{width:260px;min-height:100px;padding:12px}
 .toybox-slot{width:50px;height:50px}.toybox-slot img,.toybox-slot svg{width:35px;height:35px}
@@ -104,11 +106,10 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 <div id="m2" class="mod">
 <div class="top">
 <div class="te">Toy Box Sort</div>
-<div class="tz">听一听，把玩具放进箱子！</div>
+<div class="tz-row"><div class="tz">听一听，把玩具放进箱子！</div><button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button></div>
 <div class="sb" id="s2"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Put it in!</div></div>
-<button class="speaker-btn" id="spk2" onclick="playM2Round()">🔊</button>
 <div class="toy-prompt" id="m2prompt"></div>
 <div class="toy-pick" id="m2pick"></div>
 <div class="toybox" id="m2box"></div>
@@ -117,11 +118,10 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz">听一听，点一点！</div>
+<div class="tz-row"><div class="tz">听一听，点一点！</div><button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button></div>
 <div class="sb" id="s3"><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span><span style="color:#bbb">★</span></div>
 </div>
 <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Listen carefully!</div></div>
-<button class="speaker-btn" id="spk3" onclick="playM3Round()">🔊</button>
 <div class="listen-grid" id="lg3"></div>
 </div>
 <!-- M4: Memory Match -->
