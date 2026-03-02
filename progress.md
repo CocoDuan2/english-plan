@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 15 - Garden Walk ✅
-- 更新时间: 2026-03-02 22:23
+- 当前: Day 16 - Kitchen Helper ✅
+- 更新时间: 2026-03-02 22:30
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -110,8 +110,15 @@
 - Review 游戏: Learn (reveal) → Garden Explorer (听词找图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 16 - Kitchen Helper
+## Day 16 - Kitchen Helper
 - 新词: cup, plate, spoon, bowl, fork
 - 句式: Give me ___!
-- 互动: Kitchen Shelf → Set the Table → Kitchen Parade
+- Teach 互动: Kitchen Shelf → Set the Table → Kitchen Parade
+- Review 游戏: Learn (reveal) → Cupboard Sort (听词放橱柜) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 17 - Farm Visit
+- 新词: pig, cow, horse, sheep, chicken
+- 句式: The ___ says ___!
+- 互动: Farm Map → Animal Sounds → Farm Parade
