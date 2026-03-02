@@ -119,7 +119,7 @@ var D2=[
   {w:'dog',emoji:'1f436'},
   {w:'fish',emoji:'1f41f'}
 ];
-function emojiUrl(code){return 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/'+code+'.svg'}
+function emojiUrl(code){return 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+code+'.svg'}
 var cur=0,actx=null;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
 function speak(t,cb){
@@ -143,7 +143,7 @@ function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()
 // M0: Start
 function initM0(){
   document.getElementById('m0').innerHTML=
-    '<img src="'+PP+'mummy-pig-standing-grass.png" width="140">'+
+    '<img src="'+PP+'mummy-pig-standing-grass.png" width="110">'+
     '<div class="pr"><div class="bbl">Let\'s learn body parts!</div></div>'+
     '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<img src="'+emojiUrl(w.emoji)+'" width="60">'}).join('')+'</div>'+
     '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
@@ -155,7 +155,7 @@ var lnC=0,lnB=false;
 function initM1(){
   lnC=0;lnB=false;
   document.getElementById('m1').innerHTML=
-    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="80"><div class="bbl">Tap to learn!</div></div>'+
+    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">Tap to learn!</div></div>'+
     '<div class="g3">'+W.map(function(w,i){
       return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
         '<img src="'+emojiUrl(w.emoji)+'"><div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
@@ -182,7 +182,7 @@ function initM2(){
 function renderRV(){
   if(rvI>=3){
     setI('Animals done!','动物复习完成！',stars(3,3));
-    document.getElementById('m2').innerHTML='<img src="'+PP+'george-standing.png" width="80"><div style="font-size:24px;font-weight:700;color:#2c3e50;margin-top:10px">Great memory!</div>';
+    document.getElementById('m2').innerHTML='<img src="'+PP+'george-standing.png" width="75"><div style="font-size:24px;font-weight:700;color:#2c3e50;margin-top:10px">Great memory!</div>';
     return;
   }
   var tgt=D2[rvOrd[rvI]];
@@ -190,7 +190,7 @@ function renderRV(){
   speak('Find '+tgt.w);
   var opts=shuffle([0,1,2]);
   document.getElementById('m2').innerHTML=
-    '<div class="pr"><img src="'+PP+'george-standing.png" width="80"><div class="bbl">Where is '+tgt.w+'?</div></div>'+
+    '<div class="pr"><img src="'+PP+'george-standing.png" width="75"><div class="bbl">Where is '+tgt.w+'?</div></div>'+
     '<div class="trio">'+opts.map(function(j){
       return '<div class="trio-card" onclick="rvTap('+j+')"><img src="'+emojiUrl(D2[j].emoji)+'" width="70"></div>'
     }).join('')+'</div>';
@@ -208,49 +208,41 @@ function rvTap(j){
   }
 }
 
-// M3: Build a Face (tap parts to place them)
-var bfS=0,bfUsed=[false,false,false,false,false];
-var bfSlots=[
-  {x:105,y:40,part:0},
-  {x:70,y:100,part:1},
-  {x:140,y:100,part:1},
-  {x:105,y:150,part:3},
-  {x:105,y:210,part:4}
-];
-var bfCurrent=-1;
+// M3: Touch Your Body (hear word, pick from 3)
+var tbOrder,tbCur=0,tbBusy=false;
 function initM3(){
-  bfS=0;bfUsed=[false,false,false,false,false];bfCurrent=-1;
-  document.getElementById('m3').innerHTML=
-    '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="80"><div class="bbl">Build a face!</div></div>'+
-    '<div class="face-zone" id="faceZone">'+bfSlots.map(function(s,i){
-      return '<div class="drop-slot" id="slot'+i+'" style="left:'+s.x+'px;top:'+s.y+'px" onclick="dropPart('+i+')"></div>'
-    }).join('')+'</div>'+
-    '<div class="part-tray">'+W.map(function(w,i){
-      return '<div class="part-btn" id="pb'+i+'" onclick="pickPart('+i+')"><img src="'+emojiUrl(w.emoji)+'"></div>'
-    }).join('')+'</div>';
-  setI('Build a Face!','拼一张脸！点部位再点位置',stars(0,5));
+  tbCur=0;tbBusy=false;tbOrder=shuffle([0,1,2,3,4]);
+  renderTB();
+  setI("Touch Your Body!",'听一听，点对的身体部位！',stars(0,5));
 }
-function pickPart(i){
-  if(bfUsed[i])return;
-  bfCurrent=i;
-  setI('Tap where it goes!','点击脸上的位置！',stars(bfS,5));
+function renderTB(){
+  var idx=tbOrder[tbCur];
+  var h='<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="75"><div class="bbl">Touch your '+W[idx].w+'!</div></div>';
+  h+='<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:20px 0">';
+  var opts=shuffle([0,1,2,3,4]).slice(0,3);
+  if(opts.indexOf(idx)===-1)opts[Math.floor(Math.random()*3)]=idx;
+  for(var i=0;i<opts.length;i++){
+    h+='<div onclick="tbTap('+opts[i]+')" style="width:110px;height:110px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.12);transition:transform .2s"><img src="'+emojiUrl(W[opts[i]].emoji)+'" width="75"></div>';
+  }
+  h+='</div><div id="tbfb" style="font-size:22px;font-weight:700;min-height:30px;margin:6px 0"></div>';
+  document.getElementById('m3').innerHTML=h;
+  speak('Touch your '+W[idx].w);
 }
-function dropPart(slotIdx){
-  if(bfCurrent<0)return;
-  var slot=bfSlots[slotIdx];
-  if(slot.part===bfCurrent||bfCurrent===1&&(slot.part===1)){
-    document.getElementById('slot'+slotIdx).innerHTML='<img src="'+emojiUrl(W[bfCurrent].emoji)+'">';
-    document.getElementById('slot'+slotIdx).classList.add('filled');
-    document.getElementById('pb'+bfCurrent).classList.add('used');
-    bfUsed[bfCurrent]=true;bfS++;
-    playOk();pepBounce();
-    setI('This is my '+W[bfCurrent].w+'!','放对啦！',stars(bfS,5));
-    speak('This is my '+W[bfCurrent].w);
-    bfCurrent=-1;
-    if(bfS>=5){setTimeout(function(){goM(1)},1200)}
-  }else{
-    playNo();
-    setI('Try another spot!','试试别的位置！',stars(bfS,5));
+function tbTap(i){
+  if(tbBusy)return;tbBusy=true;
+  var correct=tbOrder[tbCur];
+  if(i===correct){
+    playOk();showConfetti();tbCur++;score++;totalQ++;
+    document.getElementById('tbfb').textContent='Yes! This is my '+W[correct].w+'!';
+    speak('This is my '+W[correct].w);
+    setI("Touch Your Body!",'听一听，点对的身体部位！',stars(tbCur,5));
+    if(tbCur>=5){setTimeout(function(){goM(1)},1200);return}
+    setTimeout(function(){renderTB();tbBusy=false},1600);
+  } else {
+    playNo();totalQ++;
+    document.getElementById('tbfb').textContent='Try again!';
+    speak(W[correct].w);
+    setTimeout(function(){document.getElementById('tbfb').textContent='';tbBusy=false},1000);
   }
 }
 
@@ -260,7 +252,7 @@ function initM4(){
   bgS=0;bgI=0;bgB=false;bgMarked=Array(5).fill(false);
   bgOrd=shuffle([0,1,2,3,4]);
   document.getElementById('m4').innerHTML=
-    '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" width="80"><div class="bbl" id="bgBbl">Listen and mark!</div></div>'+
+    '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" width="75"><div class="bbl" id="bgBbl">Listen and mark!</div></div>'+
     '<div class="bingo-grid">'+W.map(function(w,i){
       return '<div class="bingo-cell" id="bg'+i+'" onclick="bgTap('+i+')"><img src="'+emojiUrl(w.emoji)+'"><div>'+w.w+'</div></div>'
     }).join('')+'</div>';
@@ -305,7 +297,7 @@ function initM5(){
   mpS=0;mpB=false;mpDone=[false,false,false,false];
   var shuffled=shuffle([0,1,2,3]);
   document.getElementById('m5').innerHTML=
-    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="80"><div class="bbl">Match them!</div></div>'+
+    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="75"><div class="bbl">Match them!</div></div>'+
     '<div class="match-row">'+shuffled.map(function(i){
       var p=mpPairs[i];
       return '<div class="match-card" id="mp'+i+'" onclick="mpTap('+i+')"><img src="'+emojiUrl(W[p.part].emoji)+'"><div>'+p.func+'</div></div>'
