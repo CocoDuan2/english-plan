@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 2 Review - Visit the Zoo</title>
+<style>
+:root{
+  --tip-accent:#4ecdc4;
+  --tip-bg:linear-gradient(135deg,#81c784,#66bb6a);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:linear-gradient(135deg,#a8e6cf,#dcedc1);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  overflow-x:hidden;
+}
+.hd{
+  width:100%;
+  max-width:700px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.ttl{
+  font-size:26px;
+  font-weight:bold;
+  color:#e91e8c;
+}
+.stars{
+  font-size:22px;
+}
+.tz{
+  background:var(--tip-bg);
+  color:white;
+  padding:12px 24px;
+  border-radius:25px;
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+  position:relative;
+}
+.tz::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:60%;
+  height:4px;
+  background:rgba(255,255,255,.4);
+  border-radius:2px;
+}
+.mod{
+  background:white;
+  border-radius:20px;
+  padding:30px;
+  width:100%;
+  max-width:700px;
+  box-shadow:0 8px 24px rgba(0,0,0,.1);
+  display:none;
+}
+.mod.on{display:block}
+.pr{
+  display:flex;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:20px;
+}
+.pr img{
+  width:75px;
+  height:auto;
+}
+.bbl{
+  background:#fff3e0;
+  border-radius:20px;
+  padding:15px 20px;
+  font-size:22px;
+  font-weight:bold;
+  color:#e67e22;
+  position:relative;
+  flex:1;
+}
+.bbl::after{
+  content:'';
+  position:absolute;
+  left:15px;
+  bottom:-10px;
+  width:0;
+  height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:10px solid #fff3e0;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+.card{
+  background:#f5f5f5;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .2s;
+  min-height:180px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.card:active{transform:scale(.95)}
+.card.on{background:#e8f5e9}
+.card img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+.card .lbl{
+  font-size:20px;
+  font-weight:bold;
+  color:#333;
+}
+.match-area{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  margin-top:20px;
+}
+.match-col{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.match-item{
+  width:120px;
+  height:120px;
+  background:#f5f5f5;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:all .2s;
+  border:3px solid transparent;
+}
+.match-item:active{transform:scale(.95)}
+.match-item.sel{
+  border-color:#4ecdc4;
+  background:#e0f7fa;
+}
+.match-item.ok{
+  border-color:#66bb6a;
+  background:#e8f5e9;
+  pointer-events:none;
+}
+.match-item img{
+  width:80px;
+  height:80px;
+  object-fit:contain;
+}
+.listen-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+.listen-card{
+  background:#f5f5f5;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .2s;
+  min-height:160px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+.listen-card .lbl{
+  font-size:20px;
+  font-weight:bold;
+  color:#333;
+}
+.replay{
+  background:var(--tip-accent);
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  font-size:24px;
+  cursor:pointer;
+  margin:20px auto;
+  display:block;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.replay:active{transform:scale(.9)}
+.mem-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  width:100%;
+  max-width:560px;
+  margin:20px auto;
+}
+.mem-card{
+  aspect-ratio:1;
+  background:#f5f5f5;
+  border-radius:12px;
+  cursor:pointer;
+  position:relative;
+  transition:transform .2s;
+}
+.mem-card:active{transform:scale(.95)}
+.mem-card .face{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  backface-visibility:hidden;
+  border-radius:12px;
+}
+.mem-card .back{
+  background:linear-gradient(135deg,#81c784,#66bb6a);
+  font-size:44px;
+}
+.mem-card .front{
+  background:white;
+  transform:rotateY(180deg);
+}
+.mem-card.flip .back{transform:rotateY(180deg)}
+.mem-card.flip .front{transform:rotateY(0)}
+.mem-card.ok{pointer-events:none;opacity:.6}
+.mem-card .front img{
+  width:70px;
+  height:70px;
+  object-fit:contain;
+}
+.mem-card .front .lbl{
+  font-size:18px;
+  font-weight:bold;
+  color:#333;
+  margin-top:5px;
+}
+.start-page{
+  text-align:center;
+}
+.start-page img{
+  width:110px;
+  margin-bottom:20px;
+}
+.start-page h1{
+  font-size:42px;
+  color:#e91e8c;
+  margin-bottom:20px;
+}
+.start-page .preview{
+  display:flex;
+  gap:15px;
+  justify-content:center;
+  margin:30px 0;
+}
+.start-page .preview img{
+  width:70px;
+  height:70px;
+}
+.start-page button{
+  background:linear-gradient(135deg,#81c784,#66bb6a);
+  color:white;
+  border:none;
+  padding:16px 40px;
+  font-size:32px;
+  font-weight:bold;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+.start-page button:active{transform:scale(.95)}
+.done-page{
+  text-align:center;
+}
+.done-page img{
+  width:120px;
+  margin-bottom:20px;
+}
+.done-page h1{
+  font-size:48px;
+  color:#e91e8c;
+  margin-bottom:15px;
+}
+.done-page p{
+  font-size:24px;
+  color:#666;
+  margin-bottom:30px;
+}
+.done-page button{
+  background:linear-gradient(135deg,#81c784,#66bb6a);
+  color:white;
+  border:none;
+  padding:16px 40px;
+  font-size:28px;
+  font-weight:bold;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+.done-page button:active{transform:scale(.95)}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  max-width:700px;
+  margin-top:20px;
+  padding:15px;
+  background:white;
+  border-radius:15px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.nav button{
+  background:#4ecdc4;
+  color:white;
+  border:none;
+  padding:12px 24px;
+  font-size:18px;
+  font-weight:bold;
+  border-radius:25px;
+  cursor:pointer;
+}
+.nav button:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}
+.nav button:active:not(:disabled){transform:scale(.95)}
+.nav .pg{
+  font-size:18px;
+  font-weight:bold;
+  color:#666;
+}
+#confetti{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:9999;
+}
+@media(max-width:480px){
+  .ttl{font-size:22px}
+  .stars{font-size:20px}
+  .tz{font-size:18px;padding:10px 20px}
+  .mod{padding:20px}
+  .pr img{width:65px}
+  .bbl{font-size:20px}
+  .card{min-height:160px}
+  .card img{width:70px;height:70px}
+  .card .lbl{font-size:18px}
+  .match-area{flex-direction:column;gap:20px}
+  .match-item{width:100px;height:100px}
+  .match-item img{width:70px;height:70px}
+  .listen-card{min-height:140px}
+  .listen-card img{width:70px;height:70px}
+  .listen-card .lbl{font-size:18px}
+  .mem-grid{grid-template-columns:repeat(4,1fr);gap:10px;max-width:100%}
+  .mem-card .back{font-size:36px}
+  .mem-card .front img{width:50px;height:50px}
+  .mem-card .front .lbl{font-size:14px}
+  .start-page img{width:90px}
+  .start-page h1{font-size:36px}
+  .start-page .preview img{width:60px;height:60px}
+  .start-page button{font-size:28px;padding:14px 36px}
+  .done-page img{width:100px}
+  .done-page h1{font-size:40px}
+  .done-page p{font-size:20px}
+  .done-page button{font-size:24px;padding:14px 36px}
+}
+@media(min-width:481px) and (max-width:767px){
+  .mem-grid{max-width:480px}
+}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="ttl">Visit the Zoo</div>
+  <div class="stars" id="stars">★★★★</div>
+</div>
+<div class="tz" id="tip">👆 点一点，学新词</div>
+
+<div class="mod on" id="m0">
+  <div class="start-page">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <h1>Let's Play!</h1>
+    <div class="preview">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" alt="cat">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" alt="dog">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" alt="bird">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+    </div>
+    <button onclick="goM(1)">Start</button>
+  </div>
+</div>
+
+<div class="mod" id="m1">
+  <div class="pr">
+    <img src="../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">Tap to learn!</div>
+  </div>
+  <div class="grid" id="learn-grid"></div>
+</div>
+
+<div class="mod" id="m2">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+    <div class="bbl">Match the animals!</div>
+  </div>
+  <div class="match-area" id="match-area"></div>
+</div>
+
+<div class="mod" id="m3">
+  <div class="pr">
+    <img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+    <div class="bbl">Listen and find!</div>
+  </div>
+  <button class="replay" onclick="playQ()">🔊</button>
+  <div class="listen-grid" id="listen-grid"></div>
+</div>
+
+<div class="mod" id="m4">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
+    <div class="bbl">Find the pairs!</div>
+  </div>
+  <div class="mem-grid" id="mem-grid"></div>
+</div>
+
+<div class="mod" id="m5">
+  <div class="done-page">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+    <h1>All Done!</h1>
+    <p>Great job at the zoo! 🎉</p>
+    <button onclick="goM(0)">Play Again</button>
+  </div>
+</div>
+
+<div class="nav">
+  <button id="back" onclick="navM(-1)">Back</button>
+  <div class="pg"><span id="cur">1</span>/<span id="tot">6</span></div>
+  <button id="next" onclick="navM(1)">Next</button>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+const words=['cat','dog','fish','bird','duck'];
+const imgs=[
+  'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg',
+  'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg',
+  'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg',
+  'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg',
+  'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg'
+];
+let cur=0,stars=0,busy=false;
+let ac,learnDone=[],matchSel=null,matchDone=0,listenQ=-1,memFlip=[],memDone=0;
+
+function goM(n){
+  if(busy)return;
+  document.querySelectorAll('.mod').forEach(m=>m.classList.remove('on'));
+  document.getElementById('m'+n).classList.add('on');
+  cur=n;
+  updateNav();
+  updateTip();
+  if(n===0){
+    if(!ac){
+      ac=new AudioContext();
+      ac.resume();
+    }
+  }
+  if(n===1)initLearn();
+  if(n===2)initMatch();
+  if(n===3)initListen();
+  if(n===4)initMem();
+  if(n===5){
+    document.getElementById('stars').textContent='⭐⭐⭐⭐';
+  }
+}
+
+function navM(d){
+  let n=cur+d;
+  if(n<0||n>5)return;
+  if(n===1&&learnDone.length<5)return;
+  if(n===2&&matchDone<5)return;
+  if(n===3&&listenQ===-1)return;
+  if(n===4&&memDone<5)return;
+  goM(n);
+}
+
+function updateNav(){
+  document.getElementById('cur').textContent=cur+1;
+  document.getElementById('back').disabled=cur===0;
+  let canNext=true;
+  if(cur===1&&learnDone.length<5)canNext=false;
+  if(cur===2&&matchDone<5)canNext=false;
+  if(cur===3&&listenQ===-1)canNext=false;
+  if(cur===4&&memDone<5)canNext=false;
+  if(cur===5)canNext=false;
+  document.getElementById('next').disabled=!canNext;
+}
+
+function updateTip(){
+  const tips=[
+    '👆 点一点，学新词',
+    '👆 点一点，学新词',
+    '🐾 连一连，配对动物',
+    '👂 听一听，找动物',
+    '🎴 翻一翻，找配对'
+  ];
+  document.getElementById('tip').textContent=tips[cur]||'';
+}
+
+function initLearn(){
+  const g=document.getElementById('learn-grid');
+  g.innerHTML='';
+  words.forEach((w,i)=>{
+    const c=document.createElement('div');
+    c.className='card';
+    if(learnDone.includes(i))c.classList.add('on');
+    c.innerHTML=`<img src="${imgs[i]}" alt="${w}"><div class="lbl">${w}</div>`;
+    c.onclick=()=>{
+      if(busy||learnDone.includes(i))return;
+      busy=true;
+      c.classList.add('on');
+      learnDone.push(i);
+      speak(w,()=>{
+        busy=false;
+        if(learnDone.length===5){
+          stars=Math.max(stars,1);
+          document.getElementById('stars').textContent='⭐'+'★★★';
+          updateNav();
+        }
+      });
+    };
+    g.appendChild(c);
+  });
+}
+
+function initMatch(){
+  const area=document.getElementById('match-area');
+  area.innerHTML='';
+  const left=document.createElement('div');
+  left.className='match-col';
+  const right=document.createElement('div');
+  right.className='match-col';
+  
+  const order=[0,1,2,3,4];
+  const rightOrder=shuffle([...order]);
+  
+  order.forEach(i=>{
+    const item=document.createElement('div');
+    item.className='match-item';
+    item.dataset.idx=i;
+    item.innerHTML=`<img src="${imgs[i]}" alt="${words[i]}">`;
+    item.onclick=()=>selectMatch(item,'left');
+    left.appendChild(item);
+  });
+  
+  rightOrder.forEach(i=>{
+    const item=document.createElement('div');
+    item.className='match-item';
+    item.dataset.idx=i;
+    item.innerHTML=`<img src="${imgs[i]}" alt="${words[i]}">`;
+    item.onclick=()=>selectMatch(item,'right');
+    right.appendChild(item);
+  });
+  
+  area.appendChild(left);
+  area.appendChild(right);
+}
+
+function selectMatch(item,side){
+  if(busy||item.classList.contains('ok'))return;
+  
+  if(!matchSel){
+    matchSel={item,side};
+    item.classList.add('sel');
+  }else{
+    if(matchSel.side===side){
+      matchSel.item.classList.remove('sel');
+      matchSel={item,side};
+      item.classList.add('sel');
+    }else{
+      const idx1=parseInt(matchSel.item.dataset.idx);
+      const idx2=parseInt(item.dataset.idx);
+      if(idx1===idx2){
+        busy=true;
+        matchSel.item.classList.remove('sel');
+        matchSel.item.classList.add('ok');
+        item.classList.add('ok');
+        matchDone++;
+        playOk();
+        showConfetti();
+        speak(words[idx1],()=>{
+          busy=false;
+          matchSel=null;
+          if(matchDone===5){
+            stars=Math.max(stars,2);
+            document.getElementById('stars').textContent='⭐⭐'+'★★';
+            updateNav();
+          }
+        });
+      }else{
+        playNo();
+        matchSel.item.classList.remove('sel');
+        matchSel=null;
+      }
+    }
+  }
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function initListen(){
+  if(listenQ===-1){
+    listenQ=Math.floor(Math.random()*5);
+    speak(words[listenQ]);
+  }
+  const g=document.getElementById('listen-grid');
+  g.innerHTML='';
+  words.forEach((w,i)=>{
+    const c=document.createElement('div');
+    c.className='listen-card';
+    c.innerHTML=`<img src="${imgs[i]}" alt="${w}"><div class="lbl">${w}</div>`;
+    c.onclick=()=>{
+      if(busy)return;
+      if(i===listenQ){
+        busy=true;
+        playOk();
+        showConfetti();
+        speak(w,()=>{
+          busy=false;
+          stars=Math.max(stars,3);
+          document.getElementById('stars').textContent='⭐⭐⭐'+'★';
+          updateNav();
+        });
+      }else{
+        playNo();
+      }
+    };
+    g.appendChild(c);
+  });
+}
+
+function playQ(){
+  if(listenQ!==-1)speak(words[listenQ]);
+}
+
+function initMem(){
+  const g=document.getElementById('mem-grid');
+  g.innerHTML='';
+  const pairs=[...words,...words];
+  const order=shuffle([...Array(10).keys()]);
+  order.forEach(i=>{
+    const idx=i%5;
+    const c=document.createElement('div');
+    c.className='mem-card';
+    c.dataset.idx=idx;
+    c.innerHTML=`
+      <div class="face back">🐾</div>
+      <div class="face front">
+        <img src="${imgs[idx]}" alt="${words[idx]}">
+        <div class="lbl">${words[idx]}</div>
+      </div>
+    `;
+    c.onclick=()=>flipMem(c,idx);
+    g.appendChild(c);
+  });
+}
+
+function flipMem(c,idx){
+  if(busy||c.classList.contains('ok')||c.classList.contains('flip'))return;
+  c.classList.add('flip');
+  memFlip.push({c,idx});
+  if(memFlip.length===2){
+    busy=true;
+    const[a,b]=memFlip;
+    if(a.idx===b.idx){
+      setTimeout(()=>{
+        playOk();
+        showConfetti();
+        speak(words[a.idx],()=>{
+          a.c.classList.add('ok');
+          b.c.classList.add('ok');
+          memFlip=[];
+          memDone++;
+          busy=false;
+          if(memDone===5){
+            stars=4;
+            document.getElementById('stars').textContent='⭐⭐⭐⭐';
+            setTimeout(()=>goM(5),1500);
+          }
+        });
+      },600);
+    }else{
+      setTimeout(()=>{
+        playNo();
+        a.c.classList.remove('flip');
+        b.c.classList.remove('flip');
+        memFlip=[];
+        busy=false;
+      },1000);
+    }
+  }
+}
+
+function speak(txt,cb){
+  if(!ac){ac=new AudioContext();ac.resume();}
+  const isSentence=txt.includes(' ');
+  const primary=isSentence
+    ?`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(txt)}&spd=4&source=web`
+    :`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(txt)}&type=2`;
+  const fallback=isSentence
+    :`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(txt)}&type=2`
+    :`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(txt)}&spd=4&source=web`;
+  const a=new Audio(primary);
+  let done=false;
+  const finish=()=>{
+    if(done)return;
+    done=true;
+    if(cb)cb();
+  };
+  a.onended=finish;
+  a.onerror=()=>{
+    const b=new Audio(fallback);
+    b.onended=finish;
+    b.onerror=finish;
+    b.play().catch(finish);
+  };
+  a.play().catch(()=>{
+    const b=new Audio(fallback);
+    b.onended=finish;
+    b.onerror=finish;
+    b.play().catch(finish);
+  });
+  setTimeout(finish,4000);
+}
+
+function playOk(){
+  if(!ac)return;
+  const o=ac.createOscillator();
+  const g=ac.createGain();
+  o.connect(g);
+  g.connect(ac.destination);
+  o.frequency.value=800;
+  g.gain.setValueAtTime(.3,ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(.01,ac.currentTime+.3);
+  o.start();
+  o.stop(ac.currentTime+.3);
+}
+
+function playNo(){
+  if(!ac)return;
+  const o=ac.createOscillator();
+  const g=ac.createGain();
+  o.connect(g);
+  g.connect(ac.destination);
+  o.frequency.value=200;
+  g.gain.setValueAtTime(.2,ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(.01,ac.currentTime+.2);
+  o.start();
+  o.stop(ac.currentTime+.2);
+}
+
+function showConfetti(){
+  const c=document.getElementById('confetti');
+  const ctx=c.getContext('2d');
+  c.width=window.innerWidth;
+  c.height=window.innerHeight;
+  const bits=[];
+  for(let i=0;i<20;i++){
+    bits.push({
+      x:Math.random()*c.width,
+      y:-20,
+      vx:(Math.random()-.5)*2,
+      vy:Math.random()*3+2,
+      color:`hsl(${Math.random()*360},70%,60%)`,
+      r:Math.random()*4+2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    let alive=false;
+    bits.forEach(b=>{
+      b.x+=b.vx;
+      b.y+=b.vy;
+      if(b.y<c.height){
+        alive=true;
+        ctx.fillStyle=b.color;
+        ctx.beginPath();
+        ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+        ctx.fill();
+      }
+    });
+    if(alive)requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,c.width,c.height);
+  }
+  draw();
+}
+
+goM(0);
+</script>
+</body>
+</html>
