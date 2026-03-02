@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 2 - Visit the Zoo ✅
-- 更新时间: 2026-03-02 16:15
+- 当前: Day 3 - Morning Routine ✅
+- 更新时间: 2026-03-02 16:23
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -19,8 +19,15 @@
 - Review 游戏: Learn → Match Animals → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 3 - Morning Routine
+## Day 3 - Morning Routine
 - 新词: head, eyes, ears, nose, mouth
 - 句式: This is my ___!
-- 互动: Mirror Game → Wash Sequence → Body Check
+- Teach 互动: Mirror Game → Wash Sequence → Body Check
+- Review 游戏: Learn → Touch Your Body → Listen & Find → Memory Flip
+- 状态: ✅ 完成
+
+## 下一课
+- Day 4 - Peppa's Picnic
+- 新词: apple, banana, milk, bread, egg
+- 句式: I like ___!
+- 互动: Picnic Basket → Pack the Basket → Picnic Spread

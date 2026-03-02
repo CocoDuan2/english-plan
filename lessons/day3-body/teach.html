@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 3 - Morning Routine</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-lav{background:linear-gradient(160deg,#e1bee7,#ce93d8)}
+.bg-peach{background:linear-gradient(160deg,#ffccbc,#ffab91)}
+.bg-mint{background:linear-gradient(160deg,#b2dfdb,#80cbc4)}
+.bg-yellow{background:linear-gradient(160deg,#fff9c4,#fff59d)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.mirror-face{position:relative;width:280px;height:320px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:50%;border:8px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.15);margin:20px 0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.face-part{position:absolute;cursor:pointer;transition:transform .1s}
+.face-part:active{transform:scale(1.1)}
+.fp-head{top:10px;left:50%;transform:translateX(-50%);font-size:32px}
+.fp-eyes{top:80px;left:50%;transform:translateX(-50%);font-size:40px}
+.fp-ears{top:100px;left:20px;font-size:36px}
+.fp-nose{top:140px;left:50%;transform:translateX(-50%);font-size:36px}
+.fp-mouth{top:200px;left:50%;transform:translateX(-50%);font-size:40px}
+.wash-seq{display:flex;flex-direction:column;gap:20px;max-width:500px;margin:20px 0}
+.wash-step{display:flex;align-items:center;gap:16px;padding:16px 20px;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);cursor:pointer;transition:all .2s}
+.wash-step.done{background:#c8e6c9;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.wash-step:active{transform:scale(.98)}
+.wash-step .num{width:40px;height:40px;border-radius:50%;background:#F9ADC7;color:#fff;font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.wash-step.done .num{background:#66bb6a}
+.wash-step .emoji{font-size:48px}
+.wash-step .label{font-size:24px;font-weight:700;color:#2c3e50;flex:1}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item .emoji{font-size:60px}
+.all-item .label{font-size:24px;font-weight:700;color:#2c3e50}
+@media(max-width:480px){
+  .ttl{font-size:30px}.sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
+  .bbl{font-size:20px;padding:8px 14px}
+  .mirror-face{width:220px;height:260px}
+  .fp-head{font-size:26px}.fp-eyes{font-size:32px}.fp-ears{font-size:28px}.fp-nose{font-size:28px}.fp-mouth{font-size:32px}
+  .wash-step{padding:12px 16px;gap:12px}
+  .wash-step .num{width:36px;height:36px;font-size:18px}
+  .wash-step .emoji{font-size:40px}
+  .wash-step .label{font-size:20px}
+  .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+  .all-item .emoji{font-size:50px}
+  .all-item .label{font-size:20px}
+}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .sent{font-size:38px}
+  .mirror-face{width:320px;height:360px}
+  .all-item .emoji{font-size:70px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+  <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" alt="Peppa">
+  <div class="ttl">Morning Routine</div>
+  <div class="sub">Peppa wakes up!</div>
+  <div style="font-size:80px;margin:10px 0">🧼</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+  <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" alt="Peppa">
+  <div style="font-size:52px;font-weight:900;color:#2c3e50;margin:10px 0">Good morning! 🌞</div>
+</div>
+
+<!-- S2: head -->
+<div class="sl bg-lav">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">This is my head!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1-200d-1f9b0.svg" width="160" alt="head">
+  </div>
+  <div class="word">head</div>
+</div>
+
+<!-- S3: eyes -->
+<div class="sl bg-mint">
+  <div class="pr">
+    <img src="../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">This is my eyes!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" width="160" alt="eyes">
+  </div>
+  <div class="word">eyes</div>
+</div>
+
+<!-- S4: ears -->
+<div class="sl bg-peach">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+    <div class="bbl">This is my ears!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg" width="160" alt="ears">
+  </div>
+  <div class="word">ears</div>
+</div>
+
+<!-- S5: nose -->
+<div class="sl bg-yellow">
+  <div class="pr">
+    <img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+    <div class="bbl">This is my nose!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" width="160" alt="nose">
+  </div>
+  <div class="word">nose</div>
+</div>
+
+<!-- S6: mouth -->
+<div class="sl bg-pink">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+    <div class="bbl">This is my mouth!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" width="160" alt="mouth">
+  </div>
+  <div class="word">mouth</div>
+</div>
+
+<!-- S7: Mirror Game -->
+<div class="sl bg-sky">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Look in the mirror!</div>
+  </div>
+  <div class="mirror-face">
+    <div class="face-part fp-head" data-word="head">👤</div>
+    <div class="face-part fp-eyes" data-word="eyes">👀</div>
+    <div class="face-part fp-ears" data-word="ears">👂</div>
+    <div class="face-part fp-nose" data-word="nose">👃</div>
+    <div class="face-part fp-mouth" data-word="mouth">👄</div>
+  </div>
+  <div class="sent">Tap to hear!</div>
+</div>
+
+<!-- S8: Wash Sequence -->
+<div class="sl bg-mint">
+  <div class="pr">
+    <img src="../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">Let's wash up!</div>
+  </div>
+  <div class="wash-seq">
+    <div class="wash-step" data-step="1" data-word="head">
+      <div class="num">1</div>
+      <div class="emoji">🚿</div>
+      <div class="label">head</div>
+    </div>
+    <div class="wash-step" data-step="2" data-word="eyes">
+      <div class="num">2</div>
+      <div class="emoji">💧</div>
+      <div class="label">eyes</div>
+    </div>
+    <div class="wash-step" data-step="3" data-word="ears">
+      <div class="num">3</div>
+      <div class="emoji">🧼</div>
+      <div class="label">ears</div>
+    </div>
+    <div class="wash-step" data-step="4" data-word="nose">
+      <div class="num">4</div>
+      <div class="emoji">🫧</div>
+      <div class="label">nose</div>
+    </div>
+    <div class="wash-step" data-step="5" data-word="mouth">
+      <div class="num">5</div>
+      <div class="emoji">🪥</div>
+      <div class="label">mouth</div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-lav">
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" alt="Family">
+    <div class="bbl">All clean!</div>
+  </div>
+  <div class="all-grid">
+    <div class="all-item"><div class="emoji">👤</div><div class="label">head</div></div>
+    <div class="all-item"><div class="emoji">👀</div><div class="label">eyes</div></div>
+    <div class="all-item"><div class="emoji">👂</div><div class="label">ears</div></div>
+    <div class="all-item"><div class="emoji">👃</div><div class="label">nose</div></div>
+    <div class="all-item"><div class="emoji">👄</div><div class="label">mouth</div></div>
+  </div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-peach">
+  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="110" alt="Peppa & George">
+  <div style="font-size:52px;font-weight:900;color:#2c3e50;margin:10px 0">All clean! Bye! 👋</div>
+  <div class="sub">Tomorrow: Peppa's Picnic! 🧺</div>
+</div>
+</div>
+
+<button class="fab" onclick="toggleNotes()">T</button>
+<div class="pop" id="notes"></div>
+
+<div class="nav">
+  <button class="nb" onclick="prev()" id="prevBtn">Back</button>
+  <div class="np"><span id="curr">1</span> / 10</div>
+  <button class="nb" onclick="next()" id="nextBtn">Next</button>
+</div>
+
+<script>
+const notes=[
+  "Title: Morning Routine. Peppa wakes up and gets ready for the day.",
+  "Hello: Good morning! Peppa invites you to start the day together.",
+  "head: Point to your head. 'This is my head!' Peppa touches her head.",
+  "eyes: Point to your eyes. 'This is my eyes!' George blinks his eyes.",
+  "ears: Point to your ears. 'This is my ears!' Candy Cat wiggles her ears.",
+  "nose: Point to your nose. 'This is my nose!' Emily's long trunk!",
+  "mouth: Point to your mouth. 'This is my mouth!' Mummy smiles wide.",
+  "Mirror Game: Tap each part to hear the word. Kids love pointing at faces!",
+  "Wash Sequence: Tap in order 1-5. Each step says the body part. Morning routine!",
+  "All Together: Point randomly and ask 'What's this?' Review all 5 parts.",
+  "Bye: All clean! Tomorrow we'll have a picnic with yummy food!"
+];
+let idx=0;
+function goTo(n){
+  document.querySelectorAll('.sl').forEach((s,i)=>s.classList.toggle('on',i===n));
+  idx=n;
+  document.getElementById('curr').textContent=n+1;
+  document.getElementById('prevBtn').disabled=n===0;
+  document.getElementById('nextBtn').disabled=n===9;
+  document.getElementById('notes').textContent=notes[n];
+}
+function prev(){if(idx>0)goTo(idx-1)}
+function next(){if(idx<9)goTo(idx+1)}
+function toggleNotes(){
+  document.querySelector('.fab').classList.toggle('on');
+  document.getElementById('notes').classList.toggle('on');
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+
+// Mirror Game
+document.querySelectorAll('.face-part').forEach(fp=>{
+  fp.addEventListener('click',()=>{
+    const word=fp.dataset.word;
+    speak(word);
+  });
+});
+
+// Wash Sequence
+let washIdx=0;
+document.querySelectorAll('.wash-step').forEach(ws=>{
+  ws.addEventListener('click',()=>{
+    const step=parseInt(ws.dataset.step);
+    if(step===washIdx+1){
+      ws.classList.add('done');
+      speak(ws.dataset.word);
+      washIdx++;
+    }
+  });
+});
+
+function speak(text,cb){
+  const url=text.includes(' ')?
+    `https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(text)}&spd=4&source=web`:
+    `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&type=2`;
+  const a=new Audio(url);
+  let done=false;
+  a.onended=()=>{if(!done){done=true;cb&&cb()}};
+  a.onerror=()=>{
+    if(!done){
+      done=true;
+      const fallback=text.includes(' ')?
+        `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&type=2`:
+        `https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(text)}&spd=4&source=web`;
+      const a2=new Audio(fallback);
+      a2.onended=()=>cb&&cb();
+      a2.onerror=()=>cb&&cb();
+      a2.play().catch(()=>cb&&cb());
+    }
+  };
+  setTimeout(()=>{if(!done){done=true;cb&&cb()}},4000);
+  a.play().catch(()=>{if(!done){done=true;cb&&cb()}});
+}
+
+goTo(0);
+</script>
+</body>
+</html>
