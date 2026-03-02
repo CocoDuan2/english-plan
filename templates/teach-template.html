@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day X - {{THEME}}</title>
+<title>Day X</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
@@ -29,51 +29,22 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(max-width:480px){
-  .ttl{font-size:30px}.sub{font-size:16px}
-  .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
-  .bbl{font-size:20px;padding:8px 14px}
-}
-/* {{CUSTOM_STYLES}} - 在这里添加自定义样式 */
+@media(max-width:480px){.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}.bbl{font-size:20px;padding:8px 14px}}
 </style>
 </head>
 <body>
 <div class="deck">
-<!-- {{SLIDES}} - 在这里填充 10 页幻灯片 -->
-<!-- S0: Title -->
-<div class="sl bg-pink on">
-  <!-- 填充标题页内容 -->
+<div class="sl bg-pink on"></div>
+<div class="sl bg-sky"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
+<div class="sl"></div>
 </div>
-
-<!-- S1: Hello -->
-<div class="sl bg-sky">
-  <!-- 填充 Hello 页内容 -->
-</div>
-
-<!-- S2-S6: New Words (5页) -->
-<!-- 填充新词页 -->
-
-<!-- S7: Listen & Say -->
-<div class="sl bg-lav">
-  <!-- 填充 Listen & Say 页 -->
-</div>
-
-<!-- S8: 主题互动 -->
-<div class="sl">
-  <!-- 填充主题互动页 -->
-</div>
-
-<!-- S9: All Together -->
-<div class="sl">
-  <!-- 填充 All Together 页 -->
-</div>
-
-<!-- S10: Bye -->
-<div class="sl">
-  <!-- 填充 Bye 页 -->
-</div>
-</div>
-
 <button class="fab" id="F" onclick="tn()">📋</button>
 <div class="pop" id="P"><div id="B"></div></div>
 <div class="nav">
@@ -81,42 +52,13 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="np" id="pg">1/10</div>
 <button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
 </div>
-
 <script>
 var c=0,t=10;
-var N={
-  /* {{TEACHER_NOTES}} - 填充 Teacher Notes */
-};
-
-function speak(txt){
-  var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
-  var a=new Audio(url);a.play().catch(function(){})
-}
-
-function goTo(n){
-  if(n<0||n>=t)return;
-  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
-  document.querySelectorAll('.sl')[n].classList.add('on');
-  c=n;
-  document.getElementById('pg').textContent=(c+1)+'/'+t;
-  document.getElementById('pb').disabled=c===0;
-  var b=document.getElementById('xb');
-  if(c===t-1){b.textContent='Done';b.disabled=true}
-  else{b.textContent='Next ▶';b.disabled=false}
-  document.getElementById('B').innerHTML=N[c]||''
-}
-
-function tn(){
-  document.getElementById('F').classList.toggle('on');
-  document.getElementById('P').classList.toggle('on')
-}
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowLeft')goTo(c-1);
-  if(e.key==='ArrowRight')goTo(c+1);
-  if(e.key==='t'||e.key==='T')tn()
-});
-
+var N={};
+function speak(txt){var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(url);a.play().catch(function(){})}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
 goTo(0);
 </script>
 </body>

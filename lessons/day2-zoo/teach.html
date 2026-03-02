@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 - Visit the Zoo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-green{background:linear-gradient(160deg,#c8e6c9,#a5d6a7)}
+.bg-lav{background:linear-gradient(160deg,#e1bee7,#ce93d8)}
+.bg-peach{background:linear-gradient(160deg,#ffccbc,#ffab91)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:48px;margin:10px;transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.zoo-map{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:500px;margin:20px 0}
+.zoo-spot{width:140px;height:140px;border-radius:20px;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .1s}
+.zoo-spot:active{transform:scale(.95)}
+.zoo-spot img{width:80px;height:80px}
+.zoo-spot .label{font-size:20px;font-weight:700;color:#fff}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px;height:80px}
+.all-item .label{font-size:24px;font-weight:700;color:#2c3e50}
+@media(max-width:480px){
+  .ttl{font-size:30px}.sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
+  .bbl{font-size:20px;padding:8px 14px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .zoo-map{grid-template-columns:repeat(2,1fr);gap:15px}
+  .zoo-spot{width:120px;height:120px}
+  .zoo-spot img{width:70px;height:70px}
+  .zoo-spot .label{font-size:18px}
+  .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+  .all-item img{width:70px;height:70px}
+  .all-item .label{font-size:20px}
+}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .sent{font-size:38px}
+  .zoo-spot{width:150px;height:150px}
+  .all-item img{width:90px;height:90px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+  <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="110" alt="Peppa Family">
+  <div class="ttl">Visit the Zoo</div>
+  <div class="sub">Let's see the animals!</div>
+  <div style="font-size:80px;margin:10px 0">🦁</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+  <img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110" alt="Peppa">
+  <div style="font-size:52px;font-weight:900;color:#2c3e50;margin:10px 0">Let's go to the zoo! 🦁</div>
+</div>
+
+<!-- S2: cat -->
+<div class="sl bg-green">
+  <div class="pr">
+    <img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+    <div class="bbl">I see a cat!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="160" alt="cat">
+  </div>
+  <div class="word">cat</div>
+</div>
+
+<!-- S3: dog -->
+<div class="sl bg-peach">
+  <div class="pr">
+    <img src="../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">I see a dog!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="160" alt="dog">
+  </div>
+  <div class="word">dog</div>
+</div>
+
+<!-- S4: fish -->
+<div class="sl bg-sky">
+  <div class="pr">
+    <img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+    <div class="bbl">I see a fish!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="160" alt="fish">
+  </div>
+  <div class="word">fish</div>
+</div>
+
+<!-- S5: bird -->
+<div class="sl bg-lav">
+  <div class="pr">
+    <img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">I see a bird!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="160" alt="bird">
+  </div>
+  <div class="word">bird</div>
+</div>
+
+<!-- S6: duck -->
+<div class="sl bg-green">
+  <div class="pr">
+    <img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily Elephant">
+    <div class="bbl">I see a duck!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="160" alt="duck">
+  </div>
+  <div class="word">duck</div>
+</div>
+
+<!-- S7: Animal Sounds -->
+<div class="sl bg-lav">
+  <div class="ttl">Animal Sounds</div>
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen to the animals!</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin:20px 0">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffb3ba,#ff8fa3)" onclick="speak('cat')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="60" alt="cat">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#bae1ff,#a8d8ea)" onclick="speak('dog')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="60" alt="dog">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('fish')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="60" alt="fish">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd3b6,#ffaaa5)" onclick="speak('bird')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="60" alt="bird">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#dcedc1,#c5e1a5)" onclick="speak('duck')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="60" alt="duck">
+    </button>
+  </div>
+</div>
+
+<!-- S8: Zoo Map -->
+<div class="sl bg-sky">
+  <div class="ttl">Zoo Map</div>
+  <div class="pr">
+    <img src="../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">Find the animals!</div>
+  </div>
+  <div class="zoo-map">
+    <button class="zoo-spot" style="background:linear-gradient(135deg,#ffb3ba,#ff8fa3)" onclick="speak('cat')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" alt="cat">
+      <div class="label">cat</div>
+    </button>
+    <button class="zoo-spot" style="background:linear-gradient(135deg,#bae1ff,#a8d8ea)" onclick="speak('dog')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" alt="dog">
+      <div class="label">dog</div>
+    </button>
+    <button class="zoo-spot" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('fish')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+      <div class="label">fish</div>
+    </button>
+    <button class="zoo-spot" style="background:linear-gradient(135deg,#ffd3b6,#ffaaa5)" onclick="speak('bird')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" alt="bird">
+      <div class="label">bird</div>
+    </button>
+    <button class="zoo-spot" style="background:linear-gradient(135deg,#dcedc1,#c5e1a5)" onclick="speak('duck')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+      <div class="label">duck</div>
+    </button>
+  </div>
+</div>
+
+<!-- S9: Animal Parade -->
+<div class="sl bg-peach">
+  <div class="ttl">Animal Parade</div>
+  <div class="pr">
+    <img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" alt="Peppa Family">
+    <div class="bbl">Can you say the animals?</div>
+  </div>
+  <div class="all-grid">
+    <div class="all-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" alt="cat">
+      <div class="label">cat</div>
+    </div>
+    <div class="all-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" alt="dog">
+      <div class="label">dog</div>
+    </div>
+    <div class="all-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+      <div class="label">fish</div>
+    </div>
+    <div class="all-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" alt="bird">
+      <div class="label">bird</div>
+    </div>
+    <div class="all-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+      <div class="label">duck</div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+  <img src="../../assets/peppa/peppa-and-george-ooo.png" width="110" alt="Peppa and George">
+  <div style="font-size:48px;font-weight:900;color:#e91e8c;margin:10px 0">Great job! 🎉</div>
+  <div style="font-size:26px;color:#666;margin:6px 0">We saw many animals today!</div>
+  <div style="font-size:22px;color:#7f8c8d;margin:10px 0">Tomorrow: Morning Routine! 🧼</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+  0:'<b>Title Page</b><br>Introduce today\'s story: Visit the Zoo!<br>Point to the lion emoji and say "We\'re going to see animals!"',
+  1:'<b>Hello Page</b><br>Peppa invites: "Let\'s go to the zoo!"<br>Build excitement: "What animals will we see?"',
+  2:'<b>New Word: cat</b><br>Candy Cat says: "I see a cat!"<br>Point to the cat emoji and repeat: "cat, cat, cat"<br>Ask: "Do you have a cat at home?"',
+  3:'<b>New Word: dog</b><br>George says: "I see a dog!"<br>Point to the dog and make barking sound: "Woof woof!"<br>Repeat: "dog, dog, dog"',
+  4:'<b>New Word: fish</b><br>Daddy Pig says: "I see a fish!"<br>Point to the fish and make swimming motion<br>Repeat: "fish, fish, fish"',
+  5:'<b>New Word: bird</b><br>Mummy Pig says: "I see a bird!"<br>Point to the bird and flap arms like wings<br>Repeat: "bird, bird, bird"',
+  6:'<b>New Word: duck</b><br>Emily says: "I see a duck!"<br>Point to the duck and make quacking sound: "Quack quack!"<br>Repeat: "duck, duck, duck"',
+  7:'<b>Animal Sounds</b><br>Click each button to hear the animal name<br>Encourage child to repeat after each sound<br>Can click multiple times',
+  8:'<b>Zoo Map</b><br>Interactive zoo map with animal zones<br>Click each area to hear the animal name<br>Ask: "Where is the cat? Where is the dog?"',
+  9:'<b>Animal Parade</b><br>Review all 5 animals<br>Point randomly and ask: "What\'s this?"<br>Encourage child to say: "I see a ___!"',
+  10:'<b>Bye Page</b><br>Celebrate: "Great job! We saw many animals!"<br>Preview tomorrow: "Morning Routine - washing face!"<br>Wave goodbye with Peppa and George'
+};
+
+function speak(txt){
+  var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+  var a=new Audio(url);a.play().catch(function(){})
+}
+
+function goTo(n){
+  if(n<0||n>=t)return;
+  document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sl')[n].classList.add('on');
+  c=n;
+  document.getElementById('pg').textContent=(c+1)+'/'+t;
+  document.getElementById('pb').disabled=c===0;
+  var b=document.getElementById('xb');
+  if(c===t-1){b.textContent='Done';b.disabled=true}
+  else{b.textContent='Next ▶';b.disabled=false}
+  document.getElementById('B').innerHTML=N[c]||''
+}
+
+function tn(){
+  document.getElementById('F').classList.toggle('on');
+  document.getElementById('P').classList.toggle('on')
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')goTo(c-1);
+  if(e.key==='ArrowRight')goTo(c+1);
+  if(e.key==='t'||e.key==='T')tn()
+});
+
+goTo(0);
+</script>
+</body>
+</html>

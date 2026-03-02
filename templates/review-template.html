@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day X Review - {{THEME}}</title>
+<title>Day X Review</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
@@ -12,31 +12,8 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .mod.on{display:flex}
 .top{text-align:center;margin-bottom:20px}
 .te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
-.tz{
-  font-size:20px;
-  font-weight:700;
-  color:#fff;
-  background:linear-gradient(135deg,#ff6b9d,#ffa07a);
-  border-radius:25px;
-  padding:12px 24px;
-  display:inline-block;
-  box-shadow:0 6px 20px rgba(255,107,157,.35);
-  margin:8px 0;
-  letter-spacing:.5px;
-  position:relative;
-}
-.tz::after{
-  content:'';
-  position:absolute;
-  bottom:-4px;
-  left:50%;
-  transform:translateX(-50%);
-  width:80%;
-  height:4px;
-  background:rgba(255,107,157,.2);
-  border-radius:2px;
-  filter:blur(3px);
-}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff6b9d,#ffa07a);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,107,157,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,107,157,.2);border-radius:2px;filter:blur(3px)}
 .sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
 .pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
 .pr img{width:75px}
@@ -50,14 +27,7 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(max-width:480px){
-  .te{font-size:26px}
-  .tz{font-size:18px;padding:10px 20px}
-  .bbl{font-size:20px}
-  .pr img{width:65px}
-  .sb{font-size:22px}
-}
-/* {{CUSTOM_STYLES}} - 在这里添加 M2 游戏的自定义样式 */
+@media(max-width:480px){.te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}.pr img{width:65px}.sb{font-size:22px}}
 </style>
 </head>
 <body>
@@ -74,86 +44,21 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 </div>
 <script>
 var PP='../../assets/peppa/';
-var W=[
-  /* {{WORDS_ARRAY}} - 填充词汇数组，例如：
-  {w:'cat',svg:'<svg>...</svg>'},
-  {w:'dog',svg:'<svg>...</svg>'},
-  ...
-  */
-];
+var W=[];
 var curM=0,busy=false;
-
-function speak(t){
-  var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
-  var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
-  var a=new Audio(primary);
-  a.play().catch(function(){var b=new Audio(fallback);b.play().catch(function(){})})
-}
-
+function speak(t){var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';var a=new Audio(primary);a.play().catch(function(){var b=new Audio(fallback);b.play().catch(function(){})})}
 function getAC(){if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();return window.actx}
 function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
 function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
 function playNo(){tone(300,.3)}
-
-function showConfetti(){
-  var w=document.createElement("div");w.className="confetti-wrap";
-  var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];
-  for(var i=0;i<20;i++){
-    var p=document.createElement("div");p.className="confetti-piece";
-    p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";
-    p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";
-    p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)
-  }
-  document.body.appendChild(w);setTimeout(function(){w.remove()},1600)
-}
-
+function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';return s}
-
-function goM(d){
-  curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;
-  document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
-  document.getElementById('m'+curM).classList.add('on');
-  document.getElementById('pg').textContent=(curM+1)+'/6';
-  document.getElementById('pBtn').disabled=curM===0;
-  var nb=document.getElementById('nBtn');
-  if(curM===0){nb.textContent='Start!';nb.disabled=false}
-  else if(curM>=5){nb.textContent='Done';nb.disabled=true}
-  else{nb.textContent='Next ▶';nb.disabled=false}
-  if(curM===1)initM1();
-  if(curM===2)initM2();
-  if(curM===3)initM3();
-  if(curM===4)initM4();
-  if(curM===5)initM5();
-}
-
-/* {{M0_START_PAGE}} - 填充开始页内容 */
-document.getElementById('m0').innerHTML='<img src="'+PP+'peppa-family-group-outdoors.png" width="140"><div style="font-size:28px;font-weight:900;color:#e91e8c">Let\'s Play!</div>';
-
-/* {{M1_LEARN}} - 填充学新词模块 */
-function initM1(){
-  // 实现学新词逻辑
-}
-
-/* {{M2_GAME}} - 填充主题游戏模块（每天不同） */
-function initM2(){
-  // 实现主题游戏逻辑
-}
-
-/* {{M3_LISTEN}} - 填充听力游戏模块 */
-function initM3(){
-  // 实现听力游戏逻辑
-}
-
-/* {{M4_MEMORY}} - 填充记忆翻牌模块 */
-function initM4(){
-  // 实现记忆翻牌逻辑
-}
-
-/* {{M5_DONE}} - 填充完成页 */
-function initM5(){
-  document.getElementById('m5').innerHTML='<img src="'+PP+'peppa-family-group-outdoors.png" width="120"><div style="font-size:42px;font-weight:900;color:#e91e8c;margin:10px 0">All Done!</div><div style="font-size:24px;color:#666;margin:6px 0">Great job!</div><div style="font-size:28px;margin:10px 0">'+stars(5,5)+'</div><button onclick="location.reload()" style="margin-top:16px;padding:14px 32px;border:none;border-radius:12px;font-size:20px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(249,173,199,.4)">Play Again 🔄</button>';
-}
-
+function goM(d){curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});document.getElementById('m'+curM).classList.add('on');document.getElementById('pg').textContent=(curM+1)+'/6';document.getElementById('pBtn').disabled=curM===0;var nb=document.getElementById('nBtn');if(curM===0){nb.textContent='Start!';nb.disabled=false}else if(curM>=5){nb.textContent='Done';nb.disabled=true}else{nb.textContent='Next ▶';nb.disabled=false}if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();}
+function initM1(){}
+function initM2(){}
+function initM3(){}
+function initM4(){}
+function initM5(){}
 goM(0);
 </script>
 </body>
