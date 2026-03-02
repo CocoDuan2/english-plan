@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 23 - In the Garden ✅
-- 更新时间: 2026-03-03 02:37
+- 当前: Day 24 - Music Time ✅
+- 更新时间: 2026-03-03 02:50
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -166,8 +166,15 @@
 - Review 游戏: Learn (fade-in) → Garden Explorer (点花园生物) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 24 - Music Time
+## Day 24 - Music Time
 - 新词: sing, dance, clap, drum, piano
 - 句式: I can ___!
-- 互动: Listen & Say → Music Show → All Together
+- Teach 互动: Listen & Say → Music Show → All Together
+- Review 游戏: Learn (reveal) → Music Show (听词点乐器) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 25 - Beach Day
+- 新词: sand, shell, wave, crab, boat
+- 句式: I see ___!
+- 互动: Listen & Say → Beach Explorer → All Together
