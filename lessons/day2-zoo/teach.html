@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 2 - Visit the Zoo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-green{background:linear-gradient(180deg,#8BC34A,#AED581)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.obj-wrap img{width:160px;height:auto}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;margin:10px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px}
+.zoo-map{position:relative;width:90%;max-width:600px;height:400px;background:linear-gradient(180deg,#87CEEB,#8BC34A);border-radius:20px;box-shadow:0 6px 20px rgba(0,0,0,.15);margin:20px 0}
+.zoo-spot{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.2);transition:transform .2s}
+.zoo-spot:hover{transform:scale(1.1)}
+.zoo-spot img{width:60px;height:60px}
+.all-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px;height:auto}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}
+.bbl{font-size:20px;padding:8px 14px}
+.pr img{width:65px}
+.pr.big img{width:90px}
+.obj-wrap img{width:120px}
+.sound-btn{width:80px;height:80px;font-size:36px}
+.zoo-map{height:300px}
+.zoo-spot{width:60px;height:60px}
+.zoo-spot img{width:45px;height:45px}
+.all-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+.all-item img{width:60px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<div class="pr big">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+</div>
+<div class="ttl">Visit the Zoo</div>
+<div class="sub">Let's see the animals!</div>
+<div style="display:flex;gap:20px;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="60" alt="cat">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="60" alt="dog">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="60" alt="fish">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="60" alt="bird">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="60" alt="duck">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<div class="pr big">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+</div>
+<div class="ttl" style="font-size:52px">Let's go to the zoo!</div>
+</div>
+
+<!-- S2: cat -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I see a cat!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" alt="cat">
+</div>
+<div class="word">cat</div>
+</div>
+
+<!-- S3: dog -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">I see a dog!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" alt="dog">
+</div>
+<div class="word">dog</div>
+</div>
+
+<!-- S4: fish -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">I see a fish!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+</div>
+<div class="word">fish</div>
+</div>
+
+<!-- S5: bird -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">I see a bird!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" alt="bird">
+</div>
+<div class="word">bird</div>
+</div>
+
+<!-- S6: duck -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">I see a duck!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+</div>
+<div class="word">duck</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-sky">
+<div class="ttl">Listen & Say</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">Click to hear!</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#FFB6C1,#FFC0CB)" onclick="speak('cat')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="50" alt="cat">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#DEB887,#F4A460)" onclick="speak('dog')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="50" alt="dog">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#87CEEB,#B0E0E6)" onclick="speak('fish')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="50" alt="fish">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#98D8C8,#A8E6CF)" onclick="speak('bird')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="50" alt="bird">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#F0E68C,#FFD700)" onclick="speak('duck')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="50" alt="duck">
+</button>
+</div>
+</div>
+
+<!-- S8: Animal Sounds -->
+<div class="sl bg-green">
+<div class="ttl">Animal Sounds</div>
+<div class="pr">
+<img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
+<div class="bbl">Click to hear the sound!</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#FFB6C1,#FFC0CB)" onclick="playAnimalSound('cat')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="50" alt="cat">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#DEB887,#F4A460)" onclick="playAnimalSound('dog')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="50" alt="dog">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#87CEEB,#B0E0E6)" onclick="playAnimalSound('fish')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="50" alt="fish">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#98D8C8,#A8E6CF)" onclick="playAnimalSound('bird')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="50" alt="bird">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#F0E68C,#FFD700)" onclick="playAnimalSound('duck')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="50" alt="duck">
+</button>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-sky">
+<div class="ttl">All Together</div>
+<div class="pr big">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" alt="cat">
+<div class="all-label">cat</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" alt="dog">
+<div class="all-label">dog</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+<div class="all-label">fish</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" alt="bird">
+<div class="all-label">bird</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+<div class="all-label">duck</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<div class="pr big">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+</div>
+<div class="ttl">Great job!</div>
+<div class="sub">We saw so many animals!</div>
+<div class="sent" style="margin-top:20px">Tomorrow: Morning Routine!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Visit the Zoo. Preview 5 animals.',
+1:'Hello page: George invites to the zoo. Build excitement.',
+2:'New word: cat. Peppa says "I see a cat!" Point to the cat.',
+3:'New word: dog. George says "I see a dog!" Point to the dog.',
+4:'New word: fish. Candy says "I see a fish!" Point to the fish.',
+5:'New word: bird. Daddy says "I see a bird!" Point to the bird.',
+6:'New word: duck. Mummy says "I see a duck!" Point to the duck.',
+7:'Listen & Say: Click each animal to hear the word. Repeat together.',
+8:'Animal Sounds: Click to hear animal sounds (meow/woof/blub/tweet/quack), then click the matching animal. Interactive listening game.',
+9:'All Together: Review all 5 animals. Point randomly and ask "What do you see?"',
+10:'Bye: Celebrate! Preview tomorrow: Morning Routine (body parts).'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function getAC(){
+if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
+return window.actx;
+}
+
+function playAnimalSound(animal){
+var sounds={
+cat:{freq:[400,500,600],dur:[0.1,0.1,0.15]},
+dog:{freq:[200,150],dur:[0.15,0.2]},
+fish:{freq:[800,700,800],dur:[0.08,0.08,0.08]},
+bird:{freq:[1200,1400,1200],dur:[0.1,0.08,0.12]},
+duck:{freq:[300,250,300],dur:[0.2,0.15,0.2]}
+};
+var s=sounds[animal];
+if(!s)return;
+var ctx=getAC();
+var time=ctx.currentTime;
+for(var i=0;i<s.freq.length;i++){
+var osc=ctx.createOscillator();
+var gain=ctx.createGain();
+osc.connect(gain);
+gain.connect(ctx.destination);
+osc.frequency.value=s.freq[i];
+gain.gain.value=0.2;
+osc.start(time);
+gain.gain.exponentialRampToValueAtTime(0.001,time+s.dur[i]);
+osc.stop(time+s.dur[i]);
+time+=s.dur[i]+0.05;
+}
+setTimeout(function(){speak(animal)},800);
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>
