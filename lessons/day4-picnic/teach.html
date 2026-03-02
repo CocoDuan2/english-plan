@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 4 - Peppa's Picnic</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:linear-gradient(135deg,#a8e6cf,#ffd3b6);overflow:hidden;user-select:none}
+.pg{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:20px}
+.ttl{font-size:42px;font-weight:bold;color:#e91e8c;margin-bottom:10px;text-align:center}
+.sub{font-size:22px;color:#e67e22;margin-bottom:20px;text-align:center}
+.pr{position:absolute;top:20px;left:20px;z-index:10}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:20px;padding:15px 25px;font-size:26px;font-weight:bold;color:#e67e22;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-width:90%}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:15px solid #fff}
+.obj-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.obj-wrap img{width:160px;height:160px}
+.word{font-size:88px;font-weight:bold;color:#e91e8c;text-align:center}
+.sent{font-size:34px;color:#555;text-align:center;margin-top:10px}
+.nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:space-between;padding:0 30px;box-shadow:0 -2px 10px rgba(0,0,0,.1)}
+.nav button{background:#e91e8c;color:#fff;border:none;border-radius:25px;padding:10px 25px;font-size:18px;font-weight:bold;cursor:pointer;transition:all .3s}
+.nav button:hover{background:#c71a73;transform:scale(1.05)}
+.nav button:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.pg-num{font-size:20px;color:#555;font-weight:bold}
+.tn{position:fixed;bottom:80px;right:20px;width:60px;height:60px;border-radius:50%;background:#e67e22;color:#fff;border:none;font-size:24px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:100;transition:all .3s}
+.tn:hover{background:#d35400;transform:scale(1.1)}
+.tn-panel{position:fixed;bottom:150px;right:20px;background:#fff;border-radius:15px;padding:20px;max-width:400px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:99;display:none;font-size:16px;line-height:1.6;color:#333}
+.tn-panel.show{display:block}
+.hello-wrap{display:flex;flex-direction:column;align-items:center;gap:25px}
+.hello-wrap img{width:110px;height:auto}
+.hello-ttl{font-size:52px;font-weight:bold;color:#e91e8c;text-align:center}
+.hello-emoji{font-size:48px;margin-top:10px}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:40px;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px}
+.sound-btn.apple{background:linear-gradient(135deg,#ffcdd2,#ef9a9a)}
+.sound-btn.banana{background:linear-gradient(135deg,#fff9c4,#fff59d)}
+.sound-btn.milk{background:linear-gradient(135deg,#e3f2fd,#bbdefb)}
+.sound-btn.bread{background:linear-gradient(135deg,#ffe0b2,#ffcc80)}
+.sound-btn.egg{background:linear-gradient(135deg,#fff9e6,#fff3cd)}
+.basket-wrap{position:relative;width:350px;height:300px;background:linear-gradient(135deg,#d7ccc8,#bcaaa4);border-radius:20px 20px 80px 80px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:40px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.basket-handle{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:200px;height:60px;border:12px solid #8d6e63;border-bottom:none;border-radius:100px 100px 0 0}
+.basket-items{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;padding:20px}
+.basket-item{cursor:pointer;transition:all .3s}
+.basket-item:hover{transform:scale(1.1)}
+.basket-item img{width:70px;height:70px}
+.pack-wrap{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:800px}
+.food-shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:20px;background:rgba(255,255,255,.3);border-radius:20px}
+.food-item{cursor:pointer;transition:all .3s;opacity:1}
+.food-item:hover{transform:translateY(-5px)}
+.food-item.packed{opacity:.3;pointer-events:none}
+.food-item img{width:90px;height:90px}
+.pack-basket{width:200px;height:180px;background:linear-gradient(135deg,#d7ccc8,#bcaaa4);border-radius:15px 15px 60px 60px;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.pack-basket::before{content:'';position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:140px;height:40px;border:8px solid #8d6e63;border-bottom:none;border-radius:80px 80px 0 0}
+.pack-basket img{width:50px;height:50px}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;max-width:700px}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:10px}
+.all-item img{width:80px;height:80px}
+.all-item span{font-size:24px;font-weight:bold;color:#555}
+.bye-wrap{display:flex;flex-direction:column;align-items:center;gap:25px}
+.bye-wrap img{width:110px;height:auto}
+@media(max-width:480px){
+.ttl{font-size:32px}
+.sub{font-size:18px}
+.hello-ttl{font-size:38px}
+.bbl{font-size:22px;padding:12px 20px}
+.word{font-size:64px}
+.sent{font-size:28px}
+.obj-wrap img{width:120px;height:120px}
+.sound-btn{width:80px;height:80px;font-size:32px}
+.sound-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.basket-wrap{width:280px;height:240px}
+.basket-items{grid-template-columns:repeat(2,1fr);gap:12px}
+.basket-item img{width:55px;height:55px}
+.food-shelf{grid-template-columns:repeat(2,1fr);gap:15px}
+.food-item img{width:70px;height:70px}
+.pack-basket{width:160px;height:140px}
+.pack-basket img{width:40px;height:40px}
+.all-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+.all-item img{width:70px;height:70px}
+.all-item span{font-size:20px}
+.pr img{width:60px}
+.hello-wrap img,.bye-wrap img{width:90px}
+}
+@media(min-width:481px) and (max-width:767px){
+.ttl{font-size:38px}
+.hello-ttl{font-size:46px}
+.word{font-size:76px}
+.sent{font-size:32px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<div class="pg" id="s0">
+<div class="ttl">Day 4: Peppa's Picnic</div>
+<div class="sub">Let's go on a picnic with Peppa!</div>
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:140px;margin:20px 0">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" width="70" alt="apple">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" width="70" alt="banana">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="70" alt="milk">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" width="70" alt="bread">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" width="70" alt="egg">
+</div>
+</div>
+
+<div class="pg" id="s1" style="display:none">
+<div class="hello-wrap">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="hello-ttl">Let's have a picnic!</div>
+<div class="hello-emoji">🧺</div>
+</div>
+</div>
+
+<div class="pg" id="s2" style="display:none">
+<div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="bbl">I like apple!</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+<div class="word">apple</div>
+</div>
+</div>
+
+<div class="pg" id="s3" style="display:none">
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"></div>
+<div class="bbl">I like banana!</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" alt="banana">
+<div class="word">banana</div>
+</div>
+</div>
+
+<div class="pg" id="s4" style="display:none">
+<div class="pr"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"></div>
+<div class="bbl">I like milk!</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="milk">
+<div class="word">milk</div>
+</div>
+</div>
+
+<div class="pg" id="s5" style="display:none">
+<div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"></div>
+<div class="bbl">I like bread!</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" alt="bread">
+<div class="word">bread</div>
+</div>
+</div>
+
+<div class="pg" id="s6" style="display:none">
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy"></div>
+<div class="bbl">I like egg!</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" alt="egg">
+<div class="word">egg</div>
+</div>
+</div>
+
+<div class="pg" id="s7" style="display:none">
+<div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl" style="margin-bottom:30px">Picnic Basket</div>
+<div class="basket-wrap">
+<div class="basket-handle"></div>
+<div class="basket-items">
+<div class="basket-item" onclick="speak('apple')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+</div>
+<div class="basket-item" onclick="speak('banana')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" alt="banana">
+</div>
+<div class="basket-item" onclick="speak('milk')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="milk">
+</div>
+<div class="basket-item" onclick="speak('bread')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" alt="bread">
+</div>
+<div class="basket-item" onclick="speak('egg')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" alt="egg">
+</div>
+</div>
+</div>
+</div>
+
+<div class="pg" id="s8" style="display:none">
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"></div>
+<div class="ttl" style="margin-bottom:30px">Pack the Basket</div>
+<div class="pack-wrap">
+<div class="food-shelf">
+<div class="food-item" onclick="packFood(this,'apple')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+</div>
+<div class="food-item" onclick="packFood(this,'banana')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" alt="banana">
+</div>
+<div class="food-item" onclick="packFood(this,'milk')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="milk">
+</div>
+<div class="food-item" onclick="packFood(this,'bread')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" alt="bread">
+</div>
+<div class="food-item" onclick="packFood(this,'egg')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" alt="egg">
+</div>
+</div>
+<div class="pack-basket" id="packBasket"></div>
+</div>
+</div>
+
+<div class="pg" id="s9" style="display:none">
+<div class="pr"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px"></div>
+<div class="ttl" style="margin-bottom:30px">Picnic Spread</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+<span>apple</span>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34c.svg" alt="banana">
+<span>banana</span>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="milk">
+<span>milk</span>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35e.svg" alt="bread">
+<span>bread</span>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95a.svg" alt="egg">
+<span>egg</span>
+</div>
+</div>
+</div>
+
+<div class="pg" id="s10" style="display:none">
+<div class="bye-wrap">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="hello-ttl">Great picnic!</div>
+<div class="sub">Tomorrow: Let's meet my family!</div>
+<div class="hello-emoji">👋</div>
+</div>
+</div>
+
+<div class="nav">
+<button id="backBtn" onclick="prev()">◀ Back</button>
+<div class="pg-num"><span id="curPg">1</span> / 10</div>
+<button id="nextBtn" onclick="next()">Next ▶</button>
+</div>
+
+<button class="tn" onclick="toggleNotes()">T</button>
+<div class="tn-panel" id="tnPanel"></div>
+
+<script>
+const notes=[
+'Title: Introduce today\'s story - going on a picnic with Peppa and family.',
+'Hello: Peppa invites everyone to have a picnic. Point to the basket emoji.',
+'New word: apple. Peppa likes apple for the picnic. Repeat: "I like apple!"',
+'New word: banana. George likes banana. Repeat: "I like banana!"',
+'New word: milk. Mummy likes milk. Repeat: "I like milk!"',
+'New word: bread. Daddy likes bread. Repeat: "I like bread!"',
+'New word: egg. Candy Cat likes egg. Repeat: "I like egg!"',
+'Picnic Basket: Click each food item to hear its name. Practice pronunciation.',
+'Pack the Basket: Click food items to pack them into the basket. Each click adds the item.',
+'Picnic Spread: All the food is ready! Point randomly and ask: "What\'s this? Do you like ___?"',
+'Bye: Great job! Tomorrow we\'ll meet Peppa\'s family members.'
+];
+let cur=0;
+function goTo(n){
+document.querySelectorAll('.pg').forEach(p=>p.style.display='none');
+document.getElementById('s'+n).style.display='flex';
+cur=n;
+document.getElementById('curPg').textContent=n+1;
+document.getElementById('backBtn').disabled=n===0;
+document.getElementById('nextBtn').disabled=n===10;
+document.getElementById('tnPanel').innerHTML=notes[n];
+}
+function next(){if(cur<10)goTo(cur+1)}
+function prev(){if(cur>0)goTo(cur-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+document.addEventListener('keydown',e=>{
+if(e.key==='ArrowRight')next();
+if(e.key==='ArrowLeft')prev();
+if(e.key==='t'||e.key==='T')toggleNotes();
+});
+function speak(word){
+const url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(word)+'&type=2';
+const a=new Audio(url);
+a.play().catch(()=>{
+const url2='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(word)+'&spd=4&source=web';
+const a2=new Audio(url2);
+a2.play().catch(()=>console.log('Audio failed'));
+});
+}
+let packed=[];
+function packFood(el,word){
+if(packed.includes(word))return;
+packed.push(word);
+el.classList.add('packed');
+const basket=document.getElementById('packBasket');
+const img=document.createElement('img');
+img.src=el.querySelector('img').src;
+basket.appendChild(img);
+speak(word);
+}
+goTo(0);
+</script>
+</body>
+</html>

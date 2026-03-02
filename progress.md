@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 3 - Morning Routine ✅
-- 更新时间: 2026-03-02 15:53
+- 当前: Day 4 - Peppa's Picnic ✅
+- 更新时间: 2026-03-02 16:00
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day 🎨
@@ -26,8 +26,15 @@
 - Review 游戏: Learn → Touch Body → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 4 - Peppa's Picnic
+## Day 4 - Peppa's Picnic 🧺
 - 新词: apple, banana, milk, bread, egg
 - 句式: I like ___!
-- 互动: Picnic Basket → Pack the Basket → Picnic Spread
+- Teach 互动: Picnic Basket → Pack the Basket → Picnic Spread
+- Review 游戏: Learn → Picnic Sort → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 5 - Family Photo Day
+- 新词: mom, dad, baby, brother, sister
+- 句式: This is my ___!
+- 互动: Family Tree → Photo Album → Family Portrait
