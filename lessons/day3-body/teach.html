@@ -136,31 +136,15 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="word">mouth</div>
 </div>
 
-<!-- S7: Mirror Game -->
+<!-- S7: Point & Say -->
 <div class="sl bg-blue">
-<div class="ttl">Mirror Game</div>
+<div class="ttl">Point & Say!</div>
 <div class="pr">
 <img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
-<div class="bbl">Touch the face!</div>
+<div class="bbl" id="pointBbl">Find the right one!</div>
 </div>
-<div class="mirror" id="mirrorFace">
-<div class="face-part" style="top:5%;left:50%;transform:translateX(-50%)" onclick="speak('head')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d2.svg" width="60" alt="head">
-</div>
-<div class="face-part" style="top:30%;left:22%" onclick="speak('eyes')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" alt="eyes">
-</div>
-<div class="face-part" style="top:30%;right:22%" onclick="speak('ears')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg" alt="ears">
-</div>
-<div class="face-part" style="top:52%;left:50%;transform:translateX(-50%)" onclick="speak('nose')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" alt="nose">
-</div>
-<div class="face-part" style="top:72%;left:50%;transform:translateX(-50%)" onclick="speak('mouth')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" alt="mouth">
-</div>
-</div>
-<div class="mirror-handle"></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:12px 0" id="pointGrid"></div>
+<div id="pointScore" style="font-size:22px;font-weight:700;color:#7B1FA2;margin-top:8px"></div>
 </div>
 
 <!-- S8: Wash Sequence -->
@@ -228,7 +212,7 @@ var N={
 4:'New word: ears. Daddy points to his ears. "This is my ears!" Have kids wiggle their ears.',
 5:'New word: nose. Candy points to her nose. "This is my nose!" Have kids touch their nose.',
 6:'New word: mouth. Emily points to her mouth. "This is my mouth!" Have kids open their mouth.',
-7:'Mirror Game: Interactive face! Click each part to hear the word. Ask "Where is your nose?" etc.',
+7:'Point & Say: Listen to the word, then tap the right body part. Interactive listening game.',
 8:'Wash Sequence: Tap each body part to "wash" it. Peppa washes her face step by step.',
 9:'Body Check: All 5 body parts. Point randomly and ask "What is this?"'
 };
@@ -241,6 +225,43 @@ var washParts=[
 {w:'mouth',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg'}
 ];
 var washDone=0;
+
+var ptWords=[
+{w:'head',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d2.svg'},
+{w:'eyes',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg'},
+{w:'ears',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg'},
+{w:'nose',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg'},
+{w:'mouth',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg'}
+];
+var ptOrder=[],ptIdx=0,ptRight=0,ptInited=false;
+function initPoint(){
+if(ptInited)return;ptInited=true;
+ptOrder=ptWords.slice().sort(function(){return Math.random()-.5});
+ptIdx=0;ptRight=0;
+var g=document.getElementById('pointGrid');g.innerHTML='';
+ptWords.forEach(function(item){
+var d=document.createElement('div');
+d.style.cssText='width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)';
+d.innerHTML='<img src="'+item.img+'" width="70">';
+d.onclick=function(){checkPoint(item.w)};
+g.appendChild(d);
+});
+setTimeout(function(){speak(ptOrder[0].w)},300);
+}
+function checkPoint(w){
+if(ptIdx>=ptOrder.length)return;
+if(w===ptOrder[ptIdx].w){
+ptRight++;ptIdx++;
+document.getElementById('pointBbl').textContent='Yes! '+w+'!';
+document.getElementById('pointScore').textContent=ptRight+'/'+ptOrder.length;
+speak(w);
+if(ptIdx<ptOrder.length)setTimeout(function(){document.getElementById('pointBbl').textContent='Find the right one!';speak(ptOrder[ptIdx].w)},1200);
+else setTimeout(function(){document.getElementById('pointBbl').textContent='All done! Great job!'},1200);
+}else{
+document.getElementById('pointBbl').textContent='Try again!';
+speak(ptOrder[ptIdx].w);
+}
+}
 
 function speak(txt){
 var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
@@ -285,7 +306,7 @@ document.getElementById('pb').disabled=c===0;
 var b=document.getElementById('xb');
 if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
 document.getElementById('B').innerHTML=N[c]||'';
-if(c===8)initWash();
+if(c===7)initPoint();if(c===8)initWash();
 }
 
 function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
