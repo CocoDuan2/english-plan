@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 9 - Counting Game ✅
-- 更新时间: 2026-03-02 19:01
+- 当前: Day 10 - Playground Fun ✅
+- 更新时间: 2026-03-02 19:11
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -68,8 +68,15 @@
 - Review 游戏: Learn (slide-up) → Count & Tap (点星星数数) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 10 - Playground Fun
+## Day 10 - Playground Fun
 - 新词: run, jump, walk, sit, stand
 - 句式: I can ___!
-- 互动: Action Show → Simon Says → Action Parade
+- Teach 互动: Action Show → Simon Says → Action Parade
+- Review 游戏: Learn (fade-scale) → Simon Says (听词点动作) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 11 - Feelings Today
+- 新词: happy, sad, angry, scared, sleepy
+- 句式: I am ___!
+- 互动: Emotion Mirror → Mood Wheel → Feelings Parade

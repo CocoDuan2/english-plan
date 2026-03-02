@@ -185,5 +185,109 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="np" id="pg">1/11</div>
 <button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
 </div>
+<script>
+var c=0,t=11;
+var WD=[
+{w:'run',emoji:'1f3c3',color:'#e53935'},
+{w:'jump',emoji:'1f938',color:'#ff6f00'},
+{w:'walk',emoji:'1f6b6',color:'#2e7d32'},
+{w:'sit',emoji:'1fa91',color:'#1565c0'},
+{w:'stand',emoji:'1f9cd',color:'#6a1b9a'}
+];
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
+var N={
+0:'Title: Playground Fun. Peppa wants to play outside! Show action preview icons.',
+1:'Hello: Peppa invites us to the playground! Get ready to move!',
+2:'New word: run. Peppa can run! "I can run!" Ask kids to pretend to run.',
+3:'New word: jump. George can jump! "I can jump!" Jump together!',
+4:'New word: walk. Daddy can walk! "I can walk!" Walk in place.',
+5:'New word: sit. Mummy can sit! "I can sit!" Sit down together.',
+6:'New word: stand. Candy Cat can stand! "I can stand!" Stand up tall!',
+7:'Action Show: Tap each action circle to hear and see the word. Do the action together!',
+8:'Simon Says: A word appears — tap the matching picture. Ask "Simon says... run!"',
+9:'Action Parade: All 5 actions displayed. Point randomly and ask "Can you do it?"',
+10:'Bye: Level 1 Complete! Celebrate all the actions learned.'
+};
+function speak(txt){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web').play().catch(function(){})});
+}
+function showConfetti(){var w=document.createElement("div");w.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999";var colors=["#e53935","#ff6f00","#2e7d32","#1565c0","#6a1b9a"];for(var i=0;i<20;i++){var p=document.createElement("div");p.style.cssText="position:absolute;width:"+(6+Math.random()*8)+"px;height:"+(6+Math.random()*8)+"px;border-radius:50%;left:"+Math.random()*100+"%;top:"+Math.random()*30+"%;background:"+colors[i%5]+";animation:cfall 1.2s ease-out "+Math.random()*.3+"s forwards;opacity:0";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+// S7: Action Ring
+var ringInit=false;
+function initRing(){
+if(ringInit)return;ringInit=true;
+var g=document.getElementById('actionRing');g.innerHTML='';
+WD.forEach(function(item){
+var b=document.createElement('div');b.className='action-btn';
+b.style.border='3px solid '+item.color;
+b.innerHTML='<img src="'+TW+item.emoji+'.svg" width="50" alt="'+item.w+'"><div class="alabel">'+item.w+'</div>';
+b.onclick=function(){speak(item.w);b.style.animation='abounce .5s ease';setTimeout(function(){b.style.animation=''},600)};
+g.appendChild(b);
+});
+}
+// S8: Simon Says
+var simonInit=false,simonRound=0,simonOrder=[];
+function initSimon(){
+if(simonInit)return;simonInit=true;
+simonOrder=WD.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var btns=document.getElementById('simonBtns');btns.innerHTML='';
+WD.forEach(function(item,i){
+var b=document.createElement('div');b.className='simon-opt';
+b.innerHTML='<img src="'+TW+item.emoji+'.svg" width="40" alt="'+item.w+'"><div class="slabel">'+item.w+'</div>';
+b.onclick=function(){checkSimon(i,b)};
+btns.appendChild(b);
+});
+showSimonWord();
+}
+function showSimonWord(){
+if(simonRound>=WD.length)return;
+var item=WD[simonOrder[simonRound]];
+document.getElementById('simonWord').innerHTML='<img src="'+TW+item.emoji+'.svg" width="60" style="margin-right:12px">'+item.w;
+document.getElementById('simonWord').style.color=item.color;
+speak(item.w);
+}
+function checkSimon(idx,btn){
+if(idx===simonOrder[simonRound]){
+btn.classList.add('correct');showConfetti();speak(WD[idx].w);
+simonRound++;
+setTimeout(function(){
+document.querySelectorAll('.simon-opt').forEach(function(b){b.classList.remove('correct','wrong')});
+if(simonRound<WD.length)showSimonWord();
+else document.getElementById('simonWord').innerHTML='<span style="font-size:40px">All done!</span>';
+},1200);
+}else{btn.classList.add('wrong');setTimeout(function(){btn.classList.remove('wrong')},600)}
+}
+// S9: All Together
+var allInit=false;
+function initAll(){
+if(allInit)return;allInit=true;
+var g=document.getElementById('allGrid');g.innerHTML='';
+WD.forEach(function(item){
+var d=document.createElement('div');d.className='all-item';
+d.innerHTML='<img src="'+TW+item.emoji+'.svg" width="80" alt="'+item.w+'"><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
+d.onclick=function(){speak(item.w)};
+g.appendChild(d);
+});
+}
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initRing();
+if(c===8)initSimon();
+if(c===9)initAll();
+}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+<style>@keyframes cfall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}@keyframes abounce{0%{transform:translateY(0)}30%{transform:translateY(-20px)}60%{transform:translateY(-10px)}100%{transform:translateY(0)}}</style>
 </body>
 </html>
