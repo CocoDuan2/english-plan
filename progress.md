@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 25 - Beach Day ✅
-- 更新时间: 2026-03-03 03:40
+- 当前: Day 26 - Bedtime Story ✅
+- 更新时间: 2026-03-03 03:53
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -180,8 +180,15 @@
 - Review 游戏: Learn (reveal) → Beach Explorer (听词找图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 26 - Bedtime Story
+## Day 26 - Bedtime Story
 - 新词: book, bed, moon, star, dream
 - 句式: I see ___!
-- 互动: Listen & Say → Bedtime Routine → All Together
+- Teach 互动: Listen & Say → Bedtime Routine → All Together
+- Review 游戏: Learn (reveal) → Night Sky (点夜景物品) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 27 - Shapes Around Us
+- 新词: circle, square, triangle, star, heart
+- 句式: I see a ___!
+- 互动: Listen & Say → Shape Hunt → All Together
