@@ -238,7 +238,16 @@ var huntInit=false,huntFound=0;
 function initHunt(){
 if(huntInit)return;huntInit=true;
 var scene=document.getElementById('huntScene');scene.innerHTML='';
-var positions=[{x:20,y:20},{x:200,y:30},{x:110,y:100},{x:30,y:170},{x:220,y:170}];
+var sceneWidth=window.innerWidth<480?280:340;
+var sceneHeight=window.innerWidth<480?230:280;
+var itemSize=window.innerWidth<480?65:80;
+var positions=[
+{x:sceneWidth*0.06,y:sceneHeight*0.07},
+{x:sceneWidth*0.59,y:sceneHeight*0.11},
+{x:sceneWidth*0.32,y:sceneHeight*0.36},
+{x:sceneWidth*0.09,y:sceneHeight*0.61},
+{x:sceneWidth*0.65,y:sceneHeight*0.61}
+];
 WD.forEach(function(item,i){
 var d=document.createElement('div');d.className='hunt-item';
 d.style.left=positions[i].x+'px';d.style.top=positions[i].y+'px';
