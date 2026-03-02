@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 3 - Body</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-clinic{background:linear-gradient(180deg,#E3F2FD,#F3E5F5)}
+.bg-head{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.bg-eyes{background:linear-gradient(160deg,#e1f5fe,#b3e5fc)}
+.bg-ears{background:linear-gradient(160deg,#f3e5f5,#e1bee7)}
+.bg-nose{background:linear-gradient(160deg,#ffebee,#ffcdd2)}
+.bg-mouth{background:linear-gradient(160deg,#fff9c4,#fff59d)}
+.bg-lav{background:linear-gradient(160deg,#f3e5f5,#ede7f6)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:85px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.simon-box{width:130px;height:130px;border-radius:18px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .3s,box-shadow .3s;box-shadow:0 3px 12px rgba(0,0,0,.1);border:4px solid #ddd}
+.simon-box:active{transform:scale(.9)}
+.simon-box.lit{border-color:#4CAF50;box-shadow:0 0 0 6px rgba(76,175,80,.3);animation:glow .6s ease}
+@keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.body-list{display:flex;flex-direction:column;gap:12px;max-width:400px;margin:10px 0}
+.body-item{background:#fff;border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;transition:transform .2s}
+.body-item:active{transform:scale(.95)}
+.body-item img{width:60px;height:60px}
+.body-item div{font-size:28px;font-weight:900;color:#2c3e50;flex:1;text-align:left}
+.rev-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.rev-card{width:110px;height:110px;border-radius:16px;background:#f5f5f5;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s}
+.rev-card.on{background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+  .ttl{font-size:30px}
+  .sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}
+  .sent{font-size:24px}
+  .bbl{font-size:20px;padding:8px 14px}
+  .pr img{width:60px}
+  .obj-wrap img{width:130px}
+  .simon-box{width:95px;height:95px}
+  .body-list{max-width:320px}
+  .body-item img{width:50px;height:50px}
+  .body-item div{font-size:22px}
+  .rev-row{gap:8px}
+  .rev-card{width:85px;height:85px}
+}
+@media(min-width:481px) and (max-width:767px){
+  .ttl{font-size:36px}
+  .word{font-size:72px}
+}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .sent{font-size:38px}
+  .simon-box{width:150px;height:150px}
+  .body-list{max-width:500px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" width="110">
+<div class="ttl">Body Parts</div>
+<div style="display:flex;gap:10px;margin:12px 0;font-size:60px">👤👁️👂👃👄</div>
+<div class="sub">head · eyes · ears · nose · mouth</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<img src="../../assets/peppa/daddy-pig-standing.png" width="110" style="margin-bottom:10px">
+<div class="ttl">Doctor's Check-up!</div>
+<div style="font-size:60px;margin:14px 0">🩺</div>
+</div>
+
+<!-- S2: Yesterday Review -->
+<div class="sl bg-lav">
+<div class="pr"><img src="../../assets/peppa/peppa-pig-happy-standing.png" width="85"><div class="bbl">Remember these animals?</div></div>
+<div class="rev-row">
+<div class="rev-card" onclick="revClick(0)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f431.svg" width="70"></div>
+<div class="rev-card" onclick="revClick(1)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f436.svg" width="70"></div>
+<div class="rev-card" onclick="revClick(2)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f426.svg" width="70"></div>
+</div>
+<div class="sent" id="revSent">Tap to remember!</div>
+</div>
+
+<!-- S3: Head -->
+<div class="sl bg-head">
+<div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="85"><div class="bbl">This is my head!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f9d1.svg" width="190"></div>
+<div class="word" style="color:#ff6f00">head</div>
+</div>
+
+<!-- S4: Eyes -->
+<div class="sl bg-eyes">
+<div class="pr"><img src="../../assets/peppa/george-standing.png" width="85"><div class="bbl">This is my eyes!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f440.svg" width="190"></div>
+<div class="word" style="color:#1976d2">eyes</div>
+</div>
+
+<!-- S5: Ears -->
+<div class="sl bg-ears">
+<div class="pr"><img src="../../assets/peppa/emily-elephant-standing.png" width="85"><div class="bbl">This is my ears!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f442.svg" width="190"></div>
+<div class="word" style="color:#8e24aa">ears</div>
+</div>
+
+<!-- S6: Nose -->
+<div class="sl bg-nose">
+<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="85"><div class="bbl">This is my nose!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f443.svg" width="190"></div>
+<div class="word" style="color:#e53935">nose</div>
+</div>
+
+<!-- S7: Mouth -->
+<div class="sl bg-mouth">
+<div class="pr"><img src="../../assets/peppa/peppa_pig_arms_open.png" width="85"><div class="bbl">This is my mouth!</div></div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f444.svg" width="190"></div>
+<div class="word" style="color:#fbc02d">mouth</div>
+</div>
+
+<!-- S8: Simon Says -->
+<div class="sl bg-lav">
+<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="85"><div class="bbl">Simon says: Touch your...</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
+<div class="simon-box" onclick="simonTap(0)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f9d1.svg" width="80"></div>
+<div class="simon-box" onclick="simonTap(1)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f440.svg" width="80"></div>
+<div class="simon-box" onclick="simonTap(2)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f442.svg" width="80"></div>
+<div class="simon-box" onclick="simonTap(3)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f443.svg" width="80"></div>
+<div class="simon-box" onclick="simonTap(4)"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f444.svg" width="80"></div>
+</div>
+<div class="sent" id="simonSent">Tap a body part!</div>
+</div>
+
+<!-- S9: All Together - Body List -->
+<div class="sl bg-clinic">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
+<div class="ttl" style="font-size:52px">My Body!</div>
+<div class="body-list">
+<div class="body-item" onclick="speak('head')"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f9d1.svg"><div>head</div></div>
+<div class="body-item" onclick="speak('eyes')"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f440.svg"><div>eyes</div></div>
+<div class="body-item" onclick="speak('ears')"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f442.svg"><div>ears</div></div>
+<div class="body-item" onclick="speak('nose')"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f443.svg"><div>nose</div></div>
+<div class="body-item" onclick="speak('mouth')"><img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f444.svg"><div>mouth</div></div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" width="140">
+<div class="ttl">Healthy & Happy!</div>
+<div class="sent">See you next time!</div>
+<div style="font-size:60px;margin:10px 0">💪</div>
+</div>
+</div>
+
+<button class="fab" id="fab" onclick="toggleNotes()">T</button>
+<div class="pop" id="pop">
+<b>Teacher Notes</b><br>
+S0: Title - Introduce body parts theme<br>
+S1: Hello - Doctor check-up story<br>
+S2: Yesterday Review - Quick recall of 3 animals (cat/dog/bird)<br>
+S3-7: New Words - Each body part with "This is my ___!" sentence<br>
+S8: Simon Says - Interactive pointing game (teacher taps)<br>
+S9: Body List - Vertical list for random pointing<br>
+S10: Bye - Healthy celebration<br><br>
+<b>Tips:</b><br>
+- Point to your own body parts as you teach<br>
+- Encourage kids to touch their own head/eyes/etc<br>
+- Use "Simon says" for engagement
+</div>
+
+<div class="nav">
+<button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/11</div></div>
+<button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
+</div>
+
+<script>
+var cur=0,tot=11;
+var W=['head','eyes','ears','nose','mouth'];
+var revW=['cat','dog','bird'];
+var revDone=[false,false,false];
+function go(d){
+  var nx=cur+d;
+  if(nx<0||nx>=tot)return;
+  document.querySelectorAll('.sl')[cur].classList.remove('on');
+  cur=nx;
+  document.querySelectorAll('.sl')[cur].classList.add('on');
+  document.getElementById('pg').textContent=(cur+1)+'/'+tot;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('xb').disabled=cur===tot-1;
+}
+function toggleNotes(){
+  var f=document.getElementById('fab'),p=document.getElementById('pop');
+  f.classList.toggle('on');p.classList.toggle('on');
+}
+function speak(w){
+  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(w)+'&type=2');
+  a.play().catch(function(){});
+}
+function simonTap(i){
+  var box=document.querySelectorAll('.simon-box')[i];
+  box.classList.add('lit');
+  setTimeout(function(){box.classList.remove('lit')},600);
+  speak(W[i]);
+  document.getElementById('simonSent').textContent='This is my '+W[i]+'!';
+}
+function revClick(i){
+  if(revDone[i])return;
+  revDone[i]=true;
+  var c=document.querySelectorAll('.rev-card')[i];
+  c.classList.add('on');
+  speak(revW[i]);
+  document.getElementById('revSent').textContent='I see a '+revW[i]+'!';
+  if(revDone.every(function(x){return x})){
+    setTimeout(function(){document.getElementById('revSent').textContent='Great! Now let's learn body parts!'},1200);
+  }
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')go(-1);
+  else if(e.key==='ArrowRight')go(1);
+  else if(e.key==='t'||e.key==='T')toggleNotes();
+});
+document.getElementById('pb').disabled=true;
+</script>
+</body>
+</html>

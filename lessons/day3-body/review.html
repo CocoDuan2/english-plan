@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 3 - Body (Review)</title>
+<style>
+:root{--tip-accent:#2196F3;--tip-bg:#e3f2fd}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#E3F2FD 0%,#F3E5F5 70%,#FFE0B2 100%);display:flex;flex-direction:column;align-items:center}
+.main{width:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column;align-items:center;min-height:100%}
+.top-bar{position:sticky;top:0;z-index:100;width:100%;text-align:center;padding:8px 16px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.05)}
+.ie{font-size:26px;font-weight:800;color:#e91e8c}
+.iz{display:inline-block;font-size:20px;color:var(--tip-accent);font-weight:800;margin-top:6px;padding:6px 14px;border-radius:12px;border:3px solid var(--tip-accent);background:var(--tip-bg)}
+.sb{margin-top:4px;font-size:22px;letter-spacing:2px}
+.mod{display:none;flex:1;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 70px}
+.mod.on{display:flex}
+.pr{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pr img{width:80px;height:auto}
+.bbl{background:#fff;border-radius:14px;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:22px;font-weight:700;color:#e67e22;position:relative}
+.bbl::after{content:'';position:absolute;bottom:-10px;left:30px;border:6px solid transparent;border-top-color:#fff}
+.start-btn{font-size:32px;font-weight:700;padding:20px 60px;border:none;border-radius:40px;background:linear-gradient(135deg,#64B5F6,#2196F3);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(33,150,243,.3);transition:transform .2s;margin-top:16px}
+.start-btn:active{transform:scale(.95)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:400px}
+.card{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:transform .2s;min-height:100px}
+.card:active{transform:scale(.95)}
+.card img{opacity:0;transition:opacity .4s;width:90px;height:90px}
+.card .lbl{font-size:20px;font-weight:700;color:#2c3e50;margin-top:4px;opacity:0;transition:opacity .4s}
+.card.rev img{opacity:1}
+.card.rev .lbl{opacity:1}
+.face-zone{position:relative;width:280px;height:320px;background:#fff;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.1);margin:10px 0}
+.drop-slot{position:absolute;width:70px;height:70px;border:3px dashed #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .3s}
+.drop-slot.filled{border-color:#4CAF50;border-style:solid}
+.drop-slot img{width:60px;height:60px}
+.part-tray{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.part-btn{width:80px;height:80px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.part-btn:active{transform:scale(.9)}
+.part-btn.used{opacity:.3;pointer-events:none}
+.part-btn img{width:60px;height:60px}
+.bingo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:360px;margin:10px 0}
+.bingo-cell{aspect-ratio:1;background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .2s;position:relative}
+.bingo-cell:active{transform:scale(.95)}
+.bingo-cell img{width:60px;height:60px}
+.bingo-cell div{font-size:16px;font-weight:700;color:#2c3e50;margin-top:4px}
+.bingo-cell.marked::after{content:'✓';position:absolute;top:4px;right:4px;width:28px;height:28px;background:#4CAF50;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900}
+.match-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.match-card{width:140px;height:160px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .2s;padding:10px}
+.match-card:active{transform:scale(.95)}
+.match-card img{width:70px;height:70px}
+.match-card div{font-size:18px;font-weight:700;color:#2c3e50;text-align:center}
+.match-card.correct{background:#c8e6c9;box-shadow:0 0 0 4px #4CAF50}
+.trio{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.trio-card{width:100px;height:110px;border-radius:16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .2s;gap:4px}
+.trio-card:active{transform:scale(.92)}
+.trio-card.correct{background:#c8e6c9;box-shadow:0 0 0 4px #4CAF50}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#2196F3;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes pepBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.pep-bounce{animation:pepBounce .4s ease 2}
+@media(max-width:480px){
+  .main{max-width:100%}
+  .ie{font-size:22px}
+  .iz{font-size:16px;padding:4px 10px}
+  .pr img{width:60px}
+  .bbl{font-size:18px;padding:8px 12px}
+  .start-btn{font-size:26px;padding:16px 44px}
+  .face-zone{width:220px;height:260px}
+  .drop-slot{width:55px;height:55px}
+  .drop-slot img{width:45px;height:45px}
+  .part-btn{width:65px;height:65px}
+  .part-btn img{width:50px;height:50px}
+  .bingo-grid{max-width:280px}
+  .bingo-cell img{width:50px;height:50px}
+  .bingo-cell div{font-size:14px}
+  .match-card{width:110px;height:130px}
+  .match-card img{width:55px;height:55px}
+  .match-card div{font-size:15px}
+}
+@media(min-width:768px){.main{max-width:800px}}
+</style>
+</head>
+<body>
+<div class="main">
+<div class="top-bar">
+<div class="ie" id="ie">Doctor Peppa!</div>
+<div class="iz" id="iz"></div>
+<div class="sb" id="sb"></div>
+</div>
+<div class="mod on" id="m0"></div>
+<div class="mod" id="m1"></div>
+<div class="mod" id="m2"></div>
+<div class="mod" id="m3"></div>
+<div class="mod" id="m4"></div>
+<div class="mod" id="m5"></div>
+<div class="mod" id="m6"></div>
+</div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goM(-1)">&#9664; Back</button>
+<div><div class="np" id="pg">1/7</div></div>
+<button class="nb" id="xb" onclick="goM(1)">Next &#9654;</button>
+</div>
+<script>
+var PP='../../assets/peppa/';
+var W=[
+  {w:'head',emoji:'1f9d1'},
+  {w:'eyes',emoji:'1f440'},
+  {w:'ears',emoji:'1f442'},
+  {w:'nose',emoji:'1f443'},
+  {w:'mouth',emoji:'1f444'}
+];
+var D2=[
+  {w:'cat',emoji:'1f431'},
+  {w:'dog',emoji:'1f436'},
+  {w:'fish',emoji:'1f41f'}
+];
+function emojiUrl(code){return 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/'+code+'.svg'}
+var cur=0,actx=null;
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function speak(t,cb){
+  var isSent=t.indexOf(' ')>-1;
+  var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var fallback=isSent?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2':'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+  var done=false;
+  function fin(){if(done)return;done=true;if(cb)cb()}
+  var a=new Audio(primary);a.onended=fin;a.onerror=function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)};
+  setTimeout(fin,4000);a.play().catch(function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)});
+}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
+function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#2196F3","#4CAF50","#FF9800","#E91E8C","#9C27B0"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+function playNo(){tone(300,.3)}
+function setI(en,zh,s){document.getElementById('ie').textContent=en;document.getElementById('iz').textContent=zh;document.getElementById('sb').innerHTML=s||''}
+function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'🩶';return s}
+function pepBounce(){var el=document.querySelector('.mod.on img');if(el){el.classList.remove('pep-bounce');void el.offsetWidth;el.classList.add('pep-bounce')}}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+// M0: Start
+function initM0(){
+  document.getElementById('m0').innerHTML=
+    '<img src="'+PP+'mummy-pig-standing-grass.png" width="140">'+
+    '<div class="pr"><div class="bbl">Let\'s learn body parts!</div></div>'+
+    '<div style="display:flex;gap:8px;margin:10px 0">'+W.map(function(w){return '<img src="'+emojiUrl(w.emoji)+'" width="60">'}).join('')+'</div>'+
+    '<button class="start-btn" onclick="getAC();goM(1)">Start!</button>';
+  setI("Doctor Peppa!",'和佩琪一起认识身体！','');
+}
+
+// M1: Learn - tap cards to reveal body parts
+var lnC=0,lnB=false;
+function initM1(){
+  lnC=0;lnB=false;
+  document.getElementById('m1').innerHTML=
+    '<div class="pr"><img src="'+PP+'peppa-pig-red-polka-dot-dress.png" width="80"><div class="bbl">Tap to learn!</div></div>'+
+    '<div class="g3">'+W.map(function(w,i){
+      return '<div class="card" id="lc'+i+'" onclick="lnTap('+i+')" style="background:#eee">'+
+        '<img src="'+emojiUrl(w.emoji)+'"><div class="lbl" id="ll'+i+'">'+w.w+'</div></div>'
+    }).join('')+'</div>';
+  speak('Tap to learn');setI('Learn Body Parts!','点一点，认识身体部位！',stars(0,5));
+}
+function lnTap(i){
+  var c=document.getElementById('lc'+i);
+  if(c.classList.contains('rev')){speak(W[i].w);return}
+  if(lnB)return;lnB=true;
+  c.classList.add('rev');c.style.background='#fff';lnC++;
+  playOk();pepBounce();
+  speak(W[i].w,function(){lnB=false});
+  setI('This is my '+W[i].w+'!','找到啦！这是 '+W[i].w+'！',stars(lnC,5));
+}
+
+// M2: Yesterday Review (Day2 animals micro-review)
+var rvS=0,rvI=0,rvB=false,rvOrd=[];
+function initM2(){
+  rvS=0;rvI=0;rvB=false;
+  rvOrd=shuffle([0,1,2]);
+  renderRV();
+}
+function renderRV(){
+  if(rvI>=3){
+    setI('Animals done!','动物复习完成！',stars(3,3));
+    document.getElementById('m2').innerHTML='<img src="'+PP+'george-standing.png" width="80"><div style="font-size:24px;font-weight:700;color:#2c3e50;margin-top:10px">Great memory!</div>';
+    return;
+  }
+  var tgt=D2[rvOrd[rvI]];
+  setI('Find '+tgt.w+'!','点一点,哪个是 '+tgt.w+'？',stars(rvS,3));
+  speak('Find '+tgt.w);
+  var opts=shuffle([0,1,2]);
+  document.getElementById('m2').innerHTML=
+    '<div class="pr"><img src="'+PP+'george-standing.png" width="80"><div class="bbl">Where is '+tgt.w+'?</div></div>'+
+    '<div class="trio">'+opts.map(function(j){
+      return '<div class="trio-card" onclick="rvTap('+j+')"><img src="'+emojiUrl(D2[j].emoji)+'" width="70"></div>'
+    }).join('')+'</div>';
+}
+function rvTap(j){
+  if(rvB)return;rvB=true;
+  if(j===rvOrd[rvI]){
+    playOk();rvS++;rvI++;pepBounce();
+    setI('Yes! '+D2[j].w+'!','答对啦！',stars(rvS,3));
+    speak('I see a '+D2[j].w,function(){rvB=false;setTimeout(renderRV,600)});
+  }else{
+    playNo();
+    setI('Try again!','再试试！',stars(rvS,3));
+    speak(D2[j].w,function(){rvB=false});
+  }
+}
+
+// M3: Build a Face (tap parts to place them)
+var bfS=0,bfUsed=[false,false,false,false,false];
+var bfSlots=[
+  {x:105,y:40,part:0},
+  {x:70,y:100,part:1},
+  {x:140,y:100,part:1},
+  {x:105,y:150,part:3},
+  {x:105,y:210,part:4}
+];
+var bfCurrent=-1;
+function initM3(){
+  bfS=0;bfUsed=[false,false,false,false,false];bfCurrent=-1;
+  document.getElementById('m3').innerHTML=
+    '<div class="pr"><img src="'+PP+'daddy-pig-standing.png" width="80"><div class="bbl">Build a face!</div></div>'+
+    '<div class="face-zone" id="faceZone">'+bfSlots.map(function(s,i){
+      return '<div class="drop-slot" id="slot'+i+'" style="left:'+s.x+'px;top:'+s.y+'px" onclick="dropPart('+i+')"></div>'
+    }).join('')+'</div>'+
+    '<div class="part-tray">'+W.map(function(w,i){
+      return '<div class="part-btn" id="pb'+i+'" onclick="pickPart('+i+')"><img src="'+emojiUrl(w.emoji)+'"></div>'
+    }).join('')+'</div>';
+  setI('Build a Face!','拼一张脸！点部位再点位置',stars(0,5));
+}
+function pickPart(i){
+  if(bfUsed[i])return;
+  bfCurrent=i;
+  setI('Tap where it goes!','点击脸上的位置！',stars(bfS,5));
+}
+function dropPart(slotIdx){
+  if(bfCurrent<0)return;
+  var slot=bfSlots[slotIdx];
+  if(slot.part===bfCurrent||bfCurrent===1&&(slot.part===1)){
+    document.getElementById('slot'+slotIdx).innerHTML='<img src="'+emojiUrl(W[bfCurrent].emoji)+'">';
+    document.getElementById('slot'+slotIdx).classList.add('filled');
+    document.getElementById('pb'+bfCurrent).classList.add('used');
+    bfUsed[bfCurrent]=true;bfS++;
+    playOk();pepBounce();
+    setI('This is my '+W[bfCurrent].w+'!','放对啦！',stars(bfS,5));
+    speak('This is my '+W[bfCurrent].w);
+    bfCurrent=-1;
+    if(bfS>=5){setTimeout(function(){goM(1)},1200)}
+  }else{
+    playNo();
+    setI('Try another spot!','试试别的位置！',stars(bfS,5));
+  }
+}
+
+// M4: Body Part Bingo (mark off as called)
+var bgS=0,bgI=0,bgB=false,bgOrd=[],bgMarked=[];
+function initM4(){
+  bgS=0;bgI=0;bgB=false;bgMarked=Array(5).fill(false);
+  bgOrd=shuffle([0,1,2,3,4]);
+  document.getElementById('m4').innerHTML=
+    '<div class="pr"><img src="'+PP+'emily-elephant-standing.png" width="80"><div class="bbl" id="bgBbl">Listen and mark!</div></div>'+
+    '<div class="bingo-grid">'+W.map(function(w,i){
+      return '<div class="bingo-cell" id="bg'+i+'" onclick="bgTap('+i+')"><img src="'+emojiUrl(w.emoji)+'"><div>'+w.w+'</div></div>'
+    }).join('')+'</div>';
+  setI('Body Bingo!','听一听，点对应的部位！',stars(0,5));
+  bgAsk();
+}
+function bgAsk(){
+  if(bgI>=5){
+    setI('Bingo!','全部找对啦！',stars(5,5));
+    document.getElementById('bgBbl').textContent='Bingo! You win!';
+    return;
+  }
+  var w=W[bgOrd[bgI]];
+  speak(w.w);
+  document.getElementById('bgBbl').textContent='Find '+w.w+'!';
+}
+function bgTap(i){
+  if(bgB||bgMarked[i])return;bgB=true;
+  if(i===bgOrd[bgI]){
+    bgMarked[i]=true;
+    document.getElementById('bg'+i).classList.add('marked');
+    playOk();bgS++;bgI++;pepBounce();
+    setI('This is my '+W[i].w+'!','答对啦！',stars(bgS,5));
+    speak('This is my '+W[i].w,function(){bgB=false;setTimeout(bgAsk,800)});
+  }else{
+    playNo();
+    setI('Try again!','再听一次！',stars(bgS,5));
+    setTimeout(function(){bgB=false},600);
+  }
+}
+
+// M5: Match the Pair (body part + function)
+var mpS=0,mpB=false;
+var mpPairs=[
+  {part:1,func:'see',emoji:'1f441-fe0f'},
+  {part:2,func:'hear',emoji:'1f442'},
+  {part:3,func:'smell',emoji:'1f443'},
+  {part:4,func:'eat',emoji:'1f374'}
+];
+var mpDone=[false,false,false,false];
+function initM5(){
+  mpS=0;mpB=false;mpDone=[false,false,false,false];
+  var shuffled=shuffle([0,1,2,3]);
+  document.getElementById('m5').innerHTML=
+    '<div class="pr"><img src="'+PP+'candy-cat-green-dress.png" width="80"><div class="bbl">Match them!</div></div>'+
+    '<div class="match-row">'+shuffled.map(function(i){
+      var p=mpPairs[i];
+      return '<div class="match-card" id="mp'+i+'" onclick="mpTap('+i+')"><img src="'+emojiUrl(W[p.part].emoji)+'"><div>'+p.func+'</div></div>'
+    }).join('')+'</div>';
+  setI('Match Pairs!','连一连，哪个部位做什么？',stars(0,4));
+}
+function mpTap(i){
+  if(mpB||mpDone[i])return;mpB=true;
+  var p=mpPairs[i];
+  speak(W[p.part].w+' '+p.func);
+  document.getElementById('mp'+i).classList.add('correct');
+  mpDone[i]=true;mpS++;
+  playOk();pepBounce();
+  setI(W[p.part].w+' → '+p.func,'答对啦！',stars(mpS,4));
+  setTimeout(function(){mpB=false;if(mpS>=4){setTimeout(function(){goM(1)},800)}},600);
+}
+
+// M6: Done
+function initM6(){
+  document.getElementById('m6').innerHTML=
+    '<img src="'+PP+'peppa-family-group-outdoors.png" width="120" style="margin-bottom:10px">'+
+    '<div class="bbl" style="font-size:28px">Healthy!</div>'+
+    '<div style="font-size:34px;font-weight:800;color:#e91e8c;margin-top:16px">All Done!</div>'+
+    '<div style="font-size:22px;color:#e67e22;margin-top:8px">You know your body!</div>'+
+    '<button class="start-btn" style="font-size:24px;padding:14px 36px;margin-top:18px" onclick="goToStart()">Play Again</button>';
+  setI('All Done!','今天太棒了！身体部位都认识了！',stars(5,5));
+}
+
+function goToStart(){
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=0;document.getElementById(mods[cur]).classList.add('on');
+  inits[cur]();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=true;
+  var xb=document.getElementById('xb');xb.textContent='Next ▶';xb.disabled=false;
+}
+
+var mods=['m0','m1','m2','m3','m4','m5','m6'];
+var inits=[initM0,initM1,initM2,initM3,initM4,initM5,initM6];
+function goM(d){
+  var n=cur+d;if(n<0||n>=mods.length)return;
+  document.getElementById(mods[cur]).classList.remove('on');
+  cur=n;document.getElementById(mods[cur]).classList.add('on');
+  inits[cur]();
+  document.getElementById('pg').textContent=(cur+1)+'/'+mods.length;
+  document.getElementById('pb').disabled=cur===0;
+  var xb=document.getElementById('xb');
+  if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}
+  else{xb.textContent='Next \u25b6';xb.disabled=false}
+}
+initM0();
+</script>
+</body>
+</html>

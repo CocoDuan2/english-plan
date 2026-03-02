@@ -12,13 +12,13 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sl.on{display:flex}
 .bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
 .bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
-.bg-zoo{background:linear-gradient(180deg,#A8E6CF,#FFD3B6)}
 .bg-cat{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
-.bg-dog{background:linear-gradient(160deg,#e3f2fd,#bbdefb)}
-.bg-fish{background:linear-gradient(160deg,#b2ebf2,#e0f7fa)}
+.bg-dog{background:linear-gradient(160deg,#e1f5fe,#b3e5fc)}
+.bg-fish{background:linear-gradient(160deg,#e0f2f1,#b2dfdb)}
 .bg-bird{background:linear-gradient(160deg,#f3e5f5,#e1bee7)}
 .bg-duck{background:linear-gradient(160deg,#fff9c4,#fff59d)}
 .bg-lav{background:linear-gradient(160deg,#f3e5f5,#ede7f6)}
+.bg-mud{background:linear-gradient(180deg,#87CEEB,#A5D6A7 60%,#795548)}
 .ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
 .sub{font-size:22px;color:#7f8c8d}
 .word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
@@ -28,17 +28,12 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
 .obj-wrap{margin:10px 0}
-.sound-box{width:130px;height:130px;border-radius:18px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .3s,box-shadow .3s;box-shadow:0 3px 12px rgba(0,0,0,.1);border:4px solid #ddd}
-.sound-box:active{transform:scale(.9)}
-.sound-box.play{animation:pulse .5s ease}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-.zoo-map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:480px;margin:10px 0}
-.zoo-item{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer;transition:transform .2s}
-.zoo-item:active{transform:scale(.95)}
-.zoo-item div{font-size:22px;font-weight:700;color:#2c3e50;margin-top:4px}
-.rev-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
-.rev-card{width:110px;height:110px;border-radius:16px;background:#f5f5f5;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s}
-.rev-card.on{background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:48px;box-shadow:0 4px 15px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s;background:linear-gradient(135deg,#a8e6cf,#88d8b0)}
+.sound-btn:active{transform:scale(.9);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.reveal-box{width:130px;height:130px;border-radius:18px;background:#ddd;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .4s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.reveal-box.on{cursor:default;background:#fff}
+.reveal-box img{opacity:0;transition:opacity .4s,transform .4s;transform:scale(.7)}
+.reveal-box.on img{opacity:1;transform:scale(1)}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
 .fab.on{background:#2c3e50}
 .pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
@@ -48,200 +43,21 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
-  .ttl{font-size:30px}
-  .sub{font-size:16px}
-  .word{font-size:56px;letter-spacing:2px}
-  .sent{font-size:24px}
+  .ttl{font-size:30px}.sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}.sent{font-size:24px}
   .bbl{font-size:20px;padding:8px 14px}
-  .pr img{width:60px}
-  .obj-wrap img{width:130px}
-  .sound-box{width:95px;height:95px}
-  .zoo-map{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;max-width:320px!important}
-  .zoo-item div{font-size:18px!important}
-  .rev-row{gap:8px}
-  .rev-card{width:85px;height:85px}
+  .sound-btn{width:80px;height:80px;font-size:36px}
+  .reveal-box{width:95px;height:95px}
+  .reveal-box img{width:55px!important}
 }
 @media(min-width:481px) and (max-width:767px){
-  .ttl{font-size:36px}
-  .word{font-size:72px}
-  .zoo-map{max-width:420px!important}
+  .ttl{font-size:36px}.word{font-size:72px}
 }
 @media(min-width:768px){
-  .word{font-size:100px}
-  .sent{font-size:38px}
-  .sound-box{width:150px;height:150px}
-  .zoo-map{max-width:560px}
+  .word{font-size:100px}.sent{font-size:38px}
+  .reveal-box{width:150px;height:150px}
 }
 </style>
 </head>
 <body>
 <div class="deck">
-<!-- S0: Title -->
-<div class="sl bg-pink on">
-<img src="../../assets/peppa/peppa-pig-happy-standing.png" width="110">
-<div class="ttl">Animals</div>
-<div style="display:flex;gap:10px;margin:12px 0;font-size:60px">🐱🐶🐟🐦🦆</div>
-<div class="sub">cat · dog · fish · bird · duck</div>
-</div>
-
-<!-- S1: Hello -->
-<div class="sl bg-sky">
-<img src="../../assets/peppa/peppa-george-jumping.png" width="140" style="margin-bottom:10px">
-<div class="ttl">Zoo Adventure!</div>
-<div style="font-size:60px;margin:14px 0">🦁🐘🦒</div>
-</div>
-
-<!-- S2: Yesterday Review -->
-<div class="sl bg-lav">
-<div class="pr"><img src="../../assets/peppa/george-standing.png" width="85"><div class="bbl">Remember yesterday?</div></div>
-<div class="rev-row">
-<div class="rev-card" onclick="revClick(0)"><svg width="70" height="70" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e74c3c"/><rect x="76" y="25" width="8" height="22" rx="4" fill="#795548"/><ellipse cx="95" cy="32" rx="14" ry="9" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/></svg></div>
-<div class="rev-card" onclick="revClick(1)"><svg width="70" height="70" viewBox="0 0 160 160"><rect x="20" y="65" width="120" height="55" rx="10" fill="#3498db"/><rect x="45" y="40" width="70" height="35" rx="8" fill="#3498db"/><circle cx="50" cy="120" r="14" fill="#333"/><circle cx="110" cy="120" r="14" fill="#333"/></svg></div>
-<div class="rev-card" onclick="revClick(2)"><svg width="70" height="70" viewBox="0 0 160 160"><circle cx="80" cy="85" r="50" fill="#e67e22"/><ellipse cx="80" cy="32" rx="6" ry="4" fill="#4CAF50"/><circle cx="68" cy="78" r="5" fill="#fff"/><circle cx="92" cy="78" r="5" fill="#fff"/></svg></div>
-</div>
-<div class="sent" id="revSent">Tap to remember!</div>
-</div>
-
-<!-- S3: Cat -->
-<div class="sl bg-cat">
-<div class="pr"><img src="../../assets/peppa/candy-cat-green-dress.png" width="75"><div class="bbl">I see a cat!</div></div>
-<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="160"></div>
-<div class="word" style="color:#ff6f00">cat</div>
-</div>
-
-<!-- S4: Dog -->
-<div class="sl bg-dog">
-<div class="pr"><img src="../../assets/peppa/danny-dog-standing.png" width="85"><div class="bbl">I see a dog!</div></div>
-<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="160"></div>
-<div class="word" style="color:#1976d2">dog</div>
-</div>
-
-<!-- S5: Fish -->
-<div class="sl bg-fish">
-<div class="pr"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" width="75"><div class="bbl">I see a fish!</div></div>
-<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="160"></div>
-<div class="word" style="color:#00acc1">fish</div>
-</div>
-
-<!-- S6: Bird -->
-<div class="sl bg-bird">
-<div class="pr"><img src="../../assets/peppa/suzy-sheep-standing.png" width="85"><div class="bbl">I see a bird!</div></div>
-<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="160"></div>
-<div class="word" style="color:#8e24aa">bird</div>
-</div>
-
-<!-- S7: Duck -->
-<div class="sl bg-duck">
-<div class="pr"><img src="../../assets/peppa/pedro-pony-standing.png" width="85"><div class="bbl">I see a duck!</div></div>
-<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="160"></div>
-<div class="word" style="color:#fbc02d">duck</div>
-</div>
-
-<!-- S8: Animal Sounds -->
-<div class="sl bg-lav">
-<div class="pr"><img src="../../assets/peppa/peppa-fairy-princess.png" width="85"><div class="bbl">Tap to hear animal sounds!</div></div>
-<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:10px 0">
-<div class="sound-box" onclick="playSound(0)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="80"></div>
-<div class="sound-box" onclick="playSound(1)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="80"></div>
-<div class="sound-box" onclick="playSound(2)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="80"></div>
-<div class="sound-box" onclick="playSound(3)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="80"></div>
-<div class="sound-box" onclick="playSound(4)"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="80"></div>
-</div>
-<div class="sent" id="sndSent">Tap an animal!</div>
-</div>
-
-<!-- S9: All Together - Zoo Map -->
-<div class="sl bg-zoo">
-<img src="../../assets/peppa/peppa-family-group-outdoors.png" width="120" style="margin-bottom:6px">
-<div class="ttl" style="font-size:52px">Zoo Map!</div>
-<div class="zoo-map">
-<div class="zoo-item" onclick="speak('cat')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" width="100"><div>cat</div></div>
-<div class="zoo-item" onclick="speak('dog')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="100"><div>dog</div></div>
-<div class="zoo-item" onclick="speak('fish')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" width="100"><div>fish</div></div>
-<div class="zoo-item" onclick="speak('bird')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" width="100"><div>bird</div></div>
-<div class="zoo-item" onclick="speak('duck')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" width="100"><div>duck</div></div>
-<div class="zoo-item" style="background:#f0f0f0;cursor:default"><div style="font-size:40px">🦁</div><div style="font-size:16px;color:#999">Coming soon!</div></div>
-</div>
-</div>
-
-<!-- S10: Bye -->
-<div class="sl bg-pink">
-<img src="../../assets/peppa/peppa-george-jumping.png" width="140">
-<div class="ttl">Great Job!</div>
-<div class="sent">See you next time!</div>
-<div style="font-size:60px;margin:10px 0">🎉</div>
-</div>
-</div>
-
-<button class="fab" id="fab" onclick="toggleNotes()">T</button>
-<div class="pop" id="pop">
-<b>Teacher Notes</b><br>
-S0: Title - Introduce today's theme: Animals<br>
-S1: Hello - Zoo Adventure story hook<br>
-S2: Yesterday Review - Quick recall of 3 colors (red/blue/orange)<br>
-S3-7: New Words - Each animal with "I see a ___!" sentence<br>
-S8: Animal Sounds - Interactive listening (teacher taps)<br>
-S9: Zoo Map - Random pointing practice<br>
-S10: Bye - Celebration<br><br>
-<b>Tips:</b><br>
-- Use animal sounds/gestures for engagement<br>
-- Point randomly on Zoo Map for variety<br>
-- Encourage kids to repeat "I see a ___!"
-</div>
-
-<div class="nav">
-<button class="nb" id="pb" onclick="go(-1)">&#9664; Back</button>
-<div><div class="np" id="pg">1/11</div></div>
-<button class="nb" id="xb" onclick="go(1)">Next &#9654;</button>
-</div>
-
-<script>
-var cur=0,tot=11;
-var W=['cat','dog','fish','bird','duck'];
-var revW=['red','blue','orange'];
-var revDone=[false,false,false];
-function go(d){
-  var nx=cur+d;
-  if(nx<0||nx>=tot)return;
-  document.querySelectorAll('.sl')[cur].classList.remove('on');
-  cur=nx;
-  document.querySelectorAll('.sl')[cur].classList.add('on');
-  document.getElementById('pg').textContent=(cur+1)+'/'+tot;
-  document.getElementById('pb').disabled=cur===0;
-  document.getElementById('xb').disabled=cur===tot-1;
-}
-function toggleNotes(){
-  var f=document.getElementById('fab'),p=document.getElementById('pop');
-  f.classList.toggle('on');p.classList.toggle('on');
-}
-function speak(w){
-  var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(w)+'&type=2');
-  a.play().catch(function(){});
-}
-function playSound(i){
-  var box=document.querySelectorAll('.sound-box')[i];
-  box.classList.add('play');
-  setTimeout(function(){box.classList.remove('play')},500);
-  speak(W[i]);
-  document.getElementById('sndSent').textContent='I see a '+W[i]+'!';
-}
-function revClick(i){
-  if(revDone[i])return;
-  revDone[i]=true;
-  var c=document.querySelectorAll('.rev-card')[i];
-  c.classList.add('on');
-  speak(revW[i]);
-  document.getElementById('revSent').textContent="It's "+revW[i]+'!';
-  if(revDone.every(function(x){return x})){
-    setTimeout(function(){document.getElementById('revSent').textContent='Great! Now let's see animals!'},1200);
-  }
-}
-document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowLeft')go(-1);
-  else if(e.key==='ArrowRight')go(1);
-  else if(e.key==='t'||e.key==='T')toggleNotes();
-});
-document.getElementById('pb').disabled=true;
-</script>
-</body>
-</html>
