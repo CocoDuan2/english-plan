@@ -50,14 +50,49 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#f9adc7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(min-width:768px){
-  .ttl{font-size:46px}
+.word{font-size:56px;letter-spacing:2px}
+  .sent{font-size:24px}
+  .bbl{font-size:20px;padding:8px 14px}
+  .pr img{width:65px}
+  .obj-wrap svg{width:130px;height:130px}
+  .reveal-box{width:100px;height:100px}
+  .reveal-box svg{width:65px;height:65px}
+}
+.word{font-size:72px}
+}
+.sent{font-size:38px}.reveal-box{width:150px;height:150px}}
   .sub{font-size:24px}
   .word{font-size:100px}
   .sent{font-size:38px}
   .obj svg{width:200px;height:200px}
   .review-card{width:220px}
   .c-btn{width:170px;height:170px}
+}
+
+@media(max-width:480px){
+  .ttl{font-size:30px}
+  .sub{font-size:16px}
+  .word{font-size:56px;letter-spacing:2px}
+  .sent{font-size:24px}
+  .bbl{font-size:20px;padding:8px 14px}
+  .pr img{width:60px}
+  .obj-wrap svg{width:130px;height:130px}
+  .reveal-box{width:95px;height:95px}
+  .reveal-box svg{width:60px;height:60px}
+  .grid,.team-grid,.clinic-grid,.basket-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;max-width:320px!important}
+  .gi svg,.ti svg,.ci svg,.bi svg{width:70px!important;height:70px!important}
+  .gi div,.ti div,.ci div,.bi div{font-size:20px!important}
+}
+@media(min-width:481px) and (max-width:767px){
+  .ttl{font-size:36px}
+  .word{font-size:72px}
+  .grid,.team-grid,.clinic-grid,.basket-grid{grid-template-columns:repeat(3,1fr)!important;max-width:420px!important}
+  .gi svg,.ti svg,.ci svg,.bi svg{width:80px!important;height:80px!important}
+}
+@media(min-width:768px){
+  .word{font-size:100px}
+  .sent{font-size:38px}
+  .reveal-box{width:150px;height:150px}
 }
 </style>
 </head>
@@ -146,7 +181,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
   <div class="sl bg-team">
     <img src="../../assets/peppa/peppa-and-george-ooo.png" width="140" alt="Peppa and George">
-    <div class="ttl" style="font-size:52px">Body Team!</div>
+    <div class="ttl" style="font-size:36px">Body Team!</div>
     <div class="team-grid">
       <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><circle cx="80" cy="82" r="52" fill="#ffd6b5"/></svg><div>head</div></div>
       <div class="ti"><svg width="100" height="100" viewBox="0 0 160 160"><ellipse cx="52" cy="78" rx="20" ry="14" fill="#fff"/><ellipse cx="108" cy="78" rx="20" ry="14" fill="#fff"/><circle cx="52" cy="80" r="6" fill="#333"/><circle cx="108" cy="80" r="6" fill="#333"/></svg><div>eyes</div></div>

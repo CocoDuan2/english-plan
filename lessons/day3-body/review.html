@@ -60,11 +60,37 @@ body{background:linear-gradient(180deg,#9bd8ff 0%,#b8e6c3 66%,#8bc34a 100%);disp
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#f9adc7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-@media(min-width:768px){
-  .main{max-width:800px}
+
   .listen-card{width:240px}
   .face-wrap{width:360px;height:360px}
 }
+
+@media(max-width:480px){
+  .main{max-width:100%}
+  .en{font-size:22px}
+  .zh{font-size:16px;padding:4px 10px}
+  .stars{font-size:18px}
+  .pr img{width:60px}
+  .bbl{font-size:18px;padding:8px 12px}
+  .start-btn{font-size:26px;padding:16px 44px}
+  .face-wrap{width:220px;height:220px}
+  .spot{min-width:60px;min-height:60px}
+  .learn-card{width:80px;height:80px}
+  .learn-card div{font-size:16px!important}
+  .listen-card{width:160px;min-height:180px}
+  .listen-card img{width:72px!important}
+  .aq-btn{width:80px;height:80px}
+  .doc-btn{height:90px;font-size:16px!important}
+  .seq-dot{width:70px;height:70px}
+  .seq-btn{height:76px;font-size:16px!important}
+}
+@media(min-width:481px) and (max-width:767px){
+  .main{max-width:560px}
+  .face-wrap{width:260px;height:260px}
+  .listen-card{width:200px}
+}
+
+@media(min-width:768px){.main{max-width:800px}.listen-card{width:240px}.face-wrap{width:360px;height:360px}}
 </style>
 </head>
 <body>
@@ -76,6 +102,7 @@ body{background:linear-gradient(180deg,#9bd8ff 0%,#b8e6c3 66%,#8bc34a 100%);disp
   </div>
   <div class="mod on" id="m0"></div>
   <div class="mod" id="m1"></div>
+  <div class="mod" id="m1b"></div>
   <div class="mod" id="m2"></div>
   <div class="mod" id="m3"></div>
   <div class="mod" id="m4"></div>
@@ -120,7 +147,7 @@ function speak(t,cb){
 function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'★':'☆';return s}
 function setHead(en,zh,s){document.getElementById('en').textContent=en;document.getElementById('zh').textContent=zh;document.getElementById('st').textContent=s||''}
 
-var cur=0,mods=['m0','m1','m2','m3','m4','m5'];
+var cur=0,mods=['m0','m1','m1b','m2','m3','m4','m5'];
 
 function init0(){
   document.getElementById('m0').innerHTML=
@@ -140,7 +167,8 @@ function init1(){
       '<div class="aq-title">Yesterday Quick Review</div>'+
       '<div style="font-size:20px;font-weight:800;color:#e67e22;margin-top:4px" id="aqPrompt"></div>'+
       '<div class="aq-row">'+animals.map(function(a,i){return '<button class="aq-btn" id="aq'+i+'" onclick="tapAq('+i+')">'+svgOf(animals,i,70)+'</button>'}).join('')+'</div>'+
-    '</div>'+
+    '</div>';
+  document.getElementById('m1b').innerHTML=
     '<div class="pr"><img src="'+PP+'george-superhero-costume.png" alt="George"><div class="bbl" id="learnBubble">Tap my body!</div></div>'+
     '<div class="face-wrap">'+
       '<button class="spot s-head" onclick="tapLearn(0,this)"></button>'+
@@ -152,10 +180,10 @@ function init1(){
     '</div>'+
     '<div class="learn-row">'+parts.map(function(p,i){return '<div class="learn-card" id="lc'+i+'">'+svgOf(parts,i,56)+'<div>'+p.w+'</div></div>'}).join('')+'</div>';
   askAq();
-  setHead('Quick review + new words','先复习昨天，再学新词！',stars(0,8));
+  setHead('Quick review','先复习昨天的动物！',stars(0,3));
 }
 function askAq(){
-  if(aqIndex>=3){document.getElementById('aqPrompt').textContent='Great! Now tap body parts!';return}
+  if(aqIndex>=3){document.getElementById('aqPrompt').textContent='Great! Go to next page!';return}
   var w=animals[aqOrder[aqIndex]].w;
   document.getElementById('aqPrompt').textContent='I see a '+w+'!';
   speak(w);
@@ -182,7 +210,15 @@ function tapLearn(i,btn){
   speak('This is my '+parts[i].w);
 }
 
+function init1b(){
+  setHead("Learn new words","点脸上的部位学新词！",stars(aqScore,8));
+}
+
 var docOrder=[],docIndex=0,docScore=0,docLock=false;
+function init1b(){
+  setHead("Learn body parts","点身体部位，学新词！",stars(aqScore,8));
+}
+
 function init2(){
   docOrder=[0,1,2,3,4].sort(function(){return Math.random()-.5});
   docIndex=0;docScore=0;docLock=false;
@@ -335,14 +371,14 @@ function restart(){
   var xb=document.getElementById('xb');xb.textContent='Next ▶';xb.disabled=false;
 }
 
-var inits=[init0,init1,init2,init3,init4,init5];
+var inits=[init0,init1,init1b,init2,init3,init4,init5];
 function go(d){
   var n=cur+d;if(n<0||n>=mods.length)return;
   document.getElementById(mods[cur]).classList.remove('on');
   cur=n;
   document.getElementById(mods[cur]).classList.add('on');
   inits[cur]();
-  document.getElementById('pg').textContent=(cur+1)+'/6';
+  document.getElementById('pg').textContent=(cur+1)+'/7';
   document.getElementById('pb').disabled=cur===0;
   var xb=document.getElementById('xb');
   if(cur===mods.length-1){xb.textContent='Done';xb.disabled=true}else{xb.textContent='Next ▶';xb.disabled=false}
