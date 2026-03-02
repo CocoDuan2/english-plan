@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 26 - Bedtime Story ✅
-- 更新时间: 2026-03-03 03:53
+- 当前: Day 27 - Shapes Around Us ✅
+- 更新时间: 2026-03-03 04:44
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -187,8 +187,15 @@
 - Review 游戏: Learn (reveal) → Night Sky (点夜景物品) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 27 - Shapes Around Us
+## Day 27 - Shapes Around Us
 - 新词: circle, square, triangle, star, heart
 - 句式: I see a ___!
-- 互动: Listen & Say → Shape Hunt → All Together
+- Teach 互动: Listen & Say → Shape Hunt → All Together
+- Review 游戏: Learn (spiral reveal) → Shape Builder (听词点形状) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 28 - Birthday Party
+- 新词: cake, gift, balloon, candle, friend
+- 句式: I have ___!
+- 互动: Listen & Say → Party Game → All Together
