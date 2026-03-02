@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 19 - My Room ✅
-- 更新时间: 2026-03-03 00:29
+- 当前: Day 20 - Snack Time ✅
+- 更新时间: 2026-03-03 00:41
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -138,8 +138,15 @@
 - Review 游戏: Learn (reveal) → Room Builder (听词布置房间) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
+## Day 20 - Snack Time
+- 新词: rice, cake, juice, candy, cookie
+- 句式: Can I have ___?
+- Teach 互动: Listen & Say → Snack Table → All Together
+- Review 游戏: Learn (reveal) → Pick a Snack (听词点零食) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
 ## 下一课
-- Day 20 - Outside Fun
-- 新词: sky, sun, tree, grass, flower
-- 句式: I see the ___!
-- 互动: Nature Walk → Sky & Ground → Nature Parade
+- Day 21 - Going Places
+- 新词: bus, bike, boat, train, plane
+- 句式: I go by ___!
+- 互动: Listen & Say → Transportation Game → All Together
