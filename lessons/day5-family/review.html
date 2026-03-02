@@ -201,7 +201,7 @@ if(m1rev.length>0)return;
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div class="card-icon">👤</div><div class="card-inner"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-icon">🏠</div><div class="card-inner"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
 c.classList.add('revealed');
