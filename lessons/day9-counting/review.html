@@ -94,8 +94,14 @@ body{background:linear-gradient(160deg,#fff3e0,#ffe0b2);overflow:hidden}
 <div id="m2" class="mod">
 <div class="top">
 <div class="te">Count & Tap</div>
-<div class="tz">听数字，点一样多！</div>
+<div class="tz">数一数，点数字！</div>
 <div class="sb" id="s2"></div>
+</div>
+<div class="pr"><img src="../../assets/peppa/george-standing.png" alt="George"><div class="bbl">How many?</div></div>
+<div style="display:flex;flex-direction:column;gap:20px;align-items:center;margin:16px 0">
+<div id="m2items" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;background:#fff;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-height:100px"></div>
+<div id="m2numbers" style="display:flex;gap:12px;justify-content:center"></div>
+</div>
 </div>
 <div class="pr"><img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy"><div class="bbl">Tap to count!</div></div>
 <div class="count-prompt" id="m2prompt"></div>
@@ -188,36 +194,49 @@ g.appendChild(c);
 }
 // M2: Count & Tap - hear number, tap that many stars
 var m2round=0,m2order=[],m2tapped=0,m2target=0;
+// M2: Count & Tap
+var m2round=0,m2questions=[];
 function initM2(){
-if(m2order.length>0)return;
+if(m2round>0)return;
 document.getElementById('s2').innerHTML=stars(0,W.length);
-m2order=W.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
-startM2Round();
+m2questions=W.map(function(item){return item.n}).sort(function(){return Math.random()-.5});
+buildM2Numbers();
+playM2Round();
 }
-function startM2Round(){
-if(m2round>=W.length)return;
-var item=W[m2order[m2round]];
-m2target=item.n;m2tapped=0;
-document.getElementById('m2prompt').textContent=item.w;
-document.getElementById('m2prog').textContent='0 / '+m2target;
-speak(item.w);
-var area=document.getElementById('m2area');area.innerHTML='';
-for(var i=0;i<7;i++){
-var b=document.createElement('div');b.className='count-item';
-b.innerHTML='<img src="'+TW+'2b50.svg" width="36">';
-b.onclick=(function(btn){return function(){
-if(busy||btn.classList.contains('tapped'))return;
-btn.classList.add('tapped');m2tapped++;
-document.getElementById('m2prog').textContent=m2tapped+' / '+m2target;
-if(m2tapped===m2target){
-busy=true;playOk();st[1]++;
-document.getElementById('s2').innerHTML=stars(st[1],W.length);
+function buildM2Numbers(){
+var g=document.getElementById('m2numbers');g.innerHTML='';
+for(var i=1;i<=5;i++){
+var d=document.createElement('div');
+d.style.cssText='width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;font-size:32px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.12);transition:transform .2s';
+d.textContent=i;
+d.onmouseover=function(){this.style.transform='scale(1.1)'};
+d.onmouseout=function(){this.style.transform='scale(1)'};
+d.onclick=(function(num){return function(){checkM2(num)}})(i);
+g.appendChild(d);
+}
+}
+function playM2Round(){
+if(m2round>=m2questions.length)return;
+var n=m2questions[m2round];
+var item=W.find(function(x){return x.n===n});
+var g=document.getElementById('m2items');g.innerHTML='';
+for(var i=0;i<n;i++){
+var img=document.createElement('img');
+img.src=TW+item.emoji+'.svg';
+img.width=50;
+img.style.margin='4px';
+g.appendChild(img);
+}
+speak('How many?');
+}
+function checkM2(num){
+if(busy)return;
+if(num===m2questions[m2round]){
+busy=true;playOk();speak(W.find(function(x){return x.n===num}).w);
+st[1]++;document.getElementById('s2').innerHTML=stars(st[1],m2questions.length);
 m2round++;
-setTimeout(function(){busy=false;if(m2round<W.length)startM2Round()},1200);
-}
-}})(b);
-area.appendChild(b);
-}
+setTimeout(function(){if(m2round<m2questions.length)playM2Round();busy=false},1500);
+}else{playNo()}
 }
 // M3: Listen & Find
 var m3round=0,m3order=[];
