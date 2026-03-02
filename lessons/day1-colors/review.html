@@ -113,10 +113,15 @@ function svgOf(i,sz){return '<svg width="'+(sz||100)+'" height="'+(sz||100)+'" v
 var cur=0,actx=null;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
 function speak(t,cb){
-  var u='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
-  var a=new Audio(u),done=false;
+  var isSent=t.indexOf(' ')>-1;
+  var primary=isSent?'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web':'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+  var fallback=isSent?'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2':'https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+  var done=false;
   function fin(){if(done)return;done=true;if(cb)cb()}
-  a.onended=fin;a.onerror=fin;setTimeout(fin,4000);a.play().catch(fin);
+  var a=new Audio(primary);
+  a.onended=fin;
+  a.onerror=function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)};
+  setTimeout(fin,4000);a.play().catch(function(){var b=new Audio(fallback);b.onended=fin;b.onerror=fin;setTimeout(fin,4000);b.play().catch(fin)});
 }
 function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
 function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
