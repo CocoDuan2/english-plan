@@ -222,6 +222,13 @@
 - Review 游戏: Learn (reveal) → Chore Helper (听词点家务) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
+## Day 32 - School Day
+- 新词: teacher, friend, learn, draw, write
+- 句式: I can ___!
+- Teach 互动: Listen & Say → School Activities → All Together
+- Review 游戏: Learn (reveal) → School Game (听词点学校活动) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
 ## Day 33 - Pet Care
 - 新词: pet, feed, walk, play, love
 - 句式: I ___ my pet!
