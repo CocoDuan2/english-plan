@@ -1,9 +1,9 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P9 - Letter I ✅
+- 当前: P10 - Letter J ✅
 - 更新时间: 2026-03-03
-- 课程体系: 牛津自然拼读（Oxford Phonics）
+- 课程体系: 牛津自然拼读(Oxford Phonics)
 
 ---
 
@@ -70,6 +70,13 @@
 - 发音: /ɪ/
 - 单词: ink, insect, igloo, inch
 - 故事: 佩琪画画
+- 状态: ✅ 完成
+
+### P10 - Letter J · Peppa Jumps in Muddy Puddles
+- 字母: J j
+- 发音: /dʒ/
+- 单词: jump, juice, jelly, jar
+- 故事: 佩琪跳泥坑
 - 状态: ✅ 完成
 
 ---
