@@ -55,6 +55,43 @@ body{
 .obj-wrap img{width:160px;height:auto}
 .word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
 .sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+
+/* Tracing Canvas */
+.trace-container{
+  position:relative;
+  width:300px;height:300px;
+  margin:20px auto;
+}
+.trace-guide{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+#traceCanvas{
+  position:absolute;top:0;left:0;
+  border:4px solid #e91e8c;
+  border-radius:20px;
+  background:#fff;
+  cursor:crosshair;
+  touch-action:none;
+}
+.trace-btns{
+  display:flex;gap:12px;justify-content:center;
+  margin-top:16px;
+}
+.trace-btn{
+  padding:12px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e67e22;color:#fff;
+  transition:transform .2s ease;
+}
+.trace-btn:active{transform:scale(.95)}
+.trace-feedback{
+  font-size:32px;font-weight:900;
+  margin-top:16px;min-height:40px;
+}
+
 .blend-box{
   display:flex;gap:8px;align-items:center;justify-content:center;
   margin:20px 0;
@@ -91,7 +128,7 @@ body{
 .sound-btn:active{transform:scale(.9)}
 .sound-btn img{width:60px;height:auto}
 .grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
+  display:grid;grid-template-columns:repeat(2,1fr);
   gap:16px;max-width:500px;margin:20px auto;
 }
 .grid-item{text-align:center}
@@ -146,6 +183,7 @@ body{
   .obj-wrap img{width:140px}
   .word{font-size:72px}
   .sent{font-size:28px}
+  .trace-container{width:250px;height:250px}
   .blend-box{gap:4px}
   .blend-letter{font-size:40px;width:50px;height:50px;border:3px solid #e91e8c}
   .blend-arrow{font-size:32px;margin:0 4px}
@@ -190,7 +228,28 @@ body{
   <div style="font-size:20px;color:#667085;margin-top:12px">Say: /æ/ /æ/ /æ/</div>
 </div>
 
-<!-- S4: Word 1 - apple -->
+<!-- S4: Trace Letter A -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Trace letter A!</div>
+  </div>
+  <div class="trace-container">
+    <svg class="trace-guide" viewBox="0 0 300 300">
+      <path d="M 150 50 L 80 250 M 150 50 L 220 250 M 100 180 L 200 180" 
+            stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" 
+            fill="none" opacity="0.4"/>
+    </svg>
+    <canvas id="traceCanvas" width="300" height="300"></canvas>
+  </div>
+  <div class="trace-btns">
+    <button class="trace-btn" onclick="clearTrace()">Clear</button>
+    <button class="trace-btn" onclick="checkTrace()">Check</button>
+  </div>
+  <div class="trace-feedback" id="traceFeedback"></div>
+</div>
+
+<!-- S5: Word 1 - apple -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -202,7 +261,7 @@ body{
   <div class="word">apple</div>
 </div>
 
-<!-- S5: Word 2 - ant -->
+<!-- S6: Word 2 - ant -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -214,7 +273,7 @@ body{
   <div class="word">ant</div>
 </div>
 
-<!-- S6: Word 3 - alligator -->
+<!-- S7: Word 3 - alligator -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -226,7 +285,19 @@ body{
   <div class="word">alligator</div>
 </div>
 
-<!-- S7: Blending - Choose a word -->
+<!-- S8: Word 4 - ax -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/æ/ is for ax!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+  </div>
+  <div class="word">ax</div>
+</div>
+
+<!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -242,6 +313,9 @@ body{
     <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('alligator',['a','l','l','i','g','a','t','o','r'])">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
     </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="showBlend('ax',['a','x'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+    </button>
   </div>
   <div id="blendAnim" style="display:none">
     <div class="blend-box" id="blendBox"></div>
@@ -250,7 +324,7 @@ body{
   </div>
 </div>
 
-<!-- S8: Listen & Say -->
+<!-- S10: Listen & Say -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -266,10 +340,13 @@ body{
     <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="speak('alligator')">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
     </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="speak('ax')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+    </button>
   </div>
 </div>
 
-<!-- S9: Story -->
+<!-- S11: Story -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
@@ -278,12 +355,13 @@ body{
   <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
     <p style="margin-bottom:12px">Peppa picks a red <strong style="color:#e91e8c">apple</strong>.</p>
     <p style="margin-bottom:12px">She sees an <strong style="color:#e91e8c">ant</strong> on the tree.</p>
-    <p>An <strong style="color:#e91e8c">alligator</strong> is sleeping nearby!</p>
+    <p style="margin-bottom:12px">An <strong style="color:#e91e8c">alligator</strong> is sleeping nearby!</p>
+    <p>Daddy Pig has an <strong style="color:#e91e8c">ax</strong> to chop wood.</p>
   </div>
   <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple" style="width:80px;margin-top:16px">
 </div>
 
-<!-- S10: All Together -->
+<!-- S12: All Together -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
@@ -302,10 +380,14 @@ body{
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
       <div class="label">alligator</div>
     </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+      <div class="label">ax</div>
+    </div>
   </div>
 </div>
 
-<!-- S11: Bye -->
+<!-- S13: Bye -->
 <div class="slide">
   <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Great job!</div>
@@ -316,7 +398,7 @@ body{
 <!-- Navigation -->
 <div class="nav">
   <button onclick="prev()" id="prevBtn">◀ Back</button>
-  <div class="page-num"><span id="curr">1</span> / <span id="total">11</span></div>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">13</span></div>
   <button onclick="next()" id="nextBtn">Next ▶</button>
 </div>
 
@@ -330,16 +412,20 @@ body{
   <p><strong>S1 Title:</strong> Introduce the lesson theme - learning letter A.</p>
   <p><strong>S2 Hello:</strong> Peppa greets and invites students to learn.</p>
   <p><strong>S3 Letter & Sound:</strong> Show uppercase and lowercase A. Emphasize the /æ/ sound. Have students repeat 3 times.</p>
-  <p><strong>S4-S6 Words:</strong> Introduce 3 words starting with A. Point to the pictures and say the words clearly.</p>
-  <p><strong>S7 Blending:</strong> Demonstrate how to blend letters to form "apple". Point to each letter as you say it.</p>
-  <p><strong>S8 Listen & Say:</strong> Students click buttons to hear words. Encourage them to repeat.</p>
-  <p><strong>S9 Story:</strong> Read the short story. Emphasize words with letter A.</p>
-  <p><strong>S10 All Together:</strong> Review all 3 words. Point randomly and ask students to say the words.</p>
-  <p><strong>S11 Bye:</strong> Celebrate completion and preview next lesson.</p>
+  <p><strong>S4 Trace:</strong> Students trace letter A with finger/mouse. Check button validates the path.</p>
+  <p><strong>S5-S8 Words:</strong> Introduce 4 words starting with A. Point to the pictures and say the words clearly.</p>
+  <p><strong>S9 Blending:</strong> Demonstrate how to blend letters. Point to each letter as you say it.</p>
+  <p><strong>S10 Listen & Say:</strong> Students click buttons to hear words. Encourage them to repeat.</p>
+  <p><strong>S11 Story:</strong> Read the short story. Emphasize words with letter A.</p>
+  <p><strong>S12 All Together:</strong> Review all 4 words. Point randomly and ask students to say the words.</p>
+  <p><strong>S13 Bye:</strong> Celebrate completion and preview next lesson.</p>
 </div>
 
 <script>
-let ci=0,ts=11;
+let ci=0,ts=13;
+let tracePoints=[];
+let isDrawing=false;
+
 function goTo(i){
   if(i<0||i>=ts)return;
   document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
@@ -365,16 +451,13 @@ function showBlend(word,letters){
   const box=document.getElementById('blendBox');
   const wordEl=document.getElementById('blendWord');
   
-  // Hide buttons, show animation area
   choice.style.display='none';
   anim.style.display='block';
   
-  // Clear previous animation
   box.innerHTML='';
   wordEl.textContent='';
   wordEl.style.animation='none';
   
-  // Create letter elements
   letters.forEach((letter,i)=>{
     const div=document.createElement('div');
     div.className='blend-letter';
@@ -383,19 +466,117 @@ function showBlend(word,letters){
     box.appendChild(div);
   });
   
-  // Show final word after all letters
   setTimeout(()=>{
     wordEl.textContent=word;
     wordEl.style.animation='popIn 0.5s ease-out forwards';
     speak(word);
   },letters.length*300+500);
   
-  // Reset after animation completes
   setTimeout(()=>{
     choice.style.display='flex';
     anim.style.display='none';
   },letters.length*300+3000);
 }
+
+// Tracing functionality
+const canvas=document.getElementById('traceCanvas');
+const ctx=canvas?canvas.getContext('2d'):null;
+
+if(ctx){
+  ctx.lineWidth=8;
+  ctx.lineCap='round';
+  ctx.strokeStyle='#e91e8c';
+  
+  canvas.addEventListener('mousedown',startTrace);
+  canvas.addEventListener('mousemove',drawTrace);
+  canvas.addEventListener('mouseup',endTrace);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchend',endTrace);
+}
+
+function startTrace(e){
+  isDrawing=true;
+  const rect=canvas.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+  tracePoints.push({x,y});
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+}
+
+function drawTrace(e){
+  if(!isDrawing)return;
+  const rect=canvas.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+  tracePoints.push({x,y});
+  ctx.lineTo(x,y);
+  ctx.stroke();
+}
+
+function endTrace(){
+  isDrawing=false;
+}
+
+function clearTrace(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  tracePoints=[];
+  document.getElementById('traceFeedback').textContent='';
+}
+
+function checkTrace(){
+  const feedback=document.getElementById('traceFeedback');
+  
+  if(tracePoints.length<20){
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';
+    return;
+  }
+  
+  // Check key points for letter A
+  const keyPoints=[
+    {x:150,y:50,name:'top'},      // Top point
+    {x:80,y:250,name:'left'},     // Left bottom
+    {x:220,y:250,name:'right'},   // Right bottom
+    {x:150,y:180,name:'middle'}   // Middle bar
+  ];
+  
+  let hits=0;
+  keyPoints.forEach(kp=>{
+    const nearby=tracePoints.some(p=>
+      Math.abs(p.x-kp.x)<40 && Math.abs(p.y-kp.y)<40
+    );
+    if(nearby)hits++;
+  });
+  
+  if(hits>=3){
+    feedback.textContent='Great job! 🎉';
+    feedback.style.color='#27ae60';
+    showConfetti();
+    setTimeout(()=>speak('A'),500);
+  }else{
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';
+  }
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')prev();
   if(e.key==='ArrowRight')next();
