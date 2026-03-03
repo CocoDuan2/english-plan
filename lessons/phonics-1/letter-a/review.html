@@ -21,7 +21,7 @@ body{
 }
 .mod.active{display:flex}
 .top{
-  display:flex;justify-content:space-between;align-items:center;
+  display:flex;flex-direction:column;align-items:center;
   margin-bottom:16px;
 }
 .te{font-size:26px;font-weight:900;color:#e91e8c}
@@ -31,6 +31,7 @@ body{
   font-size:20px;font-weight:900;
   box-shadow:0 4px 12px rgba(233,30,140,.3);
   position:relative;
+  margin-top:8px;
 }
 .tz::after{
   content:'';position:absolute;bottom:-6px;left:50%;
@@ -40,6 +41,7 @@ body{
 .sb{
   display:flex;gap:6px;align-items:center;
   font-size:22px;font-weight:900;
+  margin-top:8px;
 }
 .pr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .pr img{width:75px;height:auto}
