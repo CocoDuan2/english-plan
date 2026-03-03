@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P14 - Letter N ✅
+- 当前: P15 - Letter O ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -105,6 +105,13 @@
 - 发音: /n/
 - 单词: nose, nest, net, nut
 - 故事: 佩琪找鸟巢
+- 状态: ✅ 完成
+
+### P15 - Letter O · Peppa Eats Oranges
+- 字母: O o
+- 发音: /ɒ/
+- 单词: orange, octopus, ox, olive
+- 故事: 佩琪吃橙子
 - 状态: ✅ 完成
 
 ---
