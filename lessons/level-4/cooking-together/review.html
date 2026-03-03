@@ -3,169 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 35 - Cooking Together Review</title>
+<title>Day 35 Review - Cooking Together</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
-.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
-.mod.on{display:flex}
-.top{text-align:center;margin-bottom:20px}
-.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
-.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff6b9d,#ffa07a);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,107,157,.35);margin:8px 0;letter-spacing:.5px;position:relative}
-.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,107,157,.2);border-radius:2px;filter:blur(3px)}
-.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
-.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
-.pr img{width:75px}
-.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
-.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
-@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
-@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
-.peppa-jumping{animation:peppa-jump .6s ease-out}
-.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
-.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-yellow{background:linear-gradient(160deg,#fff9c4,#ffe082)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;max-width:400px;margin:20px auto}
+.word-btn{width:160px;height:160px;border:none;border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:all .2s}
+.word-btn:active{transform:scale(.95)}
+.word-btn.correct{background:#4caf50;transform:scale(1.1)}
+.word-btn.wrong{background:#f44336;animation:shake .3s}
+.emoji{font-size:70px}
+.label{font-size:18px;font-weight:700;color:#555}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
-.crd{width:140px;height:140px;background:#ddd;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.crd:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
-.crd.on{background:#fff}
-.crd img{width:100px;opacity:0;transition:opacity .3s}
-.crd.on img{opacity:1}
-.crd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
-.game-area{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:600px}
-.kitchen{width:100%;height:300px;background:linear-gradient(180deg,#fff5e6,#ffe4cc);border-radius:20px;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.1);overflow:hidden}
-.ingredient{position:absolute;width:80px;height:80px;cursor:pointer;transition:all .3s}
-.ingredient:hover{transform:scale(1.1)}
-.ingredient img{width:100%;height:100%;object-fit:contain}
-.bowl{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:120px;height:120px}
-.bowl img{width:100%;height:100%}
-.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
-.listen-card{width:140px;height:140px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.1);border:4px solid transparent}
-.listen-card:hover{transform:translateY(-4px)}
-.listen-card img{width:100px}
-.listen-card.correct{border-color:#27ae60;animation:pulse .5s}
-.listen-card.wrong{border-color:#e74c3c;animation:shake .5s}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
-.mem-card{width:100px;height:100px;background:#F9ADC7;border-radius:12px;cursor:pointer;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.1);position:relative}
-.mem-card:hover{transform:translateY(-2px)}
-.mem-card.flipped{background:#fff}
-.mem-card img{width:80px;opacity:0;transition:opacity .3s;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.mem-card.flipped img{opacity:1}
-.mem-card.matched{background:#c8e6c9;pointer-events:none}
-.replay-btn{padding:16px 40px;border:none;border-radius:16px;font-size:20px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4);margin-top:20px}
-.replay-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(249,173,199,.5)}
-.speaker-btn{width:60px;height:60px;border-radius:50%;background:#3498db;color:#fff;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 12px rgba(52,152,219,.4);margin:10px 0}
-.speaker-btn:hover{transform:scale(1.05)}
-@media(max-width:480px){.te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}.pr img{width:65px}.sb{font-size:22px}.crd{width:100px;height:100px}.crd img{width:70px}.crd-grid{grid-template-columns:repeat(2,1fr);gap:12px}.kitchen{height:250px}.ingredient{width:60px;height:60px}.bowl{width:100px;height:100px}.listen-card{width:100px;height:100px}.listen-card img{width:70px}.listen-grid{grid-template-columns:repeat(2,1fr)}.mem-card{width:80px;height:80px}.mem-card img{width:60px}.memory-grid{gap:8px}}
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-10px)}
+75%{transform:translateX(10px)}
+}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word-grid{grid-template-columns:1fr 1fr;gap:12px}
+.word-btn{width:140px;height:140px}
+.emoji{font-size:60px}
+.label{font-size:16px}
+}
 </style>
 </head>
 <body>
-<div id="m0" class="mod on">
-<div class="top">
-<div class="te">🍪 Cooking Together 🍪</div>
-<div class="tz">Day 35 · 一起做饭</div>
+<div class="deck">
+<!-- S0: Start -->
+<div class="sl bg-pink on">
+<img src="../../../assets/peppa/mummy-pig-standing-grass.png" style="width:110px;margin:10px 0">
+<div class="ttl">Let's Review!</div>
+<div class="sub">Cooking Together 🍪</div>
 </div>
-<div class="pr"><img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig"><div class="bbl">Let's cook together!</div></div>
-<div class="crd-grid">
-<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" style="width:100px" alt="cook"></div>
-<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f944.svg" style="width:100px" alt="mix"></div>
-<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" style="width:100px" alt="cookie"></div>
-</div>
-<div class="sb" style="margin-top:20px">⭐ Let's Play! ⭐</div>
-</div>
-<div id="m1" class="mod">
-<div class="top">
-<div class="te">Learn New Words</div>
-<div class="tz">点击卡片学习单词</div>
-<div class="sb" id="s1" style="margin-top:10px"></div>
-</div>
-<div class="pr"><img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Click the cards!</div></div>
-<div class="crd-grid">
-<div class="crd" onclick="reveal(0,'cook')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook"></div>
-<div class="crd" onclick="reveal(1,'mix')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f944.svg" alt="mix"></div>
-<div class="crd" onclick="reveal(2,'cookie')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="cookie"></div>
-<div class="crd" onclick="reveal(3,'taste')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f445.svg" alt="taste"></div>
-<div class="crd" onclick="reveal(4,'yummy')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="yummy"></div>
-</div>
-</div>
-<div id="m2" class="mod">
-<div class="top">
-<div class="te">Cooking Game</div>
-<div class="tz">把食材拖到碗里做饼干</div>
-<div class="sb" id="s2" style="margin-top:10px"></div>
-</div>
-<div class="pr"><img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig"><div class="bbl">Drag ingredients to the bowl!</div></div>
-<div class="game-area">
-<div class="kitchen" id="kitchen">
-<div class="bowl"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="bowl"></div>
+
+<!-- S1: Learn -->
+<div class="sl bg-sky">
+<div class="ttl" style="font-size:32px">Tap to hear!</div>
+<div class="word-grid">
+<button class="word-btn" onclick="speak('cook')">
+<div class="emoji">👩‍🍳</div>
+<div class="label">cook</div>
+</button>
+<button class="word-btn" onclick="speak('mix')">
+<div class="emoji">🥣</div>
+<div class="label">mix</div>
+</button>
+<button class="word-btn" onclick="speak('cookie')">
+<div class="emoji">🍪</div>
+<div class="label">cookie</div>
+</button>
+<button class="word-btn" onclick="speak('taste')">
+<div class="emoji">👅</div>
+<div class="label">taste</div>
+</button>
+<button class="word-btn" onclick="speak('yummy')">
+<div class="emoji">😋</div>
+<div class="label">yummy</div>
+</button>
 </div>
 </div>
+
+<!-- S2: Game 1 - Find the word -->
+<div class="sl bg-yellow">
+<div class="ttl" style="font-size:32px">Find the word!</div>
+<div style="font-size:48px;font-weight:800;color:#e67e22;margin:20px 0" id="target-word">cook</div>
+<div class="word-grid" id="game-grid">
+<button class="word-btn" data-word="cook" onclick="checkAnswer(this)">
+<div class="emoji">👩‍🍳</div>
+</button>
+<button class="word-btn" data-word="mix" onclick="checkAnswer(this)">
+<div class="emoji">🥣</div>
+</button>
+<button class="word-btn" data-word="cookie" onclick="checkAnswer(this)">
+<div class="emoji">🍪</div>
+</button>
+<button class="word-btn" data-word="yummy" onclick="checkAnswer(this)">
+<div class="emoji">😋</div>
+</button>
 </div>
-<div id="m3" class="mod">
-<div class="top">
-<div class="te">Listen & Find</div>
-<div class="tz">听单词找图片</div>
-<div class="sb" id="s3" style="margin-top:10px"></div>
 </div>
-<div class="pr"><img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Listen and click!</div></div>
-<button class="speaker-btn" onclick="playListenWord()">🔊</button>
-<div class="listen-grid" id="listenGrid"></div>
+
+<!-- S3: Game 2 - Listen and tap -->
+<div class="sl bg-yellow">
+<div class="ttl" style="font-size:32px">Listen and tap!</div>
+<div class="sub">Tap the word you hear</div>
+<div class="word-grid" id="listen-grid">
+<button class="word-btn" data-word="cook" onclick="checkListen(this)">
+<div class="emoji">👩‍🍳</div>
+<div class="label">cook</div>
+</button>
+<button class="word-btn" data-word="mix" onclick="checkListen(this)">
+<div class="emoji">🥣</div>
+<div class="label">mix</div>
+</button>
+<button class="word-btn" data-word="cookie" onclick="checkListen(this)">
+<div class="emoji">🍪</div>
+<div class="label">cookie</div>
+</button>
+<button class="word-btn" data-word="taste" onclick="checkListen(this)">
+<div class="emoji">👅</div>
+<div class="label">taste</div>
+</button>
+<button class="word-btn" data-word="yummy" onclick="checkListen(this)">
+<div class="emoji">😋</div>
+<div class="label">yummy</div>
+</button>
 </div>
-<div id="m4" class="mod">
-<div class="top">
-<div class="te">Memory Match</div>
-<div class="tz">翻牌配对游戏</div>
-<div class="sb" id="s4" style="margin-top:10px"></div>
 </div>
-<div class="pr"><img src="../../../assets/peppa/george-standing.png" alt="George"><div class="bbl">Find the pairs!</div></div>
-<div class="memory-grid" id="memGrid"></div>
+
+<!-- S4: Memory -->
+<div class="sl bg-sky">
+<div class="ttl" style="font-size:32px">Great job! 🎉</div>
+<div class="sub">You learned 5 new words!</div>
+<div style="display:flex;gap:15px;margin-top:20px;flex-wrap:wrap;justify-content:center">
+<span style="font-size:50px">👩‍🍳</span>
+<span style="font-size:50px">🥣</span>
+<span style="font-size:50px">🍪</span>
+<span style="font-size:50px">👅</span>
+<span style="font-size:50px">😋</span>
 </div>
-<div id="m5" class="mod">
-<div class="top">
-<div class="te">🎉 All Done! 🎉</div>
-<div class="tz">太棒了！完成所有游戏！</div>
 </div>
-<div class="pr"><img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family" style="width:160px"></div>
-<div class="sb" style="font-size:48px;margin:20px 0">⭐⭐⭐⭐⭐</div>
-<button class="replay-btn" onclick="location.reload()">🔄 Play Again</button>
+
+<!-- S5: Done -->
+<div class="sl bg-pink">
+<img src="../../../assets/peppa/peppa-and-george-ooo.png" style="width:110px;margin:10px 0">
+<div class="ttl">Excellent! 🌟</div>
+<div class="sub">See you tomorrow!</div>
 </div>
+</div>
+
 <div class="nav">
-<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
 <div class="np" id="pg">1/6</div>
-<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
 </div>
+
 <script>
-var PP='../../../assets/peppa/';
-var W=['cook','mix','cookie','taste','yummy'];
-var curM=0,busy=false;
-var m1Done=[false,false,false,false,false];
-var m2Collected=0;
-var listenWords=[],listenTarget='';
-var memCards=[],memFlipped=[],memMatched=0;
-function speak(t){var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';var a=new Audio(primary);a.play().catch(function(){var b=new Audio(fallback);b.play().catch(function(){})})}
-function getAC(){if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();return window.actx}
-function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
-function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);setTimeout(function(){tone(784,.15)},200);showConfetti()}
-function playNo(){tone(300,.3)}
-function showConfetti(){var w=document.createElement("div");w.className="confetti-wrap";var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];for(var i=0;i<20;i++){var p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.top=Math.random()*30+"%";p.style.background=colors[i%5];p.style.width=p.style.height=(6+Math.random()*8)+"px";p.style.animationDelay=Math.random()*.3+"s";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
-function stars(n,t){var s='';for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';return s}
-function goM(d){curM+=d;if(curM<0)curM=0;if(curM>5)curM=5;document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});document.getElementById('m'+curM).classList.add('on');document.getElementById('pg').textContent=(curM+1)+'/6';document.getElementById('pBtn').disabled=curM===0;var nb=document.getElementById('nBtn');if(curM===0){nb.textContent='Start!';nb.disabled=false}else if(curM>=5){nb.textContent='Done';nb.disabled=true}else{nb.textContent='Next ▶';nb.disabled=false}if(curM===1)initM1();if(curM===2)initM2();if(curM===3)initM3();if(curM===4)initM4();if(curM===5)initM5();}
-function reveal(i,w){if(m1Done[i])return;var c=document.querySelectorAll('#m1 .crd')[i];c.classList.add('on');m1Done[i]=true;speak(w);playOk();var done=m1Done.filter(function(x){return x}).length;document.getElementById('s1').innerHTML=stars(done,5)}
-function initM1(){document.getElementById('s1').innerHTML=stars(0,5)}
-function initM2(){m2Collected=0;document.getElementById('s2').innerHTML=stars(0,5);var kitchen=document.getElementById('kitchen');var ingredients=[{emoji:'1f95a',word:'egg',top:'20px',left:'30px'},{emoji:'1f9c8',word:'butter',top:'20px',right:'30px'},{emoji:'1f36f',word:'honey',top:'120px',left:'50px'},{emoji:'1f95b',word:'milk',top:'120px',right:'50px'},{emoji:'1f36b',word:'chocolate',top:'70px',left:'50%',transform:'translateX(-50%)'}];ingredients.forEach(function(ing,idx){var div=document.createElement('div');div.className='ingredient';div.style.top=ing.top;if(ing.left)div.style.left=ing.left;if(ing.right)div.style.right=ing.right;if(ing.transform)div.style.transform=ing.transform;div.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+ing.emoji+'.svg" alt="'+ing.word+'">';div.draggable=true;div.ondragstart=function(e){e.dataTransfer.setData('word',ing.word)};div.onclick=function(){collectIngredient(div,ing.word)};kitchen.appendChild(div)});var bowl=kitchen.querySelector('.bowl');bowl.ondragover=function(e){e.preventDefault()};bowl.ondrop=function(e){e.preventDefault();var word=e.dataTransfer.getData('word');var ing=kitchen.querySelector('.ingredient[draggable="true"]');if(ing)collectIngredient(ing,word)}}
-function collectIngredient(el,word){el.style.opacity='0';setTimeout(function(){el.remove()},300);speak(word);playOk();m2Collected++;document.getElementById('s2').innerHTML=stars(m2Collected,5)}
-function initM3(){document.getElementById('s3').innerHTML=stars(0,5);listenWords=[...W];shuffle(listenWords);listenTarget=listenWords[0];var grid=document.getElementById('listenGrid');grid.innerHTML='';var emojis={'cook':'1f373','mix':'1f944','cookie':'1f36a','taste':'1f445','yummy':'1f60b'};var shuffled=[...W];shuffle(shuffled);shuffled.forEach(function(w){var card=document.createElement('div');card.className='listen-card';card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[w]+'.svg" alt="'+w+'">';card.onclick=function(){checkListen(w,card)};grid.appendChild(card)});speak(listenTarget)}
-function playListenWord(){speak(listenTarget)}
-function checkListen(w,card){if(busy)return;busy=true;if(w===listenTarget){card.classList.add('correct');playOk();speak(w);setTimeout(function(){card.style.opacity='0';listenWords.shift();if(listenWords.length>0){listenTarget=listenWords[0];setTimeout(function(){resetListenCards();speak(listenTarget);busy=false},800)}else{document.getElementById('s3').innerHTML=stars(5,5);busy=false}},600)}else{card.classList.add('wrong');playNo();setTimeout(function(){card.classList.remove('wrong');busy=false},500)}}
-function resetListenCards(){var cards=document.querySelectorAll('.listen-card');cards.forEach(function(c){c.classList.remove('correct','wrong');c.style.opacity='1'})}
-function initM4(){document.getElementById('s4').innerHTML=stars(0,5);memMatched=0;memFlipped=[];var emojis={'cook':'1f373','mix':'1f944','cookie':'1f36a','taste':'1f445','yummy':'1f60b'};memCards=[];W.forEach(function(w){memCards.push({word:w,emoji:emojis[w]});memCards.push({word:w,emoji:emojis[w]})});shuffle(memCards);var grid=document.getElementById('memGrid');grid.innerHTML='';memCards.forEach(function(card,idx){var div=document.createElement('div');div.className='mem-card';div.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+card.emoji+'.svg" alt="'+card.word+'">';div.onclick=function(){flipCard(idx,div)};grid.appendChild(div)})}
-function flipCard(idx,el){if(busy||el.classList.contains('flipped')||el.classList.contains('matched'))return;el.classList.add('flipped');memFlipped.push({idx:idx,el:el,word:memCards[idx].word});if(memFlipped.length===2){busy=true;var f1=memFlipped[0],f2=memFlipped[1];if(f1.word===f2.word){playOk();speak(f1.word);f1.el.classList.add('matched');f2.el.classList.add('matched');memMatched++;document.getElementById('s4').innerHTML=stars(memMatched,5);memFlipped=[];busy=false}else{playNo();setTimeout(function(){f1.el.classList.remove('flipped');f2.el.classList.remove('flipped');memFlipped=[];busy=false},800)}}}
-function initM5(){showConfetti()}
-function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var temp=arr[i];arr[i]=arr[j];arr[j]=temp}}
-goM(0);
+var c=0,t=6;
+var words=['cook','mix','cookie','taste','yummy'];
+var gameWords=['cook','mix','cookie','taste','yummy'];
+var currentWordIndex=0;
+var listenWords=['cook','mix','cookie','taste','yummy'];
+var listenIndex=0;
+var gameActive=false;
+var listenActive=false;
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function checkAnswer(btn){
+if(!gameActive)return;
+var word=btn.getAttribute('data-word');
+var target=gameWords[currentWordIndex];
+if(word===target){
+btn.classList.add('correct');
+speak(word);
+setTimeout(function(){
+btn.classList.remove('correct');
+currentWordIndex++;
+if(currentWordIndex<gameWords.length){
+document.getElementById('target-word').textContent=gameWords[currentWordIndex];
+}else{
+gameActive=false;
+setTimeout(function(){goTo(c+1)},500);
+}
+},800);
+}else{
+btn.classList.add('wrong');
+setTimeout(function(){btn.classList.remove('wrong')},300);
+}
+}
+
+function checkListen(btn){
+if(!listenActive)return;
+var word=btn.getAttribute('data-word');
+var target=listenWords[listenIndex];
+if(word===target){
+btn.classList.add('correct');
+setTimeout(function(){
+btn.classList.remove('correct');
+listenIndex++;
+if(listenIndex<listenWords.length){
+speak(listenWords[listenIndex]);
+}else{
+listenActive=false;
+setTimeout(function(){goTo(c+1)},500);
+}
+},800);
+}else{
+btn.classList.add('wrong');
+setTimeout(function(){btn.classList.remove('wrong')},300);
+}
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+if(c===2){
+gameActive=true;
+currentWordIndex=0;
+document.getElementById('target-word').textContent=gameWords[0];
+}
+if(c===3){
+listenActive=true;
+listenIndex=0;
+setTimeout(function(){speak(listenWords[0])},500);
+}
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+});
+
+goTo(0);
 </script>
 </body>
 </html>
