@@ -36,34 +36,18 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sound-btn{width:110px;height:110px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .2s}
 .sound-btn:active{transform:scale(.92)}
 .sound-btn img{width:60px;height:60px}
-.action-buttons{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:20px 0}
-.action-btn{width:100px;height:100px;border-radius:18px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#FFD93D,#FFA500);box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .2s;font-size:18px;font-weight:700;color:#fff}
-.action-btn:active{transform:scale(.92)}
-.action-btn img{width:50px;height:50px}
-.action-stage{position:relative;width:100%;max-width:600px;height:350px;margin:20px auto;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.stage-emoji{position:absolute;width:320px;height:320px;opacity:0;transform:scale(0) rotate(-180deg);transition:all .8s cubic-bezier(.68,-.55,.265,1.55)}
-.stage-emoji.show{opacity:1;transform:scale(1) rotate(0deg)}
-.stage-emoji.hide{opacity:0;transform:scale(0) rotate(180deg)}
-.stage-emoji img{width:100%;height:100%}
-.stage-char{position:absolute;width:150px;height:auto;opacity:0;transform:translateX(-100px) scale(.5);transition:all .8s cubic-bezier(.68,-.55,.265,1.55)}
-.stage-char.show{opacity:1;transform:translateX(0) scale(1)}
-.stage-char.hide{opacity:0;transform:translateX(100px) scale(.5)}
-.stage-char img{width:100%;height:auto}
-@keyframes emoji-spin-bounce{
-0%{transform:scale(1) rotate(0deg)}
-25%{transform:scale(1.3) rotate(-15deg)}
-50%{transform:scale(1.2) rotate(15deg)}
-75%{transform:scale(1.3) rotate(-10deg)}
-100%{transform:scale(1) rotate(0deg)}
-}
-@keyframes char-jump-spin{
-0%{transform:translateY(0) rotate(0deg)}
-30%{transform:translateY(-40px) rotate(-10deg)}
-60%{transform:translateY(-35px) rotate(10deg)}
-100%{transform:translateY(0) rotate(0deg)}
-}
-.stage-emoji.animate{animation:emoji-spin-bounce 2s ease-in-out}
-.stage-char.animate{animation:char-jump-spin 2s ease-in-out}
+.wheel-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:25px;padding:20px}
+.wheel-wrapper{position:relative;width:340px;height:340px;display:flex;align-items:center;justify-content:center}
+.wheel{width:340px;height:340px;transition:transform 3s cubic-bezier(.17,.67,.12,.99);will-change:transform}
+.wheel-pointer{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:50px;color:#e67e22;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3));z-index:10}
+.wheel-btn{padding:18px 50px;font-size:32px;font-weight:900;color:#fff;background:linear-gradient(135deg,#FF6B9D,#FFA07A);border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 20px rgba(255,107,157,.4);transition:all .2s}
+.wheel-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,107,157,.5)}
+.wheel-btn:active{transform:translateY(0);box-shadow:0 4px 15px rgba(255,107,157,.4)}
+.wheel-btn:disabled{background:#ddd;cursor:not-allowed;box-shadow:none}
+.wheel-result{margin-top:20px;display:flex;align-items:center;gap:15px;opacity:0;transition:opacity .5s}
+.wheel-result.show{opacity:1}
+.wheel-result img{width:120px;height:auto}
+.wheel-result .bbl{font-size:32px;padding:15px 25px}
 .char-shake{animation:char-shake 1s ease-in-out infinite}
 @keyframes char-shake{
 0%,100%{transform:translateX(0)}
@@ -94,11 +78,12 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .hello-peppa{width:120px!important}
 .sound-btn{width:90px;height:90px;font-size:16px}
 .sound-btn img{width:50px;height:50px}
-.action-btn{width:80px;height:80px;font-size:16px}
-.action-btn img{width:40px;height:40px}
-.action-stage{height:280px}
-.stage-emoji{width:240px;height:240px}
-.stage-char{width:110px}
+.wheel-wrapper{width:280px;height:280px}
+.wheel{width:280px;height:280px}
+.wheel-pointer{font-size:40px;top:-10px}
+.wheel-btn{padding:14px 40px;font-size:26px}
+.wheel-result img{width:90px}
+.wheel-result .bbl{font-size:24px;padding:10px 18px}
 .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
 .all-item img{width:70px;height:70px}
 .all-item .label{font-size:20px}
@@ -224,37 +209,55 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S8: Peppa's Action Show -->
+<!-- S8: Action Wheel -->
 <div class="sl bg-playground">
-<div class="pr">
-<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-<div class="bbl">Click and watch me!</div>
+<div class="wheel-container">
+<div class="wheel-wrapper">
+<svg class="wheel" id="wheel" viewBox="0 0 400 400">
+<g id="wheelSectors">
+<!-- Sector 1: run (pink) -->
+<path d="M 200 200 L 200 50 A 150 150 0 0 1 329.9 129.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
+<image href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" x="220" y="90" width="50" height="50"/>
+<text x="245" y="160" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">run</text>
+
+<!-- Sector 2: jump (blue) -->
+<path d="M 200 200 L 329.9 129.9 A 150 150 0 0 1 329.9 270.1 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
+<image href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" x="280" y="175" width="50" height="50"/>
+<text x="305" y="245" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">jump</text>
+
+<!-- Sector 3: walk (green) -->
+<path d="M 200 200 L 329.9 270.1 A 150 150 0 0 1 200 350 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
+<image href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" x="220" y="260" width="50" height="50"/>
+<text x="245" y="330" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">walk</text>
+
+<!-- Sector 4: sit (yellow) -->
+<path d="M 200 200 L 200 350 A 150 150 0 0 1 70.1 270.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
+<image href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" x="100" y="260" width="50" height="50"/>
+<text x="125" y="330" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">sit</text>
+
+<!-- Sector 5: stand (purple) -->
+<path d="M 200 200 L 70.1 270.1 A 150 150 0 0 1 70.1 129.9 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
+<image href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" x="100" y="175" width="50" height="50"/>
+<text x="125" y="245" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">stand</text>
+
+<!-- Sector 6: run again (to close the circle) -->
+<path d="M 200 200 L 70.1 129.9 A 150 150 0 0 1 200 50 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
+</g>
+
+<!-- Center circle -->
+<circle cx="200" cy="200" r="40" fill="#fff" stroke="#2c3e50" stroke-width="4"/>
+<text x="200" y="210" font-size="28" font-weight="900" fill="#2c3e50" text-anchor="middle">GO!</text>
+</svg>
+
+<!-- Pointer -->
+<div class="wheel-pointer">▲</div>
 </div>
-<div class="action-buttons">
-<button class="action-btn" onclick="showAction('run','1f3c3','../../../assets/peppa/peppa-pig-happy-standing.png')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="run">
-<span>run</span>
+
+<button class="wheel-btn" id="wheelBtn" onclick="spinWheel()">
+<span id="wheelBtnText">Spin!</span>
 </button>
-<button class="action-btn" onclick="showAction('jump','1f938','../../../assets/peppa/george-standing.png')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" alt="jump">
-<span>jump</span>
-</button>
-<button class="action-btn" onclick="showAction('walk','1f6b6','../../../assets/peppa/daddy-pig-walking.png')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" alt="walk">
-<span>walk</span>
-</button>
-<button class="action-btn" onclick="showAction('sit','1fa91','../../../assets/peppa/mummy-pig-standing-grass.png')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" alt="sit">
-<span>sit</span>
-</button>
-<button class="action-btn" onclick="showAction('stand','1f9cd','../../../assets/peppa/peppa-pig-happy-standing.png')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" alt="stand">
-<span>stand</span>
-</button>
-</div>
-<div class="action-stage" id="stage">
-<div class="stage-emoji" id="stageEmoji"></div>
-<div class="stage-char" id="stageChar"></div>
+
+<div class="wheel-result" id="wheelResult"></div>
 </div>
 </div>
 
@@ -317,7 +320,7 @@ var N={
 5:'New word: sit - Mummy Pig says "I can sit!" with sitting emoji',
 6:'New word: stand - Peppa says "I can stand!" with standing emoji',
 7:'Listen & Say: 5 colorful buttons with action emojis, click to hear pronunciation',
-8:'Peppa\'s Action Show: Click action buttons to see HUGE emoji (320px) + character (150px) appear with dramatic spin/bounce animation (2.5s). Each click triggers new show with entrance/exit effects.',
+8:'Action Wheel: Click "Spin!" to rotate the wheel (340px, 5 colored sectors). Spins 3s with easing, lands on random action. Shows character (120px) + "I can ___!" bubble. Click "Spin again!" for more.',
 9:'All Together: Grid showing all 5 actions for teacher to point and ask',
 10:'Bye: Celebration and preview of next lesson (feelings)'
 };
@@ -340,41 +343,64 @@ elem.classList.remove('animate-'+action);
 },1000);
 }
 
-var actionBusy=false;
-function showAction(action,emojiCode,charImg){
-if(actionBusy)return;
-actionBusy=true;
+// Action Wheel Game
+var wheelActions=['run','jump','walk','sit','stand'];
+var wheelCharacters={
+run:'../../../assets/peppa/peppa-pig-happy-standing.png',
+jump:'../../../assets/peppa/george-standing.png',
+walk:'../../../assets/peppa/daddy-pig-walking.png',
+sit:'../../../assets/peppa/mummy-pig-standing-grass.png',
+stand:'../../../assets/peppa/peppa-pig-happy-standing.png'
+};
+var wheelSpinning=false;
 
-var stageEmoji=document.getElementById('stageEmoji');
-var stageChar=document.getElementById('stageChar');
+function spinWheel(){
+if(wheelSpinning)return;
+wheelSpinning=true;
 
-// Hide previous
-stageEmoji.classList.remove('show','animate');
-stageChar.classList.remove('show','animate');
-stageEmoji.classList.add('hide');
-stageChar.classList.add('hide');
+var btn=document.getElementById('wheelBtn');
+var btnText=document.getElementById('wheelBtnText');
+btn.disabled=true;
+btnText.textContent='Spinning...';
+
+// Hide previous result
+var result=document.getElementById('wheelResult');
+result.classList.remove('show');
+result.innerHTML='';
+
+// Random spins: 5-8 full rotations + random angle
+var fullRotations=5+Math.floor(Math.random()*4);
+var randomAngle=Math.floor(Math.random()*360);
+var totalRotation=fullRotations*360+randomAngle;
+
+var wheel=document.getElementById('wheel');
+wheel.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
+wheel.style.transform='rotate('+totalRotation+'deg)';
 
 setTimeout(function(){
-// Set new content
-stageEmoji.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojiCode+'.svg" alt="'+action+'">';
-stageChar.innerHTML='<img src="'+charImg+'" alt="character">';
+// Calculate which action we landed on
+// Each sector is 72 degrees (360/5)
+// Adjust for pointer at top (0 degrees)
+var normalizedAngle=randomAngle%360;
+var sectorIndex=Math.floor(normalizedAngle/72);
+var action=wheelActions[sectorIndex];
 
-// Show with animation
-setTimeout(function(){
-stageEmoji.classList.remove('hide');
-stageChar.classList.remove('hide');
-stageEmoji.classList.add('show','animate');
-stageChar.classList.add('show','animate');
+// Show result
+showWheelResult(action);
 
-// Speak
+// Reset button
+btn.disabled=false;
+btnText.textContent='Spin again!';
+wheelSpinning=false;
+},3200);
+}
+
+function showWheelResult(action){
+var result=document.getElementById('wheelResult');
+var charImg=wheelCharacters[action];
+result.innerHTML='<img src="'+charImg+'" alt="character"><div class="bbl">I can '+action+'!</div>';
+result.classList.add('show');
 speak('I can '+action);
-
-// Reset after animation
-setTimeout(function(){
-actionBusy=false;
-},2500);
-},50);
-},300);
 }
 
 function goTo(n){
