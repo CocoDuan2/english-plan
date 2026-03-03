@@ -186,10 +186,10 @@ body{
   .listen-card{width:95px;height:95px}
   .listen-card img{width:60px}
   .listen-card .label{font-size:14px}
-  .mem-grid{grid-template-columns:repeat(2,1fr);max-width:340px;gap:12px}
-  .mem-front .emoji{font-size:40px}
-  .mem-back img{width:50px}
-  .mem-back .label{font-size:14px}
+  .mem-grid{grid-template-columns:repeat(3,1fr);max-width:340px;gap:10px}
+  .mem-front .emoji{font-size:36px}
+  .mem-back img{width:45px}
+  .mem-back .label{font-size:13px}
   .start-screen h1{font-size:32px}
   .start-btn{font-size:26px;padding:14px 32px}
   .done-screen h1{font-size:32px}
@@ -484,12 +484,14 @@ function playCurrentWord(){
 
 // M4: Memory Match
 function initM4(){
+  console.log('initM4 called');
   const grid=document.getElementById('memGrid');
   grid.innerHTML='';
   memFlipped=[];
   memMatched=0;
   
   const pairs=[...words,...words].sort(()=>Math.random()-0.5);
+  console.log('Memory pairs:', pairs.length, pairs);
   
   pairs.forEach((item,i)=>{
     const card=document.createElement('div');
@@ -505,6 +507,7 @@ function initM4(){
     card.onclick=()=>flipCard(card,i);
     grid.appendChild(card);
   });
+  console.log('Cards created:', grid.children.length);
 }
 
 function flipCard(card,idx){
