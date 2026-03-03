@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P19 - Letter S ✅
+- 当前: P20 - Letter T ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -140,6 +140,13 @@
 - 发音: /s/
 - 单词: sun, snake, star, sock
 - 故事: 佩琪看星星
+- 状态: ✅ 完成
+
+### P20 - Letter T · Peppa Goes Camping
+- 字母: T t
+- 发音: /t/
+- 单词: tree, tiger, tent, top
+- 故事: 佩琪去露营
 - 状态: ✅ 完成
 
 ---
