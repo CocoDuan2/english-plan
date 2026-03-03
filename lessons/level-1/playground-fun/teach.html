@@ -291,7 +291,7 @@ var N={
 5:'New word: sit - Mummy Pig says "I can sit!" with sitting emoji',
 6:'New word: stand - Peppa says "I can stand!" with standing emoji',
 7:'Listen & Say: 5 colorful buttons with action emojis, click to hear pronunciation',
-8:'Card Flip Game: 5 cards face-down (150x200px, pink gradient with Peppa icon + ?). Click any card to flip (3D rotateY animation, 0.6s). If action emoji → shows "I can ___!" + speaks word. If lucky star ⭐ → confetti + "Wow! Lucky star!". Other 4 cards auto-flip after 0.5s delay. Random: 1 star + 4 actions (from 5 total). "Play again!" button resets game.',
+8:'Card Flip Game: 5 cards face-down (150x200px, pink gradient with Peppa icon + ?). Click each card to flip one by one (3D rotateY animation, 0.6s). Each card shows action emoji + "I can ___!" and speaks word. One lucky star ⭐ shows confetti + "Wow! Lucky star!". Cards stay flipped after clicking. When all 5 cards are flipped, "Play again!" button appears to reset game. Random: 1 star + 4 actions (from 5 total).',
 9:'All Together: Grid showing all 5 actions for teacher to point and ask',
 10:'Bye: Celebration and preview of next lesson (feelings)'
 };
@@ -395,19 +395,21 @@ setTimeout(function(){
 // Show result
 showCardResult(cardData);
 
-// Flip other cards after 0.5s
-setTimeout(function(){
+// Check if all cards are flipped
 var allCards=document.querySelectorAll('.flip-card');
+var allFlipped=true;
 allCards.forEach(function(c){
 if(!c.classList.contains('flipped')){
-c.classList.add('flipped');
+allFlipped=false;
 }
 });
 
-// Show "Play again" button
+// If all flipped, show "Play again" button
+if(allFlipped){
 document.getElementById('cardGameBtn').classList.add('show');
+}
+
 cardGameBusy=false;
-},500);
 },600);
 }
 
