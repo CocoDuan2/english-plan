@@ -80,6 +80,8 @@ h1{font-size:28px;line-height:1.1;color:#394867}
   border:2px solid transparent;
 }
 .desc{margin-top:4px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme-title{font-size:15px;line-height:1.2}
+.theme-cn{font-size:13px;opacity:.85;margin-top:2px}
 @media(min-width:700px){
   .cards{grid-template-columns:1fr 1fr}
   .card{padding:12px}
@@ -96,7 +98,7 @@ h1{font-size:28px;line-height:1.1;color:#394867}
   <div id="lessons"></div>
 </div>
 <script>
-var lessons=[{"dir":"helping-at-home","theme":"Helping at Home","words":"clean, wash, help, tidy, sweep","panel":"linear-gradient(135deg,#FFF9C4,#FFE082,#FFD54F)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/mummy-pig-standing-grass.png","teachTone":{"bg":"#fff9c4","bd":"#ffd54f","txt":"#f57f17"},"reviewTone":{"bg":"#ffe082","bd":"#ffb300","txt":"#e65100"}},{"dir":"school-day","theme":"School Day","words":"teacher, friend, learn, draw, write","panel":"linear-gradient(135deg,#FFE5B4,#FFDAB9,#FFE4B5)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/candy-cat-green-dress.png","teachTone":{"bg":"#ffe5b4","bd":"#ffd93d","txt":"#e65100"},"reviewTone":{"bg":"#ffdab9","bd":"#ffc93d","txt":"#bf360c"}},{"dir":"pet-care","theme":"Pet Care","words":"pet, feed, walk, play, love","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9,#a5d6a7)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}},{"dir":"cooking-together","theme":"Cooking Together","words":"cook, mix, pour, taste, yummy","panel":"linear-gradient(135deg,#ffe5d0,#ffd4a3)","teachIcon":"../assets/peppa/mummy-pig-standing-grass.png","reviewIcon":"../assets/peppa/peppa-pig-happy-standing.png","teachTone":{"bg":"#ffe5d0","bd":"#e67e22","txt":"#bf360c"},"reviewTone":{"bg":"#ffd4a3","bd":"#ff9a9e","txt":"#c62828"}},{"dir":"sports-day","theme":"Sports Day","words":"kick, throw, catch, race, win","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}}];
+var lessons=[{"dir":"helping-at-home","theme":"Helping at Home","cn":"家务小帮手","words":"clean, wash, help, tidy, sweep","panel":"linear-gradient(135deg,#FFF9C4,#FFE082,#FFD54F)","teachIcon":"assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"assets/peppa/mummy-pig-standing-grass.png","teachTone":{"bg":"#fff9c4","bd":"#ffd54f","txt":"#f57f17"},"reviewTone":{"bg":"#ffe082","bd":"#ffb300","txt":"#e65100"}},{"dir":"school-day","theme":"School Day","cn":"上学的一天","words":"teacher, friend, learn, draw, write","panel":"linear-gradient(135deg,#FFE5B4,#FFDAB9,#FFE4B5)","teachIcon":"assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"assets/peppa/candy-cat-green-dress.png","teachTone":{"bg":"#ffe5b4","bd":"#ffd93d","txt":"#e65100"},"reviewTone":{"bg":"#ffdab9","bd":"#ffc93d","txt":"#bf360c"}},{"dir":"pet-care","theme":"Pet Care","cn":"照顾宠物","words":"pet, feed, walk, play, love","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9,#a5d6a7)","teachIcon":"assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}},{"dir":"cooking-together","theme":"Cooking Together","cn":"一起做饭","words":"cook, mix, pour, taste, yummy","panel":"linear-gradient(135deg,#ffe5d0,#ffd4a3)","teachIcon":"assets/peppa/mummy-pig-standing-grass.png","reviewIcon":"assets/peppa/peppa-pig-happy-standing.png","teachTone":{"bg":"#ffe5d0","bd":"#e67e22","txt":"#bf360c"},"reviewTone":{"bg":"#ffd4a3","bd":"#ff9a9e","txt":"#c62828"}},{"dir":"sports-day","theme":"Sports Day","cn":"运动会","words":"kick, throw, catch, race, win","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9)","teachIcon":"assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}}];
 
 function cardHtml(kind,l){
   var isTeach=kind==='teach';
@@ -124,7 +126,10 @@ lessons.forEach(function(l){
   g.className='lesson-group';
   g.innerHTML=
     '<div class="lesson-head" style="background:'+l.panel+'">'+
-      '<span>'+l.theme+'</span>'+
+      '<div>'+
+        '<div class="theme-title">'+l.theme+'</div>'+
+        '<div class="theme-cn">'+l.cn+'</div>'+
+      '</div>'+
       '<small>5 words</small>'+
     '</div>'+
     '<div class="cards">'+cardHtml('teach',l)+cardHtml('review',l)+'</div>';
