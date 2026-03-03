@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P4 - Letter D ✅
+- 当前: P5 - Letter E ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -35,6 +35,13 @@
 - 发音: /d/
 - 单词: dog, duck, door, doll
 - 故事: 佩琪遇见小狗
+- 状态: ✅ 完成
+
+### P5 - Letter E · Peppa Makes Breakfast
+- 字母: E e
+- 发音: /e/
+- 单词: egg, elephant, elbow, exit
+- 故事: 佩琪做早餐
 - 状态: ✅ 完成
 
 ---
