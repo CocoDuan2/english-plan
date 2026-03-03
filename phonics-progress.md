@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P8 - Letter H ✅
+- 当前: P9 - Letter I ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -63,6 +63,13 @@
 - 发音: /h/
 - 单词: hat, house, horse, hand
 - 故事: 佩琪的新帽子
+- 状态: ✅ 完成
+
+### P9 - Letter I · Peppa Paints
+- 字母: I i
+- 发音: /ɪ/
+- 单词: ink, insect, igloo, inch
+- 故事: 佩琪画画
 - 状态: ✅ 完成
 
 ---
