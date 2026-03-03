@@ -38,10 +38,10 @@ day30-seasons -> level-3/seasons-change
 day31-helping-at-home -> level-4/helping-at-home
 day32-school-day -> level-4/school-day
 day33-pet -> level-4/pet-care
-day34-doctor-visit -> level-4/doctor-visit
-day35-cooking -> level-4/cooking-together
-day36-sports -> level-4/sports-day
-day37-feelings -> level-4/feelings-emotions
-day38-time -> level-4/time-words
-day39-direction -> level-4/direction-words
-day40-weather -> level-4/weather-actions
+day34-cooking -> level-4/cooking-together
+day35-sports -> level-4/sports-day
+day36-feelings -> level-4/feelings-emotions
+day37-time -> level-4/time-words
+day38-direction -> level-4/direction-words
+day39-weather -> level-4/weather-actions
+day40-doctor-visit -> level-4/doctor-visit
