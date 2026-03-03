@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 36 - Sports Day ✅
-- 更新时间: 2026-03-03 09:53
+- 当前: Day 37 - Feelings and Emotions ✅
+- 更新时间: 2026-03-03 10:11
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -250,9 +250,16 @@
 - Review 游戏: Learn (reveal) → Sports Action Game (听词点运动) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 37 - Feelings and Emotions
+## Day 37 - Feelings and Emotions
 - 新词: excited, tired, proud, shy, brave
 - 句式: I feel ___!
-- 互动: Listen & Say → Emotion Game → All Together
+- Teach 互动: Listen & Say → Emotion Wheel → All Together
+- Review 游戏: Learn (reveal) → Emotion Faces (听词点表情) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 38 - Time Words
+- 新词: morning, afternoon, evening, night, today
+- 句式: It's ___!
+- 互动: Listen & Say → Time Clock → All Together
 
