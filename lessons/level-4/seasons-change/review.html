@@ -23,6 +23,7 @@ body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
 .learn-card.revealed{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .learn-card .icon{font-size:70px;display:none}
 .learn-card.revealed .icon{display:block}
+.learn-card .icon.multi{font-size:35px;display:flex;gap:4px}
 .learn-card .lbl{font-size:20px;font-weight:700;color:#2c3e50;margin-top:6px;display:none}
 .learn-card.revealed .lbl{display:block}
 .card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px}
@@ -151,7 +152,7 @@ var W=[
 {w:'summer',icon:'☀️'},
 {w:'autumn',icon:'🍂'},
 {w:'winter',icon:'❄️'},
-{w:'season',icon:'🔄'}
+{w:'season',icon:'🌸☀️🍂❄️'}
 ];
 var curM=0,busy=false;
 var m1Done=0,m2Done=0,m3Done=0,m4Done=0;
@@ -261,7 +262,8 @@ g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');
 c.className='learn-card';
-c.innerHTML='<div class="card-icon">❓</div><div class="icon">'+item.icon+'</div><div class="lbl">'+item.w+'</div>';
+var iconHtml = item.w==='season' ? '<div class="icon multi">🌸☀️🍂❄️</div>' : '<div class="icon">'+item.icon+'</div>';
+c.innerHTML='<div class="card-icon">❓</div>'+iconHtml+'<div class="lbl">'+item.w+'</div>';
 c.onclick=function(){
 if(c.classList.contains('revealed'))return;
 c.classList.add('revealed');
@@ -282,7 +284,11 @@ shuffled.forEach(function(item){
 var b=document.createElement('button');
 b.className='season-btn';
 b.style.background=seasonColors[item.w];
+if(item.w==='season'){
+b.innerHTML='<div style="display:flex;gap:3px;font-size:24px">🌸☀️🍂❄️</div>';
+}else{
 b.textContent=item.icon;
+}
 b.onclick=function(){
 if(busy)return;
 if(item.w===m2Target){
@@ -330,7 +336,8 @@ var shuffled=W.slice().sort(function(){return Math.random()-.5});
 shuffled.forEach(function(item){
 var c=document.createElement('div');
 c.className='listen-card';
-c.innerHTML='<div class="icon">'+item.icon+'</div><div class="lbl">'+item.w+'</div>';
+var iconHtml = item.w==='season' ? '<div class="icon" style="font-size:30px;display:flex;gap:2px">🌸☀️🍂❄️</div>' : '<div class="icon">'+item.icon+'</div>';
+c.innerHTML=iconHtml+'<div class="lbl">'+item.w+'</div>';
 c.onclick=function(){
 if(busy)return;
 if(item.w===m3Target){
@@ -379,7 +386,8 @@ pairs.forEach(function(item,i){
 var c=document.createElement('div');
 c.className='mem-card';
 c.dataset.word=item.w;
-c.innerHTML='<div class="mem-face mem-front"><div class="e">❓</div></div><div class="mem-face mem-back"><div class="icon">'+item.icon+'</div><div class="lbl">'+item.w+'</div></div>';
+var iconHtml = item.w==='season' ? '<div class="icon" style="font-size:30px;display:flex;gap:2px">🌸☀️🍂❄️</div>' : '<div class="icon">'+item.icon+'</div>';
+c.innerHTML='<div class="mem-face mem-front"><div class="e">❓</div></div><div class="mem-face mem-back">'+iconHtml+'<div class="lbl">'+item.w+'</div></div>';
 c.onclick=function(){flipCard(i)};
 g.appendChild(c);
 });
