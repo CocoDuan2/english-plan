@@ -178,7 +178,7 @@ document.getElementById('s1').innerHTML=stars(0,W.length);
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div class="card-icon">❓</div><div class="card-inner"><img src="'+TW+item.numEmoji+'.svg" width="60" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-icon">?</div><div class="card-inner"><img src="'+TW+item.numEmoji+'.svg" width="60" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
 c.classList.add('revealed');playOk();speak(item.w);m1rev.push(i);
