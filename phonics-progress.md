@@ -1,8 +1,8 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P16 - Letter P ✅
-- 更新时间: 2026-03-03
+- 当前: P17 - Letter Q ✅
+- 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
 ---
@@ -119,6 +119,13 @@
 - 发音: /p/
 - 单词: pig, pen, pizza, pot
 - 故事: 佩琪一家（猪）
+- 状态: ✅ 完成
+
+### P17 - Letter Q · Peppa the Queen
+- 字母: Q q
+- 发音: /kw/
+- 单词: queen, quilt, question, quick
+- 故事: 佩琪扮女王
 - 状态: ✅ 完成
 
 ---
