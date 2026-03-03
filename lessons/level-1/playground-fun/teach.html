@@ -21,9 +21,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .pr img{width:75px;height:auto}
 .bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
-.bbl-only{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22;margin:10px 0}
 .obj-wrap{margin:15px 0}
-.obj-wrap img{width:200px;height:auto}
+.obj-wrap img{width:180px;height:auto}
 .hello-peppa{width:160px!important;margin:15px 0}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
 .fab.on{background:#2c3e50}
@@ -38,16 +37,70 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sound-btn:active{transform:scale(.92)}
 .sound-btn img{width:60px;height:60px}
 .playground-wrap{display:flex;flex-wrap:wrap;gap:25px;justify-content:center;margin:25px 0;max-width:700px}
-.playground-item{width:140px;height:140px;border-radius:22px;background:#fff;border:4px solid #F9ADC7;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);transition:all .3s;position:relative}
+.playground-item{width:140px;height:160px;border-radius:22px;background:#fff;border:4px solid #F9ADC7;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);transition:all .3s;position:relative;overflow:hidden}
 .playground-item:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,.2)}
-.playground-item .emoji-main{width:80px;height:80px;transition:all .5s}
+.playground-item .char-img{width:70px;height:auto;transition:all .5s}
+.playground-item .emoji-img{width:50px;height:50px;transition:all .5s}
 .playground-item .label{font-size:20px;font-weight:800;color:#e67e22}
-.playground-item.animate .emoji-main{transform:scale(1.5) translateY(-20px);animation:emoji-bounce .8s ease-out}
+.playground-item.animate-run .char-img{animation:slide-run .8s ease-out}
+.playground-item.animate-run .emoji-img{animation:emoji-bounce .8s ease-out}
+.playground-item.animate-jump .char-img{animation:bounce-jump .8s ease-out}
+.playground-item.animate-jump .emoji-img{animation:emoji-bounce .8s ease-out}
+.playground-item.animate-walk .char-img{animation:walk-move .8s ease-out}
+.playground-item.animate-walk .emoji-img{animation:emoji-bounce .8s ease-out}
+.playground-item.animate-sit .char-img{animation:sit-down .8s ease-out}
+.playground-item.animate-sit .emoji-img{animation:emoji-bounce .8s ease-out}
+.playground-item.animate-stand .char-img{animation:stand-up .8s ease-out}
+.playground-item.animate-stand .emoji-img{animation:emoji-bounce .8s ease-out}
+@keyframes slide-run{
+0%{transform:translateX(0)}
+50%{transform:translateX(20px) rotate(5deg)}
+100%{transform:translateX(0)}
+}
+@keyframes bounce-jump{
+0%{transform:translateY(0)}
+40%{transform:translateY(-30px)}
+60%{transform:translateY(-30px)}
+100%{transform:translateY(0)}
+}
+@keyframes walk-move{
+0%{transform:translateX(0)}
+25%{transform:translateX(-10px)}
+50%{transform:translateX(10px)}
+75%{transform:translateX(-10px)}
+100%{transform:translateX(0)}
+}
+@keyframes sit-down{
+0%{transform:translateY(0) scale(1)}
+50%{transform:translateY(15px) scale(.85)}
+100%{transform:translateY(0) scale(1)}
+}
+@keyframes stand-up{
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
+}
 @keyframes emoji-bounce{
-0%{transform:scale(1) translateY(0)}
-30%{transform:scale(1.6) translateY(-25px) rotate(-10deg)}
-60%{transform:scale(1.4) translateY(-15px) rotate(10deg)}
-100%{transform:scale(1.5) translateY(-20px) rotate(0)}
+0%{transform:scale(1)}
+30%{transform:scale(1.4) rotate(-10deg)}
+60%{transform:scale(1.3) rotate(10deg)}
+100%{transform:scale(1) rotate(0)}
+}
+.char-shake{animation:char-shake 1s ease-in-out infinite}
+@keyframes char-shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-3px) rotate(-2deg)}
+75%{transform:translateX(3px) rotate(2deg)}
+}
+.char-bounce{animation:char-bounce 1s ease-in-out infinite}
+@keyframes char-bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
+.char-walk{animation:char-walk 1.5s ease-in-out infinite}
+@keyframes char-walk{
+0%,100%{transform:translateX(0)}
+50%{transform:translateX(15px)}
 }
 .all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px auto}
 .all-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:15px;background:#fff;border-radius:16px;box-shadow:0 3px 12px rgba(0,0,0,.1)}
@@ -59,13 +112,13 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .word{font-size:60px;letter-spacing:2px}
 .sent{font-size:26px}
 .bbl{font-size:20px;padding:8px 14px}
-.bbl-only{font-size:20px;padding:8px 14px}
-.obj-wrap img{width:160px}
+.obj-wrap img{width:140px}
 .hello-peppa{width:120px!important}
 .sound-btn{width:90px;height:90px;font-size:16px}
 .sound-btn img{width:50px;height:50px}
-.playground-item{width:110px;height:110px}
-.playground-item .emoji-main{width:65px;height:65px}
+.playground-item{width:110px;height:130px}
+.playground-item .char-img{width:55px}
+.playground-item .emoji-img{width:40px;height:40px}
 .playground-item .label{font-size:18px}
 .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
 .all-item img{width:70px;height:70px}
@@ -104,7 +157,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S2: run -->
 <div class="sl bg-playground">
-<div class="bbl-only">I can run!</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" class="char-shake" alt="Peppa">
+<div class="bbl">I can run!</div>
+</div>
 <div class="obj-wrap">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="run">
 </div>
@@ -113,7 +169,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S3: jump -->
 <div class="sl bg-playground">
-<div class="bbl-only">I can jump!</div>
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" class="char-bounce" alt="George">
+<div class="bbl">I can jump!</div>
+</div>
 <div class="obj-wrap">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" alt="jump">
 </div>
@@ -122,7 +181,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S4: walk -->
 <div class="sl bg-playground">
-<div class="bbl-only">I can walk!</div>
+<div class="pr">
+<img src="../../../assets/peppa/daddy-pig-walking.png" class="char-walk" alt="Daddy">
+<div class="bbl">I can walk!</div>
+</div>
 <div class="obj-wrap">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" alt="walk">
 </div>
@@ -131,7 +193,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S5: sit -->
 <div class="sl bg-playground">
-<div class="bbl-only">I can sit!</div>
+<div class="pr">
+<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">I can sit!</div>
+</div>
 <div class="obj-wrap">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" alt="sit">
 </div>
@@ -140,7 +205,10 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <!-- S6: stand -->
 <div class="sl bg-playground">
-<div class="bbl-only">I can stand!</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I can stand!</div>
+</div>
 <div class="obj-wrap">
 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" alt="stand">
 </div>
@@ -181,27 +249,32 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="sl bg-playground">
 <div class="pr">
 <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-<div class="bbl">Click and watch the action!</div>
+<div class="bbl">Click and watch us play!</div>
 </div>
 <div class="playground-wrap">
 <div class="playground-item" onclick="playAction('run',this)">
-<img class="emoji-main" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="run">
+<img class="char-img" src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img class="emoji-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="run">
 <div class="label">run</div>
 </div>
 <div class="playground-item" onclick="playAction('jump',this)">
-<img class="emoji-main" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" alt="jump">
+<img class="char-img" src="../../../assets/peppa/george-standing.png" alt="George">
+<img class="emoji-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f938.svg" alt="jump">
 <div class="label">jump</div>
 </div>
 <div class="playground-item" onclick="playAction('walk',this)">
-<img class="emoji-main" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" alt="walk">
+<img class="char-img" src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
+<img class="emoji-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" alt="walk">
 <div class="label">walk</div>
 </div>
 <div class="playground-item" onclick="playAction('sit',this)">
-<img class="emoji-main" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" alt="sit">
+<img class="char-img" src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<img class="emoji-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" alt="sit">
 <div class="label">sit</div>
 </div>
 <div class="playground-item" onclick="playAction('stand',this)">
-<img class="emoji-main" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" alt="stand">
+<img class="char-img" src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img class="emoji-img" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" alt="stand">
 <div class="label">stand</div>
 </div>
 </div>
@@ -260,13 +333,13 @@ var c=0,t=10;
 var N={
 0:'Title page: Playground Fun theme with 5 action emojis preview',
 1:'Hello: Peppa invites to playground',
-2:'New word: run - Speech bubble says "I can run!" with large running emoji (200px)',
-3:'New word: jump - Speech bubble says "I can jump!" with large jumping emoji',
-4:'New word: walk - Speech bubble says "I can walk!" with large walking emoji',
-5:'New word: sit - Speech bubble says "I can sit!" with large sitting emoji',
-6:'New word: stand - Speech bubble says "I can stand!" with large standing emoji',
+2:'New word: run - Peppa with shake animation says "I can run!" with running emoji (180px)',
+3:'New word: jump - George with bounce animation says "I can jump!" with jumping emoji',
+4:'New word: walk - Daddy Pig with walk animation says "I can walk!" with walking emoji',
+5:'New word: sit - Mummy Pig says "I can sit!" with sitting emoji',
+6:'New word: stand - Peppa says "I can stand!" with standing emoji',
 7:'Listen & Say: 5 colorful buttons with action emojis, click to hear pronunciation',
-8:'Playground Challenge: Click action cards to see emoji animate (scale up, bounce) and hear "I can ___!"',
+8:'Playground Challenge: Click cards to see character + emoji animate together and hear "I can ___!"',
 9:'All Together: Grid showing all 5 actions for teacher to point and ask',
 10:'Bye: Celebration and preview of next lesson (feelings)'
 };
@@ -282,10 +355,10 @@ b.play().catch(function(){});
 }
 
 function playAction(action,elem){
-elem.classList.add('animate');
+elem.classList.add('animate-'+action);
 speak('I can '+action);
 setTimeout(function(){
-elem.classList.remove('animate');
+elem.classList.remove('animate-'+action);
 },1000);
 }
 
