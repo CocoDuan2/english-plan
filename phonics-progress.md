@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P22 - Letter V ✅
+- 当前: P23 - Letter W ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -161,6 +161,13 @@
 - 发音: /v/
 - 单词: van, violin, vest, vase
 - 故事: 佩琪坐车
+- 状态: ✅ 完成
+
+### P23 - Letter W · Peppa Drinks Water
+- 字母: W w
+- 发音: /w/
+- 单词: water, window, watch, web
+- 故事: 佩琪喝水
 - 状态: ✅ 完成
 
 ---
