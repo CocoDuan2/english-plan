@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P7 - Letter G ✅
+- 当前: P8 - Letter H ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -56,6 +56,13 @@
 - 发音: /g/
 - 单词: goat, girl, gift, gate
 - 故事: 佩琪收礼物
+- 状态: ✅ 完成
+
+### P8 - Letter H · Peppa's New Hat
+- 字母: H h
+- 发音: /h/
+- 单词: hat, house, horse, hand
+- 故事: 佩琪的新帽子
 - 状态: ✅ 完成
 
 ---
