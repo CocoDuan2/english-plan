@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P10 - Letter J ✅
+- 当前: P11 - Letter K ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -77,6 +77,13 @@
 - 发音: /dʒ/
 - 单词: jump, juice, jelly, jar
 - 故事: 佩琪跳泥坑
+- 状态: ✅ 完成
+
+### P11 - Letter K · Peppa Flies a Kite
+- 字母: K k
+- 发音: /k/
+- 单词: kite, king, key, kid
+- 故事: 佩琪放风筝
 - 状态: ✅ 完成
 
 ---
