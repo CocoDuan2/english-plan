@@ -215,28 +215,29 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="wheel-wrapper">
 <svg class="wheel" id="wheel" viewBox="0 0 400 400">
 <g id="wheelSectors">
-<!-- Sector 1: run (pink) - top -->
-<path d="M 200 200 L 200 50 A 150 150 0 0 1 329.9 129.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="165" y="80" width="70" height="70"/>
+<!-- Sector 1: run (pink) - 0° -->
+<path d="M 200 200 L 200 50 A 150 150 0 0 1 279.9 79.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
+<image id="img0" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="165" y="80" width="70" height="70"/>
 
-<!-- Sector 2: jump (blue) - right -->
-<path d="M 200 200 L 329.9 129.9 A 150 150 0 0 1 329.9 270.1 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="250" y="165" width="70" height="70"/>
+<!-- Sector 2: jump (blue) - 60° -->
+<path d="M 200 200 L 279.9 79.9 A 150 150 0 0 1 320.1 200 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
+<image id="img1" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="250" y="135" width="70" height="70"/>
 
-<!-- Sector 3: walk (green) - bottom right -->
-<path d="M 200 200 L 329.9 270.1 A 150 150 0 0 1 200 350 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="215" y="250" width="70" height="70"/>
+<!-- Sector 3: walk (green) - 120° -->
+<path d="M 200 200 L 320.1 200 A 150 150 0 0 1 279.9 320.1 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
+<image id="img2" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="250" y="195" width="70" height="70"/>
 
-<!-- Sector 4: sit (yellow) - bottom left -->
-<path d="M 200 200 L 200 350 A 150 150 0 0 1 70.1 270.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="115" y="250" width="70" height="70"/>
+<!-- Sector 4: sit (yellow) - 180° -->
+<path d="M 200 200 L 279.9 320.1 A 150 150 0 0 1 120.1 320.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
+<image id="img3" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="165" y="250" width="70" height="70"/>
 
-<!-- Sector 5: stand (orange) - left -->
-<path d="M 200 200 L 70.1 270.1 A 150 150 0 0 1 70.1 129.9 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="80" y="165" width="70" height="70"/>
+<!-- Sector 5: stand (orange) - 240° -->
+<path d="M 200 200 L 120.1 320.1 A 150 150 0 0 1 79.9 200 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
+<image id="img4" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="80" y="195" width="70" height="70"/>
 
-<!-- Sector 6: run again (to close the circle) -->
-<path d="M 200 200 L 70.1 129.9 A 150 150 0 0 1 200 50 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
+<!-- Sector 6: star (gold) - 300° -->
+<path d="M 200 200 L 79.9 200 A 150 150 0 0 1 120.1 79.9 Z" fill="#FFD700" stroke="#fff" stroke-width="3"/>
+<image id="img5" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u2b50.svg" x="80" y="135" width="70" height="70"/>
 </g>
 
 <!-- Center circle -->
@@ -315,7 +316,7 @@ var N={
 5:'New word: sit - Mummy Pig says "I can sit!" with sitting emoji',
 6:'New word: stand - Peppa says "I can stand!" with standing emoji',
 7:'Listen & Say: 5 colorful buttons with action emojis, click to hear pronunciation',
-8:'Action Wheel: Click "Spin!" to rotate the wheel (340px, 5 colored sectors). Spins 3s with easing, lands on random action. Shows character (120px) + "I can ___!" bubble. Click "Spin again!" for more.',
+8:'Action Wheel: Click "Spin!" to rotate the wheel (340px, 6 colored sectors: run/jump/walk/sit/stand/star). Spins 3s with easing, emojis stay upright. Lands on random action. Regular actions show "I can ___!", star shows "Wow! Lucky star!" with confetti. Click "Spin again!" for more.',
 9:'All Together: Grid showing all 5 actions for teacher to point and ask',
 10:'Bye: Celebration and preview of next lesson (feelings)'
 };
@@ -339,13 +340,14 @@ elem.classList.remove('animate-'+action);
 }
 
 // Action Wheel Game
-var wheelActions=['run','jump','walk','sit','stand'];
+var wheelActions=['run','jump','walk','sit','stand','star'];
 var wheelCharacters={
 run:'../../../assets/peppa/peppa-pig-happy-standing.png',
 jump:'../../../assets/peppa/george-standing.png',
 walk:'../../../assets/peppa/daddy-pig-walking.png',
 sit:'../../../assets/peppa/mummy-pig-standing-grass.png',
-stand:'../../../assets/peppa/peppa-pig-happy-standing.png'
+stand:'../../../assets/peppa/peppa-pig-happy-standing.png',
+star:'../../../assets/peppa/peppa-pig-happy-standing.png'
 };
 var wheelSpinning=false;
 
@@ -363,15 +365,15 @@ var result=document.getElementById('wheelResult');
 result.classList.remove('show');
 result.innerHTML='';
 
-// Pick random action (0-4)
-var actionIndex=Math.floor(Math.random()*5);
+// Pick random action (0-5)
+var actionIndex=Math.floor(Math.random()*6);
 var action=wheelActions[actionIndex];
 
 // Calculate target angle to align sector center with top pointer
-// Each sector is 72° (360°/5)
-// To stop at sector N, rotate -(N * 72°) so that sector's center aligns with top (0°)
-// Sector 0 (run): 0°, Sector 1 (jump): -72°, Sector 2 (walk): -144°, etc.
-var targetAngle=-(actionIndex*72);
+// Each sector is 60° (360°/6)
+// To stop at sector N, rotate -(N * 60°) so that sector's center aligns with top (0°)
+// Sector 0 (run): 0°, Sector 1 (jump): -60°, Sector 2 (walk): -120°, etc.
+var targetAngle=-(actionIndex*60);
 
 // Add 5-8 full rotations for visual effect
 var fullRotations=5+Math.floor(Math.random()*4);
@@ -383,6 +385,14 @@ console.log('Spinning to action:',action,'(index:',actionIndex,') targetAngle:',
 var wheel=document.getElementById('wheel');
 wheel.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
 wheel.style.transform='rotate('+totalRotation+'deg)';
+
+// Keep images upright by counter-rotating
+for(var i=0;i<6;i++){
+var img=document.getElementById('img'+i);
+img.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
+img.style.transformOrigin='35px 35px'; // center of 70x70 image
+img.style.transform='rotate('+(-(totalRotation))+'deg)';
+}
 
 setTimeout(function(){
 // Show result
@@ -398,9 +408,49 @@ wheelSpinning=false;
 function showWheelResult(action){
 var result=document.getElementById('wheelResult');
 var charImg=wheelCharacters[action];
+
+if(action==='star'){
+// Special star effect
+showConfetti();
+result.innerHTML='<img src="'+charImg+'" alt="Peppa"><div class="bbl">Wow! Lucky star!</div>';
+result.classList.add('show');
+speak('Wow! Lucky star!');
+}else{
 result.innerHTML='<img src="'+charImg+'" alt="character"><div class="bbl">I can '+action+'!</div>';
 result.classList.add('show');
 speak('I can '+action);
+}
+}
+
+function showConfetti(){
+var colors=['#FF6B9D','#FFD93D','#A8E6CF','#A8DADC','#E9C46A','#FFD700'];
+for(var i=0;i<20;i++){
+var confetti=document.createElement('div');
+confetti.style.position='fixed';
+confetti.style.width='10px';
+confetti.style.height='10px';
+confetti.style.borderRadius='50%';
+confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+confetti.style.left=Math.random()*100+'%';
+confetti.style.top='0';
+confetti.style.zIndex='1000';
+confetti.style.pointerEvents='none';
+document.body.appendChild(confetti);
+
+var fallDuration=2+Math.random()*2;
+var fallDistance=window.innerHeight+50;
+confetti.animate([
+{transform:'translateY(0) rotate(0deg)',opacity:1},
+{transform:'translateY('+fallDistance+'px) rotate(720deg)',opacity:0}
+],{
+duration:fallDuration*1000,
+easing:'cubic-bezier(.25,.46,.45,.94)'
+});
+
+setTimeout(function(){
+confetti.remove();
+},fallDuration*1000);
+}
 }
 
 function goTo(n){
