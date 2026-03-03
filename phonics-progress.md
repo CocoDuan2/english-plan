@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P18 - Letter R ✅
+- 当前: P19 - Letter S ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -133,6 +133,13 @@
 - 发音: /r/
 - 单词: rabbit, rain, red, ring
 - 故事: 佩琪遇见兔子
+- 状态: ✅ 完成
+
+### P19 - Letter S · Peppa Sees Stars
+- 字母: S s
+- 发音: /s/
+- 单词: sun, snake, star, sock
+- 故事: 佩琪看星星
 - 状态: ✅ 完成
 
 ---
