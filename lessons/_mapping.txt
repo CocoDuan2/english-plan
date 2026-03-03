@@ -29,8 +29,8 @@ day23-garden -> level-3/in-the-garden
 day24-music -> level-3/music-time
 day25-beach -> level-3/beach-day
 day26-bedtime -> level-3/bedtime-story
-day27-shapes -> level-3/shapes-around-us
-day28-birthday-party -> level-3/birthday-party
+day27-shapes -> level-3/birthday-party
+day28-birthday-party -> level-3/doctor-visit
 day29-shopping-trip -> level-3/shopping-trip
 day30-seasons -> level-3/seasons-change
 
