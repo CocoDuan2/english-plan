@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P15 - Letter O ✅
+- 当前: P16 - Letter P ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -112,6 +112,13 @@
 - 发音: /ɒ/
 - 单词: orange, octopus, ox, olive
 - 故事: 佩琪吃橙子
+- 状态: ✅ 完成
+
+### P16 - Letter P · Peppa Pig Family
+- 字母: P p
+- 发音: /p/
+- 单词: pig, pen, pizza, pot
+- 故事: 佩琪一家（猪）
 - 状态: ✅ 完成
 
 ---
