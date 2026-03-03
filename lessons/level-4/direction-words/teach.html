@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 39 - Direction Words</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-direction{background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0;justify-content:center}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.arrow-btn{width:120px;height:120px;border-radius:20px;border:none;cursor:pointer;font-size:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s;background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+.arrow-btn:active{transform:scale(.9)}
+.arrow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:400px;margin:20px 0}
+.arrow-grid .arrow-btn:nth-child(1){grid-column:2}
+.arrow-grid .arrow-btn:nth-child(2){grid-column:1;grid-row:2}
+.arrow-grid .arrow-btn:nth-child(3){grid-column:3;grid-row:2}
+.arrow-grid .arrow-btn:nth-child(4){grid-column:2;grid-row:3}
+.arrow-grid .arrow-btn:nth-child(5){grid-column:2;grid-row:4}
+.road-wrap{position:relative;width:300px;height:400px;margin:20px auto;background:#7f8c8d;border-radius:20px;overflow:hidden}
+.road-line{position:absolute;width:8px;height:100%;left:50%;transform:translateX(-50%);background:#fff;opacity:.5}
+.road-dash{position:absolute;width:8px;height:40px;left:50%;transform:translateX(-50%);background:#f1c40f}
+.peppa-car{position:absolute;width:80px;height:80px;transition:all .5s ease;left:50%;transform:translateX(-50%)}
+.direction-btn{padding:14px 28px;border:none;border-radius:12px;font-size:20px;font-weight:700;cursor:pointer;background:#3498db;color:#fff;margin:8px;box-shadow:0 4px 12px rgba(52,152,219,.3);transition:transform .1s}
+.direction-btn:active{transform:scale(.95)}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px}
+.all-item .lbl{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}
+.bbl{font-size:20px;padding:8px 14px}
+.arrow-btn{width:90px;height:90px;font-size:48px}
+.arrow-grid{max-width:300px;gap:15px}
+.road-wrap{width:240px;height:320px}
+.peppa-car{width:60px;height:60px}
+.direction-btn{padding:12px 24px;font-size:18px}
+.all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.all-item img{width:70px}
+.all-item .lbl{font-size:20px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- S0: Title -->
+<div class="sl bg-direction on">
+<div class="pr big">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+</div>
+<div class="ttl">Direction Words</div>
+<div class="sub">Let's go!</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-pink">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:20px">
+<div class="ttl">Hello! Let's learn directions!</div>
+</div>
+
+<!-- S2: up -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Go up!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b06.svg" width="160" alt="up">
+</div>
+<div class="word">up</div>
+</div>
+
+<!-- S3: down -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Go down!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b07.svg" width="160" alt="down">
+</div>
+<div class="word">down</div>
+</div>
+
+<!-- S4: left -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">Go left!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b05.svg" width="160" alt="left">
+</div>
+<div class="word">left</div>
+</div>
+
+<!-- S5: right -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">Go right!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/27a1.svg" width="160" alt="right">
+</div>
+<div class="word">right</div>
+</div>
+
+<!-- S6: stop -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Stop!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6d1.svg" width="160" alt="stop">
+</div>
+<div class="word">stop</div>
+</div>
+
+<!-- S7: Listen & Say (Arrow Pad) -->
+<div class="sl bg-direction">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Tap the arrows!</div>
+</div>
+<div class="arrow-grid">
+<button class="arrow-btn" onclick="speak('up')">⬆️</button>
+<button class="arrow-btn" onclick="speak('left')">⬅️</button>
+<button class="arrow-btn" onclick="speak('right')">➡️</button>
+<button class="arrow-btn" onclick="speak('down')">⬇️</button>
+<button class="arrow-btn" onclick="speak('stop')">🛑</button>
+</div>
+</div>
+
+<!-- S8: Direction Game (Drive Peppa) -->
+<div class="sl bg-direction">
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Help Peppa drive!</div>
+</div>
+<div class="road-wrap">
+<div class="road-line"></div>
+<div class="road-dash" style="top:10%"></div>
+<div class="road-dash" style="top:30%"></div>
+<div class="road-dash" style="top:50%"></div>
+<div class="road-dash" style="top:70%"></div>
+<div class="road-dash" style="top:90%"></div>
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" class="peppa-car" id="car" style="top:50%">
+</div>
+<div>
+<button class="direction-btn" onclick="moveCar('up')">⬆️ Up</button>
+<button class="direction-btn" onclick="moveCar('down')">⬇️ Down</button>
+<button class="direction-btn" onclick="moveCar('left')">⬅️ Left</button>
+<button class="direction-btn" onclick="moveCar('right')">➡️ Right</button>
+<button class="direction-btn" onclick="moveCar('stop')">🛑 Stop</button>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-pink">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+</div>
+<div class="ttl">All Together!</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b06.svg" alt="up">
+<div class="lbl">up</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b07.svg" alt="down">
+<div class="lbl">down</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b05.svg" alt="left">
+<div class="lbl">left</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/27a1.svg" alt="right">
+<div class="lbl">right</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6d1.svg" alt="stop">
+<div class="lbl">stop</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George" style="width:110px;margin-bottom:20px">
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow: More fun words!</div>
+</div>
+
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Direction Words - Let\'s go!',
+1:'Hello page: Peppa invites kids to learn directions',
+2:'New word: up - Go up! (⬆️ arrow)',
+3:'New word: down - Go down! (⬇️ arrow)',
+4:'New word: left - Go left! (⬅️ arrow)',
+5:'New word: right - Go right! (➡️ arrow)',
+6:'New word: stop - Stop! (🛑 stop sign)',
+7:'Listen & Say: Tap arrow buttons to hear directions',
+8:'Direction Game: Help Peppa drive by pressing direction buttons',
+9:'All Together: Review all 5 direction words with arrows',
+10:'Bye: Great job! Tomorrow more fun words!'
+};
+
+var carPos={top:50,left:50};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function moveCar(dir){
+var car=document.getElementById('car');
+speak(dir);
+if(dir==='up'){
+carPos.top=Math.max(5,carPos.top-15);
+}else if(dir==='down'){
+carPos.top=Math.min(85,carPos.top+15);
+}else if(dir==='left'){
+carPos.left=Math.max(10,carPos.left-15);
+}else if(dir==='right'){
+carPos.left=Math.min(90,carPos.left+15);
+}else if(dir==='stop'){
+// do nothing, just speak
+}
+car.style.top=carPos.top+'%';
+car.style.left=carPos.left+'%';
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>

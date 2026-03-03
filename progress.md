@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 38 - Time Words ✅
-- 更新时间: 2026-03-03 10:59
+- 当前: Day 39 - Direction Words ✅
+- 更新时间: 2026-03-03 11:16
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -264,9 +264,16 @@
 - Review 游戏: Learn (reveal) → Time Game (听词点时间) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 39 - Direction Words
+## Day 39 - Direction Words
 - 新词: up, down, left, right, stop
 - 句式: Go ___!
-- 互动: Listen & Say → Direction Game → All Together
+- Teach 互动: Listen & Say (Arrow Pad) → Direction Game (Drive Peppa) → All Together
+- Review 游戏: Learn (reveal) → Direction Maze (听指令走迷宫) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 40 - Weather Actions
+- 新词: sunny, rainy, windy, snowy, cloudy
+- 句式: It's ___!
+- 互动: Listen & Say → Weather Game → All Together
 
