@@ -12,17 +12,25 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sl.on{display:flex}
 .bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
 .bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-yellow{background:linear-gradient(160deg,#fff9c4,#ffe082)}
 .ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
 .sub{font-size:22px;color:#7f8c8d}
 .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;max-width:400px;margin:20px auto}
 .word-btn{width:160px;height:160px;border:none;border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:transform .1s}
 .word-btn:active{transform:scale(.95)}
+.word-btn.correct{background:#4caf50;color:#fff}
+.word-btn.wrong{background:#f44336;color:#fff;animation:shake .3s}
 .word-btn .emoji{font-size:70px}
 .word-btn .label{font-size:18px;font-weight:700;color:#555}
 .nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+25%{transform:translateX(-10px)}
+75%{transform:translateX(10px)}
+}
 @media(max-width:480px){
 .ttl{font-size:30px}
 .sub{font-size:16px}
@@ -70,25 +78,22 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 
 <!-- S2: Game -->
-<div class="sl bg-sky">
-<div class="ttl" style="font-size:32px">Match the words!</div>
-<div class="sub">Tap the emoji that matches the word</div>
-<div id="game-area" style="margin-top:20px">
-<div style="font-size:48px;font-weight:800;color:#e67e22;margin-bottom:20px" id="target-word">cook</div>
-<div class="word-grid">
-<button class="word-btn" onclick="checkAnswer('cook')">
+<div class="sl bg-yellow">
+<div class="ttl" style="font-size:32px">Find the word!</div>
+<div style="font-size:48px;font-weight:800;color:#e67e22;margin:20px 0" id="target-word">cook</div>
+<div class="word-grid" id="game-grid">
+<button class="word-btn" data-word="cook" onclick="checkAnswer(this)">
 <div class="emoji">👩‍🍳</div>
 </button>
-<button class="word-btn" onclick="checkAnswer('mix')">
+<button class="word-btn" data-word="mix" onclick="checkAnswer(this)">
 <div class="emoji">🥣</div>
 </button>
-<button class="word-btn" onclick="checkAnswer('cookie')">
+<button class="word-btn" data-word="cookie" onclick="checkAnswer(this)">
 <div class="emoji">🍪</div>
 </button>
-<button class="word-btn" onclick="checkAnswer('yummy')">
+<button class="word-btn" data-word="yummy" onclick="checkAnswer(this)">
 <div class="emoji">😋</div>
 </button>
-</div>
 </div>
 </div>
 
@@ -122,7 +127,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var c=0,t=5;
 var words=['cook','mix','cookie','taste','yummy'];
-var currentWord='cook';
+var currentWordIndex=0;
+var gameActive=false;
 
 function speak(txt){
 var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
@@ -134,18 +140,28 @@ b.play().catch(function(){});
 });
 }
 
-function checkAnswer(word){
-if(word===currentWord){
+function checkAnswer(btn){
+if(!gameActive)return;
+var word=btn.getAttribute('data-word');
+var target=words[currentWordIndex];
+if(word===target){
+btn.classList.add('correct');
 speak(word);
 setTimeout(function(){
-var idx=words.indexOf(currentWord);
-if(idx<words.length-1){
-currentWord=words[idx+1];
-document.getElementById('target-word').textContent=currentWord;
+btn.classList.remove('correct');
+currentWordIndex++;
+if(currentWordIndex<words.length){
+document.getElementById('target-word').textContent=words[currentWordIndex];
 }else{
-goTo(c+1);
+gameActive=false;
+setTimeout(function(){goTo(c+1)},500);
 }
 },800);
+}else{
+btn.classList.add('wrong');
+setTimeout(function(){
+btn.classList.remove('wrong');
+},300);
 }
 }
 
@@ -154,6 +170,11 @@ if(n<0||n>=t)return;
 document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
 document.querySelectorAll('.sl')[n].classList.add('on');
 c=n;
+if(c===2){
+gameActive=true;
+currentWordIndex=0;
+document.getElementById('target-word').textContent=words[0];
+}
 document.getElementById('pg').textContent=(c+1)+'/'+t;
 document.getElementById('pb').disabled=c===0;
 var b=document.getElementById('xb');
