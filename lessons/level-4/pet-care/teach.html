@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 33 - Pet Care</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pet{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
+.bg-play{background:linear-gradient(180deg,#fff9c4,#fff59d)}
+.bg-word{background:linear-gradient(180deg,#fce4ec,#f8bbd0)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Listen & Say */
+.sound-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px;margin:16px 0}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s;background:linear-gradient(135deg,#81c784,#66bb6a)}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn .slabel{font-size:16px;font-weight:700;color:#fff;margin-top:4px}
+/* S8: Pet Care Game */
+.care-scene{position:relative;width:360px;height:300px;background:linear-gradient(180deg,#e3f2fd,#bbdefb);border-radius:20px;overflow:hidden;margin:16px 0;padding:20px}
+.pet-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px}
+.care-btn{position:absolute;width:70px;height:70px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+.care-btn:active{transform:scale(.9)}
+.care-btn.done{background:#81c784;border:3px solid #4caf50}
+.care-label{font-size:12px;font-weight:700;color:#2c3e50;margin-top:2px}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#66bb6a;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(102,187,106,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#66bb6a;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.sound-btn{width:80px;height:80px}.sound-btn .slabel{font-size:14px}
+.care-scene{width:300px;height:250px}.care-btn{width:60px;height:60px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pet on">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Pet Care</div>
+<div class="sub">Let's take care of pets!</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="50" alt="dog">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="50" alt="food">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="50" alt="walk">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="50" alt="play">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2764.svg" width="50" alt="love">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-play">
+<div class="pr big"><img src="../../assets/peppa/george-standing.png" alt="George"></div>
+<div class="ttl" style="font-size:48px">Come meet my pet!</div>
+</div>
+
+<!-- S2: pet -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I love my pet!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="160" alt="dog">
+</div>
+<div class="word" style="color:#795548">pet</div>
+</div>
+
+<!-- S3: feed -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">I feed my pet!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="160" alt="food bowl">
+</div>
+<div class="word" style="color:#ff6f00">feed</div>
+</div>
+
+<!-- S4: walk -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">I walk my pet!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="160" alt="walking">
+</div>
+<div class="word" style="color:#1976d2">walk</div>
+</div>
+
+<!-- S5: play -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">I play my pet!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="160" alt="ball">
+</div>
+<div class="word" style="color:#7cb342">play</div>
+</div>
+
+<!-- S6: love -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">I love my pet!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2764.svg" width="160" alt="heart">
+</div>
+<div class="word" style="color:#e91e63">love</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-play">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Tap to hear!</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" onclick="speak('pet')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="50" alt="dog">
+<div class="slabel">pet</div>
+</button>
+<button class="sound-btn" onclick="speak('feed')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="50" alt="food">
+<div class="slabel">feed</div>
+</button>
+<button class="sound-btn" onclick="speak('walk')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="50" alt="walk">
+<div class="slabel">walk</div>
+</button>
+<button class="sound-btn" onclick="speak('play')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="50" alt="play">
+<div class="slabel">play</div>
+</button>
+<button class="sound-btn" onclick="speak('love')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2764.svg" width="50" alt="love">
+<div class="slabel">love</div>
+</button>
+</div>
+</div>
+
+<!-- S8: Pet Care Game -->
+<div class="sl bg-play">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Help me care for my pet!</div>
+</div>
+<div class="care-scene">
+<div class="pet-center">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="120" alt="dog">
+</div>
+<button class="care-btn" style="top:20px;left:50%;transform:translateX(-50%)" onclick="careClick(this,'feed')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="35" alt="feed">
+<div class="care-label">feed</div>
+</button>
+<button class="care-btn" style="top:50%;left:20px;transform:translateY(-50%)" onclick="careClick(this,'walk')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="35" alt="walk">
+<div class="care-label">walk</div>
+</button>
+<button class="care-btn" style="top:50%;right:20px;transform:translateY(-50%)" onclick="careClick(this,'play')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="35" alt="play">
+<div class="care-label">play</div>
+</button>
+<button class="care-btn" style="bottom:20px;left:50%;transform:translateX(-50%)" onclick="careClick(this,'love')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2764.svg" width="35" alt="love">
+<div class="care-label">love</div>
+</button>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-pet">
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="ttl">All Together!</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" width="80" alt="dog">
+<div class="all-label">pet</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" width="80" alt="food">
+<div class="all-label">feed</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="80" alt="walk">
+<div class="all-label">walk</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="80" alt="play">
+<div class="all-label">play</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2764.svg" width="80" alt="love">
+<div class="all-label">love</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-play">
+<div class="pr big"><img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George"></div>
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow: Let's go shopping!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Pet Care theme introduction',
+1:'Hello: Come meet my pet!',
+2:'New word: pet - I love my pet!',
+3:'New word: feed - I feed my pet!',
+4:'New word: walk - I walk my pet!',
+5:'New word: play - I play my pet!',
+6:'New word: love - I love my pet!',
+7:'Listen & Say: Tap each button to hear the word',
+8:'Pet Care Game: Click each care action around the pet',
+9:'All Together: Review all 5 words with teacher'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function careClick(btn,word){
+if(btn.classList.contains('done'))return;
+btn.classList.add('done');
+speak(word);
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}
+else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+# Level 1 (Day 1-10)
+day1-colors -> level-1/colorful-day
+day2-zoo -> level-1/visit-zoo
+day3-body -> level-1/morning-routine
+day4-food -> level-1/peppas-picnic
+day5-family -> level-1/family-photo
+day6-clothes -> level-1/getting-dressed
+day7-toys -> level-1/toy-box-fun
+day8-sizes -> level-1/big-and-small
+day9-counting -> level-1/counting-game
+day10-playground -> level-1/playground-fun
+
+# Level 2 (Day 11-20)
+day11-feelings -> level-2/feelings-today
+day12-weather -> level-2/weather-watch
+day13-places -> level-2/where-we-go
+day14-rainbow -> level-2/rainbow-colors
+day15-garden -> level-2/garden-walk
+day16-kitchen -> level-2/kitchen-helper
+day17-farm-visit -> level-2/farm-visit
+day18-actions -> level-2/daily-actions
+day19-my-room -> level-2/my-room
+day20-snack-time -> level-2/snack-time
+
+# Level 3 (Day 21-30)
+day21-going-places -> level-3/going-places
+day22-opposites-game -> level-3/opposites-game
+day23-garden -> level-3/shapes-around-us
+day24-music -> level-3/music-time
+day25-beach -> level-3/beach-day
+day26-bedtime -> level-3/bedtime-story
+day27-shapes -> level-3/birthday-party
+day28-birthday-party -> level-3/doctor-visit
+day29-shopping-trip -> level-3/shopping-trip
+day30-doctor-visit -> level-3/seasons-change
+
+# Level 4 (Day 31-40)
+day31-helping-at-home -> level-4/helping-at-home
+day32-school-day -> level-4/school-day
+day33-pet -> level-4/pet-care
+day34-shopping -> level-4/cooking-together
+day35-cooking -> level-4/sports-day

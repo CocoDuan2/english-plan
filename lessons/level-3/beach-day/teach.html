@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 25 - Beach Day</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-beach{background:linear-gradient(180deg,#87CEEB,#F4E4C1)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.obj-wrap img{width:160px;height:auto}
+.beach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px auto}
+.beach-item{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;padding:15px;border-radius:12px;transition:transform .2s}
+.beach-item:hover{transform:scale(1.05)}
+.beach-item img{width:100px;height:auto}
+.beach-label{font-size:24px;font-weight:700;color:#2c3e50}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px auto}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px;height:auto}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}
+.bbl{font-size:20px;padding:8px 14px}
+.pr img{width:65px}
+.obj-wrap img{width:120px}
+.beach-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.beach-item img{width:80px}
+.beach-label{font-size:20px}
+.all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.all-item img{width:70px}
+.all-label{font-size:20px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+.obj-wrap img{width:180px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-beach on">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin-bottom:10px">
+<div class="ttl">Beach Day</div>
+<div class="sub">Let's go to the beach!</div>
+<div style="display:flex;gap:20px;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3d6.svg" width="60" alt="beach">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41a.svg" width="60" alt="shell">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f30a.svg" width="60" alt="wave">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f980.svg" width="60" alt="crab">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26f5.svg" width="60" alt="boat">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-beach">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin-bottom:10px">
+<div class="ttl" style="font-size:52px">Hello! Let's go to the beach!</div>
+</div>
+
+<!-- S2: sand -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">I see sand!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3d6.svg" alt="sand">
+</div>
+<div class="word">sand</div>
+</div>
+
+<!-- S3: shell -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png">
+<div class="bbl">I see shell!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41a.svg" alt="shell">
+</div>
+<div class="word">shell</div>
+</div>
+
+<!-- S4: wave -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png">
+<div class="bbl">I see wave!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f30a.svg" alt="wave">
+</div>
+<div class="word">wave</div>
+</div>
+
+<!-- S5: crab -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png">
+<div class="bbl">I see crab!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f980.svg" alt="crab">
+</div>
+<div class="word">crab</div>
+</div>
+
+<!-- S6: boat -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png">
+<div class="bbl">I see boat!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26f5.svg" alt="boat">
+</div>
+<div class="word">boat</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">Listen and say!</div>
+</div>
+<div class="beach-grid">
+<div class="beach-item" onclick="speak('sand')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3d6.svg" alt="sand">
+<div class="beach-label">sand</div>
+</div>
+<div class="beach-item" onclick="speak('shell')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41a.svg" alt="shell">
+<div class="beach-label">shell</div>
+</div>
+<div class="beach-item" onclick="speak('wave')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f30a.svg" alt="wave">
+<div class="beach-label">wave</div>
+</div>
+<div class="beach-item" onclick="speak('crab')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f980.svg" alt="crab">
+<div class="beach-label">crab</div>
+</div>
+<div class="beach-item" onclick="speak('boat')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26f5.svg" alt="boat">
+<div class="beach-label">boat</div>
+</div>
+</div>
+</div>
+
+<!-- S8: Beach Explorer -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png">
+<div class="bbl">Find things at the beach!</div>
+</div>
+<div class="beach-grid">
+<div class="beach-item" onclick="speak('sand');this.style.transform='scale(1.1)'">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3d6.svg" alt="sand">
+<div class="beach-label">🏖️</div>
+</div>
+<div class="beach-item" onclick="speak('shell');this.style.transform='scale(1.1)'">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41a.svg" alt="shell">
+<div class="beach-label">🐚</div>
+</div>
+<div class="beach-item" onclick="speak('wave');this.style.transform='scale(1.1)'">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f30a.svg" alt="wave">
+<div class="beach-label">🌊</div>
+</div>
+<div class="beach-item" onclick="speak('crab');this.style.transform='scale(1.1)'">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f980.svg" alt="crab">
+<div class="beach-label">🦀</div>
+</div>
+<div class="beach-item" onclick="speak('boat');this.style.transform='scale(1.1)'">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26f5.svg" alt="boat">
+<div class="beach-label">⛵</div>
+</div>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-beach">
+<div class="pr">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" style="width:120px">
+<div class="bbl">All together!</div>
+</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3d6.svg" alt="sand">
+<div class="all-label">sand</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41a.svg" alt="shell">
+<div class="all-label">shell</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f30a.svg" alt="wave">
+<div class="all-label">wave</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f980.svg" alt="crab">
+<div class="all-label">crab</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26f5.svg" alt="boat">
+<div class="all-label">boat</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-beach">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" style="width:110px;margin-bottom:10px">
+<div class="ttl">Great job!</div>
+<div class="sub">See you tomorrow!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Beach Day story begins.',
+1:'Hello: Peppa invites you to the beach.',
+2:'New word: sand - I see sand!',
+3:'New word: shell - I see shell!',
+4:'New word: wave - I see wave!',
+5:'New word: crab - I see crab!',
+6:'New word: boat - I see boat!',
+7:'Listen & Say: Click each item to hear the word.',
+8:'Beach Explorer: Find things at the beach! Click to explore.',
+9:'All Together: Review all 5 words. Point and ask randomly.',
+10:'Bye: Great job! See you tomorrow!'
+};
+function speak(txt){var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(url);a.play().catch(function(){var fb='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';var b=new Audio(fb);b.play().catch(function(){})})}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}document.getElementById('B').innerHTML=N[c]||''}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 10 - Playground Fun</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-play{background:linear-gradient(160deg,#e3f2fd,#bbdefb)}
+.bg-action{background:linear-gradient(180deg,#fff9c4,#fff59d)}
+.bg-word{background:linear-gradient(180deg,#fce4ec,#f8bbd0)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Action Show */
+.action-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px;margin:16px 0}
+.action-btn{width:110px;height:110px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s;background:#fff}
+.action-btn:active{transform:scale(.9)}
+.action-btn .alabel{font-size:18px;font-weight:700;color:#2c3e50}
+/* S8: Simon Says */
+.simon-scene{width:100%;max-width:500px;margin:16px 0}
+.simon-prompt{font-size:32px;font-weight:900;color:#1976d2;background:#fff;border-radius:18px;padding:16px 24px;box-shadow:0 4px 12px rgba(0,0,0,.1);margin-bottom:20px}
+.simon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.simon-card{aspect-ratio:1;background:#fff;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .2s}
+.simon-card:active{transform:scale(.95)}
+.simon-card.correct{background:#c8e6c9;border:3px solid #4caf50}
+.simon-label{font-size:20px;font-weight:700;color:#2c3e50}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#42a5f5;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(66,165,245,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#42a5f5;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.action-btn{width:80px;height:80px}.action-btn .alabel{font-size:14px}
+.simon-prompt{font-size:24px;padding:12px 18px}.simon-label{font-size:16px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-play on">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Playground Fun</div>
+<div class="sub">Let's play at the playground!</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="50" alt="run">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d8.svg" width="50" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="50" alt="walk">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="50" alt="stand">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-action">
+<div class="pr big"><img src="../../assets/peppa/george-standing.png" alt="George"></div>
+<div class="ttl" style="font-size:48px">Come and play!</div>
+</div>
+
+<!-- S2: run -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I can run!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="160" alt="run">
+</div>
+<div class="word" style="color:#e53935">run</div>
+</div>
+
+<!-- S3: jump -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">I can jump!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d8.svg" width="160" alt="jump">
+</div>
+<div class="word" style="color:#f9a825">jump</div>
+</div>
+
+<!-- S4: walk -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">I can walk!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="160" alt="walk">
+</div>
+<div class="word" style="color:#43a047">walk</div>
+</div>
+
+<!-- S5: sit -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">I can sit!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="160" alt="sit">
+</div>
+<div class="word" style="color:#1976d2">sit</div>
+</div>
+
+<!-- S6: stand -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">I can stand!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="160" alt="stand">
+</div>
+<div class="word" style="color:#7b1fa2">stand</div>
+</div>
+
+<!-- S7: Action Show -->
+<div class="sl bg-action">
+<div class="top" style="text-align:center;margin-bottom:20px">
+<div class="ttl" style="font-size:36px">Action Show</div>
+<div class="sub">Tap to hear!</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+<div class="bbl">What can you do?</div>
+</div>
+<div class="action-grid">
+<button class="action-btn" onclick="speak('run')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="60" alt="run">
+<div class="alabel">run</div>
+</button>
+<button class="action-btn" onclick="speak('jump')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d8.svg" width="60" alt="jump">
+<div class="alabel">jump</div>
+</button>
+<button class="action-btn" onclick="speak('walk')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="60" alt="walk">
+<div class="alabel">walk</div>
+</button>
+<button class="action-btn" onclick="speak('sit')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="60" alt="sit">
+<div class="alabel">sit</div>
+</button>
+<button class="action-btn" onclick="speak('stand')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="60" alt="stand">
+<div class="alabel">stand</div>
+</button>
+</div>
+</div>
+
+<!-- S8: Simon Says -->
+<div class="sl bg-play">
+<div class="top" style="text-align:center;margin-bottom:20px">
+<div class="ttl" style="font-size:36px">Simon Says</div>
+<div class="sub">Listen and tap!</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Can you do it?</div>
+</div>
+<div class="simon-scene">
+<div class="simon-prompt" id="simonPrompt">Simon says: run!</div>
+<div class="simon-grid" id="simonGrid"></div>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-action">
+<div class="top" style="text-align:center;margin-bottom:20px">
+<div class="ttl" style="font-size:36px">Action Parade</div>
+<div class="sub">Point and say!</div>
+</div>
+<div class="pr big">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="80" alt="run">
+<div class="all-label">run</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d8.svg" width="80" alt="jump">
+<div class="all-label">jump</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b6.svg" width="80" alt="walk">
+<div class="all-label">walk</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="80" alt="sit">
+<div class="all-label">sit</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9cd.svg" width="80" alt="stand">
+<div class="all-label">stand</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-play">
+<div class="pr big"><img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George"></div>
+<div class="ttl" style="font-size:48px">Bye bye!</div>
+<div class="sub">Tomorrow: Let's talk about feelings!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Playground Fun. Preview 5 action words.',
+1:'Hello page: Peppa invites: Come and play!',
+2:'New word: run. Peppa says: I can run!',
+3:'New word: jump. George says: I can jump!',
+4:'New word: walk. Daddy says: I can walk!',
+5:'New word: sit. Mummy says: I can sit!',
+6:'New word: stand. Candy Cat says: I can stand!',
+7:'Action Show: Tap each action to hear the word. Teacher can ask: Can you run? Can you jump?',
+8:'Simon Says: Teacher says "Simon says: run!" and students tap the correct action. Play multiple rounds.',
+9:'All Together: Review all 5 actions. Teacher points randomly and asks: What can you do?',
+10:'Bye page: See you tomorrow! Preview: feelings.'
+};
+var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
+var actions=[
+{w:'run',emoji:'1f3c3',color:'#e53935'},
+{w:'jump',emoji:'1f9d8',color:'#f9a825'},
+{w:'walk',emoji:'1f6b6',color:'#43a047'},
+{w:'sit',emoji:'1fa91',color:'#1976d2'},
+{w:'stand',emoji:'1f9cd',color:'#7b1fa2'}
+];
+var simonRound=0;
+var simonTarget='';
+function speak(txt){var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';var a=new Audio(url);a.play().catch(function(){})}
+function goTo(n){if(n<0||n>=t)return;document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});document.querySelectorAll('.sl')[n].classList.add('on');c=n;document.getElementById('pg').textContent=(c+1)+'/'+t;document.getElementById('pb').disabled=c===0;var b=document.getElementById('xb');if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}document.getElementById('B').innerHTML=N[c]||'';if(c===8)initSimon();}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on');}
+function initSimon(){var g=document.getElementById('simonGrid');if(g.children.length>0)return;simonRound=0;actions.forEach(function(a){var d=document.createElement('div');d.className='simon-card';d.innerHTML='<img src="'+TW+a.emoji+'.svg" width="70" alt="'+a.w+'"><div class="simon-label">'+a.w+'</div>';d.onclick=function(){checkSimon(a.w,d);};g.appendChild(d);});nextSimonRound();}
+function nextSimonRound(){simonRound++;if(simonRound>5){document.getElementById('simonPrompt').textContent='Great job! 🎉';return;}simonTarget=actions[Math.floor(Math.random()*actions.length)].w;document.getElementById('simonPrompt').textContent='Simon says: '+simonTarget+'!';speak(simonTarget);document.querySelectorAll('.simon-card').forEach(function(c){c.classList.remove('correct');c.style.pointerEvents='auto';});}
+function checkSimon(w,el){if(w===simonTarget){el.classList.add('correct');el.style.pointerEvents='none';playOk();setTimeout(nextSimonRound,1200);}else{playNo();}}
+function playOk(){tone(523,.1);setTimeout(function(){tone(659,.1)},100);}
+function playNo(){tone(300,.3);}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d);}
+function getAC(){if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();return window.actx;}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn();});
+goTo(0);
+</script>
+</body>
+</html>

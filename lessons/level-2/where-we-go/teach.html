@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 13 - Where We Go</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-place{background:linear-gradient(160deg,#e8f5e9,#c8e6c9)}
+.bg-road{background:linear-gradient(180deg,#a5d6a7,#c8e6c9)}
+.bg-word{background:linear-gradient(180deg,#e8f5e9,#dcedc8)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#2e7d32;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#2e7d32}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Place Map */
+.map-wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:500px;margin:10px 0}
+.map-spot{width:120px;height:120px;border-radius:20px;background:#fff;border:4px solid #a5d6a7;box-shadow:0 6px 18px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:4px}
+.map-spot:active{transform:scale(.9)}
+.map-spot .micon{font-size:50px}
+.map-spot .mlabel{font-size:16px;font-weight:800;color:#2e7d32}
+.map-label{font-size:28px;font-weight:900;color:#2e7d32;margin:12px 0;min-height:40px}
+/* S8: Destination Picker */
+.pick-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:500px;margin:16px 0}
+.pick-btn{width:100px;height:110px;border-radius:18px;background:#fff;border:4px solid #ddd;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:4px}
+.pick-btn:active{transform:scale(.9)}
+.pick-btn.ok{border-color:#4caf50;background:#e8f5e9}
+.pick-btn.no{border-color:#e53935;background:#ffebee;animation:shake .4s}
+.pick-btn .picon{font-size:44px}
+.pick-btn .plabel{font-size:13px;font-weight:700;color:#555}
+.pick-msg{font-size:28px;font-weight:900;color:#2e7d32;margin:10px 0;padding:12px 24px;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-height:56px;display:flex;align-items:center;justify-content:center;gap:10px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.all-icon{width:80px;height:80px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#43a047;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(67,160,71,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#43a047;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.map-spot{width:95px;height:95px}.map-spot .micon{font-size:38px}.map-spot .mlabel{font-size:13px}
+.map-label{font-size:22px}
+.pick-btn{width:80px;height:90px}.pick-btn .picon{font-size:36px}.pick-btn .plabel{font-size:11px}
+.pick-msg{font-size:22px;padding:10px 18px}
+.all-icon{width:60px;height:60px}.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-place on">
+<div class="pr big"><img src="../../assets/peppa/peppa_pig_bicycle.png" alt="Peppa"></div>
+<div class="ttl">Where We Go</div>
+<div class="sub">Let's explore with Peppa!</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px;font-size:44px">
+<span>🏠</span><span>🏫</span><span><svg viewBox="0 0 100 100">
+  <rect x="0" y="75" width="100" height="25" fill="#81C784"/>
+  <rect x="20" y="45" width="8" height="30" rx="2" fill="#6D4C41"/>
+  <circle cx="24" cy="40" r="15" fill="#4CAF50"/>
+  <circle cx="18" cy="35" r="12" fill="#66BB6A"/>
+  <circle cx="30" cy="35" r="12" fill="#66BB6A"/>
+  <rect x="50" y="65" width="35" height="3" rx="1" fill="#8D6E63"/>
+  <rect x="52" y="68" width="3" height="10" fill="#8D6E63"/>
+  <rect x="80" y="68" width="3" height="10" fill="#8D6E63"/>
+  <rect x="50" y="55" width="35" height="3" rx="1" fill="#A1887F"/>
+  <circle cx="85" cy="15" r="8" fill="#FDD835"/>
+</svg></span><span>🛒</span><span><svg viewBox="0 0 100 100">
+  <rect x="0" y="70" width="100" height="30" fill="#A1887F"/>
+  <rect x="15" y="30" width="8" height="40" fill="#6D4C41"/>
+  <rect x="77" y="30" width="8" height="40" fill="#6D4C41"/>
+  <rect x="15" y="25" width="70" height="8" rx="2" fill="#8D6E63"/>
+  <rect x="30" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="40" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="50" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="60" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="70" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="35" y="10" width="30" height="12" rx="2" fill="#FF9800"/>
+  <text x="50" y="19" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">ZOO</text>
+  <ellipse cx="50" cy="55" rx="12" ry="10" fill="#9E9E9E" opacity="0.6"/>
+  <circle cx="50" cy="50" r="8" fill="#9E9E9E" opacity="0.6"/>
+</svg></span>
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-road">
+<div class="pr big"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:48px">Come with me! Let's go out!</div>
+</div>
+
+<!-- S2: home -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's go to home!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3e0.svg" width="160" alt="home"></div>
+<div class="word" style="color:#e65100">home</div>
+</div>
+
+<!-- S3: school -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Let's go to school!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3eb.svg" width="160" alt="school"></div>
+<div class="word" style="color:#1565c0">school</div>
+</div>
+
+<!-- S4: park -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">Let's go to park!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f333.svg" width="160" alt="park"></div>
+<div class="word" style="color:#2e7d32">park</div>
+</div>
+
+<!-- S5: shop -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">Let's go to shop!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6d2.svg" width="160" alt="shop"></div>
+<div class="word" style="color:#c62828">shop</div>
+</div>
+
+<!-- S6: zoo -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">Let's go to zoo!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f981.svg" width="160" alt="zoo"></div>
+<div class="word" style="color:#ff6f00">zoo</div>
+</div>
+
+<!-- S7: Place Map - tap places on a map -->
+<div class="sl bg-place">
+<div class="ttl">Place Map</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">Where shall we go?</div>
+</div>
+<div class="map-label" id="mapLabel"></div>
+<div class="map-wrap" id="mapWrap"></div>
+</div>
+
+<!-- S8: Destination Picker -->
+<div class="sl bg-road">
+<div class="ttl">Destination Picker</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
+<div class="bbl">Pick a place!</div>
+</div>
+<div class="pick-msg" id="pickMsg"></div>
+<div class="pick-grid" id="pickGrid"></div>
+</div>
+
+<!-- S9: Places Parade -->
+<div class="sl bg-place">
+<div class="ttl">Places Parade</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid" id="allGrid"></div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-road">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Home, school, park, shop, zoo!</div>
+<div class="sub">You know all the places!</div>
+<div style="font-size:34px;font-weight:700;color:#2e7d32;margin-top:20px">Tomorrow: Rainbow Colors!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=11;
+var WD=[
+{w:'home',face:'🏠',twemoji:'1f3e0',color:'#e65100'},
+{w:'school',face:'🏫',twemoji:'1f3eb',color:'#1565c0'},
+{w:'park',face:'<svg viewBox="0 0 100 100">
+  <rect x="0" y="75" width="100" height="25" fill="#81C784"/>
+  <rect x="20" y="45" width="8" height="30" rx="2" fill="#6D4C41"/>
+  <circle cx="24" cy="40" r="15" fill="#4CAF50"/>
+  <circle cx="18" cy="35" r="12" fill="#66BB6A"/>
+  <circle cx="30" cy="35" r="12" fill="#66BB6A"/>
+  <rect x="50" y="65" width="35" height="3" rx="1" fill="#8D6E63"/>
+  <rect x="52" y="68" width="3" height="10" fill="#8D6E63"/>
+  <rect x="80" y="68" width="3" height="10" fill="#8D6E63"/>
+  <rect x="50" y="55" width="35" height="3" rx="1" fill="#A1887F"/>
+  <circle cx="85" cy="15" r="8" fill="#FDD835"/>
+</svg>',twemoji:'1f333',color:'#2e7d32'},
+{w:'shop',face:'🛒',twemoji:'1f6d2',color:'#c62828'},
+{w:'zoo',face:'<svg viewBox="0 0 100 100">
+  <rect x="0" y="70" width="100" height="30" fill="#A1887F"/>
+  <rect x="15" y="30" width="8" height="40" fill="#6D4C41"/>
+  <rect x="77" y="30" width="8" height="40" fill="#6D4C41"/>
+  <rect x="15" y="25" width="70" height="8" rx="2" fill="#8D6E63"/>
+  <rect x="30" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="40" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="50" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="60" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="70" y="33" width="3" height="37" fill="#757575"/>
+  <rect x="35" y="10" width="30" height="12" rx="2" fill="#FF9800"/>
+  <text x="50" y="19" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">ZOO</text>
+  <ellipse cx="50" cy="55" rx="12" ry="10" fill="#9E9E9E" opacity="0.6"/>
+  <circle cx="50" cy="50" r="8" fill="#9E9E9E" opacity="0.6"/>
+</svg>',twemoji:'1f981',color:'#ff6f00'}
+];
+var N={
+0:'Title: Where We Go. Show 5 place icons. Ask: Where shall we go today?',
+1:'Hello: Peppa invites us to go out and explore!',
+2:'New word: home. "Let\'s go to home!" Our cozy house.',
+3:'New word: school. "Let\'s go to school!" Time to learn!',
+4:'New word: park. "Let\'s go to park!" Trees and grass!',
+5:'New word: shop. "Let\'s go to shop!" Buy some things!',
+6:'New word: zoo. "Let\'s go to zoo!" See the animals!',
+7:'Place Map: Tap each place to hear the word. Say it together.',
+8:'Destination Picker: Show a place name, tap the matching icon.',
+9:'Places Parade: All 5 places. Point randomly and ask.',
+10:'Bye: Review all places. Preview tomorrow: Rainbow Colors!'
+};
+function speak(txt){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web').play().catch(function(){})});
+}
+function showConfetti(){var w=document.createElement("div");w.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999";var colors=["#e65100","#1565c0","#2e7d32","#c62828","#ff6f00"];for(var i=0;i<20;i++){var p=document.createElement("div");p.style.cssText="position:absolute;width:"+(6+Math.random()*8)+"px;height:"+(6+Math.random()*8)+"px;border-radius:50%;left:"+Math.random()*100+"%;top:"+Math.random()*30+"%;background:"+colors[i%5]+";animation:cfall 1.2s ease-out "+Math.random()*.3+"s forwards;opacity:0";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+
+// S7: Place Map
+var mapInit=false;
+function initMap(){
+if(mapInit)return;mapInit=true;
+var wrap=document.getElementById('mapWrap');wrap.innerHTML='';
+WD.forEach(function(item){
+var s=document.createElement('div');s.className='map-spot';
+s.innerHTML='<div class="micon">'+item.face+'</div><div class="mlabel">'+item.w+'</div>';
+s.onclick=function(){
+speak(item.w);showConfetti();
+document.getElementById('mapLabel').textContent="Let's go to "+item.w+'!';
+document.getElementById('mapLabel').style.color=item.color;
+};
+wrap.appendChild(s);
+});
+}
+
+// S8: Destination Picker
+var pickInit=false,pickRound=0,pickOrder=[],busy=false;
+function initPick(){
+if(pickInit)return;pickInit=true;
+pickOrder=WD.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var g=document.getElementById('pickGrid');g.innerHTML='';
+WD.forEach(function(item,i){
+var b=document.createElement('div');b.className='pick-btn';
+b.innerHTML='<div class="picon">'+item.face+'</div><div class="plabel">'+item.w+'</div>';
+b.onclick=function(){checkPick(i,b)};
+g.appendChild(b);
+});
+showPickRound();
+}
+function showPickRound(){
+if(pickRound>=WD.length){
+document.getElementById('pickMsg').innerHTML='<span style="font-size:36px">🎉</span> All places found!';
+return;
+}
+var item=WD[pickOrder[pickRound]];
+document.getElementById('pickMsg').innerHTML="Let's go to <span style='color:"+item.color+"'>"+item.w+'</span>!';
+speak(item.w);
+}
+function checkPick(idx,btn){
+if(busy||pickRound>=WD.length)return;
+if(idx===pickOrder[pickRound]){
+busy=true;btn.classList.add('ok');showConfetti();speak(WD[idx].w);
+pickRound++;
+setTimeout(function(){
+document.querySelectorAll('.pick-btn').forEach(function(b){b.classList.remove('ok','no')});
+busy=false;showPickRound();
+},1200);
+}else{btn.classList.add('no');setTimeout(function(){btn.classList.remove('no')},600)}
+}
+
+// S9: All Together
+var allInit=false;
+function initAll(){
+if(allInit)return;allInit=true;
+var g=document.getElementById('allGrid');g.innerHTML='';
+WD.forEach(function(item){
+var d=document.createElement('div');d.className='all-item';
+d.innerHTML='<img class="all-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.twemoji+'.svg" alt="'+item.w+'"><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
+d.onclick=function(){speak(item.w)};
+g.appendChild(d);
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initMap();
+if(c===8)initPick();
+if(c===9)initAll();
+}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+<style>@keyframes cfall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}</style>
+</body>
+</html>

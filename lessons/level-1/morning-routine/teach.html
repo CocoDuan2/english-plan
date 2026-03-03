@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 3 - Morning Routine</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-blue{background:linear-gradient(180deg,#7EC8E3,#B3E5FC)}
+.bg-lavender{background:linear-gradient(180deg,#E8D5F5,#D1C4E9)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#7B1FA2}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.obj-wrap img{width:160px;height:auto}
+.obj-wrap svg{width:160px;height:160px}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;margin:10px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px}
+/* Mirror face */
+.mirror{position:relative;width:280px;height:340px;background:linear-gradient(180deg,#e1f5fe,#b3e5fc);border-radius:50% 50% 45% 45%;border:8px solid #90caf9;box-shadow:0 8px 30px rgba(0,0,0,.12);margin:16px 0;overflow:visible}
+.mirror-handle{width:60px;height:80px;background:linear-gradient(180deg,#90caf9,#64b5f6);border-radius:0 0 30px 30px;margin:-4px auto 0;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.face-part{position:absolute;cursor:pointer;transition:transform .2s}
+.face-part:hover{transform:scale(1.15)}
+.face-part img{width:60px;height:60px}
+/* Wash sequence */
+.wash-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px}
+.wash-btn{width:110px;height:110px;border-radius:20px;border:4px solid #e0e0e0;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:16px;font-weight:700;color:#2c3e50;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:all .2s}
+.wash-btn.done{border-color:#7B1FA2;background:linear-gradient(135deg,#E8D5F5,#D1C4E9)}
+.wash-btn img{width:50px;height:50px}
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img,.all-item svg{width:80px;height:80px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#CE93D8;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(206,147,216,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#CE93D8;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.obj-wrap img,.obj-wrap svg{width:120px;height:120px}
+.sound-btn{width:80px;height:80px;font-size:36px}
+.mirror{width:220px;height:270px}.face-part img{width:45px;height:45px}
+.wash-btn{width:90px;height:90px}.wash-btn img{width:40px;height:40px}
+.all-item img,.all-item svg{width:60px;height:60px}.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<div class="pr big"><img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy"></div>
+<div class="ttl">Morning Routine</div>
+<div class="sub">Let's wash our face!</div>
+<div style="display:flex;gap:20px;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1.svg" width="50" alt="head">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" width="50" alt="eyes">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg" width="50" alt="ear">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" width="50" alt="nose">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" width="50" alt="mouth">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-blue">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:52px">Good morning!</div>
+</div>
+
+<!-- S2: head -->
+<div class="sl bg-lavender">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">This is my head!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1.svg" alt="head">
+</div>
+<div class="word">head</div>
+</div>
+
+<!-- S3: eyes -->
+<div class="sl bg-lavender">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">This is my eyes!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" alt="eyes"></div>
+<div class="word">eyes</div>
+</div>
+
+<!-- S4: ears -->
+<div class="sl bg-lavender">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">This is my ears!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg" alt="ears"></div>
+<div class="word">ears</div>
+</div>
+
+<!-- S5: nose -->
+<div class="sl bg-lavender">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">This is my nose!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" alt="nose"></div>
+<div class="word">nose</div>
+</div>
+
+<!-- S6: mouth -->
+<div class="sl bg-lavender">
+<div class="pr">
+<img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+<div class="bbl">This is my mouth!</div>
+</div>
+<div class="obj-wrap"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" alt="mouth"></div>
+<div class="word">mouth</div>
+</div>
+
+<!-- S7: Point & Say -->
+<div class="sl bg-blue">
+<div class="ttl">Point & Say!</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl" id="pointBbl">Find the right one!</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:12px 0" id="pointGrid"></div>
+<div id="pointScore" style="font-size:22px;font-weight:700;color:#7B1FA2;margin-top:8px"></div>
+</div>
+
+<!-- S8: Wash Sequence -->
+<div class="sl bg-lavender">
+<div class="ttl">Wash Your Face!</div>
+<div class="pr">
+<img src="../../assets/peppa/george_pig_bubbles.png" alt="George">
+<div class="bbl">Tap to wash!</div>
+</div>
+<div class="wash-grid" id="washGrid"></div>
+</div>
+
+<!-- S9: Body Check -->
+<div class="sl bg-blue">
+<div class="ttl">All Together</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1.svg" width="80" alt="head">
+<div class="all-label">head</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" alt="eyes">
+<div class="all-label">eyes</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg" alt="ears">
+<div class="all-label">ears</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg" alt="nose">
+<div class="all-label">nose</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" alt="mouth">
+<div class="all-label">mouth</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<div class="pr big"><img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George"></div>
+<div class="ttl">Great job!</div>
+<div class="sub">We know our face now!</div>
+<div style="font-size:34px;font-weight:700;color:#7B1FA2;margin-top:20px">Tomorrow: Peppa's Picnic!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title: Morning Routine. Mummy Pig introduces today\'s theme — washing face and learning body parts.',
+1:'Hello: Peppa says Good morning! Build excitement for the mirror activity.',
+2:'New word: head. Peppa points to her head. "This is my head!" Have kids touch their head.',
+3:'New word: eyes. George points to his eyes. "This is my eyes!" Have kids point to their eyes.',
+4:'New word: ears. Daddy points to his ears. "This is my ears!" Have kids wiggle their ears.',
+5:'New word: nose. Candy points to her nose. "This is my nose!" Have kids touch their nose.',
+6:'New word: mouth. Emily points to her mouth. "This is my mouth!" Have kids open their mouth.',
+7:'Point & Say: Listen to the word, then tap the right body part. Interactive listening game.',
+8:'Wash Sequence: Tap each body part to "wash" it. Peppa washes her face step by step.',
+9:'Body Check: All 5 body parts. Point randomly and ask "What is this?"'
+};
+
+var washParts=[
+{w:'head',emoji:'<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1.svg" width="50" alt="head">'},
+{w:'eyes',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg'},
+{w:'ears',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg'},
+{w:'nose',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg'},
+{w:'mouth',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg'}
+];
+var washDone=0;
+
+var ptWords=[
+{w:'head',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1.svg'},
+{w:'eyes',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg'},
+{w:'ears',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f442.svg'},
+{w:'nose',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f443.svg'},
+{w:'mouth',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg'}
+];
+var ptOrder=[],ptIdx=0,ptRight=0,ptInited=false;
+function initPoint(){
+if(ptInited)return;ptInited=true;
+ptOrder=ptWords.slice().sort(function(){return Math.random()-.5});
+ptIdx=0;ptRight=0;
+var g=document.getElementById('pointGrid');g.innerHTML='';
+ptWords.forEach(function(item){
+var d=document.createElement('div');
+d.style.cssText='width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.1)';
+d.innerHTML='<img src="'+item.img+'" width="70">';
+d.onclick=function(){checkPoint(item.w)};
+g.appendChild(d);
+});
+setTimeout(function(){speak(ptOrder[0].w)},300);
+}
+function checkPoint(w){
+if(ptIdx>=ptOrder.length)return;
+if(w===ptOrder[ptIdx].w){
+ptRight++;ptIdx++;
+document.getElementById('pointBbl').textContent='Yes! '+w+'!';
+document.getElementById('pointScore').textContent=ptRight+'/'+ptOrder.length;
+speak(w);
+if(ptIdx<ptOrder.length)setTimeout(function(){document.getElementById('pointBbl').textContent='Find the right one!';speak(ptOrder[ptIdx].w)},1200);
+else setTimeout(function(){document.getElementById('pointBbl').textContent='All done! Great job!'},1200);
+}else{
+document.getElementById('pointBbl').textContent='Try again!';
+speak(ptOrder[ptIdx].w);
+}
+}
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web');
+b.play().catch(function(){});
+});
+}
+
+function getAC(){if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();return window.actx}
+function tone(f,d){var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.15;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}
+
+function initWash(){
+var g=document.getElementById('washGrid');
+if(g.children.length>0)return;
+washParts.forEach(function(p,i){
+var b=document.createElement('div');
+b.className='wash-btn';
+b.innerHTML=(p.img?'<img src="'+p.img+'" alt="'+p.w+'">':p.emoji)+'<span>'+p.w+'</span>';
+b.onclick=function(){
+if(b.classList.contains('done'))return;
+b.classList.add('done');
+speak(p.w);
+tone(523+i*100,.15);
+washDone++;
+if(washDone===washParts.length){
+setTimeout(function(){tone(784,.2)},300);
+}
+};
+g.appendChild(b);
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initPoint();if(c===8)initWash();
+}
+
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+</body>
+</html>

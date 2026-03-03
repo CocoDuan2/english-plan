@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 35 - Cooking Together</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-orange{background:linear-gradient(160deg,#ffe5d0,#ffd4a3)}
+.bg-yellow{background:linear-gradient(160deg,#fff9e6,#ffe680)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.obj-wrap img{width:160px;height:auto}
+.hello-img{width:110px;height:auto;margin:10px 0}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:20px 0}
+.kitchen-scene{display:flex;flex-wrap:wrap;gap:30px;justify-content:center;margin:20px 0}
+.kitchen-item{cursor:pointer;transition:transform .2s}
+.kitchen-item:hover{transform:scale(1.1)}
+.kitchen-item img{width:120px;height:auto}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px auto}
+.all-item{text-align:center}
+.all-item img{width:80px;height:auto;margin-bottom:8px}
+.all-item div{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}
+.bbl{font-size:20px;padding:8px 14px}
+.obj-wrap img{width:120px}
+.hello-img{width:90px}
+.sound-btn{width:80px;height:80px;font-size:36px}
+.all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.all-item img{width:70px}
+.all-item div{font-size:20px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- S0: Title -->
+<div class="sl bg-pink on">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" class="hello-img" alt="Mummy Pig">
+<div class="ttl">Cooking Together</div>
+<div class="sub">Let's make yummy cookies!</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" class="hello-img" alt="Peppa">
+<div class="ttl">Let's cook with Mummy!</div>
+</div>
+
+<!-- S2: cook -->
+<div class="sl bg-orange">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">Let's cook!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
+</div>
+<div class="word">cook</div>
+</div>
+
+<!-- S3: mix -->
+<div class="sl bg-yellow">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's mix!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
+</div>
+<div class="word">mix</div>
+</div>
+
+<!-- S4: pour -->
+<div class="sl bg-orange">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Let's pour!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
+</div>
+<div class="word">pour</div>
+</div>
+
+<!-- S5: taste -->
+<div class="sl bg-yellow">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">Let's taste!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
+</div>
+<div class="word">taste</div>
+</div>
+
+<!-- S6: yummy -->
+<div class="sl bg-orange">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's yummy!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
+</div>
+<div class="word">yummy</div>
+</div>
+
+<!-- S7: Listen & Say -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">Listen and say!</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)" onclick="speak('cook')">🍳</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('mix')">🥣</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffd89b,#19547b)" onclick="speak('pour')">🥛</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#f093fb,#f5576c)" onclick="speak('taste')">😋</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#4facfe,#00f2fe)" onclick="speak('yummy')">🍪</button>
+</div>
+</div>
+
+<!-- S8: Kitchen Scene -->
+<div class="sl bg-yellow">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">Help me in the kitchen!</div>
+</div>
+<div class="kitchen-scene">
+<div class="kitchen-item" onclick="speak('cook')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
+</div>
+<div class="kitchen-item" onclick="speak('mix')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
+</div>
+<div class="kitchen-item" onclick="speak('pour')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
+</div>
+<div class="kitchen-item" onclick="speak('taste')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
+</div>
+<div class="kitchen-item" onclick="speak('yummy')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
+</div>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-orange">
+<div class="pr">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+<div class="bbl">We love cooking!</div>
+</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
+<div>cook</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
+<div>mix</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
+<div>pour</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
+<div>taste</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
+<div>yummy</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-pink">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" class="hello-img" alt="Peppa">
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow: Let's play sports!</div>
+</div>
+
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Cooking Together story begins.',
+1:'Hello: Peppa invites you to cook with Mummy.',
+2:'New word: cook - Let\'s cook!',
+3:'New word: mix - Let\'s mix!',
+4:'New word: pour - Let\'s pour!',
+5:'New word: taste - Let\'s taste!',
+6:'New word: yummy - Let\'s yummy!',
+7:'Listen & Say: Click each button to hear the word.',
+8:'Kitchen Scene: Click items to hear cooking words.',
+9:'All Together: Review all 5 words.',
+10:'Bye: Great job! Tomorrow we play sports!'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>

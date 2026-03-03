@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 11 - Feelings Today</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-feel{background:linear-gradient(160deg,#fff3e0,#ffe0b2)}
+.bg-sky{background:linear-gradient(180deg,#ffcc80,#ffe082)}
+.bg-word{background:linear-gradient(180deg,#fff8e1,#ffecb3)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Emotion Mirror */
+.mirror-frame{width:280px;height:280px;border-radius:50%;border:8px solid #ffb74d;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(255,183,77,.3);margin:16px 0;position:relative;overflow:hidden}
+.mirror-face{font-size:100px;cursor:pointer;transition:transform .3s}
+.mirror-face:active{transform:scale(.9)}
+.mirror-label{font-size:24px;font-weight:800;color:#e65100;margin-top:8px}
+.mirror-nav{display:flex;gap:12px;margin-top:12px}
+.mirror-dot{width:16px;height:16px;border-radius:50%;background:#ddd;cursor:pointer;transition:background .2s}
+.mirror-dot.active{background:#ff9800}
+/* S8: Mood Wheel */
+.wheel-wrap{position:relative;width:300px;height:300px;margin:16px 0}
+.wheel-slice{position:absolute;width:110px;height:110px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.12);transition:transform .2s;border:3px solid #fff}
+.wheel-slice:active{transform:scale(.92)}
+.wheel-slice .wemoji{font-size:44px}
+.wheel-slice .wlabel{font-size:14px;font-weight:800;color:#fff;margin-top:4px}
+.wheel-msg{font-size:28px;font-weight:900;color:#e65100;margin:12px 0;min-height:40px}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#ff9800;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(255,152,0,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#ff9800;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.mirror-frame{width:200px;height:200px}.mirror-face{font-size:70px}.mirror-label{font-size:20px}
+.wheel-wrap{width:240px;height:240px}.wheel-slice{width:90px;height:90px}.wheel-slice .wemoji{font-size:36px}.wheel-slice .wlabel{font-size:12px}
+.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-feel on">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Feelings Today</div>
+<div class="sub">How do you feel?</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px;font-size:44px">
+<span>😊</span><span>😢</span><span>😠</span><span>😨</span><span>😴</span>
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-sky">
+<div class="pr big"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:48px">Come with me! Let's find feelings!</div>
+</div>
+
+<!-- S2: happy -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">I am happy!</div>
+</div>
+<div class="obj-wrap" style="font-size:140px">😊</div>
+<div class="word" style="color:#f9a825">happy</div>
+</div>
+
+<!-- S3: sad -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">I am sad!</div>
+</div>
+<div class="obj-wrap" style="font-size:140px">😢</div>
+<div class="word" style="color:#1565c0">sad</div>
+</div>
+
+<!-- S4: angry -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">I am angry!</div>
+</div>
+<div class="obj-wrap" style="font-size:140px">😠</div>
+<div class="word" style="color:#c62828">angry</div>
+</div>
+
+<!-- S5: scared -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george_pig_dinosaur.png" alt="George">
+<div class="bbl">I am scared!</div>
+</div>
+<div class="obj-wrap" style="font-size:140px">😨</div>
+<div class="word" style="color:#6a1b9a">scared</div>
+</div>
+
+<!-- S6: sleepy -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">I am sleepy!</div>
+</div>
+<div class="obj-wrap" style="font-size:140px">😴</div>
+<div class="word" style="color:#4527a0">sleepy</div>
+</div>
+
+<!-- S7: Emotion Mirror -->
+<div class="sl bg-feel">
+<div class="ttl">Emotion Mirror</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">Look in the mirror!</div>
+</div>
+<div class="mirror-frame" id="mirrorFrame">
+<div class="mirror-face" id="mirrorFace" onclick="nextMirror()">😊</div>
+<div class="mirror-label" id="mirrorLabel">happy</div>
+</div>
+<div class="mirror-nav" id="mirrorNav"></div>
+</div>
+
+<!-- S8: Mood Wheel -->
+<div class="sl bg-sky">
+<div class="ttl">Mood Wheel</div>
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">How do you feel?</div>
+</div>
+<div class="wheel-msg" id="wheelMsg"></div>
+<div class="wheel-wrap" id="wheelWrap"></div>
+</div>
+
+<!-- S9: All Together - Feelings Parade -->
+<div class="sl bg-feel">
+<div class="ttl">Feelings Parade</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid" id="allGrid"></div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-sky">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Happy, sad, angry, scared, sleepy!</div>
+<div class="sub">You know all the feelings!</div>
+<div style="font-size:34px;font-weight:700;color:#e67e22;margin-top:20px">Tomorrow: Weather Watch!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=11;
+var WD=[
+{w:'happy',face:'😊',color:'#f9a825'},
+{w:'sad',face:'😢',color:'#1565c0'},
+{w:'angry',face:'😠',color:'#c62828'},
+{w:'scared',face:'😨',color:'#6a1b9a'},
+{w:'sleepy',face:'😴',color:'#4527a0'}
+];
+var N={
+0:'Title: Feelings Today. Show the 5 emotion faces. Ask: How do you feel today?',
+1:'Hello: Peppa invites us to explore feelings! Arms open, welcoming.',
+2:'New word: happy. Peppa is happy! "I am happy!" Make a happy face together.',
+3:'New word: sad. George is sad! "I am sad!" Show a sad face.',
+4:'New word: angry. Daddy is angry! "I am angry!" Stomp feet!',
+5:'New word: scared. George is scared of the dinosaur! "I am scared!" Hide behind hands.',
+6:'New word: sleepy. Mummy is sleepy! "I am sleepy!" Pretend to yawn.',
+7:'Emotion Mirror: Tap the face to cycle through emotions. Say each feeling together.',
+8:'Mood Wheel: Tap a feeling on the wheel to hear it. Ask "Are you happy or sad?"',
+9:'Feelings Parade: All 5 feelings. Point randomly and ask "How does Peppa feel?"',
+10:'Bye: Review all feelings. Preview tomorrow: Weather Watch!'
+};
+function speak(txt){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web').play().catch(function(){})});
+}
+function showConfetti(){var w=document.createElement("div");w.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999";var colors=["#f9a825","#1565c0","#c62828","#6a1b9a","#4527a0"];for(var i=0;i<20;i++){var p=document.createElement("div");p.style.cssText="position:absolute;width:"+(6+Math.random()*8)+"px;height:"+(6+Math.random()*8)+"px;border-radius:50%;left:"+Math.random()*100+"%;top:"+Math.random()*30+"%;background:"+colors[i%5]+";animation:cfall 1.2s ease-out "+Math.random()*.3+"s forwards;opacity:0";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+
+// S7: Emotion Mirror
+var mirrorIdx=0,mirrorInit=false;
+function initMirror(){
+if(mirrorInit)return;mirrorInit=true;
+var nav=document.getElementById('mirrorNav');nav.innerHTML='';
+WD.forEach(function(_,i){
+var d=document.createElement('div');d.className='mirror-dot'+(i===0?' active':'');
+d.onclick=function(){goMirror(i)};nav.appendChild(d);
+});
+goMirror(0);
+}
+function goMirror(i){
+mirrorIdx=i;
+var item=WD[i];
+document.getElementById('mirrorFace').textContent=item.face;
+document.getElementById('mirrorLabel').textContent=item.w;
+document.getElementById('mirrorLabel').style.color=item.color;
+document.getElementById('mirrorFrame').style.borderColor=item.color;
+document.querySelectorAll('.mirror-dot').forEach(function(d,j){d.classList.toggle('active',j===i)});
+speak(item.w);
+}
+function nextMirror(){goMirror((mirrorIdx+1)%WD.length)}
+
+// S8: Mood Wheel
+var wheelInit=false;
+function initWheel(){
+if(wheelInit)return;wheelInit=true;
+var wrap=document.getElementById('wheelWrap');wrap.innerHTML='';
+var positions=[
+{x:95,y:0},{x:190,y:90},{x:145,y:190},{x:0,y:160},{x:0,y:40}
+];
+var bgColors=['#f9a825','#1565c0','#c62828','#6a1b9a','#4527a0'];
+WD.forEach(function(item,i){
+var s=document.createElement('div');s.className='wheel-slice';
+s.style.left=positions[i].x+'px';s.style.top=positions[i].y+'px';
+s.style.background=bgColors[i];
+s.innerHTML='<div class="wemoji">'+item.face+'</div><div class="wlabel">'+item.w+'</div>';
+s.onclick=function(){
+speak(item.w);showConfetti();
+document.getElementById('wheelMsg').textContent='I am '+item.w+'!';
+document.getElementById('wheelMsg').style.color=item.color;
+};
+wrap.appendChild(s);
+});
+}
+
+// S9: All Together
+var allInit=false;
+function initAll(){
+if(allInit)return;allInit=true;
+var g=document.getElementById('allGrid');g.innerHTML='';
+WD.forEach(function(item){
+var d=document.createElement('div');d.className='all-item';
+d.innerHTML='<div style="font-size:80px">'+item.face+'</div><div class="all-label" style="color:'+item.color+'">'+item.w+'</div>';
+d.onclick=function(){speak(item.w)};
+g.appendChild(d);
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initMirror();
+if(c===8)initWheel();
+if(c===9)initAll();
+}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+<style>@keyframes cfall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}</style>
+</body>
+</html>

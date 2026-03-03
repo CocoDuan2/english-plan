@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 14 - Rainbow Colors</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-rain{background:linear-gradient(160deg,#e8d5f5,#d1c4e9)}
+.bg-bow{background:linear-gradient(180deg,#ce93d8,#f8bbd0)}
+.bg-word{background:linear-gradient(180deg,#f3e5f5,#ede7f6)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#7b1fa2;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#7b1fa2}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Color Mixing */
+.mix-wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:520px;margin:10px 0}
+.mix-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;transition:all .2s;box-shadow:0 6px 18px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.mix-btn:active{transform:scale(.9)}
+.mix-label{font-size:28px;font-weight:900;color:#7b1fa2;margin:12px 0;min-height:40px}
+/* S8: Color Hunt */
+.hunt-wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:500px;margin:16px 0}
+.hunt-btn{width:100px;height:110px;border-radius:18px;background:#fff;border:4px solid #ddd;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:4px}
+.hunt-btn:active{transform:scale(.9)}
+.hunt-btn.ok{border-color:#4caf50;background:#e8f5e9}
+.hunt-btn.no{border-color:#e53935;background:#ffebee;animation:shake .4s}
+.hunt-msg{font-size:28px;font-weight:900;color:#7b1fa2;margin:10px 0;padding:12px 24px;background:#fff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-height:56px;display:flex;align-items:center;justify-content:center;gap:10px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.all-circle{width:80px;height:80px;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#9c27b0;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(156,39,176,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#9c27b0;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.mix-btn{width:80px;height:80px}
+.mix-label{font-size:22px}
+.hunt-btn{width:80px;height:90px}
+.hunt-msg{font-size:22px;padding:10px 18px}
+.all-circle{width:60px;height:60px}.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-rain on">
+<div class="pr big"><img src="../../assets/peppa/peppa-fairy-princess.png" alt="Peppa"></div>
+<div class="ttl">Rainbow Colors</div>
+<div class="sub">Look! A rainbow after the rain!</div>
+<svg width="260" height="80" viewBox="0 0 260 80" style="margin-top:16px">
+<path d="M10 80 A120 120 0 0 1 250 80" fill="none" stroke="#e91e63" stroke-width="10"/>
+<path d="M22 80 A108 108 0 0 1 238 80" fill="none" stroke="#9c27b0" stroke-width="10"/>
+<path d="M34 80 A96 96 0 0 1 226 80" fill="none" stroke="#fff" stroke-width="10"/>
+<path d="M46 80 A84 84 0 0 1 214 80" fill="none" stroke="#333" stroke-width="10"/>
+<path d="M58 80 A72 72 0 0 1 202 80" fill="none" stroke="#795548" stroke-width="10"/>
+</svg>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-bow">
+<div class="pr big"><img src="../../assets/peppa/peppa_pig_arms_open.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:48px">Come with me! Let's find colors!</div>
+</div>
+
+<!-- S2: pink -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
+<div class="bbl">It's pink!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="65" r="50" fill="#e91e63"/><path d="M80 115 Q80 145 80 150" stroke="#4caf50" stroke-width="6" fill="none"/><ellipse cx="68" cy="140" rx="14" ry="8" fill="#4caf50"/><ellipse cx="92" cy="140" rx="14" ry="8" fill="#4caf50"/></svg>
+</div>
+<div class="word" style="color:#e91e63">pink</div>
+</div>
+
+<!-- S3: purple -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">It's purple!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="45" ry="55" fill="#9c27b0"/><ellipse cx="80" cy="40" rx="12" ry="14" fill="#7b1fa2"/><rect x="74" y="10" width="12" height="20" rx="6" fill="#4caf50"/></svg>
+</div>
+<div class="word" style="color:#9c27b0">purple</div>
+</div>
+
+<!-- S4: white -->
+<div class="sl bg-word" style="background:linear-gradient(180deg,#e0e0e0,#ede7f6)">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">It's white!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><ellipse cx="80" cy="90" rx="55" ry="40" fill="#fff" stroke="#bbb" stroke-width="2"/><ellipse cx="50" cy="80" rx="30" ry="28" fill="#fff" stroke="#bbb" stroke-width="2"/><ellipse cx="110" cy="80" rx="30" ry="28" fill="#fff" stroke="#bbb" stroke-width="2"/><ellipse cx="80" cy="60" rx="35" ry="30" fill="#fff" stroke="#bbb" stroke-width="2"/></svg>
+</div>
+<div class="word" style="color:#666">white</div>
+</div>
+
+<!-- S5: black -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">It's black!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="55" fill="#333"/><circle cx="65" cy="68" r="8" fill="#fff"/><circle cx="95" cy="68" r="8" fill="#fff"/><circle cx="65" cy="68" r="4" fill="#333"/><circle cx="95" cy="68" r="4" fill="#333"/><ellipse cx="80" cy="95" rx="12" ry="6" fill="#fff"/><circle cx="80" cy="30" r="5" fill="#333"/><line x1="80" y1="25" x2="80" y2="10" stroke="#333" stroke-width="3"/></svg>
+</div>
+<div class="word" style="color:#333">black</div>
+</div>
+
+<!-- S6: brown -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">It's brown!</div>
+</div>
+<div class="obj-wrap">
+<svg width="160" height="160" viewBox="0 0 160 160"><ellipse cx="80" cy="100" rx="35" ry="45" fill="#795548"/><circle cx="80" cy="50" r="30" fill="#795548"/><circle cx="65" cy="35" r="14" fill="#795548"/><circle cx="95" cy="35" r="14" fill="#795548"/><circle cx="70" cy="48" r="5" fill="#fff"/><circle cx="90" cy="48" r="5" fill="#fff"/><circle cx="70" cy="48" r="2.5" fill="#333"/><circle cx="90" cy="48" r="2.5" fill="#333"/><ellipse cx="80" cy="60" rx="6" ry="4" fill="#333"/></svg>
+</div>
+<div class="word" style="color:#795548">brown</div>
+</div>
+
+<!-- S7: Color Mixing - tap color circles to hear -->
+<div class="sl bg-rain">
+<div class="ttl">Color Mixing</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
+<div class="bbl">Tap a color!</div>
+</div>
+<div class="mix-label" id="mixLabel"></div>
+<div class="mix-wrap" id="mixWrap"></div>
+</div>
+
+<!-- S8: Color Hunt - find the right color -->
+<div class="sl bg-bow">
+<div class="ttl">Color Hunt</div>
+<div class="pr">
+<img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+<div class="bbl">Find the color!</div>
+</div>
+<div class="hunt-msg" id="huntMsg"></div>
+<div class="hunt-wrap" id="huntGrid"></div>
+</div>
+
+<!-- S9: All Together - Color Parade -->
+<div class="sl bg-rain">
+<div class="ttl">Color Parade</div>
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="all-grid" id="allGrid"></div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-bow">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">Pink, purple, white, black, brown!</div>
+<div class="sub">You found all the rainbow colors!</div>
+<div style="font-size:34px;font-weight:700;color:#7b1fa2;margin-top:20px">Tomorrow: Garden Walk!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/11</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+<script>
+var c=0,t=11;
+var WD=[
+{w:'pink',hex:'#e91e63'},{w:'purple',hex:'#9c27b0'},{w:'white',hex:'#ffffff'},
+{w:'black',hex:'#333333'},{w:'brown',hex:'#795548'}
+];
+var N={
+0:'Title: Rainbow Colors. After the rain, Peppa sees a rainbow with new colors!',
+1:'Hello: Peppa invites us to find colors in the rainbow.',
+2:'New word: pink. "It\'s pink!" Peppa\'s favorite flower is pink.',
+3:'New word: purple. "It\'s purple!" George found a purple grape.',
+4:'New word: white. "It\'s white!" Look at the white cloud.',
+5:'New word: black. "It\'s black!" Mummy\'s cat is black.',
+6:'New word: brown. "It\'s brown!" Candy Cat found a brown teddy bear.',
+7:'Color Mixing: Tap each color circle to hear the word. Say it together!',
+8:'Color Hunt: Show a color name, child taps the matching color circle.',
+9:'Color Parade: All 5 colors. Point randomly and ask "What color is it?"',
+10:'Bye: Review all colors. Preview tomorrow: Garden Walk!'
+};
+function speak(txt){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2');
+a.play().catch(function(){new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web').play().catch(function(){})});
+}
+function showConfetti(){var w=document.createElement("div");w.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999";var colors=["#e91e63","#9c27b0","#fff","#333","#795548"];for(var i=0;i<20;i++){var p=document.createElement("div");p.style.cssText="position:absolute;width:"+(6+Math.random()*8)+"px;height:"+(6+Math.random()*8)+"px;border-radius:50%;left:"+Math.random()*100+"%;top:"+Math.random()*30+"%;background:"+colors[i%5]+";animation:cfall 1.2s ease-out "+Math.random()*.3+"s forwards;opacity:0";w.appendChild(p)}document.body.appendChild(w);setTimeout(function(){w.remove()},1600)}
+
+// S7: Color Mixing
+var mixInit=false;
+function initMix(){
+if(mixInit)return;mixInit=true;
+var wrap=document.getElementById('mixWrap');wrap.innerHTML='';
+WD.forEach(function(item){
+var b=document.createElement('button');b.className='mix-btn';
+b.style.background=item.hex;
+if(item.w==='white')b.style.border='3px solid #bbb';
+b.onclick=function(){
+speak(item.w);showConfetti();
+document.getElementById('mixLabel').textContent="It's "+item.w+'!';
+document.getElementById('mixLabel').style.color=item.hex==='#ffffff'?'#666':item.hex;
+};
+wrap.appendChild(b);
+});
+}
+
+// S8: Color Hunt
+var huntInit=false,huntRound=0,huntOrder=[],busy=false;
+function initHunt(){
+if(huntInit)return;huntInit=true;
+huntOrder=WD.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+var g=document.getElementById('huntGrid');g.innerHTML='';
+WD.forEach(function(item,i){
+var b=document.createElement('div');b.className='hunt-btn';
+b.innerHTML='<div style="width:50px;height:50px;border-radius:50%;background:'+item.hex+(item.w==='white'?';border:2px solid #bbb':'')+';box-shadow:0 3px 8px rgba(0,0,0,.15)"></div><div style="font-size:13px;font-weight:700;color:#555">'+item.w+'</div>';
+b.onclick=function(){checkHunt(i,b)};
+g.appendChild(b);
+});
+showHuntRound();
+}
+function showHuntRound(){
+if(huntRound>=WD.length){
+document.getElementById('huntMsg').innerHTML='<span style="font-size:36px">🌈</span> All colors found!';
+return;
+}
+var item=WD[huntOrder[huntRound]];
+document.getElementById('huntMsg').innerHTML="It's <span style='color:"+(item.hex==='#ffffff'?'#666':item.hex)+"'>"+item.w+'</span>!';
+speak(item.w);
+}
+function checkHunt(idx,btn){
+if(busy||huntRound>=WD.length)return;
+if(idx===huntOrder[huntRound]){
+busy=true;btn.classList.add('ok');showConfetti();speak(WD[idx].w);
+huntRound++;
+setTimeout(function(){
+document.querySelectorAll('.hunt-btn').forEach(function(b){b.classList.remove('ok','no')});
+busy=false;showHuntRound();
+},1200);
+}else{btn.classList.add('no');setTimeout(function(){btn.classList.remove('no')},600)}
+}
+
+// S9: All Together
+var allInit=false;
+function initAll(){
+if(allInit)return;allInit=true;
+var g=document.getElementById('allGrid');g.innerHTML='';
+WD.forEach(function(item){
+var d=document.createElement('div');d.className='all-item';
+d.innerHTML='<div class="all-circle" style="background:'+item.hex+(item.w==='white'?';border:2px solid #bbb':'')+'"></div><div class="all-label" style="color:'+(item.hex==='#ffffff'?'#666':item.hex)+'">'+item.w+'</div>';
+d.onclick=function(){speak(item.w)};
+g.appendChild(d);
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+if(c===7)initMix();
+if(c===8)initHunt();
+if(c===9)initAll();
+}
+function tn(){document.getElementById('F').classList.toggle('on');document.getElementById('P').classList.toggle('on')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')goTo(c-1);if(e.key==='ArrowRight')goTo(c+1);if(e.key==='t'||e.key==='T')tn()});
+goTo(0);
+</script>
+<style>@keyframes cfall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}</style>
+</body>
+</html>

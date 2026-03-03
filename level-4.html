@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Level 4 · 成长故事</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#2c3e50;
+  --muted:#667085;
+}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 12% 10%,#ffd9e7 0,transparent 35%),
+    radial-gradient(circle at 88% 12%,#c9f0ff 0,transparent 32%),
+    linear-gradient(160deg,#fff4f8,#f8fbff 52%,#f5fff4);
+  padding:20px 16px 28px;
+  color:var(--ink);
+}
+.container{max-width:760px;margin:0 auto}
+.back{
+  display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;color:var(--ink);
+  font-size:14px;font-weight:700;
+  margin-bottom:12px;
+  padding:8px 12px;
+  background:rgba(255,255,255,.7);
+  border-radius:12px;
+  transition:background .2s;
+}
+.back:hover{background:rgba(255,255,255,.9)}
+.hero{
+  text-align:center;
+  background:rgba(255,255,255,.72);
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:22px;
+  padding:14px 14px 16px;
+  box-shadow:0 10px 26px rgba(32,56,90,.08);
+}
+h1{font-size:28px;line-height:1.1;color:#394867}
+.sub{margin-top:4px;font-size:14px;color:#6b7280}
+.lesson-group{margin-top:14px}
+.lesson-head{
+  display:flex;align-items:center;justify-content:space-between;
+  border-radius:14px;
+  padding:10px 12px;
+  font-weight:800;
+  font-size:17px;
+  color:#263238;
+}
+.lesson-head small{font-size:12px;font-weight:700;opacity:.78}
+.cards{margin-top:8px;display:grid;gap:8px}
+.card{
+  text-decoration:none;
+  color:var(--ink);
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:16px;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 4px 16px rgba(30,58,95,.08);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.card:active{transform:scale(.98)}
+.icon-wrap{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-wrap img{width:42px;height:42px;object-fit:contain}
+.info{flex:1;min-width:0}
+.row{display:flex;align-items:center;gap:8px}
+.title{font-size:17px;font-weight:900;line-height:1.1}
+.badge{
+  font-size:11px;font-weight:800;padding:3px 7px;border-radius:999px;
+  border:2px solid transparent;
+}
+.desc{margin-top:4px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:700px){
+  .cards{grid-template-columns:1fr 1fr}
+  .card{padding:12px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← 返回主页</a>
+  <div class="hero">
+    <h1>Level 4 · 成长故事</h1>
+    <div class="sub">5 个故事 · 25 个单词</div>
+  </div>
+  <div id="lessons"></div>
+</div>
+<script>
+var lessons=[{"dir":"helping-at-home","theme":"Helping at Home","words":"clean, wash, help, tidy, sweep","panel":"linear-gradient(135deg,#FFF9C4,#FFE082,#FFD54F)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/mummy-pig-standing-grass.png","teachTone":{"bg":"#fff9c4","bd":"#ffd54f","txt":"#f57f17"},"reviewTone":{"bg":"#ffe082","bd":"#ffb300","txt":"#e65100"}},{"dir":"school-day","theme":"School Day","words":"teacher, friend, learn, draw, write","panel":"linear-gradient(135deg,#FFE5B4,#FFDAB9,#FFE4B5)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/candy-cat-green-dress.png","teachTone":{"bg":"#ffe5b4","bd":"#ffd93d","txt":"#e65100"},"reviewTone":{"bg":"#ffdab9","bd":"#ffc93d","txt":"#bf360c"}},{"dir":"pet-care","theme":"Pet Care","words":"pet, feed, walk, play, love","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9,#a5d6a7)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}},{"dir":"cooking-together","theme":"Cooking Together","words":"cook, mix, pour, taste, yummy","panel":"linear-gradient(135deg,#ffe5d0,#ffd4a3)","teachIcon":"../assets/peppa/mummy-pig-standing-grass.png","reviewIcon":"../assets/peppa/peppa-pig-happy-standing.png","teachTone":{"bg":"#ffe5d0","bd":"#e67e22","txt":"#bf360c"},"reviewTone":{"bg":"#ffd4a3","bd":"#ff9a9e","txt":"#c62828"}},{"dir":"sports-day","theme":"Sports Day","words":"kick, throw, catch, race, win","panel":"linear-gradient(135deg,#e8f5e9,#c8e6c9)","teachIcon":"../assets/peppa/peppa-pig-happy-standing.png","reviewIcon":"../assets/peppa/george-standing.png","teachTone":{"bg":"#e8f5e9","bd":"#66bb6a","txt":"#2e7d32"},"reviewTone":{"bg":"#c8e6c9","bd":"#81c784","txt":"#1b5e20"}}];
+
+function cardHtml(kind,l){
+  var isTeach=kind==='teach';
+  var title=isTeach?'老师课件':'练习课件';
+  var icon=isTeach?l.teachIcon:l.reviewIcon;
+  var tone=isTeach?l.teachTone:l.reviewTone;
+  var tip=isTeach?'大屏跟读':'互动游戏';
+  return '<a class="card" href="lessons/level-4/'+l.dir+'/'+kind+'.html">'+
+    '<div class="icon-wrap" style="background:'+tone.bg+';border:2px solid '+tone.bd+'">'+
+      '<img src="'+icon+'" alt="'+title+'">'+
+    '</div>'+
+    '<div class="info">'+
+      '<div class="row">'+
+        '<div class="title">'+title+'</div>'+
+        '<div class="badge" style="background:'+tone.bg+';border-color:'+tone.bd+';color:'+tone.txt+'">'+tip+'</div>'+
+      '</div>'+
+      '<div class="desc">'+l.words+'</div>'+
+    '</div>'+
+  '</a>';
+}
+
+var wrap=document.getElementById('lessons');
+lessons.forEach(function(l){
+  var g=document.createElement('section');
+  g.className='lesson-group';
+  g.innerHTML=
+    '<div class="lesson-head" style="background:'+l.panel+'">'+
+      '<span>'+l.theme+'</span>'+
+      '<small>5 words</small>'+
+    '</div>'+
+    '<div class="cards">'+cardHtml('teach',l)+cardHtml('review',l)+'</div>';
+  wrap.appendChild(g);
+});
+</script>
+</body>
+</html>

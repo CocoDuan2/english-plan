@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 16 Review - Kitchen Helper</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
+.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
+.mod.on{display:flex}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#FFB74D,#FFA726);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,183,77,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::before{content:'🍽️';margin-right:8px}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,183,77,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
+.pr img{width:75px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
+.start-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.start-peppa{width:110px}
+.start-preview{display:flex;gap:16px;margin:16px 0}
+.start-preview img{width:60px}
+.start-btn{padding:16px 48px;border:none;border-radius:16px;font-size:28px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(249,173,199,.4)}
+.learn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px 0}
+.learn-card{width:220px;height:180px;border-radius:16px;background:#ddd;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.learn-card.revealed{background:#fff}
+.learn-card img{width:90px;opacity:0;transition:opacity .3s}
+.learn-card.revealed img{opacity:1}
+.learn-card span{font-size:20px;font-weight:700;color:#2c3e50;margin-top:8px;opacity:0;transition:opacity .3s}
+.learn-card.revealed span{opacity:1}
+.cupboard{width:400px;height:300px;background:linear-gradient(135deg,#8D6E63,#A1887F);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.2);display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px;margin:20px 0}
+.cupboard-slot{border:3px dashed rgba(255,255,255,.4);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.cupboard-slot.filled{border-color:#4CAF50;background:rgba(76,175,80,.2)}
+.cupboard-slot img{width:70px;opacity:0;transition:opacity .3s}
+.cupboard-slot.filled img{opacity:1}
+.item-choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+.choice-btn{width:90px;height:90px;border-radius:12px;border:none;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:all .2s}
+.choice-btn:active{transform:scale(.9)}
+.choice-btn.used{opacity:.3;pointer-events:none}
+.choice-btn img{width:70px}
+.listen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px 0}
+.listen-card{width:220px;height:180px;border-radius:16px;background:#fff;border:4px solid #ddd;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.listen-card:hover{transform:scale(1.05)}
+.listen-card img{width:90px}
+.listen-card span{font-size:20px;font-weight:700;color:#2c3e50;margin-top:8px}
+.speaker-btn{width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,#FFB74D,#FFA726);color:#fff;font-size:28px;cursor:pointer;box-shadow:0 4px 12px rgba(255,183,77,.4);margin:16px 0}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px;margin:20px 0}
+.memory-card{width:120px;height:140px;border-radius:12px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .4s}
+.memory-card.flipped{transform:rotateY(180deg)}
+.memory-card.matched{opacity:.5;pointer-events:none}
+.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.card-front{background:linear-gradient(135deg,#FFB74D,#FFA726)}
+.card-front span{font-size:44px}
+.card-back{background:#fff;transform:rotateY(180deg)}
+.card-back img{width:70px;margin-bottom:8px}
+.card-back span{font-size:18px;font-weight:700;color:#2c3e50}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.done-family{width:120px}
+.done-title{font-size:48px;font-weight:900;color:#e91e8c;text-shadow:0 3px 6px rgba(233,30,140,.2)}
+.done-msg{font-size:24px;color:#666;text-align:center}
+.done-btn{padding:16px 48px;border:none;border-radius:16px;font-size:24px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(249,173,199,.4)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.te{font-size:26px}
+.tz{font-size:18px;padding:10px 20px}
+.bbl{font-size:20px}
+.pr img{width:65px}
+.sb{font-size:22px}
+.start-peppa{width:90px}
+.start-preview img{width:50px}
+.start-btn{font-size:24px;padding:14px 40px}
+.learn-card{width:160px;height:140px}
+.learn-card img{width:70px}
+.learn-card span{font-size:18px}
+.cupboard{width:300px;height:240px;gap:8px;padding:12px}
+.cupboard-slot img{width:50px}
+.choice-btn{width:70px;height:70px}
+.choice-btn img{width:55px}
+.listen-card{width:160px;height:140px}
+.listen-card img{width:70px}
+.listen-card span{font-size:18px}
+.speaker-btn{width:50px;height:50px;font-size:24px}
+.memory-card{width:90px;height:110px}
+.card-front span{font-size:36px}
+.card-back img{width:55px}
+.card-back span{font-size:16px}
+.done-family{width:100px}
+.done-title{font-size:36px}
+.done-msg{font-size:20px}
+.done-btn{font-size:20px;padding:14px 40px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div id="m0" class="mod on">
+<div class="start-wrap">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" class="start-peppa">
+<div class="te">Kitchen Helper</div>
+<div class="sb">Let's practice!</div>
+<div class="start-preview">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2615.svg" alt="cup">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f37d.svg" alt="plate">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f944.svg" alt="spoon">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f374.svg" alt="bowl">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f374.svg" alt="fork">
+</div>
+<button class="start-btn" onclick="goM(1);getAC()">Let's Play!</button>
+</div>
+</div>
+
+<!-- M1: Learn -->
+<div id="m1" class="mod">
+<div class="top">
+<div class="te">Learn New Words</div>
+<div class="tz">点一点，学单词！</div>
+<div class="sb" id="s1">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">Tap to learn!</div>
+</div>
+<div class="learn-grid" id="learnGrid"></div>
+</div>
+
+<!-- M2: Cupboard Sort -->
+<div id="m2" class="mod">
+<div class="top">
+<div class="te">Cupboard Sort</div>
+<div class="tz">听一听，放进橱柜！</div>
+<div class="sb" id="s2">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Put them away!</div>
+</div>
+<div class="cupboard" id="cupboard"></div>
+<div class="item-choices" id="choices"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div id="m3" class="mod">
+<div class="top">
+<div class="te">Listen & Find</div>
+<div class="tz">👂 听一听，找一找！</div>
+<div class="sb" id="s3">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Find it!</div>
+</div>
+<button class="speaker-btn" onclick="playListenWord()">🔊</button>
+<div class="listen-grid" id="listenGrid"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div id="m4" class="mod">
+<div class="top">
+<div class="te">Memory Match</div>
+<div class="tz">🎴 翻一翻，找一样的！</div>
+<div class="sb" id="s4">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">Match them!</div>
+</div>
+<div class="memory-grid" id="memoryGrid"></div>
+</div>
+
+<!-- M5: Done -->
+<div id="m5" class="mod">
+<div class="done-wrap">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" class="done-family">
+<div class="done-title">All Done!</div>
+<div class="done-msg">You helped Peppa in the kitchen!<br>Great job! ⭐⭐⭐⭐⭐</div>
+<button class="done-btn" onclick="goM(0)">Play Again</button>
+</div>
+</div>
+
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var W=['cup','plate','spoon','bowl','fork'];
+var emojis={'cup':'2615','plate':'1f37d','spoon':'1f944','bowl':'1f963','fork':'1f374'};
+var curM=0,busy=false;
+
+function speak(t){
+var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+var a=new Audio(primary);
+a.play().catch(function(){
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function getAC(){
+if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
+return window.actx;
+}
+
+function tone(f,d){
+var c=getAC(),o=c.createOscillator(),g=c.createGain();
+o.connect(g);
+g.connect(c.destination);
+o.frequency.value=f;
+g.gain.value=.15;
+o.start();
+g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);
+o.stop(c.currentTime+d);
+}
+
+function playOk(){
+tone(523,.1);
+setTimeout(function(){tone(659,.1)},100);
+setTimeout(function(){tone(784,.15)},200);
+showConfetti();
+}
+
+function playNo(){
+tone(300,.3);
+}
+
+function showConfetti(){
+var w=document.createElement("div");
+w.className="confetti-wrap";
+var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];
+for(var i=0;i<20;i++){
+var p=document.createElement("div");
+p.className="confetti-piece";
+p.style.left=Math.random()*100+"%";
+p.style.top=Math.random()*30+"%";
+p.style.background=colors[i%5];
+p.style.width=p.style.height=(6+Math.random()*8)+"px";
+p.style.animationDelay=Math.random()*.3+"s";
+w.appendChild(p);
+}
+document.body.appendChild(w);
+setTimeout(function(){w.remove()},1600);
+}
+
+function stars(n,t){
+var s='';
+for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';
+return s;
+}
+
+function goM(d){
+if(d===0){
+curM=0;
+}else{
+curM+=d;
+}
+if(curM<0)curM=0;
+if(curM>5)curM=5;
+document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+document.getElementById('m'+curM).classList.add('on');
+document.getElementById('pg').textContent=(curM+1)+'/6';
+document.getElementById('pBtn').disabled=curM===0;
+var nb=document.getElementById('nBtn');
+if(curM===0){
+nb.textContent='Start!';
+nb.disabled=false;
+}else if(curM>=5){
+nb.textContent='Done';
+nb.disabled=true;
+}else{
+nb.textContent='Next ▶';
+nb.disabled=false;
+}
+if(curM===1)initM1();
+if(curM===2)initM2();
+if(curM===3)initM3();
+if(curM===4)initM4();
+if(curM===5)initM5();
+}
+
+var m1State={};
+function initM1(){
+var grid=document.getElementById('learnGrid');
+if(grid.children.length>0)return;
+W.forEach(function(w){
+var card=document.createElement('div');
+card.className='learn-card';
+card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[w]+'.svg" alt="'+w+'"><span>'+w+'</span>';
+card.onclick=function(){
+if(m1State[w])return;
+m1State[w]=true;
+card.classList.add('revealed');
+speak(w);
+var revealed=Object.keys(m1State).length;
+document.getElementById('s1').innerHTML=stars(revealed,5);
+if(revealed===5){
+setTimeout(function(){playOk()},600);
+}
+};
+grid.appendChild(card);
+});
+}
+
+var m2State={},m2Target=null,m2Queue=[];
+function initM2(){
+var cup=document.getElementById('cupboard');
+var cho=document.getElementById('choices');
+if(cup.children.length>0)return;
+m2Queue=W.slice();
+shuffle(m2Queue);
+W.forEach(function(w){
+var slot=document.createElement('div');
+slot.className='cupboard-slot';
+slot.dataset.item=w;
+slot.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[w]+'.svg" alt="'+w+'">';
+cup.appendChild(slot);
+});
+W.forEach(function(w){
+var btn=document.createElement('button');
+btn.className='choice-btn';
+btn.dataset.item=w;
+btn.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[w]+'.svg" alt="'+w+'">';
+btn.onclick=function(){
+if(busy||m2State[w])return;
+busy=true;
+if(w===m2Target){
+playOk();
+speak(w);
+m2State[w]=true;
+btn.classList.add('used');
+var slot=document.querySelector('.cupboard-slot[data-item="'+w+'"]');
+slot.classList.add('filled');
+document.getElementById('s2').innerHTML=stars(Object.keys(m2State).length,5);
+setTimeout(function(){
+busy=false;
+if(Object.keys(m2State).length<5){
+nextM2();
+}
+},1200);
+}else{
+playNo();
+setTimeout(function(){busy=false},800);
+}
+};
+cho.appendChild(btn);
+});
+nextM2();
+}
+
+function nextM2(){
+if(m2Queue.length===0)return;
+m2Target=m2Queue.shift();
+speak(m2Target);
+}
+
+function shuffle(arr){
+for(var i=arr.length-1;i>0;i--){
+var j=Math.floor(Math.random()*(i+1));
+var t=arr[i];arr[i]=arr[j];arr[j]=t;
+}
+}
+
+var m3Queue=[],m3Current=null;
+function initM3(){
+var grid=document.getElementById('listenGrid');
+if(grid.children.length>0)return;
+m3Queue=W.slice();
+shuffle(m3Queue);
+W.forEach(function(w){
+var card=document.createElement('div');
+card.className='listen-card';
+card.dataset.word=w;
+card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[w]+'.svg" alt="'+w+'"><span>'+w+'</span>';
+card.onclick=function(){
+if(busy||!m3Current)return;
+busy=true;
+if(w===m3Current){
+playOk();
+speak(w);
+card.style.opacity='.3';
+card.style.pointerEvents='none';
+var found=document.querySelectorAll('.listen-card[style*="opacity"]').length;
+document.getElementById('s3').innerHTML=stars(found,5);
+setTimeout(function(){
+busy=false;
+if(found<5){
+m3Current=m3Queue.shift();
+if(m3Current)speak(m3Current);
+}
+},1200);
+}else{
+playNo();
+setTimeout(function(){busy=false},800);
+}
+};
+grid.appendChild(card);
+});
+m3Current=m3Queue.shift();
+speak(m3Current);
+}
+
+function playListenWord(){
+if(m3Current)speak(m3Current);
+}
+
+var m4Flipped=[],m4Matched=0;
+function initM4(){
+var grid=document.getElementById('memoryGrid');
+if(grid.children.length>0)return;
+var pairs=[];
+W.forEach(function(w){
+pairs.push({w:w,id:Math.random()});
+pairs.push({w:w,id:Math.random()});
+});
+shuffle(pairs);
+pairs.forEach(function(p){
+var card=document.createElement('div');
+card.className='memory-card';
+card.dataset.word=p.w;
+card.innerHTML='<div class="card-face card-front"><span>🍽️</span></div><div class="card-face card-back"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+emojis[p.w]+'.svg" alt="'+p.w+'"><span>'+p.w+'</span></div>';
+card.onclick=function(){
+if(busy||card.classList.contains('flipped')||card.classList.contains('matched'))return;
+card.classList.add('flipped');
+m4Flipped.push(card);
+speak(p.w);
+if(m4Flipped.length===2){
+busy=true;
+var w1=m4Flipped[0].dataset.word;
+var w2=m4Flipped[1].dataset.word;
+if(w1===w2){
+setTimeout(function(){
+playOk();
+m4Flipped[0].classList.add('matched');
+m4Flipped[1].classList.add('matched');
+m4Matched++;
+document.getElementById('s4').innerHTML=stars(m4Matched,5);
+m4Flipped=[];
+busy=false;
+if(m4Matched===5){
+setTimeout(function(){goM(1)},1000);
+}
+},600);
+}else{
+setTimeout(function(){
+playNo();
+m4Flipped[0].classList.remove('flipped');
+m4Flipped[1].classList.remove('flipped');
+m4Flipped=[];
+busy=false;
+},1200);
+}
+}
+};
+grid.appendChild(card);
+});
+}
+
+function initM5(){
+document.getElementById('s4').innerHTML=stars(5,5);
+}
+
+goM(0);
+</script>
+</body>
+</html>

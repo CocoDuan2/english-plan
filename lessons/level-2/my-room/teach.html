@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 19 - My Room</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-room{background:linear-gradient(160deg,#e8eaf6,#c5cae9)}
+.bg-explore{background:linear-gradient(180deg,#fff9c4,#fff59d)}
+.bg-word{background:linear-gradient(180deg,#fce4ec,#f8bbd0)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+/* S7: Room Tour */
+.room-scene{position:relative;width:360px;height:300px;background:linear-gradient(180deg,#e3f2fd 50%,#d7ccc8);border-radius:20px;overflow:hidden;margin:16px 0;border:4px solid #5e35b1}
+.room-item{position:absolute;cursor:pointer;transition:transform .2s}
+.room-item:active{transform:scale(.95)}
+.room-item img{width:100%;height:100%;object-fit:contain}
+.room-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);background:#fff;padding:4px 12px;border-radius:12px;font-size:14px;font-weight:700;color:#5e35b1;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+/* S8: Find Objects */
+.find-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:600px;margin:16px 0}
+.find-btn{width:110px;height:110px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s;background:#fff}
+.find-btn:active{transform:scale(.9)}
+.find-btn.found{background:#c5e1a5;border:3px solid #7cb342}
+.find-label{font-size:16px;font-weight:700;color:#2c3e50}
+/* S9: All Together */
+.all-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:700px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-label{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#5e35b1;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(94,53,177,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#5e35b1;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}.sub{font-size:16px}.word{font-size:56px;letter-spacing:2px}
+.bbl{font-size:20px;padding:8px 14px}.pr img{width:65px}.pr.big img{width:90px}
+.room-scene{width:300px;height:250px}.find-btn{width:85px;height:85px}
+.find-label{font-size:14px}.all-label{font-size:18px}
+}
+@media(min-width:768px){.word{font-size:100px}}
+</style>
+</head>
+<body>
+<div class="deck">
+<!-- S0: Title -->
+<div class="sl bg-room on">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"></div>
+<div class="ttl">My Room</div>
+<div class="sub">Let's explore Peppa's room!</div>
+<div style="display:flex;gap:14px;align-items:center;margin-top:20px">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cf.svg" width="50" alt="bed">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa9f.svg" width="50" alt="window">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="50" alt="chair">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6aa.svg" width="50" alt="door">
+</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-explore">
+<div class="pr big"><img src="../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa"></div>
+<div class="ttl" style="font-size:48px">Come to my room!</div>
+</div>
+
+<!-- S2: bed -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">It's in the bed!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cf.svg" width="160" alt="bed">
+</div>
+<div class="word" style="color:#5e35b1">bed</div>
+</div>
+
+<!-- S3: door -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">It's in the door!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6aa.svg" width="160" alt="door">
+</div>
+<div class="word" style="color:#8d6e63">door</div>
+</div>
+
+<!-- S4: window -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">It's in the window!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa9f.svg" width="160" alt="window">
+</div>
+<div class="word" style="color:#42a5f5">window</div>
+</div>
+
+<!-- S5: chair -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">It's in the chair!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="160" alt="chair">
+</div>
+<div class="word" style="color:#ff7043">chair</div>
+</div>
+
+<!-- S6: table -->
+<div class="sl bg-word">
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<div class="bbl">It's in the table!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cb.svg" width="160" alt="table">
+</div>
+<div class="word" style="color:#8d6e63">table</div>
+</div>
+
+<!-- S7: Room Tour -->
+<div class="sl bg-explore">
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Look around my room!</div>
+</div>
+<div class="room-scene" id="roomScene">
+<div class="room-item" style="top:20px;left:20px;width:80px;height:60px" data-word="bed">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cf.svg" alt="bed">
+<div class="room-label">bed</div>
+</div>
+<div class="room-item" style="top:20px;right:20px;width:60px;height:80px" data-word="door">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6aa.svg" alt="door">
+<div class="room-label">door</div>
+</div>
+<div class="room-item" style="top:120px;left:30px;width:70px;height:70px" data-word="window">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa9f.svg" alt="window">
+<div class="room-label">window</div>
+</div>
+<div class="room-item" style="bottom:20px;left:120px;width:60px;height:70px" data-word="chair">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" alt="chair">
+<div class="room-label">chair</div>
+</div>
+<div class="room-item" style="bottom:20px;right:30px;width:80px;height:60px" data-word="table">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cb.svg" alt="table">
+<div class="room-label">table</div>
+</div>
+</div>
+</div>
+
+<!-- S8: Find Objects -->
+<div class="sl bg-explore">
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Find them all!</div>
+</div>
+<div class="find-grid" id="findGrid">
+<button class="find-btn" data-word="bed">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cf.svg" width="60" alt="bed">
+<div class="find-label">bed</div>
+</button>
+<button class="find-btn" data-word="door">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6aa.svg" width="60" alt="door">
+<div class="find-label">door</div>
+</button>
+<button class="find-btn" data-word="window">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa9f.svg" width="60" alt="window">
+<div class="find-label">window</div>
+</button>
+<button class="find-btn" data-word="chair">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="60" alt="chair">
+<div class="find-label">chair</div>
+</button>
+<button class="find-btn" data-word="table">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cb.svg" width="60" alt="table">
+<div class="find-label">table</div>
+</button>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-room">
+<div class="pr big"><img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Family"></div>
+<div class="ttl" style="font-size:36px">All Together!</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cf.svg" width="80" alt="bed">
+<div class="all-label">bed</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6aa.svg" width="80" alt="door">
+<div class="all-label">door</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa9f.svg" width="80" alt="window">
+<div class="all-label">window</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa91.svg" width="80" alt="chair">
+<div class="all-label">chair</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cb.svg" width="80" alt="table">
+<div class="all-label">table</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-explore">
+<div class="pr big"><img src="../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George"></div>
+<div class="ttl" style="font-size:40px">Great job!</div>
+<div class="sub" style="font-size:20px;margin-top:12px">Tomorrow: Let's go outside!</div>
+</div>
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: My Room. Story: Peppa shows us her room.',
+1:'Hello page: Come to my room! Peppa invites us to explore.',
+2:'New word: bed. Sentence: It\'s in the bed! (Peppa points to her bed)',
+3:'New word: door. Sentence: It\'s in the door! (George shows the door)',
+4:'New word: window. Sentence: It\'s in the window! (Mummy points to window)',
+5:'New word: chair. Sentence: It\'s in the chair! (Daddy shows his chair)',
+6:'New word: table. Sentence: It\'s in the table! (Candy points to table)',
+7:'Interactive: Room Tour. Click each item in the room to hear its name.',
+8:'Interactive: Find Objects. Click each furniture item to hear and mark as found.',
+9:'All Together: Review all 5 words. Teacher points randomly.',
+10:'Bye page: Great job! Tomorrow we go outside!'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){b.textContent='Done';b.disabled=true}
+else{b.textContent='Next ▶';b.disabled=false}
+document.getElementById('B').innerHTML=N[c]||'';
+
+// Initialize S7: Room Tour
+if(c===7){
+document.querySelectorAll('#roomScene .room-item').forEach(function(item){
+item.onclick=function(){
+var word=this.getAttribute('data-word');
+speak(word);
+};
+});
+}
+
+// Initialize S8: Find Objects
+if(c===8){
+document.querySelectorAll('#findGrid .find-btn').forEach(function(btn){
+btn.onclick=function(){
+var word=this.getAttribute('data-word');
+speak(word);
+this.classList.add('found');
+};
+});
+}
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>
