@@ -236,11 +236,11 @@
 - Review 游戏: Learn (reveal) → Pet Care Actions (点击照顾宠物) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## Day 34 - Shopping Trip
-- 新词: shop, buy, money, bag, cart
-- 句式: I ___ at the shop!
-- Teach 互动: Listen & Say → Shopping Game → All Together
-- Review 游戏: Learn (reveal) → Shopping Game (点击购物) → Listen & Find → Memory Match
+## Day 34 - Seasons Change
+- 新词: spring, summer, autumn, winter, season
+- 句式: I like ___!
+- Teach 互动: Listen & Say → Season Wheel → All Together
+- Review 游戏: Learn (reveal) → Season Game (听季节点图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
 ## Day 35 - Cooking Together
