@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P11 - Letter K ✅
+- 当前: P12 - Letter L ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -84,6 +84,13 @@
 - 发音: /k/
 - 单词: kite, king, key, kid
 - 故事: 佩琪放风筝
+- 状态: ✅ 完成
+
+### P12 - Letter L · Peppa Goes to the Zoo
+- 字母: L l
+- 发音: /l/
+- 单词: lion, leaf, lemon, lamp
+- 故事: 佩琪去动物园
 - 状态: ✅ 完成
 
 ---
