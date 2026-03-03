@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 39 - Direction Words ✅
-- 更新时间: 2026-03-03 11:16
+- 当前: Day 40 - Weather Actions ✅
+- 更新时间: 2026-03-03 12:04
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -271,9 +271,13 @@
 - Review 游戏: Learn (reveal) → Direction Maze (听指令走迷宫) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 40 - Weather Actions
+## Day 40 - Weather Actions
 - 新词: sunny, rainy, windy, snowy, cloudy
 - 句式: It's ___!
-- 互动: Listen & Say → Weather Game → All Together
+- Teach 互动: Listen & Say (Weather Forecast) → Weather Window → All Together
+- Review 游戏: Learn (reveal) → Weather Forecast (听天气点图) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 课程完成
+🎉 恭喜！40天课程全部完成！
 
