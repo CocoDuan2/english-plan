@@ -217,23 +217,23 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <g id="wheelSectors">
 <!-- Sector 1: run (pink) - top -->
 <path d="M 200 200 L 200 50 A 150 150 0 0 1 329.9 129.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="190" y="70" width="110" height="110"/>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="165" y="80" width="70" height="70"/>
 
 <!-- Sector 2: jump (blue) - right -->
 <path d="M 200 200 L 329.9 129.9 A 150 150 0 0 1 329.9 270.1 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="260" y="145" width="110" height="110"/>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="250" y="165" width="70" height="70"/>
 
 <!-- Sector 3: walk (green) - bottom right -->
 <path d="M 200 200 L 329.9 270.1 A 150 150 0 0 1 200 350 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="190" y="240" width="110" height="110"/>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="215" y="250" width="70" height="70"/>
 
 <!-- Sector 4: sit (yellow) - bottom left -->
 <path d="M 200 200 L 200 350 A 150 150 0 0 1 70.1 270.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="40" y="240" width="110" height="110"/>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="115" y="250" width="70" height="70"/>
 
 <!-- Sector 5: stand (orange) - left -->
 <path d="M 200 200 L 70.1 270.1 A 150 150 0 0 1 70.1 129.9 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="40" y="145" width="110" height="110"/>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="80" y="165" width="70" height="70"/>
 
 <!-- Sector 6: run again (to close the circle) -->
 <path d="M 200 200 L 70.1 129.9 A 150 150 0 0 1 200 50 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
@@ -368,13 +368,17 @@ var actionIndex=Math.floor(Math.random()*5);
 var action=wheelActions[actionIndex];
 
 // Calculate target angle to align sector center with top pointer
-// Sector centers: 36°, 108°, 180°, 252°, 324° (from top, clockwise)
-var sectorCenters=[36,108,180,252,324];
-var targetAngle=sectorCenters[actionIndex];
+// Each sector is 72° (360°/5)
+// To stop at sector N, rotate -(N * 72°) so that sector's center aligns with top (0°)
+// Sector 0 (run): 0°, Sector 1 (jump): -72°, Sector 2 (walk): -144°, etc.
+var targetAngle=-(actionIndex*72);
 
 // Add 5-8 full rotations for visual effect
 var fullRotations=5+Math.floor(Math.random()*4);
 var totalRotation=fullRotations*360+targetAngle;
+
+// Debug: log the target angle
+console.log('Spinning to action:',action,'(index:',actionIndex,') targetAngle:',targetAngle,'° totalRotation:',totalRotation,'°');
 
 var wheel=document.getElementById('wheel');
 wheel.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
