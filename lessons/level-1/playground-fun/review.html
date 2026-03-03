@@ -34,8 +34,7 @@ body{background:linear-gradient(160deg,#FFE5B4,#98D8C8);overflow:hidden}
 .learn-card.revealed img{opacity:1}
 .learn-card .label{font-size:20px;font-weight:800;color:#2c3e50;opacity:0;transition:opacity .3s}
 .learn-card.revealed .label{opacity:1}
-.card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px;opacity:1;transition:opacity .3s}
-.learn-card.revealed .card-icon{opacity:0}
+.learn-card.revealed{background:#fff}
 .action-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:20px 0;max-width:600px}
 .action-btn{width:120px;height:120px;border-radius:20px;background:#fff;border:4px solid #A8E6CF;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 15px rgba(0,0,0,.12);transition:all .3s}
 .action-btn:hover{transform:scale(1.05)}
@@ -295,7 +294,7 @@ m1Revealed=0;
 W.forEach(function(item){
 var card=document.createElement('div');
 card.className='learn-card';
-card.innerHTML='<div class="card-icon">❓</div><img src="'+item.img+'" alt="'+item.w+'"><div class="label">'+item.w+'</div>';
+card.innerHTML='<img src="'+item.img+'" alt="'+item.w+'"><div class="label">'+item.w+'</div>';
 card.onclick=function(){
 if(card.classList.contains('revealed'))return;
 card.classList.add('revealed');

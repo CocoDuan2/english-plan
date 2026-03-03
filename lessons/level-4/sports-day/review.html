@@ -25,8 +25,7 @@ body{background:linear-gradient(160deg,#667eea,#764ba2);overflow:hidden}
 .learn-card.revealed img{opacity:1}
 .learn-card .lbl{font-size:20px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .3s}
 .learn-card.revealed .lbl{opacity:1}
-.card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px}
-.learn-card.revealed .card-icon{display:none}
+.learn-card.revealed{background:#fff}
 .sport-zone{width:110px;height:110px;border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
 .sport-zone:active{transform:scale(.95)}
 .sport-zone img{width:60px}
@@ -263,7 +262,7 @@ var revealed=0;
 W.forEach(function(item){
 var card=document.createElement('div');
 card.className='learn-card';
-card.innerHTML='<div class="card-icon">❓</div><img src="'+item.e+'" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.innerHTML='<img src="'+item.e+'" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
 card.onclick=function(){
 if(card.classList.contains('revealed'))return;
 card.classList.add('revealed');

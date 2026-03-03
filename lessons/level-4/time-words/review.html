@@ -28,9 +28,7 @@ body{background:linear-gradient(160deg,#a8edea,#fed6e3);overflow:hidden}
 .learn-card:active{transform:scale(.95)}
 .learn-card img{width:90px;display:none}
 .learn-card .lbl{font-size:20px;font-weight:700;color:#2c3e50;display:none}
-.learn-card .card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px}
 .learn-card.revealed{background:#fff}
-.learn-card.revealed .card-icon{display:none}
 .learn-card.revealed img,.learn-card.revealed .lbl{display:block}
 .time-zones{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:700px}
 .time-btn{width:130px;height:130px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
@@ -293,7 +291,7 @@ g.innerHTML='';
 W.forEach(function(x,i){
 var c=document.createElement('div');
 c.className='learn-card';
-c.innerHTML='<div class="card-icon">❓</div><img src="'+x.e+'" alt="'+x.w+'"><div class="lbl">'+x.w+'</div>';
+c.innerHTML='<img src="'+x.e+'" alt="'+x.w+'"><div class="lbl">'+x.w+'</div>';
 c.onclick=function(){
 if(c.classList.contains('revealed'))return speak(x.w);
 c.classList.add('revealed');

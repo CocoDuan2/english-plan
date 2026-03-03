@@ -23,9 +23,7 @@ body{background:linear-gradient(160deg,#fff8e1,#ffecb3);overflow:hidden}
 .card-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .card{width:110px;height:110px;background:#ddd;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden}
 .card .card-inner{opacity:0;transform:translateY(40px) scale(.5);transition:all .5s cubic-bezier(.34,1.56,.64,1);display:flex;flex-direction:column;align-items:center;gap:4px}
-.card.revealed{background:#fff}.card.revealed .card-icon{display:none}
-.card.revealed .card-inner{opacity:1;transform:translateY(0) scale(1)}
-.card .card-icon{font-size:44px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.card.revealed{background:#fff}
 .card img,.card svg{width:90px;height:90px}
 .card .card-label{font-size:16px;font-weight:700;color:#2c3e50}
 .toybox{width:300px;min-height:120px;background:linear-gradient(180deg,#8d6e63,#6d4c41);border-radius:0 0 20px 20px;border:6px solid #5d4037;box-shadow:0 8px 24px rgba(0,0,0,.2);display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;padding:16px;margin:12px 0;position:relative}
@@ -192,7 +190,7 @@ if(m1rev.length>0)return;
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div class="card-icon">🎁</div><div class="card-inner">'+itemHTML(item)+'<div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-inner">'+itemHTML(item)+'<div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
 c.classList.add('revealed');playOk();speak(item.w);m1rev.push(i);

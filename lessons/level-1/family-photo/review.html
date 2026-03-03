@@ -24,9 +24,7 @@ body{background:linear-gradient(160deg,#f3e5f5,#e1bee7);overflow:hidden}
 .card-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .card{width:110px;height:110px;background:#ddd;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .5s;overflow:hidden;position:relative}
 .card .card-inner{opacity:0;transform:translateX(-40px);transition:all .5s;display:flex;flex-direction:column;align-items:center;gap:4px}
-.card.revealed{background:#fff}.card.revealed .card-icon{display:none}
-.card.revealed .card-inner{opacity:1;transform:translateX(0)}
-.card .card-icon{font-size:44px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.card.revealed{background:#fff}
 .card img{width:90px;height:90px}
 .card .card-label{font-size:16px;font-weight:700;color:#2c3e50}
 /* M2 Family Photo - tap to place */
@@ -201,7 +199,7 @@ if(m1rev.length>0)return;
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div class="card-icon">🏠</div><div class="card-inner"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-inner"><img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
 c.classList.add('revealed');
