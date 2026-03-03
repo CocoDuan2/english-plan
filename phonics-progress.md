@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P17 - Letter Q ✅
+- 当前: P18 - Letter R ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -126,6 +126,13 @@
 - 发音: /kw/
 - 单词: queen, quilt, question, quick
 - 故事: 佩琪扮女王
+- 状态: ✅ 完成
+
+### P18 - Letter R · Peppa Meets a Rabbit
+- 字母: R r
+- 发音: /r/
+- 单词: rabbit, rain, red, ring
+- 故事: 佩琪遇见兔子
 - 状态: ✅ 完成
 
 ---
