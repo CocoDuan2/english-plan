@@ -64,16 +64,8 @@ body{
   background:#fff;border:4px solid #e91e8c;border-radius:12px;
   width:80px;height:80px;display:flex;align-items:center;justify-content:center;
   animation:slideIn 0.5s ease-out forwards;
-  opacity:0;
+  opacity:0;transform:translateX(-20px);
 }
-@keyframes slideIn{
-  to{opacity:1;transform:translateX(0)}
-}
-.blend-letter:nth-child(1){animation-delay:0s;transform:translateX(-20px)}
-.blend-letter:nth-child(2){animation-delay:0.3s;transform:translateX(-20px)}
-.blend-letter:nth-child(3){animation-delay:0.6s;transform:translateX(-20px)}
-.blend-letter:nth-child(4){animation-delay:0.9s;transform:translateX(-20px)}
-.blend-letter:nth-child(5){animation-delay:1.2s;transform:translateX(-20px)}
 .blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
 .blend-word{
   font-size:72px;font-weight:900;color:#2c3e50;
@@ -82,6 +74,9 @@ body{
 }
 @keyframes popIn{
   to{opacity:1;transform:scale(1)}
+}
+@keyframes slideIn{
+  to{opacity:1;transform:translateX(0)}
 }
 .sound-btn{
   width:100px;height:100px;border-radius:50%;
@@ -227,21 +222,28 @@ body{
   <div class="word">alligator</div>
 </div>
 
-<!-- S7: Blending - apple -->
+<!-- S7: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-    <div class="bbl">Let's blend: apple!</div>
+    <div class="bbl">Let's blend!</div>
   </div>
-  <div class="blend-box">
-    <div class="blend-letter">a</div>
-    <div class="blend-letter">p</div>
-    <div class="blend-letter">p</div>
-    <div class="blend-letter">l</div>
-    <div class="blend-letter">e</div>
+  <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="showBlend('apple',['a','p','p','l','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="showBlend('ant',['a','n','t'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('alligator',['a','l','l','i','g','a','t','o','r'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+    </button>
   </div>
-  <div class="blend-arrow">→</div>
-  <div class="blend-word">apple</div>
+  <div id="blendAnim" style="display:none">
+    <div class="blend-box" id="blendBox"></div>
+    <div class="blend-arrow">→</div>
+    <div class="blend-word" id="blendWord"></div>
+  </div>
 </div>
 
 <!-- S8: Listen & Say -->
@@ -352,6 +354,43 @@ function speak(w){
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     new Audio(u2).play().catch(()=>console.log('Audio failed'));
   });
+}
+function showBlend(word,letters){
+  const choice=document.getElementById('blendChoice');
+  const anim=document.getElementById('blendAnim');
+  const box=document.getElementById('blendBox');
+  const wordEl=document.getElementById('blendWord');
+  
+  // Hide buttons, show animation area
+  choice.style.display='none';
+  anim.style.display='block';
+  
+  // Clear previous animation
+  box.innerHTML='';
+  wordEl.textContent='';
+  wordEl.style.animation='none';
+  
+  // Create letter elements
+  letters.forEach((letter,i)=>{
+    const div=document.createElement('div');
+    div.className='blend-letter';
+    div.textContent=letter;
+    div.style.animationDelay=`${i*0.3}s`;
+    box.appendChild(div);
+  });
+  
+  // Show final word after all letters
+  setTimeout(()=>{
+    wordEl.textContent=word;
+    wordEl.style.animation='popIn 0.5s ease-out forwards';
+    speak(word);
+  },letters.length*300+500);
+  
+  // Reset after animation completes
+  setTimeout(()=>{
+    choice.style.display='flex';
+    anim.style.display='none';
+  },letters.length*300+3000);
 }
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')prev();
