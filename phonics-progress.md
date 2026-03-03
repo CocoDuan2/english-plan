@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P6 - Letter F ✅
+- 当前: P7 - Letter G ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -49,6 +49,13 @@
 - 发音: /f/
 - 单词: fish, frog, flower, fan
 - 故事: 佩琪去钓鱼
+- 状态: ✅ 完成
+
+### P7 - Letter G · Peppa Gets a Gift
+- 字母: G g
+- 发音: /g/
+- 单词: goat, girl, gift, gate
+- 故事: 佩琪收礼物
 - 状态: ✅ 完成
 
 ---
