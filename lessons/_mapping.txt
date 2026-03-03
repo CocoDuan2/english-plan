@@ -32,13 +32,13 @@ day26-bedtime -> level-3/bedtime-story
 day27-shapes -> level-3/shapes-around-us
 day28-birthday-party -> level-3/birthday-party
 day29-shopping-trip -> level-3/shopping-trip
-day30-seasons -> level-3/seasons-change
+day30-doctor-visit -> level-3/doctor-visit
 
 # Level 4 (Day 31-40)
 day31-helping-at-home -> level-4/helping-at-home
 day32-school-day -> level-4/school-day
 day33-pet -> level-4/pet-care
-day34-doctor-visit -> level-4/doctor-visit
+day34-seasons -> level-4/seasons-change
 day35-cooking -> level-4/cooking-together
 day36-sports -> level-4/sports-day
 day37-feelings -> level-4/feelings-emotions
