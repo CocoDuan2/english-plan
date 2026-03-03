@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P13 - Letter M ✅
+- 当前: P14 - Letter N ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -98,6 +98,13 @@
 - 发音: /m/
 - 单词: moon, milk, monkey, map
 - 故事: 佩琪看月亮
+- 状态: ✅ 完成
+
+### P14 - Letter N · Peppa Finds a Nest
+- 字母: N n
+- 发音: /n/
+- 单词: nose, nest, net, nut
+- 故事: 佩琪找鸟巢
 - 状态: ✅ 完成
 
 ---
