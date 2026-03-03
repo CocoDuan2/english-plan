@@ -77,10 +77,11 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S2: Game 1 - Find the word -->
+<!-- S2: Game 1 - Listen and find -->
 <div class="sl bg-yellow">
-<div class="ttl" style="font-size:32px">Find the word!</div>
-<div style="font-size:48px;font-weight:800;color:#e67e22;margin:20px 0" id="target-word">cook</div>
+<div class="ttl" style="font-size:32px">Listen and tap! 👂</div>
+<div class="sub">Tap what you hear</div>
+<button class="nb" style="margin:10px;font-size:24px" onclick="speak(gameWords[currentWordIndex])">🔊 Play</button>
 <div class="word-grid" id="game-grid">
 <button class="word-btn" data-word="cook" onclick="checkAnswer(this)">
 <div class="emoji">👩‍🍳</div>
