@@ -36,18 +36,26 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sound-btn{width:110px;height:110px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .2s}
 .sound-btn:active{transform:scale(.92)}
 .sound-btn img{width:60px;height:60px}
-.wheel-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:25px;padding:20px}
-.wheel-wrapper{position:relative;width:340px;height:340px;display:flex;align-items:center;justify-content:center}
-.wheel{width:340px;height:340px;transition:transform 3s cubic-bezier(.17,.67,.12,.99);will-change:transform}
-.wheel-pointer{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:50px;color:#e67e22;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3));z-index:10}
-.wheel-btn{padding:18px 50px;font-size:32px;font-weight:900;color:#fff;background:linear-gradient(135deg,#FF6B9D,#FFA07A);border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 20px rgba(255,107,157,.4);transition:all .2s}
-.wheel-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,107,157,.5)}
-.wheel-btn:active{transform:translateY(0);box-shadow:0 4px 15px rgba(255,107,157,.4)}
-.wheel-btn:disabled{background:#ddd;cursor:not-allowed;box-shadow:none}
-.wheel-result{margin-top:20px;display:flex;align-items:center;gap:15px;opacity:0;transition:opacity .5s}
-.wheel-result.show{opacity:1}
-.wheel-result img{width:120px;height:auto}
-.wheel-result .bbl{font-size:32px;padding:15px 25px}
+.card-game-container{display:flex;flex-direction:column;align-items:center;gap:25px;padding:20px}
+.cards-row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;max-width:900px}
+.flip-card{width:150px;height:200px;perspective:1000px;cursor:pointer}
+.flip-card-inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
+.flip-card-front,.flip-card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.flip-card-front{background:linear-gradient(135deg,#fce4ec,#f8bbd0);border:4px solid #F9ADC7}
+.flip-card-back{background:#fff;transform:rotateY(180deg)}
+.flip-card-front img{width:80px;height:80px;margin-bottom:10px}
+.flip-card-front .question{font-size:60px;color:#e91e8c}
+.flip-card-back img{width:100px;height:100px}
+.flip-card-back .action-label{font-size:24px;font-weight:800;color:#2c3e50;margin-top:10px}
+.card-game-btn{padding:18px 50px;font-size:32px;font-weight:900;color:#fff;background:linear-gradient(135deg,#FF6B9D,#FFA07A);border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 20px rgba(255,107,157,.4);transition:all .2s;display:none}
+.card-game-btn.show{display:block}
+.card-game-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,107,157,.5)}
+.card-game-btn:active{transform:translateY(0);box-shadow:0 4px 15px rgba(255,107,157,.4)}
+.card-result{margin-top:20px;display:flex;align-items:center;gap:15px;opacity:0;transition:opacity .5s}
+.card-result.show{opacity:1}
+.card-result img{width:120px;height:auto}
+.card-result .bbl{font-size:32px;padding:15px 25px}
 .char-shake{animation:char-shake 1s ease-in-out infinite}
 @keyframes char-shake{
 0%,100%{transform:translateX(0)}
@@ -78,12 +86,14 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .hello-peppa{width:120px!important}
 .sound-btn{width:90px;height:90px;font-size:16px}
 .sound-btn img{width:50px;height:50px}
-.wheel-wrapper{width:280px;height:280px}
-.wheel{width:280px;height:280px}
-.wheel-pointer{font-size:40px;top:-10px}
-.wheel-btn{padding:14px 40px;font-size:26px}
-.wheel-result img{width:90px}
-.wheel-result .bbl{font-size:24px;padding:10px 18px}
+.flip-card{width:120px;height:160px}
+.flip-card-front img{width:60px;height:60px}
+.flip-card-front .question{font-size:50px}
+.flip-card-back img{width:80px;height:80px}
+.flip-card-back .action-label{font-size:20px}
+.card-game-btn{padding:14px 40px;font-size:26px}
+.card-result img{width:90px}
+.card-result .bbl{font-size:24px;padding:10px 18px}
 .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
 .all-item img{width:70px;height:70px}
 .all-item .label{font-size:20px}
@@ -108,7 +118,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" width="70" alt="run">
 <img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" width="70" alt="jump">
 <img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" width="70" alt="walk">
-<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" width="70" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9d8.svg" width="70" alt="sit">
 <img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" width="70" alt="stand">
 </div>
 </div>
@@ -162,7 +172,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="bbl">I can sit!</div>
 </div>
 <div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9d8.svg" alt="sit">
 </div>
 <div class="word">SIT</div>
 </div>
@@ -199,7 +209,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <span>walk</span>
 </button>
 <button class="sound-btn" style="background:linear-gradient(135deg,#A8DADC,#457B9D)" onclick="speak('sit')">
-<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9d8.svg" alt="sit">
 <span>sit</span>
 </button>
 <button class="sound-btn" style="background:linear-gradient(135deg,#E9C46A,#F4A261)" onclick="speak('stand')">
@@ -209,52 +219,17 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 </div>
 </div>
 
-<!-- S8: Action Wheel -->
+<!-- S8: Card Flip Game -->
 <div class="sl bg-playground">
-<div class="wheel-container">
-<div class="wheel-wrapper">
-<svg class="wheel" id="wheel" viewBox="0 0 400 400">
-<g id="wheelSectors">
-<!-- Sector 1: run (pink) - 0° -->
-<path d="M 200 200 L 200 50 A 150 150 0 0 1 279.9 79.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
-<image id="img0" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="165" y="80" width="70" height="70"/>
-
-<!-- Sector 2: jump (blue) - 60° -->
-<path d="M 200 200 L 279.9 79.9 A 150 150 0 0 1 320.1 200 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
-<image id="img1" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="250" y="135" width="70" height="70"/>
-
-<!-- Sector 3: walk (green) - 120° -->
-<path d="M 200 200 L 320.1 200 A 150 150 0 0 1 279.9 320.1 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
-<image id="img2" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="250" y="195" width="70" height="70"/>
-
-<!-- Sector 4: sit (yellow) - 180° -->
-<path d="M 200 200 L 279.9 320.1 A 150 150 0 0 1 120.1 320.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
-<image id="img3" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="165" y="250" width="70" height="70"/>
-
-<!-- Sector 5: stand (orange) - 240° -->
-<path d="M 200 200 L 120.1 320.1 A 150 150 0 0 1 79.9 200 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
-<image id="img4" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="80" y="195" width="70" height="70"/>
-
-<!-- Sector 6: star (gold) - 300° -->
-<path d="M 200 200 L 79.9 200 A 150 150 0 0 1 120.1 79.9 Z" fill="#FFD700" stroke="#fff" stroke-width="3"/>
-<image id="img5" href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u2b50.svg" x="80" y="135" width="70" height="70"/>
-</g>
-
-<!-- Center circle -->
-<circle cx="200" cy="200" r="40" fill="#fff" stroke="#2c3e50" stroke-width="4"/>
-<text x="200" y="210" font-size="28" font-weight="900" fill="#2c3e50" text-anchor="middle">GO!</text>
-</svg>
-
-<!-- Pointer -->
-<div class="wheel-pointer">▲</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Pick a card!</div>
 </div>
-
-<button class="wheel-btn" id="wheelBtn" onclick="spinWheel()">
-<span id="wheelBtnText">Spin!</span>
-</button>
-
-<div class="wheel-result" id="wheelResult"></div>
+<div class="card-game-container">
+<div class="cards-row" id="cardsRow"></div>
+<button class="card-game-btn" id="cardGameBtn" onclick="resetCardGame()">Play again!</button>
 </div>
+<div class="card-result" id="cardResult"></div>
 </div>
 
 <!-- S9: All Together -->
@@ -277,7 +252,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="label">walk</div>
 </div>
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" alt="sit">
+<img src="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9d8.svg" alt="sit">
 <div class="label">sit</div>
 </div>
 <div class="all-item">
@@ -316,7 +291,7 @@ var N={
 5:'New word: sit - Mummy Pig says "I can sit!" with sitting emoji',
 6:'New word: stand - Peppa says "I can stand!" with standing emoji',
 7:'Listen & Say: 5 colorful buttons with action emojis, click to hear pronunciation',
-8:'Action Wheel: Click "Spin!" to rotate the wheel (340px, 6 colored sectors: run/jump/walk/sit/stand/star). Spins 3s with easing, emojis stay upright. Lands on random action. Regular actions show "I can ___!", star shows "Wow! Lucky star!" with confetti. Click "Spin again!" for more.',
+8:'Card Flip Game: 5 cards face-down (150x200px, pink gradient with Peppa icon + ?). Click any card to flip (3D rotateY animation, 0.6s). If action emoji → shows "I can ___!" + speaks word. If lucky star ⭐ → confetti + "Wow! Lucky star!". Other 4 cards auto-flip after 0.5s delay. Random: 1 star + 4 actions (from 5 total). "Play again!" button resets game.',
 9:'All Together: Grid showing all 5 actions for teacher to point and ask',
 10:'Bye: Celebration and preview of next lesson (feelings)'
 };
@@ -339,87 +314,123 @@ elem.classList.remove('animate-'+action);
 },1000);
 }
 
-// Action Wheel Game
-var wheelActions=['run','jump','walk','sit','stand','star'];
-var wheelCharacters={
+// Card Flip Game
+var cardActions=['run','jump','walk','sit','stand'];
+var cardEmojis={
+run:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg',
+jump:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg',
+walk:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg',
+sit:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9d8.svg',
+stand:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg'
+};
+var cardCharacters={
 run:'../../../assets/peppa/peppa-pig-happy-standing.png',
 jump:'../../../assets/peppa/george-standing.png',
 walk:'../../../assets/peppa/daddy-pig-walking.png',
 sit:'../../../assets/peppa/mummy-pig-standing-grass.png',
-stand:'../../../assets/peppa/peppa-pig-happy-standing.png',
-star:'../../../assets/peppa/peppa-pig-happy-standing.png'
+stand:'../../../assets/peppa/peppa-pig-happy-standing.png'
 };
-var wheelSpinning=false;
+var cardGameBusy=false;
+var currentCards=[];
 
-function spinWheel(){
-if(wheelSpinning)return;
-wheelSpinning=true;
+function initCardGame(){
+// Pick 1 random star position (0-4)
+var starPos=Math.floor(Math.random()*5);
 
-var btn=document.getElementById('wheelBtn');
-var btnText=document.getElementById('wheelBtnText');
-btn.disabled=true;
-btnText.textContent='Spinning...';
+// Pick 4 random actions from 5 total
+var shuffled=cardActions.slice().sort(function(){return Math.random()-.5});
+var selectedActions=shuffled.slice(0,4);
 
-// Hide previous result
-var result=document.getElementById('wheelResult');
-result.classList.remove('show');
-result.innerHTML='';
-
-// Pick random action (0-5)
-var actionIndex=Math.floor(Math.random()*6);
-var action=wheelActions[actionIndex];
-
-// Calculate target angle to align sector center with top pointer
-// Each sector is 60° (360°/6)
-// To stop at sector N, rotate -(N * 60°) so that sector's center aligns with top (0°)
-// Sector 0 (run): 0°, Sector 1 (jump): -60°, Sector 2 (walk): -120°, etc.
-var targetAngle=-(actionIndex*60);
-
-// Add 5-8 full rotations for visual effect
-var fullRotations=5+Math.floor(Math.random()*4);
-var totalRotation=fullRotations*360+targetAngle;
-
-// Debug: log the target angle
-console.log('Spinning to action:',action,'(index:',actionIndex,') targetAngle:',targetAngle,'° totalRotation:',totalRotation,'°');
-
-var wheel=document.getElementById('wheel');
-wheel.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
-wheel.style.transform='rotate('+totalRotation+'deg)';
-
-// Keep images upright by counter-rotating
-for(var i=0;i<6;i++){
-var img=document.getElementById('img'+i);
-img.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
-img.style.transformOrigin='35px 35px'; // center of 70x70 image
-img.style.transform='rotate('+(-(totalRotation))+'deg)';
+// Build cards array
+currentCards=[];
+for(var i=0;i<5;i++){
+if(i===starPos){
+currentCards.push({type:'star',emoji:'https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u2b50.svg',label:'⭐'});
+}else{
+var action=selectedActions.shift();
+currentCards.push({type:'action',action:action,emoji:cardEmojis[action],label:action});
+}
 }
 
+// Render cards
+var row=document.getElementById('cardsRow');
+row.innerHTML='';
+for(var i=0;i<5;i++){
+var card=document.createElement('div');
+card.className='flip-card';
+card.dataset.index=i;
+card.innerHTML='<div class="flip-card-inner">'+
+'<div class="flip-card-front">'+
+'<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">'+
+'<div class="question">?</div>'+
+'</div>'+
+'<div class="flip-card-back">'+
+'<img src="'+currentCards[i].emoji+'" alt="'+currentCards[i].label+'">'+
+'<div class="action-label">'+currentCards[i].label+'</div>'+
+'</div>'+
+'</div>';
+card.onclick=function(){flipCard(this);};
+row.appendChild(card);
+}
+
+// Hide button and result
+document.getElementById('cardGameBtn').classList.remove('show');
+document.getElementById('cardResult').classList.remove('show');
+cardGameBusy=false;
+}
+
+function flipCard(cardElem){
+if(cardGameBusy)return;
+if(cardElem.classList.contains('flipped'))return;
+
+cardGameBusy=true;
+var idx=parseInt(cardElem.dataset.index);
+var cardData=currentCards[idx];
+
+// Flip the clicked card
+cardElem.classList.add('flipped');
+
+// Wait for flip animation
 setTimeout(function(){
 // Show result
-showWheelResult(action);
+showCardResult(cardData);
 
-// Reset button
-btn.disabled=false;
-btnText.textContent='Spin again!';
-wheelSpinning=false;
-},3200);
+// Flip other cards after 0.5s
+setTimeout(function(){
+var allCards=document.querySelectorAll('.flip-card');
+allCards.forEach(function(c){
+if(!c.classList.contains('flipped')){
+c.classList.add('flipped');
+}
+});
+
+// Show "Play again" button
+document.getElementById('cardGameBtn').classList.add('show');
+cardGameBusy=false;
+},500);
+},600);
 }
 
-function showWheelResult(action){
-var result=document.getElementById('wheelResult');
-var charImg=wheelCharacters[action];
+function showCardResult(cardData){
+var result=document.getElementById('cardResult');
 
-if(action==='star'){
-// Special star effect
+if(cardData.type==='star'){
+// Lucky star
 showConfetti();
-result.innerHTML='<img src="'+charImg+'" alt="Peppa"><div class="bbl">Wow! Lucky star!</div>';
+result.innerHTML='<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa"><div class="bbl">Wow! Lucky star!</div>';
 result.classList.add('show');
 speak('Wow! Lucky star!');
 }else{
-result.innerHTML='<img src="'+charImg+'" alt="character"><div class="bbl">I can '+action+'!</div>';
+// Action
+var charImg=cardCharacters[cardData.action];
+result.innerHTML='<img src="'+charImg+'" alt="character"><div class="bbl">I can '+cardData.action+'!</div>';
 result.classList.add('show');
-speak('I can '+action);
+speak('I can '+cardData.action);
 }
+}
+
+function resetCardGame(){
+initCardGame();
 }
 
 function showConfetti(){
@@ -481,6 +492,9 @@ if(e.key==='ArrowLeft')goTo(c-1);
 if(e.key==='ArrowRight')goTo(c+1);
 if(e.key==='t'||e.key==='T')tn();
 });
+
+// Initialize card game when page loads
+initCardGame();
 
 goTo(0);
 </script>
