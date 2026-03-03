@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 34 - Shopping Trip ✅
-- 更新时间: 2026-03-03 08:11
+- 当前: Day 35 - Cooking Together ✅
+- 更新时间: 2026-03-03 09:03
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -236,9 +236,16 @@
 - Review 游戏: Learn (reveal) → Shopping Game (点击购物) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 35 - Cooking Together
+## Day 35 - Cooking Together
 - 新词: cook, mix, pour, taste, yummy
 - 句式: Let's ___!
-- 互动: Listen & Say → Cooking Game → All Together
+- Teach 互动: Listen & Say → Kitchen Scene → All Together
+- Review 游戏: Learn (reveal) → Cooking Game (点击厨房物品) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 36 - Sports Day
+- 新词: kick, throw, catch, race, win
+- 句式: I can ___!
+- 互动: Listen & Say → Sports Game → All Together
 
