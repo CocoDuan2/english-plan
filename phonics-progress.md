@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P1 - Letter A ✅
+- 当前: P2 - Letter B ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -12,16 +12,16 @@
 ### P1 - Letter A · Peppa's Apple Orchard
 - 字母: A a
 - 发音: /æ/
-- 单词: apple, ant, alligator
+- 单词: apple, ant, alligator, ax
 - 故事: 佩琪的苹果园
 - 状态: ✅ 完成
 
 ### P2 - Letter B · Peppa Plays Ball
 - 字母: B b
 - 发音: /b/
-- 单词: ball, bear, banana
+- 单词: ball, bear, banana, bat
 - 故事: 佩琪玩球
-- 状态: ⏳ 待生成
+- 状态: ✅ 完成
 
 ---
 
