@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 35 - Cooking Together</title>
+<title>Day 36 - Sports Day</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
@@ -12,30 +12,30 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .sl.on{display:flex}
 .bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
 .bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
-.bg-orange{background:linear-gradient(160deg,#ffe5d0,#ffd4a3)}
-.bg-yellow{background:linear-gradient(160deg,#fff9e6,#ffe680)}
+.bg-sport{background:linear-gradient(135deg,#667eea,#764ba2)}
+.bg-green{background:linear-gradient(160deg,#d4fc79,#96e6a1)}
+.bg-orange{background:linear-gradient(160deg,#ffecd2,#fcb69f)}
 .ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
 .sub{font-size:22px;color:#7f8c8d}
 .word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
 .sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
-.pr{display:flex;align-items:center;gap:12px;margin:10px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0;justify-content:center}
 .pr img{width:75px;height:auto}
+.pr.big img{width:110px}
 .bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
 .bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
 .obj-wrap{margin:10px 0}
-.obj-wrap img{width:160px;height:auto}
-.hello-img{width:110px;height:auto;margin:10px 0}
-.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .1s}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s}
 .sound-btn:active{transform:scale(.9)}
-.sound-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:20px 0}
-.kitchen-scene{display:flex;flex-wrap:wrap;gap:30px;justify-content:center;margin:20px 0}
-.kitchen-item{cursor:pointer;transition:transform .2s}
-.kitchen-item:hover{transform:scale(1.1)}
-.kitchen-item img{width:120px;height:auto}
-.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px auto}
-.all-item{text-align:center}
-.all-item img{width:80px;height:auto;margin-bottom:8px}
-.all-item div{font-size:24px;font-weight:700;color:#2c3e50}
+.sound-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.sport-field{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:20px 0;max-width:600px}
+.sport-zone{width:110px;height:110px;border-radius:16px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.sport-zone:active{transform:scale(.95)}
+.sport-zone img{width:60px;height:60px}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px}
+.all-item .lbl{font-size:24px;font-weight:700;color:#2c3e50}
 .fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
 .fab.on{background:#2c3e50}
 .pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
@@ -50,12 +50,12 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .word{font-size:56px;letter-spacing:2px}
 .sent{font-size:24px}
 .bbl{font-size:20px;padding:8px 14px}
-.obj-wrap img{width:120px}
-.hello-img{width:90px}
 .sound-btn{width:80px;height:80px;font-size:36px}
+.sport-zone{width:90px;height:90px;font-size:16px}
+.sport-zone img{width:50px;height:50px}
 .all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
 .all-item img{width:70px}
-.all-item div{font-size:20px}
+.all-item .lbl{font-size:20px}
 }
 @media(min-width:768px){
 .word{font-size:100px}
@@ -67,153 +67,161 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="deck">
 
 <!-- S0: Title -->
-<div class="sl bg-pink on">
-<img src="../../../assets/peppa/mummy-pig-standing-grass.png" class="hello-img" alt="Mummy Pig">
-<div class="ttl">Cooking Together</div>
-<div class="sub">Let's make yummy cookies!</div>
+<div class="sl bg-sport on">
+<div class="pr big">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+</div>
+<div class="ttl">Sports Day</div>
+<div class="sub">Let's play sports with Peppa!</div>
 </div>
 
 <!-- S1: Hello -->
+<div class="sl bg-pink">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:20px">
+<div class="ttl">Hello! Let's play sports!</div>
+</div>
+
+<!-- S2: kick -->
 <div class="sl bg-sky">
-<img src="../../../assets/peppa/peppa-pig-happy-standing.png" class="hello-img" alt="Peppa">
-<div class="ttl">Let's cook with Mummy!</div>
-</div>
-
-<!-- S2: cook -->
-<div class="sl bg-orange">
-<div class="pr">
-<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
-<div class="bbl">Let's cook!</div>
-</div>
-<div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
-</div>
-<div class="word">cook</div>
-</div>
-
-<!-- S3: mix -->
-<div class="sl bg-yellow">
 <div class="pr">
 <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-<div class="bbl">Let's mix!</div>
+<div class="bbl">I can kick!</div>
 </div>
 <div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="160" alt="kick">
 </div>
-<div class="word">mix</div>
+<div class="word">kick</div>
 </div>
 
-<!-- S4: pour -->
-<div class="sl bg-orange">
+<!-- S3: throw -->
+<div class="sl bg-sky">
 <div class="pr">
 <img src="../../../assets/peppa/george-standing.png" alt="George">
-<div class="bbl">Let's pour!</div>
+<div class="bbl">I can throw!</div>
 </div>
 <div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c0.svg" width="160" alt="throw">
 </div>
-<div class="word">pour</div>
-</div>
-
-<!-- S5: taste -->
-<div class="sl bg-yellow">
-<div class="pr">
-<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
-<div class="bbl">Let's taste!</div>
-</div>
-<div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
-</div>
-<div class="word">taste</div>
+<div class="word">throw</div>
 </div>
 
-<!-- S6: yummy -->
-<div class="sl bg-orange">
-<div class="pr">
-<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-<div class="bbl">Let's yummy!</div>
-</div>
-<div class="obj-wrap">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
-</div>
-<div class="word">yummy</div>
-</div>
-
-<!-- S7: Listen & Say -->
+<!-- S4: catch -->
 <div class="sl bg-sky">
 <div class="pr">
-<img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+<div class="bbl">I can catch!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f94e.svg" width="160" alt="catch">
+</div>
+<div class="word">catch</div>
+</div>
+
+<!-- S5: race -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">I can race!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="160" alt="race">
+</div>
+<div class="word">race</div>
+</div>
+
+<!-- S6: win -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily Elephant">
+<div class="bbl">I can win!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c6.svg" width="160" alt="win">
+</div>
+<div class="word">win</div>
+</div>
+
+<!-- S7: Listen & Say (Sports Field) -->
+<div class="sl bg-green">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
 <div class="bbl">Listen and say!</div>
 </div>
 <div class="sound-grid">
-<button class="sound-btn" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)" onclick="speak('cook')">🍳</button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('mix')">🥣</button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#ffd89b,#19547b)" onclick="speak('pour')">🥛</button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#f093fb,#f5576c)" onclick="speak('taste')">😋</button>
-<button class="sound-btn" style="background:linear-gradient(135deg,#4facfe,#00f2fe)" onclick="speak('yummy')">🍪</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#667eea,#764ba2)" onclick="speak('kick')">⚽</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#f093fb,#f5576c)" onclick="speak('throw')">🏀</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#4facfe,#00f2fe)" onclick="speak('catch')">🥎</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#43e97b,#38f9d7)" onclick="speak('race')">🏃</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#fa709a,#fee140)" onclick="speak('win')">🏆</button>
 </div>
 </div>
 
-<!-- S8: Kitchen Scene -->
-<div class="sl bg-yellow">
+<!-- S8: Sports Game (Click to Play) -->
+<div class="sl bg-orange">
 <div class="pr">
-<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
-<div class="bbl">Help me in the kitchen!</div>
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Let's play sports!</div>
 </div>
-<div class="kitchen-scene">
-<div class="kitchen-item" onclick="speak('cook')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
-</div>
-<div class="kitchen-item" onclick="speak('mix')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
-</div>
-<div class="kitchen-item" onclick="speak('pour')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
-</div>
-<div class="kitchen-item" onclick="speak('taste')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
-</div>
-<div class="kitchen-item" onclick="speak('yummy')">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
-</div>
+<div class="sport-field">
+<button class="sport-zone" style="background:linear-gradient(135deg,#667eea,#764ba2)" onclick="speak('kick')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="kick">
+<span>kick</span>
+</button>
+<button class="sport-zone" style="background:linear-gradient(135deg,#f093fb,#f5576c)" onclick="speak('throw')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c0.svg" alt="throw">
+<span>throw</span>
+</button>
+<button class="sport-zone" style="background:linear-gradient(135deg,#4facfe,#00f2fe)" onclick="speak('catch')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f94e.svg" alt="catch">
+<span>catch</span>
+</button>
+<button class="sport-zone" style="background:linear-gradient(135deg,#43e97b,#38f9d7)" onclick="speak('race')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="race">
+<span>race</span>
+</button>
+<button class="sport-zone" style="background:linear-gradient(135deg,#fa709a,#fee140)" onclick="speak('win')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c6.svg" alt="win">
+<span>win</span>
+</button>
 </div>
 </div>
 
 <!-- S9: All Together -->
-<div class="sl bg-orange">
+<div class="sl bg-pink">
 <div class="pr">
-<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
-<div class="bbl">We love cooking!</div>
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family" style="width:120px">
 </div>
+<div class="ttl">All Together!</div>
 <div class="all-grid">
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" alt="cook">
-<div>cook</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="kick">
+<div class="lbl">kick</div>
 </div>
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" alt="mix">
-<div>mix</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c0.svg" alt="throw">
+<div class="lbl">throw</div>
 </div>
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="pour">
-<div>pour</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f94e.svg" alt="catch">
+<div class="lbl">catch</div>
 </div>
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" alt="taste">
-<div>taste</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" alt="race">
+<div class="lbl">race</div>
 </div>
 <div class="all-item">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" alt="yummy">
-<div>yummy</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c6.svg" alt="win">
+<div class="lbl">win</div>
 </div>
 </div>
 </div>
 
 <!-- S10: Bye -->
 <div class="sl bg-pink">
-<img src="../../../assets/peppa/peppa-pig-happy-standing.png" class="hello-img" alt="Peppa">
+<img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George" style="width:110px;margin-bottom:20px">
 <div class="ttl">Great job!</div>
-<div class="sub">Tomorrow: Let's play sports!</div>
+<div class="sub">Tomorrow we'll learn about feelings!</div>
 </div>
 
 </div>
@@ -230,17 +238,17 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <script>
 var c=0,t=10;
 var N={
-0:'Title page: Cooking Together story begins.',
-1:'Hello: Peppa invites you to cook with Mummy.',
-2:'New word: cook - Let\'s cook!',
-3:'New word: mix - Let\'s mix!',
-4:'New word: pour - Let\'s pour!',
-5:'New word: taste - Let\'s taste!',
-6:'New word: yummy - Let\'s yummy!',
-7:'Listen & Say: Click each button to hear the word.',
-8:'Kitchen Scene: Click items to hear cooking words.',
-9:'All Together: Review all 5 words.',
-10:'Bye: Great job! Tomorrow we play sports!'
+0:'Title page: Sports Day theme introduction.',
+1:'Hello page: Peppa invites to play sports.',
+2:'New word: kick - I can kick!',
+3:'New word: throw - I can throw!',
+4:'New word: catch - I can catch!',
+5:'New word: race - I can race!',
+6:'New word: win - I can win!',
+7:'Listen & Say: Click each sport button to hear the word.',
+8:'Sports Game: Click each sport zone to practice.',
+9:'All Together: Review all 5 sports words.',
+10:'Bye: Celebrate and preview tomorrow.'
 };
 
 function speak(txt){
