@@ -20,8 +20,12 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .word-btn:active{transform:scale(.95)}
 .word-btn.correct{background:#4caf50;transform:scale(1.1)}
 .word-btn.wrong{background:#f44336;animation:shake .3s}
+.word-btn.matched{opacity:.3;pointer-events:none}
+.word-btn.selected{border:4px solid #2196f3;transform:scale(1.05)}
 .emoji{font-size:70px}
 .label{font-size:18px;font-weight:700;color:#555}
+.play-btn{width:100px;height:100px;border-radius:50%;border:none;background:#4caf50;color:#fff;font-size:50px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);margin:15px}
+.play-btn:active{transform:scale(.9)}
 .nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
 .nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
 .nb:disabled{background:#ddd;color:#bbb}
@@ -38,6 +42,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 .word-btn{width:140px;height:140px}
 .emoji{font-size:60px}
 .label{font-size:16px}
+.play-btn{width:80px;height:80px;font-size:40px}
 }
 </style>
 </head>
@@ -80,48 +85,45 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <!-- S2: Game 1 - Listen and find -->
 <div class="sl bg-yellow">
 <div class="ttl" style="font-size:32px">Listen and tap! 👂</div>
-<div class="sub">Tap what you hear</div>
-<button class="nb" style="margin:10px;font-size:24px" onclick="speak(gameWords[currentWordIndex])">🔊 Play</button>
-<div class="word-grid" id="game-grid">
-<button class="word-btn" data-word="cook" onclick="checkAnswer(this)">
+<button class="play-btn" onclick="playCurrentWord()">🔊</button>
+<div class="word-grid" id="game1-grid">
+<button class="word-btn" data-word="cook" onclick="checkGame1(this)">
 <div class="emoji">👩‍🍳</div>
 </button>
-<button class="word-btn" data-word="mix" onclick="checkAnswer(this)">
+<button class="word-btn" data-word="mix" onclick="checkGame1(this)">
 <div class="emoji">🥣</div>
 </button>
-<button class="word-btn" data-word="cookie" onclick="checkAnswer(this)">
+<button class="word-btn" data-word="cookie" onclick="checkGame1(this)">
 <div class="emoji">🍪</div>
 </button>
-<button class="word-btn" data-word="yummy" onclick="checkAnswer(this)">
+<button class="word-btn" data-word="yummy" onclick="checkGame1(this)">
 <div class="emoji">😋</div>
 </button>
 </div>
 </div>
 
-<!-- S3: Game 2 - Listen and tap -->
+<!-- S3: Game 2 - Memory match -->
 <div class="sl bg-yellow">
-<div class="ttl" style="font-size:32px">Listen and tap!</div>
-<div class="sub">Tap the word you hear</div>
-<div class="word-grid" id="listen-grid">
-<button class="word-btn" data-word="cook" onclick="checkListen(this)">
-<div class="emoji">👩‍🍳</div>
-<div class="label">cook</div>
+<div class="ttl" style="font-size:32px">Match pairs! 🎯</div>
+<div class="sub">Find two same words</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:450px;margin:20px auto" id="match-grid">
+<button class="word-btn" style="width:130px;height:130px" data-word="cook" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">👩‍🍳</div>
 </button>
-<button class="word-btn" data-word="mix" onclick="checkListen(this)">
-<div class="emoji">🥣</div>
-<div class="label">mix</div>
+<button class="word-btn" style="width:130px;height:130px" data-word="mix" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">🥣</div>
 </button>
-<button class="word-btn" data-word="cookie" onclick="checkListen(this)">
-<div class="emoji">🍪</div>
-<div class="label">cookie</div>
+<button class="word-btn" style="width:130px;height:130px" data-word="cookie" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">🍪</div>
 </button>
-<button class="word-btn" data-word="taste" onclick="checkListen(this)">
-<div class="emoji">👅</div>
-<div class="label">taste</div>
+<button class="word-btn" style="width:130px;height:130px" data-word="cook" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">👩‍🍳</div>
 </button>
-<button class="word-btn" data-word="yummy" onclick="checkListen(this)">
-<div class="emoji">😋</div>
-<div class="label">yummy</div>
+<button class="word-btn" style="width:130px;height:130px" data-word="mix" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">🥣</div>
+</button>
+<button class="word-btn" style="width:130px;height:130px" data-word="cookie" onclick="selectCard(this)">
+<div class="emoji" style="font-size:50px">🍪</div>
 </button>
 </div>
 </div>
@@ -155,13 +157,11 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 
 <script>
 var c=0,t=6;
-var words=['cook','mix','cookie','taste','yummy'];
-var gameWords=['cook','mix','cookie','taste','yummy'];
-var currentWordIndex=0;
-var listenWords=['cook','mix','cookie','taste','yummy'];
-var listenIndex=0;
-var gameActive=false;
-var listenActive=false;
+var game1Words=['cook','mix','cookie','taste','yummy'];
+var game1Index=0;
+var game1Active=false;
+var selectedCard=null;
+var matchedPairs=0;
 
 function speak(txt){
 var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
@@ -173,21 +173,26 @@ b.play().catch(function(){});
 });
 }
 
-function checkAnswer(btn){
-if(!gameActive)return;
+function playCurrentWord(){
+if(game1Active && game1Index<game1Words.length){
+speak(game1Words[game1Index]);
+}
+}
+
+function checkGame1(btn){
+if(!game1Active)return;
 var word=btn.getAttribute('data-word');
-var target=gameWords[currentWordIndex];
-if(word===target){
+if(word===game1Words[game1Index]){
 btn.classList.add('correct');
 speak(word);
 setTimeout(function(){
 btn.classList.remove('correct');
-currentWordIndex++;
-if(currentWordIndex<gameWords.length){
-document.getElementById('target-word').textContent=gameWords[currentWordIndex];
+game1Index++;
+if(game1Index<game1Words.length){
+speak(game1Words[game1Index]);
 }else{
-gameActive=false;
-setTimeout(function(){goTo(c+1)},500);
+game1Active=false;
+setTimeout(function(){goTo(c+1)},800);
 }
 },800);
 }else{
@@ -196,25 +201,38 @@ setTimeout(function(){btn.classList.remove('wrong')},300);
 }
 }
 
-function checkListen(btn){
-if(!listenActive)return;
-var word=btn.getAttribute('data-word');
-var target=listenWords[listenIndex];
-if(word===target){
-btn.classList.add('correct');
-setTimeout(function(){
-btn.classList.remove('correct');
-listenIndex++;
-if(listenIndex<listenWords.length){
-speak(listenWords[listenIndex]);
-}else{
-listenActive=false;
-setTimeout(function(){goTo(c+1)},500);
+function selectCard(btn){
+if(btn.classList.contains('matched'))return;
+if(selectedCard===btn){
+btn.classList.remove('selected');
+selectedCard=null;
+return;
 }
-},800);
+if(selectedCard){
+var word1=selectedCard.getAttribute('data-word');
+var word2=btn.getAttribute('data-word');
+if(word1===word2){
+selectedCard.classList.add('matched');
+btn.classList.add('matched');
+selectedCard.classList.remove('selected');
+speak(word1);
+matchedPairs++;
+if(matchedPairs===3){
+setTimeout(function(){goTo(c+1)},1000);
+}
+selectedCard=null;
 }else{
 btn.classList.add('wrong');
-setTimeout(function(){btn.classList.remove('wrong')},300);
+selectedCard.classList.add('wrong');
+setTimeout(function(){
+btn.classList.remove('wrong');
+selectedCard.classList.remove('wrong','selected');
+selectedCard=null;
+},500);
+}
+}else{
+btn.classList.add('selected');
+selectedCard=btn;
 }
 }
 
@@ -224,14 +242,16 @@ document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
 document.querySelectorAll('.sl')[n].classList.add('on');
 c=n;
 if(c===2){
-gameActive=true;
-currentWordIndex=0;
-document.getElementById('target-word').textContent=gameWords[0];
+game1Active=true;
+game1Index=0;
+setTimeout(function(){speak(game1Words[0])},500);
 }
 if(c===3){
-listenActive=true;
-listenIndex=0;
-setTimeout(function(){speak(listenWords[0])},500);
+matchedPairs=0;
+selectedCard=null;
+document.querySelectorAll('#match-grid .word-btn').forEach(function(b){
+b.classList.remove('matched','selected');
+});
 }
 document.getElementById('pg').textContent=(c+1)+'/'+t;
 document.getElementById('pb').disabled=c===0;
