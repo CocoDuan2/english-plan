@@ -25,20 +25,20 @@ day20-snack-time -> level-2/snack-time
 # Level 3 (Day 21-30)
 day21-going-places -> level-3/going-places
 day22-opposites-game -> level-3/opposites-game
-day23-garden -> level-3/shapes-around-us
+day23-garden -> level-3/in-the-garden
 day24-music -> level-3/music-time
 day25-beach -> level-3/beach-day
 day26-bedtime -> level-3/bedtime-story
-day27-shapes -> level-3/birthday-party
-day28-birthday-party -> level-3/doctor-visit
+day27-shapes -> level-3/shapes-around-us
+day28-birthday-party -> level-3/birthday-party
 day29-shopping-trip -> level-3/shopping-trip
-day30-doctor-visit -> level-3/seasons-change
+day30-seasons -> level-3/seasons-change
 
 # Level 4 (Day 31-40)
 day31-helping-at-home -> level-4/helping-at-home
 day32-school-day -> level-4/school-day
 day33-pet -> level-4/pet-care
-day34-seasons -> level-4/seasons-change
+day34-doctor-visit -> level-4/doctor-visit
 day35-cooking -> level-4/cooking-together
 day36-sports -> level-4/sports-day
 day37-feelings -> level-4/feelings-emotions
