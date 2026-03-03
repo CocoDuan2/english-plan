@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 34 Review - Shopping Trip</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(160deg,#ffd89b,#19547b);overflow:hidden}
+.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
+.mod.on{display:flex}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#19547b;margin:8px 0;text-shadow:0 2px 4px rgba(25,84,123,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff6b9d,#ffa07a);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,107,157,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,107,157,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#fff;margin:6px 0;letter-spacing:2px;text-shadow:0 2px 4px rgba(0,0,0,.1)}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
+.pr img{width:75px}
+.pr.big img{width:110px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px;margin:20px 0}
+.card{width:100%;aspect-ratio:1;border-radius:16px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#ddd;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .3s}
+.card.revealed{background:#fff}
+.card img{width:90px;opacity:0;transition:opacity .3s}
+.card.revealed img{opacity:1}
+.card .lbl{font-size:20px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .3s}
+.card.revealed .lbl{opacity:1}
+.shop-shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px;margin:20px 0}
+.shelf-item{width:100%;aspect-ratio:1;border-radius:16px;border:3px solid #fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.3);box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.shelf-item:active{transform:scale(.95)}
+.shelf-item img{width:70px}
+.shelf-item .lbl{font-size:18px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px;margin:20px 0}
+.listen-card{width:100%;aspect-ratio:1;border-radius:16px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:80px}
+.listen-card .lbl{font-size:18px;font-weight:700;color:#2c3e50}
+.speaker-btn{width:80px;height:80px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#ff6b9d,#ff8fab);color:#fff;font-size:36px;box-shadow:0 4px 12px rgba(255,107,157,.4);margin:10px 0;display:flex;align-items:center;justify-content:center}
+.speaker-btn:active{transform:scale(.9)}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px;margin:20px 0}
+.mem-card{width:100%;aspect-ratio:1;border-radius:12px;border:none;cursor:pointer;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative}
+.mem-card:active{transform:scale(.95)}
+.mem-card .front{font-size:44px}
+.mem-card .back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:#fff;border-radius:12px;opacity:0;pointer-events:none}
+.mem-card.flipped .front{opacity:0}
+.mem-card.flipped .back{opacity:1}
+.mem-card.matched{opacity:.3;pointer-events:none}
+.mem-card .back img{width:70px}
+.mem-card .back .lbl{font-size:18px;font-weight:700;color:#2c3e50}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.te{font-size:26px}
+.tz{font-size:18px;padding:10px 20px}
+.bbl{font-size:20px}
+.pr img{width:65px}
+.sb{font-size:22px}
+.card-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.card img{width:70px}
+.card .lbl{font-size:18px}
+.shop-shelf{grid-template-columns:repeat(2,1fr)}
+.shelf-item img{width:60px}
+.listen-grid{grid-template-columns:repeat(2,1fr)}
+.listen-card img{width:70px}
+.memory-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+.mem-card .back img{width:60px}
+.mem-card .back .lbl{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div id="m0" class="mod on">
+<div class="pr big">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+</div>
+<div class="te">Shopping Trip</div>
+<div class="sb">Let's play and learn!</div>
+<div style="display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;justify-content:center">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3ea.svg" width="60" alt="shop">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6d2.svg" width="60" alt="buy">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4b5.svg" width="60" alt="money">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6cd.svg" width="60" alt="bag">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6d2.svg" width="60" alt="cart">
+</div>
+</div>
+
+<!-- M1: Learn -->
+<div id="m1" class="mod">
+<div class="top">
+<div class="te">Learn New Words</div>
+<div class="tz">👆 点一点，学单词！</div>
+<div class="sb" id="s1">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+<div class="bbl">Tap to learn!</div>
+</div>
+<div class="card-grid" id="cg1"></div>
+</div>
+
+<!-- M2: Shopping Game -->
+<div id="m2" class="mod">
+<div class="top">
+<div class="te">Shopping Game</div>
+<div class="tz">🛍️ 帮佩琪买东西！</div>
+<div class="sb" id="s2">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Help me shop!</div>
+</div>
+<div class="shop-shelf" id="shelf"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div id="m3" class="mod">
+<div class="top">
+<div class="te">Listen & Find</div>
+<div class="tz">👂 听一听，找一找！</div>
+<div class="sb" id="s3">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
+<div class="bbl">Listen and tap!</div>
+</div>
+<button class="speaker-btn" id="spk3" onclick="playListenWord()">🔊</button>
+<div class="listen-grid" id="lg3"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div id="m4" class="mod">
+<div class="top">
+<div class="te">Memory Match</div>
+<div class="tz">🎴 翻牌配对！</div>
+<div class="sb" id="s4">⭐⭐⭐⭐⭐</div>
+</div>
+<div class="pr">
+<img src="../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Find pairs!</div>
+</div>
+<div class="memory-grid" id="mg4"></div>
+</div>
+
+<!-- M5: Done -->
+<div id="m5" class="mod">
+<div class="pr big">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family" style="width:120px">
+</div>
+<div class="te">All Done!</div>
+<div class="sb">⭐⭐⭐⭐⭐</div>
+<div class="bbl" style="margin-top:20px;font-size:24px">Great job! You helped Peppa shop!</div>
+</div>
+
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+
+<script>
+var PP='../../assets/peppa/';
+var W=[
+{w:'shop',e:'1f3ea'},
+{w:'buy',e:'1f6d2'},
+{w:'money',e:'1f4b5'},
+{w:'bag',e:'1f6cd'},
+{w:'cart',e:'1f6d2'}
+];
+var curM=0,busy=false;
+var m1Done=0,m2Done=0,m3Done=0,m4Done=0;
+var listenTarget='',listenQueue=[];
+var memFlipped=[],memMatched=0;
+
+function speak(t){
+var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+var a=new Audio(primary);
+a.play().catch(function(){
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function getAC(){
+if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
+return window.actx;
+}
+
+function tone(f,d){
+var c=getAC(),o=c.createOscillator(),g=c.createGain();
+o.connect(g);
+g.connect(c.destination);
+o.frequency.value=f;
+g.gain.value=.15;
+o.start();
+g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);
+o.stop(c.currentTime+d);
+}
+
+function playOk(){
+tone(523,.1);
+setTimeout(function(){tone(659,.1)},100);
+setTimeout(function(){tone(784,.15)},200);
+showConfetti();
+}
+
+function playNo(){
+tone(300,.3);
+}
+
+function showConfetti(){
+var w=document.createElement("div");
+w.className="confetti-wrap";
+var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];
+for(var i=0;i<20;i++){
+var p=document.createElement("div");
+p.className="confetti-piece";
+p.style.left=Math.random()*100+"%";
+p.style.top=Math.random()*30+"%";
+p.style.background=colors[i%5];
+p.style.width=p.style.height=(6+Math.random()*8)+"px";
+p.style.animationDelay=Math.random()*.3+"s";
+w.appendChild(p);
+}
+document.body.appendChild(w);
+setTimeout(function(){w.remove()},1600);
+}
+
+function stars(n,t){
+var s='';
+for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';
+return s;
+}
+
+function goM(d){
+curM+=d;
+if(curM<0)curM=0;
+if(curM>5)curM=5;
+document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+document.getElementById('m'+curM).classList.add('on');
+document.getElementById('pg').textContent=(curM+1)+'/6';
+document.getElementById('pBtn').disabled=curM===0;
+var nb=document.getElementById('nBtn');
+if(curM===0){
+nb.textContent='Start!';
+nb.disabled=false;
+}else if(curM>=5){
+nb.textContent='Done';
+nb.disabled=true;
+}else{
+nb.textContent='Next ▶';
+nb.disabled=false;
+}
+if(curM===1)initM1();
+if(curM===2)initM2();
+if(curM===3)initM3();
+if(curM===4)initM4();
+if(curM===5)initM5();
+}
+
+function initM1(){
+if(m1Done>0)return;
+var cg=document.getElementById('cg1');
+cg.innerHTML='';
+W.forEach(function(item){
+var card=document.createElement('div');
+card.className='card';
+card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.e+'.svg" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.onclick=function(){
+if(this.classList.contains('revealed'))return;
+this.classList.add('revealed');
+speak(item.w);
+m1Done++;
+document.getElementById('s1').innerHTML=stars(m1Done,5);
+if(m1Done===5){
+setTimeout(function(){
+var pr=document.querySelector('#m1 .pr img');
+pr.classList.add('peppa-jumping');
+setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+},300);
+}
+};
+cg.appendChild(card);
+});
+}
+
+function initM2(){
+if(m2Done>0)return;
+var shelf=document.getElementById('shelf');
+shelf.innerHTML='';
+var shuffled=W.slice().sort(function(){return Math.random()-.5});
+shuffled.forEach(function(item){
+var btn=document.createElement('div');
+btn.className='shelf-item';
+btn.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.e+'.svg" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+btn.onclick=function(){
+if(this.style.opacity==='0.3')return;
+speak(item.w);
+this.style.opacity='0.3';
+m2Done++;
+document.getElementById('s2').innerHTML=stars(m2Done,5);
+if(m2Done===5){
+playOk();
+setTimeout(function(){
+var pr=document.querySelector('#m2 .pr img');
+pr.classList.add('peppa-jumping');
+setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+},300);
+}
+};
+shelf.appendChild(btn);
+});
+}
+
+function initM3(){
+if(m3Done>0)return;
+listenQueue=W.slice().sort(function(){return Math.random()-.5});
+var lg=document.getElementById('lg3');
+lg.innerHTML='';
+W.forEach(function(item){
+var card=document.createElement('div');
+card.className='listen-card';
+card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.e+'.svg" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.onclick=function(){
+if(busy)return;
+if(item.w===listenTarget){
+busy=true;
+playOk();
+speak(item.w);
+this.style.opacity='0.3';
+m3Done++;
+document.getElementById('s3').innerHTML=stars(m3Done,5);
+setTimeout(function(){
+busy=false;
+if(m3Done<5){
+nextListenWord();
+}else{
+var pr=document.querySelector('#m3 .pr img');
+pr.classList.add('peppa-jumping');
+setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+}
+},1200);
+}else{
+playNo();
+}
+};
+lg.appendChild(card);
+});
+nextListenWord();
+}
+
+function nextListenWord(){
+if(listenQueue.length===0)return;
+listenTarget=listenQueue.shift().w;
+speak(listenTarget);
+}
+
+function playListenWord(){
+if(listenTarget)speak(listenTarget);
+}
+
+function initM4(){
+if(m4Done>0)return;
+var pairs=[];
+W.forEach(function(item){
+pairs.push({t:'emoji',v:item.e,w:item.w});
+pairs.push({t:'word',v:item.w,w:item.w});
+});
+pairs.sort(function(){return Math.random()-.5});
+var mg=document.getElementById('mg4');
+mg.innerHTML='';
+pairs.forEach(function(item,idx){
+var card=document.createElement('div');
+card.className='mem-card';
+card.dataset.word=item.w;
+card.dataset.type=item.t;
+if(item.t==='emoji'){
+card.innerHTML='<div class="front">🛍️</div><div class="back"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.v+'.svg" alt="'+item.w+'"></div>';
+}else{
+card.innerHTML='<div class="front">🛍️</div><div class="back"><div class="lbl">'+item.v+'</div></div>';
+}
+card.onclick=function(){
+if(busy||this.classList.contains('matched')||this.classList.contains('flipped'))return;
+this.classList.add('flipped');
+memFlipped.push(this);
+if(memFlipped.length===2){
+busy=true;
+var c1=memFlipped[0],c2=memFlipped[1];
+if(c1.dataset.word===c2.dataset.word&&c1.dataset.type!==c2.dataset.type){
+playOk();
+speak(c1.dataset.word);
+setTimeout(function(){
+c1.classList.add('matched');
+c2.classList.add('matched');
+memMatched++;
+m4Done++;
+document.getElementById('s4').innerHTML=stars(m4Done,5);
+memFlipped=[];
+busy=false;
+if(memMatched===5){
+setTimeout(function(){
+var pr=document.querySelector('#m4 .pr img');
+pr.classList.add('peppa-jumping');
+setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+setTimeout(function(){goM(1)},1200);
+},500);
+}
+},800);
+}else{
+playNo();
+setTimeout(function(){
+c1.classList.remove('flipped');
+c2.classList.remove('flipped');
+memFlipped=[];
+busy=false;
+},1000);
+}
+}
+};
+mg.appendChild(card);
+});
+}
+
+function initM5(){
+// Done page, no init needed
+}
+
+// Unlock AudioContext on first interaction
+document.getElementById('nBtn').addEventListener('click',function(){
+if(curM===0)getAC();
+},{ once:true });
+
+goM(0);
+</script>
+</body>
+</html>

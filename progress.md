@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 33 - Pet Care ✅
-- 更新时间: 2026-03-03 08:00
+- 当前: Day 34 - Shopping Trip ✅
+- 更新时间: 2026-03-03 08:11
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -229,9 +229,16 @@
 - Review 游戏: Learn (reveal) → Pet Care Actions (点击照顾宠物) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 34 - Shopping Trip
+## Day 34 - Shopping Trip
 - 新词: shop, buy, money, bag, cart
 - 句式: I ___ at the shop!
-- 互动: Listen & Say → Shopping Game → All Together
+- Teach 互动: Listen & Say → Shopping Game → All Together
+- Review 游戏: Learn (reveal) → Shopping Game (点击购物) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 35 - Cooking Together
+- 新词: cook, mix, pour, taste, yummy
+- 句式: Let's ___!
+- 互动: Listen & Say → Cooking Game → All Together
 
