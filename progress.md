@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 37 - Feelings and Emotions ✅
-- 更新时间: 2026-03-03 10:11
+- 当前: Day 38 - Time Words ✅
+- 更新时间: 2026-03-03 10:59
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -257,9 +257,16 @@
 - Review 游戏: Learn (reveal) → Emotion Faces (听词点表情) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 38 - Time Words
+## Day 38 - Time Words
 - 新词: morning, afternoon, evening, night, today
 - 句式: It's ___!
-- 互动: Listen & Say → Time Clock → All Together
+- Teach 互动: Listen & Say (Clock) → Time Clock → All Together
+- Review 游戏: Learn (reveal) → Time Game (听词点时间) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 39 - Direction Words
+- 新词: up, down, left, right, stop
+- 句式: Go ___!
+- 互动: Listen & Say → Direction Game → All Together
 

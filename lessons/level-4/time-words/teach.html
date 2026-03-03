@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 38 - Time Words</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+.deck{width:100%;height:100%;display:flex;flex-direction:column}
+.sl{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 24px 70px;text-align:center}
+.sl.on{display:flex}
+.bg-pink{background:linear-gradient(160deg,#fce4ec,#f8bbd0)}
+.bg-sky{background:linear-gradient(180deg,#87CEEB,#B6E3B5)}
+.bg-time{background:linear-gradient(135deg,#a8edea,#fed6e3)}
+.bg-morning{background:linear-gradient(135deg,#ffeaa7,#fdcb6e)}
+.bg-afternoon{background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+.bg-evening{background:linear-gradient(135deg,#fd79a8,#fdcb6e)}
+.bg-night{background:linear-gradient(135deg,#2d3436,#636e72)}
+.ttl{font-size:42px;font-weight:800;color:#2c3e50;margin:8px 0}
+.sub{font-size:22px;color:#7f8c8d}
+.word{font-size:88px;font-weight:900;letter-spacing:4px;margin:6px 0;text-shadow:0 3px 0 rgba(0,0,0,.08)}
+.sent{font-size:34px;font-weight:700;color:#e67e22;margin:8px 0}
+.pr{display:flex;align-items:center;gap:12px;margin:10px 0;justify-content:center}
+.pr img{width:75px;height:auto}
+.pr.big img{width:110px}
+.bbl{position:relative;background:#fff;border-radius:18px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:26px;font-weight:700;color:#e67e22}
+.bbl::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff}
+.obj-wrap{margin:10px 0}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;font-size:44px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .1s}
+.sound-btn:active{transform:scale(.9)}
+.sound-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.clock-wrap{position:relative;width:280px;height:280px;margin:20px auto}
+.clock-face{width:100%;height:100%;border-radius:50%;background:#fff;border:8px solid #2c3e50;position:relative;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.clock-center{position:absolute;top:50%;left:50%;width:16px;height:16px;background:#e74c3c;border-radius:50%;transform:translate(-50%,-50%);z-index:10}
+.clock-hand{position:absolute;bottom:50%;left:50%;transform-origin:bottom center;background:#2c3e50;border-radius:4px}
+.hour-hand{width:8px;height:70px;margin-left:-4px}
+.minute-hand{width:6px;height:100px;margin-left:-3px}
+.clock-number{position:absolute;font-size:24px;font-weight:700;color:#2c3e50}
+.time-zone{width:140px;height:140px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:20px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.time-zone:active{transform:scale(.95)}
+.time-zone img{width:70px;height:70px}
+.time-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:20px 0;max-width:700px}
+.all-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:600px;margin:20px 0}
+.all-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.all-item img{width:80px}
+.all-item .lbl{font-size:24px;font-weight:700;color:#2c3e50}
+.fab{position:fixed;bottom:68px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:#F9ADC7;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(249,173,199,.4);display:flex;align-items:center;justify-content:center}
+.fab.on{background:#2c3e50}
+.pop{position:fixed;bottom:124px;right:16px;z-index:199;width:300px;max-height:40vh;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);overflow-y:auto;padding:14px 18px;display:none;font-size:13px;line-height:1.7;color:#555}
+.pop.on{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:10px 20px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;background:#F9ADC7;color:#fff}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.ttl{font-size:30px}
+.sub{font-size:16px}
+.word{font-size:56px;letter-spacing:2px}
+.sent{font-size:24px}
+.bbl{font-size:20px;padding:8px 14px}
+.sound-btn{width:80px;height:80px;font-size:36px}
+.clock-wrap{width:220px;height:220px}
+.clock-number{font-size:20px}
+.time-zone{width:110px;height:110px;font-size:18px}
+.time-zone img{width:60px;height:60px}
+.all-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+.all-item img{width:70px}
+.all-item .lbl{font-size:20px}
+}
+@media(min-width:768px){
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- S0: Title -->
+<div class="sl bg-time on">
+<div class="pr big">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+</div>
+<div class="ttl">Time Words</div>
+<div class="sub">What time is it?</div>
+</div>
+
+<!-- S1: Hello -->
+<div class="sl bg-pink">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:20px">
+<div class="ttl">Hello! Let's learn about time!</div>
+</div>
+
+<!-- S2: morning -->
+<div class="sl bg-morning">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">It's morning!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f305.svg" width="160" alt="morning">
+</div>
+<div class="word">morning</div>
+</div>
+
+<!-- S3: afternoon -->
+<div class="sl bg-afternoon">
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">It's afternoon!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" width="160" alt="afternoon">
+</div>
+<div class="word">afternoon</div>
+</div>
+
+<!-- S4: evening -->
+<div class="sl bg-evening">
+<div class="pr">
+<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">It's evening!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f307.svg" width="160" alt="evening">
+</div>
+<div class="word">evening</div>
+</div>
+
+<!-- S5: night -->
+<div class="sl bg-night">
+<div class="pr">
+<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl" style="color:#fff;background:#2c3e50">It's night!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f319.svg" width="160" alt="night">
+</div>
+<div class="word" style="color:#fff">night</div>
+</div>
+
+<!-- S6: today -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">It's today!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c5.svg" width="160" alt="today">
+</div>
+<div class="word">today</div>
+</div>
+
+<!-- S7: Listen & Say (Clock) -->
+<div class="sl bg-time">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and say!</div>
+</div>
+<div class="clock-wrap">
+<div class="clock-face">
+<div class="clock-number" style="top:10px;left:50%;transform:translateX(-50%)">12</div>
+<div class="clock-number" style="top:50%;right:10px;transform:translateY(-50%)">3</div>
+<div class="clock-number" style="bottom:10px;left:50%;transform:translateX(-50%)">6</div>
+<div class="clock-number" style="top:50%;left:10px;transform:translateY(-50%)">9</div>
+<div class="clock-hand hour-hand" style="transform:rotate(90deg)"></div>
+<div class="clock-hand minute-hand" style="transform:rotate(0deg)"></div>
+<div class="clock-center"></div>
+</div>
+</div>
+<div class="sound-grid">
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e)" onclick="speak('morning')">🌅</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#74b9ff,#a29bfe)" onclick="speak('afternoon')">☀️</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#fd79a8,#fdcb6e)" onclick="speak('evening')">🌆</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#2d3436,#636e72)" onclick="speak('night')">🌙</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#a8edea,#fed6e3)" onclick="speak('today')">📅</button>
+</div>
+</div>
+
+<!-- S8: Time Clock (Interactive) -->
+<div class="sl bg-sky">
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">What time is it?</div>
+</div>
+<div class="time-grid">
+<button class="time-zone" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e)" onclick="speak('morning')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f305.svg" alt="morning">
+<span>morning</span>
+</button>
+<button class="time-zone" style="background:linear-gradient(135deg,#74b9ff,#a29bfe)" onclick="speak('afternoon')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="afternoon">
+<span>afternoon</span>
+</button>
+<button class="time-zone" style="background:linear-gradient(135deg,#fd79a8,#fdcb6e)" onclick="speak('evening')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f307.svg" alt="evening">
+<span>evening</span>
+</button>
+<button class="time-zone" style="background:linear-gradient(135deg,#2d3436,#636e72)" onclick="speak('night')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f319.svg" alt="night">
+<span>night</span>
+</button>
+<button class="time-zone" style="background:linear-gradient(135deg,#a8edea,#fed6e3)" onclick="speak('today')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c5.svg" alt="today">
+<span>today</span>
+</button>
+</div>
+</div>
+
+<!-- S9: All Together -->
+<div class="sl bg-pink">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+</div>
+<div class="ttl">All Together!</div>
+<div class="all-grid">
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f305.svg" alt="morning">
+<div class="lbl">morning</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="afternoon">
+<div class="lbl">afternoon</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f307.svg" alt="evening">
+<div class="lbl">evening</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f319.svg" alt="night">
+<div class="lbl">night</div>
+</div>
+<div class="all-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c5.svg" alt="today">
+<div class="lbl">today</div>
+</div>
+</div>
+</div>
+
+<!-- S10: Bye -->
+<div class="sl bg-time">
+<img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George" style="width:110px;margin-bottom:20px">
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow we'll learn about directions!</div>
+</div>
+
+</div>
+
+<button class="fab" id="F" onclick="tn()">📋</button>
+<div class="pop" id="P"><div id="B"></div></div>
+
+<div class="nav">
+<button class="nb" id="pb" onclick="goTo(c-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/10</div>
+<button class="nb" id="xb" onclick="goTo(c+1)">Next ▶</button>
+</div>
+
+<script>
+var c=0,t=10;
+var N={
+0:'Title page: Time Words - What time is it?',
+1:'Hello page: Greet students and introduce the topic of time.',
+2:'New word: morning - Show sunrise emoji. Say: "It\'s morning! The sun comes up!"',
+3:'New word: afternoon - Show sun emoji. Say: "It\'s afternoon! Time to play!"',
+4:'New word: evening - Show sunset emoji. Say: "It\'s evening! The sun goes down!"',
+5:'New word: night - Show moon emoji. Say: "It\'s night! Time to sleep!"',
+6:'New word: today - Show calendar emoji. Say: "It\'s today! Right now!"',
+7:'Listen & Say: Students click each button to hear the time words. The clock shows different times of day.',
+8:'Time Clock: Interactive time zones. Students click each zone to hear the word and see the icon.',
+9:'All Together: Review all 5 time words. Point to each and ask students to say the word.',
+10:'Bye page: Celebrate completion and preview tomorrow\'s lesson about directions.'
+};
+
+function speak(txt){
+var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(txt)+'&type=2';
+var a=new Audio(url);
+a.play().catch(function(){
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(txt)+'&spd=4&source=web';
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function goTo(n){
+if(n<0||n>=t)return;
+document.querySelectorAll('.sl').forEach(function(s){s.classList.remove('on')});
+document.querySelectorAll('.sl')[n].classList.add('on');
+c=n;
+document.getElementById('pg').textContent=(c+1)+'/'+t;
+document.getElementById('pb').disabled=c===0;
+var b=document.getElementById('xb');
+if(c===t-1){
+b.textContent='Done';
+b.disabled=true;
+}else{
+b.textContent='Next ▶';
+b.disabled=false;
+}
+document.getElementById('B').innerHTML=N[c]||'';
+}
+
+function tn(){
+document.getElementById('F').classList.toggle('on');
+document.getElementById('P').classList.toggle('on');
+}
+
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft')goTo(c-1);
+if(e.key==='ArrowRight')goTo(c+1);
+if(e.key==='t'||e.key==='T')tn();
+});
+
+goTo(0);
+</script>
+</body>
+</html>

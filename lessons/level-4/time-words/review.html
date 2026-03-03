@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 38 Review - Time Words</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(160deg,#a8edea,#fed6e3);overflow:hidden}
+.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
+.mod.on{display:flex}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#74b9ff,#a29bfe);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(116,185,255,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(116,185,255,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
+.pr img{width:75px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.start-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:20px}
+.start-wrap img{width:110px}
+.start-preview{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin:15px 0}
+.start-preview img{width:60px}
+.start-btn{padding:16px 40px;border:none;border-radius:16px;font-size:28px;font-weight:900;background:linear-gradient(135deg,#74b9ff,#a29bfe);color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(116,185,255,.4)}
+.learn-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:600px}
+.learn-card{width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;transition:transform .2s}
+.learn-card:active{transform:scale(.95)}
+.learn-card img{width:90px;display:none}
+.learn-card .lbl{font-size:20px;font-weight:700;color:#2c3e50;display:none}
+.learn-card .card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px}
+.learn-card.revealed{background:#fff}
+.learn-card.revealed .card-icon{display:none}
+.learn-card.revealed img,.learn-card.revealed .lbl{display:block}
+.time-zones{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:700px}
+.time-btn{width:130px;height:130px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.time-btn:active{transform:scale(.95)}
+.time-btn img{width:70px}
+.listen-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:600px}
+.listen-card{width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .2s}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:70px}
+.listen-card .lbl{font-size:16px;font-weight:700;color:#2c3e50}
+.replay-btn{padding:12px 24px;border:none;border-radius:12px;font-size:20px;font-weight:700;background:#74b9ff;color:#fff;cursor:pointer;margin:10px 0;box-shadow:0 4px 12px rgba(116,185,255,.3)}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px;width:100%}
+.mem-card{aspect-ratio:1;border-radius:14px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .4s}
+.mem-card.flipped{transform:rotateY(180deg)}
+.mem-card.matched{opacity:.5;pointer-events:none}
+.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.card-front{background:linear-gradient(135deg,#74b9ff,#a29bfe);color:#fff;font-size:44px}
+.card-back{background:#fff;transform:rotateY(180deg);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card-back img{width:70px}
+.card-back .lbl{font-size:18px;font-weight:700;color:#2c3e50}
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:20px}
+.done-wrap img{width:110px}
+.done-title{font-size:48px;font-weight:900;color:#e91e8c;margin:10px 0}
+.done-msg{font-size:24px;color:#666;text-align:center}
+.play-again-btn{padding:16px 40px;border:none;border-radius:16px;font-size:28px;font-weight:900;background:linear-gradient(135deg,#74b9ff,#a29bfe);color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(116,185,255,.4)}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){
+.te{font-size:26px}
+.tz{font-size:18px;padding:10px 20px}
+.bbl{font-size:20px}
+.pr img{width:65px}
+.sb{font-size:22px}
+.start-wrap img{width:90px}
+.start-preview img{width:50px}
+.start-btn{font-size:24px;padding:14px 32px}
+.learn-card{width:90px;height:90px}
+.learn-card img{width:70px}
+.learn-card .lbl{font-size:18px}
+.learn-card .card-icon{font-size:36px}
+.time-btn{width:100px;height:100px;font-size:16px}
+.time-btn img{width:60px}
+.listen-card{width:85px;height:85px}
+.listen-card img{width:60px}
+.listen-card .lbl{font-size:14px}
+.mem-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+.card-front{font-size:36px}
+.card-back img{width:60px}
+.card-back .lbl{font-size:16px}
+.done-wrap img{width:90px}
+.done-title{font-size:36px}
+.done-msg{font-size:20px}
+.play-again-btn{font-size:24px;padding:14px 32px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div id="m0" class="mod on">
+<div class="start-wrap">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="te">Time Words</div>
+<div class="tz">Let's learn about time!</div>
+<div class="start-preview">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f305.svg" alt="morning">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="afternoon">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f307.svg" alt="evening">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f319.svg" alt="night">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c5.svg" alt="today">
+</div>
+<button class="start-btn" onclick="goM(1)">Let's Play!</button>
+</div>
+</div>
+
+<!-- M1: Learn -->
+<div id="m1" class="mod">
+<div class="top">
+<div class="te">Learn New Words</div>
+<div class="tz">点一点，学单词！</div>
+<div class="sb" id="s1">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Tap to learn!</div>
+</div>
+<div class="learn-grid" id="lg"></div>
+</div>
+
+<!-- M2: Time Game -->
+<div id="m2" class="mod">
+<div class="top">
+<div class="te">What Time Is It?</div>
+<div class="tz">听一听，点时间！</div>
+<div class="sb" id="s2">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/george-standing.png" alt="George">
+<div class="bbl">Listen and tap!</div>
+</div>
+<div class="time-zones" id="tz"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div id="m3" class="mod">
+<div class="top">
+<div class="te">Listen & Find</div>
+<div class="tz">听单词，找图片！</div>
+<div class="sb" id="s3">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
+<div class="bbl">Find the word!</div>
+</div>
+<button class="replay-btn" onclick="replayM3()">🔊 Listen Again</button>
+<div class="listen-grid" id="lsg"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div id="m4" class="mod">
+<div class="top">
+<div class="te">Memory Match</div>
+<div class="tz">翻牌配对！</div>
+<div class="sb" id="s4">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+<div class="bbl">Match the pairs!</div>
+</div>
+<div class="mem-grid" id="mg"></div>
+</div>
+
+<!-- M5: Done -->
+<div id="m5" class="mod">
+<div class="done-wrap">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+<div class="done-title">All Done!</div>
+<div class="done-msg">Great job learning time words!</div>
+<div class="sb">⭐⭐⭐⭐⭐</div>
+<button class="play-again-btn" onclick="location.reload()">Play Again</button>
+</div>
+</div>
+
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+
+<script>
+var PP='../../../assets/peppa/';
+var W=[
+{w:'morning',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f305.svg',bg:'linear-gradient(135deg,#ffeaa7,#fdcb6e)'},
+{w:'afternoon',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg',bg:'linear-gradient(135deg,#74b9ff,#a29bfe)'},
+{w:'evening',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f307.svg',bg:'linear-gradient(135deg,#fd79a8,#fdcb6e)'},
+{w:'night',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f319.svg',bg:'linear-gradient(135deg,#2d3436,#636e72)'},
+{w:'today',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c5.svg',bg:'linear-gradient(135deg,#a8edea,#fed6e3)'}
+];
+var curM=0,busy=false;
+var m1done=0,m2done=0,m2target='',m3done=0,m3target='',m4pairs=0;
+
+function speak(t){
+var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+var a=new Audio(primary);
+a.play().catch(function(){
+var b=new Audio(fallback);
+b.play().catch(function(){});
+});
+}
+
+function getAC(){
+if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
+return window.actx;
+}
+
+function tone(f,d){
+var c=getAC(),o=c.createOscillator(),g=c.createGain();
+o.connect(g);
+g.connect(c.destination);
+o.frequency.value=f;
+g.gain.value=.15;
+o.start();
+g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);
+o.stop(c.currentTime+d);
+}
+
+function playOk(){
+tone(523,.1);
+setTimeout(function(){tone(659,.1)},100);
+setTimeout(function(){tone(784,.15)},200);
+showConfetti();
+}
+
+function playNo(){
+tone(300,.3);
+}
+
+function showConfetti(){
+var w=document.createElement("div");
+w.className="confetti-wrap";
+var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];
+for(var i=0;i<20;i++){
+var p=document.createElement("div");
+p.className="confetti-piece";
+p.style.left=Math.random()*100+"%";
+p.style.top=Math.random()*30+"%";
+p.style.background=colors[i%5];
+p.style.width=p.style.height=(6+Math.random()*8)+"px";
+p.style.animationDelay=Math.random()*.3+"s";
+w.appendChild(p);
+}
+document.body.appendChild(w);
+setTimeout(function(){w.remove()},1600);
+}
+
+function stars(n,t){
+var s='';
+for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';
+return s;
+}
+
+function goM(d){
+curM+=d;
+if(curM<0)curM=0;
+if(curM>5)curM=5;
+document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+document.getElementById('m'+curM).classList.add('on');
+document.getElementById('pg').textContent=(curM+1)+'/6';
+document.getElementById('pBtn').disabled=curM===0;
+var nb=document.getElementById('nBtn');
+if(curM===0){
+nb.textContent='Start!';
+nb.disabled=false;
+}else if(curM>=5){
+nb.textContent='Done';
+nb.disabled=true;
+}else{
+nb.textContent='Next ▶';
+nb.disabled=false;
+}
+if(curM===1)initM1();
+if(curM===2)initM2();
+if(curM===3)initM3();
+if(curM===4)initM4();
+if(curM===5)initM5();
+}
+
+function initM1(){
+if(m1done>0)return;
+var g=document.getElementById('lg');
+g.innerHTML='';
+W.forEach(function(x,i){
+var c=document.createElement('div');
+c.className='learn-card';
+c.innerHTML='<div class="card-icon">❓</div><img src="'+x.e+'" alt="'+x.w+'"><div class="lbl">'+x.w+'</div>';
+c.onclick=function(){
+if(c.classList.contains('revealed'))return speak(x.w);
+c.classList.add('revealed');
+speak(x.w);
+m1done++;
+document.getElementById('s1').innerHTML=stars(m1done,5);
+if(m1done===5){
+var p=document.querySelector('#m1 .pr img');
+p.classList.add('peppa-jumping');
+setTimeout(function(){p.classList.remove('peppa-jumping')},600);
+playOk();
+}
+};
+g.appendChild(c);
+});
+}
+
+function initM2(){
+if(m2done>0)return;
+var g=document.getElementById('tz');
+g.innerHTML='';
+var seq=W.slice().sort(function(){return Math.random()-.5});
+m2target=seq[0].w;
+speak(m2target);
+W.forEach(function(x){
+var b=document.createElement('button');
+b.className='time-btn';
+b.style.background=x.bg;
+b.innerHTML='<img src="'+x.e+'" alt="'+x.w+'"><span>'+x.w+'</span>';
+b.onclick=function(){
+if(busy)return;
+if(x.w===m2target){
+busy=true;
+playOk();
+speak(x.w);
+m2done++;
+document.getElementById('s2').innerHTML=stars(m2done,5);
+setTimeout(function(){
+busy=false;
+if(m2done<5){
+seq.shift();
+if(seq.length===0)seq=W.slice().sort(function(){return Math.random()-.5});
+m2target=seq[0].w;
+speak(m2target);
+}else{
+var p=document.querySelector('#m2 .pr img');
+p.classList.add('peppa-jumping');
+setTimeout(function(){p.classList.remove('peppa-jumping')},600);
+}
+},1200);
+}else{
+playNo();
+}
+};
+g.appendChild(b);
+});
+}
+
+function initM3(){
+if(m3done>0)return;
+var g=document.getElementById('lsg');
+g.innerHTML='';
+var seq=W.slice().sort(function(){return Math.random()-.5});
+m3target=seq[0].w;
+speak(m3target);
+W.forEach(function(x){
+var c=document.createElement('div');
+c.className='listen-card';
+c.innerHTML='<img src="'+x.e+'" alt="'+x.w+'"><div class="lbl">'+x.w+'</div>';
+c.onclick=function(){
+if(busy)return;
+if(x.w===m3target){
+busy=true;
+playOk();
+speak(x.w);
+m3done++;
+document.getElementById('s3').innerHTML=stars(m3done,5);
+setTimeout(function(){
+busy=false;
+if(m3done<5){
+seq.shift();
+if(seq.length===0)seq=W.slice().sort(function(){return Math.random()-.5});
+m3target=seq[0].w;
+speak(m3target);
+}else{
+var p=document.querySelector('#m3 .pr img');
+p.classList.add('peppa-jumping');
+setTimeout(function(){p.classList.remove('peppa-jumping')},600);
+setTimeout(function(){goM(1)},1500);
+}
+},1200);
+}else{
+playNo();
+}
+};
+g.appendChild(c);
+});
+}
+
+function replayM3(){
+if(m3target)speak(m3target);
+}
+
+function initM4(){
+if(m4pairs>0)return;
+var g=document.getElementById('mg');
+g.innerHTML='';
+var deck=[];
+W.forEach(function(x){
+deck.push({t:'w',w:x.w,e:x.e});
+deck.push({t:'e',w:x.w,e:x.e});
+});
+deck.sort(function(){return Math.random()-.5});
+var flip1=null,flip2=null;
+deck.forEach(function(x,i){
+var c=document.createElement('div');
+c.className='mem-card';
+c.dataset.word=x.w;
+c.innerHTML='<div class="card-face card-front">❓</div><div class="card-face card-back"><img src="'+x.e+'" alt="'+x.w+'"><div class="lbl">'+x.w+'</div></div>';
+c.onclick=function(){
+if(busy||c.classList.contains('flipped')||c.classList.contains('matched'))return;
+c.classList.add('flipped');
+if(!flip1){
+flip1=c;
+}else if(!flip2){
+flip2=c;
+busy=true;
+if(flip1.dataset.word===flip2.dataset.word){
+playOk();
+speak(flip1.dataset.word);
+m4pairs++;
+document.getElementById('s4').innerHTML=stars(m4pairs,5);
+setTimeout(function(){
+flip1.classList.add('matched');
+flip2.classList.add('matched');
+flip1=null;
+flip2=null;
+busy=false;
+if(m4pairs===5){
+var p=document.querySelector('#m4 .pr img');
+p.classList.add('peppa-jumping');
+setTimeout(function(){p.classList.remove('peppa-jumping')},600);
+setTimeout(function(){goM(1)},1500);
+}
+},1200);
+}else{
+playNo();
+setTimeout(function(){
+flip1.classList.remove('flipped');
+flip2.classList.remove('flipped');
+flip1=null;
+flip2=null;
+busy=false;
+},1000);
+}
+}
+};
+g.appendChild(c);
+});
+}
+
+function initM5(){}
+
+goM(0);
+</script>
+</body>
+</html>
