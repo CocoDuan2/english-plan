@@ -3,59 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Day 35 Review - Cooking Together</title>
+<title>Day 36 Review - Sports Day</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:linear-gradient(160deg,#ffe5d0,#ffd4a3);overflow:hidden}
+body{background:linear-gradient(160deg,#667eea,#764ba2);overflow:hidden}
 .mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
 .mod.on{display:flex}
 .top{text-align:center;margin-bottom:20px}
-.te{font-size:32px;font-weight:900;color:#e67e22;margin:8px 0;text-shadow:0 2px 4px rgba(230,126,34,.2)}
-.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff9a9e,#fad0c4);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,154,158,.35);margin:8px 0;letter-spacing:.5px;position:relative}
-.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,154,158,.2);border-radius:2px;filter:blur(3px)}
-.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
+.te{font-size:32px;font-weight:900;color:#fff;margin:8px 0;text-shadow:0 2px 4px rgba(0,0,0,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(102,126,234,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(102,126,234,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#fff;margin:6px 0;letter-spacing:2px}
 .pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
 .pr img{width:75px}
-.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px;margin:20px 0}
-.card{width:100%;aspect-ratio:1;background:#ddd;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.card.revealed{background:#fff}
-.card img{width:90px;height:auto;opacity:0;transition:opacity .3s}
-.card.revealed img{opacity:1}
-.card-label{font-size:20px;font-weight:700;color:#2c3e50;margin-top:8px;opacity:0;transition:opacity .3s}
-.card.revealed .card-label{opacity:1}
-.kitchen-wrap{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:20px 0;max-width:600px}
-.kitchen-btn{width:120px;height:120px;border-radius:20px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 15px rgba(0,0,0,.15);transition:transform .2s}
-.kitchen-btn:active{transform:scale(.9)}
-.kitchen-btn img{width:70px;height:auto;margin-bottom:8px}
-.listen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:500px;margin:20px 0}
-.listen-card{background:#fff;border-radius:16px;padding:16px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:transform .2s}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#667eea;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.learn-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:20px 0}
+.learn-card{width:110px;height:110px;border-radius:18px;background:#ddd;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:all .3s;position:relative}
+.learn-card.revealed{background:#fff}
+.learn-card img{width:90px;opacity:0;transition:opacity .3s}
+.learn-card.revealed img{opacity:1}
+.learn-card .lbl{font-size:20px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .3s}
+.learn-card.revealed .lbl{opacity:1}
+.card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:44px}
+.learn-card.revealed .card-icon{display:none}
+.sport-zone{width:110px;height:110px;border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.sport-zone:active{transform:scale(.95)}
+.sport-zone img{width:60px}
+.sport-field{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.listen-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:20px 0}
+.listen-card{width:100px;height:100px;border-radius:18px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:transform .2s}
 .listen-card:active{transform:scale(.95)}
-.listen-card img{width:90px;height:auto;margin-bottom:8px}
-.listen-card-label{font-size:20px;font-weight:700;color:#2c3e50}
-.speaker-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#ff9a9e,#fad0c4);border:none;color:#fff;font-size:28px;cursor:pointer;margin:10px auto;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(255,154,158,.4)}
-.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px;margin:20px auto}
-.memory-card{aspect-ratio:1;background:#fff;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.1);transition:transform .3s}
-.memory-card.flipped{background:#f0f0f0}
-.memory-card.matched{opacity:.3;pointer-events:none}
-.memory-card img{width:70px;height:auto;opacity:0;transition:opacity .3s}
-.memory-card.flipped img{opacity:1}
-.memory-card-label{font-size:18px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .3s}
-.memory-card.flipped .memory-card-label{opacity:1}
-.memory-back{font-size:44px}
-.done-wrap{text-align:center}
-.done-wrap img{width:120px;margin:20px 0}
-.done-title{font-size:48px;font-weight:900;color:#e67e22;margin:10px 0}
-.done-msg{font-size:22px;color:#666;margin:10px 0}
-.play-again{padding:16px 40px;border:none;border-radius:12px;font-size:20px;font-weight:900;background:#F9ADC7;color:#fff;cursor:pointer;margin:20px 0;box-shadow:0 4px 15px rgba(249,173,199,.4)}
+.listen-card img{width:70px}
+.listen-card .lbl{font-size:20px;font-weight:700;color:#2c3e50}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:440px;margin:20px 0}
+.mem-card{width:100%;aspect-ratio:1;border-radius:14px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .4s}
+.mem-card.flipped{transform:rotateY(180deg)}
+.mem-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.mem-front{background:linear-gradient(135deg,#667eea,#764ba2)}
+.mem-back{background:#fff;transform:rotateY(180deg)}
+.mem-back img{width:70px}
+.mem-back .lbl{font-size:18px;font-weight:700;color:#2c3e50;margin-top:6px}
+.mem-front .icon{font-size:44px}
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
 .confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
 @keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
 .peppa-jumping{animation:peppa-jump .6s ease-out}
-.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
-.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #667eea;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#667eea;color:#fff;box-shadow:0 4px 12px rgba(102,126,234,.4)}
 .nb:disabled{background:#ddd;color:#bbb}
 .np{font-size:13px;color:#999}
 @media(max-width:480px){
@@ -64,13 +60,9 @@ body{background:linear-gradient(160deg,#ffe5d0,#ffd4a3);overflow:hidden}
 .bbl{font-size:20px}
 .pr img{width:65px}
 .sb{font-size:22px}
-.card-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-.card img{width:70px}
-.card-label{font-size:18px}
-.kitchen-btn{width:100px;height:100px}
-.kitchen-btn img{width:60px}
-.listen-grid{grid-template-columns:repeat(2,1fr)}
-.memory-grid{grid-template-columns:repeat(3,1fr)}
+.sport-zone{width:90px;height:90px;font-size:16px}
+.sport-zone img{width:50px}
+.mem-grid{width:100%;max-width:360px;grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -78,85 +70,86 @@ body{background:linear-gradient(160deg,#ffe5d0,#ffd4a3);overflow:hidden}
 
 <!-- M0: Start -->
 <div id="m0" class="mod on">
-<img src="../../../assets/peppa/mummy-pig-standing-grass.png" style="width:110px;margin:20px 0" alt="Mummy">
-<div class="te">Cooking Together</div>
-<div class="tz">🍳 Let's cook and play!</div>
-<div style="display:flex;gap:15px;margin:20px 0">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg" style="width:60px" alt="cook">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg" style="width:60px" alt="mix">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" style="width:60px" alt="pour">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg" style="width:60px" alt="taste">
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg" style="width:60px" alt="yummy">
+<div class="top">
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:20px">
+<div class="te">Sports Day</div>
+<div class="tz">Let's play sports!</div>
 </div>
-<button class="play-again" onclick="getAC();goM(1)">Let's Play!</button>
+<div style="display:flex;gap:20px;margin:20px 0">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" width="60" alt="kick">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c0.svg" width="60" alt="throw">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f94e.svg" width="60" alt="catch">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg" width="60" alt="race">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c6.svg" width="60" alt="win">
+</div>
+<button class="nb" onclick="goM(1)" style="margin-top:20px;font-size:24px;padding:18px 40px">Let's Play!</button>
 </div>
 
 <!-- M1: Learn -->
 <div id="m1" class="mod">
 <div class="top">
 <div class="te">Learn New Words</div>
-<div class="tz">👆 点一点，学单词！</div>
-<div class="sb" id="s1">⭐⭐⭐⭐⭐</div>
+<div class="sb" id="st1">⭐⭐⭐⭐⭐</div>
 </div>
 <div class="pr">
-<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<img src="../../assets/peppa/george-standing.png" alt="George">
 <div class="bbl">Tap to learn!</div>
 </div>
-<div class="card-grid" id="cg1"></div>
+<div class="tz">点一点，学新词！</div>
+<div class="learn-grid" id="lg"></div>
 </div>
 
-<!-- M2: Cooking Game -->
+<!-- M2: Sports Action Game -->
 <div id="m2" class="mod">
 <div class="top">
-<div class="te">Help Mummy Cook!</div>
-<div class="tz">🍳 点一点，做饭啦！</div>
-<div class="sb" id="s2">⭐⭐⭐⭐⭐</div>
+<div class="te">Sports Action Game</div>
+<div class="sb" id="st2">⭐⭐⭐⭐⭐</div>
 </div>
 <div class="pr">
-<img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
-<div class="bbl">Help me cook!</div>
+<img src="../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and tap!</div>
 </div>
-<div class="kitchen-wrap" id="kw"></div>
+<div class="tz">听一听，点运动！</div>
+<div class="sport-field" id="sf"></div>
 </div>
 
 <!-- M3: Listen & Find -->
 <div id="m3" class="mod">
 <div class="top">
 <div class="te">Listen & Find</div>
-<div class="tz">👂 听一听，找一找！</div>
-<div class="sb" id="s3">⭐⭐⭐⭐⭐</div>
+<div class="sb" id="st3">⭐⭐⭐⭐⭐</div>
 </div>
 <div class="pr">
-<img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+<img src="../../assets/peppa/candy-cat-green-dress.png" alt="Candy Cat">
 <div class="bbl">Find the word!</div>
 </div>
-<button class="speaker-btn" onclick="if(!busy)playCurrentWord()">🔊</button>
-<div class="listen-grid" id="lg3"></div>
+<div class="tz">听一听，找一找！</div>
+<div class="listen-grid" id="lsg"></div>
 </div>
 
 <!-- M4: Memory Match -->
 <div id="m4" class="mod">
 <div class="top">
 <div class="te">Memory Match</div>
-<div class="tz">🎴 翻一翻，找一样的！</div>
-<div class="sb" id="s4">⭐⭐⭐⭐⭐</div>
+<div class="sb" id="st4">⭐⭐⭐⭐⭐</div>
 </div>
 <div class="pr">
-<img src="../../../assets/peppa/george-standing.png" alt="George">
-<div class="bbl">Match them!</div>
+<img src="../../assets/peppa/emily-elephant-standing.png" alt="Emily Elephant">
+<div class="bbl">Match the pairs!</div>
 </div>
-<div class="memory-grid" id="mg4"></div>
+<div class="tz">翻一翻，找一样的！</div>
+<div class="mem-grid" id="mg"></div>
 </div>
 
 <!-- M5: Done -->
 <div id="m5" class="mod">
-<div class="done-wrap">
-<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
-<div class="done-title">All Done!</div>
-<div class="done-msg">You helped Peppa cook! Great job!</div>
+<div class="top">
+<img src="../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family" style="width:120px;margin-bottom:20px">
+<div class="te">All Done!</div>
 <div class="sb">⭐⭐⭐⭐⭐</div>
-<button class="play-again" onclick="location.reload()">Play Again</button>
+<div class="tz">Great job! You learned 5 sports words!</div>
 </div>
+<button class="nb" onclick="goM(0)" style="margin-top:20px;font-size:24px;padding:18px 40px">Play Again</button>
 </div>
 
 <div class="nav">
@@ -166,18 +159,15 @@ body{background:linear-gradient(160deg,#ffe5d0,#ffd4a3);overflow:hidden}
 </div>
 
 <script>
-var PP='../../../assets/peppa/';
+var PP='../../assets/peppa/';
 var W=[
-{w:'cook',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f373.svg'},
-{w:'mix',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f963.svg'},
-{w:'pour',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg'},
-{w:'taste',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60b.svg'},
-{w:'yummy',img:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36a.svg'}
+{w:'kick',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg'},
+{w:'throw',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c0.svg'},
+{w:'catch',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f94e.svg'},
+{w:'race',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c3.svg'},
+{w:'win',e:'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c6.svg'}
 ];
 var curM=0,busy=false;
-var m1done=0,m2done=0,m3done=0,m4done=0;
-var m3cur=0,m3order=[];
-var m4flipped=[],m4matched=0;
 
 function speak(t){
 var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
@@ -267,175 +257,144 @@ if(curM===5)initM5();
 }
 
 function initM1(){
-if(m1done>0)return;
-var g=document.getElementById('cg1');
-g.innerHTML='';
-W.forEach(function(item,i){
-var c=document.createElement('div');
-c.className='card';
-c.innerHTML='<img src="'+item.img+'" alt="'+item.w+'"><div class="card-label">'+item.w+'</div>';
-c.onclick=function(){
-if(c.classList.contains('revealed'))return;
-c.classList.add('revealed');
+var lg=document.getElementById('lg');
+lg.innerHTML='';
+var revealed=0;
+W.forEach(function(item){
+var card=document.createElement('div');
+card.className='learn-card';
+card.innerHTML='<div class="card-icon">❓</div><img src="'+item.e+'" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.onclick=function(){
+if(card.classList.contains('revealed'))return;
+card.classList.add('revealed');
 speak(item.w);
-m1done++;
-document.getElementById('s1').innerHTML=stars(m1done,5);
-if(m1done===5){
-setTimeout(function(){
-var pr=document.querySelector('#m1 .pr img');
-pr.classList.add('peppa-jumping');
-setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
-},300);
-}
+revealed++;
+document.getElementById('st1').innerHTML=stars(revealed,5);
 };
-g.appendChild(c);
+lg.appendChild(card);
 });
 }
 
 function initM2(){
-if(m2done>0)return;
-var kw=document.getElementById('kw');
-kw.innerHTML='';
-var colors=['linear-gradient(135deg,#ff9a9e,#fad0c4)','linear-gradient(135deg,#a8e6cf,#88d8b0)','linear-gradient(135deg,#ffd89b,#19547b)','linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)'];
-var order=[0,1,2,3,4].sort(function(){return Math.random()-.5});
-order.forEach(function(i){
-var item=W[i];
-var btn=document.createElement('button');
-btn.className='kitchen-btn';
-btn.style.background=colors[i];
-btn.innerHTML='<img src="'+item.img+'" alt="'+item.w+'">';
-btn.onclick=function(){
+var sf=document.getElementById('sf');
+sf.innerHTML='';
+var score=0;
+var seq=W.slice().sort(function(){return Math.random()-.5});
+var idx=0;
+var colors=['linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#43e97b,#38f9d7)','linear-gradient(135deg,#fa709a,#fee140)'];
+W.forEach(function(item,i){
+var zone=document.createElement('button');
+zone.className='sport-zone';
+zone.style.background=colors[i];
+zone.innerHTML='<img src="'+item.e+'" alt="'+item.w+'"><span>'+item.w+'</span>';
+zone.onclick=function(){
 if(busy)return;
+if(item.w===seq[idx].w){
 busy=true;
-speak(item.w);
 playOk();
-m2done++;
-document.getElementById('s2').innerHTML=stars(m2done,5);
-btn.style.opacity='.3';
-btn.style.pointerEvents='none';
+speak(item.w);
+score++;
+document.getElementById('st2').innerHTML=stars(score,5);
+idx++;
 setTimeout(function(){
 busy=false;
-if(m2done===5){
-var pr=document.querySelector('#m2 .pr img');
-pr.classList.add('peppa-jumping');
-setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+if(idx>=seq.length){
+setTimeout(function(){goM(1)},800);
+}else{
+speak(seq[idx].w);
 }
 },1200);
+}else{
+playNo();
+}
 };
-kw.appendChild(btn);
+sf.appendChild(zone);
 });
+setTimeout(function(){speak(seq[0].w)},500);
 }
 
 function initM3(){
-if(m3done>0)return;
-m3order=[0,1,2,3,4].sort(function(){return Math.random()-.5});
-m3cur=0;
-var g=document.getElementById('lg3');
-g.innerHTML='';
-W.forEach(function(item,i){
-var c=document.createElement('div');
-c.className='listen-card';
-c.innerHTML='<img src="'+item.img+'" alt="'+item.w+'"><div class="listen-card-label">'+item.w+'</div>';
-c.onclick=function(){
+var lsg=document.getElementById('lsg');
+lsg.innerHTML='';
+var score=0;
+var seq=W.slice().sort(function(){return Math.random()-.5});
+var idx=0;
+W.forEach(function(item){
+var card=document.createElement('div');
+card.className='listen-card';
+card.innerHTML='<img src="'+item.e+'" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.onclick=function(){
 if(busy)return;
-var correct=W[m3order[m3cur]].w;
-if(item.w===correct){
+if(item.w===seq[idx].w){
 busy=true;
 playOk();
 speak(item.w);
-m3done++;
-document.getElementById('s3').innerHTML=stars(m3done,5);
-c.style.opacity='.3';
-c.style.pointerEvents='none';
+score++;
+document.getElementById('st3').innerHTML=stars(score,5);
+idx++;
 setTimeout(function(){
 busy=false;
-m3cur++;
-if(m3cur<5){
-playCurrentWord();
+if(idx>=seq.length){
+setTimeout(function(){goM(1)},800);
 }else{
-var pr=document.querySelector('#m3 .pr img');
-pr.classList.add('peppa-jumping');
-setTimeout(function(){pr.classList.remove('peppa-jumping')},600);
+speak(seq[idx].w);
 }
 },1200);
 }else{
 playNo();
 }
 };
-g.appendChild(c);
+lsg.appendChild(card);
 });
-setTimeout(function(){playCurrentWord()},500);
-}
-
-function playCurrentWord(){
-if(m3cur<5){
-speak(W[m3order[m3cur]].w);
-}
+setTimeout(function(){speak(seq[0].w)},500);
 }
 
 function initM4(){
-if(m4done>0)return;
-var pairs=[];
-W.forEach(function(item){
-pairs.push({type:'img',data:item.img,word:item.w});
-pairs.push({type:'text',data:item.w,word:item.w});
-});
-pairs.sort(function(){return Math.random()-.5});
-var g=document.getElementById('mg4');
-g.innerHTML='';
-pairs.forEach(function(p,i){
-var c=document.createElement('div');
-c.className='memory-card';
-c.dataset.word=p.word;
-c.dataset.type=p.type;
-c.dataset.idx=i;
-if(p.type==='img'){
-c.innerHTML='<div class="memory-back">🍳</div><img src="'+p.data+'" alt="'+p.word+'">';
-}else{
-c.innerHTML='<div class="memory-back">🍳</div><div class="memory-card-label">'+p.data+'</div>';
-}
-c.onclick=function(){
-if(busy||c.classList.contains('flipped')||c.classList.contains('matched'))return;
-c.classList.add('flipped');
-m4flipped.push(c);
-if(m4flipped.length===2){
+var mg=document.getElementById('mg');
+mg.innerHTML='';
+var pairs=W.concat(W).sort(function(){return Math.random()-.5});
+var flipped=[];
+var matched=0;
+pairs.forEach(function(item){
+var card=document.createElement('div');
+card.className='mem-card';
+card.innerHTML='<div class="mem-face mem-front"><div class="icon">🏃</div></div><div class="mem-face mem-back"><img src="'+item.e+'" alt="'+item.w+'"><div class="lbl">'+item.w+'</div></div>';
+card.dataset.word=item.w;
+card.onclick=function(){
+if(busy||card.classList.contains('flipped'))return;
+card.classList.add('flipped');
+flipped.push(card);
+if(flipped.length===2){
 busy=true;
-var c1=m4flipped[0],c2=m4flipped[1];
-if(c1.dataset.word===c2.dataset.word&&c1.dataset.type!==c2.dataset.type){
+setTimeout(function(){
+if(flipped[0].dataset.word===flipped[1].dataset.word){
 playOk();
-speak(c1.dataset.word);
-m4matched++;
-document.getElementById('s4').innerHTML=stars(m4matched,5);
-setTimeout(function(){
-c1.classList.add('matched');
-c2.classList.add('matched');
-m4flipped=[];
+speak(flipped[0].dataset.word);
+matched++;
+document.getElementById('st4').innerHTML=stars(matched,5);
+flipped=[];
 busy=false;
-if(m4matched===5){
-var pr=document.querySelector('#m4 .pr img');
-pr.classList.add('peppa-jumping');
-setTimeout(function(){
-pr.classList.remove('peppa-jumping');
-goM(1);
-},600);
+if(matched===5){
+setTimeout(function(){goM(1)},1000);
 }
-},1200);
 }else{
 playNo();
-setTimeout(function(){
-c1.classList.remove('flipped');
-c2.classList.remove('flipped');
-m4flipped=[];
+flipped.forEach(function(c){c.classList.remove('flipped')});
+flipped=[];
 busy=false;
+}
 },800);
 }
-}
 };
-g.appendChild(c);
+mg.appendChild(card);
 });
 }
 
 function initM5(){
+document.getElementById('st1').innerHTML=stars(5,5);
+document.getElementById('st2').innerHTML=stars(5,5);
+document.getElementById('st3').innerHTML=stars(5,5);
+document.getElementById('st4').innerHTML=stars(5,5);
 }
 
 goM(0);

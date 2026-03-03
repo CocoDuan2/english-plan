@@ -1,8 +1,8 @@
 # 进度记录
 
 ## 当前状态
-- 当前: Day 35 - Cooking Together ✅
-- 更新时间: 2026-03-03 09:03
+- 当前: Day 36 - Sports Day ✅
+- 更新时间: 2026-03-03 09:53
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
 ## Day 1 - Peppa's Colorful Day
@@ -243,9 +243,16 @@
 - Review 游戏: Learn (reveal) → Cooking Game (点击厨房物品) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## 下一课
-- Day 36 - Sports Day
+## Day 36 - Sports Day
 - 新词: kick, throw, catch, race, win
 - 句式: I can ___!
-- 互动: Listen & Say → Sports Game → All Together
+- Teach 互动: Listen & Say → Sports Game → All Together
+- Review 游戏: Learn (reveal) → Sports Action Game (听词点运动) → Listen & Find → Memory Match
+- 状态: ✅ 完成
+
+## 下一课
+- Day 37 - Feelings and Emotions
+- 新词: excited, tired, proud, shy, brave
+- 句式: I feel ___!
+- 互动: Listen & Say → Emotion Game → All Together
 
