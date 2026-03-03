@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P12 - Letter L ✅
+- 当前: P13 - Letter M ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -91,6 +91,13 @@
 - 发音: /l/
 - 单词: lion, leaf, lemon, lamp
 - 故事: 佩琪去动物园
+- 状态: ✅ 完成
+
+### P13 - Letter M · Peppa Looks at the Moon
+- 字母: M m
+- 发音: /m/
+- 单词: moon, milk, monkey, map
+- 故事: 佩琪看月亮
 - 状态: ✅ 完成
 
 ---
