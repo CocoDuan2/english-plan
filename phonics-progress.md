@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P2 - Letter B ✅
+- 当前: P3 - Letter C ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -21,6 +21,13 @@
 - 发音: /b/
 - 单词: ball, bear, banana, bat
 - 故事: 佩琪玩球
+- 状态: ✅ 完成
+
+### P3 - Letter C · Peppa's Birthday Cake
+- 字母: C c
+- 发音: /k/
+- 单词: cat, car, cake, cup
+- 故事: 佩琪的生日蛋糕
 - 状态: ✅ 完成
 
 ---
