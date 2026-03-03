@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P3 - Letter C ✅
+- 当前: P4 - Letter D ✅
 - 更新时间: 2026-03-03
 - 课程体系: 牛津自然拼读（Oxford Phonics）
 
@@ -28,6 +28,13 @@
 - 发音: /k/
 - 单词: cat, car, cake, cup
 - 故事: 佩琪的生日蛋糕
+- 状态: ✅ 完成
+
+### P4 - Letter D · Peppa Meets a Dog
+- 字母: D d
+- 发音: /d/
+- 单词: dog, duck, door, doll
+- 故事: 佩琪遇见小狗
 - 状态: ✅ 完成
 
 ---
