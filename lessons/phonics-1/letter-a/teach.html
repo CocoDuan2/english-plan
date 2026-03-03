@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P1 - Letter A · Peppa's Apple Orchard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.letter-big{
+  font-size:180px;font-weight:900;color:#e91e8c;
+  text-shadow:4px 4px 0 #ffc1e3;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+.blend-box{
+  display:flex;gap:8px;align-items:center;justify-content:center;
+  margin:20px 0;
+}
+.blend-letter{
+  font-size:64px;font-weight:900;color:#e91e8c;
+  background:#fff;border:4px solid #e91e8c;border-radius:12px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  animation:slideIn 0.5s ease-out forwards;
+  opacity:0;
+}
+@keyframes slideIn{
+  to{opacity:1;transform:translateX(0)}
+}
+.blend-letter:nth-child(1){animation-delay:0s;transform:translateX(-20px)}
+.blend-letter:nth-child(2){animation-delay:0.3s;transform:translateX(-20px)}
+.blend-letter:nth-child(3){animation-delay:0.6s;transform:translateX(-20px)}
+.blend-letter:nth-child(4){animation-delay:0.9s;transform:translateX(-20px)}
+.blend-letter:nth-child(5){animation-delay:1.2s;transform:translateX(-20px)}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{
+  font-size:72px;font-weight:900;color:#2c3e50;
+  animation:popIn 0.5s ease-out 1.8s forwards;
+  opacity:0;transform:scale(0.5);
+}
+@keyframes popIn{
+  to{opacity:1;transform:scale(1)}
+}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;max-width:500px;margin:20px auto;
+}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.tn{
+  position:fixed;bottom:80px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  background:#e67e22;color:#fff;border:none;
+  font-size:24px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s ease;
+  z-index:100;
+}
+.tn:active{transform:scale(.9)}
+.tn-panel{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);color:#fff;
+  padding:20px;overflow-y:auto;z-index:200;
+  display:none;
+}
+.tn-panel.show{display:block}
+.tn-panel h3{font-size:24px;margin-bottom:12px;color:#ffd54f}
+.tn-panel p{font-size:16px;line-height:1.6;margin-bottom:12px}
+.tn-close{
+  position:absolute;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:#e91e8c;color:#fff;border:none;
+  font-size:24px;cursor:pointer;
+}
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .letter-big{font-size:140px}
+  .phonics{font-size:38px;padding:10px 20px}
+  .obj-wrap img{width:140px}
+  .word{font-size:72px}
+  .sent{font-size:28px}
+  .blend-letter{font-size:52px;width:70px;height:70px}
+  .blend-word{font-size:60px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .sound-btn img{width:50px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-item img{width:70px}
+  .grid-item .label{font-size:20px}
+}
+@media(min-width:768px){
+  .ttl{font-size:48px}
+  .word{font-size:100px}
+  .sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="ttl">Letter A</div>
+  <div class="sub">Peppa's Apple Orchard</div>
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <div style="font-size:20px;color:#667085;margin-top:12px">Learn the letter A and its sound /æ/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Hello! Let's learn letter A!</div>
+</div>
+
+<!-- S3: Letter & Sound -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">This is letter A!</div>
+  </div>
+  <div class="letter-big">Aa</div>
+  <div class="phonics">/æ/</div>
+  <div style="font-size:20px;color:#667085;margin-top:12px">Say: /æ/ /æ/ /æ/</div>
+</div>
+
+<!-- S4: Word 1 - apple -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/æ/ is for apple!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+  </div>
+  <div class="word">apple</div>
+</div>
+
+<!-- S5: Word 2 - ant -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/æ/ is for ant!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+  </div>
+  <div class="word">ant</div>
+</div>
+
+<!-- S6: Word 3 - alligator -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/æ/ is for alligator!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+  </div>
+  <div class="word">alligator</div>
+</div>
+
+<!-- S7: Blending - apple -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Let's blend: apple!</div>
+  </div>
+  <div class="blend-box">
+    <div class="blend-letter">a</div>
+    <div class="blend-letter">p</div>
+    <div class="blend-letter">p</div>
+    <div class="blend-letter">l</div>
+    <div class="blend-letter">e</div>
+  </div>
+  <div class="blend-arrow">→</div>
+  <div class="blend-word">apple</div>
+</div>
+
+<!-- S8: Listen & Say -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and say!</div>
+  </div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="speak('apple')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('ant')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="speak('alligator')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+    </button>
+  </div>
+</div>
+
+<!-- S9: Story -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Peppa visits the apple orchard!</div>
+  </div>
+  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+    <p style="margin-bottom:12px">Peppa picks a red <strong style="color:#e91e8c">apple</strong>.</p>
+    <p style="margin-bottom:12px">She sees an <strong style="color:#e91e8c">ant</strong> on the tree.</p>
+    <p>An <strong style="color:#e91e8c">alligator</strong> is sleeping nearby!</p>
+  </div>
+  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple" style="width:80px;margin-top:16px">
+</div>
+
+<!-- S10: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+      <div class="label">apple</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+      <div class="label">ant</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+      <div class="label">alligator</div>
+    </div>
+  </div>
+</div>
+
+<!-- S11: Bye -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Great job!</div>
+  <div class="sub">Tomorrow we'll learn letter B!</div>
+  <div style="font-size:48px;margin-top:20px">🎉</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">11</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<!-- Teacher Notes Button -->
+<button class="tn" onclick="toggleNotes()">T</button>
+
+<!-- Teacher Notes Panel -->
+<div class="tn-panel" id="tnPanel">
+  <button class="tn-close" onclick="toggleNotes()">✕</button>
+  <h3>📝 Teacher Notes - P1 Letter A</h3>
+  <p><strong>S1 Title:</strong> Introduce the lesson theme - learning letter A.</p>
+  <p><strong>S2 Hello:</strong> Peppa greets and invites students to learn.</p>
+  <p><strong>S3 Letter & Sound:</strong> Show uppercase and lowercase A. Emphasize the /æ/ sound. Have students repeat 3 times.</p>
+  <p><strong>S4-S6 Words:</strong> Introduce 3 words starting with A. Point to the pictures and say the words clearly.</p>
+  <p><strong>S7 Blending:</strong> Demonstrate how to blend letters to form "apple". Point to each letter as you say it.</p>
+  <p><strong>S8 Listen & Say:</strong> Students click buttons to hear words. Encourage them to repeat.</p>
+  <p><strong>S9 Story:</strong> Read the short story. Emphasize words with letter A.</p>
+  <p><strong>S10 All Together:</strong> Review all 3 words. Point randomly and ask students to say the words.</p>
+  <p><strong>S11 Bye:</strong> Celebrate completion and preview next lesson.</p>
+</div>
+
+<script>
+let ci=0,ts=11;
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+goTo(0);
+</script>
+</body>
+</html>

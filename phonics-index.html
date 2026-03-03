@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>跟着佩琪学英语</title>
+<title>自然拼读课程 - 跟着佩琪学英语</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -32,6 +32,21 @@ body{
 .logo{width:118px;display:block;margin:2px auto 6px}
 h1{font-size:30px;line-height:1.1;color:#394867}
 .sub{margin-top:4px;font-size:14px;color:#6b7280}
+.back-btn{
+  display:inline-block;
+  margin-bottom:12px;
+  padding:8px 16px;
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:12px;
+  text-decoration:none;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 4px 12px rgba(30,58,95,.08);
+  transition:transform .2s ease;
+}
+.back-btn:hover{transform:translateY(-1px)}
 .levels{margin-top:20px;display:grid;gap:12px}
 .level-card{
   text-decoration:none;
@@ -66,49 +81,13 @@ h1{font-size:30px;line-height:1.1;color:#394867}
 </head>
 <body>
 <div class="container">
+  <a class="back-btn" href="index.html">← 返回主页</a>
+  
   <div class="hero">
     <img class="logo" src="assets/peppa/peppa-pig-title-logo.png" alt="Peppa">
-    <h1>跟着佩琪学英语</h1>
-    <div class="sub">每天 15-25 分钟 · 图像优先 · 亲子共学</div>
+    <h1>🔤 自然拼读课程</h1>
+    <div class="sub">系统学习字母发音 · 掌握拼读规律 · 见词能读</div>
   </div>
-  <div class="levels">
-    <a class="level-card" href="level-1.html" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)">
-      <div class="level-icon" style="background:#ffebee;border-color:#ef5350;color:#c62828">1</div>
-      <div class="level-info">
-        <div class="level-title">Level 1 · 日常冒险</div>
-        <div class="level-desc">颜色、动物、身体、食物、家人...</div>
-        <div class="level-meta">10 个故事 · 50 个单词</div>
-      </div>
-    </a>
-    <a class="level-card" href="level-2.html" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">
-      <div class="level-icon" style="background:#e8f5e9;border-color:#66bb6a;color:#2e7d32">2</div>
-      <div class="level-info">
-        <div class="level-title">Level 2 · 社交世界</div>
-        <div class="level-desc">情绪、天气、地点、花园、厨房...</div>
-        <div class="level-meta">10 个故事 · 50 个单词</div>
-      </div>
-    </a>
-    <a class="level-card" href="level-3.html" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)">
-      <div class="level-icon" style="background:#e3f2fd;border-color:#42a5f5;color:#01579b">3</div>
-      <div class="level-info">
-        <div class="level-title">Level 3 · 探索之旅</div>
-        <div class="level-desc">交通、形状、音乐、海滩、生日...</div>
-        <div class="level-meta">10 个故事 · 50 个单词</div>
-      </div>
-    </a>
-    <a class="level-card" href="level-4.html" style="background:linear-gradient(135deg,#fff9c4,#ffe082)">
-      <div class="level-icon" style="background:#fff9c4;border-color:#ffd54f;color:#f57f17">4</div>
-      <div class="level-info">
-        <div class="level-title">Level 4 · 成长故事</div>
-        <div class="level-desc">家务、学校、宠物、烹饪、运动...</div>
-        <div class="level-meta">5 个故事 · 25 个单词</div>
-      </div>
-    </a>
-  </div>
-
-  <!-- 自然拼读板块 -->
-  <div style="margin:40px 0;border-top:2px solid #ddd"></div>
-  <h2 style="text-align:center;font-size:24px;color:#394867;margin-bottom:20px">🔤 自然拼读课程</h2>
   
   <div class="levels">
     <a class="level-card" href="phonics-1.html" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)">

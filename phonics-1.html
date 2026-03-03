@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Phonics 1 · 字母音 - 跟着佩琪学英语</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#2c3e50;
+  --muted:#667085;
+  --accent:#ec407a;
+}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 12% 10%,#ffd9e7 0,transparent 35%),
+    radial-gradient(circle at 88% 12%,#ffeef8 0,transparent 32%),
+    linear-gradient(160deg,#fff4f8,#ffeef8 52%,#fff0f5);
+  padding:20px 16px 28px;
+  color:var(--ink);
+}
+.container{max-width:760px;margin:0 auto}
+.back-btn{
+  display:inline-block;
+  margin-bottom:12px;
+  padding:8px 16px;
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:12px;
+  text-decoration:none;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 4px 12px rgba(30,58,95,.08);
+  transition:transform .2s ease;
+}
+.back-btn:hover{transform:translateY(-1px)}
+.hero{
+  text-align:center;
+  background:rgba(255,255,255,.72);
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:22px;
+  padding:14px 14px 16px;
+  box-shadow:0 10px 26px rgba(32,56,90,.08);
+  margin-bottom:20px;
+}
+.level-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,#fce4ec,#f8bbd0);
+  border:3px solid var(--accent);
+  color:#c2185b;
+  font-size:28px;
+  font-weight:900;
+  width:70px;
+  height:70px;
+  border-radius:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:8px;
+}
+h1{font-size:30px;line-height:1.1;color:#394867;margin-bottom:4px}
+.sub{font-size:14px;color:#6b7280}
+.lessons{display:grid;gap:12px;margin-top:20px}
+.lesson-card{
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:18px;
+  padding:16px 18px;
+  box-shadow:0 6px 20px rgba(30,58,95,.1);
+}
+.lesson-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+.lesson-icon{
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#fce4ec,#f8bbd0);
+  border:3px solid var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  font-weight:900;
+  color:#c2185b;
+}
+.lesson-info{flex:1;min-width:0}
+.lesson-title{font-size:18px;font-weight:900;color:var(--ink);line-height:1.2}
+.lesson-subtitle{font-size:13px;color:var(--muted);margin-top:2px}
+.lesson-actions{
+  display:flex;
+  gap:8px;
+}
+.lesson-btn{
+  flex:1;
+  padding:10px 16px;
+  border:none;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  text-align:center;
+  transition:transform .2s ease;
+}
+.lesson-btn:active{transform:scale(.97)}
+.btn-teach{
+  background:linear-gradient(135deg,#ff6b9d,#c44569);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(233,30,140,.3);
+}
+.btn-review{
+  background:linear-gradient(135deg,#a8e6cf,#88d8b0);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(76,175,80,.3);
+}
+@media(min-width:700px){
+  .lessons{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-btn" href="index.html">← 返回主页</a>
+  
+  <div class="hero">
+    <div class="level-badge">P1</div>
+    <h1>Phonics 1 · 字母音</h1>
+    <div class="sub">26个字母 + 基本发音 · 78个单词</div>
+  </div>
+  
+  <div class="lessons">
+    <!-- P1: Letter A -->
+    <div class="lesson-card">
+      <div class="lesson-header">
+        <div class="lesson-icon">A</div>
+        <div class="lesson-info">
+          <div class="lesson-title">Letter A · 字母 A</div>
+          <div class="lesson-subtitle">Peppa's Apple Orchard · 佩琪的苹果园</div>
+        </div>
+      </div>
+      <div class="lesson-actions">
+        <a class="lesson-btn btn-teach" href="lessons/phonics-1/letter-a/teach.html">📖 Teach</a>
+        <a class="lesson-btn btn-review" href="lessons/phonics-1/letter-a/review.html">🎮 Review</a>
+      </div>
+    </div>
+    
+    <!-- More lessons will be added here -->
+  </div>
+</div>
+</body>
+</html>
