@@ -3,36 +3,36 @@
 ## 课程结构
 
 ### Phonics 1 · 字母音（26课）
-**目标：** 认识26个字母，掌握基本发音
+**目标：** 认识26个字母，掌握基本发音（每课4个单词）
 
-| Day | 字母 | 发音 | 单词（3-5个） | 佩琪故事情境 |
-|-----|------|------|--------------|-------------|
-| P1 | A a | /æ/ | apple, ant, alligator | 佩琪的苹果园 |
-| P2 | B b | /b/ | ball, bear, banana | 佩琪玩球 |
-| P3 | C c | /k/ | cat, car, cake | 佩琪的生日蛋糕 |
-| P4 | D d | /d/ | dog, duck, door | 佩琪遇见小狗 |
-| P5 | E e | /e/ | egg, elephant, elbow | 佩琪做早餐 |
-| P6 | F f | /f/ | fish, frog, flower | 佩琪去钓鱼 |
-| P7 | G g | /g/ | goat, girl, gift | 佩琪收礼物 |
-| P8 | H h | /h/ | hat, house, horse | 佩琪的新帽子 |
-| P9 | I i | /ɪ/ | ink, insect, igloo | 佩琪画画 |
-| P10 | J j | /dʒ/ | jump, juice, jelly | 佩琪跳泥坑 |
-| P11 | K k | /k/ | kite, king, key | 佩琪放风筝 |
-| P12 | L l | /l/ | lion, leaf, lemon | 佩琪去动物园 |
-| P13 | M m | /m/ | moon, milk, monkey | 佩琪看月亮 |
-| P14 | N n | /n/ | nose, nest, net | 佩琪找鸟巢 |
-| P15 | O o | /ɒ/ | orange, octopus, ox | 佩琪吃橙子 |
-| P16 | P p | /p/ | pig, pen, pizza | 佩琪一家（猪） |
-| P17 | Q q | /kw/ | queen, quilt, question | 佩琪扮女王 |
-| P18 | R r | /r/ | rabbit, rain, red | 佩琪遇见兔子 |
-| P19 | S s | /s/ | sun, snake, star | 佩琪看星星 |
-| P20 | T t | /t/ | tree, tiger, tent | 佩琪去露营 |
-| P21 | U u | /ʌ/ | umbrella, up, under | 佩琪的雨伞 |
-| P22 | V v | /v/ | van, violin, vest | 佩琪坐车 |
-| P23 | W w | /w/ | water, window, watch | 佩琪喝水 |
-| P24 | X x | /ks/ | box, fox, six | 佩琪的玩具盒 |
-| P25 | Y y | /j/ | yellow, yo-yo, yes | 佩琪的溜溜球 |
-| P26 | Z z | /z/ | zoo, zebra, zero | 佩琪去动物园 |
+| Day | 字母 | 发音 | 单词（4个） | 佩琪故事情境 |
+|-----|------|------|------------|-------------|
+| P1 | A a | /æ/ | apple, ant, alligator, ax | 佩琪的苹果园 |
+| P2 | B b | /b/ | ball, bear, banana, bat | 佩琪玩球 |
+| P3 | C c | /k/ | cat, car, cake, cup | 佩琪的生日蛋糕 |
+| P4 | D d | /d/ | dog, duck, door, doll | 佩琪遇见小狗 |
+| P5 | E e | /e/ | egg, elephant, elbow, exit | 佩琪做早餐 |
+| P6 | F f | /f/ | fish, frog, flower, fan | 佩琪去钓鱼 |
+| P7 | G g | /g/ | goat, girl, gift, gate | 佩琪收礼物 |
+| P8 | H h | /h/ | hat, house, horse, hand | 佩琪的新帽子 |
+| P9 | I i | /ɪ/ | ink, insect, igloo, inch | 佩琪画画 |
+| P10 | J j | /dʒ/ | jump, juice, jelly, jar | 佩琪跳泥坑 |
+| P11 | K k | /k/ | kite, king, key, kid | 佩琪放风筝 |
+| P12 | L l | /l/ | lion, leaf, lemon, lamp | 佩琪去动物园 |
+| P13 | M m | /m/ | moon, milk, monkey, map | 佩琪看月亮 |
+| P14 | N n | /n/ | nose, nest, net, nut | 佩琪找鸟巢 |
+| P15 | O o | /ɒ/ | orange, octopus, ox, olive | 佩琪吃橙子 |
+| P16 | P p | /p/ | pig, pen, pizza, pot | 佩琪一家（猪） |
+| P17 | Q q | /kw/ | queen, quilt, question, quick | 佩琪扮女王 |
+| P18 | R r | /r/ | rabbit, rain, red, ring | 佩琪遇见兔子 |
+| P19 | S s | /s/ | sun, snake, star, sock | 佩琪看星星 |
+| P20 | T t | /t/ | tree, tiger, tent, top | 佩琪去露营 |
+| P21 | U u | /ʌ/ | umbrella, up, under, uncle | 佩琪的雨伞 |
+| P22 | V v | /v/ | van, violin, vest, vase | 佩琪坐车 |
+| P23 | W w | /w/ | water, window, watch, web | 佩琪喝水 |
+| P24 | X x | /ks/ | box, fox, six, mix | 佩琪的玩具盒 |
+| P25 | Y y | /j/ | yellow, yo-yo, yes, yak | 佩琪的溜溜球 |
+| P26 | Z z | /z/ | zoo, zebra, zero, zip | 佩琪去动物园 |
 
 ### Phonics 2 · 短元音家族（15课）
 **目标：** CVC 拼读（辅音-元音-辅音）
