@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P21 - Letter U ✅
+- 当前: P22 - Letter V ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -154,6 +154,13 @@
 - 发音: /ʌ/
 - 单词: umbrella, up, under, uncle
 - 故事: 佩琪的雨伞
+- 状态: ✅ 完成
+
+### P22 - Letter V · Peppa's Van Trip
+- 字母: V v
+- 发音: /v/
+- 单词: van, violin, vest, vase
+- 故事: 佩琪坐车
 - 状态: ✅ 完成
 
 ---
