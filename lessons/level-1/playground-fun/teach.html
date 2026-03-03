@@ -215,30 +215,25 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-seri
 <div class="wheel-wrapper">
 <svg class="wheel" id="wheel" viewBox="0 0 400 400">
 <g id="wheelSectors">
-<!-- Sector 1: run (pink) -->
+<!-- Sector 1: run (pink) - top -->
 <path d="M 200 200 L 200 50 A 150 150 0 0 1 329.9 129.9 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="220" y="90" width="50" height="50"/>
-<text x="245" y="160" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">run</text>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f3c3.svg" x="190" y="70" width="110" height="110"/>
 
-<!-- Sector 2: jump (blue) -->
+<!-- Sector 2: jump (blue) - right -->
 <path d="M 200 200 L 329.9 129.9 A 150 150 0 0 1 329.9 270.1 Z" fill="#A8DADC" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="280" y="175" width="50" height="50"/>
-<text x="305" y="245" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">jump</text>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f938.svg" x="260" y="145" width="110" height="110"/>
 
-<!-- Sector 3: walk (green) -->
+<!-- Sector 3: walk (green) - bottom right -->
 <path d="M 200 200 L 329.9 270.1 A 150 150 0 0 1 200 350 Z" fill="#A8E6CF" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="220" y="260" width="50" height="50"/>
-<text x="245" y="330" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">walk</text>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f6b6.svg" x="190" y="240" width="110" height="110"/>
 
-<!-- Sector 4: sit (yellow) -->
+<!-- Sector 4: sit (yellow) - bottom left -->
 <path d="M 200 200 L 200 350 A 150 150 0 0 1 70.1 270.1 Z" fill="#FFD93D" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="100" y="260" width="50" height="50"/>
-<text x="125" y="330" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">sit</text>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1fa91.svg" x="40" y="240" width="110" height="110"/>
 
-<!-- Sector 5: stand (purple) -->
+<!-- Sector 5: stand (orange) - left -->
 <path d="M 200 200 L 70.1 270.1 A 150 150 0 0 1 70.1 129.9 Z" fill="#E9C46A" stroke="#fff" stroke-width="3"/>
-<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="100" y="175" width="50" height="50"/>
-<text x="125" y="245" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">stand</text>
+<image href="https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@main/svg/emoji_u1f9cd.svg" x="40" y="145" width="110" height="110"/>
 
 <!-- Sector 6: run again (to close the circle) -->
 <path d="M 200 200 L 70.1 129.9 A 150 150 0 0 1 200 50 Z" fill="#FF6B9D" stroke="#fff" stroke-width="3"/>
@@ -368,23 +363,24 @@ var result=document.getElementById('wheelResult');
 result.classList.remove('show');
 result.innerHTML='';
 
-// Random spins: 5-8 full rotations + random angle
+// Pick random action (0-4)
+var actionIndex=Math.floor(Math.random()*5);
+var action=wheelActions[actionIndex];
+
+// Calculate target angle to align sector center with top pointer
+// Sector centers: 36°, 108°, 180°, 252°, 324° (from top, clockwise)
+var sectorCenters=[36,108,180,252,324];
+var targetAngle=sectorCenters[actionIndex];
+
+// Add 5-8 full rotations for visual effect
 var fullRotations=5+Math.floor(Math.random()*4);
-var randomAngle=Math.floor(Math.random()*360);
-var totalRotation=fullRotations*360+randomAngle;
+var totalRotation=fullRotations*360+targetAngle;
 
 var wheel=document.getElementById('wheel');
 wheel.style.transition='transform 3s cubic-bezier(.17,.67,.12,.99)';
 wheel.style.transform='rotate('+totalRotation+'deg)';
 
 setTimeout(function(){
-// Calculate which action we landed on
-// Each sector is 72 degrees (360/5)
-// Adjust for pointer at top (0 degrees)
-var normalizedAngle=randomAngle%360;
-var sectorIndex=Math.floor(normalizedAngle/72);
-var action=wheelActions[sectorIndex];
-
 // Show result
 showWheelResult(action);
 
