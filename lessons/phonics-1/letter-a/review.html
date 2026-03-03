@@ -54,40 +54,51 @@ body{
   border-top-color:#e91e8c;
 }
 .learn-grid{
-  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
-  margin-top:20px;
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
 }
 .learn-card{
-  width:110px;height:110px;border-radius:18px;
-  background:#ddd;cursor:pointer;
+  width:120px;height:120px;border-radius:20px;
+  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transition:transform .2s ease;
+  transition:all .3s ease;
   position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 .learn-card:active{transform:scale(.95)}
-.learn-card img{width:90px;height:auto;display:none}
-.learn-card .label{font-size:20px;font-weight:900;color:#2c3e50;margin-top:6px;display:none}
-.learn-card.revealed{background:#fff;border:3px solid #e91e8c}
+.learn-card img{width:80px;height:auto;display:none}
+.learn-card .label{font-size:18px;font-weight:900;color:#2c3e50;margin-top:8px;display:none}
+.learn-card.revealed{
+  background:#fff;
+  border:4px solid #e91e8c;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
 .learn-card.revealed img,.learn-card.revealed .label{display:block}
 .card-icon{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  font-size:48px;
+  font-size:52px;
 }
 .learn-card.revealed .card-icon{display:none}
 .listen-grid{
-  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
-  margin-top:20px;
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
 }
 .listen-card{
-  width:100px;height:100px;border-radius:18px;
-  background:#fff;border:3px solid #e91e8c;
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
   cursor:pointer;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  transition:transform .2s ease;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
 }
 .listen-card:active{transform:scale(.95)}
-.listen-card img{width:70px;height:auto;margin-bottom:6px}
-.listen-card .label{font-size:18px;font-weight:900;color:#2c3e50}
+.listen-card img{width:70px;height:auto;margin-bottom:8px}
+.listen-card .label{font-size:16px;font-weight:900;color:#2c3e50}
 .replay-btn{
   margin:16px auto;padding:12px 24px;
   background:#e67e22;color:#fff;border:none;
@@ -98,16 +109,17 @@ body{
 .replay-btn:active{transform:scale(.95)}
 .mem-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;max-width:440px;margin:20px auto;
+  gap:14px;max-width:460px;margin:24px auto;
 }
 .mem-card{
-  width:100%;aspect-ratio:1;border-radius:18px;
-  background:#fff;border:3px solid #e91e8c;
+  width:100%;aspect-ratio:1;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
   cursor:pointer;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  transition:transform .2s ease;
+  transition:all .3s ease;
   position:relative;
   transform-style:preserve-3d;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
 }
 .mem-card:active{transform:scale(.95)}
 .mem-card.flipped{pointer-events:none}
@@ -116,13 +128,15 @@ body{
   position:absolute;width:100%;height:100%;
   backface-visibility:hidden;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border-radius:18px;
+  border-radius:16px;
 }
-.mem-front{background:#e91e8c}
-.mem-front .emoji{font-size:44px}
+.mem-front{
+  background:linear-gradient(135deg,#ff6b9d,#e91e8c);
+}
+.mem-front .emoji{font-size:48px}
 .mem-back{background:#fff;transform:rotateY(180deg)}
-.mem-back img{width:70px;height:auto;margin-bottom:6px}
-.mem-back .label{font-size:18px;font-weight:900;color:#2c3e50}
+.mem-back img{width:60px;height:auto;margin-bottom:8px}
+.mem-back .label{font-size:16px;font-weight:900;color:#2c3e50}
 .mem-card.flipped{transform:rotateY(180deg)}
 .start-screen{
   text-align:center;
@@ -165,15 +179,21 @@ body{
   .te{font-size:22px}
   .tz{font-size:18px;padding:6px 14px}
   .sb{font-size:20px}
-  .learn-card{width:100px;height:100px}
-  .learn-card img{width:80px}
-  .learn-card .label{font-size:18px}
-  .listen-card{width:90px;height:90px}
+  .learn-card{width:105px;height:105px}
+  .learn-card img{width:70px}
+  .learn-card .label{font-size:16px}
+  .card-icon{font-size:44px}
+  .listen-card{width:95px;height:95px}
   .listen-card img{width:60px}
-  .mem-grid{grid-template-columns:repeat(2,1fr);max-width:360px}
+  .listen-card .label{font-size:14px}
+  .mem-grid{grid-template-columns:repeat(2,1fr);max-width:340px;gap:12px}
+  .mem-front .emoji{font-size:40px}
+  .mem-back img{width:50px}
+  .mem-back .label{font-size:14px}
   .start-screen h1{font-size:32px}
   .start-btn{font-size:26px;padding:14px 32px}
   .done-screen h1{font-size:32px}
+  .replay-btn{font-size:18px;padding:10px 20px}
 }
 @media(min-width:768px){
   .mem-grid{max-width:560px}
@@ -386,7 +406,7 @@ function initM2(){
   const game=document.getElementById('blendGame');
   game.innerHTML='';
   let idx=0;
-  const blendWords=['apple','ant'];
+  const blendWords=['apple','ant','alligator'];
   
   function showBlend(){
     if(idx>=blendWords.length){

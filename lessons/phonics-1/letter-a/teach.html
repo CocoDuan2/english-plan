@@ -58,6 +58,8 @@ body{
 .blend-box{
   display:flex;gap:8px;align-items:center;justify-content:center;
   margin:20px 0;
+  flex-wrap:wrap;
+  max-width:100%;
 }
 .blend-letter{
   font-size:64px;font-weight:900;color:#e91e8c;
@@ -144,8 +146,10 @@ body{
   .obj-wrap img{width:140px}
   .word{font-size:72px}
   .sent{font-size:28px}
-  .blend-letter{font-size:52px;width:70px;height:70px}
-  .blend-word{font-size:60px}
+  .blend-box{gap:4px}
+  .blend-letter{font-size:40px;width:50px;height:50px;border:3px solid #e91e8c}
+  .blend-arrow{font-size:32px;margin:0 4px}
+  .blend-word{font-size:48px}
   .sound-btn{width:80px;height:80px;font-size:40px}
   .sound-btn img{width:50px}
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
