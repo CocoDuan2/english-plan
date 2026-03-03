@@ -23,7 +23,7 @@ body{background:linear-gradient(160deg,#fff3e0,#ffe0b2);overflow:hidden}
 .card-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .card{width:110px;height:110px;background:#ddd;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;overflow:hidden}
 .card .card-icon{font-size:44px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.card .card-inner{opacity:0;transform:translateY(30px);transition:all .5s cubic-bezier(.34,1.56,.64,1);display:flex;flex-direction:column;align-items:center;gap:4px}
+.card .card-inner{opacity:0;transform:translateY(30px);transition:all .5s cubic-bezier(.34,1.56,.64,1);display:flex;flex-direction:column;align-items:center;gap:8px}
 .card.revealed{background:#fff}.card.revealed .card-icon{display:none}
 .card.revealed .card-inner{opacity:1;transform:translateY(0)}
 .card .card-label{font-size:16px;font-weight:700;color:#2c3e50}
@@ -140,11 +140,11 @@ body{background:linear-gradient(160deg,#fff3e0,#ffe0b2);overflow:hidden}
 var PP='../../../assets/peppa/';
 var TW='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/';
 var W=[
-{w:'one',n:1,emoji:'1f34e',color:'#e53935'},
-{w:'two',n:2,emoji:'1f34c',color:'#f9a825'},
-{w:'three',n:3,emoji:'2b50',color:'#ff8f00'},
-{w:'four',n:4,emoji:'1f338',color:'#ec407a'},
-{w:'five',n:5,emoji:'1f436',color:'#43a047'}
+{w:'one',n:1,emoji:'1f34e',numEmoji:'31-20e3',color:'#e53935'},
+{w:'two',n:2,emoji:'1f34c',numEmoji:'32-20e3',color:'#f9a825'},
+{w:'three',n:3,emoji:'2b50',numEmoji:'33-20e3',color:'#ff8f00'},
+{w:'four',n:4,emoji:'1f338',numEmoji:'34-20e3',color:'#ec407a'},
+{w:'five',n:5,emoji:'1f436',numEmoji:'35-20e3',color:'#43a047'}
 ];
 var curM=0,busy=false,st=[0,0,0,0,0];
 function dotsHTML(item,sz){var h='';for(var i=0;i<item.n;i++)h+='<img src="'+TW+item.emoji+'.svg" width="'+sz+'" style="margin:2px">';return h}
@@ -178,7 +178,7 @@ document.getElementById('s1').innerHTML=stars(0,W.length);
 var g=document.getElementById('cg1');g.innerHTML='';
 W.forEach(function(item,i){
 var c=document.createElement('div');c.className='card';
-c.innerHTML='<div class="card-icon">❓</div><div class="card-inner"><div>'+dotsHTML(item,30)+'</div><div class="card-label">'+item.w+'</div></div>';
+c.innerHTML='<div class="card-icon">❓</div><div class="card-inner"><img src="'+TW+item.numEmoji+'.svg" width="60" alt="'+item.w+'"><div class="card-label">'+item.w+'</div></div>';
 c.onclick=function(){
 if(c.classList.contains('revealed')){speak(item.w);return}
 c.classList.add('revealed');playOk();speak(item.w);m1rev.push(i);
