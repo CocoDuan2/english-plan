@@ -93,9 +93,8 @@ body{
 }
 
 .blend-box{
-  display:flex;gap:8px;align-items:center;justify-content:center;
+  display:flex;gap:6px;align-items:center;justify-content:center;
   margin:20px 0;
-  flex-wrap:wrap;
   max-width:100%;
 }
 .blend-letter{
@@ -104,6 +103,14 @@ body{
   width:80px;height:80px;display:flex;align-items:center;justify-content:center;
   animation:slideIn 0.5s ease-out forwards;
   opacity:0;transform:translateX(-20px);
+  flex-shrink:1;
+}
+/* Dynamic sizing for long words */
+.blend-box.long .blend-letter{
+  width:45px;height:45px;font-size:32px;border:3px solid #e91e8c;
+}
+.blend-box.medium .blend-letter{
+  width:60px;height:60px;font-size:48px;
 }
 .blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
 .blend-word{
@@ -185,7 +192,9 @@ body{
   .sent{font-size:28px}
   .trace-container{width:250px;height:250px}
   .blend-box{gap:4px}
-  .blend-letter{font-size:40px;width:50px;height:50px;border:3px solid #e91e8c}
+  .blend-letter{font-size:36px;width:40px;height:40px;border:2px solid #e91e8c}
+  .blend-box.long .blend-letter{width:32px;height:32px;font-size:24px}
+  .blend-box.medium .blend-letter{width:36px;height:36px;font-size:28px}
   .blend-arrow{font-size:32px;margin:0 4px}
   .blend-word{font-size:48px}
   .sound-btn{width:80px;height:80px;font-size:40px}
@@ -455,6 +464,15 @@ function showBlend(word,letters){
   anim.style.display='block';
   
   box.innerHTML='';
+  box.className='blend-box'; // Reset classes
+  
+  // Add size class based on letter count
+  if(letters.length>=7){
+    box.classList.add('long');
+  }else if(letters.length>=5){
+    box.classList.add('medium');
+  }
+  
   wordEl.textContent='';
   wordEl.style.animation='none';
   
