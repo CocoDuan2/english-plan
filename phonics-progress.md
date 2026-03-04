@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P52 - ue ✅
+- 当前: P62 - bl ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -372,15 +372,23 @@
 - 故事: 佩琪的雪天
 - 状态: ✅ 完成
 
-## Phonics 4 · 辅音组合（P62-P81）
-待开始
-
-## Phonics 5 · 复杂拼读（P82-P101）
-待开始
-
 ### P52 - ue · Peppa's Blue Balloon
 - 模式: ue
 - 发音: /uː/
 - 单词: blue, glue, true, clue
 - 故事: 佩琪的蓝气球
 - 状态: ✅ 完成
+
+---
+
+## Phonics 4 · 辅音组合（P62-P81）
+
+### P62 - bl Blend · Peppa's Blue Blocks
+- 辅音组合: bl
+- 发音: /bl/
+- 单词: blue, black, block, blow
+- 故事: 佩琪的蓝色积木
+- 状态: ✅ 完成
+
+## Phonics 5 · 复杂拼读（P82-P101）
+待开始

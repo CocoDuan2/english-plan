@@ -7,31 +7,56 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:'Segoe UI',system-ui,sans-serif;
+  font-family:'Segoe UI','Comic Sans MS',system-ui,sans-serif;
   min-height:100vh;
   background:linear-gradient(135deg,#fff3e0,#ffe0b2);
-  display:flex;align-items:center;justify-content:center;
   padding:20px;color:#2c3e50;
 }
-.container{
-  max-width:500px;text-align:center;
-  background:rgba(255,255,255,.9);
-  border-radius:22px;padding:40px 30px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-}
+.header{text-align:center;margin-bottom:30px}
 .badge{
-  display:inline-block;
-  background:#fff3e0;border:3px solid #ffa726;
-  color:#e65100;font-size:48px;font-weight:900;
-  width:90px;height:90px;border-radius:20px;
   display:inline-flex;align-items:center;justify-content:center;
-  margin-bottom:16px;
+  background:#fff3e0;border:3px solid #ffa726;
+  color:#e65100;font-size:36px;font-weight:900;
+  width:70px;height:70px;border-radius:18px;margin-bottom:12px;
 }
-h1{font-size:36px;font-weight:900;color:#394867;margin-bottom:8px}
-.sub{font-size:18px;color:#667085;margin-bottom:20px}
-.msg{font-size:16px;color:#e67e22;font-weight:700}
+h1{font-size:32px;font-weight:900;color:#394867;margin-bottom:6px}
+.sub{font-size:16px;color:#667085;margin-bottom:8px}
+.section{max-width:600px;margin:0 auto 24px}
+.section-title{
+  font-size:20px;font-weight:900;color:#e65100;
+  margin-bottom:12px;padding-left:8px;border-left:4px solid #ffa726;
+}
+.lesson-list{display:flex;flex-direction:column;gap:12px}
+.lesson-card{
+  background:#fff;border-radius:16px;padding:16px 20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  display:flex;align-items:center;gap:16px;
+  text-decoration:none;color:inherit;
+  transition:all .2s ease;border:2px solid transparent;
+}
+.lesson-card:hover{
+  border-color:#ffa726;transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+.lesson-card .day{
+  font-size:14px;font-weight:900;color:#fff;
+  background:#ffa726;border-radius:10px;
+  padding:6px 12px;min-width:50px;text-align:center;
+}
+.lesson-card .info{flex:1}
+.lesson-card .title{font-size:16px;font-weight:700;color:#394867}
+.lesson-card .title-cn{font-size:13px;color:#667085;margin-top:2px}
+.lesson-card .links{display:flex;gap:8px}
+.lesson-card .link{
+  padding:6px 14px;border-radius:8px;
+  font-size:13px;font-weight:700;color:#fff;
+  text-decoration:none;transition:transform .2s ease;
+}
+.lesson-card .link:active{transform:scale(.95)}
+.link-teach{background:#e91e8c}
+.link-review{background:#e67e22}
 .back-btn{
-  display:inline-block;margin-top:20px;
+  display:inline-block;margin-top:16px;
   padding:12px 28px;background:#ffa726;color:#fff;
   border-radius:12px;text-decoration:none;
   font-size:16px;font-weight:700;
@@ -40,12 +65,43 @@ h1{font-size:36px;font-weight:900;color:#394867;margin-bottom:8px}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="header">
   <div class="badge">P4</div>
   <h1>Phonics 4 · 辅音组合</h1>
-  <div class="sub">辅音连缀 + 字母组合 · 20课 · 80个单词</div>
-  <div class="msg">🚧 Coming Soon!</div>
+  <div class="sub">辅音连缀 + 字母组合 · 20课</div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔤 辅音连缀（P62-P71）</div>
+  <div class="lesson-list" id="blendsList"></div>
+</div>
+
+<div style="text-align:center">
   <a class="back-btn" href="index.html">← 返回主页</a>
 </div>
+
+<script>
+const lessons=[
+  {day:"P62",title:"bl Blend · Peppa's Blue Blocks",titleCn:"bl 组合 · 佩琪的蓝色积木",folder:"bl-blend"}
+];
+
+const list=document.getElementById('blendsList');
+lessons.forEach(l=>{
+  const card=document.createElement('div');
+  card.className='lesson-card';
+  card.innerHTML=`
+    <div class="day">${l.day}</div>
+    <div class="info">
+      <div class="title">${l.title}</div>
+      <div class="title-cn">${l.titleCn}</div>
+    </div>
+    <div class="links">
+      <a class="link link-teach" href="lessons/phonics-4/${l.folder}/teach.html">教学</a>
+      <a class="link link-review" href="lessons/phonics-4/${l.folder}/review.html">复习</a>
+    </div>
+  `;
+  list.appendChild(card);
+});
+</script>
 </body>
 </html>
