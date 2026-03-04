@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P47 - ai/ay · Peppa's Rainy Day</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.letter-big{
+  font-size:180px;font-weight:900;color:#e91e8c;
+  text-shadow:4px 4px 0 #ffc1e3;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+.listen-game{margin-top:20px}
+.listen-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.listen-opt{
+  width:120px;height:120px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-opt:hover{transform:translateY(-4px)}
+.listen-opt:active{transform:scale(.95)}
+.listen-opt.shake{animation:shake .5s}
+.listen-opt img{width:80px;height:auto}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.listen-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;max-width:500px;margin:20px auto;
+}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.tn{
+  position:fixed;bottom:80px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  background:#e67e22;color:#fff;border:none;
+  font-size:24px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s ease;
+  z-index:100;
+}
+.tn:active{transform:scale(.9)}
+.tn-panel{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);color:#fff;
+  padding:20px;overflow-y:auto;z-index:200;
+  display:none;
+}
+.tn-panel.show{display:block}
+.tn-panel h3{font-size:24px;margin-bottom:12px;color:#ffd54f}
+.tn-panel p{font-size:16px;line-height:1.6;margin-bottom:12px}
+.tn-close{
+  position:absolute;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:#e91e8c;color:#fff;border:none;
+  font-size:24px;cursor:pointer;
+}
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .letter-big{font-size:140px}
+  .phonics{font-size:38px;padding:10px 20px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:10px 16px;max-width:90%}
+  .obj-wrap img{width:140px}
+  .word{font-size:72px}
+  .sent{font-size:28px}
+  .listen-opt{width:100px;height:100px}
+  .listen-opt img{width:70px}
+  .listen-feedback{font-size:24px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .sound-btn img{width:50px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-item img{width:70px}
+  .grid-item .label{font-size:20px}
+}
+@media(min-width:768px){
+  .ttl{font-size:48px}
+  .word{font-size:100px}
+  .sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="ttl">ai / ay</div>
+  <div class="sub">Peppa's Rainy Day</div>
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <div style="font-size:20px;color:#667085;margin-top:12px">Learn the long A sound /eɪ/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Hello! Let's learn ai and ay!</div>
+</div>
+
+<!-- S3: Sound -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">ai and ay say /eɪ/!</div>
+  </div>
+  <div class="letter-big">ai  ay</div>
+  <div class="phonics">/eɪ/</div>
+  <div style="font-size:20px;color:#667085;margin-top:12px">Say: /eɪ/ /eɪ/ /eɪ/</div>
+</div>
+
+<!-- S4: Word 1 - rain -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/eɪ/ is for rain!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f327.svg" alt="rain">
+  </div>
+  <div class="word">rain</div>
+</div>
+
+<!-- S5: Word 2 - train -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/eɪ/ is for train!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f686.svg" alt="train">
+  </div>
+  <div class="word">train</div>
+</div>
+
+<!-- S6: Word 3 - play -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/eɪ/ is for play!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="play">
+  </div>
+  <div class="word">play</div>
+</div>
+
+<!-- S7: Word 4 - day -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/eɪ/ is for day!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="day">
+  </div>
+  <div class="word">day</div>
+</div>
+
+<!-- S8: Listen and Tap -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and tap!</div>
+  </div>
+  <div class="listen-game">
+    <div class="listen-options" id="listenOptions"></div>
+    <div class="listen-feedback" id="listenFeedback"></div>
+  </div>
+</div>
+
+<!-- S9: Story -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">It's a rainy day!</div>
+  </div>
+  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+    <p style="margin-bottom:12px">It's raining! Peppa sees the <strong style="color:#e91e8c">rain</strong>.</p>
+    <p style="margin-bottom:12px">She takes a <strong style="color:#e91e8c">train</strong> to town.</p>
+    <p style="margin-bottom:12px">Peppa wants to <strong style="color:#e91e8c">play</strong> outside.</p>
+    <p>What a fun <strong style="color:#e91e8c">day</strong>!</p>
+  </div>
+  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f327.svg" alt="rain" style="width:80px;margin-top:16px">
+</div>
+
+<!-- S10: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f327.svg" alt="rain">
+      <div class="label">rain</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f686.svg" alt="train">
+      <div class="label">train</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="play">
+      <div class="label">play</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="day">
+      <div class="label">day</div>
+    </div>
+  </div>
+</div>
+
+<!-- S11: Bye -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Great job!</div>
+  <div class="sub">Tomorrow we'll learn ee!</div>
+  <div style="font-size:48px;margin-top:20px">🎉</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">11</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<!-- Teacher Notes Button -->
+<button class="tn" onclick="toggleNotes()">T</button>
+
+<!-- Teacher Notes Panel -->
+<div class="tn-panel" id="tnPanel">
+  <button class="tn-close" onclick="toggleNotes()">✕</button>
+  <h3>📝 Teacher Notes - P47 ai/ay</h3>
+  <p><strong>S1 Title:</strong> Introduce the lesson - learning ai/ay digraphs.</p>
+  <p><strong>S2 Hello:</strong> Peppa greets and invites students to learn.</p>
+  <p><strong>S3 Sound:</strong> Show ai and ay. Emphasize the /eɪ/ sound. Have students repeat 3 times.</p>
+  <p><strong>S4-S7 Words:</strong> Introduce 4 words with ai/ay. Point to pictures and say words clearly.</p>
+  <p><strong>S8 Listen & Tap:</strong> Interactive game - students listen and tap the correct picture.</p>
+  <p><strong>S9 Story:</strong> Read the short story. Emphasize words with ai/ay.</p>
+  <p><strong>S10 All Together:</strong> Review all 4 words. Point randomly and ask students to say the words.</p>
+  <p><strong>S11 Bye:</strong> Celebrate completion and preview next lesson.</p>
+</div>
+
+<script>
+let ci=0,ts=11;
+const words=[
+  {word:'rain',emoji:'1f327'},
+  {word:'train',emoji:'1f686'},
+  {word:'play',emoji:'26bd'},
+  {word:'day',emoji:'2600'}
+];
+let currentQ=0,stars=0;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===7)initListenGame();
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+
+function initListenGame(){
+  currentQ=0;
+  stars=0;
+  nextQuestion();
+}
+
+function nextQuestion(){
+  if(currentQ>=words.length){
+    document.getElementById('listenFeedback').innerHTML='🎉 All done!';
+    document.getElementById('listenOptions').innerHTML='';
+    return;
+  }
+  
+  const correct=words[currentQ];
+  const others=words.filter(w=>w.word!==correct.word);
+  const shuffled=[correct,...others.slice(0,2)].sort(()=>Math.random()-.5);
+  
+  const opts=document.getElementById('listenOptions');
+  opts.innerHTML='';
+  
+  shuffled.forEach(w=>{
+    const div=document.createElement('div');
+    div.className='listen-opt';
+    div.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${w.emoji}.svg" alt="${w.word}">`;
+    div.onclick=()=>checkAnswer(w.word===correct.word,div);
+    opts.appendChild(div);
+  });
+  
+  document.getElementById('listenFeedback').textContent='';
+  setTimeout(()=>speak(correct.word),500);
+}
+
+function checkAnswer(isCorrect,el){
+  if(isCorrect){
+    document.getElementById('listenFeedback').innerHTML='✅ Great!';
+    playOk();
+    showConfetti();
+    stars++;
+    currentQ++;
+    setTimeout(nextQuestion,2000);
+  }else{
+    document.getElementById('listenFeedback').innerHTML='❌ Try again!';
+    playNo();
+    el.classList.add('shake');
+    setTimeout(()=>el.classList.remove('shake'),500);
+  }
+}
+
+function playOk(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);
+  o.frequency.value=523;g.gain.value=.3;
+  o.start();o.stop(ctx.currentTime+.15);
+}
+
+function playNo(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);
+  o.frequency.value=200;g.gain.value=.3;
+  o.start();o.stop(ctx.currentTime+.2);
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+goTo(0);
+</script>
+</body>
+</html>

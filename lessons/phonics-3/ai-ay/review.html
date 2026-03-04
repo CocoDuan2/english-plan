@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P47 - ai/ay Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.mod{
+  min-height:100vh;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  justify-content:flex-start;
+  overflow-y:auto;
+}
+.mod.active{display:flex}
+.top{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:16px;
+}
+.te{font-size:26px;font-weight:900;color:#e91e8c}
+.tz{
+  background:linear-gradient(135deg,#ff6b9d,#c44569);
+  color:#fff;padding:8px 16px;border-radius:25px;
+  font-size:20px;font-weight:900;
+  box-shadow:0 4px 12px rgba(233,30,140,.3);
+  position:relative;
+  margin-top:8px;
+}
+.sb{
+  display:flex;gap:6px;align-items:center;
+  font-size:22px;font-weight:900;
+  margin-top:8px;
+}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:10px 18px;font-size:22px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.learn-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.learn-card{
+  width:120px;height:120px;border-radius:20px;
+  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.learn-card:active{transform:scale(.95)}
+.learn-card img{width:80px;height:auto;display:none}
+.learn-card .label{font-size:18px;font-weight:900;color:#2c3e50;margin-top:8px;display:none}
+.learn-card.revealed{
+  background:#fff;
+  border:4px solid #e91e8c;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.learn-card.revealed img,.learn-card.revealed .label{display:block}
+.card-icon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:52px;
+}
+.learn-card.revealed .card-icon{display:none}
+.listen-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.listen-card{
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:70px;height:auto;margin-bottom:8px}
+.listen-card .label{font-size:16px;font-weight:900;color:#2c3e50}
+.replay-btn{
+  margin:16px auto;padding:12px 24px;
+  background:#e67e22;color:#fff;border:none;
+  border-radius:12px;font-size:20px;font-weight:900;
+  cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.replay-btn:active{transform:scale(.95)}
+.mem-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;max-width:500px;margin:24px auto;
+}
+.mem-card{
+  width:100%;aspect-ratio:1;border-radius:20px;
+  background:linear-gradient(135deg,#ff6b9d,#e91e8c);
+  border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.mem-card:active{transform:scale(.95)}
+.mem-card.flipped{pointer-events:none}
+.mem-card.matched{opacity:.3;pointer-events:none}
+.mem-front{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-front .emoji{font-size:48px}
+.mem-back{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-back img{width:60px;height:auto;margin-bottom:8px}
+.mem-back .label{font-size:16px;font-weight:900;color:#2c3e50}
+.mem-card.flipped{background:#fff}
+.mem-card.flipped .mem-front{display:none}
+.mem-card.flipped .mem-back{display:flex}
+.start-screen{
+  text-align:center;
+}
+.start-screen img{width:110px;margin:20px auto}
+.start-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.start-screen .preview{
+  display:flex;gap:16px;justify-content:center;margin:20px 0;
+}
+.start-screen .preview img{width:70px;height:auto}
+.start-btn{
+  padding:16px 40px;background:#e91e8c;color:#fff;
+  border:none;border-radius:16px;font-size:32px;
+  font-weight:900;cursor:pointer;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+  transition:transform .2s ease;
+}
+.start-btn:active{transform:scale(.95)}
+.done-screen{text-align:center}
+.done-screen img{width:110px;margin:20px auto}
+.done-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.done-screen .msg{font-size:22px;color:#e67e22;font-weight:700;margin-bottom:20px}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+  .te{font-size:22px}
+  .tz{font-size:18px;padding:6px 14px}
+  .sb{font-size:20px}
+  .learn-card{width:105px;height:105px}
+  .learn-card img{width:70px}
+  .learn-card .label{font-size:16px}
+  .card-icon{font-size:44px}
+  .listen-card{width:95px;height:95px}
+  .listen-card img{width:60px}
+  .listen-card .label{font-size:14px}
+  .mem-grid{grid-template-columns:repeat(4,1fr);max-width:340px;gap:10px}
+  .mem-front .emoji{font-size:36px}
+  .mem-back img{width:45px}
+  .mem-back .label{font-size:13px}
+  .start-screen h1{font-size:32px}
+  .start-btn{font-size:26px;padding:14px 32px}
+  .done-screen h1{font-size:32px}
+  .replay-btn{font-size:18px;padding:10px 20px}
+}
+@media(min-width:768px){
+  .te{font-size:30px}
+  .tz{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div class="mod active">
+  <div class="start-screen">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <h1>ai / ay Review</h1>
+    <div class="preview">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f327.svg" alt="rain">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f686.svg" alt="train">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="play">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="day">
+    </div>
+    <button class="start-btn" onclick="goTo(1)">Let's Play!</button>
+  </div>
+</div>
+
+<!-- M1: Learn -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Learn New Words</div>
+    <div class="tz">点击卡片学单词</div>
+    <div class="sb">
+      <span id="s1">★</span><span id="s2">★</span><span id="s3">★</span><span id="s4">★</span>
+    </div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Tap the cards!</div>
+  </div>
+  <div class="learn-grid">
+    <div class="learn-card" onclick="reveal(0)">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f327.svg" alt="rain">
+      <div class="label">rain</div>
+    </div>
+    <div class="learn-card" onclick="reveal(1)">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f686.svg" alt="train">
+      <div class="label">train</div>
+    </div>
+    <div class="learn-card" onclick="reveal(2)">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="play">
+      <div class="label">play</div>
+    </div>
+    <div class="learn-card" onclick="reveal(3)">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2600.svg" alt="day">
+      <div class="label">day</div>
+    </div>
+  </div>
+</div>
+
+<!-- M2: Listen & Find -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Listen & Find</div>
+    <div class="tz">听单词找图片</div>
+    <div class="sb">
+      <span id="s5">★</span><span id="s6">★</span><span id="s7">★</span><span id="s8">★</span>
+    </div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Find the word!</div>
+  </div>
+  <button class="replay-btn" onclick="replayAudio()">🔊 Replay</button>
+  <div class="listen-grid" id="listenGrid"></div>
+</div>
+
+<!-- M3: Memory Match -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Memory Match</div>
+    <div class="tz">记忆翻牌配对</div>
+    <div class="sb">
+      <span id="s9">★</span><span id="s10">★</span><span id="s11">★</span><span id="s12">★</span>
+    </div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Match the pairs!</div>
+  </div>
+  <div class="mem-grid" id="memGrid"></div>
+</div>
+
+<!-- M4: Done -->
+<div class="mod">
+  <div class="done-screen">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+    <h1>All Done!</h1>
+    <div class="msg">You got <span id="totalStars">0</span> stars! 🎉</div>
+    <button class="start-btn" onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / 5</div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+let ci=0,ts=5;
+const words=['rain','train','play','day'];
+const emojis=['1f327','1f686','26bd','2600'];
+let stars=0,revealed=[0,0,0,0];
+let listenQ=0,currentWord='';
+let memFlipped=[],memMatched=0;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.mod').forEach((m,idx)=>m.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===2)initListen();
+  if(i===3)initMemory();
+  if(i===4)showTotal();
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+
+function reveal(i){
+  if(revealed[i])return;
+  const cards=document.querySelectorAll('.learn-card');
+  cards[i].classList.add('revealed');
+  revealed[i]=1;
+  stars++;
+  document.getElementById(`s${i+1}`).textContent='⭐';
+  speak(words[i]);
+  playOk();
+  showConfetti();
+}
+
+function initListen(){
+  listenQ=0;
+  nextListen();
+}
+
+function nextListen(){
+  if(listenQ>=4){
+    document.getElementById('listenGrid').innerHTML='<div style="font-size:32px;font-weight:900;color:#27ae60;margin:20px auto">🎉 All done!</div>';
+    return;
+  }
+  currentWord=words[listenQ];
+  const grid=document.getElementById('listenGrid');
+  grid.innerHTML='';
+  words.forEach((w,i)=>{
+    const div=document.createElement('div');
+    div.className='listen-card';
+    div.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[i]}.svg" alt="${w}">`;
+    div.onclick=()=>checkListen(w);
+    grid.appendChild(div);
+  });
+  setTimeout(()=>speak(currentWord),500);
+}
+
+function checkListen(w){
+  if(w===currentWord){
+    stars++;
+    document.getElementById(`s${listenQ+5}`).textContent='⭐';
+    playOk();
+    showConfetti();
+    speak(w);
+    listenQ++;
+    setTimeout(nextListen,2000);
+  }else{
+    playNo();
+    speak(currentWord);
+  }
+}
+
+function replayAudio(){
+  if(currentWord)speak(currentWord);
+}
+
+function initMemory(){
+  const grid=document.getElementById('memGrid');
+  grid.innerHTML='';
+  const pairs=[...words,...words].sort(()=>Math.random()-.5);
+  pairs.forEach((w,i)=>{
+    const div=document.createElement('div');
+    div.className='mem-card';
+    div.dataset.word=w;
+    div.dataset.idx=i;
+    div.innerHTML=`
+      <div class="mem-front"><div class="emoji">❓</div></div>
+      <div class="mem-back">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[words.indexOf(w)]}.svg" alt="${w}">
+        <div class="label">${w}</div>
+      </div>
+    `;
+    div.onclick=()=>flipMem(div);
+    grid.appendChild(div);
+  });
+  memFlipped=[];
+  memMatched=0;
+}
+
+function flipMem(card){
+  if(card.classList.contains('flipped')||card.classList.contains('matched'))return;
+  if(memFlipped.length>=2)return;
+  
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  speak(card.dataset.word);
+  
+  if(memFlipped.length===2){
+    setTimeout(checkMemMatch,800);
+  }
+}
+
+function checkMemMatch(){
+  const[c1,c2]=memFlipped;
+  if(c1.dataset.word===c2.dataset.word){
+    c1.classList.add('matched');
+    c2.classList.add('matched');
+    stars++;
+    memMatched++;
+    const starIdx=8+memMatched;
+    if(starIdx<=12)document.getElementById(`s${starIdx}`).textContent='⭐';
+    playOk();
+    showConfetti();
+  }else{
+    c1.classList.remove('flipped');
+    c2.classList.remove('flipped');
+    playNo();
+  }
+  memFlipped=[];
+}
+
+function showTotal(){
+  document.getElementById('totalStars').textContent=stars;
+}
+
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+
+function playOk(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);
+  o.frequency.value=523;g.gain.value=.3;
+  o.start();o.stop(ctx.currentTime+.15);
+}
+
+function playNo(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);
+  o.frequency.value=200;g.gain.value=.3;
+  o.start();o.stop(ctx.currentTime+.2);
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+});
+goTo(0);
+</script>
+</body>
+</html>

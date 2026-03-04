@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P46 - Magic E: e_e ✅
+- 当前: P47 - ai/ay ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -335,6 +335,13 @@
 - 发音: /iː/
 - 单词: Pete, Steve, theme, these
 - 故事: 佩琪遇见Pete
+- 状态: ✅ 完成
+
+### P47 - ai/ay · Peppa's Rainy Day
+- 模式: ai/ay
+- 发音: /eɪ/
+- 单词: rain, train, play, day
+- 故事: 佩琪的雨天
 - 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
