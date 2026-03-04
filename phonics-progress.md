@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P41 - -ut Family ✅
+- 当前: P42 - Magic E: a_e ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -301,7 +301,13 @@
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
-待开始
+
+### P42 - Magic E: a_e · Peppa Bakes a Cake
+- 模式: a_e
+- 发音: /eɪ/
+- 单词: cake, make, lake, take, snake
+- 故事: 佩琪烤蛋糕
+- 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
 待开始

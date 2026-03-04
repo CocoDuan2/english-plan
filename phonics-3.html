@@ -7,45 +7,161 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:'Segoe UI',system-ui,sans-serif;
+  font-family:'Segoe UI','Comic Sans MS',system-ui,sans-serif;
   min-height:100vh;
   background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
-  display:flex;align-items:center;justify-content:center;
   padding:20px;color:#2c3e50;
 }
-.container{
-  max-width:500px;text-align:center;
-  background:rgba(255,255,255,.9);
-  border-radius:22px;padding:40px 30px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
+.header{
+  text-align:center;margin-bottom:30px;
 }
 .badge{
-  display:inline-block;
-  background:#e8f5e9;border:3px solid #66bb6a;
-  color:#2e7d32;font-size:48px;font-weight:900;
-  width:90px;height:90px;border-radius:20px;
   display:inline-flex;align-items:center;justify-content:center;
-  margin-bottom:16px;
+  background:#e8f5e9;border:3px solid #66bb6a;
+  color:#2e7d32;font-size:36px;font-weight:900;
+  width:70px;height:70px;border-radius:18px;
+  margin-bottom:12px;
 }
-h1{font-size:36px;font-weight:900;color:#394867;margin-bottom:8px}
-.sub{font-size:18px;color:#667085;margin-bottom:20px}
-.msg{font-size:16px;color:#e67e22;font-weight:700}
+h1{font-size:32px;font-weight:900;color:#394867;margin-bottom:6px}
+.sub{font-size:16px;color:#667085;margin-bottom:8px}
+.progress{font-size:14px;color:#27ae60;font-weight:700}
+.section{
+  max-width:600px;margin:0 auto 24px;
+}
+.section-title{
+  font-size:20px;font-weight:900;color:#2e7d32;
+  margin-bottom:12px;padding-left:8px;
+  border-left:4px solid #66bb6a;
+}
+.lesson-list{
+  display:flex;flex-direction:column;gap:12px;
+}
+.lesson-card{
+  background:#fff;border-radius:16px;padding:16px 20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  display:flex;align-items:center;gap:16px;
+  text-decoration:none;color:inherit;
+  transition:all .2s ease;
+  border:2px solid transparent;
+}
+.lesson-card:hover{
+  border-color:#66bb6a;transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+.lesson-card .day{
+  font-size:14px;font-weight:900;color:#fff;
+  background:#66bb6a;border-radius:10px;
+  padding:6px 12px;min-width:50px;text-align:center;
+}
+.lesson-card .info{flex:1}
+.lesson-card .title{font-size:16px;font-weight:700;color:#394867}
+.lesson-card .title-cn{font-size:13px;color:#667085;margin-top:2px}
+.lesson-card .links{display:flex;gap:8px}
+.lesson-card .link{
+  padding:6px 14px;border-radius:8px;
+  font-size:13px;font-weight:700;color:#fff;
+  text-decoration:none;
+  transition:transform .2s ease;
+}
+.lesson-card .link:active{transform:scale(.95)}
+.link-teach{background:#e91e8c}
+.link-review{background:#e67e22}
+.lesson-card.locked{opacity:.5;pointer-events:none}
+.lesson-card.locked .day{background:#bbb}
 .back-btn{
-  display:inline-block;margin-top:20px;
+  display:inline-block;margin-top:16px;
   padding:12px 28px;background:#66bb6a;color:#fff;
   border-radius:12px;text-decoration:none;
   font-size:16px;font-weight:700;
   box-shadow:0 4px 12px rgba(102,187,106,.3);
+  transition:transform .2s ease;
+}
+.back-btn:active{transform:scale(.95)}
+@media(max-width:480px){
+  h1{font-size:26px}
+  .lesson-card{flex-wrap:wrap;gap:10px;padding:14px 16px}
+  .lesson-card .links{width:100%;justify-content:flex-end}
 }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="header">
   <div class="badge">P3</div>
   <h1>Phonics 3 · 长元音</h1>
-  <div class="sub">Magic E + 双元音 · 20课 · 100个单词</div>
-  <div class="msg">🚧 Coming Soon!</div>
+  <div class="sub">Magic E + 双元音 · 20课</div>
+  <div class="progress" id="progressText">1 / 20 完成</div>
+</div>
+
+<div class="section">
+  <div class="section-title">🪄 Magic E（P42-P46）</div>
+  <div class="lesson-list" id="magicEList"></div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔤 双元音组合（P47-P61）</div>
+  <div class="lesson-list" id="vowelList"></div>
+</div>
+
+<div style="text-align:center">
   <a class="back-btn" href="index.html">← 返回主页</a>
 </div>
+
+<script>
+const magicELessons=[
+  {day:"P42",title:"Magic E: a_e · Peppa Bakes a Cake",titleCn:"魔法 E：a_e · 佩琪烤蛋糕",folder:"a-e-magic",done:true},
+  {day:"P43",title:"Magic E: i_e · Peppa Rides a Bike",titleCn:"魔法 E：i_e · 佩琪骑自行车",folder:"i-e-magic",done:false},
+  {day:"P44",title:"Magic E: o_e · Peppa Goes Home",titleCn:"魔法 E：o_e · 佩琪回家",folder:"o-e-magic",done:false},
+  {day:"P45",title:"Magic E: u_e · Peppa Plays the Flute",titleCn:"魔法 E：u_e · 佩琪吹笛子",folder:"u-e-magic",done:false},
+  {day:"P46",title:"Magic E: e_e · Peppa Meets Pete",titleCn:"魔法 E：e_e · 佩琪遇见Pete",folder:"e-e-magic",done:false}
+];
+
+const vowelLessons=[
+  {day:"P47",title:"ai/ay · Rainy Day Play",titleCn:"ai/ay · 下雨天",folder:"ai-ay",done:false},
+  {day:"P48",title:"ee · Peppa Sees a Bee",titleCn:"ee · 佩琪看到蜜蜂",folder:"ee",done:false},
+  {day:"P49",title:"ea · Tea at the Beach",titleCn:"ea · 海边喝茶",folder:"ea",done:false},
+  {day:"P50",title:"oa · Peppa's Boat Ride",titleCn:"oa · 佩琪划船",folder:"oa",done:false},
+  {day:"P51",title:"ow · Snowy Window",titleCn:"ow · 雪花飘飘",folder:"ow-snow",done:false},
+  {day:"P52",title:"igh · Night Light",titleCn:"igh · 夜灯",folder:"igh",done:false},
+  {day:"P53",title:"ie/y · Peppa Flies a Kite",titleCn:"ie/y · 佩琪放风筝",folder:"ie-y",done:false},
+  {day:"P54",title:"ue/ew · Blue and New",titleCn:"ue/ew · 蓝色新衣",folder:"ue-ew",done:false},
+  {day:"P55",title:"au/aw · Peppa Draws",titleCn:"au/aw · 佩琪画画",folder:"au-aw",done:false},
+  {day:"P56",title:"ir · Bird Girl",titleCn:"ir · 小鸟女孩",folder:"ir",done:false},
+  {day:"P57",title:"er · Peppa's Helper",titleCn:"er · 佩琪的帮手",folder:"er",done:false},
+  {day:"P58",title:"ur · Purple Turtle",titleCn:"ur · 紫色乌龟",folder:"ur",done:false},
+  {day:"P59",title:"or · Peppa at the Store",titleCn:"or · 佩琪逛商店",folder:"or",done:false},
+  {day:"P60",title:"ar · Peppa's Garden",titleCn:"ar · 佩琪的花园",folder:"ar",done:false},
+  {day:"P61",title:"Review · Long Vowel Party",titleCn:"复习 · 长元音派对",folder:"review-long",done:false}
+];
+
+function renderList(lessons,containerId){
+  const list=document.getElementById(containerId);
+  lessons.forEach(l=>{
+    const card=document.createElement('div');
+    card.className=`lesson-card${l.done?'':' locked'}`;
+    card.innerHTML=`
+      <div class="day">${l.day}</div>
+      <div class="info">
+        <div class="title">${l.title}</div>
+        <div class="title-cn">${l.titleCn}</div>
+      </div>
+      <div class="links">
+        ${l.done?`
+          <a class="link link-teach" href="lessons/phonics-3/${l.folder}/teach.html">教学</a>
+          <a class="link link-review" href="lessons/phonics-3/${l.folder}/review.html">复习</a>
+        `:'🔒'}
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+renderList(magicELessons,'magicEList');
+renderList(vowelLessons,'vowelList');
+
+// Count completed
+const allLessons=[...magicELessons,...vowelLessons];
+const doneCount=allLessons.filter(l=>l.done).length;
+document.getElementById('progressText').textContent=`${doneCount} / ${allLessons.length} 完成`;
+</script>
 </body>
 </html>
