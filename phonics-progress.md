@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P32 - -en Family ✅
+- 当前: P33 - -et Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -235,6 +235,13 @@
 - 发音: /ɛn/
 - 单词: pen, hen, ten, men, den
 - 故事: 佩琪数数
+- 状态: ✅ 完成
+
+### P33 - -et Family · Peppa's Pet
+- 家族: -et
+- 发音: /ɛt/
+- 单词: pet, wet, net, jet, set
+- 故事: 佩琪的宠物
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
