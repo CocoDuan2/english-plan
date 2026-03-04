@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P50 - oa ✅
+- 当前: P51 - ow ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -363,6 +363,13 @@
 - 发音: /əʊ/
 - 单词: boat, coat, goat, road
 - 故事: 佩琪的船旅
+- 状态: ✅ 完成
+
+### P51 - ow · Peppa's Snowy Day
+- 模式: ow
+- 发音: /əʊ/
+- 单词: snow, yellow, window, slow
+- 故事: 佩琪的雪天
 - 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
