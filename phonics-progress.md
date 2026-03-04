@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P37 - -og Family ✅
+- 当前: P38 - -op Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -270,6 +270,13 @@
 - 发音: /ɒɡ/
 - 单词: dog, log, fog, jog, frog
 - 故事: 佩琪遇见青蛙
+- 状态: ✅ 完成
+
+### P38 - -op Family · Peppa Hops Around
+- 家族: -op
+- 发音: /ɒp/
+- 单词: hop, mop, top, pop, stop
+- 故事: 佩琪跳跳跳
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
