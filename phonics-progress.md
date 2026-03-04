@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P40 - -un Family ✅
+- 当前: P41 - -ut Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -291,6 +291,13 @@
 - 发音: /ʌn/
 - 单词: sun, run, fun, bun, gun
 - 故事: 佩琪跑步
+- 状态: ✅ 完成
+
+### P41 - -ut Family · Peppa's Little Hut
+- 家族: -ut
+- 发音: /ʌt/
+- 单词: cut, nut, hut, but, shut
+- 故事: 佩琪的小屋
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
