@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P43 - Magic E: i_e ✅
+- 当前: P44 - Magic E: o_e ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -314,6 +314,13 @@
 - 发音: /aɪ/
 - 单词: bike, like, kite, five, nine
 - 故事: 佩琪骑自行车
+- 状态: ✅ 完成
+
+### P44 - Magic E: o_e · Peppa Goes Home
+- 模式: o_e
+- 发音: /əʊ/
+- 单词: home, nose, rose, bone, stone
+- 故事: 佩琪回家
 - 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
