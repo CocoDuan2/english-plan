@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P25 - Letter Y ✅
+- 当前: P26 - Letter Z ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -182,6 +182,13 @@
 - 发音: /j/
 - 单词: yellow, yo-yo, yes, yak
 - 故事: 佩琪的溜溜球
+- 状态: ✅ 完成
+
+### P26 - Letter Z · Peppa Goes to the Zoo
+- 字母: Z z
+- 发音: /z/
+- 单词: zoo, zebra, zero, zip
+- 故事: 佩琪去动物园
 - 状态: ✅ 完成
 
 ---
