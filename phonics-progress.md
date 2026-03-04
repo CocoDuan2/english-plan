@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P38 - -op Family ✅
+- 当前: P39 - -ug Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -277,6 +277,13 @@
 - 发音: /ɒp/
 - 单词: hop, mop, top, pop, stop
 - 故事: 佩琪跳跳跳
+- 状态: ✅ 完成
+
+### P39 - -ug Family · Peppa's Hugs
+- 家族: -ug
+- 发音: /ʌɡ/
+- 单词: bug, hug, mug, rug, tug
+- 故事: 佩琪抱抱
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
