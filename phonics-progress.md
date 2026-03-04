@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P24 - Letter X ✅
+- 当前: P25 - Letter Y ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -175,6 +175,13 @@
 - 发音: /ks/
 - 单词: box, fox, six, mix
 - 故事: 佩琪的玩具盒
+- 状态: ✅ 完成
+
+### P25 - Letter Y · Peppa's Yo-Yo
+- 字母: Y y
+- 发音: /j/
+- 单词: yellow, yo-yo, yes, yak
+- 故事: 佩琪的溜溜球
 - 状态: ✅ 完成
 
 ---
