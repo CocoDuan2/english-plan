@@ -243,11 +243,11 @@
 - Review 游戏: Learn (reveal) → Season Game (听季节点图) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
-## Day 35 - Cooking Together
-- 新词: cook, mix, pour, taste, yummy
-- 句式: Let's ___!
-- Teach 互动: Listen & Say → Kitchen Scene → All Together
-- Review 游戏: Learn (reveal) → Cooking Game (点击厨房物品) → Listen & Find → Memory Match
+## Day 35 - Bathtime Fun
+- 新词: bath, soap, towel, bubbles, splash
+- 句式: I see ___!
+- Teach 互动: Listen & Say → Pop the Bubbles → All Together
+- Review 游戏: Learn (reveal) → Bathtime Game (听词点物品) → Listen & Find → Memory Match
 - 状态: ✅ 完成
 
 ## Day 36 - Sports Day

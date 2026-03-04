@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Day 35 Review - Bathtime Fun</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(160deg,#fce4ec,#f8bbd0);overflow:hidden}
+.mod{display:none;flex-direction:column;align-items:center;justify-content:flex-start;height:100%;padding:20px 20px 80px;overflow-y:auto}
+.mod.on{display:flex}
+.top{text-align:center;margin-bottom:20px}
+.te{font-size:32px;font-weight:900;color:#e91e8c;margin:8px 0;text-shadow:0 2px 4px rgba(233,30,140,.2)}
+.tz{font-size:20px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff6b9d,#ffa07a);border-radius:25px;padding:12px 24px;display:inline-block;box-shadow:0 6px 20px rgba(255,107,157,.35);margin:8px 0;letter-spacing:.5px;position:relative}
+.tz::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:80%;height:4px;background:rgba(255,107,157,.2);border-radius:2px;filter:blur(3px)}
+.sb{font-size:24px;font-weight:700;color:#666;margin:6px 0;letter-spacing:2px}
+.pr{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0}
+.pr img{width:75px}
+.bbl{background:#fff;border-radius:14px;padding:10px 16px;font-size:22px;font-weight:700;color:#e67e22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;max-width:600px;margin:20px 0}
+.card{background:#ddd;border-radius:16px;padding:20px;cursor:pointer;text-align:center;transition:all .3s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.card.revealed{background:#fff}
+.card img{width:80px;height:80px;margin-bottom:8px;opacity:0;transition:opacity .3s}
+.card.revealed img{opacity:1}
+.card .lbl{font-size:22px;font-weight:700;color:#2c3e50;opacity:0;transition:opacity .3s}
+.card.revealed .lbl{opacity:1}
+.opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px 0}
+.opt{background:#fff;border-radius:16px;padding:20px;cursor:pointer;text-align:center;transition:transform .2s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.opt:hover{transform:scale(1.05)}
+.opt img{width:80px;height:80px;margin-bottom:8px}
+.opt .lbl{font-size:20px;font-weight:700;color:#2c3e50}
+.replay{background:#4FC3F7;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;cursor:pointer;margin:10px auto;box-shadow:0 3px 12px rgba(79,195,247,.4)}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:500px;margin:20px 0}
+.mem-card{background:#fff;border-radius:12px;padding:16px;cursor:pointer;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;transition:transform .3s;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.mem-card.flipped{background:#4FC3F7;transform:rotateY(180deg)}
+.mem-card.matched{background:#27ae60;pointer-events:none}
+.mem-card img{width:60px;height:60px}
+.mem-card .lbl{font-size:18px;font-weight:700;color:#2c3e50}
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:50%;animation:confetti-fall 1.2s ease-out forwards;opacity:0}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(60vh) scale(.3)}}
+@keyframes peppa-jump{0%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+.peppa-jumping{animation:peppa-jump .6s ease-out}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:2px solid #F9ADC7;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.nb{padding:14px 32px;border:none;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;background:#F9ADC7;color:#fff;box-shadow:0 4px 12px rgba(249,173,199,.4)}
+.nb:disabled{background:#ddd;color:#bbb}
+.np{font-size:13px;color:#999}
+@media(max-width:480px){.te{font-size:26px}.tz{font-size:18px;padding:10px 20px}.bbl{font-size:20px}.pr img{width:65px}.sb{font-size:22px}.card-grid{grid-template-columns:repeat(2,1fr)}.opt-grid{grid-template-columns:1fr}.mem-grid{grid-template-columns:repeat(4,1fr);gap:8px}.mem-card{min-height:80px;padding:12px}.mem-card img{width:50px;height:50px}.mem-card .lbl{font-size:16px}}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div id="m0" class="mod on">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" width="120" alt="Peppa">
+<div class="te">🛁 Bathtime Fun</div>
+<div class="sb">Let's Play!</div>
+<div style="display:flex;gap:16px;margin:20px 0;flex-wrap:wrap;justify-content:center">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6c1.svg" width="60" alt="bath">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9fc.svg" width="60" alt="soap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9fb.svg" width="60" alt="towel">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fae7.svg" width="60" alt="bubbles">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a6.svg" width="60" alt="splash">
+</div>
+</div>
+
+<!-- M1: Learn -->
+<div id="m1" class="mod">
+<div class="top">
+<div class="te">📚 Learn New Words</div>
+<div class="tz">点击卡片学习单词</div>
+<div class="sb" id="s1">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Click the cards!</div>
+</div>
+<div class="card-grid" id="cg1"></div>
+</div>
+
+<!-- M2: Bathtime Game -->
+<div id="m2" class="mod">
+<div class="top">
+<div class="te">🫧 Bathtime Game</div>
+<div class="tz">听单词，点击正确的物品</div>
+<div class="sb" id="s2">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl" id="q2">Listen!</div>
+</div>
+<button class="replay" onclick="speak(W[cq2].w)">🔊</button>
+<div class="opt-grid" id="og2"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div id="m3" class="mod">
+<div class="top">
+<div class="te">👂 Listen & Find</div>
+<div class="tz">听单词找图片</div>
+<div class="sb" id="s3">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl" id="q3">Listen!</div>
+</div>
+<button class="replay" onclick="speak(W[cq3].w)">🔊</button>
+<div class="opt-grid" id="og3"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div id="m4" class="mod">
+<div class="top">
+<div class="te">🎴 Memory Match</div>
+<div class="tz">翻牌配对游戏</div>
+<div class="sb" id="s4">★★★★★</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Find the pairs!</div>
+</div>
+<div class="mem-grid" id="mg4"></div>
+</div>
+
+<!-- M5: Done -->
+<div id="m5" class="mod">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" width="140" alt="Peppa Family">
+<div class="te">All Done! 🎉</div>
+<div class="sb">Great Job!</div>
+<button class="nb" onclick="location.reload()" style="margin-top:20px">Play Again</button>
+</div>
+
+<div class="nav">
+<button class="nb" id="pBtn" onclick="goM(-1)" disabled>◀ Back</button>
+<div class="np" id="pg">1/6</div>
+<button class="nb" id="nBtn" onclick="goM(1)">Start!</button>
+</div>
+
+<script>
+var W=[
+{w:'bath',e:'🛁',img:'1f6c1'},
+{w:'soap',e:'🧼',img:'1f9fc'},
+{w:'towel',e:'🧻',img:'1f9fb'},
+{w:'bubbles',e:'🫧',img:'1fae7'},
+{w:'splash',e:'💦',img:'1f4a6'}
+];
+var curM=0,busy=false;
+var sc1=0,sc2=0,sc3=0,sc4=0;
+var cq2=0,cq3=0;
+var flipped=[],matched=0;
+
+function speak(t){
+var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
+var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
+var a=new Audio(primary);
+a.play().catch(function(){var b=new Audio(fallback);b.play().catch(function(){})});
+}
+
+function getAC(){
+if(!window.actx)window.actx=new(window.AudioContext||window.webkitAudioContext)();
+return window.actx;
+}
+
+function tone(f,d){
+var c=getAC(),o=c.createOscillator(),g=c.createGain();
+o.connect(g);g.connect(c.destination);
+o.frequency.value=f;g.gain.value=.15;
+o.start();
+g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);
+o.stop(c.currentTime+d);
+}
+
+function playOk(){
+tone(523,.1);
+setTimeout(function(){tone(659,.1)},100);
+setTimeout(function(){tone(784,.15)},200);
+showConfetti();
+}
+
+function playNo(){tone(300,.3)}
+
+function showConfetti(){
+var w=document.createElement("div");
+w.className="confetti-wrap";
+var colors=["#e74c3c","#3498db","#f1c40f","#27ae60","#e67e22"];
+for(var i=0;i<20;i++){
+var p=document.createElement("div");
+p.className="confetti-piece";
+p.style.left=Math.random()*100+"%";
+p.style.top=Math.random()*30+"%";
+p.style.background=colors[i%5];
+p.style.width=p.style.height=(6+Math.random()*8)+"px";
+p.style.animationDelay=Math.random()*.3+"s";
+w.appendChild(p);
+}
+document.body.appendChild(w);
+setTimeout(function(){w.remove()},1600);
+}
+
+function stars(n,t){
+var s='';
+for(var i=0;i<t;i++)s+=i<n?'⭐':'<span style="color:#bbb">★</span>';
+return s;
+}
+
+function goM(d){
+curM+=d;
+if(curM<0)curM=0;
+if(curM>5)curM=5;
+document.querySelectorAll('.mod').forEach(function(m){m.classList.remove('on')});
+document.getElementById('m'+curM).classList.add('on');
+document.getElementById('pg').textContent=(curM+1)+'/6';
+document.getElementById('pBtn').disabled=curM===0;
+var nb=document.getElementById('nBtn');
+if(curM===0){
+nb.textContent='Start!';
+nb.disabled=false;
+}else if(curM>=5){
+nb.textContent='Done';
+nb.disabled=true;
+}else{
+nb.textContent='Next ▶';
+nb.disabled=false;
+}
+if(curM===1)initM1();
+if(curM===2)initM2();
+if(curM===3)initM3();
+if(curM===4)initM4();
+}
+
+// M1: Learn
+function initM1(){
+var cg=document.getElementById('cg1');
+cg.innerHTML='';
+W.forEach(function(item){
+var card=document.createElement('div');
+card.className='card';
+card.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.img+'.svg" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+card.onclick=function(){
+if(this.classList.contains('revealed'))return;
+this.classList.add('revealed');
+speak(item.w);
+sc1++;
+document.getElementById('s1').innerHTML=stars(sc1,5);
+if(sc1===5)playOk();
+};
+cg.appendChild(card);
+});
+}
+
+// M2: Bathtime Game
+function initM2(){
+nextQ2();
+}
+
+function nextQ2(){
+if(sc2>=5){playOk();return}
+cq2=Math.floor(Math.random()*W.length);
+document.getElementById('q2').textContent='Find '+W[cq2].w+'!';
+speak(W[cq2].w);
+var opts=shuffle([...W]).slice(0,4);
+if(!opts.find(function(o){return o.w===W[cq2].w}))opts[0]=W[cq2];
+var og=document.getElementById('og2');
+og.innerHTML='';
+opts.forEach(function(item){
+var opt=document.createElement('div');
+opt.className='opt';
+opt.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.img+'.svg" alt="'+item.w+'"><div class="lbl">'+item.w+'</div>';
+opt.onclick=function(){
+if(busy)return;
+busy=true;
+if(item.w===W[cq2].w){
+playOk();
+speak(item.w);
+sc2++;
+document.getElementById('s2').innerHTML=stars(sc2,5);
+setTimeout(function(){busy=false;nextQ2()},800);
+}else{
+playNo();
+speak(W[cq2].w);
+setTimeout(function(){busy=false},800);
+}
+};
+og.appendChild(opt);
+});
+}
+
+// M3: Listen & Find
+function initM3(){
+nextQ3();
+}
+
+function nextQ3(){
+if(sc3>=5){playOk();return}
+cq3=Math.floor(Math.random()*W.length);
+document.getElementById('q3').textContent='Find '+W[cq3].w+'!';
+speak(W[cq3].w);
+var opts=shuffle([...W]).slice(0,4);
+if(!opts.find(function(o){return o.w===W[cq3].w}))opts[0]=W[cq3];
+var og=document.getElementById('og3');
+og.innerHTML='';
+opts.forEach(function(item){
+var opt=document.createElement('div');
+opt.className='opt';
+opt.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.img+'.svg" alt="'+item.w+'">';
+opt.onclick=function(){
+if(busy)return;
+busy=true;
+if(item.w===W[cq3].w){
+playOk();
+speak(item.w);
+sc3++;
+document.getElementById('s3').innerHTML=stars(sc3,5);
+setTimeout(function(){busy=false;nextQ3()},800);
+}else{
+playNo();
+speak(W[cq3].w);
+setTimeout(function(){busy=false},800);
+}
+};
+og.appendChild(opt);
+});
+}
+
+// M4: Memory Match
+function initM4(){
+var cards=[];
+W.slice(0,4).forEach(function(item){
+cards.push({type:'img',data:item.img,match:item.w});
+cards.push({type:'txt',data:item.w,match:item.w});
+});
+cards=shuffle(cards);
+var mg=document.getElementById('mg4');
+mg.innerHTML='';
+cards.forEach(function(card,idx){
+var div=document.createElement('div');
+div.className='mem-card';
+div.dataset.idx=idx;
+div.dataset.match=card.match;
+if(card.type==='img'){
+div.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+card.data+'.svg" alt="">';
+}else{
+div.innerHTML='<div class="lbl">'+card.data+'</div>';
+}
+div.onclick=function(){flipCard(this)};
+mg.appendChild(div);
+});
+}
+
+function flipCard(el){
+if(busy||el.classList.contains('flipped')||el.classList.contains('matched'))return;
+el.classList.add('flipped');
+flipped.push(el);
+if(flipped.length===2){
+busy=true;
+var m1=flipped[0].dataset.match;
+var m2=flipped[1].dataset.match;
+if(m1===m2){
+playOk();
+speak(m1);
+flipped[0].classList.add('matched');
+flipped[1].classList.add('matched');
+matched++;
+sc4++;
+document.getElementById('s4').innerHTML=stars(sc4,5);
+flipped=[];
+busy=false;
+if(matched===4)setTimeout(playOk,500);
+}else{
+playNo();
+setTimeout(function(){
+flipped[0].classList.remove('flipped');
+flipped[1].classList.remove('flipped');
+flipped=[];
+busy=false;
+},1000);
+}
+}
+}
+
+function shuffle(arr){
+for(var i=arr.length-1;i>0;i--){
+var j=Math.floor(Math.random()*(i+1));
+var temp=arr[i];arr[i]=arr[j];arr[j]=temp;
+}
+return arr;
+}
+
+goM(0);
+</script>
+</body>
+</html>
