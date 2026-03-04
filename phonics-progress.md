@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P30 - -ad Family ✅
+- 当前: P31 - -ag Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -221,6 +221,13 @@
 - 发音: /æd/
 - 单词: dad, sad, mad, bad, had
 - 故事: 佩琪和爸爸
+- 状态: ✅ 完成
+
+### P31 - -ag Family · Peppa's Bag
+- 家族: -ag
+- 发音: /æg/
+- 单词: bag, tag, wag, flag, drag
+- 故事: 佩琪的书包
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
