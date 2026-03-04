@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P29 - -ap Family ✅
+- 当前: P30 - -ad Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -214,6 +214,13 @@
 - 发音: /æp/
 - 单词: cap, map, tap, nap, clap
 - 故事: 佩琪午睡
+- 状态: ✅ 完成
+
+### P30 - -ad Family · Peppa and Daddy
+- 家族: -ad
+- 发音: /æd/
+- 单词: dad, sad, mad, bad, had
+- 故事: 佩琪和爸爸
 - 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
