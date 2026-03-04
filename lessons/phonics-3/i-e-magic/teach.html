@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P43 - Magic E: i_e · Peppa Rides a Bike</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#eef5ff,#f0f8ff);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.letter-big{
+  font-size:140px;font-weight:900;color:#e91e8c;
+  text-shadow:4px 4px 0 #ffc1e3;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+
+/* Magic E special styles */
+.magic-demo{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin:20px 0;font-size:64px;font-weight:900;
+}
+.magic-letter{
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:4px solid #e91e8c;border-radius:12px;
+  color:#2c3e50;transition:all .5s ease;
+}
+.magic-letter.vowel{color:#e91e8c}
+.magic-letter.magic-e{
+  color:#fff;background:linear-gradient(135deg,#ff6b9d,#e91e8c);
+  border-color:#c44569;
+  animation:sparkle 1.5s ease-in-out infinite;
+}
+@keyframes sparkle{
+  0%,100%{box-shadow:0 0 8px rgba(233,30,140,.4)}
+  50%{box-shadow:0 0 20px rgba(233,30,140,.8),0 0 40px rgba(255,107,157,.4)}
+}
+.magic-arrow{font-size:48px;color:#e67e22;margin:0 12px}
+.magic-wand{font-size:64px;animation:wand 2s ease-in-out infinite}
+@keyframes wand{
+  0%,100%{transform:rotate(-10deg)}
+  50%{transform:rotate(10deg)}
+}
+.magic-compare{
+  display:flex;gap:40px;align-items:center;justify-content:center;
+  margin:20px 0;flex-wrap:wrap;
+}
+.magic-card{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:20px 28px;text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  transition:all .3s ease;cursor:pointer;
+}
+.magic-card:hover{transform:scale(1.05)}
+.magic-card .old-word{font-size:48px;font-weight:900;color:#999;text-decoration:line-through}
+.magic-card .new-word{font-size:48px;font-weight:900;color:#e91e8c}
+.magic-card .sound{font-size:24px;color:#e67e22;font-weight:700;margin-top:4px}
+
+/* Trace Canvas */
+.trace-container{
+  position:relative;width:300px;height:300px;margin:20px auto;
+}
+.trace-guide{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;
+}
+#traceCanvas{
+  position:absolute;top:0;left:0;
+  border:4px solid #e91e8c;border-radius:20px;
+  background:#fff;cursor:crosshair;touch-action:none;
+}
+.trace-btns{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.trace-btn{
+  padding:12px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e67e22;color:#fff;transition:transform .2s ease;
+}
+.trace-btn:active{transform:scale(.95)}
+.trace-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+.trace-tabs{display:flex;gap:12px;justify-content:center;margin-bottom:12px}
+.trace-tab{
+  padding:8px 20px;border:3px solid #e91e8c;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#fff;color:#e91e8c;transition:all .2s ease;
+}
+.trace-tab.active{background:#e91e8c;color:#fff}
+
+.blend-box{
+  display:flex;gap:6px;align-items:center;justify-content:center;
+  margin:20px 0;max-width:100%;
+}
+.blend-letter{
+  font-size:64px;font-weight:900;color:#e91e8c;
+  background:#fff;border:4px solid #e91e8c;border-radius:12px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  animation:slideIn 0.5s ease-out forwards;
+  opacity:0;transform:translateX(-20px);flex-shrink:1;
+}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{
+  font-size:72px;font-weight:900;color:#2c3e50;
+  animation:popIn 0.5s ease-out 1.8s forwards;
+  opacity:0;transform:scale(0.5);
+}
+@keyframes popIn{to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;max-width:600px;margin:20px auto;
+}
+.grid-item{text-align:center;cursor:pointer;transition:transform .2s}
+.grid-item:hover{transform:scale(1.05)}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+
+/* Listen & Tap */
+.choice-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;max-width:400px;margin:20px auto;
+}
+.choice-btn{
+  padding:20px;border:4px solid #e91e8c;border-radius:16px;
+  background:#fff;cursor:pointer;transition:all .2s ease;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.choice-btn:hover{transform:scale(1.05);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+.choice-btn.correct{background:#d4edda;border-color:#27ae60}
+.choice-btn.wrong{animation:shake .3s ease}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.choice-btn img{width:80px;height:auto}
+
+/* Song section */
+.song-box{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:24px;max-width:420px;margin:20px auto;text-align:left;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.song-line{font-size:22px;font-weight:700;color:#2c3e50;line-height:1.8;padding:4px 0}
+.song-line em{color:#e91e8c;font-style:normal;font-weight:900}
+.song-play{
+  display:block;margin:16px auto 0;
+  padding:12px 32px;border:none;border-radius:12px;
+  background:#e91e8c;color:#fff;
+  font-size:22px;font-weight:900;cursor:pointer;
+  transition:transform .2s ease;
+}
+.song-play:active{transform:scale(.95)}
+
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.tn{
+  position:fixed;bottom:80px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  background:#e67e22;color:#fff;border:none;
+  font-size:24px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s ease;z-index:100;
+}
+.tn:active{transform:scale(.9)}
+.tn-panel{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);color:#fff;
+  padding:20px;overflow-y:auto;z-index:200;display:none;
+}
+.tn-panel.show{display:block}
+.tn-panel h3{font-size:24px;margin-bottom:12px;color:#ffd54f}
+.tn-panel p{font-size:16px;line-height:1.6;margin-bottom:12px}
+.tn-close{
+  position:absolute;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:#e91e8c;color:#fff;border:none;font-size:24px;cursor:pointer;
+}
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .letter-big{font-size:100px}
+  .phonics{font-size:38px;padding:10px 20px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:10px 16px;max-width:90%}
+  .obj-wrap img{width:140px}
+  .word{font-size:64px}
+  .sent{font-size:28px}
+  .magic-demo{font-size:44px;gap:4px}
+  .magic-letter{width:52px;height:52px;font-size:44px;border:3px solid #e91e8c}
+  .magic-arrow{font-size:32px;margin:0 6px}
+  .magic-wand{font-size:44px}
+  .magic-compare{gap:20px}
+  .magic-card{padding:14px 18px}
+  .magic-card .old-word,.magic-card .new-word{font-size:36px}
+  .magic-card .sound{font-size:20px}
+  .trace-container{width:280px;height:280px;margin:16px auto}
+  .trace-btn{padding:10px 20px;font-size:16px}
+  .trace-feedback{font-size:24px}
+  .blend-box{gap:4px;flex-wrap:wrap}
+  .blend-letter{font-size:48px;width:60px;height:60px;border:3px solid #e91e8c}
+  .blend-arrow{font-size:32px;margin:0 4px}
+  .blend-word{font-size:48px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .sound-btn img{width:50px}
+  .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid-item img{width:60px}
+  .grid-item .label{font-size:18px}
+  .choice-grid{grid-template-columns:1fr;gap:16px}
+  .choice-btn img{width:70px}
+  .song-box{padding:16px}
+  .song-line{font-size:18px}
+}
+@media(min-width:768px){
+  .ttl{font-size:48px}
+  .word{font-size:100px}
+  .sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="ttl">✨ Magic E: i_e</div>
+  <div class="sub">Peppa Rides a Bike</div>
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <div style="font-size:20px;color:#667085;margin-top:12px">When E comes, I says its name!</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Hello! More Magic!</div>
+  <div style="font-size:24px;color:#e67e22;font-weight:700;margin-top:12px">Magic E works on I too! 🪄</div>
+</div>
+
+<!-- S3: Magic E Rule for i_e -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Magic E makes I say its name!</div>
+  </div>
+  <div style="margin:24px 0">
+    <div class="magic-wand">🪄</div>
+  </div>
+  <div class="magic-compare">
+    <div class="magic-card" onclick="speak('kit')">
+      <div class="old-word">kit</div>
+      <div class="sound">/ɪ/ → short i</div>
+    </div>
+    <div style="font-size:48px;color:#e91e8c;font-weight:900">→</div>
+    <div class="magic-card" onclick="speak('kite')">
+      <div class="new-word">ki<span style="color:#ff6b9d">t</span>e</div>
+      <div class="sound">/aɪ/ → long I!</div>
+    </div>
+  </div>
+  <div class="phonics">/aɪ/</div>
+</div>
+
+<!-- S4: How Magic E Works -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Watch the magic!</div>
+  </div>
+  <div id="magicAnim" style="margin:30px 0">
+    <div class="magic-demo" id="magicLetters">
+      <div class="magic-letter">b</div>
+      <div class="magic-letter vowel">i</div>
+      <div class="magic-letter">k</div>
+      <div class="magic-letter magic-e" id="magicELetter" style="opacity:0;transform:translateY(-30px);transition:all .8s ease">e</div>
+    </div>
+    <div style="font-size:32px;font-weight:900;color:#e91e8c;margin-top:20px" id="magicResult"></div>
+  </div>
+  <button class="trace-btn" style="background:#e91e8c;font-size:22px;padding:14px 32px" onclick="playMagicAnim()">🪄 Add Magic E!</button>
+</div>
+
+<!-- S5: Trace i and e -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Trace the letter!</div>
+  </div>
+  <div class="trace-tabs">
+    <button class="trace-tab active" onclick="switchTrace('i')">i</button>
+    <button class="trace-tab" onclick="switchTrace('e')">e</button>
+  </div>
+  <div class="trace-container">
+    <svg class="trace-guide" id="traceGuide" viewBox="0 0 300 300">
+      <!-- Letter i guide: vertical line + dot -->
+      <line x1="150" y1="120" x2="150" y2="250" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" opacity="0.4"/>
+      <circle cx="150" cy="80" r="12" fill="#e91e8c" opacity="0.4"/>
+    </svg>
+    <canvas id="traceCanvas" width="300" height="300"></canvas>
+  </div>
+  <div class="trace-btns">
+    <button class="trace-btn" onclick="clearTrace()">Clear</button>
+    <button class="trace-btn" onclick="checkTrace()">Check</button>
+  </div>
+  <div class="trace-feedback" id="traceFeedback"></div>
+</div>
+
+<!-- S6: Word 1 - bike -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">b-i-k-e, bike! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b2.svg" alt="bike">
+  </div>
+  <div class="word">b<span style="color:#e91e8c">i</span>k<span style="color:#ff6b9d">e</span></div>
+</div>
+
+<!-- S7: Word 2 - like -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">l-i-k-e, like! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg" alt="like">
+  </div>
+  <div class="word">l<span style="color:#e91e8c">i</span>k<span style="color:#ff6b9d">e</span></div>
+</div>
+
+<!-- S8: Word 3 - kite -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy Pig">
+    <div class="bbl">k-i-t-e, kite! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa81.svg" alt="kite">
+  </div>
+  <div class="word">k<span style="color:#e91e8c">i</span>t<span style="color:#ff6b9d">e</span></div>
+</div>
+
+<!-- S9: Word 4 - five -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">f-i-v-e, five! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0035-20e3.svg" alt="five">
+  </div>
+  <div class="word">f<span style="color:#e91e8c">i</span>v<span style="color:#ff6b9d">e</span></div>
+</div>
+
+<!-- S10: Word 5 - nine -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George">
+    <div class="bbl">n-i-n-e, nine! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0039-20e3.svg" alt="nine">
+  </div>
+  <div class="word">n<span style="color:#e91e8c">i</span>n<span style="color:#ff6b9d">e</span></div>
+</div>
+
+<!-- S11: Blending -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Let's blend with Magic E!</div>
+  </div>
+  <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="showBlend('bike',['b','i','k','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b2.svg" alt="bike">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="showBlend('like',['l','i','k','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg" alt="like">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('kite',['k','i','t','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa81.svg" alt="kite">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="showBlend('five',['f','i','v','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0035-20e3.svg" alt="five">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#dda0dd,#ba68c8)" onclick="showBlend('nine',['n','i','n','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0039-20e3.svg" alt="nine">
+    </button>
+  </div>
+  <div id="blendAnim" style="display:none">
+    <div class="blend-box" id="blendBox"></div>
+    <div class="blend-arrow">→</div>
+    <div class="blend-word" id="blendWord"></div>
+  </div>
+</div>
+
+<!-- S12: Listen & Tap (听音选图) -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and tap!</div>
+  </div>
+  <div id="listenGame">
+    <div id="listenPrompt" style="font-size:28px;font-weight:900;color:#e91e8c;margin:20px 0">🔊 Listen...</div>
+    <div class="choice-grid" id="choiceGrid"></div>
+  </div>
+  <div id="listenDone" style="display:none">
+    <div style="font-size:48px;margin:20px 0">🎉</div>
+    <div style="font-size:32px;font-weight:900;color:#27ae60">All done!</div>
+  </div>
+</div>
+
+<!-- S13: Song -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Let's sing!</div>
+  </div>
+  <div class="song-box">
+    <div class="song-line">🎵 I-K-E, I-K-E,</div>
+    <div class="song-line">Magic E makes I say <em>"EYE"</em>!</div>
+    <div class="song-line">🎵 <em>Bike</em>, <em>like</em>, <em>kite</em>,</div>
+    <div class="song-line"><em>Five</em> and <em>nine</em>!</div>
+    <div class="song-line">🎵 Add an E, it feels so fine,</div>
+    <div class="song-line">Now the I can really <em>shine</em>! 🎶</div>
+  </div>
+  <button class="song-play" onclick="singMagicE()">🎤 Sing Along!</button>
+</div>
+
+<!-- S14: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item" onclick="speak('bike')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6b2.svg" alt="bike">
+      <div class="label">bike</div>
+    </div>
+    <div class="grid-item" onclick="speak('like')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg" alt="like">
+      <div class="label">like</div>
+    </div>
+    <div class="grid-item" onclick="speak('kite')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa81.svg" alt="kite">
+      <div class="label">kite</div>
+    </div>
+    <div class="grid-item" onclick="speak('five')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0035-20e3.svg" alt="five">
+      <div class="label">five</div>
+    </div>
+    <div class="grid-item" onclick="speak('nine')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/0039-20e3.svg" alt="nine">
+      <div class="label">nine</div>
+    </div>
+  </div>
+</div>
+
+<!-- S15: Bye -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Great job!</div>
+  <div class="sub">Magic E is amazing! ✨</div>
+  <div style="font-size:48px;margin-top:20px">🪄🎉</div>
+  <div style="font-size:18px;color:#667085;margin-top:12px">Next: Magic E with o_e!</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">15</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<!-- Teacher Notes Button -->
+<button class="tn" onclick="toggleNotes()">T</button>
+
+<!-- Teacher Notes Panel -->
+<div class="tn-panel" id="tnPanel">
+  <button class="tn-close" onclick="toggleNotes()">✕</button>
+  <h3>📝 Teacher Notes - P43 Magic E: i_e</h3>
+  <p><strong>S1 Title:</strong> Second Magic E lesson! Remind students about a_e from last time.</p>
+  <p><strong>S2 Hello:</strong> Peppa says Magic E works on other vowels too! Build excitement.</p>
+  <p><strong>S3 Magic E Rule:</strong> Show contrast: "kit" → "kite". Explain: I normally says /ɪ/ (short), but with Magic E, I says /aɪ/ (its name!). Have students repeat both sounds.</p>
+  <p><strong>S4 How Magic E Works:</strong> Interactive demo with "bike". Click to add E and watch it transform. Repeat a few times.</p>
+  <p><strong>S5 Trace:</strong> Students trace lowercase 'i' (line + dot) and 'e'. Switch with tabs.</p>
+  <p><strong>S6-S10 Words:</strong> 5 i_e words. Highlight the pattern: the 'i' is pink, 'e' is light pink. Have students say each word clearly.</p>
+  <p><strong>S11 Blending:</strong> Pick any word to see letter-by-letter blending animation. Remind: the 'e' is silent!</p>
+  <p><strong>S12 Listen & Tap:</strong> Audio plays a word, students tap the correct picture from 3 choices. Great for listening practice!</p>
+  <p><strong>S13 Song:</strong> Fun i_e song. Sing together! Emphasize the /aɪ/ sound.</p>
+  <p><strong>S14 All Together:</strong> Review all 5 words. Click any to hear pronunciation. Point randomly.</p>
+  <p><strong>S15 Bye:</strong> Celebrate and preview next lesson (o_e).</p>
+</div>
+
+<script>
+let ci=0,ts=15;
+let tracePoints=[];
+let isDrawing=false;
+let currentTraceLetter='i';
+
+const allWords=[
+  {word:'bike',emoji:'1f6b2'},
+  {word:'like',emoji:'1f44d'},
+  {word:'kite',emoji:'1fa81'},
+  {word:'five',emoji:'0035-20e3'},
+  {word:'nine',emoji:'0039-20e3'}
+];
+let listenQueue=[...allWords];
+let currentListen=null;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===11){
+    listenQueue=[...allWords];
+    startListenGame();
+  }
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+
+// Magic E Animation
+function playMagicAnim(){
+  const eLetter=document.getElementById('magicELetter');
+  const result=document.getElementById('magicResult');
+  eLetter.style.opacity='0';
+  eLetter.style.transform='translateY(-30px)';
+  result.textContent='';
+  setTimeout(()=>{
+    eLetter.style.opacity='1';
+    eLetter.style.transform='translateY(0)';
+  },300);
+  setTimeout(()=>{
+    result.innerHTML='✨ bike! /aɪ/ ✨';
+    speak('bike');
+    showConfetti();
+  },1200);
+}
+
+// Tracing
+const canvas=document.getElementById('traceCanvas');
+const ctx=canvas?canvas.getContext('2d'):null;
+
+if(ctx){
+  ctx.lineWidth=8;ctx.lineCap='round';ctx.strokeStyle='#e91e8c';
+  canvas.addEventListener('mousedown',startTrace);
+  canvas.addEventListener('mousemove',drawTrace);
+  canvas.addEventListener('mouseup',endTrace);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchend',endTrace);
+}
+
+function startTrace(e){
+  isDrawing=true;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx.beginPath();ctx.moveTo(x,y);
+}
+function drawTrace(e){
+  if(!isDrawing)return;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx.lineTo(x,y);ctx.stroke();
+}
+function endTrace(){isDrawing=false}
+function clearTrace(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  tracePoints=[];
+  document.getElementById('traceFeedback').textContent='';
+}
+
+function switchTrace(letter){
+  currentTraceLetter=letter;
+  clearTrace();
+  document.querySelectorAll('.trace-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  const guide=document.getElementById('traceGuide');
+  if(letter==='i'){
+    guide.innerHTML=`
+      <line x1="150" y1="120" x2="150" y2="250" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" opacity="0.4"/>
+      <circle cx="150" cy="80" r="12" fill="#e91e8c" opacity="0.4"/>
+    `;
+  }else{
+    guide.innerHTML=`
+      <path d="M 210 170 Q 210 100 150 100 Q 90 100 90 140 Q 90 170 150 170 Q 210 170 210 200 Q 210 240 150 240 Q 90 240 90 210" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" fill="none" opacity="0.4"/>
+      <line x1="90" y1="170" x2="210" y2="170" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" opacity="0.4"/>
+    `;
+  }
+}
+
+function checkTrace(){
+  const feedback=document.getElementById('traceFeedback');
+  if(tracePoints.length<15){
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';return;
+  }
+  let keyPoints;
+  if(currentTraceLetter==='i'){
+    keyPoints=[
+      {x:150,y:80},   // dot
+      {x:150,y:120},  // top of line
+      {x:150,y:250}   // bottom of line
+    ];
+  }else{
+    keyPoints=[
+      {x:150,y:100},{x:90,y:170},{x:210,y:170},{x:150,y:240}
+    ];
+  }
+  let hits=0;
+  keyPoints.forEach(kp=>{
+    if(tracePoints.some(p=>Math.abs(p.x-kp.x)<45&&Math.abs(p.y-kp.y)<45))hits++;
+  });
+  if(hits>=Math.max(2,keyPoints.length-1)){
+    feedback.textContent='Great job! 🎉';
+    feedback.style.color='#27ae60';
+    showConfetti();speak(currentTraceLetter);
+  }else{
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';
+  }
+}
+
+// Blending
+function showBlend(word,letters){
+  const choice=document.getElementById('blendChoice');
+  const anim=document.getElementById('blendAnim');
+  const box=document.getElementById('blendBox');
+  const wordEl=document.getElementById('blendWord');
+  choice.style.display='none';
+  anim.style.display='block';
+  box.innerHTML='';
+  box.className='blend-box';
+  if(letters.length>=5)box.classList.add('medium');
+  wordEl.textContent='';
+  wordEl.style.animation='none';
+  letters.forEach((letter,i)=>{
+    const div=document.createElement('div');
+    div.className='blend-letter';
+    if(letter==='i')div.style.color='#e91e8c';
+    if(letter==='e'){
+      div.style.background='linear-gradient(135deg,#ff6b9d,#e91e8c)';
+      div.style.color='#fff';div.style.borderColor='#c44569';
+    }
+    div.textContent=letter;
+    div.style.animationDelay=`${i*0.3}s`;
+    box.appendChild(div);
+  });
+  setTimeout(()=>{
+    wordEl.textContent=word;
+    wordEl.style.animation='popIn 0.5s ease-out forwards';
+    speak(word);
+  },letters.length*300+500);
+  setTimeout(()=>{
+    choice.style.display='flex';
+    anim.style.display='none';
+  },letters.length*300+3000);
+}
+
+// Listen & Tap Game
+function startListenGame(){
+  if(listenQueue.length===0){
+    document.getElementById('listenGame').style.display='none';
+    document.getElementById('listenDone').style.display='block';
+    return;
+  }
+  document.getElementById('listenGame').style.display='block';
+  document.getElementById('listenDone').style.display='none';
+  const idx=Math.floor(Math.random()*listenQueue.length);
+  currentListen=listenQueue[idx];
+  listenQueue.splice(idx,1);
+  const others=allWords.filter(w=>w.word!==currentListen.word);
+  const choices=[currentListen];
+  while(choices.length<3&&others.length>0){
+    const ri=Math.floor(Math.random()*others.length);
+    choices.push(others[ri]);
+    others.splice(ri,1);
+  }
+  choices.sort(()=>Math.random()-0.5);
+  const grid=document.getElementById('choiceGrid');
+  grid.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('div');
+    btn.className='choice-btn';
+    btn.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${c.emoji}.svg" alt="${c.word}">`;
+    btn.onclick=()=>checkListenAnswer(c.word,btn);
+    grid.appendChild(btn);
+  });
+  document.getElementById('listenPrompt').textContent='🔊 Listen...';
+  setTimeout(()=>speak(currentListen.word),500);
+}
+
+function checkListenAnswer(word,btn){
+  if(word===currentListen.word){
+    btn.classList.add('correct');
+    playOk();speak(word);showConfetti();
+    setTimeout(startListenGame,2000);
+  }else{
+    btn.classList.add('wrong');
+    playNo();
+    document.getElementById('listenPrompt').textContent='❌ Try again!';
+    setTimeout(()=>{
+      btn.classList.remove('wrong');
+      document.getElementById('listenPrompt').textContent='🔊 Listen...';
+      speak(currentListen.word);
+    },1000);
+  }
+}
+
+// Song
+function singMagicE(){
+  const lines=['I K E','Magic E makes I say EYE','bike, like, kite','five and nine','Add an E it feels so fine','Now the I can really shine'];
+  let i=0;
+  function sayLine(){
+    if(i>=lines.length)return;
+    const u=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(lines[i])}&spd=4&source=web`;
+    const a=new Audio(u);
+    a.play().catch(()=>{});
+    a.onended=()=>{i++;setTimeout(sayLine,300)};
+    setTimeout(()=>{i++;setTimeout(sayLine,300)},4000);
+  }
+  sayLine();
+}
+
+function playOk(){
+  try{
+    const ctx=new AudioContext();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=523;
+    gain.gain.setValueAtTime(0.3,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.3);
+    osc.start();osc.stop(ctx.currentTime+0.3);
+  }catch(e){}
+}
+
+function playNo(){
+  try{
+    const ctx=new AudioContext();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=200;
+    gain.gain.setValueAtTime(0.3,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.2);
+    osc.start();osc.stop(ctx.currentTime+0.2);
+  }catch(e){}
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+goTo(0);
+</script>
+</body>
+</html>

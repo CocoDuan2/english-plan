@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P42 - Magic E: a_e ✅
+- 当前: P43 - Magic E: i_e ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -307,6 +307,13 @@
 - 发音: /eɪ/
 - 单词: cake, make, lake, take, snake
 - 故事: 佩琪烤蛋糕
+- 状态: ✅ 完成
+
+### P43 - Magic E: i_e · Peppa Rides a Bike
+- 模式: i_e
+- 发音: /aɪ/
+- 单词: bike, like, kite, five, nine
+- 故事: 佩琪骑自行车
 - 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
