@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P26 - Letter Z ✅
+- 当前: P27 - -at Family ✅
 - 更新时间: 2026-03-04
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -194,7 +194,13 @@
 ---
 
 ## Phonics 2 · 短元音家族（P27-P41）
-待开始
+
+### P27 - -at Family · Peppa's Hat
+- 家族: -at
+- 发音: /æt/
+- 单词: cat, hat, mat, rat, bat
+- 故事: 佩琪的帽子
+- 状态: ✅ 完成
 
 ## Phonics 3 · 长元音（P42-P61）
 待开始

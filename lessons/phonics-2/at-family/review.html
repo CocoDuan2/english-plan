@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P27 - -at Family Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.mod{
+  min-height:100vh;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  justify-content:flex-start;
+  overflow-y:auto;
+}
+.mod.active{display:flex}
+.top{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:16px;
+}
+.te{font-size:26px;font-weight:900;color:#e91e8c}
+.tz{
+  background:linear-gradient(135deg,#ff6b9d,#c44569);
+  color:#fff;padding:8px 16px;border-radius:25px;
+  font-size:20px;font-weight:900;
+  box-shadow:0 4px 12px rgba(233,30,140,.3);
+  position:relative;
+  margin-top:8px;
+}
+.tz::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  transform:translateX(-50%);width:60%;height:3px;
+  background:rgba(255,255,255,.5);border-radius:2px;
+}
+.sb{
+  display:flex;gap:6px;align-items:center;
+  font-size:22px;font-weight:900;
+  margin-top:8px;
+}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:10px 18px;font-size:22px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.learn-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.learn-card{
+  width:120px;height:120px;border-radius:20px;
+  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.learn-card:active{transform:scale(.95)}
+.learn-card img{width:80px;height:auto;display:none}
+.learn-card .label{font-size:18px;font-weight:900;color:#2c3e50;margin-top:8px;display:none}
+.learn-card.revealed{
+  background:#fff;
+  border:4px solid #e91e8c;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.learn-card.revealed img,.learn-card.revealed .label{display:block}
+.card-icon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:52px;
+}
+.learn-card.revealed .card-icon{display:none}
+.listen-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.listen-card{
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:70px;height:auto;margin-bottom:8px}
+.listen-card .label{font-size:16px;font-weight:900;color:#2c3e50}
+.replay-btn{
+  margin:16px auto;padding:12px 24px;
+  background:#e67e22;color:#fff;border:none;
+  border-radius:12px;font-size:20px;font-weight:900;
+  cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.replay-btn:active{transform:scale(.95)}
+.mem-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;max-width:500px;margin:24px auto;
+}
+.mem-card{
+  width:100%;aspect-ratio:1;border-radius:20px;
+  background:linear-gradient(135deg,#ff6b9d,#e91e8c);
+  border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+  transform-style:preserve-3d;
+}
+.mem-card:active{transform:scale(.95)}
+.mem-card.flipped{pointer-events:none}
+.mem-card.matched{opacity:.3;pointer-events:none}
+.mem-front{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-front .emoji{font-size:48px}
+.mem-back{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-back img{width:60px;height:auto;margin-bottom:8px}
+.mem-back .label{font-size:16px;font-weight:900;color:#2c3e50}
+.mem-card.flipped{background:#fff}
+.mem-card.flipped .mem-front{display:none}
+.mem-card.flipped .mem-back{display:flex}
+.start-screen{
+  text-align:center;
+}
+.start-screen img{width:110px;margin:20px auto}
+.start-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.start-screen .preview{
+  display:flex;gap:16px;justify-content:center;margin:20px 0;flex-wrap:wrap;
+}
+.start-screen .preview img{width:70px;height:auto}
+.start-btn{
+  padding:16px 40px;background:#e91e8c;color:#fff;
+  border:none;border-radius:16px;font-size:32px;
+  font-weight:900;cursor:pointer;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+  transition:transform .2s ease;
+}
+.start-btn:active{transform:scale(.95)}
+.done-screen{text-align:center}
+.done-screen img{width:110px;margin:20px auto}
+.done-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.done-screen .msg{font-size:22px;color:#e67e22;font-weight:700;margin-bottom:20px}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+  .te{font-size:22px}
+  .tz{font-size:18px;padding:6px 14px}
+  .sb{font-size:20px}
+  .learn-card{width:105px;height:105px}
+  .learn-card img{width:70px}
+  .learn-card .label{font-size:16px}
+  .card-icon{font-size:44px}
+  .listen-card{width:95px;height:95px}
+  .listen-card img{width:60px}
+  .listen-card .label{font-size:14px}
+  .mem-grid{grid-template-columns:repeat(4,1fr);max-width:340px;gap:10px}
+  .mem-front .emoji{font-size:36px}
+  .mem-back img{width:45px}
+  .mem-back .label{font-size:13px}
+  .start-screen h1{font-size:32px}
+  .start-btn{font-size:26px;padding:14px 32px}
+  .done-screen h1{font-size:32px}
+  .replay-btn{font-size:18px;padding:10px 20px}
+}
+@media(min-width:768px){
+  .mem-grid{max-width:600px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div class="mod active">
+  <div class="start-screen">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <h1>-at Family Review</h1>
+    <div class="preview">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f408.svg" alt="cat">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a9.svg" alt="hat">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f6.svg" alt="mat">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f400.svg" alt="rat">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f987.svg" alt="bat">
+    </div>
+    <button class="start-btn" onclick="goM(1)">Let's Play!</button>
+  </div>
+</div>
+
+<!-- M1: Learn -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Learn</div>
+    <div class="tz">点一点，学单词！</div>
+    <div class="sb"><span id="s1">★</span><span id="s2">★</span><span id="s3">★</span><span id="s4">★</span><span id="s5">★</span></div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Tap to reveal!</div>
+  </div>
+  <div class="learn-grid" id="learnGrid"></div>
+</div>
+
+<!-- M2: Blending Game -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Blending</div>
+    <div class="tz">听一听，拼单词！</div>
+    <div class="sb"><span id="s6">★</span><span id="s7">★</span><span id="s8">★</span><span id="s9">★</span><span id="s10">★</span></div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">Listen and blend!</div>
+  </div>
+  <div id="blendGame" style="text-align:center;margin-top:20px"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Listen & Find</div>
+    <div class="tz">听一听，找一找！</div>
+    <div class="sb"><span id="s11">★</span><span id="s12">★</span><span id="s13">★</span><span id="s14">★</span><span id="s15">★</span></div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+    <div class="bbl">Find the word!</div>
+  </div>
+  <button class="replay-btn" onclick="playCurrentWord()">🔊 Listen</button>
+  <div class="listen-grid" id="listenGrid"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Memory Match</div>
+    <div class="tz">翻一翻，找一样！</div>
+    <div class="sb"><span id="s16">★</span><span id="s17">★</span><span id="s18">★</span><span id="s19">★</span><span id="s20">★</span></div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+    <div class="bbl">Match the pairs!</div>
+  </div>
+  <div class="mem-grid" id="memGrid"></div>
+</div>
+
+<!-- M5: Done -->
+<div class="mod">
+  <div class="done-screen">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+    <h1>All Done!</h1>
+    <div class="msg">Great job learning -at family!</div>
+    <div class="sb" style="justify-content:center;font-size:32px;margin:20px 0">
+      <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+    </div>
+    <button class="start-btn" onclick="goM(0)">Play Again</button>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prevM()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="currM">1</span> / 6</div>
+  <button onclick="nextM()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+const words=[
+  {w:'cat',img:'1f408'},
+  {w:'hat',img:'1f3a9'},
+  {w:'mat',img:'1f9f6'},
+  {w:'rat',img:'1f400'},
+  {w:'bat',img:'1f987'}
+];
+let cm=0,busy=false;
+let listenIdx=0,memFlipped=[],memMatched=0;
+
+function goM(m){
+  if(m<0||m>5)return;
+  document.querySelectorAll('.mod').forEach((el,i)=>el.classList.toggle('active',i===m));
+  cm=m;
+  document.getElementById('currM').textContent=m+1;
+  document.getElementById('prevBtn').disabled=m===0;
+  document.getElementById('nextBtn').disabled=m===5;
+  if(m===1)initM1();
+  if(m===2)initM2();
+  if(m===3)initM3();
+  if(m===4)initM4();
+  if(m===5)initM5();
+}
+function nextM(){if(cm<5)goM(cm+1)}
+function prevM(){if(cm>0)goM(cm-1)}
+
+function stars(ids){
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent='⭐';
+  });
+}
+
+function speak(w,cb){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  let done=false;
+  const finish=()=>{if(!done){done=true;if(cb)cb()}};
+  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    const a2=new Audio(u2);
+    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+  });
+}
+
+function playOk(){
+  const ctx=new AudioContext();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.frequency.value=800;gain.gain.value=0.3;
+  osc.start();osc.stop(ctx.currentTime+0.15);
+  setTimeout(()=>{
+    const osc2=ctx.createOscillator();
+    const gain2=ctx.createGain();
+    osc2.connect(gain2);gain2.connect(ctx.destination);
+    osc2.frequency.value=1000;gain2.gain.value=0.3;
+    osc2.start();osc2.stop(ctx.currentTime+0.2);
+  },100);
+  showConfetti();
+}
+
+function playNo(){
+  const ctx=new AudioContext();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.frequency.value=200;gain.gain.value=0.3;
+  osc.start();osc.stop(ctx.currentTime+0.3);
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+// M1: Learn
+function initM1(){
+  const grid=document.getElementById('learnGrid');
+  grid.innerHTML='';
+  words.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='learn-card';
+    card.innerHTML=`
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${item.img}.svg" alt="${item.w}">
+      <div class="label">${item.w}</div>
+    `;
+    card.onclick=()=>{
+      if(card.classList.contains('revealed'))return speak(item.w);
+      card.classList.add('revealed');
+      speak(item.w);
+      stars([`s${i+1}`]);
+    };
+    grid.appendChild(card);
+  });
+}
+
+// M2: Blending Game
+function initM2(){
+  const game=document.getElementById('blendGame');
+  game.innerHTML='';
+  let idx=0;
+  const blendWords=['cat','hat','mat','rat','bat'];
+  
+  function showBlend(){
+    if(idx>=blendWords.length){
+      stars(['s6','s7','s8','s9','s10']);
+      setTimeout(()=>goM(3),1500);
+      return;
+    }
+    const w=blendWords[idx];
+    const letters=w.split('');
+    game.innerHTML=`
+      <div style="font-size:28px;color:#e67e22;font-weight:900;margin-bottom:20px">Blend: ${w}</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap">
+        ${letters.map(l=>`<div style="font-size:48px;font-weight:900;color:#e91e8c;
+          background:#fff;border:3px solid #e91e8c;border-radius:12px;
+          width:60px;height:60px;display:flex;align-items:center;justify-content:center">${l}</div>`).join('')}
+      </div>
+      <button class="start-btn" style="font-size:24px;padding:12px 32px" onclick="blendNext()">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${words.find(x=>x.w===w).img}.svg" 
+             style="width:40px;vertical-align:middle;margin-right:8px">${w}
+      </button>
+    `;
+  }
+  
+  window.blendNext=()=>{
+    speak(blendWords[idx],()=>{
+      idx++;
+      showBlend();
+    });
+  };
+  
+  showBlend();
+}
+
+// M3: Listen & Find
+function initM3(){
+  const grid=document.getElementById('listenGrid');
+  grid.innerHTML='';
+  listenIdx=0;
+  const shuffled=[...words].sort(()=>Math.random()-0.5);
+  
+  shuffled.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='listen-card';
+    card.innerHTML=`
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${item.img}.svg" alt="${item.w}">
+      <div class="label">${item.w}</div>
+    `;
+    card.onclick=()=>{
+      if(busy)return;
+      busy=true;
+      if(item.w===words[listenIdx].w){
+        playOk();
+        speak(item.w);
+        stars([`s${11+listenIdx}`]);
+        setTimeout(()=>{
+          busy=false;
+          listenIdx++;
+          if(listenIdx>=words.length)setTimeout(()=>goM(4),800);
+          else playCurrentWord();
+        },1200);
+      }else{
+        playNo();
+        setTimeout(()=>busy=false,800);
+      }
+    };
+    grid.appendChild(card);
+  });
+  
+  setTimeout(()=>playCurrentWord(),500);
+}
+
+function playCurrentWord(){
+  if(listenIdx<words.length)speak(words[listenIdx].w);
+}
+
+// M4: Memory Match
+function initM4(){
+  const grid=document.getElementById('memGrid');
+  grid.innerHTML='';
+  memFlipped=[];
+  memMatched=0;
+  
+  const pairs=[...words,...words].sort(()=>Math.random()-0.5);
+  
+  pairs.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='mem-card';
+    card.dataset.word=item.w;
+    card.innerHTML=`
+      <div class="mem-front"><div class="emoji">❓</div></div>
+      <div class="mem-back">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${item.img}.svg" alt="${item.w}">
+        <div class="label">${item.w}</div>
+      </div>
+    `;
+    card.onclick=()=>flipCard(card,i);
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(card,idx){
+  if(busy||card.classList.contains('flipped')||card.classList.contains('matched'))return;
+  
+  card.classList.add('flipped');
+  memFlipped.push({card,idx,word:card.dataset.word});
+  
+  if(memFlipped.length===2){
+    busy=true;
+    const [a,b]=memFlipped;
+    if(a.word===b.word&&a.idx!==b.idx){
+      playOk();
+      speak(a.word);
+      setTimeout(()=>{
+        a.card.classList.add('matched');
+        b.card.classList.add('matched');
+        memMatched++;
+        stars([`s${16+memMatched-1}`]);
+        if(memMatched===words.length){
+          setTimeout(()=>goM(5),1000);
+        }
+        memFlipped=[];
+        busy=false;
+      },1200);
+    }else{
+      playNo();
+      setTimeout(()=>{
+        a.card.classList.remove('flipped');
+        b.card.classList.remove('flipped');
+        memFlipped=[];
+        busy=false;
+      },1000);
+    }
+  }
+}
+
+// M5: Done
+function initM5(){
+  // All stars already shown
+}
+
+goM(0);
+</script>
+</body>
+</html>
