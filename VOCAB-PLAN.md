@@ -74,7 +74,7 @@
 | 31 | Helping at Home<br>家务小帮手 | clean, wash, help, tidy, sweep | I can ___! | 帮忙做家务 |
 | 32 | School Day<br>上学的一天 | teacher, friend, learn, draw, write | I can ___! | 幼儿园的一天 |
 | 33 | Pet Care<br>照顾宠物 | pet, feed, walk, play, love | I ___ my pet! | 照顾小宠物 |
-| 34 | Cooking Together<br>一起做饭 | cook, mix, pour, taste, yummy | Let's ___! | 和妈妈一起做饼干 |
+| 34 | Seasons Change<br>四季变化 | spring, summer, autumn, winter, season | I like ___! | 一年四季的变化 |
 | 35 | Sports Day<br>运动会 | kick, throw, catch, race, win | I can ___! | 幼儿园运动会 |
 | 36 | Library Visit<br>图书馆 | book, read, quiet, story, library | I like to ___! | 去图书馆借书 |
 | 37 | Camping Trip<br>露营冒险 | tent, fire, forest, night, star | I see ___! | 全家去露营 |
