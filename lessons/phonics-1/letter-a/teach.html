@@ -213,12 +213,6 @@ body{
   .word{font-size:100px}
   .sent{font-size:38px}
 }
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
 </style>
 </head>
 <body>
@@ -344,18 +338,67 @@ body{
   </div>
 </div>
 
-<!-- S10: Listen & Tap -->
+<!-- S10: Listen & Say -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-    <div class="bbl">Listen and tap!</div>
+    <div class="bbl">Listen and say!</div>
   </div>
-  <div id="listenTapGame" style="margin-top:20px">
-    <div id="listenQuestion" style="font-size:32px;font-weight:900;color:#e67e22;margin-bottom:20px;min-height:50px">🔊 Listen and tap!</div>
-    <div id="listenOptions" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center"></div>
-    <div id="listenFeedback" style="font-size:28px;font-weight:900;margin-top:16px;min-height:40px"></div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="speak('apple')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('ant')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="speak('alligator')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="speak('ax')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+    </button>
   </div>
 </div>
+
+<!-- S11: Story -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Peppa visits the apple orchard!</div>
+  </div>
+  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+    <p style="margin-bottom:12px">Peppa picks a red <strong style="color:#e91e8c">apple</strong>.</p>
+    <p style="margin-bottom:12px">She sees an <strong style="color:#e91e8c">ant</strong> on the tree.</p>
+    <p style="margin-bottom:12px">An <strong style="color:#e91e8c">alligator</strong> is sleeping nearby!</p>
+    <p>Daddy Pig has an <strong style="color:#e91e8c">ax</strong> to chop wood.</p>
+  </div>
+  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple" style="width:80px;margin-top:16px">
+</div>
+
+<!-- S12: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f34e.svg" alt="apple">
+      <div class="label">apple</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" alt="ant">
+      <div class="label">ant</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40a.svg" alt="alligator">
+      <div class="label">alligator</div>
+    </div>
+    <div class="grid-item">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa93.svg" alt="ax">
+      <div class="label">ax</div>
+    </div>
+  </div>
 </div>
 
 <!-- S13: Bye -->
@@ -393,72 +436,6 @@ body{
 </div>
 
 <script>
-
-// Listen and Tap Game
-var listenWords = [
-  {word: 'apple', emoji: '1f34e'},
-  {word: 'ant', emoji: '1f41c'},
-  {word: 'alligator', emoji: '1f40a'},
-  {word: 'ax', emoji: '1fa93'}
-];
-var listenRound = 0;
-var listenCorrect = null;
-
-function initListenTap() {
-  if (listenRound >= listenWords.length) {
-    document.getElementById('listenFeedback').innerHTML = '🎉 All done!';
-    return;
-  }
-  
-  var correct = listenWords[listenRound];
-  listenCorrect = correct.word;
-  
-  var options = [correct];
-  var used = [listenRound];
-  while (options.length < Math.min(4, listenWords.length)) {
-    var idx = Math.floor(Math.random() * listenWords.length);
-    if (!used.includes(idx)) {
-      options.push(listenWords[idx]);
-      used.push(idx);
-    }
-  }
-  
-  options.sort(() => Math.random() - 0.5);
-  
-  document.getElementById('listenQuestion').textContent = '🔊 Listen and tap!';
-  document.getElementById('listenFeedback').textContent = '';
-  
-  var container = document.getElementById('listenOptions');
-  container.innerHTML = '';
-  options.forEach(function(opt) {
-    var btn = document.createElement('button');
-    btn.className = 'sound-btn';
-    btn.style.cssText = 'background:linear-gradient(135deg,#a8e6cf,#88d8b0)';
-    btn.innerHTML = '<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/' + opt.emoji + '.svg" alt="' + opt.word + '" style="width:60px">';
-    btn.onclick = function() { checkListenAnswer(opt.word, btn); };
-    container.appendChild(btn);
-  });
-  
-  setTimeout(function() { speak(correct.word); }, 500);
-}
-
-function checkListenAnswer(word, btn) {
-  if (word === listenCorrect) {
-    document.getElementById('listenFeedback').innerHTML = '✅ Correct!';
-    btn.style.transform = 'scale(1.1)';
-    btn.style.boxShadow = '0 0 20px rgba(102,187,106,0.8)';
-    showConfetti();
-    speak(word);
-    listenRound++;
-    setTimeout(initListenTap, 2000);
-  } else {
-    document.getElementById('listenFeedback').innerHTML = '❌ Try again!';
-    btn.style.animation = 'shake 0.5s';
-    setTimeout(function() { btn.style.animation = ''; }, 500);
-  }
-}
-
-
 let ci=0,ts=13;
 let tracePoints=[];
 let isDrawing=false;
@@ -470,7 +447,6 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
-  if(i===9)initListenTap();
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
