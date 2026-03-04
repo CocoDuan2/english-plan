@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P36 Review - -ip Family</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#e6f7ff,#fff0f6);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.hd{
+  background:#fff;border-bottom:3px solid #e91e8c;
+  padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.hd-ttl{font-size:26px;font-weight:900;color:#e91e8c;margin-bottom:4px}
+.hd-sub{font-size:20px;font-weight:900;color:#e67e22}
+.stars{
+  display:flex;gap:8px;justify-content:center;
+  padding:12px;background:#fff5e6;border-bottom:2px solid #ffd93d;
+}
+.star{font-size:22px}
+.mod{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.mod.active{display:flex}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:12px 20px;font-size:22px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.card-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;max-width:500px;margin:20px auto;
+}
+.card{
+  background:#ddd;border:4px solid #bbb;border-radius:16px;
+  padding:20px;cursor:pointer;transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.card.revealed{background:#fff;border-color:#e91e8c}
+.card img{width:80px;height:auto;opacity:0;transition:opacity .3s ease}
+.card.revealed img{opacity:1}
+.card .label{font-size:24px;font-weight:900;color:#2c3e50;margin-top:8px;opacity:0;transition:opacity .3s ease}
+.card.revealed .label{opacity:1}
+.quiz-opt{
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  margin-top:20px;
+}
+.quiz-card{
+  width:140px;padding:20px;
+  background:#fff;border:4px solid #e0e0e0;border-radius:16px;
+  cursor:pointer;transition:all .2s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.quiz-card:hover{transform:translateY(-4px);border-color:#e91e8c}
+.quiz-card.correct{border-color:#27ae60;background:#d5f4e6}
+.quiz-card.wrong{animation:shake .3s ease}
+.quiz-card img{width:80px;height:auto;margin-bottom:8px}
+.quiz-card .label{font-size:22px;font-weight:900;color:#2c3e50}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
+}
+.blend-opt{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  margin-top:20px;
+}
+.blend-btn{
+  padding:16px 24px;border:4px solid #e91e8c;border-radius:16px;
+  font-size:32px;font-weight:900;color:#e91e8c;
+  background:#fff;cursor:pointer;transition:all .2s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.blend-btn:hover{transform:scale(1.05);background:#ffe6f0}
+.blend-btn.selected{background:#e91e8c;color:#fff}
+.blend-result{
+  font-size:64px;font-weight:900;color:#2c3e50;
+  margin-top:20px;min-height:80px;
+}
+.mem-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;max-width:500px;margin:20px auto;
+}
+.mem-card{
+  aspect-ratio:1;background:#fff;border:4px solid #e91e8c;border-radius:16px;
+  cursor:pointer;transition:all .3s ease;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  position:relative;
+}
+.mem-card.flipped{background:#ffe6f0}
+.mem-card.matched{background:#d5f4e6;border-color:#27ae60;pointer-events:none}
+.mem-card img{width:60px;height:auto;opacity:0;transition:opacity .3s ease}
+.mem-card.flipped img,.mem-card.matched img{opacity:1}
+.mem-card .label{font-size:20px;font-weight:900;color:#2c3e50;opacity:0;transition:opacity .3s ease}
+.mem-card.flipped .label,.mem-card.matched .label{opacity:1}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+  .hd-ttl{font-size:22px}
+  .hd-sub{font-size:18px}
+  .stars{gap:6px;padding:10px}
+  .star{font-size:20px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:18px;padding:10px 16px;max-width:90%}
+  .card-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{padding:16px}
+  .card img{width:70px}
+  .card .label{font-size:20px}
+  .quiz-card{width:120px;padding:16px}
+  .quiz-card img{width:70px}
+  .quiz-card .label{font-size:20px}
+  .blend-btn{padding:12px 20px;font-size:28px}
+  .blend-result{font-size:48px}
+  .mem-grid{grid-template-columns:repeat(4,1fr);gap:10px}
+  .mem-card img{width:50px}
+  .mem-card .label{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="hd">
+  <div class="hd-ttl">-ip Family Review</div>
+  <div class="hd-sub">点击卡片复习单词</div>
+</div>
+
+<!-- Stars -->
+<div class="stars">
+  <span class="star" id="s0">★</span>
+  <span class="star" id="s1">★</span>
+  <span class="star" id="s2">★</span>
+  <span class="star" id="s3">★</span>
+  <span class="star" id="s4">★</span>
+</div>
+
+<!-- M0: Start -->
+<div class="mod active">
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div style="font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px">Let's Play!</div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:20px 0">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f910.svg" alt="zip" style="width:60px">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/261d-fe0f.svg" alt="tip" style="width:60px">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f444.svg" alt="lip" style="width:60px">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6a2.svg" alt="ship" style="width:60px">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2708-fe0f.svg" alt="trip" style="width:60px">
+  </div>
+</div>
+
+<!-- M1: Learn -->
+<div class="mod">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">点击卡片学单词！</div>
+  </div>
+  <div class="card-grid" id="learnGrid"></div>
+</div>
+
+<!-- M2: Blending Game -->
+<div class="mod">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">听音拼单词！</div>
+  </div>
+  <div id="blendFeedback" style="font-size:32px;font-weight:900;margin:16px 0;min-height:40px"></div>
+  <div class="blend-opt" id="blendOpt"></div>
+  <div class="blend-result" id="blendResult"></div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div class="mod">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">听音找图！</div>
+  </div>
+  <div id="quizFeedback" style="font-size:32px;font-weight:900;margin:16px 0;min-height:40px"></div>
+  <div class="quiz-opt" id="quizOpt"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div class="mod">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">记忆翻牌！</div>
+  </div>
+  <div class="mem-grid" id="memGrid"></div>
+</div>
+
+<!-- M5: Done -->
+<div class="mod">
+  <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:140px;margin-bottom:16px">
+  <div style="font-size:48px;font-weight:900;color:#e91e8c;margin-bottom:12px">All Done!</div>
+  <div style="font-size:24px;color:#e67e22;font-weight:700;margin-bottom:20px">你完成了 -ip 家族复习！</div>
+  <button onclick="restart()" style="padding:16px 32px;border:none;border-radius:16px;font-size:22px;font-weight:900;background:#e91e8c;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)">Play Again</button>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">6</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+let ci=0,ts=6,stars=0;
+const words=[
+  {word:'zip',emoji:'1f910'},
+  {word:'tip',emoji:'261d-fe0f'},
+  {word:'lip',emoji:'1f444'},
+  {word:'ship',emoji:'1f6a2'},
+  {word:'trip',emoji:'2708-fe0f'}
+];
+let quizIdx=0,blendIdx=0;
+let memFlipped=[],memMatched=0;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.mod').forEach((m,idx)=>m.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===1)initLearn();
+  if(i===2)initBlend();
+  if(i===3)initQuiz();
+  if(i===4)initMem();
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function restart(){goTo(0);stars=0;updateStars()}
+function addStar(){
+  if(stars<5){
+    stars++;
+    updateStars();
+    playOk();
+  }
+}
+function updateStars(){
+  for(let i=0;i<5;i++){
+    document.getElementById(`s${i}`).textContent=i<stars?'⭐':'★';
+    document.getElementById(`s${i}`).style.color=i<stars?'#ffd93d':'#bbb';
+  }
+}
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+function playOk(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  osc.frequency.value=523;
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime+0.15);
+}
+function playNo(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  osc.frequency.value=200;
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime+0.2);
+}
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+// M1: Learn
+function initLearn(){
+  const grid=document.getElementById('learnGrid');
+  grid.innerHTML='';
+  words.forEach(w=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${w.emoji}.svg" alt="${w.word}">
+      <div class="label">${w.word}</div>`;
+    card.onclick=()=>{
+      if(!card.classList.contains('revealed')){
+        card.classList.add('revealed');
+        speak(w.word);
+      }
+    };
+    grid.appendChild(card);
+  });
+}
+
+// M2: Blending Game
+function initBlend(){
+  blendIdx=0;
+  nextBlend();
+}
+function nextBlend(){
+  if(blendIdx>=words.length){
+    document.getElementById('blendFeedback').innerHTML='🎉 All done!';
+    document.getElementById('blendOpt').innerHTML='';
+    document.getElementById('blendResult').textContent='';
+    addStar();
+    return;
+  }
+  
+  const correct=words[blendIdx];
+  const letters=correct.word.split('');
+  const distractors=words.filter(w=>w.word!==correct.word).map(w=>w.word.split('')).flat();
+  const wrongLetters=[...new Set(distractors)].filter(l=>!letters.includes(l)).slice(0,2);
+  const allLetters=[...letters,...wrongLetters].sort(()=>Math.random()-0.5);
+  
+  document.getElementById('blendFeedback').textContent='';
+  document.getElementById('blendResult').textContent='';
+  const opt=document.getElementById('blendOpt');
+  opt.innerHTML='';
+  
+  let selected=[];
+  allLetters.forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='blend-btn';
+    btn.textContent=l;
+    btn.onclick=()=>{
+      if(btn.classList.contains('selected')){
+        btn.classList.remove('selected');
+        selected=selected.filter(s=>s!==l);
+      }else{
+        btn.classList.add('selected');
+        selected.push(l);
+      }
+      document.getElementById('blendResult').textContent=selected.join('');
+      if(selected.join('')===correct.word){
+        checkBlend(true);
+      }
+    };
+    opt.appendChild(btn);
+  });
+  
+  setTimeout(()=>speak(correct.word),500);
+}
+function checkBlend(isCorrect){
+  if(isCorrect){
+    document.getElementById('blendFeedback').innerHTML='✅ Great!';
+    playOk();
+    showConfetti();
+    blendIdx++;
+    setTimeout(nextBlend,2000);
+  }
+}
+
+// M3: Listen & Find
+function initQuiz(){
+  quizIdx=0;
+  nextQuiz();
+}
+function nextQuiz(){
+  if(quizIdx>=words.length){
+    document.getElementById('quizFeedback').innerHTML='🎉 All done!';
+    document.getElementById('quizOpt').innerHTML='';
+    addStar();
+    return;
+  }
+  
+  const correct=words[quizIdx];
+  const distractors=words.filter(w=>w.word!==correct.word);
+  const shuffled=[correct,...distractors.slice(0,2)].sort(()=>Math.random()-0.5);
+  
+  document.getElementById('quizFeedback').textContent='';
+  const opt=document.getElementById('quizOpt');
+  opt.innerHTML='';
+  
+  shuffled.forEach(w=>{
+    const card=document.createElement('div');
+    card.className='quiz-card';
+    card.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${w.emoji}.svg" alt="${w.word}">
+      <div class="label">${w.word}</div>`;
+    card.onclick=()=>checkQuiz(w.word===correct.word,card);
+    opt.appendChild(card);
+  });
+  
+  setTimeout(()=>speak(correct.word),500);
+}
+function checkQuiz(isCorrect,card){
+  if(isCorrect){
+    card.classList.add('correct');
+    document.getElementById('quizFeedback').innerHTML='✅ Great!';
+    playOk();
+    showConfetti();
+    quizIdx++;
+    setTimeout(nextQuiz,2000);
+  }else{
+    card.classList.add('wrong');
+    document.getElementById('quizFeedback').innerHTML='❌ Try again!';
+    playNo();
+    setTimeout(()=>{
+      card.classList.remove('wrong');
+      document.getElementById('quizFeedback').textContent='';
+    },800);
+  }
+}
+
+// M4: Memory Match
+function initMem(){
+  memFlipped=[];
+  memMatched=0;
+  const grid=document.getElementById('memGrid');
+  grid.innerHTML='';
+  
+  const pairs=[...words,...words].sort(()=>Math.random()-0.5);
+  pairs.forEach((w,i)=>{
+    const card=document.createElement('div');
+    card.className='mem-card';
+    card.dataset.word=w.word;
+    card.dataset.idx=i;
+    card.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${w.emoji}.svg" alt="${w.word}">
+      <div class="label">${w.word}</div>`;
+    card.onclick=()=>flipMem(card);
+    grid.appendChild(card);
+  });
+}
+function flipMem(card){
+  if(card.classList.contains('flipped')||card.classList.contains('matched')||memFlipped.length>=2)return;
+  
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  speak(card.dataset.word);
+  
+  if(memFlipped.length===2){
+    setTimeout(()=>{
+      if(memFlipped[0].dataset.word===memFlipped[1].dataset.word){
+        memFlipped.forEach(c=>c.classList.add('matched'));
+        playOk();
+        memMatched+=2;
+        if(memMatched===10){
+          showConfetti();
+          addStar();
+        }
+      }else{
+        memFlipped.forEach(c=>c.classList.remove('flipped'));
+        playNo();
+      }
+      memFlipped=[];
+    },1000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+});
+goTo(0);
+updateStars();
+</script>
+</body>
+</html>
