@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P52 - ue Sound · Peppa's Blue Balloon</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#e3f2fd,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#1976d2;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #1976d2;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#1976d2;
+}
+.letter-big{
+  font-size:180px;font-weight:900;color:#1976d2;
+  text-shadow:4px 4px 0 #bbdefb;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+
+.trace-container{
+  position:relative;
+  width:300px;height:300px;
+  margin:20px auto;
+}
+.trace-guide{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+#traceCanvas{
+  position:absolute;top:0;left:0;
+  border:4px solid #1976d2;
+  border-radius:20px;
+  background:#fff;
+  cursor:crosshair;
+  touch-action:none;
+}
+.trace-btns{
+  display:flex;gap:12px;justify-content:center;
+  margin-top:16px;
+}
+.trace-btn{
+  padding:12px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e67e22;color:#fff;
+  transition:transform .2s ease;
+}
+.trace-btn:active{transform:scale(.95)}
+.trace-feedback{
+  font-size:32px;font-weight:900;
+  margin-top:16px;min-height:40px;
+}
+
+.blend-box{
+  display:flex;gap:6px;align-items:center;justify-content:center;
+  margin:20px 0;
+  max-width:100%;
+}
+.blend-letter{
+  font-size:64px;font-weight:900;color:#1976d2;
+  background:#fff;border:4px solid #1976d2;border-radius:12px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  animation:slideIn 0.5s ease-out forwards;
+  opacity:0;transform:translateX(-20px);
+  flex-shrink:1;
+}
+.blend-box.long .blend-letter{
+  width:45px;height:45px;font-size:32px;border:3px solid #1976d2;
+}
+.blend-box.medium .blend-letter{
+  width:60px;height:60px;font-size:48px;
+}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{
+  font-size:72px;font-weight:900;color:#2c3e50;
+  animation:popIn 0.5s ease-out 1.8s forwards;
+  opacity:0;transform:scale(0.5);
+}
+@keyframes popIn{
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes slideIn{
+  to{opacity:1;transform:translateX(0)}
+}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;max-width:500px;margin:20px auto;
+}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav-btn{
+  padding:10px 20px;border:none;border-radius:12px;
+  font-size:16px;font-weight:700;cursor:pointer;
+  background:#1976d2;color:#fff;
+  transition:all .2s ease;
+}
+.nav-btn:disabled{background:#ccc;cursor:not-allowed}
+.nav-btn:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:18px;font-weight:700;color:#1976d2}
+
+.listen-game{max-width:600px;margin:20px auto}
+.listen-options{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:20px}
+.listen-option{
+  background:#fff;border:4px solid #1976d2;border-radius:20px;
+  padding:20px;cursor:pointer;transition:all .2s ease;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.listen-option:hover{transform:scale(1.05)}
+.listen-option.shake{animation:shake .5s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.listen-option img{width:100px;height:auto}
+.listen-word{font-size:28px;font-weight:900;color:#2c3e50}
+.listen-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:10px 16px;max-width:90%}
+  .letter-big{font-size:120px}
+  .phonics{font-size:36px;padding:10px 20px}
+  .obj-wrap img{width:120px}
+  .word{font-size:64px}
+  .sent{font-size:24px}
+  .trace-container{width:280px;height:280px;margin:16px auto}
+  .trace-btn{padding:10px 20px;font-size:16px}
+  .trace-feedback{font-size:24px}
+  .blend-box{gap:4px;flex-wrap:wrap}
+  .blend-letter{width:60px;height:60px;font-size:48px}
+  .blend-box.long .blend-letter{width:40px;height:40px;font-size:28px}
+  .blend-arrow{font-size:36px;margin:0 4px}
+  .blend-word{font-size:56px}
+  .sound-btn{width:80px;height:80px;font-size:36px}
+  .sound-btn img{width:48px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-item img{width:60px}
+  .grid-item .label{font-size:20px}
+  .listen-options{grid-template-columns:1fr;gap:12px}
+  .listen-option img{width:80px}
+  .listen-word{font-size:24px}
+}
+</style>
+</head>
+<body>
+<!-- S1: Title -->
+<div class="slide active">
+<div class="ttl">🎈 Peppa's Blue Balloon</div>
+<div class="sub">Learning the "ue" sound · 学习 ue 发音</div>
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin:20px 0">
+<div style="font-size:28px;font-weight:700;color:#1976d2;margin-top:12px">Today we learn: ue = /uː/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin-bottom:16px">
+<div class="ttl">Hello! Let's Learn "ue"!</div>
+<div class="sub">你好！我们来学 ue 发音</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">Today I got a blue balloon!</div>
+</div>
+</div>
+
+<!-- S3: Letter Show -->
+<div class="slide">
+<div class="ttl">The "ue" Sound</div>
+<div class="letter-big">ue</div>
+<div class="phonics">/uː/</div>
+<div class="sub">Like "oo" in "moon"</div>
+</div>
+
+<!-- S4: Sound -->
+<div class="slide">
+<div class="ttl">How to Say /uː/</div>
+<div class="phonics">/uː/</div>
+<div style="font-size:80px;margin:20px 0">😮</div>
+<div class="sub">Round your lips and say "oooo"</div>
+<button class="sound-btn" style="background:#1976d2;margin-top:20px" onclick="speak('/uː/')">🔊</button>
+</div>
+
+<!-- S5-8: Words -->
+<div class="slide">
+<div class="ttl">Word 1: blue</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">It's blue!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f535.svg">
+</div>
+<div class="word">blue</div>
+<div class="sent">The balloon is blue.</div>
+</div>
+
+<div class="slide">
+<div class="ttl">Word 2: glue</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">It's glue!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg">
+</div>
+<div class="word">glue</div>
+<div class="sent">Peppa uses glue.</div>
+</div>
+
+<div class="slide">
+<div class="ttl">Word 3: true</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">It's true!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2705.svg">
+</div>
+<div class="word">true</div>
+<div class="sent">That's true!</div>
+</div>
+
+<div class="slide">
+<div class="ttl">Word 4: clue</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">It's a clue!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f50d.svg">
+</div>
+<div class="word">clue</div>
+<div class="sent">Find the clue!</div>
+</div>
+<!-- S9: Tracing -->
+<div class="slide">
+<div class="ttl">Trace "ue"</div>
+<div class="sub">用手指描写 ue</div>
+<div class="trace-container">
+<svg class="trace-guide" viewBox="0 0 300 300">
+<text x="150" y="180" font-size="160" font-weight="900" fill="#e0e0e0" text-anchor="middle">ue</text>
+</svg>
+<canvas id="traceCanvas" width="300" height="300"></canvas>
+</div>
+<div class="trace-btns">
+<button class="trace-btn" onclick="clearTrace()">Clear</button>
+<button class="trace-btn" onclick="checkTrace()">Check</button>
+</div>
+<div class="trace-feedback" id="traceFeedback"></div>
+</div>
+
+<!-- S10: Listen & Tap -->
+<div class="slide">
+<div class="ttl">Listen and Tap!</div>
+<div class="sub">听音选图</div>
+<div class="listen-game">
+<div class="listen-feedback" id="listenFeedback"></div>
+<div class="listen-options" id="listenOptions"></div>
+</div>
+</div>
+
+<!-- S11: Blending -->
+<div class="slide">
+<div class="ttl">Let's Blend!</div>
+<div class="sub">拼读练习</div>
+<div id="blendArea"></div>
+<button class="sound-btn" style="background:#e67e22;margin-top:20px" onclick="nextBlend()">Next Word</button>
+</div>
+
+<!-- S12: Game -->
+<div class="slide">
+<div class="ttl">Find the Balloons!</div>
+<div class="sub">找气球游戏</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">Click the balloons!</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:400px;margin:20px auto">
+<div class="sound-btn" style="background:#1976d2;width:120px;height:120px;font-size:60px" onclick="playBalloon('blue')">🎈</div>
+<div class="sound-btn" style="background:#e67e22;width:120px;height:120px;font-size:60px" onclick="playBalloon('glue')">🎈</div>
+<div class="sound-btn" style="background:#4caf50;width:120px;height:120px;font-size:60px" onclick="playBalloon('true')">🎈</div>
+<div class="sound-btn" style="background:#9c27b0;width:120px;height:120px;font-size:60px" onclick="playBalloon('clue')">🎈</div>
+</div>
+</div>
+
+<!-- S13: Song -->
+<div class="slide">
+<div class="ttl">🎵 The "ue" Song</div>
+<div style="font-size:28px;line-height:1.8;color:#2c3e50;font-weight:700;max-width:500px;margin:20px auto">
+Blue, blue, the sky is blue,<br>
+Glue, glue, stick with glue,<br>
+True, true, it's really true,<br>
+Clue, clue, find the clue!<br>
+ue says /uː/, ue says /uː/!
+</div>
+<button class="sound-btn" style="background:#e67e22;margin-top:20px" onclick="speak('Blue blue the sky is blue. Glue glue stick with glue. True true it is really true. Clue clue find the clue. ue says oo ue says oo')">🎵 Play Song</button>
+</div>
+
+<!-- S14: Bye -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" style="width:110px;margin-bottom:16px">
+<div class="ttl">Great Job! 🎉</div>
+<div class="sub">做得好！</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png">
+<div class="bbl">See you tomorrow!</div>
+</div>
+<div style="font-size:24px;color:#e67e22;font-weight:700;margin-top:20px">Next: More vowel sounds!</div>
+</div>
+
+<div class="nav">
+<button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ Back</button>
+<div class="page-num"><span id="curr">1</span> / <span id="total">14</span></div>
+<button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next ▶</button>
+</div>
+<script>
+let curr=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+document.getElementById('total').textContent=total;
+
+function showSlide(n){
+  slides.forEach(s=>s.classList.remove('active'));
+  slides[n].classList.add('active');
+  document.getElementById('curr').textContent=n+1;
+  document.getElementById('prevBtn').disabled=n===0;
+  document.getElementById('nextBtn').disabled=n===total-1;
+  if(n===9)initListenGame();
+  if(n===10)initBlend();
+}
+
+function nextSlide(){if(curr<total-1){curr++;showSlide(curr)}}
+function prevSlide(){if(curr>0){curr--;showSlide(curr)}}
+
+function speak(txt){
+  const u=new SpeechSynthesisUtterance(txt);
+  u.lang='en-US';
+  u.rate=0.8;
+  speechSynthesis.speak(u);
+}
+
+// Tracing
+const canvas=document.getElementById('traceCanvas');
+const ctx=canvas?canvas.getContext('2d'):null;
+let drawing=false;
+const points=[];
+
+if(canvas){
+  canvas.addEventListener('mousedown',startDraw);
+  canvas.addEventListener('mousemove',draw);
+  canvas.addEventListener('mouseup',stopDraw);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startDraw(e.touches[0])});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();draw(e.touches[0])});
+  canvas.addEventListener('touchend',stopDraw);
+}
+
+function startDraw(e){
+  drawing=true;
+  const rect=canvas.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+  points.push({x,y});
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+}
+
+function draw(e){
+  if(!drawing)return;
+  const rect=canvas.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+  points.push({x,y});
+  ctx.lineTo(x,y);
+  ctx.strokeStyle='#1976d2';
+  ctx.lineWidth=8;
+  ctx.lineCap='round';
+  ctx.stroke();
+}
+
+function stopDraw(){drawing=false}
+
+function clearTrace(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  points.length=0;
+  document.getElementById('traceFeedback').textContent='';
+}
+
+function checkTrace(){
+  if(points.length<10){
+    document.getElementById('traceFeedback').textContent='❌ Try again!';
+    return;
+  }
+  document.getElementById('traceFeedback').textContent='✅ Great job!';
+  speak('Great job');
+  confetti({particleCount:100,spread:70,origin:{y:0.6}});
+}
+
+// Listen & Tap Game
+const words=['blue','glue','true','clue'];
+let listenIdx=0;
+
+function initListenGame(){
+  listenIdx=0;
+  playListenRound();
+}
+
+function playListenRound(){
+  if(listenIdx>=words.length){
+    document.getElementById('listenFeedback').textContent='🎉 All done!';
+    document.getElementById('listenOptions').innerHTML='';
+    return;
+  }
+  const correct=words[listenIdx];
+  const distractors=words.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,3);
+  const options=[correct,...distractors].sort(()=>Math.random()-0.5);
+  
+  document.getElementById('listenFeedback').textContent='🔊 Listen...';
+  document.getElementById('listenOptions').innerHTML=options.map(w=>`
+    <div class="listen-option" onclick="checkListen('${w}','${correct}')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${getEmoji(w)}.svg">
+      <div class="listen-word">${w}</div>
+    </div>
+  `).join('');
+  
+  setTimeout(()=>speak(correct),500);
+}
+
+function getEmoji(w){
+  const map={blue:'1f535',glue:'1f9f4',true:'2705',clue:'1f50d'};
+  return map[w]||'2753';
+}
+
+function checkListen(selected,correct){
+  if(selected===correct){
+    document.getElementById('listenFeedback').textContent='✅ Correct!';
+    speak(correct);
+    confetti({particleCount:80,spread:60,origin:{y:0.6}});
+    listenIdx++;
+    setTimeout(playListenRound,2000);
+  }else{
+    document.getElementById('listenFeedback').textContent='❌ Try again!';
+    document.querySelector(`.listen-option:has(.listen-word:contains("${selected}"))`).classList.add('shake');
+    setTimeout(()=>{
+      document.querySelectorAll('.listen-option').forEach(o=>o.classList.remove('shake'));
+    },500);
+  }
+}
+
+// Blending
+const blendWords=['blue','glue','true','clue'];
+let blendIdx=0;
+
+function initBlend(){
+  blendIdx=0;
+  showBlend();
+}
+
+function showBlend(){
+  const w=blendWords[blendIdx];
+  const letters=w.split('');
+  const len=letters.length;
+  const cls=len>5?'long':len>4?'medium':'';
+  document.getElementById('blendArea').innerHTML=`
+    <div class="blend-box ${cls}">
+      ${letters.map((l,i)=>`<div class="blend-letter" style="animation-delay:${i*0.3}s">${l}</div>`).join('')}
+      <div class="blend-arrow">→</div>
+      <div class="blend-word">${w}</div>
+    </div>
+  `;
+  setTimeout(()=>speak(w),letters.length*300+500);
+}
+
+function nextBlend(){
+  blendIdx=(blendIdx+1)%blendWords.length;
+  showBlend();
+}
+
+function playBalloon(w){
+  speak(w);
+  confetti({particleCount:50,spread:50,origin:{y:0.6}});
+}
+
+// Confetti
+function confetti(opts){
+  const defaults={particleCount:100,spread:70,origin:{y:0.6}};
+  const o={...defaults,...opts};
+  if(window.confetti)window.confetti(o);
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</body>
+</html>
