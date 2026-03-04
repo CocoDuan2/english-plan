@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P46 - Magic E: e_e · Peppa Meets Pete</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#f3e5f5,#fff8e1);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#9c27b0;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #9c27b0;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#9c27b0;
+}
+.letter-big{
+  font-size:140px;font-weight:900;color:#9c27b0;
+  text-shadow:4px 4px 0 #e1bee7;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+
+/* Magic E special styles */
+.magic-demo{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin:20px 0;font-size:64px;font-weight:900;
+}
+.magic-letter{
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:4px solid #9c27b0;border-radius:12px;
+  color:#2c3e50;transition:all .5s ease;
+}
+.magic-letter.vowel{color:#9c27b0}
+.magic-letter.magic-e{
+  color:#fff;background:linear-gradient(135deg,#ce93d8,#9c27b0);
+  border-color:#7b1fa2;
+  animation:sparkle 1.5s ease-in-out infinite;
+}
+@keyframes sparkle{
+  0%,100%{box-shadow:0 0 8px rgba(156,39,176,.4)}
+  50%{box-shadow:0 0 20px rgba(156,39,176,.8),0 0 40px rgba(206,147,216,.4)}
+}
+.magic-arrow{font-size:48px;color:#e67e22;margin:0 12px}
+.magic-wand{font-size:64px;animation:wand 2s ease-in-out infinite}
+@keyframes wand{
+  0%,100%{transform:rotate(-10deg)}
+  50%{transform:rotate(10deg)}
+}
+.magic-compare{
+  display:flex;gap:40px;align-items:center;justify-content:center;
+  margin:20px 0;flex-wrap:wrap;
+}
+.magic-card{
+  background:#fff;border:4px solid #9c27b0;border-radius:20px;
+  padding:20px 28px;text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  transition:all .3s ease;cursor:pointer;
+}
+.magic-card:hover{transform:scale(1.05)}
+.magic-card .old-word{font-size:48px;font-weight:900;color:#999;text-decoration:line-through}
+.magic-card .new-word{font-size:48px;font-weight:900;color:#9c27b0}
+.magic-card .sound{font-size:24px;color:#e67e22;font-weight:700;margin-top:4px}
+
+/* Trace Canvas */
+.trace-container{
+  position:relative;width:300px;height:300px;margin:20px auto;
+}
+.trace-guide{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;
+}
+#traceCanvas{
+  position:absolute;top:0;left:0;
+  border:4px solid #9c27b0;border-radius:20px;
+  background:#fff;cursor:crosshair;touch-action:none;
+}
+.trace-btns{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.trace-btn{
+  padding:12px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e67e22;color:#fff;transition:transform .2s ease;
+}
+.trace-btn:active{transform:scale(.95)}
+.trace-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+.trace-tabs{display:flex;gap:12px;justify-content:center;margin-bottom:12px}
+.trace-tab{
+  padding:8px 20px;border:3px solid #9c27b0;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#fff;color:#9c27b0;transition:all .2s ease;
+}
+.trace-tab.active{background:#9c27b0;color:#fff}
+
+.blend-box{
+  display:flex;gap:6px;align-items:center;justify-content:center;
+  margin:20px 0;max-width:100%;
+}
+.blend-letter{
+  font-size:64px;font-weight:900;color:#9c27b0;
+  background:#fff;border:4px solid #9c27b0;border-radius:12px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  animation:slideIn 0.5s ease-out forwards;
+  opacity:0;transform:translateX(-20px);flex-shrink:1;
+}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{
+  font-size:72px;font-weight:900;color:#2c3e50;
+  animation:popIn 0.5s ease-out 1.8s forwards;
+  opacity:0;transform:scale(0.5);
+}
+@keyframes popIn{to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;max-width:600px;margin:20px auto;
+}
+.grid-item{text-align:center;cursor:pointer;transition:transform .2s}
+.grid-item:hover{transform:scale(1.05)}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+
+/* Listen & Tap */
+.choice-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;max-width:400px;margin:20px auto;
+}
+.choice-btn{
+  padding:20px;border:4px solid #9c27b0;border-radius:16px;
+  background:#fff;cursor:pointer;transition:all .2s ease;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.choice-btn:hover{transform:scale(1.05);box-shadow:0 6px 16px rgba(0,0,0,.15)}
+.choice-btn.correct{background:#d4edda;border-color:#27ae60}
+.choice-btn.wrong{animation:shake .3s ease}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.choice-btn img{width:80px;height:auto}
+.choice-label{font-size:20px;font-weight:900;color:#2c3e50}
+
+/* Song section */
+.song-box{
+  background:#fff;border:4px solid #9c27b0;border-radius:20px;
+  padding:24px;max-width:420px;margin:20px auto;text-align:left;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.song-line{font-size:22px;font-weight:700;color:#2c3e50;line-height:1.8;padding:4px 0}
+.song-line em{color:#9c27b0;font-style:normal;font-weight:900}
+.song-play{
+  display:block;margin:16px auto 0;
+  padding:12px 32px;border:none;border-radius:12px;
+  background:#9c27b0;color:#fff;
+  font-size:22px;font-weight:900;cursor:pointer;
+  transition:transform .2s ease;
+}
+.song-play:active{transform:scale(.95)}
+
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#9c27b0;color:#fff;transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.tn{
+  position:fixed;bottom:80px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  background:#e67e22;color:#fff;border:none;
+  font-size:24px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s ease;z-index:100;
+}
+.tn:active{transform:scale(.9)}
+.tn-panel{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);color:#fff;
+  padding:20px;overflow-y:auto;z-index:200;display:none;
+}
+.tn-panel.show{display:block}
+.tn-panel h3{font-size:24px;margin-bottom:12px;color:#ffd54f}
+.tn-panel p{font-size:16px;line-height:1.6;margin-bottom:12px}
+.tn-close{
+  position:absolute;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:#9c27b0;color:#fff;border:none;font-size:24px;cursor:pointer;
+}
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .letter-big{font-size:100px}
+  .phonics{font-size:38px;padding:10px 20px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:10px 16px;max-width:90%}
+  .obj-wrap img{width:140px}
+  .word{font-size:64px}
+  .sent{font-size:28px}
+  .magic-demo{font-size:44px;gap:4px}
+  .magic-letter{width:52px;height:52px;font-size:44px;border:3px solid #9c27b0}
+  .magic-arrow{font-size:32px;margin:0 6px}
+  .magic-wand{font-size:44px}
+  .magic-compare{gap:20px}
+  .magic-card{padding:14px 18px}
+  .magic-card .old-word,.magic-card .new-word{font-size:36px}
+  .magic-card .sound{font-size:20px}
+  .trace-container{width:280px;height:280px;margin:16px auto}
+  .trace-btn{padding:10px 20px;font-size:16px}
+  .trace-feedback{font-size:24px}
+  .blend-box{gap:4px;flex-wrap:wrap}
+  .blend-letter{font-size:48px;width:60px;height:60px;border:3px solid #9c27b0}
+  .blend-arrow{font-size:32px;margin:0 4px}
+  .blend-word{font-size:48px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .sound-btn img{width:50px}
+  .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid-item img{width:60px}
+  .grid-item .label{font-size:18px}
+  .choice-grid{grid-template-columns:1fr 1fr;gap:12px;max-width:320px}
+  .choice-btn{padding:14px}
+  .choice-btn img{width:70px}
+  .song-box{padding:16px}
+  .song-line{font-size:18px}
+}
+@media(min-width:768px){
+  .ttl{font-size:48px}
+  .word{font-size:100px}
+  .sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="ttl">✨ Magic E: e_e</div>
+  <div class="sub">Peppa Meets Pete</div>
+  <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <div style="font-size:20px;color:#667085;margin-top:12px">The last Magic E! 🪄</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Hello! Final Magic!</div>
+  <div style="font-size:24px;color:#e67e22;font-weight:700;margin-top:12px">Magic E works on E too! 🪄</div>
+  <div style="font-size:20px;color:#9c27b0;font-weight:700;margin-top:8px">Today: e_e says /iː/</div>
+</div>
+
+<!-- S3: Magic E Rule for e_e -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Magic E makes E say its name!</div>
+  </div>
+  <div style="margin:24px 0">
+    <div class="magic-wand">🪄</div>
+  </div>
+  <div class="magic-compare">
+    <div class="magic-card" onclick="speak('pet')">
+      <div class="old-word">pet</div>
+      <div class="sound">/e/ → short e</div>
+    </div>
+    <div style="font-size:48px;color:#9c27b0;font-weight:900">→</div>
+    <div class="magic-card" onclick="speak('Pete')">
+      <div class="new-word">P<span style="color:#ce93d8">et</span>e</div>
+      <div class="sound">/iː/ → long E!</div>
+    </div>
+  </div>
+  <div class="phonics">/iː/</div>
+</div>
+
+<!-- S4: How Magic E Works -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Watch the magic!</div>
+  </div>
+  <div id="magicAnim" style="margin:30px 0">
+    <div class="magic-demo" id="magicLetters">
+      <div class="magic-letter">P</div>
+      <div class="magic-letter vowel">e</div>
+      <div class="magic-letter">t</div>
+      <div class="magic-letter magic-e" id="magicELetter" style="opacity:0;transform:translateY(-30px);transition:all .8s ease">e</div>
+    </div>
+    <div style="font-size:32px;font-weight:900;color:#9c27b0;margin-top:20px" id="magicResult"></div>
+  </div>
+  <button class="trace-btn" style="background:#9c27b0;font-size:22px;padding:14px 32px" onclick="playMagicAnim()">🪄 Add Magic E!</button>
+</div>
+
+<!-- S5: Trace e -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Trace the letter e!</div>
+  </div>
+  <div class="trace-container">
+    <svg class="trace-guide" id="traceGuide" viewBox="0 0 300 300">
+      <path d="M 210 170 Q 210 100 150 100 Q 90 100 90 140 Q 90 170 150 170 Q 210 170 210 200 Q 210 240 150 240 Q 90 240 90 210" stroke="#9c27b0" stroke-width="8" stroke-dasharray="10,10" fill="none" opacity="0.4"/>
+      <line x1="90" y1="170" x2="210" y2="170" stroke="#9c27b0" stroke-width="8" stroke-dasharray="10,10" opacity="0.4"/>
+    </svg>
+    <canvas id="traceCanvas" width="300" height="300"></canvas>
+  </div>
+  <div class="trace-btns">
+    <button class="trace-btn" onclick="clearTrace()">Clear</button>
+    <button class="trace-btn" onclick="checkTrace()">Check ✓</button>
+  </div>
+  <div class="trace-feedback" id="traceFeedback"></div>
+</div>
+
+<!-- S6: Word 1 - Pete -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">P-e-t-e, Pete! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f466.svg" alt="Pete">
+  </div>
+  <div class="word">P<span style="color:#9c27b0">e</span>t<span style="color:#ce93d8">e</span></div>
+  <div class="sent">Hi, <em style="color:#9c27b0">Pete</em>! 👋</div>
+</div>
+
+<!-- S7: Word 2 - Steve -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">S-t-e-v-e, Steve! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f468.svg" alt="Steve">
+  </div>
+  <div class="word">St<span style="color:#9c27b0">e</span>v<span style="color:#ce93d8">e</span></div>
+  <div class="sent">Hello, <em style="color:#9c27b0">Steve</em>! 👋</div>
+</div>
+
+<!-- S8: Word 3 - theme -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy Pig">
+    <div class="bbl">t-h-e-m-e, theme! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a8.svg" alt="theme">
+  </div>
+  <div class="word">th<span style="color:#9c27b0">e</span>m<span style="color:#ce93d8">e</span></div>
+  <div class="sent">A party <em style="color:#9c27b0">theme</em>! 🎨</div>
+</div>
+
+<!-- S9: Word 4 - these -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">t-h-e-s-e, these! 🪄</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f449.svg" alt="these">
+  </div>
+  <div class="word">th<span style="color:#9c27b0">e</span>s<span style="color:#ce93d8">e</span></div>
+  <div class="sent">Look at <em style="color:#9c27b0">these</em>! 👉</div>
+</div>
+
+<!-- S10: Blending -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
+    <div class="bbl">Let's blend with Magic E!</div>
+  </div>
+  <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ce93d8,#9c27b0)" onclick="showBlend('Pete',['P','e','t','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f466.svg" alt="Pete">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#b3e5fc,#29b6f6)" onclick="showBlend('Steve',['S','t','e','v','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f468.svg" alt="Steve">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c8e6c9,#66bb6a)" onclick="showBlend('theme',['t','h','e','m','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a8.svg" alt="theme">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#fff9c4,#ffd54f)" onclick="showBlend('these',['t','h','e','s','e'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f449.svg" alt="these">
+    </button>
+  </div>
+  <div id="blendAnim" style="display:none">
+    <div class="blend-box" id="blendBox"></div>
+    <div class="blend-arrow">→</div>
+    <div class="blend-word" id="blendWord"></div>
+  </div>
+</div>
+
+<!-- S11: Listen & Tap -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and tap! 👂</div>
+  </div>
+  <div id="listenGame">
+    <div id="listenPrompt" style="font-size:28px;font-weight:900;color:#9c27b0;margin:20px 0">🔊 Listen...</div>
+    <div class="choice-grid" id="choiceGrid"></div>
+    <button class="trace-btn" style="background:#9c27b0;margin-top:16px" onclick="replayListenWord()">🔊 Again</button>
+  </div>
+  <div id="listenDone" style="display:none">
+    <div style="font-size:48px;margin:20px 0">🎉</div>
+    <div style="font-size:32px;font-weight:900;color:#27ae60">All done!</div>
+    <div style="font-size:22px;color:#9c27b0;margin-top:12px">You're a Magic E star! ⭐</div>
+  </div>
+</div>
+
+<!-- S12: Song -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Let's sing! 🎵</div>
+  </div>
+  <div class="song-box">
+    <div class="song-line">🎵 E-T-E, E-T-E,</div>
+    <div class="song-line">Magic E makes E say <em>"EE"</em>!</div>
+    <div class="song-line">🎵 <em>Pete</em>, <em>Steve</em>, <em>theme</em>,</div>
+    <div class="song-line">And <em>these</em> too!</div>
+    <div class="song-line">🎵 Add an E, the E will sing,</div>
+    <div class="song-line">Magic E does everything! 🎶</div>
+  </div>
+  <button class="song-play" onclick="singMagicE()">🎤 Sing Along!</button>
+</div>
+
+<!-- S13: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item" onclick="speak('Pete')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f466.svg" alt="Pete">
+      <div class="label">Pete</div>
+    </div>
+    <div class="grid-item" onclick="speak('Steve')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f468.svg" alt="Steve">
+      <div class="label">Steve</div>
+    </div>
+    <div class="grid-item" onclick="speak('theme')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a8.svg" alt="theme">
+      <div class="label">theme</div>
+    </div>
+    <div class="grid-item" onclick="speak('these')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f449.svg" alt="these">
+      <div class="label">these</div>
+    </div>
+  </div>
+</div>
+
+<!-- S14: Bye -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Wonderful! 🎉</div>
+  <div class="sub">All Magic E complete! ✨</div>
+  <div style="font-size:48px;margin-top:20px">🪄💜</div>
+  <div style="font-size:18px;color:#667085;margin-top:12px">Next: Double vowels!</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">14</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<!-- Teacher Notes Button -->
+<button class="tn" onclick="toggleNotes()">T</button>
+
+<!-- Teacher Notes Panel -->
+<div class="tn-panel" id="tnPanel">
+  <button class="tn-close" onclick="toggleNotes()">✕</button>
+  <h3>📝 Teacher Notes - P46 Magic E: e_e</h3>
+  <p><strong>S1 Title:</strong> Final Magic E lesson! Review a_e, i_e, o_e, u_e. Today: e_e says /iː/.</p>
+  <p><strong>S2 Hello:</strong> Peppa says Magic E works on E too! Key: E says its name "EE" /iː/.</p>
+  <p><strong>S3 Magic E Rule:</strong> Show contrast: "pet" → "Pete". Explain: E normally says /e/ (short), but with Magic E, E says /iː/ (its name!).</p>
+  <p><strong>S4 How Magic E Works:</strong> Interactive demo with "Pete". Click to add E and watch magic.</p>
+  <p><strong>S5 Trace:</strong> Students trace lowercase 'e'. Focus on the curve and middle line.</p>
+  <p><strong>S6 Pete:</strong> Boy emoji. A name! Emphasize: P-e-t-e, the E says /iː/.</p>
+  <p><strong>S7 Steve:</strong> Man emoji. Another name!</p>
+  <p><strong>S8 theme:</strong> Art palette emoji. Party theme, story theme.</p>
+  <p><strong>S9 these:</strong> Pointing finger emoji. Demonstrative word.</p>
+  <p><strong>S10 Blending:</strong> Pick any word to see letter-by-letter blending.</p>
+  <p><strong>S11 Listen & Tap:</strong> Auto-plays word audio, students tap correct picture from 4 choices.</p>
+  <p><strong>S12 Song:</strong> Fun e_e song celebrating all Magic E!</p>
+  <p><strong>S13 All Together:</strong> Review all 4 words. Point randomly and ask students.</p>
+  <p><strong>S14 Bye:</strong> Celebrate completing all Magic E lessons!</p>
+</div>
+
+<script>
+let ci=0,ts=14;
+let tracePoints=[];
+let isDrawing=false;
+
+const allWords=[
+  {word:'Pete',emoji:'1f466'},
+  {word:'Steve',emoji:'1f468'},
+  {word:'theme',emoji:'1f3a8'},
+  {word:'these',emoji:'1f449'}
+];
+let listenQueue=[...allWords];
+let currentListen=null;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===10){
+    listenQueue=[...allWords];
+    startListenGame();
+  }
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  a.play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+
+function playMagicAnim(){
+  const eLetter=document.getElementById('magicELetter');
+  const result=document.getElementById('magicResult');
+  eLetter.style.opacity='0';
+  eLetter.style.transform='translateY(-30px)';
+  result.textContent='';
+  setTimeout(()=>{
+    eLetter.style.opacity='1';
+    eLetter.style.transform='translateY(0)';
+  },300);
+  setTimeout(()=>{
+    result.innerHTML='✨ Pete! /iː/ ✨';
+    speak('Pete');
+    showConfetti();
+  },1200);
+}
+
+const canvas=document.getElementById('traceCanvas');
+const ctx=canvas?canvas.getContext('2d'):null;
+
+if(ctx){
+  ctx.lineWidth=8;ctx.lineCap='round';ctx.strokeStyle='#9c27b0';
+  canvas.addEventListener('mousedown',startTrace);
+  canvas.addEventListener('mousemove',drawTrace);
+  canvas.addEventListener('mouseup',endTrace);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchend',endTrace);
+}
+
+function startTrace(e){
+  isDrawing=true;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx.beginPath();ctx.moveTo(x,y);
+}
+function drawTrace(e){
+  if(!isDrawing)return;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx.lineTo(x,y);ctx.stroke();
+}
+function endTrace(){isDrawing=false}
+function clearTrace(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  tracePoints=[];
+  document.getElementById('traceFeedback').textContent='';
+}
+
+function checkTrace(){
+  const feedback=document.getElementById('traceFeedback');
+  if(tracePoints.length<15){
+    feedback.textContent='Try again! ✏️';
+    feedback.style.color='#e67e22';return;
+  }
+  const keyPoints=[
+    {x:150,y:100},{x:90,y:170},{x:210,y:170},{x:150,y:240}
+  ];
+  let hits=0;
+  keyPoints.forEach(kp=>{
+    if(tracePoints.some(p=>Math.abs(p.x-kp.x)<50&&Math.abs(p.y-kp.y)<50))hits++;
+  });
+  if(hits>=Math.max(2,keyPoints.length-1)){
+    feedback.textContent='Great job! 🎉';
+    feedback.style.color='#27ae60';
+    showConfetti();speak('e');
+  }else{
+    feedback.textContent='Try again! ✏️';
+    feedback.style.color='#e67e22';
+  }
+}
+
+function showBlend(word,letters){
+  const choice=document.getElementById('blendChoice');
+  const anim=document.getElementById('blendAnim');
+  const box=document.getElementById('blendBox');
+  const wordEl=document.getElementById('blendWord');
+  choice.style.display='none';
+  anim.style.display='block';
+  box.innerHTML='';
+  box.className='blend-box';
+  wordEl.textContent='';
+  wordEl.style.animation='none';
+  letters.forEach((letter,i)=>{
+    const div=document.createElement('div');
+    div.className='blend-letter';
+    const lLower=letter.toLowerCase();
+    if(lLower==='e')div.style.color='#9c27b0';
+    if(i===letters.length-1){
+      div.style.background='linear-gradient(135deg,#ce93d8,#9c27b0)';
+      div.style.color='#fff';div.style.borderColor='#7b1fa2';
+    }
+    div.textContent=letter;
+    div.style.animationDelay=`${i*0.3}s`;
+    box.appendChild(div);
+  });
+  setTimeout(()=>{
+    wordEl.textContent=word;
+    wordEl.style.animation='popIn 0.5s ease-out forwards';
+    speak(word);
+  },letters.length*300+500);
+  setTimeout(()=>{
+    choice.style.display='flex';
+    anim.style.display='none';
+  },letters.length*300+3000);
+}
+
+function startListenGame(){
+  if(listenQueue.length===0){
+    document.getElementById('listenGame').style.display='none';
+    document.getElementById('listenDone').style.display='block';
+    return;
+  }
+  document.getElementById('listenGame').style.display='block';
+  document.getElementById('listenDone').style.display='none';
+  const idx=Math.floor(Math.random()*listenQueue.length);
+  currentListen=listenQueue[idx];
+  listenQueue.splice(idx,1);
+  const others=allWords.filter(w=>w.word!==currentListen.word);
+  const shuffled=[...others].sort(()=>Math.random()-.5);
+  const choices=[currentListen,shuffled[0],shuffled[1],shuffled[2]].filter(Boolean);
+  choices.sort(()=>Math.random()-.5);
+  const grid=document.getElementById('choiceGrid');
+  grid.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('div');
+    btn.className='choice-btn';
+    btn.innerHTML=`
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${c.emoji}.svg" alt="${c.word}">
+      <div class="choice-label">${c.word}</div>
+    `;
+    btn.onclick=()=>checkListenAnswer(c.word,btn);
+    grid.appendChild(btn);
+  });
+  document.getElementById('listenPrompt').textContent='🔊 Listen...';
+  setTimeout(()=>speak(currentListen.word),500);
+}
+
+function replayListenWord(){
+  if(currentListen)speak(currentListen.word);
+}
+
+function checkListenAnswer(word,btn){
+  if(word===currentListen.word){
+    btn.classList.add('correct');
+    playOk();speak(word);showConfetti();
+    setTimeout(startListenGame,2000);
+  }else{
+    btn.classList.add('wrong');
+    playNo();
+    document.getElementById('listenPrompt').textContent='❌ Try again!';
+    setTimeout(()=>{
+      btn.classList.remove('wrong');
+      document.getElementById('listenPrompt').textContent='🔊 Listen...';
+      speak(currentListen.word);
+    },1000);
+  }
+}
+
+function singMagicE(){
+  const lines=['E T E','Magic E makes E say EE','Pete, Steve, theme','And these too','Add an E the E will sing','Magic E does everything'];
+  let i=0;
+  function sayLine(){
+    if(i>=lines.length)return;
+    const u=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(lines[i])}&spd=4&source=web`;
+    const a=new Audio(u);
+    a.play().catch(()=>{});
+    a.onended=()=>{i++;setTimeout(sayLine,300)};
+    setTimeout(()=>{i++;setTimeout(sayLine,300)},4000);
+  }
+  sayLine();
+}
+
+function playOk(){
+  try{
+    const ac=new AudioContext();
+    const osc=ac.createOscillator();
+    const gain=ac.createGain();
+    osc.connect(gain);gain.connect(ac.destination);
+    osc.frequency.value=523;
+    gain.gain.setValueAtTime(0.3,ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.3);
+    osc.start();osc.stop(ac.currentTime+0.3);
+  }catch(e){}
+}
+
+function playNo(){
+  try{
+    const ac=new AudioContext();
+    const osc=ac.createOscillator();
+    const gain=ac.createGain();
+    osc.connect(gain);gain.connect(ac.destination);
+    osc.frequency.value=200;
+    gain.gain.setValueAtTime(0.3,ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.2);
+    osc.start();osc.stop(ac.currentTime+0.2);
+  }catch(e){}
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ce93d8','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+goTo(0);
+</script>
+</body>
+</html>

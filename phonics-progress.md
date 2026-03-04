@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P45 - Magic E: u_e ✅
+- 当前: P46 - Magic E: e_e ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -328,6 +328,13 @@
 - 发音: /juː/
 - 单词: cute, tube, mule, flute, June
 - 故事: 佩琪的可爱长笛
+- 状态: ✅ 完成
+
+### P46 - Magic E: e_e · Peppa Meets Pete
+- 模式: e_e
+- 发音: /iː/
+- 单词: Pete, Steve, theme, these
+- 故事: 佩琪遇见Pete
 - 状态: ✅ 完成
 
 ## Phonics 4 · 辅音组合（P62-P81）
