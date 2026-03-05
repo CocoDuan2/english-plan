@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P66 - pl ✅
+- 当前: P67 - sl ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -416,6 +416,13 @@
 - 发音: /pl/
 - 单词: play, plant, plate, plus
 - 故事: 佩琪的游戏时间
+- 状态: ✅ 完成
+
+### P67 - sl Blend · Peppa Loves to Slide
+- 辅音组合: sl
+- 发音: /sl/
+- 单词: slide, sleep, slow, slip
+- 故事: 佩琪爱滑梯
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
