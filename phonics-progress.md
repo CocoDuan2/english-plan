@@ -629,3 +629,10 @@
 - 单词: happy, baby, funny, sunny
 - 故事: 佩琪的快乐日子
 - 状态: ✅ 完成
+
+### P97 - Soft c · Peppa's City Trip
+- 模式: soft c
+- 发音: /s/
+- 单词: city, ice, race, face
+- 故事: 佩琪的城市之旅
+- 状态: ⏳ 待生成
