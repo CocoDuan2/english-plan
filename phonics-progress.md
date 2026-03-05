@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P95 - y as /aɪ/ ✅
+- 当前: P96 - y as /iː/ ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -616,9 +616,9 @@
 - 故事: 佩琪的夜晚之光
 - 状态: ✅ 完成
 
-### P95 - y as /aɪ/ · Peppa Flies High
-- 模式: y as /aɪ/
-- 发音: /aɪ/
-- 单词: my, fly, try, sky
-- 故事: 佩琪飞得高
+### P96 - y as /iː/ · Peppa's Happy Day
+- 模式: y as /iː/
+- 发音: /iː/
+- 单词: happy, baby, funny, sunny
+- 故事: 佩琪的快乐日子
 - 状态: ✅ 完成
