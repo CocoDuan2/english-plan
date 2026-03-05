@@ -10,32 +10,65 @@ body{
   font-family:'Segoe UI',system-ui,sans-serif;
   min-height:100vh;
   background:linear-gradient(135deg,#f3e5f5,#e1bee7);
-  display:flex;align-items:center;justify-content:center;
   padding:20px;color:#2c3e50;
 }
 .container{
-  max-width:500px;text-align:center;
-  background:rgba(255,255,255,.9);
-  border-radius:22px;padding:40px 30px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  max-width:600px;margin:0 auto;
+  text-align:center;
 }
 .badge{
-  display:inline-block;
+  display:inline-flex;
   background:#f3e5f5;border:3px solid #ab47bc;
   color:#6a1b9a;font-size:48px;font-weight:900;
   width:90px;height:90px;border-radius:20px;
-  display:inline-flex;align-items:center;justify-content:center;
+  align-items:center;justify-content:center;
   margin-bottom:16px;
 }
 h1{font-size:36px;font-weight:900;color:#394867;margin-bottom:8px}
-.sub{font-size:18px;color:#667085;margin-bottom:20px}
-.msg{font-size:16px;color:#e67e22;font-weight:700}
+.sub{font-size:18px;color:#667085;margin-bottom:24px}
+.lesson-list{
+  display:flex;flex-direction:column;gap:12px;
+  text-align:left;
+}
+.lesson{
+  background:rgba(255,255,255,.9);
+  border-radius:16px;padding:16px 20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  display:flex;align-items:center;gap:16px;
+  text-decoration:none;color:#2c3e50;
+  transition:transform .2s ease;
+}
+.lesson:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.lesson .day{
+  background:#ab47bc;color:#fff;
+  font-size:16px;font-weight:900;
+  padding:6px 12px;border-radius:10px;
+  min-width:50px;text-align:center;
+}
+.lesson .info{flex:1}
+.lesson .title{font-size:18px;font-weight:700;color:#394867}
+.lesson .title-cn{font-size:14px;color:#667085;margin-top:4px}
+.lesson .links{display:flex;gap:8px}
+.lesson .links a{
+  padding:6px 14px;border-radius:8px;
+  font-size:14px;font-weight:700;
+  text-decoration:none;color:#fff;
+  transition:transform .2s ease;
+}
+.lesson .links a:active{transform:scale(.95)}
+.teach-link{background:#e91e8c}
+.review-link{background:#e67e22}
 .back-btn{
-  display:inline-block;margin-top:20px;
+  display:inline-block;margin-top:24px;
   padding:12px 28px;background:#ab47bc;color:#fff;
   border-radius:12px;text-decoration:none;
   font-size:16px;font-weight:700;
   box-shadow:0 4px 12px rgba(171,71,188,.3);
+}
+@media(max-width:480px){
+  h1{font-size:28px}
+  .lesson .title{font-size:16px}
+  .lesson .day{font-size:14px;padding:4px 8px;min-width:40px}
 }
 </style>
 </head>
@@ -44,8 +77,34 @@ h1{font-size:36px;font-weight:900;color:#394867;margin-bottom:8px}
   <div class="badge">P5</div>
   <h1>Phonics 5 · 复杂拼读</h1>
   <div class="sub">R-controlled + 复杂元音 · 20课 · 80个单词</div>
-  <div class="msg">🚧 Coming Soon!</div>
+  
+  <div class="lesson-list" id="lessonList"></div>
+  
   <a class="back-btn" href="index.html">← 返回主页</a>
 </div>
+
+<script>
+const lessons=[
+  {day:"P82",title:"ar Sound · Peppa's Car to the Farm",titleCn:"ar 音 · 佩琪的汽车去农场",folder:"ar-sound"}
+];
+
+const list=document.getElementById('lessonList');
+lessons.forEach(l=>{
+  const div=document.createElement('div');
+  div.className='lesson';
+  div.innerHTML=`
+    <div class="day">${l.day}</div>
+    <div class="info">
+      <div class="title">${l.title}</div>
+      <div class="title-cn">${l.titleCn}</div>
+    </div>
+    <div class="links">
+      <a class="teach-link" href="lessons/phonics-5/${l.folder}/teach.html">教学</a>
+      <a class="review-link" href="lessons/phonics-5/${l.folder}/review.html">复习</a>
+    </div>
+  `;
+  list.appendChild(div);
+});
+</script>
 </body>
 </html>
