@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P99 - -le ending ✅
+- 当前: P100 - -tion/-sion ✅
 - 更新时间: 2026-03-06
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -652,3 +652,10 @@
 - 状态: ✅ 完成
 
 ### P100 - -tion/-sion · Peppa's Action Station
+- 模式: -tion/-sion
+- 发音: /ʃən/
+- 单词: action, station, mission, vision
+- 故事: 佩琪的行动站
+- 状态: ✅ 完成
+
+### P101 - 总复习 · Phonics Grand Review
