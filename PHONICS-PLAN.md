@@ -111,7 +111,17 @@
 - P88: oo (moon, food, pool, zoo)
 - P89: ou/ow (house, mouse, cow, now)
 - P90: oi/oy (coin, oil, boy, toy)
-- ...
+- P91: aw/au (saw, paw, draw, sauce)
+- P92: ew (new, few, blew, stew)
+- P93: ie (pie, tie, lie, die)
+- P94: igh (high, night, light, right)
+- P95: y as /aɪ/ (my, fly, try, sky)
+- P96: y as /iː/ (happy, baby, funny, sunny)
+- P97: soft c (city, ice, race, face)
+- P98: soft g (gem, giant, giraffe, page)
+- P99: -le ending (apple, table, little, bottle)
+- P100: -tion/-sion (action, station, mission, vision)
+- P101: 总复习 (综合拼读练习)
 
 ## 课件设计
 
