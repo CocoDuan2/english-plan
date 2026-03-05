@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P78 - ng ✅
+- 当前: P79 - nk ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -500,6 +500,13 @@
 - 发音: /ŋ/
 - 单词: sing, ring, king, long
 - 故事: 佩琪唱歌
+- 状态: ✅ 完成
+
+### P79 - nk Sound · Peppa's Pink Bank
+- 辅音组合: nk
+- 发音: /ŋk/
+- 单词: pink, think, bank, drink
+- 故事: 佩琪的粉色存钱罐
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
