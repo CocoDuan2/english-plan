@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P83 - or ✅
+- 当前: P84 - er ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -537,4 +537,11 @@
 - 发音: /ɔːr/
 - 单词: fork, horse, corn, short
 - 故事: 佩琪的农场马儿
+- 状态: ✅ 完成
+
+### P84 - er Sound · Peppa's Fern Garden
+- 模式: er
+- 发音: /ɜːr/
+- 单词: her, fern, term, verb
+- 故事: 佩琪的蕨类花园
 - 状态: ✅ 完成
