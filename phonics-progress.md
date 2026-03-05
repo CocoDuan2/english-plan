@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P72 - ch ✅
+- 当前: P73 - sh ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -458,6 +458,13 @@
 - 发音: /tʃ/
 - 单词: chair, cheese, chicken, child
 - 故事: 佩琪的奶酪和鸡
+- 状态: ✅ 完成
+
+### P73 - sh Digraph · Peppa's Shopping Trip
+- 辅音组合: sh
+- 发音: /ʃ/
+- 单词: ship, shop, fish, wash
+- 故事: 佩琪的购物之旅
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
