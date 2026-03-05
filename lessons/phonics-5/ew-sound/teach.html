@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P92 - ew · Peppa's New Stew</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.slide{
+  flex:1;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  align-items:center;justify-content:center;
+  text-align:center;
+}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.letter-big{
+  font-size:160px;font-weight:900;color:#e91e8c;
+  text-shadow:4px 4px 0 #ffc1e3;
+  margin:20px 0;
+  animation:bounce 1.2s ease-in-out infinite;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+.phonics{
+  font-size:48px;color:#e67e22;font-weight:900;
+  background:#fff;border:4px solid #e67e22;border-radius:16px;
+  padding:12px 28px;margin:16px 0;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.word .hl{color:#e91e8c}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+.trace-container{
+  position:relative;
+  width:300px;height:300px;
+  margin:20px auto;
+}
+.trace-guide{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+#traceCanvas{
+  position:absolute;top:0;left:0;
+  border:4px solid #e91e8c;
+  border-radius:20px;
+  background:#fff;
+  cursor:crosshair;
+  touch-action:none;
+}
+.trace-btns{
+  display:flex;gap:12px;justify-content:center;
+  margin-top:16px;
+}
+.trace-btn{
+  padding:12px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e67e22;color:#fff;
+  transition:transform .2s ease;
+}
+.trace-btn:active{transform:scale(.95)}
+.trace-feedback{
+  font-size:32px;font-weight:900;
+  margin-top:16px;min-height:40px;
+}
+.blend-box{
+  display:flex;gap:6px;align-items:center;justify-content:center;
+  margin:20px 0;
+  max-width:100%;
+}
+.blend-letter{
+  font-size:64px;font-weight:900;color:#e91e8c;
+  background:#fff;border:4px solid #e91e8c;border-radius:12px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  animation:slideIn 0.5s ease-out forwards;
+  opacity:0;transform:translateX(-20px);
+  flex-shrink:1;
+}
+.blend-box.long .blend-letter{
+  width:45px;height:45px;font-size:32px;border:3px solid #e91e8c;
+}
+.blend-box.medium .blend-letter{
+  width:60px;height:60px;font-size:48px;
+}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{
+  font-size:72px;font-weight:900;color:#2c3e50;
+  animation:popIn 0.5s ease-out 1.8s forwards;
+  opacity:0;transform:scale(0.5);
+}
+@keyframes popIn{
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes slideIn{
+  to{opacity:1;transform:translateX(0)}
+}
+.sound-btn{
+  width:100px;height:100px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;max-width:500px;margin:20px auto;
+}
+.grid-item{text-align:center;cursor:pointer;transition:transform .2s}
+.grid-item:active{transform:scale(.95)}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.listen-game{margin-top:20px}
+.listen-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.listen-opt{
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-opt:hover{transform:translateY(-4px)}
+.listen-opt:active{transform:scale(.95)}
+.listen-opt img{width:70px;height:auto}
+.listen-opt.correct{background:linear-gradient(135deg,#a8e6cf,#88d8b0);border-color:#27ae60}
+.listen-opt.shake{animation:shake .5s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.listen-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+.mouth-box{
+  display:flex;flex-direction:column;align-items:center;
+  margin:16px 0;
+}
+.mouth{
+  width:100px;height:80px;
+  border-radius:50%;
+  border:4px solid #e91e8c;
+  background:#ffe0ec;
+  position:relative;
+  animation:mouthRound 1.5s ease-in-out infinite;
+}
+@keyframes mouthRound{
+  0%,100%{width:60px;height:40px;border-radius:50%}
+  50%{width:80px;height:70px;border-radius:50%}
+}
+.mouth-tip{
+  font-size:18px;color:#667085;margin-top:12px;
+}
+/* Game: Stew Pot */
+.stew-game{margin:16px 0;text-align:center}
+.stew-pot{
+  width:200px;height:160px;margin:20px auto;
+  background:linear-gradient(180deg,#8b4513 0%,#654321 100%);
+  border-radius:0 0 80px 80px;
+  position:relative;
+  border:6px solid #5c3317;
+  overflow:hidden;
+}
+.stew-pot::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:60%;
+  background:linear-gradient(180deg,#d2691e,#cd853f);
+  border-radius:0 0 40% 40%;
+}
+.stew-pot::after{
+  content:'🍲';font-size:60px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+}
+.stew-items{
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  margin-top:16px;
+}
+.stew-item{
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.stew-item:hover{transform:translateY(-4px)}
+.stew-item:active{transform:scale(.95)}
+.stew-item img{width:65px;height:auto}
+.stew-item .lbl{
+  font-size:14px;font-weight:900;color:#2c3e50;
+  margin-top:4px;display:none;
+}
+.stew-item.added{
+  background:linear-gradient(135deg,#a8e6cf,#88d8b0);
+  border-color:#27ae60;
+  opacity:.5;pointer-events:none;
+}
+.stew-item.added .lbl{display:block}
+.stew-feedback{font-size:28px;font-weight:900;margin-top:12px;min-height:36px}
+/* Song area */
+.song-area{max-width:500px;margin:20px auto}
+.song-line{
+  font-size:22px;line-height:2;color:#2c3e50;
+  cursor:pointer;padding:4px 12px;border-radius:8px;
+  transition:background .2s;
+}
+.song-line:hover{background:rgba(233,30,140,.1)}
+.song-line strong{color:#e91e8c}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.tn{
+  position:fixed;bottom:80px;right:16px;
+  width:56px;height:56px;border-radius:50%;
+  background:#e67e22;color:#fff;border:none;
+  font-size:24px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s ease;
+  z-index:100;
+}
+.tn:active{transform:scale(.9)}
+.tn-panel{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);color:#fff;
+  padding:20px;overflow-y:auto;z-index:200;
+  display:none;
+}
+.tn-panel.show{display:block}
+.tn-panel h3{font-size:24px;margin-bottom:12px;color:#ffd54f}
+.tn-panel p{font-size:16px;line-height:1.6;margin-bottom:12px}
+.tn-close{
+  position:absolute;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:#e91e8c;color:#fff;border:none;
+  font-size:24px;cursor:pointer;
+}
+@media(max-width:480px){
+  .ttl{font-size:32px}
+  .sub{font-size:18px}
+  .letter-big{font-size:120px}
+  .phonics{font-size:38px;padding:10px 20px}
+  .pr{flex-direction:column;text-align:center;gap:8px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:10px 16px;max-width:90%}
+  .obj-wrap img{width:140px}
+  .word{font-size:72px}
+  .sent{font-size:28px}
+  .trace-container{width:280px;height:280px;margin:16px auto}
+  .trace-btn{padding:10px 20px;font-size:16px}
+  .trace-feedback{font-size:24px}
+  .blend-box{gap:4px;flex-wrap:wrap}
+  .blend-letter{font-size:36px;width:40px;height:40px;border:2px solid #e91e8c}
+  .blend-box.long .blend-letter{width:32px;height:32px;font-size:24px}
+  .blend-box.medium .blend-letter{width:36px;height:36px;font-size:28px}
+  .blend-arrow{font-size:32px;margin:0 4px}
+  .blend-word{font-size:48px}
+  .sound-btn{width:80px;height:80px;font-size:40px}
+  .sound-btn img{width:50px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-item img{width:70px}
+  .grid-item .label{font-size:20px}
+  .listen-opt{width:95px;height:95px}
+  .listen-opt img{width:60px}
+  .listen-feedback{font-size:24px}
+  .stew-pot{width:160px;height:130px}
+  .stew-pot::after{font-size:48px}
+  .stew-item{width:90px;height:90px}
+  .stew-item img{width:50px}
+  .song-line{font-size:18px}
+}
+@media(min-width:768px){
+  .ttl{font-size:48px}
+  .word{font-size:100px}
+  .sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="ttl">ew Sound</div>
+  <div class="sub">Peppa's New Stew</div>
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <div style="font-size:20px;color:#667085;margin-top:12px">Learn the ew sound /uː/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Hello! Let's learn ew!</div>
+  <div style="font-size:20px;color:#667085;margin-top:12px">It says /uː/!</div>
+</div>
+
+<!-- S3: Letter & Sound -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">ew says /uː/!</div>
+  </div>
+  <div class="letter-big">ew</div>
+  <div class="phonics">/uː/</div>
+  <div class="mouth-box">
+    <div class="mouth"></div>
+    <div class="mouth-tip">Round your lips like a tiny circle: /uː/</div>
+  </div>
+  <div style="font-size:20px;color:#667085;margin-top:8px">Say: /uː/ /uː/ /uː/</div>
+</div>
+
+<!-- S4: Trace ew -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Trace ew!</div>
+  </div>
+  <div class="trace-container">
+    <svg class="trace-guide" viewBox="0 0 300 300">
+      <!-- e -->
+      <line x1="40" y1="180" x2="120" y2="180" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" opacity="0.4"/>
+      <path d="M120,180 A40,50 0 1 0 40,180" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" fill="none" opacity="0.4"/>
+      <path d="M40,180 Q30,240 80,260" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" fill="none" opacity="0.4"/>
+      <!-- w -->
+      <polyline points="150,130 168,260 195,180 222,260 240,130" stroke="#e91e8c" stroke-width="8" stroke-dasharray="10,10" fill="none" opacity="0.4"/>
+    </svg>
+    <canvas id="traceCanvas" width="300" height="300"></canvas>
+  </div>
+  <div class="trace-btns">
+    <button class="trace-btn" onclick="clearTrace()">Clear</button>
+    <button class="trace-btn" onclick="checkTrace()">Check</button>
+  </div>
+  <div class="trace-feedback" id="traceFeedback"></div>
+</div>
+
+<!-- S5: Word 1 - new -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">/uː/ is for new!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2728.svg" alt="new">
+  </div>
+  <div class="word">n<span class="hl">ew</span></div>
+</div>
+
+<!-- S6: Word 2 - few -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
+    <div class="bbl">/uː/ is for few!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f31f.svg" alt="few">
+  </div>
+  <div class="word">f<span class="hl">ew</span></div>
+</div>
+
+<!-- S7: Word 3 - blew -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy Pig">
+    <div class="bbl">/uː/ is for blew!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32c.svg" alt="blew">
+  </div>
+  <div class="word">bl<span class="hl">ew</span></div>
+</div>
+
+<!-- S8: Word 4 - stew -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy Pig">
+    <div class="bbl">/uː/ is for stew!</div>
+  </div>
+  <div class="obj-wrap">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f372.svg" alt="stew">
+  </div>
+  <div class="word">st<span class="hl">ew</span></div>
+</div>
+
+<!-- S9: Blending -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Let's blend!</div>
+  </div>
+  <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="showBlend('new',['n','ew'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2728.svg" alt="new">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="showBlend('few',['f','ew'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f31f.svg" alt="few">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('blew',['b','l','ew'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32c.svg" alt="blew">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="showBlend('stew',['s','t','ew'])">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f372.svg" alt="stew">
+    </button>
+  </div>
+  <div id="blendAnim" style="display:none">
+    <div class="blend-box" id="blendBox"></div>
+    <div class="blend-arrow">→</div>
+    <div class="blend-word" id="blendWord"></div>
+  </div>
+</div>
+
+<!-- S10: Listen & Tap (听音选图) -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and tap!</div>
+  </div>
+  <div class="listen-game">
+    <div class="listen-options" id="listenOptions"></div>
+    <div class="listen-feedback" id="listenFeedback"></div>
+  </div>
+</div>
+
+<!-- S11: Story -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:100px">
+    <div class="bbl">Peppa's stew!</div>
+  </div>
+  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+    <p style="margin-bottom:12px">Peppa got a <strong style="color:#e91e8c">new</strong> apron!</p>
+    <p style="margin-bottom:12px">She put a <strong style="color:#e91e8c">few</strong> carrots in the pot.</p>
+    <p style="margin-bottom:12px">The wind <strong style="color:#e91e8c">blew</strong> through the window.</p>
+    <p>Mummy Pig said, "The <strong style="color:#e91e8c">stew</strong> is ready!"</p>
+  </div>
+  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f372.svg" alt="stew" style="width:80px;margin-top:16px">
+</div>
+
+<!-- S12: Game - Stew Pot -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Add to the stew!</div>
+  </div>
+  <div class="stew-game">
+    <div style="font-size:20px;color:#667085;margin-bottom:8px">Tap each item to add it to the stew pot!</div>
+    <div class="stew-pot" id="stewPot"></div>
+    <div class="stew-items" id="stewItems"></div>
+    <div class="stew-feedback" id="stewFeedback"></div>
+  </div>
+</div>
+
+<!-- S13: Song -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Let's sing!</div>
+  </div>
+  <div class="song-area">
+    <div class="song-line" onclick="speakSentence('ew, ew, something new')">🎵 <strong>ew</strong>, <strong>ew</strong>, something <strong>new</strong>!</div>
+    <div class="song-line" onclick="speakSentence('just a few, one or two')">🎵 Just a <strong>few</strong>, one or two!</div>
+    <div class="song-line" onclick="speakSentence('the wind blew, blew, blew')">🎵 The wind <strong>blew</strong>, <strong>blew</strong>, <strong>blew</strong>!</div>
+    <div class="song-line" onclick="speakSentence('yummy stew, made for you')">🎵 Yummy <strong>stew</strong>, made for you!</div>
+    <div class="song-line" onclick="speakSentence('ew, ew, now we knew!')">🎵 <strong>ew</strong>, <strong>ew</strong>, now we knew!</div>
+  </div>
+</div>
+
+<!-- S14: All Together -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+    <div class="bbl">All together!</div>
+  </div>
+  <div class="grid">
+    <div class="grid-item" onclick="speak('new')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2728.svg" alt="new">
+      <div class="label">new</div>
+    </div>
+    <div class="grid-item" onclick="speak('few')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f31f.svg" alt="few">
+      <div class="label">few</div>
+    </div>
+    <div class="grid-item" onclick="speak('blew')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32c.svg" alt="blew">
+      <div class="label">blew</div>
+    </div>
+    <div class="grid-item" onclick="speak('stew')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f372.svg" alt="stew">
+      <div class="label">stew</div>
+    </div>
+  </div>
+</div>
+
+<!-- S15: Bye -->
+<div class="slide">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <div class="ttl">Great job!</div>
+  <div class="sub">Next we'll learn igh!</div>
+  <div style="font-size:48px;margin-top:20px">🎉</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">15</span></div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<!-- Teacher Notes Button -->
+<button class="tn" onclick="toggleNotes()">T</button>
+
+<!-- Teacher Notes Panel -->
+<div class="tn-panel" id="tnPanel">
+  <button class="tn-close" onclick="toggleNotes()">✕</button>
+  <h3>📝 Teacher Notes - P92 ew</h3>
+  <p><strong>S1 Title:</strong> Introduce the "ew" vowel digraph that makes /uː/ (like "oo"). Today's theme is cooking stew.</p>
+  <p><strong>S2 Hello:</strong> Peppa greets and says we're learning a new sound today.</p>
+  <p><strong>S3 Letter & Sound:</strong> Show "ew" with big bouncing animation. Emphasize /uː/ — lips round and small like a tiny circle. Have students repeat 3 times. Compare to "oo" in "moon" — same sound!</p>
+  <p><strong>S4 Trace:</strong> Students trace "ew". Focus on the curvy 'e' and zigzag 'w'. Encourage finger tracing on screen.</p>
+  <p><strong>S5-S8 Words:</strong> Four "ew" words: new, few, blew, stew. Point out that the "ew" pattern is always at the end of these words. "Blew" — past tense of blow!</p>
+  <p><strong>S9 Blending:</strong> Demonstrate blending each word. Keep "ew" together as one sound unit. For "blew": b-l-ew. For "stew": s-t-ew.</p>
+  <p><strong>S10 Listen & Tap:</strong> Students listen to a word and tap the correct picture. Auto-plays audio with distractors from other lessons. 4 rounds, one for each word.</p>
+  <p><strong>S11 Story:</strong> Read the short story, emphasizing /uː/ words. Ask students to make the /uː/ sound when they hear an "ew" word.</p>
+  <p><strong>S12 Game:</strong> Stew Pot — tap each ingredient to add it to the stew! Each item says its word when tapped. Great for kinesthetic learners.</p>
+  <p><strong>S13 Song:</strong> Sing the ew chant. Tap each line to hear it. Simple rhythm for 3-year-olds.</p>
+  <p><strong>S14 All Together:</strong> Click any picture to hear it. Final review of all 4 words.</p>
+  <p><strong>S15 Bye:</strong> Celebrate and preview next lesson (igh).</p>
+</div>
+
+<script>
+let ci=0,ts=15;
+let tracePoints=[];
+let isDrawing=false;
+const words=[
+  {w:'new',img:'2728'},
+  {w:'few',img:'1f31f'},
+  {w:'blew',img:'1f32c'},
+  {w:'stew',img:'1f372'}
+];
+const distractors=[
+  {w:'saw',img:'1fa9a'},
+  {w:'coin',img:'1fa99'},
+  {w:'moon',img:'1f319'},
+  {w:'book',img:'1f4d6'},
+  {w:'bird',img:'1f426'},
+  {w:'car',img:'1f697'},
+  {w:'house',img:'1f3e0'},
+  {w:'cow',img:'1f404'}
+];
+let listenIdx=0,listenBusy=false;
+let stewCount=0;
+
+function goTo(i){
+  if(i<0||i>=ts)return;
+  document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9)initListen();
+  if(i===11)initStew();
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+
+function speak(w,cb){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  const a=new Audio(u);
+  let done=false;
+  const finish=()=>{if(!done){done=true;if(cb)cb()}};
+  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    const a2=new Audio(u2);
+    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+  });
+}
+
+function speakSentence(text){
+  const u=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(text)}&spd=4&source=web`;
+  const a=new Audio(u);
+  a.play().catch(()=>{});
+}
+
+function showBlend(word,letters){
+  const choice=document.getElementById('blendChoice');
+  const anim=document.getElementById('blendAnim');
+  const box=document.getElementById('blendBox');
+  const wordEl=document.getElementById('blendWord');
+  
+  choice.style.display='none';
+  anim.style.display='block';
+  
+  box.innerHTML='';
+  box.className='blend-box';
+  if(letters.length>=5)box.classList.add('medium');
+  
+  wordEl.textContent='';
+  wordEl.style.animation='none';
+  
+  letters.forEach((letter,i)=>{
+    const div=document.createElement('div');
+    div.className='blend-letter';
+    div.textContent=letter;
+    div.style.animationDelay=`${i*0.3}s`;
+    box.appendChild(div);
+  });
+  
+  setTimeout(()=>{
+    wordEl.textContent=word;
+    wordEl.style.animation='popIn 0.5s ease-out forwards';
+    speak(word);
+  },letters.length*300+500);
+  
+  setTimeout(()=>{
+    choice.style.display='flex';
+    anim.style.display='none';
+  },letters.length*300+3000);
+}
+
+// Listen & Tap game
+function initListen(){
+  listenIdx=0;
+  listenBusy=false;
+  document.getElementById('listenFeedback').textContent='';
+  showListenRound();
+}
+
+function showListenRound(){
+  if(listenIdx>=words.length){
+    document.getElementById('listenFeedback').textContent='🎉 All done!';
+    document.getElementById('listenOptions').innerHTML='';
+    return;
+  }
+  
+  const correct=words[listenIdx];
+  const shuffledDist=[...distractors].sort(()=>Math.random()-0.5).slice(0,3);
+  const options=[correct,...shuffledDist].sort(()=>Math.random()-0.5);
+  
+  const opts=document.getElementById('listenOptions');
+  opts.innerHTML='';
+  
+  options.forEach(item=>{
+    const btn=document.createElement('div');
+    btn.className='listen-opt';
+    btn.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${item.img}.svg" alt="${item.w}">`;
+    btn.onclick=()=>checkListen(item.w===correct.w,btn,correct.w);
+    opts.appendChild(btn);
+  });
+  
+  document.getElementById('listenFeedback').textContent='';
+  setTimeout(()=>speak(correct.w),500);
+}
+
+function checkListen(isCorrect,btn,correctWord){
+  if(listenBusy)return;
+  listenBusy=true;
+  
+  if(isCorrect){
+    playOk();
+    btn.classList.add('correct');
+    speak(correctWord);
+    showConfetti();
+    document.getElementById('listenFeedback').textContent='✅ Great!';
+    setTimeout(()=>{
+      listenIdx++;
+      listenBusy=false;
+      document.getElementById('listenFeedback').textContent='';
+      showListenRound();
+    },2000);
+  }else{
+    playNo();
+    btn.classList.add('shake');
+    document.getElementById('listenFeedback').textContent='❌ Try again!';
+    setTimeout(()=>{
+      btn.classList.remove('shake');
+      listenBusy=false;
+    },800);
+  }
+}
+
+// Stew Pot Game
+function initStew(){
+  stewCount=0;
+  const container=document.getElementById('stewItems');
+  container.innerHTML='';
+  document.getElementById('stewFeedback').textContent='';
+  
+  const shuffled=[...words].sort(()=>Math.random()-0.5);
+  shuffled.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='stew-item';
+    el.innerHTML=`
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${item.img}.svg" alt="${item.w}">
+      <div class="lbl">${item.w}</div>
+    `;
+    el.onclick=()=>{
+      if(el.classList.contains('added'))return;
+      el.classList.add('added');
+      speak(item.w);
+      stewCount++;
+      // Animate item flying to pot
+      const pot=document.getElementById('stewPot');
+      pot.style.transform='scale(1.1)';
+      setTimeout(()=>pot.style.transform='scale(1)',300);
+      if(stewCount===words.length){
+        showConfetti();
+        document.getElementById('stewFeedback').textContent='🍲 Yummy stew!';
+      }
+    };
+    container.appendChild(el);
+  });
+}
+
+function playOk(){
+  try{
+    const ctx=new AudioContext();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=800;gain.gain.value=0.3;
+    osc.start();osc.stop(ctx.currentTime+0.15);
+    setTimeout(()=>{
+      const osc2=ctx.createOscillator();
+      const gain2=ctx.createGain();
+      osc2.connect(gain2);gain2.connect(ctx.destination);
+      osc2.frequency.value=1000;gain2.gain.value=0.3;
+      osc2.start();osc2.stop(ctx.currentTime+0.2);
+    },100);
+  }catch(e){}
+}
+
+function playNo(){
+  try{
+    const ctx=new AudioContext();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=200;gain.gain.value=0.3;
+    osc.start();osc.stop(ctx.currentTime+0.3);
+  }catch(e){}
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+// Tracing
+const canvas=document.getElementById('traceCanvas');
+const ctx2d=canvas?canvas.getContext('2d'):null;
+
+if(ctx2d){
+  ctx2d.lineWidth=8;
+  ctx2d.lineCap='round';
+  ctx2d.strokeStyle='#e91e8c';
+  
+  canvas.addEventListener('mousedown',startTrace);
+  canvas.addEventListener('mousemove',drawTrace);
+  canvas.addEventListener('mouseup',endTrace);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchend',endTrace);
+}
+
+function startTrace(e){
+  isDrawing=true;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx2d.beginPath();
+  ctx2d.moveTo(x,y);
+}
+
+function drawTrace(e){
+  if(!isDrawing)return;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const x=(e.clientX-rect.left)*scaleX;
+  const y=(e.clientY-rect.top)*scaleY;
+  tracePoints.push({x,y});
+  ctx2d.lineTo(x,y);
+  ctx2d.stroke();
+}
+
+function endTrace(){isDrawing=false}
+
+function clearTrace(){
+  ctx2d.clearRect(0,0,canvas.width,canvas.height);
+  tracePoints=[];
+  document.getElementById('traceFeedback').textContent='';
+}
+
+function checkTrace(){
+  const feedback=document.getElementById('traceFeedback');
+  if(tracePoints.length<20){
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';
+    return;
+  }
+  const keyPoints=[
+    {x:80,y:180,name:'e-mid'},
+    {x:60,y:140,name:'e-top'},
+    {x:60,y:240,name:'e-bottom'},
+    {x:195,y:180,name:'w-mid'}
+  ];
+  let hits=0;
+  keyPoints.forEach(kp=>{
+    const nearby=tracePoints.some(p=>
+      Math.abs(p.x-kp.x)<50 && Math.abs(p.y-kp.y)<50
+    );
+    if(nearby)hits++;
+  });
+  if(hits>=3){
+    feedback.textContent='Great job! 🎉';
+    feedback.style.color='#27ae60';
+    showConfetti();
+    setTimeout(()=>speak('new'),500);
+  }else{
+    feedback.textContent='Try again!';
+    feedback.style.color='#e67e22';
+  }
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='t'||e.key==='T')toggleNotes();
+});
+goTo(0);
+</script>
+</body>
+</html>
