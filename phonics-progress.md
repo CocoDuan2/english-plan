@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P64 - fl ✅
+- 当前: P65 - gl ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -402,6 +402,13 @@
 - 发音: /fl/
 - 单词: flag, flower, fly, floor
 - 故事: 佩琪的花园
+- 状态: ✅ 完成
+
+### P65 - gl Blend · Peppa's Glass Collection
+- 辅音组合: gl
+- 发音: /gl/
+- 单词: glass, glove, glad, glue
+- 故事: 佩琪的玻璃杯收藏
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）

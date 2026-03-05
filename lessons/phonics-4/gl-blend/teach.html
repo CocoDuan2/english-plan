@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P65 - gl Blend · Peppa's Glass Collection</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(135deg,#ffeef8,#fff5f0);color:#2c3e50;overflow-x:hidden}
+.slide{flex:1;display:none;flex-direction:column;padding:20px 16px 80px;align-items:center;justify-content:center;text-align:center}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{background:#fff;border:4px solid #e91e8c;border-radius:20px;padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.bbl::after{content:'';position:absolute;bottom:-12px;left:30px;width:0;height:0;border:8px solid transparent;border-top-color:#e91e8c}
+.letter-big{font-size:180px;font-weight:900;color:#e91e8c;text-shadow:4px 4px 0 #ffc1e3;margin:20px 0;animation:bounce 1.2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.phonics{font-size:48px;color:#e67e22;font-weight:900;background:#fff;border:4px solid #e67e22;border-radius:16px;padding:12px 28px;margin:16px 0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.sent{font-size:34px;color:#e67e22;font-weight:700;margin-top:8px}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:48px;margin:12px;box-shadow:0 6px 16px rgba(0,0,0,.15);transition:transform .2s ease}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px auto}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.listen-game{margin-top:24px}
+.listen-opts{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.listen-opt{width:110px;height:110px;border-radius:20px;background:#fff;border:4px solid #e91e8c;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s ease;box-shadow:0 4px 12px rgba(233,30,140,.2)}
+.listen-opt:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(233,30,140,.3)}
+.listen-opt:active{transform:scale(.95)}
+.listen-opt img{width:70px;height:auto}
+.listen-opt.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.listen-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);border-top:2px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+.nav button{padding:10px 24px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;background:#e91e8c;color:#fff;transition:transform .2s ease}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+.ttl{font-size:32px}
+.sub{font-size:18px}
+.letter-big{font-size:140px}
+.phonics{font-size:38px;padding:10px 20px}
+.pr{flex-direction:column;text-align:center;gap:8px}
+.pr img{width:60px}
+.bbl{font-size:20px;padding:10px 16px;max-width:90%}
+.obj-wrap img{width:140px}
+.word{font-size:72px}
+.sent{font-size:28px}
+.sound-btn{width:80px;height:80px;font-size:40px}
+.sound-btn img{width:50px}
+.grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.grid-item img{width:70px}
+.grid-item .label{font-size:20px}
+.listen-opt{width:95px;height:95px}
+.listen-opt img{width:60px}
+}
+@media(min-width:768px){
+.ttl{font-size:48px}
+.word{font-size:100px}
+.sent{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<div class="ttl">gl Blend</div>
+<div class="sub">Peppa's Glass Collection</div>
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin:20px 0">
+<div style="font-size:20px;color:#667085;margin-top:12px">Learn the gl blend sound /gl/</div>
+</div>
+
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+<div class="ttl">Hello! Let's learn gl!</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">This is gl blend!</div>
+</div>
+<div class="letter-big">gl</div>
+<div class="phonics">/gl/</div>
+<div style="font-size:20px;color:#667085;margin-top:12px">Say: /g/ /l/ /gl/</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/gl/ is for glass!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f964.svg" alt="glass">
+</div>
+<div class="word">glass</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/gl/ is for glove!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9e4.svg" alt="glove">
+</div>
+<div class="word">glove</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/gl/ is for glad!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60a.svg" alt="glad">
+</div>
+<div class="word">glad</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/gl/ is for glue!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg" alt="glue">
+</div>
+<div class="word">glue</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and tap!</div>
+</div>
+<div class="listen-game">
+<div class="listen-feedback" id="listenFeedback"></div>
+<div class="listen-opts" id="listenOpts"></div>
+</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and say!</div>
+</div>
+<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+<button class="sound-btn" style="background:linear-gradient(135deg,#89cff0,#4a90e2)" onclick="speak('glass')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f964.svg" alt="glass">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="speak('glove')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9e4.svg" alt="glove">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="speak('glad')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60a.svg" alt="glad">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="speak('glue')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg" alt="glue">
+</button>
+</div>
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Peppa collects glasses!</div>
+</div>
+<div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+<p style="margin-bottom:12px">Peppa has a <strong style="color:#e91e8c">glass</strong> of juice.</p>
+<p style="margin-bottom:12px">She wears a warm <strong style="color:#e91e8c">glove</strong>.</p>
+<p style="margin-bottom:12px">Peppa is <strong style="color:#e91e8c">glad</strong> to see friends!</p>
+<p>She uses <strong style="color:#e91e8c">glue</strong> for crafts.</p>
+</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f964.svg" alt="glass" style="width:80px;margin-top:16px">
+</div>
+
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+<div class="bbl">All together!</div>
+</div>
+<div class="grid">
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f964.svg" alt="glass">
+<div class="label">glass</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9e4.svg" alt="glove">
+<div class="label">glove</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f60a.svg" alt="glad">
+<div class="label">glad</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg" alt="glue">
+<div class="label">glue</div>
+</div>
+</div>
+</div>
+
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow we'll learn pl blend!</div>
+<div style="font-size:48px;margin-top:20px">🎉</div>
+</div>
+
+<div class="nav">
+<button onclick="prev()" id="prevBtn">◀ Back</button>
+<div class="page-num"><span id="curr">1</span> / <span id="total">10</span></div>
+<button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+let ci=0,ts=10;
+const words=['glass','glove','glad','glue'];
+const emojis=['1f964','1f9e4','1f60a','1f9f4'];
+let currentRound=0;
+let correctWord='';
+
+function goTo(i){
+if(i<0||i>=ts)return;
+document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+ci=i;
+document.getElementById('curr').textContent=i+1;
+document.getElementById('prevBtn').disabled=i===0;
+document.getElementById('nextBtn').disabled=i===ts-1;
+if(i===7)startListenGame();
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function speak(w){
+const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+const a=new Audio(u);
+a.play().catch(()=>{
+const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+new Audio(u2).play().catch(()=>console.log('Audio failed'));
+});
+}
+
+function startListenGame(){
+if(currentRound>=words.length){
+document.getElementById('listenFeedback').innerHTML='🎉 All done!';
+document.getElementById('listenOpts').innerHTML='';
+return;
+}
+correctWord=words[currentRound];
+const others=words.filter(w=>w!==correctWord);
+const shuffled=[correctWord,...others.slice(0,3)].sort(()=>Math.random()-.5);
+const optsHtml=shuffled.map((w,i)=>{
+const emoji=emojis[words.indexOf(w)];
+return `<div class="listen-opt" onclick="checkAnswer('${w}')"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emoji}.svg" alt="${w}"></div>`;
+}).join('');
+document.getElementById('listenOpts').innerHTML=optsHtml;
+document.getElementById('listenFeedback').textContent='';
+setTimeout(()=>speak(correctWord),500);
+}
+
+function checkAnswer(w){
+const fb=document.getElementById('listenFeedback');
+if(w===correctWord){
+fb.innerHTML='✅ Great!';
+fb.style.color='#27ae60';
+speak(w);
+showConfetti();
+currentRound++;
+setTimeout(startListenGame,2000);
+}else{
+fb.innerHTML='❌ Try again!';
+fb.style.color='#e74c3c';
+document.querySelectorAll('.listen-opt').forEach(el=>{
+if(el.onclick.toString().includes(w))el.classList.add('shake');
+});
+setTimeout(()=>{
+document.querySelectorAll('.listen-opt').forEach(el=>el.classList.remove('shake'));
+fb.textContent='';
+},1000);
+speak(correctWord);
+}
+}
+
+function showConfetti(){
+for(let i=0;i<20;i++){
+const c=document.createElement('div');
+c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};left:${50+Math.random()*20-10}%;top:30%;animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),2000);
+}
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+if(e.key==='ArrowLeft')prev();
+if(e.key==='ArrowRight')next();
+});
+goTo(0);
+</script>
+</body>
+</html>
