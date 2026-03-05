@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P89 - ou/ow ✅
+- 当前: P90 - oi/oy ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -579,4 +579,11 @@
 - 发音: /aʊ/
 - 单词: house, mouse, cow, now
 - 故事: 佩琪的热闹小屋
+- 状态: ✅ 完成
+
+### P90 - oi/oy Sound · Peppa's Toy Box
+- 模式: oi/oy
+- 发音: /ɔɪ/
+- 单词: coin, oil, boy, toy
+- 故事: 佩琪的玩具箱
 - 状态: ✅ 完成
