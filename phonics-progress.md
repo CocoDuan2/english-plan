@@ -1,8 +1,8 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P95 - y as /aɪ/ ✅
-- 更新时间: 2026-03-05
+- 当前: P97 - Soft c ✅
+- 更新时间: 2026-03-06
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
 ---
@@ -635,4 +635,11 @@
 - 发音: /s/
 - 单词: city, ice, race, face
 - 故事: 佩琪的城市之旅
+- 状态: ✅ 完成
+
+### P98 - Soft g · Peppa's Giant Giraffe
+- 模式: soft g
+- 发音: /dʒ/
+- 单词: gem, giant, giraffe, page
+- 故事: 佩琪的巨大长颈鹿
 - 状态: ⏳ 待生成
