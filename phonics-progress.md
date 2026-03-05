@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P85 - ir ✅
+- 当前: P86 - ur ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -551,4 +551,11 @@
 - 发音: /ɜːr/
 - 单词: bird, girl, shirt, first
 - 故事: 佩琪的小鸟朋友
+- 状态: ✅ 完成
+
+### P86 - ur Sound · Peppa's Nurse Visit
+- 模式: ur
+- 发音: /ɜːr/
+- 单词: turn, burn, hurt, nurse
+- 故事: 佩琪看护士
 - 状态: ✅ 完成
