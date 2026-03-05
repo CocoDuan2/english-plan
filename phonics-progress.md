@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P93 - ie ✅
+- 当前: P94 - igh ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -607,4 +607,11 @@
 - 发音: /aɪ/
 - 单词: pie, tie, lie, die
 - 故事: 佩琪的派
+- 状态: ✅ 完成
+
+### P94 - igh Sound · Peppa's Night Light
+- 模式: igh
+- 发音: /aɪ/
+- 单词: high, night, light, right
+- 故事: 佩琪的夜晚之光
 - 状态: ✅ 完成
