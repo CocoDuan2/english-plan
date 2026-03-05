@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P67 - sl ✅
+- 当前: P68 - br ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -423,6 +423,13 @@
 - 发音: /sl/
 - 单词: slide, sleep, slow, slip
 - 故事: 佩琪爱滑梯
+- 状态: ✅ 完成
+
+### P68 - br Blend · Peppa's Brown Bread
+- 辅音组合: br
+- 发音: /br/
+- 单词: brown, bread, brush, bridge
+- 故事: 佩琪的棕色面包
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
