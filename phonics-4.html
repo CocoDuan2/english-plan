@@ -76,6 +76,11 @@ h1{font-size:32px;font-weight:900;color:#394867;margin-bottom:6px}
   <div class="lesson-list" id="blendsList"></div>
 </div>
 
+<div class="section">
+  <div class="section-title">🔤 辅音字母组合（P72-P81）</div>
+  <div class="lesson-list" id="digraphsList"></div>
+</div>
+
 <div style="text-align:center">
   <a class="back-btn" href="index.html">← 返回主页</a>
 </div>
@@ -110,6 +115,28 @@ lessons.forEach(l=>{
     </div>
   `;
   list.appendChild(card);
+});
+
+const digraphs=[
+  {day:"P72",title:"ch Digraph · Peppa's Cheese & Chicken",titleCn:"ch 组合 · 佩琪的奶酪和鸡",folder:"ch-digraph"}
+];
+
+const dlist=document.getElementById('digraphsList');
+digraphs.forEach(l=>{
+  const card=document.createElement('div');
+  card.className='lesson-card';
+  card.innerHTML=`
+    <div class="day">${l.day}</div>
+    <div class="info">
+      <div class="title">${l.title}</div>
+      <div class="title-cn">${l.titleCn}</div>
+    </div>
+    <div class="links">
+      <a class="link link-teach" href="lessons/phonics-4/${l.folder}/teach.html">教学</a>
+      <a class="link link-review" href="lessons/phonics-4/${l.folder}/review.html">复习</a>
+    </div>
+  `;
+  dlist.appendChild(card);
 });
 </script>
 </body>

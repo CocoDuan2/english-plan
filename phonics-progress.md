@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P71 - fr ✅
+- 当前: P72 - ch ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -451,6 +451,13 @@
 - 发音: /fr/
 - 单词: frog, fruit, friend, from
 - 故事: 佩琪的水果篮
+- 状态: ✅ 完成
+
+### P72 - ch Digraph · Peppa's Cheese & Chicken
+- 辅音组合: ch
+- 发音: /tʃ/
+- 单词: chair, cheese, chicken, child
+- 故事: 佩琪的奶酪和鸡
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
