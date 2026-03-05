@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P63 - cl ✅
+- 当前: P64 - fl ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -395,6 +395,13 @@
 - 发音: /kl/
 - 单词: clap, clock, cloud, clean
 - 故事: 佩琪拍手
+- 状态: ✅ 完成
+
+### P64 - fl Blend · Peppa's Flower Garden
+- 辅音组合: fl
+- 发音: /fl/
+- 单词: flag, flower, fly, floor
+- 故事: 佩琪的花园
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
