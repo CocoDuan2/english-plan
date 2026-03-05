@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P78 - ng Sound Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-height:100vh;background:linear-gradient(135deg,#ffeef8,#fff5f0);color:#2c3e50;overflow-x:hidden}
+.mod{min-height:100vh;display:none;flex-direction:column;padding:20px 16px 80px;justify-content:flex-start;overflow-y:auto}
+.mod.active{display:flex}
+.top{display:flex;flex-direction:column;align-items:center;margin-bottom:16px}
+.te{font-size:26px;font-weight:900;color:#e91e8c}
+.tz{background:linear-gradient(135deg,#ff6b9d,#c44569);color:#fff;padding:8px 16px;border-radius:25px;font-size:20px;font-weight:900;box-shadow:0 4px 12px rgba(233,30,140,.3);position:relative;margin-top:8px}
+.tz::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:60%;height:3px;background:rgba(255,255,255,.5);border-radius:2px}
+.sb{display:flex;gap:6px;align-items:center;font-size:22px;font-weight:900;margin-top:8px}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pr img{width:75px;height:auto}
+.bbl{background:#fff;border:4px solid #e91e8c;border-radius:20px;padding:10px 18px;font-size:22px;font-weight:900;color:#e67e22;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.bbl::after{content:'';position:absolute;bottom:-12px;left:30px;width:0;height:0;border:8px solid transparent;border-top-color:#e91e8c}
+.learn-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:24px}
+.learn-card{width:120px;height:120px;border-radius:20px;background:linear-gradient(135deg,#f5f5f5,#e0e0e0);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s ease;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.learn-card:active{transform:scale(.95)}
+.learn-card img{width:80px;height:auto;display:none}
+.learn-card .label{font-size:18px;font-weight:900;color:#2c3e50;margin-top:8px;display:none}
+.learn-card.revealed{background:#fff;border:4px solid #e91e8c;box-shadow:0 6px 16px rgba(233,30,140,.3)}
+.learn-card.revealed img,.learn-card.revealed .label{display:block}
+.card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:52px}
+.learn-card.revealed .card-icon{display:none}
+.blend-game{text-align:center;margin-top:24px}
+.blend-word{font-size:48px;font-weight:900;color:#e91e8c;margin:20px 0}
+.blend-slots{display:flex;gap:8px;justify-content:center;margin:20px 0}
+.blend-slot{width:70px;height:70px;border:4px solid #e91e8c;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:#2c3e50}
+.blend-letters{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.blend-letter-btn{width:60px;height:60px;border:3px solid #e67e22;border-radius:12px;background:#fff;font-size:32px;font-weight:900;color:#e67e22;cursor:pointer;transition:all .2s ease}
+.blend-letter-btn:active{transform:scale(.9)}
+.blend-letter-btn.used{opacity:.3;pointer-events:none}
+.listen-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:24px}
+.listen-card{width:110px;height:110px;border-radius:20px;background:#fff;border:4px solid #e91e8c;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s ease;box-shadow:0 4px 12px rgba(233,30,140,.2)}
+.listen-card:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(233,30,140,.3)}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:70px;height:auto;margin-bottom:8px}
+.listen-card .label{font-size:16px;font-weight:900;color:#2c3e50}
+.replay-btn{margin:16px auto;padding:12px 24px;background:#e67e22;color:#fff;border:none;border-radius:12px;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s ease}
+.replay-btn:active{transform:scale(.95)}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:500px;margin:24px auto}
+.mem-card{width:100%;aspect-ratio:1;border-radius:20px;background:linear-gradient(135deg,#ff6b9d,#e91e8c);border:4px solid #e91e8c;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s ease;position:relative;box-shadow:0 4px 12px rgba(233,30,140,.2);transform-style:preserve-3d}
+.mem-card:active{transform:scale(.95)}
+.mem-card.flipped{pointer-events:none}
+.mem-card.matched{opacity:.3;pointer-events:none}
+.mem-front{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mem-front .emoji{font-size:48px}
+.mem-back{display:none;flex-direction:column;align-items:center;justify-content:center}
+.mem-back img{width:60px;height:auto;margin-bottom:8px}
+.mem-back .label{font-size:16px;font-weight:900;color:#2c3e50}
+.mem-card.flipped{background:#fff}
+.mem-card.flipped .mem-front{display:none}
+.mem-card.flipped .mem-back{display:flex}
+.start-screen{text-align:center}
+.start-screen img{width:110px;margin:20px auto}
+.start-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.start-screen .preview{display:flex;gap:16px;justify-content:center;margin:20px 0}
+.start-screen .preview img{width:70px;height:auto}
+.start-btn{padding:16px 40px;background:#e91e8c;color:#fff;border:none;border-radius:16px;font-size:32px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(233,30,140,.3);transition:transform .2s ease}
+.start-btn:active{transform:scale(.95)}
+.done-screen{text-align:center}
+.done-screen img{width:110px;margin:20px auto}
+.done-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.done-screen .msg{font-size:22px;color:#e67e22;font-weight:700;margin-bottom:20px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);border-top:2px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+.nav button{padding:10px 24px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;background:#e91e8c;color:#fff;transition:transform .2s ease}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+.te{font-size:22px}
+.tz{font-size:18px;padding:6px 14px}
+.sb{font-size:20px}
+.learn-card{width:105px;height:105px}
+.learn-card img{width:70px}
+.learn-card .label{font-size:16px}
+.card-icon{font-size:44px}
+.blend-word{font-size:36px}
+.blend-slot{width:55px;height:55px;font-size:28px}
+.blend-letter-btn{width:50px;height:50px;font-size:26px}
+.listen-card{width:95px;height:95px}
+.listen-card img{width:60px}
+.listen-card .label{font-size:14px}
+.mem-grid{grid-template-columns:repeat(4,1fr);max-width:340px;gap:10px}
+.mem-front .emoji{font-size:36px}
+.mem-back img{width:45px}
+.mem-back .label{font-size:13px}
+.start-screen h1{font-size:32px}
+.start-btn{font-size:26px;padding:14px 32px}
+.done-screen h1{font-size:32px}
+.replay-btn{font-size:18px;padding:10px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div class="mod active">
+<div class="start-screen">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<h1>ng Sound Review</h1>
+<div class="preview">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a4.svg" alt="sing">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f48d.svg" alt="ring">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f451.svg" alt="king">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4cf.svg" alt="long">
+</div>
+<button class="start-btn" onclick="goTo(1)">Let's Play!</button>
+</div>
+</div>
+
+<!-- M1: Learn -->
+<div class="mod">
+<div class="top">
+<div class="te">Learn New Words</div>
+<div class="tz">点击卡片学单词</div>
+<div class="sb">
+<span id="learnStars"></span>
+</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Tap the cards!</div>
+</div>
+<div class="learn-grid" id="learnGrid"></div>
+</div>
+
+<!-- M2: Blending Game -->
+<div class="mod">
+<div class="top">
+<div class="te">Blending Game</div>
+<div class="tz">听单词拼字母</div>
+<div class="sb">
+<span id="blendStars"></span>
+</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and spell!</div>
+</div>
+<div class="blend-game">
+<div class="blend-word" id="blendWord">🔊</div>
+<div class="blend-slots" id="blendSlots"></div>
+<div class="blend-letters" id="blendLetters"></div>
+<button class="replay-btn" onclick="playBlendWord()">🔊 Replay</button>
+</div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div class="mod">
+<div class="top">
+<div class="te">Listen & Find</div>
+<div class="tz">听音找图片</div>
+<div class="sb">
+<span id="listenStars"></span>
+</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and tap!</div>
+</div>
+<div class="listen-grid" id="listenGrid"></div>
+<button class="replay-btn" onclick="playListenWord()">🔊 Replay</button>
+</div>
+
+<!-- M4: Memory Match -->
+<div class="mod">
+<div class="top">
+<div class="te">Memory Match</div>
+<div class="tz">记忆翻牌</div>
+<div class="sb">
+<span id="memStars"></span>
+</div>
+</div>
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Find the pairs!</div>
+</div>
+<div class="mem-grid" id="memGrid"></div>
+</div>
+
+<!-- M5: Done -->
+<div class="mod">
+<div class="done-screen">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family">
+<h1>All Done! 🎉</h1>
+<div class="msg">Great job learning ng!</div>
+<button class="start-btn" onclick="location.reload()">Play Again</button>
+</div>
+</div>
+
+<div class="nav">
+<button id="prevBtn" onclick="prevMod()">◀ Back</button>
+<div class="page-num"><span id="curPage">1</span> / 6</div>
+<button id="nextBtn" onclick="nextMod()">Next ▶</button>
+</div>
+
+<script>
+const words=['sing','ring','king','long'];
+const emojis=['1f3a4','1f48d','1f451','1f4cf'];
+let cur=0,learnStars=0,blendStars=0,listenStars=0,memStars=0;
+let blendIdx=0,blendCur='',listenIdx=0,listenCur='';
+let memFlipped=[],memMatched=0;
+
+function goTo(n){
+cur=n;
+document.querySelectorAll('.mod').forEach((m,i)=>m.classList.toggle('active',i===n));
+document.getElementById('prevBtn').disabled=n===0;
+document.getElementById('nextBtn').disabled=n===5;
+document.getElementById('curPage').textContent=n+1;
+if(n===1)initLearn();
+if(n===2)initBlend();
+if(n===3)initListen();
+if(n===4)initMem();
+}
+
+function nextMod(){if(cur<5)goTo(cur+1)}
+function prevMod(){if(cur>0)goTo(cur-1)}
+
+function speak(w){
+const u=`https://dict.youdao.com/dictvoice?audio=${w}&type=2`;
+new Audio(u).play().catch(()=>new Audio(`https://fanyi.baidu.com/gettts?lan=en&text=${w}&spd=4&source=web`).play());
+}
+
+function playOk(){new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFgH98eHRwbGhkYF1bWVdVU1FQTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAA==').play()}
+function playNo(){new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFgH98eHRwbGhkYF1bWVdVU1FQTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAA==').play()}
+
+function showConfetti(){
+for(let i=0;i<5;i++){
+const c=document.createElement('div');
+c.textContent='🎉';
+c.style.cssText='position:fixed;font-size:48px;animation:fall 2s ease-out forwards;pointer-events:none';
+c.style.left=Math.random()*80+10+'%';
+c.style.top='-50px';
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),2000);
+}
+}
+
+function updateStars(id,n){
+document.getElementById(id).innerHTML='⭐'.repeat(n)+'★'.repeat(4-n).replace(/★/g,'<span style="color:#bbb">★</span>');
+}
+
+function initLearn(){
+const g=document.getElementById('learnGrid');
+g.innerHTML='';
+updateStars('learnStars',learnStars);
+words.forEach((w,i)=>{
+const c=document.createElement('div');
+c.className='learn-card';
+c.innerHTML=`<div class="card-icon">❓</div><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[i]}.svg" alt="${w}"><div class="label">${w}</div>`;
+c.onclick=()=>{
+if(!c.classList.contains('revealed')){
+c.classList.add('revealed');
+speak(w);
+playOk();
+if(learnStars<4)learnStars++;
+updateStars('learnStars',learnStars);
+}
+};
+g.appendChild(c);
+});
+}
+
+function initBlend(){
+updateStars('blendStars',blendStars);
+blendIdx=0;
+nextBlend();
+}
+
+function nextBlend(){
+if(blendIdx>=words.length){
+document.getElementById('blendWord').textContent='🎉 All done!';
+document.getElementById('blendSlots').innerHTML='';
+document.getElementById('blendLetters').innerHTML='';
+return;
+}
+blendCur=words[blendIdx];
+const letters=blendCur==='sing'?['s','i','ng']:blendCur==='ring'?['r','i','ng']:blendCur==='king'?['k','i','ng']:['l','o','ng'];
+const slots=document.getElementById('blendSlots');
+slots.innerHTML='';
+letters.forEach(()=>{
+const s=document.createElement('div');
+s.className='blend-slot';
+slots.appendChild(s);
+});
+const btns=document.getElementById('blendLetters');
+btns.innerHTML='';
+const all=[...letters,'a','e','t','m'].sort(()=>Math.random()-0.5);
+all.forEach(l=>{
+const b=document.createElement('button');
+b.className='blend-letter-btn';
+b.textContent=l;
+b.onclick=()=>checkBlendLetter(l,b,letters);
+btns.appendChild(b);
+});
+speak(blendCur);
+}
+
+function checkBlendLetter(l,btn,letters){
+const slots=document.querySelectorAll('.blend-slot');
+const empty=Array.from(slots).findIndex(s=>!s.textContent);
+if(empty===-1)return;
+if(l===letters[empty]){
+slots[empty].textContent=l;
+btn.classList.add('used');
+playOk();
+if(empty===letters.length-1){
+showConfetti();
+speak(blendCur);
+if(blendStars<4)blendStars++;
+updateStars('blendStars',blendStars);
+blendIdx++;
+setTimeout(nextBlend,2000);
+}
+}else{
+playNo();
+}
+}
+
+function playBlendWord(){if(blendCur)speak(blendCur)}
+
+function initListen(){
+updateStars('listenStars',listenStars);
+listenIdx=0;
+nextListen();
+}
+
+function nextListen(){
+if(listenIdx>=words.length){
+document.getElementById('listenGrid').innerHTML='<div style="font-size:32px;font-weight:900;color:#e91e8c">🎉 All done!</div>';
+return;
+}
+listenCur=words[listenIdx];
+const g=document.getElementById('listenGrid');
+g.innerHTML='';
+words.forEach((w,i)=>{
+const c=document.createElement('div');
+c.className='listen-card';
+c.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[i]}.svg" alt="${w}"><div class="label">${w}</div>`;
+c.onclick=()=>{
+if(w===listenCur){
+playOk();
+speak(w);
+showConfetti();
+if(listenStars<4)listenStars++;
+updateStars('listenStars',listenStars);
+listenIdx++;
+setTimeout(nextListen,2000);
+}else{
+playNo();
+}
+};
+g.appendChild(c);
+});
+setTimeout(()=>speak(listenCur),500);
+}
+
+function playListenWord(){if(listenCur)speak(listenCur)}
+
+function initMem(){
+updateStars('memStars',memStars);
+memFlipped=[];
+memMatched=0;
+const g=document.getElementById('memGrid');
+g.innerHTML='';
+const pairs=[...words,...words].sort(()=>Math.random()-0.5);
+pairs.forEach((w,i)=>{
+const c=document.createElement('div');
+c.className='mem-card';
+c.dataset.word=w;
+c.dataset.idx=i;
+c.innerHTML=`<div class="mem-front"><div class="emoji">❓</div></div><div class="mem-back"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[words.indexOf(w)]}.svg" alt="${w}"><div class="label">${w}</div></div>`;
+c.onclick=()=>flipMem(c);
+g.appendChild(c);
+});
+}
+
+function flipMem(c){
+if(c.classList.contains('flipped')||c.classList.contains('matched')||memFlipped.length>=2)return;
+c.classList.add('flipped');
+memFlipped.push(c);
+speak(c.dataset.word);
+if(memFlipped.length===2){
+setTimeout(()=>{
+if(memFlipped[0].dataset.word===memFlipped[1].dataset.word){
+memFlipped.forEach(f=>f.classList.add('matched'));
+playOk();
+showConfetti();
+memMatched++;
+if(memStars<4)memStars++;
+updateStars('memStars',memStars);
+}else{
+memFlipped.forEach(f=>f.classList.remove('flipped'));
+playNo();
+}
+memFlipped=[];
+},1000);
+}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nextMod();if(e.key==='ArrowLeft')prevMod()});
+</script>
+</body>
+</html>

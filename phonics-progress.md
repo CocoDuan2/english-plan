@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P77 - ck ✅
+- 当前: P78 - ng ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -493,6 +493,13 @@
 - 发音: /k/
 - 单词: duck, clock, black, truck
 - 故事: 佩琪的小鸭子
+- 状态: ✅ 完成
+
+### P78 - ng Sound · Peppa Sings a Song
+- 辅音组合: ng
+- 发音: /ŋ/
+- 单词: sing, ring, king, long
+- 故事: 佩琪唱歌
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P78 - ng Sound · Peppa Sings a Song</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(135deg,#ffeef8,#fff5f0);color:#2c3e50;overflow-x:hidden}
+.slide{flex:1;display:none;flex-direction:column;padding:20px 16px 80px;align-items:center;justify-content:center;text-align:center}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{background:#fff;border:4px solid #e91e8c;border-radius:20px;padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.bbl::after{content:'';position:absolute;bottom:-12px;left:30px;width:0;height:0;border:8px solid transparent;border-top-color:#e91e8c}
+.letter-big{font-size:180px;font-weight:900;color:#e91e8c;text-shadow:4px 4px 0 #ffc1e3;margin:20px 0;animation:bounce 1.2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.phonics{font-size:48px;color:#e67e22;font-weight:900;background:#fff;border:4px solid #e67e22;border-radius:16px;padding:12px 28px;margin:16px 0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.blend-box{display:flex;gap:6px;align-items:center;justify-content:center;margin:20px 0;max-width:100%}
+.blend-letter{font-size:64px;font-weight:900;color:#e91e8c;background:#fff;border:4px solid #e91e8c;border-radius:12px;width:80px;height:80px;display:flex;align-items:center;justify-content:center;animation:slideIn 0.5s ease-out forwards;opacity:0;transform:translateX(-20px);flex-shrink:1}
+.blend-box.long .blend-letter{width:45px;height:45px;font-size:32px;border:3px solid #e91e8c}
+.blend-box.medium .blend-letter{width:60px;height:60px;font-size:48px}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{font-size:72px;font-weight:900;color:#2c3e50;animation:popIn 0.5s ease-out 1.8s forwards;opacity:0;transform:scale(0.5)}
+@keyframes popIn{to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:48px;margin:12px;box-shadow:0 6px 16px rgba(0,0,0,.15);transition:transform .2s ease}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px auto}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);border-top:2px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+.nav button{padding:10px 24px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;background:#e91e8c;color:#fff;transition:transform .2s ease}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.quiz-btn{width:120px;height:120px;border-radius:20px;border:4px solid #e91e8c;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s ease;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.quiz-btn:hover{transform:scale(1.05)}
+.quiz-btn.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.quiz-btn img{width:80px;height:auto}
+.quiz-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+@media(max-width:480px){
+.ttl{font-size:32px}
+.sub{font-size:18px}
+.letter-big{font-size:140px}
+.phonics{font-size:38px;padding:10px 20px}
+.pr{flex-direction:column;text-align:center;gap:8px}
+.pr img{width:60px}
+.bbl{font-size:20px;padding:10px 16px;max-width:90%}
+.obj-wrap img{width:140px}
+.word{font-size:72px}
+.blend-box{gap:4px;flex-wrap:wrap}
+.blend-letter{font-size:36px;width:40px;height:40px;border:2px solid #e91e8c}
+.blend-box.long .blend-letter{width:32px;height:32px;font-size:24px}
+.blend-box.medium .blend-letter{width:36px;height:36px;font-size:28px}
+.blend-arrow{font-size:32px;margin:0 4px}
+.blend-word{font-size:48px}
+.sound-btn{width:80px;height:80px;font-size:40px}
+.sound-btn img{width:50px}
+.grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.grid-item img{width:70px}
+.grid-item .label{font-size:20px}
+.quiz-btn{width:100px;height:100px}
+.quiz-btn img{width:70px}
+}
+@media(min-width:768px){
+.ttl{font-size:48px}
+.word{font-size:100px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+<div class="ttl">ng Sound</div>
+<div class="sub">Peppa Sings a Song</div>
+<img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+<div style="font-size:20px;color:#667085;margin-top:12px">Learn the ng sound /ŋ/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+<div class="ttl">Hello! Let's learn ng!</div>
+</div>
+
+<!-- S3: Letter & Sound -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">This is ng!</div>
+</div>
+<div class="letter-big">ng</div>
+<div class="phonics">/ŋ/</div>
+<div style="font-size:20px;color:#667085;margin-top:12px">Say: /ŋ/ /ŋ/ /ŋ/</div>
+</div>
+
+<!-- S4: Word 1 - sing -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/ŋ/ is for sing!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a4.svg" alt="sing">
+</div>
+<div class="word">sing</div>
+</div>
+
+<!-- S5: Word 2 - ring -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/ŋ/ is for ring!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f48d.svg" alt="ring">
+</div>
+<div class="word">ring</div>
+</div>
+
+<!-- S6: Word 3 - king -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/ŋ/ is for king!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f451.svg" alt="king">
+</div>
+<div class="word">king</div>
+</div>
+
+<!-- S7: Word 4 - long -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/ŋ/ is for long!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4cf.svg" alt="long">
+</div>
+<div class="word">long</div>
+</div>
+
+<!-- S8: Blending -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's blend!</div>
+</div>
+<div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+<button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="showBlend('sing',['s','i','ng'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a4.svg" alt="sing">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="showBlend('ring',['r','i','ng'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f48d.svg" alt="ring">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('king',['k','i','ng'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f451.svg" alt="king">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="showBlend('long',['l','o','ng'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4cf.svg" alt="long">
+</button>
+</div>
+<div id="blendAnim" style="display:none">
+<div class="blend-box" id="blendBox"></div>
+<div class="blend-arrow">→</div>
+<div class="blend-word" id="blendWord"></div>
+</div>
+</div>
+
+<!-- S9: Listen and Tap (听音选图) -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and tap!</div>
+</div>
+<div class="quiz-options" id="quizOptions"></div>
+<div class="quiz-feedback" id="quizFeedback"></div>
+</div>
+
+<!-- S10: Game - Find the ng words -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Find all ng words!</div>
+</div>
+<div class="grid">
+<div class="grid-item" onclick="playWord('sing')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a4.svg" alt="sing">
+<div class="label">sing</div>
+</div>
+<div class="grid-item" onclick="playWord('ring')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f48d.svg" alt="ring">
+<div class="label">ring</div>
+</div>
+<div class="grid-item" onclick="playWord('king')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f451.svg" alt="king">
+<div class="label">king</div>
+</div>
+<div class="grid-item" onclick="playWord('long')">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4cf.svg" alt="long">
+<div class="label">long</div>
+</div>
+</div>
+</div>
+
+<!-- S11: Bye -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Peppa Family" style="width:160px;margin-bottom:16px">
+<div class="ttl">Great job! 🎉</div>
+<div class="sub">See you tomorrow!</div>
+</div>
+
+<div class="nav">
+<button id="prevBtn" onclick="prevSlide()">◀ Back</button>
+<div class="page-num"><span id="curPage">1</span> / <span id="totPage">11</span></div>
+<button id="nextBtn" onclick="nextSlide()">Next ▶</button>
+</div>
+
+<script>
+let cur=0,tot=11;
+const words=['sing','ring','king','long'];
+const emojis=['1f3a4','1f48d','1f451','1f4cf'];
+let quizIndex=0,quizWord='';
+
+function showSlide(n){
+cur=n;
+document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
+document.getElementById('prevBtn').disabled=n===0;
+document.getElementById('nextBtn').disabled=n===tot-1;
+document.getElementById('curPage').textContent=n+1;
+if(n===8)startQuiz();
+}
+
+function nextSlide(){if(cur<tot-1)showSlide(cur+1)}
+function prevSlide(){if(cur>0)showSlide(cur-1)}
+
+function speak(w){
+const u=`https://dict.youdao.com/dictvoice?audio=${w}&type=2`;
+new Audio(u).play().catch(()=>new Audio(`https://fanyi.baidu.com/gettts?lan=en&text=${w}&spd=4&source=web`).play());
+}
+
+function showBlend(w,letters){
+document.getElementById('blendChoice').style.display='none';
+document.getElementById('blendAnim').style.display='block';
+const box=document.getElementById('blendBox');
+box.innerHTML='';
+box.className=letters.length>5?'blend-box long':letters.length>3?'blend-box medium':'blend-box';
+letters.forEach((l,i)=>{
+const d=document.createElement('div');
+d.className='blend-letter';
+d.textContent=l;
+d.style.animationDelay=i*0.3+'s';
+box.appendChild(d);
+});
+document.getElementById('blendWord').textContent=w;
+setTimeout(()=>speak(w),letters.length*300+500);
+}
+
+function playWord(w){speak(w)}
+
+function startQuiz(){
+const opts=document.getElementById('quizOptions');
+const fb=document.getElementById('quizFeedback');
+opts.innerHTML='';
+fb.textContent='';
+quizIndex=0;
+nextQuestion();
+}
+
+function nextQuestion(){
+if(quizIndex>=words.length){
+document.getElementById('quizFeedback').textContent='🎉 All done!';
+return;
+}
+quizWord=words[quizIndex];
+const others=words.filter(w=>w!==quizWord);
+const choices=[quizWord,...others.sort(()=>Math.random()-0.5).slice(0,2)].sort(()=>Math.random()-0.5);
+const opts=document.getElementById('quizOptions');
+opts.innerHTML='';
+choices.forEach(w=>{
+const btn=document.createElement('button');
+btn.className='quiz-btn';
+btn.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[words.indexOf(w)]}.svg" alt="${w}">`;
+btn.onclick=()=>checkAnswer(w,btn);
+opts.appendChild(btn);
+});
+setTimeout(()=>speak(quizWord),500);
+}
+
+function checkAnswer(w,btn){
+const fb=document.getElementById('quizFeedback');
+if(w===quizWord){
+fb.textContent='✅ Great!';
+speak(w);
+showConfetti();
+quizIndex++;
+setTimeout(nextQuestion,2000);
+}else{
+fb.textContent='❌ Try again!';
+btn.classList.add('shake');
+setTimeout(()=>btn.classList.remove('shake'),500);
+playNo();
+}
+}
+
+function showConfetti(){
+const c=document.createElement('div');
+c.textContent='🎉';
+c.style.cssText='position:fixed;font-size:48px;animation:fall 2s ease-out forwards;pointer-events:none';
+c.style.left=Math.random()*80+10+'%';
+c.style.top='-50px';
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),2000);
+}
+
+function playNo(){new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFgH98eHRwbGhkYF1bWVdVU1FQTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAA==').play()}
+
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nextSlide();if(e.key==='ArrowLeft')prevSlide()});
+</script>
+</body>
+</html>
