@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P82 - ar ✅
+- 当前: P83 - or ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -530,4 +530,11 @@
 - 发音: /ɑːr/
 - 单词: car, star, park, farm
 - 故事: 佩琪的汽车去农场
+- 状态: ✅ 完成
+
+### P83 - or Sound · Peppa's Horse on the Farm
+- 模式: or
+- 发音: /ɔːr/
+- 单词: fork, horse, corn, short
+- 故事: 佩琪的农场马儿
 - 状态: ✅ 完成
