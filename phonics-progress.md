@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P76 - ph ✅
+- 当前: P77 - ck ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -486,6 +486,13 @@
 - 发音: /f/
 - 单词: phone, photo, elephant, dolphin
 - 故事: 佩琪打电话
+- 状态: ✅ 完成
+
+### P77 - ck Sound · Peppa's Little Duck
+- 辅音组合: ck
+- 发音: /k/
+- 单词: duck, clock, black, truck
+- 故事: 佩琪的小鸭子
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）

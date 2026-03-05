@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P77 - ck Sound · Peppa's Little Duck</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(135deg,#ffeef8,#fff5f0);color:#2c3e50;overflow-x:hidden}
+.slide{flex:1;display:none;flex-direction:column;padding:20px 16px 80px;align-items:center;justify-content:center;text-align:center}
+.slide.active{display:flex}
+.ttl{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.sub{font-size:22px;color:#e67e22;font-weight:700}
+.pr{display:flex;align-items:center;gap:12px;margin:16px 0}
+.pr img{width:75px;height:auto}
+.bbl{background:#fff;border:4px solid #e91e8c;border-radius:20px;padding:12px 20px;font-size:26px;font-weight:900;color:#e67e22;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.bbl::after{content:'';position:absolute;bottom:-12px;left:30px;width:0;height:0;border:8px solid transparent;border-top-color:#e91e8c}
+.letter-big{font-size:180px;font-weight:900;color:#e91e8c;text-shadow:4px 4px 0 #ffc1e3;margin:20px 0;animation:bounce 1.2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.phonics{font-size:48px;color:#e67e22;font-weight:900;background:#fff;border:4px solid #e67e22;border-radius:16px;padding:12px 28px;margin:16px 0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.obj-wrap{margin:20px 0}
+.obj-wrap img{width:160px;height:auto}
+.word{font-size:88px;font-weight:900;color:#2c3e50;margin-top:12px}
+.blend-box{display:flex;gap:6px;align-items:center;justify-content:center;margin:20px 0;max-width:100%}
+.blend-letter{font-size:64px;font-weight:900;color:#e91e8c;background:#fff;border:4px solid #e91e8c;border-radius:12px;width:80px;height:80px;display:flex;align-items:center;justify-content:center;animation:slideIn 0.5s ease-out forwards;opacity:0;transform:translateX(-20px);flex-shrink:1}
+.blend-box.long .blend-letter{width:45px;height:45px;font-size:32px;border:3px solid #e91e8c}
+.blend-box.medium .blend-letter{width:60px;height:60px;font-size:48px}
+.blend-arrow{font-size:48px;color:#e67e22;margin:0 8px}
+.blend-word{font-size:72px;font-weight:900;color:#2c3e50;animation:popIn 0.5s ease-out 1.8s forwards;opacity:0;transform:scale(0.5)}
+@keyframes popIn{to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+.sound-btn{width:100px;height:100px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:48px;margin:12px;box-shadow:0 6px 16px rgba(0,0,0,.15);transition:transform .2s ease}
+.sound-btn:active{transform:scale(.9)}
+.sound-btn img{width:60px;height:auto}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:500px;margin:20px auto}
+.grid-item{text-align:center}
+.grid-item img{width:80px;height:auto;margin-bottom:8px}
+.grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);border-top:2px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+.nav button{padding:10px 24px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;background:#e91e8c;color:#fff;transition:transform .2s ease}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+.quiz-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.quiz-btn{width:120px;height:120px;border-radius:20px;border:4px solid #e91e8c;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s ease;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.quiz-btn:hover{transform:scale(1.05)}
+.quiz-btn.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.quiz-btn img{width:80px;height:auto}
+.quiz-feedback{font-size:32px;font-weight:900;margin-top:16px;min-height:40px}
+@media(max-width:480px){
+.ttl{font-size:32px}
+.sub{font-size:18px}
+.letter-big{font-size:140px}
+.phonics{font-size:38px;padding:10px 20px}
+.pr{flex-direction:column;text-align:center;gap:8px}
+.pr img{width:60px}
+.bbl{font-size:20px;padding:10px 16px;max-width:90%}
+.obj-wrap img{width:140px}
+.word{font-size:72px}
+.blend-box{gap:4px;flex-wrap:wrap}
+.blend-letter{font-size:36px;width:40px;height:40px;border:2px solid #e91e8c}
+.blend-box.long .blend-letter{width:32px;height:32px;font-size:24px}
+.blend-box.medium .blend-letter{width:36px;height:36px;font-size:28px}
+.blend-arrow{font-size:32px;margin:0 4px}
+.blend-word{font-size:48px}
+.sound-btn{width:80px;height:80px;font-size:40px}
+.sound-btn img{width:50px}
+.grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.grid-item img{width:70px}
+.grid-item .label{font-size:20px}
+.quiz-btn{width:100px;height:100px}
+.quiz-btn img{width:70px}
+}
+@media(min-width:768px){
+.ttl{font-size:48px}
+.word{font-size:100px}
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+<div class="ttl">ck Sound</div>
+<div class="sub">Peppa's Little Duck</div>
+<img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+<div style="font-size:20px;color:#667085;margin-top:12px">Learn the ck sound /k/</div>
+</div>
+
+<!-- S2: Hello -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+<div class="ttl">Hello! Let's learn ck!</div>
+</div>
+
+<!-- S3: Letter & Sound -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">This is ck!</div>
+</div>
+<div class="letter-big">ck</div>
+<div class="phonics">/k/</div>
+<div style="font-size:20px;color:#667085;margin-top:12px">Say: /k/ /k/ /k/</div>
+</div>
+
+<!-- S4: Word 1 - duck -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/k/ is for duck!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+</div>
+<div class="word">duck</div>
+</div>
+
+<!-- S5: Word 2 - clock -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/k/ is for clock!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f570.svg" alt="clock">
+</div>
+<div class="word">clock</div>
+</div>
+
+<!-- S6: Word 3 - black -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/k/ is for black!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b1b.svg" alt="black">
+</div>
+<div class="word">black</div>
+</div>
+
+<!-- S7: Word 4 - truck -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">/k/ is for truck!</div>
+</div>
+<div class="obj-wrap">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f69a.svg" alt="truck">
+</div>
+<div class="word">truck</div>
+</div>
+
+<!-- S8: Blending -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's blend!</div>
+</div>
+<div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
+<button class="sound-btn" style="background:linear-gradient(135deg,#ffd93d,#f6c23e)" onclick="showBlend('duck',['d','u','ck'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#c9f0ff,#89cff0)" onclick="showBlend('clock',['c','l','o','ck'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f570.svg" alt="clock">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0)" onclick="showBlend('black',['b','l','a','ck'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b1b.svg" alt="black">
+</button>
+<button class="sound-btn" style="background:linear-gradient(135deg,#ff6b9d,#c44569)" onclick="showBlend('truck',['t','r','u','ck'])">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f69a.svg" alt="truck">
+</button>
+</div>
+<div id="blendAnim" style="display:none">
+<div class="blend-box" id="blendBox"></div>
+<div class="blend-arrow">→</div>
+<div class="blend-word" id="blendWord"></div>
+</div>
+</div>
+
+<!-- S9: Listen & Tap (NEW) -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Listen and tap!</div>
+</div>
+<div id="quizPrompt" style="font-size:24px;color:#e67e22;font-weight:700;margin:16px 0">🔊 Listen...</div>
+<div class="quiz-options" id="quizOptions"></div>
+<div class="quiz-feedback" id="quizFeedback"></div>
+</div>
+
+<!-- S10: Story -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Peppa meets a little duck!</div>
+</div>
+<div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
+<p style="margin-bottom:12px">Peppa sees a yellow <strong style="color:#e91e8c">duck</strong> in the pond.</p>
+<p style="margin-bottom:12px">She checks the <strong style="color:#e91e8c">clock</strong>. It's 3 o'clock!</p>
+<p style="margin-bottom:12px">The duck has a <strong style="color:#e91e8c">black</strong> beak.</p>
+<p>Daddy Pig drives a big <strong style="color:#e91e8c">truck</strong>.</p>
+</div>
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck" style="width:80px;margin-top:16px">
+</div>
+
+<!-- S11: All Together -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
+<div class="bbl">All together!</div>
+</div>
+<div class="grid">
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" alt="duck">
+<div class="label">duck</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f570.svg" alt="clock">
+<div class="label">clock</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b1b.svg" alt="black">
+<div class="label">black</div>
+</div>
+<div class="grid-item">
+<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f69a.svg" alt="truck">
+<div class="label">truck</div>
+</div>
+</div>
+</div>
+
+<!-- S12: Song -->
+<div class="slide">
+<div class="pr">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+<div class="bbl">Let's sing!</div>
+</div>
+<div style="max-width:500px;margin:20px auto;font-size:24px;line-height:1.8;color:#2c3e50;font-weight:700">
+<p style="margin-bottom:12px">🎵 ck says /k/, /k/, /k/</p>
+<p style="margin-bottom:12px">Duck and clock, /k/, /k/, /k/</p>
+<p style="margin-bottom:12px">Black and truck, /k/, /k/, /k/</p>
+<p>ck says /k/! 🎵</p>
+</div>
+</div>
+
+<!-- S13: Bye -->
+<div class="slide">
+<img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+<div class="ttl">Great job!</div>
+<div class="sub">Tomorrow we'll learn ng!</div>
+<div style="font-size:48px;margin-top:20px">🎉</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+<button onclick="prev()" id="prevBtn">◀ Back</button>
+<div class="page-num"><span id="curr">1</span> / <span id="total">13</span></div>
+<button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+let ci=0,ts=13;
+const words=['duck','clock','black','truck'];
+const emojis=['1f986','1f570','2b1b','1f69a'];
+let quizIndex=0;
+let quizAnswered=false;
+
+function goTo(i){
+if(i<0||i>=ts)return;
+document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+ci=i;
+document.getElementById('curr').textContent=i+1;
+document.getElementById('prevBtn').disabled=i===0;
+document.getElementById('nextBtn').disabled=i===ts-1;
+if(i===8&&!quizAnswered)setTimeout(startQuiz,500);
+}
+function next(){if(ci<ts-1)goTo(ci+1)}
+function prev(){if(ci>0)goTo(ci-1)}
+function speak(w){
+const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+const a=new Audio(u);
+a.play().catch(()=>{
+const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+new Audio(u2).play().catch(()=>console.log('Audio failed'));
+});
+}
+function showBlend(word,letters){
+const choice=document.getElementById('blendChoice');
+const anim=document.getElementById('blendAnim');
+const box=document.getElementById('blendBox');
+const wordEl=document.getElementById('blendWord');
+choice.style.display='none';
+anim.style.display='block';
+box.innerHTML='';
+box.className='blend-box';
+if(letters.length>=5)box.classList.add('medium');
+wordEl.textContent='';
+wordEl.style.animation='none';
+letters.forEach((letter,i)=>{
+const div=document.createElement('div');
+div.className='blend-letter';
+div.textContent=letter;
+div.style.animationDelay=`${i*0.3}s`;
+box.appendChild(div);
+});
+setTimeout(()=>{
+wordEl.textContent=word;
+wordEl.style.animation='popIn 0.5s ease-out forwards';
+speak(word);
+},letters.length*300+500);
+setTimeout(()=>{
+choice.style.display='flex';
+anim.style.display='none';
+},letters.length*300+3000);
+}
+
+function startQuiz(){
+if(quizIndex>=words.length){
+document.getElementById('quizFeedback').innerHTML='🎉 All done!';
+document.getElementById('quizOptions').innerHTML='';
+quizAnswered=true;
+return;
+}
+const correct=words[quizIndex];
+let options=[correct];
+while(options.length<3){
+const rand=words[Math.floor(Math.random()*words.length)];
+if(!options.includes(rand))options.push(rand);
+}
+options.sort(()=>Math.random()-0.5);
+const container=document.getElementById('quizOptions');
+container.innerHTML='';
+options.forEach(w=>{
+const btn=document.createElement('button');
+btn.className='quiz-btn';
+const idx=words.indexOf(w);
+btn.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojis[idx]}.svg" alt="${w}">`;
+btn.onclick=()=>checkAnswer(w,correct,btn);
+container.appendChild(btn);
+});
+document.getElementById('quizFeedback').textContent='';
+setTimeout(()=>speak(correct),500);
+}
+
+function checkAnswer(selected,correct,btn){
+const feedback=document.getElementById('quizFeedback');
+if(selected===correct){
+feedback.innerHTML='✅ Great!';
+feedback.style.color='#27ae60';
+speak(correct);
+showConfetti();
+quizIndex++;
+setTimeout(startQuiz,2000);
+}else{
+feedback.innerHTML='❌ Try again!';
+feedback.style.color='#e74c3c';
+btn.classList.add('shake');
+setTimeout(()=>btn.classList.remove('shake'),500);
+speak(correct);
+}
+}
+
+function showConfetti(){
+for(let i=0;i<20;i++){
+const c=document.createElement('div');
+c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};left:${50+Math.random()*20-10}%;top:30%;animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),2000);
+}
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+if(e.key==='ArrowLeft')prev();
+if(e.key==='ArrowRight')next();
+});
+goTo(0);
+</script>
+</body>
+</html>
