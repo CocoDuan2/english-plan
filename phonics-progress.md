@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P68 - br ✅
+- 当前: P69 - cr ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -430,6 +430,13 @@
 - 发音: /br/
 - 单词: brown, bread, brush, bridge
 - 故事: 佩琪的棕色面包
+- 状态: ✅ 完成
+
+### P69 - cr Blend · Peppa Finds a Crab
+- 辅音组合: cr
+- 发音: /kr/
+- 单词: crab, cry, crown, cross
+- 故事: 佩琪找到螃蟹
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
