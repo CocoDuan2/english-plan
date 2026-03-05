@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P97 - Soft c ✅
+- 当前: P98 - Soft g ✅
 - 更新时间: 2026-03-06
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -642,4 +642,6 @@
 - 发音: /dʒ/
 - 单词: gem, giant, giraffe, page
 - 故事: 佩琪的巨大长颈鹿
-- 状态: ⏳ 待生成
+- 状态: ✅ 完成
+
+### P99 - -le ending · Peppa's Little Apple
