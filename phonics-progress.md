@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P74 - th ✅
+- 当前: P75 - wh ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -472,6 +472,13 @@
 - 发音: /θ/
 - 单词: three, think, bath, tooth
 - 故事: 佩琪想一想
+- 状态: ✅ 完成
+
+### P75 - wh Digraph · Peppa Asks Why
+- 辅音组合: wh
+- 发音: /w/
+- 单词: whale, wheel, white, when
+- 故事: 佩琪问为什么
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
