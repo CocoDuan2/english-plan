@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P98 - Soft g ✅
+- 当前: P99 - -le ending ✅
 - 更新时间: 2026-03-06
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -645,3 +645,10 @@
 - 状态: ✅ 完成
 
 ### P99 - -le ending · Peppa's Little Apple
+- 模式: -le ending
+- 发音: /əl/
+- 单词: apple, table, little, bottle
+- 故事: 佩琪的小苹果
+- 状态: ✅ 完成
+
+### P100 - -tion/-sion · Peppa's Action Station
