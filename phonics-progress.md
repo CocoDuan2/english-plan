@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P75 - wh ✅
+- 当前: P76 - ph ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -479,6 +479,13 @@
 - 发音: /w/
 - 单词: whale, wheel, white, when
 - 故事: 佩琪问为什么
+- 状态: ✅ 完成
+
+### P76 - ph Digraph · Peppa's Phone Call
+- 辅音组合: ph
+- 发音: /f/
+- 单词: phone, photo, elephant, dolphin
+- 故事: 佩琪打电话
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
