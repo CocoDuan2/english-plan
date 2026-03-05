@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P80 - gr ✅
+- 当前: P81 - tr ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -514,6 +514,13 @@
 - 发音: /gr/
 - 单词: green, grass, grapes, grow
 - 故事: 佩琪种绿葡萄
+- 状态: ✅ 完成
+
+### P81 - tr Blend · Peppa's Train Trip
+- 辅音组合: tr
+- 发音: /tr/
+- 单词: train, tree, truck, trip
+- 故事: 佩琪的火车旅行
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
