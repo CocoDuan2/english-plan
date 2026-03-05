@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P79 - nk ✅
+- 当前: P80 - gr ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -507,6 +507,13 @@
 - 发音: /ŋk/
 - 单词: pink, think, bank, drink
 - 故事: 佩琪的粉色存钱罐
+- 状态: ✅ 完成
+
+### P80 - gr Blend · Peppa Grows Green Grapes
+- 辅音组合: gr
+- 发音: /gr/
+- 单词: green, grass, grapes, grow
+- 故事: 佩琪种绿葡萄
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
