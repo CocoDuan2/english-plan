@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P87 - oo Sound (short) Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffeef8,#fff5f0);
+  color:#2c3e50;
+  overflow-x:hidden;
+}
+.mod{
+  min-height:100vh;display:none;flex-direction:column;
+  padding:20px 16px 80px;
+  justify-content:flex-start;
+  overflow-y:auto;
+}
+.mod.active{display:flex}
+.top{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:16px;
+}
+.te{font-size:26px;font-weight:900;color:#e91e8c}
+.tz{
+  background:linear-gradient(135deg,#ff6b9d,#c44569);
+  color:#fff;padding:8px 16px;border-radius:25px;
+  font-size:20px;font-weight:900;
+  box-shadow:0 4px 12px rgba(233,30,140,.3);
+  position:relative;
+  margin-top:8px;
+}
+.tz::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  transform:translateX(-50%);width:60%;height:3px;
+  background:rgba(255,255,255,.5);border-radius:2px;
+}
+.sb{
+  display:flex;gap:6px;align-items:center;
+  font-size:22px;font-weight:900;
+  margin-top:8px;
+}
+.pr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pr img{width:75px;height:auto}
+.bbl{
+  background:#fff;border:4px solid #e91e8c;border-radius:20px;
+  padding:10px 18px;font-size:22px;font-weight:900;color:#e67e22;
+  position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.bbl::after{
+  content:'';position:absolute;bottom:-12px;left:30px;
+  width:0;height:0;border:8px solid transparent;
+  border-top-color:#e91e8c;
+}
+.learn-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.learn-card{
+  width:120px;height:120px;border-radius:20px;
+  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.learn-card:active{transform:scale(.95)}
+.learn-card img{width:80px;height:auto;display:none}
+.learn-card .label{font-size:18px;font-weight:900;color:#2c3e50;margin-top:8px;display:none}
+.learn-card.revealed{
+  background:#fff;
+  border:4px solid #e91e8c;
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.learn-card.revealed img,.learn-card.revealed .label{display:block}
+.card-icon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:52px;
+}
+.learn-card.revealed .card-icon{display:none}
+.blend-game{
+  display:flex;flex-direction:column;align-items:center;
+  margin-top:24px;
+}
+.blend-target{
+  font-size:48px;font-weight:900;color:#e91e8c;
+  margin-bottom:20px;
+}
+.blend-opts{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+}
+.blend-opt{
+  padding:16px 24px;border:4px solid #e91e8c;
+  border-radius:16px;background:#fff;
+  font-size:32px;font-weight:900;color:#2c3e50;
+  cursor:pointer;transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+.blend-opt:active{transform:scale(.95)}
+.blend-opt.correct{
+  border-color:#27ae60;background:#d4edda;
+}
+.blend-opt.wrong{
+  animation:shake 0.5s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-10px)}
+  75%{transform:translateX(10px)}
+}
+.listen-grid{
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:center;
+  margin-top:24px;
+}
+.listen-card{
+  width:110px;height:110px;border-radius:20px;
+  background:#fff;border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+}
+.listen-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(233,30,140,.3);
+}
+.listen-card:active{transform:scale(.95)}
+.listen-card img{width:70px;height:auto;margin-bottom:8px}
+.listen-card .label{font-size:16px;font-weight:900;color:#2c3e50}
+.replay-btn{
+  margin:16px auto;padding:12px 24px;
+  background:#e67e22;color:#fff;border:none;
+  border-radius:12px;font-size:20px;font-weight:900;
+  cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+.replay-btn:active{transform:scale(.95)}
+.mem-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;max-width:500px;margin:24px auto;
+}
+.mem-card{
+  width:100%;aspect-ratio:1;border-radius:20px;
+  background:linear-gradient(135deg,#ff6b9d,#e91e8c);
+  border:4px solid #e91e8c;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all .3s ease;
+  position:relative;
+  box-shadow:0 4px 12px rgba(233,30,140,.2);
+  transform-style:preserve-3d;
+}
+.mem-card:active{transform:scale(.95)}
+.mem-card.flipped{pointer-events:none}
+.mem-card.matched{opacity:.3;pointer-events:none}
+.mem-front{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-front .emoji{font-size:48px}
+.mem-back{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+}
+.mem-back img{width:60px;height:auto;margin-bottom:8px}
+.mem-back .label{font-size:16px;font-weight:900;color:#2c3e50}
+.mem-card.flipped{background:#fff}
+.mem-card.flipped .mem-front{display:none}
+.mem-card.flipped .mem-back{display:flex}
+.start-screen{
+  text-align:center;
+}
+.start-screen img{width:110px;margin:20px auto}
+.start-screen h1{font-size:42px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.start-screen .preview{
+  display:flex;gap:16px;justify-content:center;margin:20px 0;
+}
+.start-screen .preview img{width:70px;height:auto}
+.start-btn{
+  padding:16px 40px;border:none;border-radius:20px;
+  background:linear-gradient(135deg,#ff6b9d,#c44569);
+  color:#fff;font-size:28px;font-weight:900;
+  cursor:pointer;box-shadow:0 6px 16px rgba(233,30,140,.3);
+  transition:transform .2s ease;
+  margin-top:20px;
+}
+.start-btn:active{transform:scale(.95)}
+.done-screen{
+  text-align:center;
+}
+.done-screen img{width:140px;margin:20px auto}
+.done-screen h1{font-size:48px;font-weight:900;color:#e91e8c;margin-bottom:12px}
+.done-screen .emoji{font-size:64px;margin:20px 0}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,.95);
+  border-top:2px solid #e0e0e0;
+  padding:12px 16px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.08);
+}
+.nav button{
+  padding:10px 24px;border:none;border-radius:12px;
+  font-size:18px;font-weight:700;cursor:pointer;
+  background:#e91e8c;color:#fff;
+  transition:transform .2s ease;
+}
+.nav button:disabled{opacity:.3;cursor:not-allowed}
+.nav button:not(:disabled):active{transform:scale(.95)}
+.page-num{font-size:16px;font-weight:700;color:#667085}
+@media(max-width:480px){
+  .te{font-size:22px}
+  .tz{font-size:18px;padding:6px 14px}
+  .sb{font-size:20px}
+  .pr img{width:60px}
+  .bbl{font-size:20px;padding:8px 16px}
+  .learn-card{width:100px;height:100px}
+  .learn-card img{width:70px}
+  .learn-card .label{font-size:16px}
+  .blend-target{font-size:36px}
+  .blend-opt{padding:12px 20px;font-size:26px}
+  .listen-card{width:90px;height:90px}
+  .listen-card img{width:60px}
+  .mem-grid{grid-template-columns:repeat(4,1fr);gap:10px}
+  .mem-back img{width:50px}
+  .start-screen h1{font-size:32px}
+  .done-screen h1{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- M0: Start -->
+<div class="mod active">
+  <div class="start-screen">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <h1>oo Sound Review</h1>
+    <div class="tz">短音 oo /ʊ/</div>
+    <div class="preview">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4d6.svg" alt="book">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" alt="look">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1-200d-1f373.svg" alt="cook">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg" alt="good">
+    </div>
+    <button class="start-btn" onclick="goTo(1)">Let's Play!</button>
+  </div>
+</div>
+
+<!-- M1: Learn -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Learn Words</div>
+    <div class="tz">点击卡片学单词</div>
+    <div class="sb" id="stars1">★★★★</div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Tap to reveal!</div>
+  </div>
+  <div class="learn-grid">
+    <div class="learn-card" onclick="revealCard(this,'1f4d6','book')">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4d6.svg" alt="book">
+      <div class="label">book</div>
+    </div>
+    <div class="learn-card" onclick="revealCard(this,'1f440','look')">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f440.svg" alt="look">
+      <div class="label">look</div>
+    </div>
+    <div class="learn-card" onclick="revealCard(this,'1f9d1-200d-1f373','cook')">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d1-200d-1f373.svg" alt="cook">
+      <div class="label">cook</div>
+    </div>
+    <div class="learn-card" onclick="revealCard(this,'1f44d','good')">
+      <div class="card-icon">❓</div>
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f44d.svg" alt="good">
+      <div class="label">good</div>
+    </div>
+  </div>
+</div>
+
+<!-- M2: Blending Game -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Blending Game</div>
+    <div class="tz">听单词，选字母组合</div>
+    <div class="sb" id="stars2">★★★★</div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and blend!</div>
+  </div>
+  <div class="blend-game">
+    <div class="blend-target" id="blendTarget">🔊</div>
+    <div class="blend-opts" id="blendOpts"></div>
+  </div>
+</div>
+
+<!-- M3: Listen & Find -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Listen & Find</div>
+    <div class="tz">听音找图</div>
+    <div class="sb" id="stars3">★★★★</div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Listen and find!</div>
+  </div>
+  <button class="replay-btn" onclick="replayAudio()">🔊 Replay</button>
+  <div class="listen-grid" id="listenGrid"></div>
+</div>
+
+<!-- M4: Memory Match -->
+<div class="mod">
+  <div class="top">
+    <div class="te">Memory Match</div>
+    <div class="tz">记忆翻牌</div>
+    <div class="sb" id="stars4">★★★★</div>
+  </div>
+  <div class="pr">
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Find pairs!</div>
+  </div>
+  <div class="mem-grid" id="memGrid"></div>
+</div>
+
+<!-- M5: Done -->
+<div class="mod">
+  <div class="done-screen">
+    <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family">
+    <h1>All Done!</h1>
+    <div class="emoji">🎉</div>
+    <button class="start-btn" onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button onclick="prev()" id="prevBtn">◀ Back</button>
+  <div class="page-num"><span id="curr">1</span> / 6</div>
+  <button onclick="next()" id="nextBtn">Next ▶</button>
+</div>
+
+<script>
+let ci=0;
+const words=['book','look','cook','good'];
+const wordData={
+  book:{emoji:'1f4d6'},
+  look:{emoji:'1f440'},
+  cook:{emoji:'1f9d1-200d-1f373'},
+  good:{emoji:'1f44d'}
+};
+let stars=[0,0,0,0];
+let learnRevealed=0;
+let blendQueue=[...words];
+let blendCurrent='';
+let listenQueue=[...words];
+let listenCurrent='';
+let memFlipped=[];
+let memMatched=0;
+
+function goTo(i){
+  if(i<0||i>5)return;
+  document.querySelectorAll('.mod').forEach((m,idx)=>m.classList.toggle('active',idx===i));
+  ci=i;
+  document.getElementById('curr').textContent=i+1;
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===5;
+  
+  if(i===2)initBlend();
+  if(i===3)initListen();
+  if(i===4)initMem();
+}
+function next(){
+  if(ci===1&&learnRevealed<4)return;
+  if(ci===2&&blendQueue.length>0)return;
+  if(ci===3&&listenQueue.length>0)return;
+  if(ci===4&&memMatched<4)return;
+  if(ci<5)goTo(ci+1);
+}
+function prev(){if(ci>0)goTo(ci-1)}
+
+function speak(w){
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+  new Audio(u).play().catch(()=>{
+    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  });
+}
+
+function playOk(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.value=523;
+  gain.gain.value=0.3;
+  osc.start();
+  setTimeout(()=>osc.stop(),150);
+}
+
+function playNo(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.value=200;
+  gain.gain.value=0.3;
+  osc.start();
+  setTimeout(()=>osc.stop(),200);
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');
+    c.style.cssText=`position:fixed;width:8px;height:8px;border-radius:50%;
+      background:${['#ff6b9d','#ffd93d','#a8e6cf','#c9f0ff'][i%4]};
+      left:${50+Math.random()*20-10}%;top:30%;
+      animation:fall ${1+Math.random()}s ease-out forwards;pointer-events:none;z-index:1000`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+
+function updateStars(mod,earned){
+  stars[mod]=earned;
+  const sb=document.getElementById(`stars${mod+1}`);
+  if(sb){
+    sb.innerHTML='';
+    for(let i=0;i<4;i++){
+      sb.innerHTML+=i<earned?'⭐':'★';
+    }
+  }
+}
+
+function revealCard(card,emoji,word){
+  if(card.classList.contains('revealed'))return;
+  card.classList.add('revealed');
+  learnRevealed++;
+  playOk();
+  speak(word);
+  showConfetti();
+  if(learnRevealed===4)updateStars(0,4);
+}
+
+function initBlend(){
+  blendQueue=[...words].sort(()=>Math.random()-0.5);
+  nextBlend();
+}
+
+function nextBlend(){
+  if(blendQueue.length===0){
+    document.getElementById('blendTarget').textContent='🎉 Done!';
+    document.getElementById('blendOpts').innerHTML='';
+    updateStars(1,4);
+    return;
+  }
+  
+  blendCurrent=blendQueue[0];
+  const opts=[blendCurrent];
+  const others=words.filter(w=>w!==blendCurrent);
+  while(opts.length<3){
+    opts.push(others[Math.floor(Math.random()*others.length)]);
+  }
+  opts.sort(()=>Math.random()-0.5);
+  
+  const container=document.getElementById('blendOpts');
+  container.innerHTML='';
+  opts.forEach(w=>{
+    const btn=document.createElement('div');
+    btn.className='blend-opt';
+    btn.textContent=w;
+    btn.onclick=()=>checkBlend(w,btn);
+    container.appendChild(btn);
+  });
+  
+  document.getElementById('blendTarget').textContent='🔊';
+  setTimeout(()=>speak(blendCurrent),500);
+}
+
+function checkBlend(w,btn){
+  if(w===blendCurrent){
+    btn.classList.add('correct');
+    playOk();
+    speak(w);
+    showConfetti();
+    blendQueue.shift();
+    setTimeout(nextBlend,2000);
+  }else{
+    btn.classList.add('wrong');
+    playNo();
+    setTimeout(()=>btn.classList.remove('wrong'),500);
+  }
+}
+
+function initListen(){
+  listenQueue=[...words].sort(()=>Math.random()-0.5);
+  nextListen();
+}
+
+function nextListen(){
+  if(listenQueue.length===0){
+    updateStars(2,4);
+    return;
+  }
+  
+  listenCurrent=listenQueue[0];
+  const grid=document.getElementById('listenGrid');
+  grid.innerHTML='';
+  words.forEach(w=>{
+    const card=document.createElement('div');
+    card.className='listen-card';
+    card.innerHTML=`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${wordData[w].emoji}.svg" alt="${w}">
+      <div class="label">${w}</div>`;
+    card.onclick=()=>checkListen(w,card);
+    grid.appendChild(card);
+  });
+  
+  setTimeout(()=>speak(listenCurrent),500);
+}
+
+function checkListen(w,card){
+  if(w===listenCurrent){
+    playOk();
+    speak(w);
+    showConfetti();
+    listenQueue.shift();
+    setTimeout(nextListen,2000);
+  }else{
+    playNo();
+  }
+}
+
+function replayAudio(){
+  if(listenCurrent)speak(listenCurrent);
+}
+
+function initMem(){
+  const pairs=[...words,...words].sort(()=>Math.random()-0.5);
+  const grid=document.getElementById('memGrid');
+  grid.innerHTML='';
+  pairs.forEach((w,i)=>{
+    const card=document.createElement('div');
+    card.className='mem-card';
+    card.dataset.word=w;
+    card.dataset.idx=i;
+    card.innerHTML=`
+      <div class="mem-front"><div class="emoji">❓</div></div>
+      <div class="mem-back">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${wordData[w].emoji}.svg" alt="${w}">
+        <div class="label">${w}</div>
+      </div>`;
+    card.onclick=()=>flipMem(card);
+    grid.appendChild(card);
+  });
+}
+
+function flipMem(card){
+  if(card.classList.contains('flipped')||card.classList.contains('matched'))return;
+  if(memFlipped.length>=2)return;
+  
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  speak(card.dataset.word);
+  
+  if(memFlipped.length===2){
+    setTimeout(checkMem,800);
+  }
+}
+
+function checkMem(){
+  const[c1,c2]=memFlipped;
+  if(c1.dataset.word===c2.dataset.word){
+    c1.classList.add('matched');
+    c2.classList.add('matched');
+    playOk();
+    showConfetti();
+    memMatched++;
+    if(memMatched===4)updateStars(3,4);
+  }else{
+    playNo();
+    setTimeout(()=>{
+      c1.classList.remove('flipped');
+      c2.classList.remove('flipped');
+    },500);
+  }
+  memFlipped=[];
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(style);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')prev();
+  if(e.key==='ArrowRight')next();
+});
+goTo(0);
+</script>
+</body>
+</html>

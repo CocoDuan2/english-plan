@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P86 - ur ✅
+- 当前: P87 - oo (short) ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -558,4 +558,11 @@
 - 发音: /ɜːr/
 - 单词: turn, burn, hurt, nurse
 - 故事: 佩琪看护士
+- 状态: ✅ 完成
+
+### P87 - oo Sound (short) · Peppa's Cooking Book
+- 模式: oo (short)
+- 发音: /ʊ/
+- 单词: book, look, cook, good
+- 故事: 佩琪的烹饪书
 - 状态: ✅ 完成
