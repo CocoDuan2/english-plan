@@ -1,7 +1,7 @@
 # 自然拼读进度记录
 
 ## 当前状态
-- 当前: P69 - cr ✅
+- 当前: P70 - dr ✅
 - 更新时间: 2026-03-05
 - 课程体系: 牛津自然拼读(Oxford Phonics)
 
@@ -437,6 +437,13 @@
 - 发音: /kr/
 - 单词: crab, cry, crown, cross
 - 故事: 佩琪找到螃蟹
+- 状态: ✅ 完成
+
+### P70 - dr Blend · Peppa Plays the Drum
+- 辅音组合: dr
+- 发音: /dr/
+- 单词: drum, dress, drink, draw
+- 故事: 佩琪打鼓
 - 状态: ✅ 完成
 
 ## Phonics 5 · 复杂拼读（P82-P101）
