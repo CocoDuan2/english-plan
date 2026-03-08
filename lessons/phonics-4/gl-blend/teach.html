@@ -151,7 +151,7 @@ body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-heigh
 <div class="slide">
 <div class="pr">
 <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-<div class="bbl">Listen and say!</div>
+<div class="bbl">Listen and tap!</div>
 </div>
 <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
 <button class="sound-btn" style="background:linear-gradient(135deg,#89cff0,#4a90e2)" onclick="speak('glass')">
@@ -168,6 +168,16 @@ body{font-family:'Comic Sans MS','Segoe UI Emoji',system-ui,sans-serif;min-heigh
 </button>
 </div>
 </div>
+  <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
+  <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
+</div>
+
+<script>
+let listenWords=['glass', 'glove', 'glad', 'glue'];let listenCurrent=0;
+function startListenGame(){if(listenCurrent>=listenWords.length){document.getElementById('listenResult').innerHTML='🎉 All done!';document.getElementById('listenGame').innerHTML='';return;}const correct=listenWords[listenCurrent];const distractors=listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2);const options=[correct,...distractors].sort(()=>Math.random()-0.5);const emojiMap={'goat': '1f410', 'girl': '1f467', 'gift': '1f381', 'gate': '1f6aa', 'kite': '1fa81', 'king': '1f451', 'key': '1f511', 'kid': '1f9d2', 'lion': '1f981', 'leaf': '1f343', 'lemon': '1f34b', 'lamp': '1f4a1', 'nose': '1f443', 'nest': '1fab9', 'net': '1f94e', 'nut': '1f95c', 'queen': '1f451', 'quilt': '1f6cf', 'question': '2753', 'quick': '1f3c3', 'tree': '1f333', 'tiger': '1f405', 'tent': '26fa', 'top': '1f51d', 'clap': '1f44f', 'clock': '23f0', 'cloud': '2601', 'clean': '1f9fd', 'flag': '1f6a9', 'flower': '1f33c', 'fly': '1f4a8', 'floor': '1f9f9', 'glass': '1f964', 'glove': '1f9e4', 'glad': '1f603', 'glue': '1f9ea'};document.getElementById('listenGame').innerHTML=options.map(w=>{const code=emojiMap[w]||'2753';return`<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg" style="width:80px;height:80px"></button>`;}).join('');setTimeout(()=>speak(correct),500);}
+function checkListenAnswer(word){const correct=listenWords[listenCurrent];const resultDiv=document.getElementById('listenResult');if(word===correct){resultDiv.innerHTML='✅';playOk();speak(word);showConfetti();listenCurrent++;setTimeout(startListenGame,2000);}else{resultDiv.innerHTML='❌ Try again!';playNo();document.querySelectorAll('.sound-btn').forEach(btn=>{btn.style.animation='shake 0.5s';setTimeout(()=>btn.style.animation='',500);});}}
+if(currentSlide===9)startListenGame();
+</script>
 
 <div class="slide">
 <div class="pr">
