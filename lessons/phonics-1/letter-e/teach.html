@@ -223,14 +223,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily Elephant" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter E!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
     <div class="bbl">This is letter E!</div>
   </div>
   <div class="letter-big">Ee</div>
@@ -241,7 +241,7 @@ body{
 <!-- S4: Trace Letter E -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
     <div class="bbl">Trace letter E!</div>
   </div>
   <div class="trace-container">
@@ -262,7 +262,7 @@ body{
 <!-- S5: Word 1 - egg -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">/e/ is for egg!</div>
   </div>
   <div class="obj-wrap">
@@ -274,7 +274,7 @@ body{
 <!-- S6: Word 2 - elephant -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
     <div class="bbl">/e/ is for elephant!</div>
   </div>
   <div class="obj-wrap">
@@ -286,7 +286,7 @@ body{
 <!-- S7: Word 3 - elbow -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl">/e/ is for elbow!</div>
   </div>
   <div class="obj-wrap">
@@ -298,7 +298,7 @@ body{
 <!-- S8: Word 4 - exit -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
     <div class="bbl">/e/ is for exit!</div>
   </div>
   <div class="obj-wrap">
@@ -310,7 +310,7 @@ body{
 <!-- S9: Blending -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -337,7 +337,7 @@ body{
 <!-- S10: Listen & Tap -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa and George">
     <div class="bbl" id="listenPrompt">Listen and tap!</div>
   </div>
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
@@ -471,7 +471,7 @@ if (currentSlide === 9) startListenGame();
 
 <!-- S13: Bye -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Great job!</div>
   <div class="sub">Tomorrow we'll learn letter F!</div>
   <div style="font-size:48px;margin-top:20px">🎉</div>
@@ -515,6 +515,7 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9)startListenGame();
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
