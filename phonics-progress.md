@@ -86,14 +86,14 @@
 - 发音: /k/
 - 单词: kite, king, key, kid
 - 故事: 佩琪放风筝
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P12 - Letter L · Peppa Goes to the Zoo
 - 字母: L l
 - 发音: /l/
 - 单词: lion, leaf, lemon, lamp
 - 故事: 佩琪去动物园
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P13 - Letter M · Peppa Looks at the Moon
 - 字母: M m
