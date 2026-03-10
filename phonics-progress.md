@@ -72,7 +72,7 @@
 - 发音: /ɪ/
 - 单词: ink, insect, igloo, inch
 - 故事: 佩琪画画
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P10 - Letter J · Peppa Jumps in Muddy Puddles
 - 字母: J j

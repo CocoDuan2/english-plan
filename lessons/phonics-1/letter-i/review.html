@@ -300,11 +300,21 @@ body{
 const words=[
   {w:'ink',img:'1f58b'},
   {w:'insect',img:'1f41b'},
-  {w:'igloo',img:'1f3d4'},
+  {w:'igloo',img:'26fa'},
   {w:'inch',img:'1f4cf'}
 ];
 let cm=0,busy=false;
 let listenIdx=0,memFlipped=[],memMatched=0;
+let audioCache={};
+let audioLoaded=false;
+
+// Preload audio
+words.forEach(item=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(item.w)}&type=2`);
+  a.load();
+  audioCache[item.w]=a;
+});
+setTimeout(()=>audioLoaded=true,1000);
 
 function goM(m){
   if(m<0||m>5)return;
@@ -330,15 +340,28 @@ function stars(ids){
 }
 
 function speak(w,cb){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  let done=false;
-  const finish=()=>{if(!done){done=true;if(cb)cb()}};
-  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
-  });
+  if(!audioLoaded){
+    setTimeout(()=>speak(w,cb),500);
+    return;
+  }
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().then(()=>{
+      if(cb)setTimeout(cb,1000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{if(cb)cb()});
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{if(cb)cb()});
+    });
+  }
 }
 
 function playOk(){
