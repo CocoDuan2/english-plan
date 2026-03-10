@@ -114,7 +114,7 @@
 - 发音: /ɒ/
 - 单词: orange, octopus, ox, olive
 - 故事: 佩琪吃橙子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（音频预加载+Listen游戏修复+角色多样化）
 
 ### P16 - Letter P · Peppa Pig Family
 - 字母: P p
