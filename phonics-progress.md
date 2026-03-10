@@ -23,7 +23,7 @@
 - 发音: /b/
 - 单词: ball, bear, banana, bat
 - 故事: 佩琪玩球
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频失败提示+游戏修复）
 
 ### P3 - Letter C · Peppa's Birthday Cake
 - 字母: C c

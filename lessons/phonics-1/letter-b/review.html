@@ -337,7 +337,14 @@ function speak(w,cb){
   a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      finish();
+      const msg=document.createElement('div');
+      msg.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#e67e22;color:#fff;padding:12px 24px;border-radius:12px;font-size:16px;font-weight:700;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2)';
+      msg.textContent='🔇 Audio unavailable';
+      document.body.appendChild(msg);
+      setTimeout(()=>msg.remove(),2000);
+    });
   });
 }
 
