@@ -65,7 +65,7 @@
 - 发音: /h/
 - 单词: hat, house, horse, hand
 - 故事: 佩琪的新帽子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P9 - Letter I · Peppa Paints
 - 字母: I i

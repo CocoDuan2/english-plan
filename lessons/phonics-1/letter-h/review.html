@@ -207,7 +207,7 @@ body{
 <!-- M0: Start -->
 <div class="mod active">
   <div class="start-screen">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <h1>Letter H Review</h1>
     <div class="preview">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3a9.svg" alt="hat">
@@ -227,7 +227,7 @@ body{
     <div class="sb"><span id="s1">★</span><span id="s2">★</span><span id="s3">★</span><span id="s4">★</span></div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">Tap to reveal!</div>
   </div>
   <div class="learn-grid" id="learnGrid"></div>
@@ -241,7 +241,7 @@ body{
     <div class="sb"><span id="s5">★</span><span id="s6">★</span><span id="s7">★</span><span id="s8">★</span></div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/george-standing.png" alt="George">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
     <div class="bbl">Listen and blend!</div>
   </div>
   <div id="blendGame" style="text-align:center;margin-top:20px"></div>
@@ -255,7 +255,7 @@ body{
     <div class="sb"><span id="s9">★</span><span id="s10">★</span><span id="s11">★</span><span id="s12">★</span></div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+    <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George">
     <div class="bbl">Find the word!</div>
   </div>
   <button class="replay-btn" onclick="playCurrentWord()">🔊 Listen</button>
@@ -270,7 +270,7 @@ body{
     <div class="sb"><span id="s13">★</span><span id="s14">★</span><span id="s15">★</span><span id="s16">★</span></div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl">Match the pairs!</div>
   </div>
   <div class="mem-grid" id="memGrid"></div>
@@ -305,6 +305,15 @@ const words=[
 ];
 let cm=0,busy=false;
 let listenIdx=0,memFlipped=[],memMatched=0;
+let audioCache={};
+
+// 音频预加载
+words.forEach(item=>{
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(item.w)}&type=2`;
+  const a=new Audio(u);
+  a.preload='auto';
+  audioCache[item.w]=a;
+});
 
 function goM(m){
   if(m<0||m>5)return;
@@ -330,15 +339,29 @@ function stars(ids){
 }
 
 function speak(w,cb){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  let done=false;
-  const finish=()=>{if(!done){done=true;if(cb)cb()}};
-  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
-  });
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    let done=false;
+    const finish=()=>{if(!done){done=true;if(cb)cb()}};
+    audioCache[w].play().then(()=>{
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    let done=false;
+    const finish=()=>{if(!done){done=true;if(cb)cb()}};
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+    });
+  }
 }
 
 function playOk(){
