@@ -206,7 +206,7 @@ body{
 
 <div class="mod active">
   <div class="start-screen">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <h1>Letter K Review</h1>
     <div class="preview">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fa81.svg" alt="kite">
@@ -299,6 +299,17 @@ const words=[
 let cm=0,busy=false;
 let listenIdx=0,memFlipped=[],memMatched=0;
 
+// Audio preload
+const audioCache={};
+function preloadAudio(word){
+  if(audioCache[word])return;
+  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=2`;
+  const a=new Audio(u);
+  a.load();
+  audioCache[word]=a;
+}
+words.forEach(w=>preloadAudio(w.w));
+
 function goM(m){
   if(m<0||m>5)return;
   document.querySelectorAll('.mod').forEach((el,i)=>el.classList.toggle('active',i===m));
@@ -323,15 +334,34 @@ function stars(ids){
 }
 
 function speak(w,cb){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  let done=false;
-  const finish=()=>{if(!done){done=true;if(cb)cb()}};
-  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
-  });
+  if(audioCache[w]){
+    let done=false;
+    const finish=()=>{if(!done){done=true;if(cb)cb()}};
+    audioCache[w].play().then(()=>{
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        alert('Audio failed. Please check your connection.');
+        finish();
+      });
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    let done=false;
+    const finish=()=>{if(!done){done=true;if(cb)cb()}};
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        alert('Audio failed. Please check your connection.');
+        finish();
+      });
+    });
+  }
 }
 
 function playOk(){
