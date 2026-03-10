@@ -37,14 +37,14 @@
 - 发音: /d/
 - 单词: dog, duck, door, doll
 - 故事: 佩琪遇见小狗
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+Listen游戏修复）
 
 ### P5 - Letter E · Peppa Makes Breakfast
 - 字母: E e
 - 发音: /e/
 - 单词: egg, elephant, elbow, exit
 - 故事: 佩琪做早餐
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+Listen游戏修复）
 
 ### P6 - Letter F · Peppa Goes Fishing
 - 字母: F f
