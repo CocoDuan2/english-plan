@@ -107,7 +107,7 @@
 - 发音: /n/
 - 单词: nose, nest, net, nut
 - 故事: 佩琪找鸟巢
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P15 - Letter O · Peppa Eats Oranges
 - 字母: O o
