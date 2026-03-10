@@ -58,7 +58,7 @@
 - 发音: /g/
 - 单词: goat, girl, gift, gate
 - 故事: 佩琪收礼物
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ⚠️ 待优化（角色单一+游戏bug）
 
 ### P8 - Letter H · Peppa's New Hat
 - 字母: H h
