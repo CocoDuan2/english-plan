@@ -30,7 +30,7 @@
 - 发音: /k/
 - 单词: cat, car, cake, cup
 - 故事: 佩琪的生日蛋糕
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载）
 
 ### P4 - Letter D · Peppa Meets a Dog
 - 字母: D d
