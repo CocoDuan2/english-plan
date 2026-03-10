@@ -205,7 +205,7 @@ body{
 <!-- M0: Start -->
 <div class="mod active">
   <div class="start-screen">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
     <h1>Letter J Review</h1>
     <div class="preview">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9d8-200d-2640-fe0f.svg" alt="jump">
@@ -225,7 +225,7 @@ body{
     <div class="sb" id="stars1">★★★★</div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <div class="bbl">Click the cards!</div>
   </div>
   <div class="learn-grid">
@@ -260,7 +260,7 @@ body{
     <div class="sb" id="stars2">★★★★</div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">Listen and spell!</div>
   </div>
   <button class="replay-btn" onclick="playBlendWord()">🔊 Play Word</button>
@@ -276,7 +276,7 @@ body{
     <div class="sb" id="stars3">★★★★</div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
     <div class="bbl">Find the word!</div>
   </div>
   <button class="replay-btn" onclick="playListenWord()">🔊 Play Word</button>
@@ -308,7 +308,7 @@ body{
     <div class="sb" id="stars4">★★★★</div>
   </div>
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">Match the pairs!</div>
   </div>
   <div class="mem-grid" id="memGrid"></div>
@@ -343,6 +343,14 @@ let listenIdx=0;
 let memCards=[];
 let memFlipped=[];
 let memMatched=0;
+let audioCache={};
+
+// Preload audio
+words.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+  audioCache[w]=a;
+});
 
 function goTo(i){
   if(i<0||i>=tm)return;
@@ -360,11 +368,19 @@ function prev(){if(ci>0)goTo(ci-1)}
 function restart(){goTo(0)}
 
 function speak(w){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  new Audio(u).play().catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  });
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    new Audio(u).play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }
 }
 
 function playOk(){

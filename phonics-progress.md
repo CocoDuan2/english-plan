@@ -79,7 +79,7 @@
 - 发音: /dʒ/
 - 单词: jump, juice, jelly, jar
 - 故事: 佩琪跳泥坑
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P11 - Letter K · Peppa Flies a Kite
 - 字母: K k

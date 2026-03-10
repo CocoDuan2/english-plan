@@ -217,20 +217,20 @@ body{
 <div class="slide active">
   <div class="ttl">Letter J</div>
   <div class="sub">Peppa Jumps in Muddy Puddles</div>
-  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin:20px 0">
+  <img src="../../../assets/peppa/george-playing-ball.png" alt="George" style="width:110px;margin:20px 0">
   <div style="font-size:20px;color:#667085;margin-top:12px">Learn the letter J and its sound /dʒ/</div>
 </div>
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter J!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">This is letter J!</div>
   </div>
   <div class="letter-big">Jj</div>
@@ -241,7 +241,7 @@ body{
 <!-- S4: Trace Letter J -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
     <div class="bbl">Trace letter J!</div>
   </div>
   <div class="trace-container">
@@ -262,7 +262,7 @@ body{
 <!-- S5: Word 1 - jump -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <div class="bbl">/dʒ/ is for jump!</div>
   </div>
   <div class="obj-wrap">
@@ -274,7 +274,7 @@ body{
 <!-- S6: Word 2 - juice -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
     <div class="bbl">/dʒ/ is for juice!</div>
   </div>
   <div class="obj-wrap">
@@ -286,7 +286,7 @@ body{
 <!-- S7: Word 3 - jelly -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">/dʒ/ is for jelly!</div>
   </div>
   <div class="obj-wrap">
@@ -298,7 +298,7 @@ body{
 <!-- S8: Word 4 - jar -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
     <div class="bbl">/dʒ/ is for jar!</div>
   </div>
   <div class="obj-wrap">
@@ -310,7 +310,7 @@ body{
 <!-- S9: Blending -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -337,101 +337,16 @@ body{
 <!-- S10: Listen & Tap -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl" id="listenPrompt">Listen and tap!</div>
   </div>
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
   <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
 </div>
-
-<script>
-let listenWords = ["jump","juice","jelly","jar"];
-let listenCurrent = 0;
-let listenOptions = [];
-
-function startListenGame() {
-  if (listenCurrent >= listenWords.length) {
-    document.getElementById('listenResult').innerHTML = '🎉 All done!';
-    document.getElementById('listenGame').innerHTML = '';
-    document.getElementById('listenPrompt').textContent = 'Great job!';
-    return;
-  }
-  const correct = listenWords[listenCurrent];
-  const distractors = listenWords.filter(w => w !== correct).sort(() => Math.random() - 0.5).slice(0, 2);
-  listenOptions = [correct, ...distractors].sort(() => Math.random() - 0.5);
-  
-  const gameDiv = document.getElementById('listenGame');
-  gameDiv.innerHTML = listenOptions.map(w => {
-    const emoji = getWordEmoji(w);
-    return `<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px">
-      <img src="${emoji}" style="width:80px;height:80px">
-    </button>`;
-  }).join('');
-  
-  setTimeout(() => speak(correct), 500);
-}
-
-function checkListenAnswer(word) {
-  const correct = listenWords[listenCurrent];
-  const resultDiv = document.getElementById('listenResult');
-  if (word === correct) {
-    resultDiv.innerHTML = '✅';
-    playOk();
-    speak(word);
-    showConfetti();
-    listenCurrent++;
-    setTimeout(startListenGame, 2000);
-  } else {
-    resultDiv.innerHTML = '❌ Try again!';
-    playNo();
-    document.querySelectorAll('.sound-btn').forEach(btn => {
-      if (btn.textContent.includes(word)) {
-        btn.style.animation = 'shake 0.5s';
-        setTimeout(() => btn.style.animation = '', 500);
-      }
-    });
-  }
-}
-
-function getWordEmoji(word) {
-  const emojiMap = {
-    apple: '1f34e', ant: '1f41c', alligator: '1f40a', ax: '1fa93',
-    ball: '26bd', bear: '1f43b', banana: '1f34c', bat: '1f987',
-    cat: '1f431', car: '1f697', cake: '1f370', cup: '2615',
-    dog: '1f436', duck: '1f986', door: '1f6aa', doll: '1fa86',
-    egg: '1f95a', elephant: '1f418', elbow: '1f4aa', exit: '1f6aa',
-    fish: '1f41f', frog: '1f438', flower: '1f33c', fan: '1f4a8',
-    goat: '1f410', girl: '1f467', gift: '1f381', gate: '1f6aa',
-    hat: '1f3a9', house: '1f3e0', horse: '1f40e', hand: '270b',
-    ink: '1f58b', insect: '1f41b', igloo: '26fa', inch: '1f4cf',
-    jump: '1f938', juice: '1f9c3', jelly: '1f36e', jar: '1fad9',
-    kite: '1fa81', king: '1f451', key: '1f511', kid: '1f9d2',
-    lion: '1f981', leaf: '1f343', lemon: '1f34b', lamp: '1f4a1',
-    moon: '1f319', milk: '1f95b', monkey: '1f435', map: '1f5fa',
-    nose: '1f443', nest: '1fab9', net: '1f94e', nut: '1f95c',
-    orange: '1f34a', octopus: '1f419', ox: '1f402', olive: '1fad2',
-    pig: '1f437', pen: '1f58a', pizza: '1f355', pot: '1f372',
-    queen: '1f451', quilt: '1f6cf', question: '2753', quick: '1f3c3',
-    rabbit: '1f407', rain: '1f327', red: '1f534', ring: '1f48d',
-    sun: '2600', snake: '1f40d', star: '2b50', sock: '1f9e6',
-    tree: '1f333', tiger: '1f405', tent: '26fa', top: '1f51d',
-    umbrella: '2602', up: '2b06', under: '2b07', uncle: '1f468',
-    van: '1f69a', violin: '1f3bb', vest: '1f9ba', vase: '1f3fa',
-    water: '1f4a7', window: '1fa9f', watch: '231a', web: '1f578',
-    box: '1f4e6', fox: '1f98a', six: '0036-20e3', mix: '1f9ea',
-    yellow: '1f7e1', 'yo-yo': '1fa80', yes: '2705', yak: '1f402',
-    zoo: '1f98d', zebra: '1f993', zero: '0030-20e3', zip: '1f910'
-  };
-  const code = emojiMap[word] || '2753';
-  return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
-}
-
-if (currentSlide === 9) startListenGame();
-</script>
 <!-- S11: Story -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
     <div class="bbl">Peppa loves jumping in muddy puddles!</div>
   </div>
   <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
@@ -507,6 +422,17 @@ if (currentSlide === 9) startListenGame();
 let ci=0,ts=13;
 let tracePoints=[];
 let isDrawing=false;
+let listenWords=["jump","juice","jelly","jar"];
+let listenCurrent=0;
+let listenOptions=[];
+let audioCache={};
+
+// Preload audio
+listenWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+  audioCache[w]=a;
+});
 
 function goTo(i){
   if(i<0||i>=ts)return;
@@ -515,18 +441,90 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9)setTimeout(startListenGame,300);
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
 function speak(w){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  a.play().catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  });
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }
 }
+function playOk(){
+  const ctx=new AudioContext();
+  const osc=ctx.createOscillator();
+  osc.frequency.value=800;
+  osc.connect(ctx.destination);
+  osc.start();
+  setTimeout(()=>osc.stop(),100);
+}
+function playNo(){
+  const ctx=new AudioContext();
+  const osc=ctx.createOscillator();
+  osc.frequency.value=200;
+  osc.connect(ctx.destination);
+  osc.start();
+  setTimeout(()=>osc.stop(),200);
+}
+
+function startListenGame(){
+  if(listenCurrent>=listenWords.length){
+    document.getElementById('listenResult').innerHTML='🎉 All done!';
+    document.getElementById('listenGame').innerHTML='';
+    document.getElementById('listenPrompt').textContent='Great job!';
+    return;
+  }
+  const correct=listenWords[listenCurrent];
+  const distractors=listenWords.filter(w=>w!==correct).sort(()=>Math.random()-.5).slice(0,2);
+  listenOptions=[correct,...distractors].sort(()=>Math.random()-.5);
+  
+  const gameDiv=document.getElementById('listenGame');
+  gameDiv.innerHTML=listenOptions.map(w=>{
+    const emoji=getWordEmoji(w);
+    return `<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px">
+      <img src="${emoji}" style="width:80px;height:80px">
+    </button>`;
+  }).join('');
+  
+  setTimeout(()=>speak(correct),500);
+}
+
+function checkListenAnswer(word){
+  const correct=listenWords[listenCurrent];
+  const resultDiv=document.getElementById('listenResult');
+  if(word===correct){
+    resultDiv.innerHTML='✅';
+    playOk();
+    speak(word);
+    showConfetti();
+    listenCurrent++;
+    setTimeout(startListenGame,2000);
+  }else{
+    resultDiv.innerHTML='❌ Try again!';
+    playNo();
+  }
+}
+
+function getWordEmoji(word){
+  const emojiMap={
+    jump:'1f9d8-200d-2640-fe0f',juice:'1f9c3',jelly:'1f36e',jar:'1fad9'
+  };
+  const code=emojiMap[word]||'2753';
+  return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
+}
+
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
   const anim=document.getElementById('blendAnim');
