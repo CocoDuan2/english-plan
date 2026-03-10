@@ -100,7 +100,7 @@
 - 发音: /m/
 - 单词: moon, milk, monkey, map
 - 故事: 佩琪看月亮
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+Listen游戏修复）
 
 ### P14 - Letter N · Peppa Finds a Nest
 - 字母: N n
