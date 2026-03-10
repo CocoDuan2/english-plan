@@ -227,14 +227,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter A!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
     <div class="bbl">This is letter A!</div>
   </div>
   <div class="letter-big">Aa</div>
@@ -245,7 +245,7 @@ body{
 <!-- S4: Trace Letter A -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">Trace letter A!</div>
   </div>
   <div class="trace-container">
@@ -278,7 +278,7 @@ body{
 <!-- S6: Word 2 - ant -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">/æ/ is for ant!</div>
   </div>
   <div class="obj-wrap">
@@ -290,7 +290,7 @@ body{
 <!-- S7: Word 3 - alligator -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
     <div class="bbl">/æ/ is for alligator!</div>
   </div>
   <div class="obj-wrap">
@@ -302,7 +302,7 @@ body{
 <!-- S8: Word 4 - ax -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
     <div class="bbl">/æ/ is for ax!</div>
   </div>
   <div class="obj-wrap">
@@ -314,7 +314,7 @@ body{
 <!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -341,7 +341,7 @@ body{
 <!-- S10: Listen & Tap -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl" id="listenPrompt">Listen and tap!</div>
   </div>
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
@@ -352,6 +352,7 @@ body{
 let listenWords = ["apple","ant","alligator","ax"];
 let listenCurrent = 0;
 let listenOptions = [];
+let listenInitialized = false;
 
 function startListenGame() {
   if (listenCurrent >= listenWords.length) {
@@ -429,13 +430,11 @@ function getWordEmoji(word) {
   const code = emojiMap[word] || '2753';
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
 }
-
-if (currentSlide === 9) startListenGame();
 </script>
 <!-- S11: Story -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
     <div class="bbl">Peppa visits the apple orchard!</div>
   </div>
   <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
@@ -519,6 +518,10 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9&&!listenInitialized){
+    listenInitialized=true;
+    startListenGame();
+  }
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
@@ -531,6 +534,14 @@ function speak(w){
     new Audio(u2).play().catch(()=>console.log('Audio failed'));
   });
 }
+
+// Preload audio
+const preloadWords=['apple','ant','alligator','ax'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
   const anim=document.getElementById('blendAnim');

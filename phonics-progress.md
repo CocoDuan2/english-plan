@@ -16,7 +16,7 @@
 - 发音: /æ/
 - 单词: apple, ant, alligator, ax
 - 故事: 佩琪的苹果园
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+游戏修复）
 
 ### P2 - Letter B · Peppa Plays Ball
 - 字母: B b
