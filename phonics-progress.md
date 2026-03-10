@@ -51,7 +51,7 @@
 - 发音: /f/
 - 单词: fish, frog, flower, fan
 - 故事: 佩琪去钓鱼
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化+音频预加载+游戏启动修复）
 
 ### P7 - Letter G · Peppa Gets a Gift
 - 字母: G g

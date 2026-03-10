@@ -238,14 +238,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/george-standing.png" alt="George" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter F!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">This is letter F!</div>
   </div>
   <div class="letter-big">Ff</div>
@@ -256,7 +256,7 @@ body{
 <!-- S4: Trace Letter F -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
     <div class="bbl">Trace letter F!</div>
   </div>
   <div class="trace-container">
@@ -289,7 +289,7 @@ body{
 <!-- S6: Word 2 - frog -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George">
     <div class="bbl">/f/ is for frog!</div>
   </div>
   <div class="obj-wrap">
@@ -301,7 +301,7 @@ body{
 <!-- S7: Word 3 - flower -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">/f/ is for flower!</div>
   </div>
   <div class="obj-wrap">
@@ -313,7 +313,7 @@ body{
 <!-- S8: Word 4 - fan -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl">/f/ is for fan!</div>
   </div>
   <div class="obj-wrap">
@@ -325,7 +325,7 @@ body{
 <!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -352,7 +352,7 @@ body{
 <!-- S10: Listen & Tap -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
     <div class="bbl" id="listenPrompt">Listen and tap!</div>
   </div>
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
@@ -440,8 +440,6 @@ function getWordEmoji(word) {
   const code = emojiMap[word] || '2753';
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
 }
-
-if (currentSlide === 9) startListenGame();
 </script>
 <!-- S11: Fishing Game -->
 <div class="slide">
@@ -529,6 +527,18 @@ if (currentSlide === 9) startListenGame();
 let ci=0,ts=13;
 let tracePoints=[];
 let isDrawing=false;
+let audioCache={};
+
+// Preload audio
+function preloadAudio(){
+  const words=['fish','frog','flower','fan','F'];
+  words.forEach(w=>{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.preload='auto';
+    audioCache[w]=a;
+  });
+}
 
 function goTo(i){
   if(i<0||i>=ts)return;
@@ -537,17 +547,26 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9)setTimeout(startListenGame,300);
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
 function speak(w){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  a.play().catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  });
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    });
+  }
 }
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
@@ -700,6 +719,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')next();
   if(e.key==='t'||e.key==='T')toggleNotes();
 });
+preloadAudio();
 goTo(0);
 </script>
 </body>
