@@ -362,6 +362,13 @@ function speak(w,cb){
   });
 }
 
+// Preload audio
+const preloadWords=['saw', 'paw', 'draw', 'sauce'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function playOk(){
   try{
     const ctx=new AudioContext();

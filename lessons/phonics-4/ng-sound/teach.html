@@ -252,6 +252,13 @@ const u=`https://dict.youdao.com/dictvoice?audio=${w}&type=2`;
 new Audio(u).play().catch(()=>new Audio(`https://fanyi.baidu.com/gettts?lan=en&text=${w}&spd=4&source=web`).play());
 }
 
+// Preload audio
+const preloadWords=['sing','ring','king','long'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function showBlend(w,letters){
 document.getElementById('blendChoice').style.display='none';
 document.getElementById('blendAnim').style.display='block';

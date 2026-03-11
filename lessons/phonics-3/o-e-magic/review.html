@@ -379,6 +379,13 @@ function speak(w,cb){
   });
 }
 
+// Preload audio
+const preloadWords=['home', 'nose', 'rose', 'bone', 'stone'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function playOk(){
   try{
     const ctx=new AudioContext();

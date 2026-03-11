@@ -450,9 +450,24 @@ function speak(w){
       msg.textContent='🔇 Audio unavailable';
       document.body.appendChild(msg);
       setTimeout(()=>msg.remove(),2000);
-    });
+    }
+
+// Preload audio
+const preloadWords=['ball', 'bear', 'banana', 'bat'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+);
   });
 }
+
+// Preload audio
+const preloadWords=["ball","bear","banana","bat"];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
 
 let listenWords=["ball","bear","banana","bat"];
 let listenCurrent=0;

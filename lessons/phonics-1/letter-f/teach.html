@@ -559,7 +559,15 @@ function speak(w){
       const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
       new Audio(u2).play().catch(()=>console.log('Audio failed'));
     });
-  }else{
+  }
+
+// Preload audio
+const preloadWords=['fish', 'frog', 'flower', 'fan'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+else{
     const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
     const a=new Audio(u);
     a.play().catch(()=>{

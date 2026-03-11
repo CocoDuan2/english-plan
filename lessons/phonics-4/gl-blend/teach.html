@@ -258,6 +258,13 @@ new Audio(u2).play().catch(()=>console.log('Audio failed'));
 });
 }
 
+// Preload audio
+const preloadWords=['glass','glove','glad','glue'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function startListenGame(){
 if(currentRound>=words.length){
 document.getElementById('listenFeedback').innerHTML='🎉 All done!';

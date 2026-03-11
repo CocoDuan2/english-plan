@@ -529,7 +529,22 @@ function speak(w){
   if(audioCache[w]){
     audioCache[w].currentTime=0;
     audioCache[w].play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}
+// Preload audio
+const preloadWords=['cat', 'car', 'cake', 'cup'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+}
+
+// Preload audio
+const preloadWords=['cat', 'car', 'cake', 'cup'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+);
+&spd=4&source=web`;
       new Audio(u2).play().catch(showAudioError);
     });
   }else{

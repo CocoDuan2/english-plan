@@ -341,6 +341,13 @@ function speak(w,cb){
   });
 }
 
+// Preload audio
+const preloadWords=['bee', 'tree', 'see', 'feet'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+
 function playOk(){
   const ctx=new AudioContext();
   const osc=ctx.createOscillator();

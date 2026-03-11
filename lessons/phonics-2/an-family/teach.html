@@ -178,14 +178,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn -an words!</div>
 </div>
 
 <!-- S3: Family Pattern -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
     <div class="bbl">This is the -an family!</div>
   </div>
   <div class="family-big">-an</div>
@@ -208,7 +208,7 @@ body{
 <!-- S5: Word 2 - man -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
     <div class="bbl">m + an = man!</div>
   </div>
   <div class="obj-wrap">
@@ -220,7 +220,7 @@ body{
 <!-- S6: Word 3 - pan -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/emily-elephant-standing.png" alt="Emily">
     <div class="bbl">p + an = pan!</div>
   </div>
   <div class="obj-wrap">
@@ -232,7 +232,7 @@ body{
 <!-- S7: Word 4 - fan -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <div class="bbl">f + an = fan!</div>
   </div>
   <div class="obj-wrap">
@@ -244,7 +244,7 @@ body{
 <!-- S8: Word 5 - van -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
     <div class="bbl">v + an = van!</div>
   </div>
   <div class="obj-wrap">
@@ -256,7 +256,7 @@ body{
 <!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -476,7 +476,15 @@ function speak(w){
   a.play().catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  });
+  }
+
+// Preload audio
+const preloadWords=['can', 'man', 'pan', 'fan'];
+preloadWords.forEach(w=>{
+  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+  a.load();
+});
+);
 }
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
