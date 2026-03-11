@@ -505,7 +505,9 @@ function speak(w){
   const a=new Audio(u);
   a.play().catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+    new Audio(u2).play().catch(()=>{
+      alert('🔇 Audio unavailable. Please check your internet connection.');
+    });
   });
 }
 

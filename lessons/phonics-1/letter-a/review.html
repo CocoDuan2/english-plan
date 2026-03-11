@@ -337,7 +337,10 @@ function speak(w,cb){
   a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      alert('🔇 Audio unavailable. Please check your internet connection.');
+      finish();
+    });
   });
 }
 
