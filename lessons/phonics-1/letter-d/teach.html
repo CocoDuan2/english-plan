@@ -223,7 +223,7 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George with Dinosaur" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter D!</div>
 </div>
 
@@ -529,22 +529,7 @@ function speak(w){
   if(audioCache[w]){
     audioCache[w].currentTime=0;
     audioCache[w].play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}
-// Preload audio
-const preloadWords=['dog', 'duck', 'door', 'doll'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-}
-
-// Preload audio
-const preloadWords=['dog', 'duck', 'door', 'doll'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-);
-&spd=4&source=web`;
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
       new Audio(u2).play().catch(showAudioError);
     });
   }else{
@@ -698,7 +683,7 @@ function showConfetti(){
 }
 
 const style=document.createElement('style');
-style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}`;
 document.head.appendChild(style);
 
 document.addEventListener('keydown',e=>{
