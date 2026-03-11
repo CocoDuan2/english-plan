@@ -536,20 +536,20 @@ function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
 function speak(w){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  a.play().catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>console.log('Audio failed'));
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.warn('Audio failed for: '+w));
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.warn('Audio failed for: '+w));
+    });
   }
-
-// Preload audio
-const preloadWords=['pig', 'pen', 'pizza', 'pot'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-);
 }
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
@@ -601,12 +601,25 @@ if(ctx){
   ctx.lineWidth=8;
   ctx.lineCap='round';
   ctx.strokeStyle='#e91e8c';
-  
+
+  function resizeCanvas(){
+    const rect=canvas.getBoundingClientRect();
+    if(rect.width>0){
+      canvas.width=rect.width;
+      canvas.height=rect.height;
+      ctx.lineWidth=8;
+      ctx.lineCap='round';
+      ctx.strokeStyle='#e91e8c';
+    }
+  }
+  window.addEventListener('resize',resizeCanvas);
+  resizeCanvas();
+
   canvas.addEventListener('mousedown',startTrace);
   canvas.addEventListener('mousemove',drawTrace);
   canvas.addEventListener('mouseup',endTrace);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])},{passive:false});
   canvas.addEventListener('touchend',endTrace);
 }
 
@@ -649,18 +662,20 @@ function checkTrace(){
     return;
   }
   
-  // Check key points for letter P
+  // Check key points for letter P (relative to canvas size)
+  const w=canvas.width,h=canvas.height;
   const keyPoints=[
-    {x:100,y:50,name:'top'},      // Top of vertical line
-    {x:100,y:250,name:'bottom'},  // Bottom of vertical line
-    {x:200,y:50,name:'top-right'},// Top right of curve
-    {x:200,y:180,name:'mid-right'}// Middle right of curve
+    {x:w*0.33,y:h*0.17,name:'top'},
+    {x:w*0.33,y:h*0.83,name:'bottom'},
+    {x:w*0.67,y:h*0.17,name:'top-right'},
+    {x:w*0.67,y:h*0.6,name:'mid-right'}
   ];
-  
+
   let hits=0;
+  const tol=w*0.14;
   keyPoints.forEach(kp=>{
     const nearby=tracePoints.some(p=>
-      Math.abs(p.x-kp.x)<40 && Math.abs(p.y-kp.y)<40
+      Math.abs(p.x-kp.x)<tol && Math.abs(p.y-kp.y)<tol
     );
     if(nearby)hits++;
   });

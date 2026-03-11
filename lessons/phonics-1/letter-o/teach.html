@@ -223,14 +223,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter O!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
     <div class="bbl">This is letter O!</div>
   </div>
   <div class="letter-big">Oo</div>
@@ -260,7 +260,7 @@ body{
 <!-- S5: Word 1 - orange -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
     <div class="bbl">/ɒ/ is for orange!</div>
   </div>
   <div class="obj-wrap">
@@ -272,7 +272,7 @@ body{
 <!-- S6: Word 2 - octopus -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/george-standing.png" alt="George">
     <div class="bbl">/ɒ/ is for octopus!</div>
   </div>
   <div class="obj-wrap">
@@ -284,7 +284,7 @@ body{
 <!-- S7: Word 3 - ox -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">/ɒ/ is for ox!</div>
   </div>
   <div class="obj-wrap">
@@ -296,7 +296,7 @@ body{
 <!-- S8: Word 4 - olive -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">/ɒ/ is for olive!</div>
   </div>
   <div class="obj-wrap">
@@ -308,7 +308,7 @@ body{
 <!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -341,78 +341,11 @@ body{
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
   <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
 </div>
-<script>
-let listenWords=["orange","octopus","ox","olive"];
-let listenCurrent=0;
-
-function startListenGame(){
-  if(listenCurrent>=listenWords.length){
-    document.getElementById('listenResult').innerHTML='🎉 All done!';
-    document.getElementById('listenGame').innerHTML='';
-    document.getElementById('listenPrompt').textContent='Great job!';
-    return;
-  }
-  const correct=listenWords[listenCurrent];
-  const distractors=listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2);
-  const options=[correct,...distractors].sort(()=>Math.random()-0.5);
-  
-  const emojiMap={orange:'1f34a',octopus:'1f419',ox:'1f402',olive:'1fad2'};
-  document.getElementById('listenGame').innerHTML=options.map(w=>
-    `<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px">
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiMap[w]}.svg" style="width:80px;height:80px">
-    </button>`
-  ).join('');
-  
-  setTimeout(()=>speak(correct),500);
-}
-
-function checkListenAnswer(word){
-  const correct=listenWords[listenCurrent];
-  const resultDiv=document.getElementById('listenResult');
-  if(word===correct){
-    resultDiv.innerHTML='✅';
-    playOk();
-    speak(word);
-    showConfetti();
-    listenCurrent++;
-    setTimeout(startListenGame,2000);
-  }else{
-    resultDiv.innerHTML='❌ Try again!';
-    playNo();
-  }
-}
-
-function playOk(){
-  const ctx=new(window.AudioContext||window.webkitAudioContext)();
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.frequency.value=523;
-  gain.gain.setValueAtTime(0.3,ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.3);
-  osc.start();
-  osc.stop(ctx.currentTime+0.3);
-}
-
-function playNo(){
-  const ctx=new(window.AudioContext||window.webkitAudioContext)();
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.frequency.value=200;
-  gain.gain.setValueAtTime(0.3,ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.2);
-  osc.start();
-  osc.stop(ctx.currentTime+0.2);
-}
-</script>
 
 <!-- S11: Story -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
     <div class="bbl">Peppa loves oranges!</div>
   </div>
   <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
@@ -452,7 +385,7 @@ function playNo(){
 
 <!-- S13: Bye -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy" style="width:110px;margin-bottom:16px">
   <div class="ttl">Great job!</div>
   <div class="sub">Tomorrow we'll learn letter P!</div>
   <div style="font-size:48px;margin-top:20px">🎉</div>
@@ -473,12 +406,12 @@ function playNo(){
   <button class="tn-close" onclick="toggleNotes()">✕</button>
   <h3>📝 Teacher Notes - P15 Letter O</h3>
   <p><strong>S1 Title:</strong> Introduce the lesson theme - learning letter O.</p>
-  <p><strong>S2 Hello:</strong> Peppa greets and invites students to learn.</p>
+  <p><strong>S2 Hello:</strong> Daddy Pig greets and invites students to learn.</p>
   <p><strong>S3 Letter & Sound:</strong> Show uppercase and lowercase O. Emphasize the /ɒ/ sound. Have students repeat 3 times.</p>
   <p><strong>S4 Trace:</strong> Students trace letter O with finger/mouse. Check button validates the path.</p>
   <p><strong>S5-S8 Words:</strong> Introduce 4 words starting with O. Point to the pictures and say the words clearly.</p>
   <p><strong>S9 Blending:</strong> Demonstrate how to blend letters. Point to each letter as you say it.</p>
-  <p><strong>S10 Listen & Say:</strong> Students click buttons to hear words. Encourage them to repeat.</p>
+  <p><strong>S10 Listen & Tap:</strong> Students listen and tap the correct picture. Encourage them to repeat.</p>
   <p><strong>S11 Story:</strong> Read the short story. Emphasize words with letter O.</p>
   <p><strong>S12 All Together:</strong> Review all 4 words. Point randomly and ask students to say the words.</p>
   <p><strong>S13 Bye:</strong> Celebrate completion and preview next lesson.</p>
@@ -488,6 +421,99 @@ function playNo(){
 let ci=0,ts=13;
 let tracePoints=[];
 let isDrawing=false;
+let listenWords=["orange","octopus","ox","olive"];
+let listenCurrent=0;
+
+const audioCache={};
+
+function preloadAudio(){
+  listenWords.forEach(w=>{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    audioCache[w]=new Audio(u);
+    audioCache[w].load();
+  });
+}
+
+function speak(w){
+  const cached=audioCache[w];
+  if(cached){
+    cached.currentTime=0;
+    cached.play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.warn('Audio failed for: '+w));
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      new Audio(u2).play().catch(()=>console.warn('Audio failed for: '+w));
+    });
+  }
+}
+
+function playOk(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.value=523;
+  gain.gain.setValueAtTime(0.3,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.3);
+  osc.start();
+  osc.stop(ctx.currentTime+0.3);
+}
+
+function playNo(){
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.value=200;
+  gain.gain.setValueAtTime(0.3,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.2);
+  osc.start();
+  osc.stop(ctx.currentTime+0.2);
+}
+
+function startListenGame(){
+  if(listenCurrent>=listenWords.length){
+    document.getElementById('listenResult').innerHTML='🎉 All done!';
+    document.getElementById('listenGame').innerHTML='';
+    document.getElementById('listenPrompt').textContent='Great job!';
+    return;
+  }
+  const correct=listenWords[listenCurrent];
+  const distractors=listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2);
+  const options=[correct,...distractors].sort(()=>Math.random()-0.5);
+
+  const emojiMap={orange:'1f34a',octopus:'1f419',ox:'1f402',olive:'1fad2'};
+  document.getElementById('listenGame').innerHTML=options.map(w=>
+    `<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiMap[w]}.svg" style="width:80px;height:80px">
+    </button>`
+  ).join('');
+
+  setTimeout(()=>speak(correct),500);
+}
+
+function checkListenAnswer(word){
+  const correct=listenWords[listenCurrent];
+  const resultDiv=document.getElementById('listenResult');
+  if(word===correct){
+    resultDiv.innerHTML='✅';
+    playOk();
+    speak(word);
+    showConfetti();
+    listenCurrent++;
+    setTimeout(startListenGame,2000);
+  }else{
+    resultDiv.innerHTML='❌ Try again!';
+    playNo();
+  }
+}
 
 function goTo(i){
   if(i<0||i>=ts)return;
@@ -496,70 +522,29 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
-  if(i===9)setTimeout(startListenGame,300);
+  if(i===9){listenCurrent=0;setTimeout(startListenGame,300);}
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
-const audioCache={};
-function preloadAudio(){
-  ['orange','octopus','ox','olive','O'].forEach(w=>{
-    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-    audioCache[w]=new Audio(u);
-  });
-}
-function speak(w){
-  if(audioCache[w]){
-    audioCache[w].play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-      new Audio(u2).play().catch(()=>alert('Audio failed. Please check your internet connection.'));
-    });
-  }
 
-// Preload audio
-const preloadWords=['orange', 'octopus', 'ox', 'olive'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-else{
-    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-    const a=new Audio(u);
-    a.play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-      new Audio(u2).play().catch(()=>alert('Audio failed. Please check your internet connection.'));
-    });
-  }
-}
-
-// Preload audio
-const preloadWords=["orange","octopus","ox","olive"];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-preloadAudio();
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
   const anim=document.getElementById('blendAnim');
   const box=document.getElementById('blendBox');
   const wordEl=document.getElementById('blendWord');
-  
+
   choice.style.display='none';
   anim.style.display='block';
-  
   box.innerHTML='';
   box.className='blend-box';
-  
-  if(letters.length>=7){
-    box.classList.add('long');
-  }else if(letters.length>=5){
-    box.classList.add('medium');
-  }
-  
+
+  if(letters.length>=7){box.classList.add('long');}
+  else if(letters.length>=5){box.classList.add('medium');}
+
   wordEl.textContent='';
   wordEl.style.animation='none';
-  
+
   letters.forEach((letter,i)=>{
     const div=document.createElement('div');
     div.className='blend-letter';
@@ -567,32 +552,47 @@ function showBlend(word,letters){
     div.style.animationDelay=`${i*0.3}s`;
     box.appendChild(div);
   });
-  
+
   setTimeout(()=>{
     wordEl.textContent=word;
     wordEl.style.animation='popIn 0.5s ease-out forwards';
     speak(word);
   },letters.length*300+500);
-  
+
   setTimeout(()=>{
     choice.style.display='flex';
     anim.style.display='none';
   },letters.length*300+3000);
 }
 
+// Canvas trace
 const canvas=document.getElementById('traceCanvas');
-const ctx=canvas?canvas.getContext('2d'):null;
+const ctx2d=canvas?canvas.getContext('2d'):null;
 
-if(ctx){
-  ctx.lineWidth=8;
-  ctx.lineCap='round';
-  ctx.strokeStyle='#e91e8c';
-  
+if(ctx2d){
+  ctx2d.lineWidth=8;
+  ctx2d.lineCap='round';
+  ctx2d.strokeStyle='#e91e8c';
+
+  // Resize canvas to actual CSS size
+  function resizeCanvas(){
+    const rect=canvas.getBoundingClientRect();
+    if(rect.width>0){
+      canvas.width=rect.width;
+      canvas.height=rect.height;
+      ctx2d.lineWidth=8;
+      ctx2d.lineCap='round';
+      ctx2d.strokeStyle='#e91e8c';
+    }
+  }
+  window.addEventListener('resize',resizeCanvas);
+  resizeCanvas();
+
   canvas.addEventListener('mousedown',startTrace);
   canvas.addEventListener('mousemove',drawTrace);
   canvas.addEventListener('mouseup',endTrace);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])},{passive:false});
   canvas.addEventListener('touchend',endTrace);
 }
 
@@ -602,8 +602,8 @@ function startTrace(e){
   const x=e.clientX-rect.left;
   const y=e.clientY-rect.top;
   tracePoints.push({x,y});
-  ctx.beginPath();
-  ctx.moveTo(x,y);
+  ctx2d.beginPath();
+  ctx2d.moveTo(x,y);
 }
 
 function drawTrace(e){
@@ -612,44 +612,38 @@ function drawTrace(e){
   const x=e.clientX-rect.left;
   const y=e.clientY-rect.top;
   tracePoints.push({x,y});
-  ctx.lineTo(x,y);
-  ctx.stroke();
+  ctx2d.lineTo(x,y);
+  ctx2d.stroke();
 }
 
-function endTrace(){
-  isDrawing=false;
-}
+function endTrace(){isDrawing=false;}
 
 function clearTrace(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx2d.clearRect(0,0,canvas.width,canvas.height);
   tracePoints=[];
   document.getElementById('traceFeedback').textContent='';
 }
 
 function checkTrace(){
   const feedback=document.getElementById('traceFeedback');
-  
   if(tracePoints.length<20){
     feedback.textContent='Try again!';
     feedback.style.color='#e67e22';
     return;
   }
-  
+  const w=canvas.width,h=canvas.height;
   const keyPoints=[
-    {x:150,y:50,name:'top'},
-    {x:50,y:150,name:'left'},
-    {x:250,y:150,name:'right'},
-    {x:150,y:250,name:'bottom'}
+    {x:w*0.5,y:h*0.17,name:'top'},
+    {x:w*0.17,y:h*0.5,name:'left'},
+    {x:w*0.83,y:h*0.5,name:'right'},
+    {x:w*0.5,y:h*0.83,name:'bottom'}
   ];
-  
   let hits=0;
+  const tol=w*0.16;
   keyPoints.forEach(kp=>{
-    const nearby=tracePoints.some(p=>
-      Math.abs(p.x-kp.x)<50 && Math.abs(p.y-kp.y)<50
-    );
+    const nearby=tracePoints.some(p=>Math.abs(p.x-kp.x)<tol&&Math.abs(p.y-kp.y)<tol);
     if(nearby)hits++;
   });
-  
   if(hits>=3){
     feedback.textContent='Great job! 🎉';
     feedback.style.color='#27ae60';
@@ -682,6 +676,8 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')next();
   if(e.key==='t'||e.key==='T')toggleNotes();
 });
+
+preloadAudio();
 goTo(0);
 </script>
 </body>
