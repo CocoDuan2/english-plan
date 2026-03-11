@@ -29,6 +29,10 @@
   - ✅ 2026-03-11 P27-P41 Phonics 2 全部检查（P27 speak括号+playOk/No+listen触发修复✅ P28同修✅ P65 gl-blend playOk/No添加✅ 其余Phonics2-5 review全OK✅ 移动端CSS全OK✅）
   - ✅ 2026-03-11 Phonics 3-5 角色去重优化（P42/P43/P45/P52/P79/P81/P96 共7课首页角色替换，避免重复使用相同角色图）
   - 🎉 质量检查全部完成！所有课件已优化：移动端体验✅ 角色多样性✅ 音频优化✅ 游戏多样性✅
+  - ⚠️ 2026-03-11 深度检查发现：大量课件存在同一文件内角色重复使用问题（约70+课件）
+  - ✅ 2026-03-11 修复 P48 (ee) teach.html S1角色重复（george-superhero→peppa-happy-standing）
+  - ✅ 2026-03-11 修复 P68 (br-blend) teach.html S9角色重复（mummy-pig→george-playing-ball）
+  - 📋 待修复：约70个课件的角色重复问题（需系统性批量修复）
 
 ---
 
