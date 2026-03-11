@@ -128,7 +128,7 @@
 - 发音: /kw/
 - 单词: queen, quilt, question, quick
 - 故事: 佩琪扮女王
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P18 - Letter R · Peppa Meets a Rabbit
 - 字母: R r
