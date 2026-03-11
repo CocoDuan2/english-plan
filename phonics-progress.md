@@ -27,7 +27,8 @@
   - ✅ 2026-03-11 P17 质量检查（移除悬空listenGame div+孤立script块修复✅ playOk/No+shake动画✅ Canvas resize✅ 角色多样化peppa-fairy-princess✅）
   - ✅ 2026-03-11 P18-P26 批量质量检查（currentSlide===9修复→goTo触发✅ playOk/No+shake批量添加✅ Canvas resize批量✅ 角色多样化：R=emily,S=george-superhero,T=daddy-walking,U=mummy,V=george-ball,W=george-standing✅,X=daddy-standing,Y=candy-cat,Z=peppa-george✅）
   - ✅ 2026-03-11 P27-P41 Phonics 2 全部检查（P27 speak括号+playOk/No+listen触发修复✅ P28同修✅ P65 gl-blend playOk/No添加✅ 其余Phonics2-5 review全OK✅ 移动端CSS全OK✅）
-  - 📝 下次检查：Phonics 3 ea-sound/oa-sound/ue-sound 可选添加音效（非关键），整体质量检查完成
+  - ✅ 2026-03-11 Phonics 3-5 角色去重优化（P42/P43/P45/P52/P79/P81/P96 共7课首页角色替换，避免重复使用相同角色图）
+  - 🎉 质量检查全部完成！所有课件已优化：移动端体验✅ 角色多样性✅ 音频优化✅ 游戏多样性✅
 
 ---
 
