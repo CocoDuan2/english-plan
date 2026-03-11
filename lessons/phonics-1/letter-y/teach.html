@@ -223,14 +223,14 @@ body{
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter Y!</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">This is letter Y!</div>
   </div>
   <div class="letter-big">Yy</div>
@@ -241,7 +241,7 @@ body{
 <!-- S4: Trace Letter Y -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">Trace letter Y!</div>
   </div>
   <div class="trace-container">
@@ -262,7 +262,7 @@ body{
 <!-- S5: Word 1 - yellow -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">/j/ is for yellow!</div>
   </div>
   <div class="obj-wrap">
@@ -274,7 +274,7 @@ body{
 <!-- S6: Word 2 - yo-yo -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">/j/ is for yo-yo!</div>
   </div>
   <div class="obj-wrap">
@@ -286,7 +286,7 @@ body{
 <!-- S7: Word 3 - yes -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">/j/ is for yes!</div>
   </div>
   <div class="obj-wrap">
@@ -298,7 +298,7 @@ body{
 <!-- S8: Word 4 - yak -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">/j/ is for yak!</div>
   </div>
   <div class="obj-wrap">
@@ -310,7 +310,7 @@ body{
 <!-- S9: Blending - Choose a word -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">Let's blend!</div>
   </div>
   <div id="blendChoice" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px">
@@ -337,7 +337,7 @@ body{
 <!-- S10: Listen & Tap -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl" id="listenPrompt">Listen and tap!</div>
   </div>
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
@@ -426,12 +426,11 @@ function getWordEmoji(word) {
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
 }
 
-if (currentSlide === 9) startListenGame();
 </script>
 <!-- S11: Story -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa">
     <div class="bbl">Peppa plays with her yo-yo!</div>
   </div>
   <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
@@ -471,7 +470,7 @@ if (currentSlide === 9) startListenGame();
 
 <!-- S13: Bye -->
 <div class="slide">
-  <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Peppa" style="width:110px;margin-bottom:16px">
   <div class="ttl">Great job!</div>
   <div class="sub">Tomorrow we'll learn letter Z!</div>
   <div style="font-size:48px;margin-top:20px">🎉</div>
@@ -516,6 +515,8 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+
+  if(i===9)setTimeout(startListenGame,300);
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
@@ -585,11 +586,24 @@ if(ctx){
   ctx.lineCap='round';
   ctx.strokeStyle='#e91e8c';
   
+  function resizeCanvas(){
+    const rect=canvas.getBoundingClientRect();
+    if(rect.width>0){
+      canvas.width=rect.width;
+      canvas.height=rect.height;
+      ctx.lineWidth=8;
+      ctx.lineCap='round';
+      ctx.strokeStyle='#e91e8c';
+    }
+  }
+  window.addEventListener('resize',resizeCanvas);
+  resizeCanvas();
+
   canvas.addEventListener('mousedown',startTrace);
   canvas.addEventListener('mousemove',drawTrace);
   canvas.addEventListener('mouseup',endTrace);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])},{passive:false});
   canvas.addEventListener('touchend',endTrace);
 }
 
@@ -658,6 +672,33 @@ function checkTrace(){
   }
 }
 
+
+function playOk(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator();const g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=800;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.15);
+    setTimeout(()=>{
+      const o2=ac.createOscillator();const g2=ac.createGain();
+      o2.connect(g2);g2.connect(ac.destination);
+      o2.frequency.value=1000;g2.gain.value=0.3;
+      o2.start();o2.stop(ac.currentTime+0.2);
+    },100);
+  }catch(e){}
+}
+
+function playNo(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator();const g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=200;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.3);
+  }catch(e){}
+}
+
 function showConfetti(){
   for(let i=0;i<20;i++){
     const c=document.createElement('div');
@@ -671,7 +712,7 @@ function showConfetti(){
 }
 
 const style=document.createElement('style');
-style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}`;
 document.head.appendChild(style);
 
 document.addEventListener('keydown',e=>{
