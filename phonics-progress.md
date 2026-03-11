@@ -135,7 +135,7 @@
 - 发音: /r/
 - 单词: rabbit, rain, red, ring
 - 故事: 佩琪遇见兔子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P19 - Letter S · Peppa Sees Stars
 - 字母: S s
