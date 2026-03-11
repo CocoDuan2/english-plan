@@ -486,7 +486,7 @@ function checkListenAnswer(word) {
 
 function getWordEmoji(word) {
   const emojiMap = {
-    moon: '1f319', milk: '1f95b', monkey: '1f435', map: '1f5fa'
+    moon: '1f319', milk: '1f95b', monkey: '1f412', map: '1f5fa'
   };
   const code = emojiMap[word] || '2753';
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
@@ -501,15 +501,7 @@ function speak(w){
   a.play().catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  }
-
-// Preload audio
-const preloadWords=['moon', 'milk', 'monkey', 'map'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-);
+  });
 }
 
 function playOk(){
@@ -572,6 +564,24 @@ function showBlend(word,letters){
 
 const canvas=document.getElementById('traceCanvas');
 const ctx=canvas?canvas.getContext('2d'):null;
+
+function resizeCanvas(){
+  if(!canvas)return;
+  const isMobile=window.innerWidth<=480;
+  const size=isMobile?280:300;
+  const container=canvas.parentElement;
+  container.style.width=size+'px';
+  container.style.height=size+'px';
+  canvas.width=size;
+  canvas.height=size;
+  if(ctx){
+    ctx.lineWidth=8;
+    ctx.lineCap='round';
+    ctx.strokeStyle='#e91e8c';
+  }
+}
+resizeCanvas();
+window.addEventListener('resize',()=>{resizeCanvas();clearTrace()});
 
 if(ctx){
   ctx.lineWidth=8;
