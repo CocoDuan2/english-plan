@@ -549,15 +549,29 @@ function showBlend(word,letters){
 const canvas=document.getElementById('traceCanvas');
 const ctx=canvas?canvas.getContext('2d'):null;
 
+function resizeCanvas(){
+  if(!canvas)return;
+  const container=canvas.parentElement;
+  const size=container.offsetWidth;
+  if(canvas.width!==size||canvas.height!==size){
+    canvas.width=size;
+    canvas.height=size;
+    if(ctx){ctx.lineWidth=8;ctx.lineCap='round';ctx.strokeStyle='#e91e8c';}
+  }
+}
+
 if(ctx){
   ctx.lineWidth=8;
   ctx.lineCap='round';
   ctx.strokeStyle='#e91e8c';
   
+  resizeCanvas();
+  window.addEventListener('resize',resizeCanvas);
+  
   canvas.addEventListener('mousedown',startTrace);
   canvas.addEventListener('mousemove',drawTrace);
   canvas.addEventListener('mouseup',endTrace);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();resizeCanvas();startTrace(e.touches[0])});
   canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
   canvas.addEventListener('touchend',endTrace);
 }
