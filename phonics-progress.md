@@ -142,56 +142,56 @@
 - 发音: /s/
 - 单词: sun, snake, star, sock
 - 故事: 佩琪看星星
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P20 - Letter T · Peppa Goes Camping
 - 字母: T t
 - 发音: /t/
 - 单词: tree, tiger, tent, top
 - 故事: 佩琪去露营
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P21 - Letter U · Peppa's Umbrella
 - 字母: U u
 - 发音: /ʌ/
 - 单词: umbrella, up, under, uncle
 - 故事: 佩琪的雨伞
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P22 - Letter V · Peppa's Van Trip
 - 字母: V v
 - 发音: /v/
 - 单词: van, violin, vest, vase
 - 故事: 佩琪坐车
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P23 - Letter W · Peppa Drinks Water
 - 字母: W w
 - 发音: /w/
 - 单词: water, window, watch, web
 - 故事: 佩琪喝水
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P24 - Letter X · Peppa's Toy Box
 - 字母: X x
 - 发音: /ks/
 - 单词: box, fox, six, mix
 - 故事: 佩琪的玩具盒
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P25 - Letter Y · Peppa's Yo-Yo
 - 字母: Y y
 - 发音: /j/
 - 单词: yellow, yo-yo, yes, yak
 - 故事: 佩琪的溜溜球
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P26 - Letter Z · Peppa Goes to the Zoo
 - 字母: Z z
 - 发音: /z/
 - 单词: zoo, zebra, zero, zip
 - 故事: 佩琪去动物园
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ---
 
