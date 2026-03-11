@@ -202,105 +202,105 @@
 - 发音: /æt/
 - 单词: cat, hat, mat, rat, bat
 - 故事: 佩琪的帽子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P28 - -an Family · Peppa Helps Cook
 - 家族: -an
 - 发音: /æn/
 - 单词: can, man, pan, fan, van
 - 故事: 佩琪帮忙做饭
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P29 - -ap Family · Peppa's Nap Time
 - 家族: -ap
 - 发音: /æp/
 - 单词: cap, map, tap, nap, clap
 - 故事: 佩琪午睡
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P30 - -ad Family · Peppa and Daddy
 - 家族: -ad
 - 发音: /æd/
 - 单词: dad, sad, mad, bad, had
 - 故事: 佩琪和爸爸
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P31 - -ag Family · Peppa's Bag
 - 家族: -ag
 - 发音: /æg/
 - 单词: bag, tag, wag, flag, drag
 - 故事: 佩琪的书包
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P32 - -en Family · Peppa Counts
 - 家族: -en
 - 发音: /ɛn/
 - 单词: pen, hen, ten, men, den
 - 故事: 佩琪数数
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P33 - -et Family · Peppa's Pet
 - 家族: -et
 - 发音: /ɛt/
 - 单词: pet, wet, net, jet, set
 - 故事: 佩琪的宠物
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P34 - -ig Family · Peppa Digs
 - 家族: -ig
 - 发音: /ɪɡ/
 - 单词: pig, big, dig, wig, fig
 - 故事: 佩琪挖土
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P35 - -in Family · Peppa Wins
 - 家族: -in
 - 发音: /ɪn/
 - 单词: pin, win, bin, fin, tin
 - 故事: 佩琪赢了
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P36 - -ip Family · Peppa's Trip
 - 家族: -ip
 - 发音: /ɪp/
 - 单词: zip, tip, lip, ship, trip
 - 故事: 佩琪去旅行
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P37 - -og Family · Peppa Meets a Frog
 - 家族: -og
 - 发音: /ɒɡ/
 - 单词: dog, log, fog, jog, frog
 - 故事: 佩琪遇见青蛙
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P38 - -op Family · Peppa Hops Around
 - 家族: -op
 - 发音: /ɒp/
 - 单词: hop, mop, top, pop, stop
 - 故事: 佩琪跳跳跳
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P39 - -ug Family · Peppa's Hugs
 - 家族: -ug
 - 发音: /ʌɡ/
 - 单词: bug, hug, mug, rug, tug
 - 故事: 佩琪抱抱
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P40 - -un Family · Peppa Runs
 - 家族: -un
 - 发音: /ʌn/
 - 单词: sun, run, fun, bun, gun
 - 故事: 佩琪跑步
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P41 - -ut Family · Peppa's Little Hut
 - 家族: -ut
 - 发音: /ʌt/
 - 单词: cut, nut, hut, but, shut
 - 故事: 佩琪的小屋
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ## Phonics 3 · 长元音（P42-P61）
 
@@ -309,77 +309,77 @@
 - 发音: /eɪ/
 - 单词: cake, make, lake, take, snake
 - 故事: 佩琪烤蛋糕
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P43 - Magic E: i_e · Peppa Rides a Bike
 - 模式: i_e
 - 发音: /aɪ/
 - 单词: bike, like, kite, five, nine
 - 故事: 佩琪骑自行车
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P44 - Magic E: o_e · Peppa Goes Home
 - 模式: o_e
 - 发音: /əʊ/
 - 单词: home, nose, rose, bone, stone
 - 故事: 佩琪回家
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P45 - Magic E: u_e · Peppa's Cute Flute
 - 模式: u_e
 - 发音: /juː/
 - 单词: cute, tube, mule, flute, June
 - 故事: 佩琪的可爱长笛
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P46 - Magic E: e_e · Peppa Meets Pete
 - 模式: e_e
 - 发音: /iː/
 - 单词: Pete, Steve, theme, these
 - 故事: 佩琪遇见Pete
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P47 - ai/ay · Peppa's Rainy Day
 - 模式: ai/ay
 - 发音: /eɪ/
 - 单词: rain, train, play, day
 - 故事: 佩琪的雨天
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P48 - ee · Peppa Sees Bees
 - 模式: ee
 - 发音: /iː/
 - 单词: bee, tree, see, feet
 - 故事: 佩琪看到蜜蜂
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P49 - ea · Peppa's Tea Party
 - 模式: ea
 - 发音: /iː/
 - 单词: tea, sea, read, eat
 - 故事: 佩琪的茶会
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P50 - oa · Peppa's Boat Trip
 - 模式: oa
 - 发音: /əʊ/
 - 单词: boat, coat, goat, road
 - 故事: 佩琪的船旅
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P51 - ow · Peppa's Snowy Day
 - 模式: ow
 - 发音: /əʊ/
 - 单词: snow, yellow, window, slow
 - 故事: 佩琪的雪天
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P52 - ue · Peppa's Blue Balloon
 - 模式: ue
 - 发音: /uː/
 - 单词: blue, glue, true, clue
 - 故事: 佩琪的蓝气球
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ---
 
@@ -394,140 +394,140 @@
 - 发音: /bl/
 - 单词: blue, black, block, blow
 - 故事: 佩琪的蓝色积木
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P63 - cl Blend · Peppa Claps
 - 辅音组合: cl
 - 发音: /kl/
 - 单词: clap, clock, cloud, clean
 - 故事: 佩琪拍手
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P64 - fl Blend · Peppa's Flower Garden
 - 辅音组合: fl
 - 发音: /fl/
 - 单词: flag, flower, fly, floor
 - 故事: 佩琪的花园
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P65 - gl Blend · Peppa's Glass Collection
 - 辅音组合: gl
 - 发音: /gl/
 - 单词: glass, glove, glad, glue
 - 故事: 佩琪的玻璃杯收藏
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P66 - pl Blend · Peppa's Playtime
 - 辅音组合: pl
 - 发音: /pl/
 - 单词: play, plant, plate, plus
 - 故事: 佩琪的游戏时间
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P67 - sl Blend · Peppa Loves to Slide
 - 辅音组合: sl
 - 发音: /sl/
 - 单词: slide, sleep, slow, slip
 - 故事: 佩琪爱滑梯
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P68 - br Blend · Peppa's Brown Bread
 - 辅音组合: br
 - 发音: /br/
 - 单词: brown, bread, brush, bridge
 - 故事: 佩琪的棕色面包
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P69 - cr Blend · Peppa Finds a Crab
 - 辅音组合: cr
 - 发音: /kr/
 - 单词: crab, cry, crown, cross
 - 故事: 佩琪找到螃蟹
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P70 - dr Blend · Peppa Plays the Drum
 - 辅音组合: dr
 - 发音: /dr/
 - 单词: drum, dress, drink, draw
 - 故事: 佩琪打鼓
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P71 - fr Blend · Peppa's Fruit Basket
 - 辅音组合: fr
 - 发音: /fr/
 - 单词: frog, fruit, friend, from
 - 故事: 佩琪的水果篮
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P72 - ch Digraph · Peppa's Cheese & Chicken
 - 辅音组合: ch
 - 发音: /tʃ/
 - 单词: chair, cheese, chicken, child
 - 故事: 佩琪的奶酪和鸡
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P73 - sh Digraph · Peppa's Shopping Trip
 - 辅音组合: sh
 - 发音: /ʃ/
 - 单词: ship, shop, fish, wash
 - 故事: 佩琪的购物之旅
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P74 - th Digraph · Peppa Thinks Big
 - 辅音组合: th
 - 发音: /θ/
 - 单词: three, think, bath, tooth
 - 故事: 佩琪想一想
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P75 - wh Digraph · Peppa Asks Why
 - 辅音组合: wh
 - 发音: /w/
 - 单词: whale, wheel, white, when
 - 故事: 佩琪问为什么
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P76 - ph Digraph · Peppa's Phone Call
 - 辅音组合: ph
 - 发音: /f/
 - 单词: phone, photo, elephant, dolphin
 - 故事: 佩琪打电话
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P77 - ck Sound · Peppa's Little Duck
 - 辅音组合: ck
 - 发音: /k/
 - 单词: duck, clock, black, truck
 - 故事: 佩琪的小鸭子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P78 - ng Sound · Peppa Sings a Song
 - 辅音组合: ng
 - 发音: /ŋ/
 - 单词: sing, ring, king, long
 - 故事: 佩琪唱歌
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P79 - nk Sound · Peppa's Pink Bank
 - 辅音组合: nk
 - 发音: /ŋk/
 - 单词: pink, think, bank, drink
 - 故事: 佩琪的粉色存钱罐
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P80 - gr Blend · Peppa Grows Green Grapes
 - 辅音组合: gr
 - 发音: /gr/
 - 单词: green, grass, grapes, grow
 - 故事: 佩琪种绿葡萄
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P81 - tr Blend · Peppa's Train Trip
 - 辅音组合: tr
 - 发音: /tr/
 - 单词: train, tree, truck, trip
 - 故事: 佩琪的火车旅行
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ## Phonics 5 · 复杂拼读（P82-P101）
 
@@ -536,140 +536,140 @@
 - 发音: /ɑːr/
 - 单词: car, star, park, farm
 - 故事: 佩琪的汽车去农场
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P83 - or Sound · Peppa's Horse on the Farm
 - 模式: or
 - 发音: /ɔːr/
 - 单词: fork, horse, corn, short
 - 故事: 佩琪的农场马儿
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P84 - er Sound · Peppa's Fern Garden
 - 模式: er
 - 发音: /ɜːr/
 - 单词: her, fern, term, verb
 - 故事: 佩琪的蕨类花园
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P85 - ir Sound · Peppa's Bird Friend
 - 模式: ir
 - 发音: /ɜːr/
 - 单词: bird, girl, shirt, first
 - 故事: 佩琪的小鸟朋友
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P86 - ur Sound · Peppa's Nurse Visit
 - 模式: ur
 - 发音: /ɜːr/
 - 单词: turn, burn, hurt, nurse
 - 故事: 佩琪看护士
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P87 - oo Sound (short) · Peppa's Cooking Book
 - 模式: oo (short)
 - 发音: /ʊ/
 - 单词: book, look, cook, good
 - 故事: 佩琪的烹饪书
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P88 - oo Sound (long) · Peppa's Moon Night
 - 模式: oo (long)
 - 发音: /uː/
 - 单词: moon, food, pool, zoo
 - 故事: 佩琪的月夜
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P89 - ou/ow Sound · Peppa's Loud House
 - 模式: ou/ow
 - 发音: /aʊ/
 - 单词: house, mouse, cow, now
 - 故事: 佩琪的热闹小屋
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P90 - oi/oy Sound · Peppa's Toy Box
 - 模式: oi/oy
 - 发音: /ɔɪ/
 - 单词: coin, oil, boy, toy
 - 故事: 佩琪的玩具箱
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P91 - aw/au Sound · Peppa Draws
 - 模式: aw/au
 - 发音: /ɔː/
 - 单词: saw, paw, draw, sauce
 - 故事: 佩琪画画
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P92 - ew Sound · Peppa's New Stew
 - 模式: ew
 - 发音: /uː/
 - 单词: new, few, blew, stew
 - 故事: 佩琪的新炖菜
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P93 - ie Sound · Peppa's Pie
 - 模式: ie
 - 发音: /aɪ/
 - 单词: pie, tie, lie, die
 - 故事: 佩琪的派
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P94 - igh Sound · Peppa's Night Light
 - 模式: igh
 - 发音: /aɪ/
 - 单词: high, night, light, right
 - 故事: 佩琪的夜晚之光
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P95 - y as /aɪ/ · Peppa's Sky Adventure
 - 模式: y as /aɪ/
 - 发音: /aɪ/
 - 单词: my, fly, try, sky
 - 故事: 佩琪的天空冒险
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P96 - y as /iː/ · Peppa's Happy Day
 - 模式: y as /iː/
 - 发音: /iː/
 - 单词: happy, baby, funny, sunny
 - 故事: 佩琪的快乐日子
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P97 - Soft c · Peppa's City Trip
 - 模式: soft c
 - 发音: /s/
 - 单词: city, ice, race, face
 - 故事: 佩琪的城市之旅
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P98 - Soft g · Peppa's Giant Giraffe
 - 模式: soft g
 - 发音: /dʒ/
 - 单词: gem, giant, giraffe, page
 - 故事: 佩琪的巨大长颈鹿
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P99 - -le ending · Peppa's Little Apple
 - 模式: -le ending
 - 发音: /əl/
 - 单词: apple, table, little, bottle
 - 故事: 佩琪的小苹果
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P100 - -tion/-sion · Peppa's Action Station
 - 模式: -tion/-sion
 - 发音: /ʃən/
 - 单词: action, station, mission, vision
 - 故事: 佩琪的行动站
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ### P101 - 总复习 · Phonics Grand Review
 - 模式: 综合复习
 - 内容: 回顾 5 个 Phonics 阶段
 - 单词: 综合复习所有阶段的代表性单词
 - 故事: 佩琪的自然拼读之旅总结
-- 状态: ✅ 完成
+- 状态: ✅ 完成 | ✅ 已优化（角色多样化）
 
 ---
 
