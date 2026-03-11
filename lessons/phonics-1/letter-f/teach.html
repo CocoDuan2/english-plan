@@ -114,11 +114,12 @@ body{
   animation:popIn 0.5s ease-out 1.8s forwards;
   opacity:0;transform:scale(0.5);
 }
-@keyframes popIn{
-  to{opacity:1;transform:scale(1)}
-}
-@keyframes slideIn{
-  to{opacity:1;transform:translateX(0)}
+@keyframes popIn{to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
 }
 .sound-btn{
   width:100px;height:100px;border-radius:50%;
@@ -137,6 +138,7 @@ body{
 .grid-item{text-align:center}
 .grid-item img{width:80px;height:auto;margin-bottom:8px}
 .grid-item .label{font-size:24px;font-weight:900;color:#2c3e50}
+/* Fishing pond */
 .pond{
   position:relative;width:100%;max-width:500px;
   height:300px;margin:20px auto;
@@ -146,10 +148,15 @@ body{
 }
 .fish-item{
   position:absolute;cursor:pointer;
-  transition:transform .2s ease;
+  transition:all 0.5s ease;
+  animation:swim 3s ease-in-out infinite;
 }
-.fish-item:hover{transform:scale(1.1)}
 .fish-item img{width:80px;height:auto}
+@keyframes swim{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(10px)}
+}
+/* Navigation */
 .nav{
   position:fixed;bottom:0;left:0;right:0;
   background:rgba(255,255,255,.95);
@@ -191,6 +198,18 @@ body{
   background:#1976d2;color:#fff;border:none;
   font-size:24px;cursor:pointer;
 }
+/* Listen & Tap game */
+#listenGame .ans-btn{
+  width:130px;height:130px;border-radius:20px;
+  border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  transition:transform .2s ease;
+}
+#listenGame .ans-btn:active{transform:scale(.95)}
+#listenGame .ans-btn img{width:80px;height:auto}
+/* Responsive */
 @media(max-width:480px){
   .ttl{font-size:32px}
   .sub{font-size:18px}
@@ -218,6 +237,8 @@ body{
   .grid-item .label{font-size:20px}
   .pond{height:250px}
   .fish-item img{width:60px}
+  #listenGame .ans-btn{width:105px;height:105px}
+  #listenGame .ans-btn img{width:65px}
 }
 @media(min-width:768px){
   .ttl{font-size:48px}
@@ -231,21 +252,22 @@ body{
 <!-- S1: Title -->
 <div class="slide active">
   <div class="ttl">Letter F</div>
-  <div class="sub">Peppa Goes Fishing</div>
-  <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy" style="width:110px;margin:20px 0">
+  <div class="sub">Peppa Goes Fishing 🎣</div>
+  <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy" style="width:110px;margin:20px 0">
   <div style="font-size:20px;color:#667085;margin-top:12px">Learn the letter F and its sound /f/</div>
 </div>
 
 <!-- S2: Hello -->
 <div class="slide">
-  <img src="../../../assets/peppa/george-standing.png" alt="George" style="width:110px;margin-bottom:16px">
+  <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy" style="width:110px;margin-bottom:16px">
   <div class="ttl">Hello! Let's learn letter F!</div>
+  <div style="font-size:40px;margin-top:16px">🎣</div>
 </div>
 
 <!-- S3: Letter & Sound -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
+    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
     <div class="bbl">This is letter F!</div>
   </div>
   <div class="letter-big">Ff</div>
@@ -261,15 +283,16 @@ body{
   </div>
   <div class="trace-container">
     <svg class="trace-guide" viewBox="0 0 300 300">
-      <path d="M 100 50 L 100 250 M 100 50 L 220 50 M 100 140 L 200 140" 
-            stroke="#1976d2" stroke-width="8" stroke-dasharray="10,10" 
+      <!-- F: vertical stroke + top bar + middle bar -->
+      <path d="M 100 50 L 100 250 M 100 50 L 220 50 M 100 140 L 200 140"
+            stroke="#1976d2" stroke-width="8" stroke-dasharray="10,10"
             fill="none" opacity="0.4"/>
     </svg>
     <canvas id="traceCanvas" width="300" height="300"></canvas>
   </div>
   <div class="trace-btns">
-    <button class="trace-btn" onclick="clearTrace()">Clear</button>
-    <button class="trace-btn" onclick="checkTrace()">Check</button>
+    <button class="trace-btn" onclick="clearTrace()">Clear ✏️</button>
+    <button class="trace-btn" onclick="checkTrace()">Check ✅</button>
   </div>
   <div class="trace-feedback" id="traceFeedback"></div>
 </div>
@@ -301,7 +324,7 @@ body{
 <!-- S7: Word 3 - flower -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/mummy-pig-standing-grass.png" alt="Mummy">
+    <img src="../../../assets/peppa/candy-cat-green-dress.png" alt="Candy">
     <div class="bbl">/f/ is for flower!</div>
   </div>
   <div class="obj-wrap">
@@ -313,7 +336,7 @@ body{
 <!-- S8: Word 4 - fan -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa Fairy">
     <div class="bbl">/f/ is for fan!</div>
   </div>
   <div class="obj-wrap">
@@ -322,7 +345,7 @@ body{
   <div class="word">fan</div>
 </div>
 
-<!-- S9: Blending - Choose a word -->
+<!-- S9: Blending -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
@@ -342,128 +365,69 @@ body{
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a8.svg" alt="fan">
     </button>
   </div>
-  <div id="blendAnim" style="display:none">
+  <div id="blendAnim" style="display:none;margin-top:20px">
     <div class="blend-box" id="blendBox"></div>
     <div class="blend-arrow">→</div>
     <div class="blend-word" id="blendWord"></div>
   </div>
 </div>
 
-<!-- S10: Listen & Tap -->
+<!-- S10: Listen & Say -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
-    <div class="bbl" id="listenPrompt">Listen and tap!</div>
+    <div class="bbl">Listen and say! 🔊</div>
   </div>
-  <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
-  <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px">
+    <button class="sound-btn" style="background:linear-gradient(135deg,#4fc3f7,#0288d1)" onclick="speak('fish')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#81c784,#4caf50)" onclick="speak('frog')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f438.svg" alt="frog">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#ffb74d,#ff9800)" onclick="speak('flower')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33c.svg" alt="flower">
+    </button>
+    <button class="sound-btn" style="background:linear-gradient(135deg,#90caf9,#42a5f5)" onclick="speak('fan')">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a8.svg" alt="fan">
+    </button>
+  </div>
 </div>
 
-<script>
-let listenWords = ["fish","frog","flower","fan"];
-let listenCurrent = 0;
-let listenOptions = [];
-
-function startListenGame() {
-  if (listenCurrent >= listenWords.length) {
-    document.getElementById('listenResult').innerHTML = '🎉 All done!';
-    document.getElementById('listenGame').innerHTML = '';
-    document.getElementById('listenPrompt').textContent = 'Great job!';
-    return;
-  }
-  const correct = listenWords[listenCurrent];
-  const distractors = listenWords.filter(w => w !== correct).sort(() => Math.random() - 0.5).slice(0, 2);
-  listenOptions = [correct, ...distractors].sort(() => Math.random() - 0.5);
-  
-  const gameDiv = document.getElementById('listenGame');
-  gameDiv.innerHTML = listenOptions.map(w => {
-    const emoji = getWordEmoji(w);
-    return `<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px">
-      <img src="${emoji}" style="width:80px;height:80px">
-    </button>`;
-  }).join('');
-  
-  setTimeout(() => speak(correct), 500);
-}
-
-function checkListenAnswer(word) {
-  const correct = listenWords[listenCurrent];
-  const resultDiv = document.getElementById('listenResult');
-  if (word === correct) {
-    resultDiv.innerHTML = '✅';
-    playOk();
-    speak(word);
-    showConfetti();
-    listenCurrent++;
-    setTimeout(startListenGame, 2000);
-  } else {
-    resultDiv.innerHTML = '❌ Try again!';
-    playNo();
-    document.querySelectorAll('.sound-btn').forEach(btn => {
-      if (btn.textContent.includes(word)) {
-        btn.style.animation = 'shake 0.5s';
-        setTimeout(() => btn.style.animation = '', 500);
-      }
-    });
-  }
-}
-
-function getWordEmoji(word) {
-  const emojiMap = {
-    apple: '1f34e', ant: '1f41c', alligator: '1f40a', ax: '1fa93',
-    ball: '26bd', bear: '1f43b', banana: '1f34c', bat: '1f987',
-    cat: '1f431', car: '1f697', cake: '1f370', cup: '2615',
-    dog: '1f436', duck: '1f986', door: '1f6aa', doll: '1fa86',
-    egg: '1f95a', elephant: '1f418', elbow: '1f4aa', exit: '1f6aa',
-    fish: '1f41f', frog: '1f438', flower: '1f33c', fan: '1f4a8',
-    goat: '1f410', girl: '1f467', gift: '1f381', gate: '1f6aa',
-    hat: '1f3a9', house: '1f3e0', horse: '1f40e', hand: '270b',
-    ink: '1f58b', insect: '1f41b', igloo: '26fa', inch: '1f4cf',
-    jump: '1f938', juice: '1f9c3', jelly: '1f36e', jar: '1fad9',
-    kite: '1fa81', king: '1f451', key: '1f511', kid: '1f9d2',
-    lion: '1f981', leaf: '1f343', lemon: '1f34b', lamp: '1f4a1',
-    moon: '1f319', milk: '1f95b', monkey: '1f435', map: '1f5fa',
-    nose: '1f443', nest: '1fab9', net: '1f94e', nut: '1f95c',
-    orange: '1f34a', octopus: '1f419', ox: '1f402', olive: '1fad2',
-    pig: '1f437', pen: '1f58a', pizza: '1f355', pot: '1f372',
-    queen: '1f451', quilt: '1f6cf', question: '2753', quick: '1f3c3',
-    rabbit: '1f407', rain: '1f327', red: '1f534', ring: '1f48d',
-    sun: '2600', snake: '1f40d', star: '2b50', sock: '1f9e6',
-    tree: '1f333', tiger: '1f405', tent: '26fa', top: '1f51d',
-    umbrella: '2602', up: '2b06', under: '2b07', uncle: '1f468',
-    van: '1f69a', violin: '1f3bb', vest: '1f9ba', vase: '1f3fa',
-    water: '1f4a7', window: '1fa9f', watch: '231a', web: '1f578',
-    box: '1f4e6', fox: '1f98a', six: '0036-20e3', mix: '1f9ea',
-    yellow: '1f7e1', 'yo-yo': '1fa80', yes: '2705', yak: '1f402',
-    zoo: '1f98d', zebra: '1f993', zero: '0030-20e3', zip: '1f910'
-  };
-  const code = emojiMap[word] || '2753';
-  return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
-}
-</script>
-<!-- S11: Fishing Game -->
+<!-- S11: Listen & Tap Game -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/daddy-pig-standing.png" alt="Daddy">
-    <div class="bbl">Catch the fish!</div>
+    <img src="../../../assets/peppa/peppa-pig-red-polka-dot-dress.png" alt="Peppa">
+    <div class="bbl" id="listenPrompt">Listen and tap! 👆</div>
+  </div>
+  <div id="listenGame" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:24px"></div>
+  <div id="listenResult" style="font-size:48px;margin-top:16px;min-height:60px"></div>
+</div>
+
+<!-- S12: Fishing Game -->
+<div class="slide">
+  <div class="pr">
+    <img src="../../../assets/peppa/george-playing-ball.png" alt="George">
+    <div class="bbl">Catch the fish! 🎣</div>
   </div>
   <div class="pond" id="pond">
-    <div class="fish-item" style="top:20%;left:10%" onclick="catchFish(this,'fish')">
+    <div class="fish-item" style="top:15%;left:5%" onclick="catchFish(this,'fish')">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" alt="fish">
     </div>
-    <div class="fish-item" style="top:50%;left:30%" onclick="catchFish(this,'frog')">
+    <div class="fish-item" style="top:50%;left:25%" onclick="catchFish(this,'frog')">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f438.svg" alt="frog">
     </div>
-    <div class="fish-item" style="top:30%;left:60%" onclick="catchFish(this,'flower')">
+    <div class="fish-item" style="top:20%;left:55%" onclick="catchFish(this,'flower')">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f33c.svg" alt="flower">
     </div>
-    <div class="fish-item" style="top:60%;left:70%" onclick="catchFish(this,'fan')">
+    <div class="fish-item" style="top:55%;left:70%" onclick="catchFish(this,'fan')">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a8.svg" alt="fan">
     </div>
   </div>
+  <div id="catchMsg" style="font-size:28px;font-weight:900;color:#1976d2;margin-top:12px;min-height:36px"></div>
 </div>
 
-<!-- S12: All Together -->
+<!-- S13: All Together -->
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/peppa-family-group-outdoors.png" alt="Family" style="width:120px">
@@ -489,18 +453,18 @@ function getWordEmoji(word) {
   </div>
 </div>
 
-<!-- S13: Bye -->
+<!-- S14: Bye -->
 <div class="slide">
   <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa" style="width:110px;margin-bottom:16px">
-  <div class="ttl">Great job!</div>
+  <div class="ttl">Great job! 🎉</div>
   <div class="sub">Tomorrow we'll learn letter G!</div>
-  <div style="font-size:48px;margin-top:20px">🎉</div>
+  <div style="font-size:48px;margin-top:20px">🐸🌸🐟</div>
 </div>
 
 <!-- Navigation -->
 <div class="nav">
   <button onclick="prev()" id="prevBtn">◀ Back</button>
-  <div class="page-num"><span id="curr">1</span> / <span id="total">13</span></div>
+  <div class="page-num"><span id="curr">1</span> / <span id="total">14</span></div>
   <button onclick="next()" id="nextBtn">Next ▶</button>
 </div>
 
@@ -511,30 +475,30 @@ function getWordEmoji(word) {
 <div class="tn-panel" id="tnPanel">
   <button class="tn-close" onclick="toggleNotes()">✕</button>
   <h3>📝 Teacher Notes - P6 Letter F</h3>
-  <p><strong>S1 Title:</strong> Introduce the lesson theme - learning letter F.</p>
-  <p><strong>S2 Hello:</strong> Peppa greets and invites students to learn.</p>
+  <p><strong>S1 Title:</strong> Introduce the lesson theme - Peppa goes fishing, learning letter F.</p>
+  <p><strong>S2 Hello:</strong> Daddy Pig greets and invites students to learn.</p>
   <p><strong>S3 Letter & Sound:</strong> Show uppercase and lowercase F. Emphasize the /f/ sound. Have students repeat 3 times.</p>
-  <p><strong>S4 Trace:</strong> Students trace letter F with finger/mouse. Check button validates the path.</p>
-  <p><strong>S5-S8 Words:</strong> Introduce 4 words starting with F. Point to the pictures and say the words clearly.</p>
-  <p><strong>S9 Blending:</strong> Demonstrate how to blend letters. Point to each letter as you say it.</p>
+  <p><strong>S4 Trace:</strong> Students trace letter F (3 strokes: vertical + top bar + middle bar). Check button validates the path.</p>
+  <p><strong>S5-S8 Words:</strong> Introduce 4 words starting with F: fish, frog, flower, fan.</p>
+  <p><strong>S9 Blending:</strong> Choose a picture, watch letters slide in one by one, then the full word pops.</p>
   <p><strong>S10 Listen & Say:</strong> Students click buttons to hear words. Encourage them to repeat.</p>
-  <p><strong>S11 Fishing Game:</strong> Click on items in the pond. Each item disappears and says its name.</p>
-  <p><strong>S12 All Together:</strong> Review all 4 words. Point randomly and ask students to say the words.</p>
-  <p><strong>S13 Bye:</strong> Celebrate completion and preview next lesson.</p>
+  <p><strong>S11 Listen & Tap:</strong> Hear a word and tap the matching picture. 3 choices each round.</p>
+  <p><strong>S12 Fishing Game:</strong> Tap on each floating item in the pond to hear its name and catch it.</p>
+  <p><strong>S13 All Together:</strong> Review all 4 words. Point randomly and ask students to say them.</p>
+  <p><strong>S14 Bye:</strong> Celebrate completion and preview letter G.</p>
 </div>
 
 <script>
-let ci=0,ts=13;
-let tracePoints=[];
-let isDrawing=false;
+let ci=0, ts=14;
+let tracePoints=[], isDrawing=false;
 let audioCache={};
+let listenWords=["fish","frog","flower","fan"], listenCurrent=0;
+let catchCount=0;
 
 // Preload audio
 function preloadAudio(){
-  const words=['fish','frog','flower','fan','F'];
-  words.forEach(w=>{
-    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-    const a=new Audio(u);
+  ['fish','frog','flower','fan'].forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
     a.preload='auto';
     audioCache[w]=a;
   });
@@ -547,165 +511,50 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
-  if(i===9)setTimeout(startListenGame,300);
+  if(i===10){listenCurrent=0;setTimeout(startListenGame,300);}
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function toggleNotes(){document.getElementById('tnPanel').classList.toggle('show')}
+
 function speak(w){
   if(audioCache[w]){
     audioCache[w].currentTime=0;
-    audioCache[w].play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-      new Audio(u2).play().catch(()=>console.log('Audio failed'));
-    });
-  }
-
-// Preload audio
-const preloadWords=['fish', 'frog', 'flower', 'fan'];
-preloadWords.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-});
-else{
-    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-    const a=new Audio(u);
-    a.play().catch(()=>{
-      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-      new Audio(u2).play().catch(()=>console.log('Audio failed'));
-    });
-  }
-}
-function showBlend(word,letters){
-  const choice=document.getElementById('blendChoice');
-  const anim=document.getElementById('blendAnim');
-  const box=document.getElementById('blendBox');
-  const wordEl=document.getElementById('blendWord');
-  
-  choice.style.display='none';
-  anim.style.display='block';
-  
-  box.innerHTML='';
-  box.className='blend-box';
-  
-  if(letters.length>=7){
-    box.classList.add('long');
-  }else if(letters.length>=5){
-    box.classList.add('medium');
-  }
-  
-  wordEl.textContent='';
-  wordEl.style.animation='none';
-  
-  letters.forEach((letter,i)=>{
-    const div=document.createElement('div');
-    div.className='blend-letter';
-    div.textContent=letter;
-    div.style.animationDelay=`${i*0.3}s`;
-    box.appendChild(div);
-  });
-  
-  setTimeout(()=>{
-    wordEl.textContent=word;
-    wordEl.style.animation='popIn 0.5s ease-out forwards';
-    speak(word);
-  },letters.length*300+500);
-  
-  setTimeout(()=>{
-    choice.style.display='flex';
-    anim.style.display='none';
-  },letters.length*300+3000);
-}
-
-function catchFish(el,word){
-  el.style.transition='all 0.5s ease';
-  el.style.transform='scale(0) rotate(360deg)';
-  el.style.opacity='0';
-  speak(word);
-  setTimeout(()=>el.remove(),500);
-}
-
-const canvas=document.getElementById('traceCanvas');
-const ctx=canvas?canvas.getContext('2d'):null;
-
-if(ctx){
-  ctx.lineWidth=8;
-  ctx.lineCap='round';
-  ctx.strokeStyle='#1976d2';
-  
-  canvas.addEventListener('mousedown',startTrace);
-  canvas.addEventListener('mousemove',drawTrace);
-  canvas.addEventListener('mouseup',endTrace);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])});
-  canvas.addEventListener('touchend',endTrace);
-}
-
-function startTrace(e){
-  isDrawing=true;
-  const rect=canvas.getBoundingClientRect();
-  const x=e.clientX-rect.left;
-  const y=e.clientY-rect.top;
-  tracePoints.push({x,y});
-  ctx.beginPath();
-  ctx.moveTo(x,y);
-}
-
-function drawTrace(e){
-  if(!isDrawing)return;
-  const rect=canvas.getBoundingClientRect();
-  const x=e.clientX-rect.left;
-  const y=e.clientY-rect.top;
-  tracePoints.push({x,y});
-  ctx.lineTo(x,y);
-  ctx.stroke();
-}
-
-function endTrace(){
-  isDrawing=false;
-}
-
-function clearTrace(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  tracePoints=[];
-  document.getElementById('traceFeedback').textContent='';
-}
-
-function checkTrace(){
-  const feedback=document.getElementById('traceFeedback');
-  
-  if(tracePoints.length<20){
-    feedback.textContent='Try again!';
-    feedback.style.color='#e67e22';
-    return;
-  }
-  
-  const keyPoints=[
-    {x:100,y:50,name:'top'},
-    {x:100,y:250,name:'bottom'},
-    {x:220,y:50,name:'right-top'},
-    {x:200,y:140,name:'middle'}
-  ];
-  
-  let hits=0;
-  keyPoints.forEach(kp=>{
-    const nearby=tracePoints.some(p=>
-      Math.abs(p.x-kp.x)<40 && Math.abs(p.y-kp.y)<40
-    );
-    if(nearby)hits++;
-  });
-  
-  if(hits>=3){
-    feedback.textContent='Great job! 🎉';
-    feedback.style.color='#27ae60';
-    showConfetti();
-    setTimeout(()=>speak('F'),500);
+    audioCache[w].play().catch(()=>speakFallback(w));
   }else{
-    feedback.textContent='Try again!';
-    feedback.style.color='#e67e22';
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.play().catch(()=>speakFallback(w));
   }
 }
+function speakFallback(w){
+  const a=new Audio(`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`);
+  a.play().catch(()=>console.log('Audio unavailable for: '+w));
+}
 
+function playOk(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=800;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.15);
+    setTimeout(()=>{
+      const o2=ac.createOscillator(), g2=ac.createGain();
+      o2.connect(g2);g2.connect(ac.destination);
+      o2.frequency.value=1000;g2.gain.value=0.3;
+      o2.start();o2.stop(ac.currentTime+0.2);
+    },100);
+  }catch(e){}
+}
+function playNo(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=200;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.3);
+  }catch(e){}
+}
 function showConfetti(){
   for(let i=0;i<20;i++){
     const c=document.createElement('div');
@@ -717,10 +566,141 @@ function showConfetti(){
     setTimeout(()=>c.remove(),2000);
   }
 }
+const fallStyle=document.createElement('style');
+fallStyle.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
+document.head.appendChild(fallStyle);
 
-const style=document.createElement('style');
-style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
-document.head.appendChild(style);
+// Blend
+function showBlend(word,letters){
+  const choice=document.getElementById('blendChoice');
+  const anim=document.getElementById('blendAnim');
+  const box=document.getElementById('blendBox');
+  const wordEl=document.getElementById('blendWord');
+  choice.style.display='none';
+  anim.style.display='block';
+  box.innerHTML='';
+  box.className='blend-box';
+  if(letters.length>=7)box.classList.add('long');
+  else if(letters.length>=5)box.classList.add('medium');
+  wordEl.textContent='';
+  wordEl.style.animation='none';
+  letters.forEach((l,i)=>{
+    const d=document.createElement('div');
+    d.className='blend-letter';
+    d.textContent=l;
+    d.style.animationDelay=`${i*0.3}s`;
+    box.appendChild(d);
+  });
+  setTimeout(()=>{
+    wordEl.textContent=word;
+    wordEl.style.animation='popIn 0.5s ease-out forwards';
+    speak(word);
+  },letters.length*300+500);
+  setTimeout(()=>{
+    choice.style.display='flex';
+    anim.style.display='none';
+  },letters.length*300+3500);
+}
+
+// Listen & Tap Game
+const wordEmoji={fish:'1f41f',frog:'1f438',flower:'1f33c',fan:'1f4a8'};
+function startListenGame(){
+  if(listenCurrent>=listenWords.length){
+    document.getElementById('listenResult').innerHTML='🎉 All done!';
+    document.getElementById('listenGame').innerHTML='';
+    document.getElementById('listenPrompt').textContent='Great job! 🌟';
+    return;
+  }
+  const correct=listenWords[listenCurrent];
+  const opts=[correct,...listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2)].sort(()=>Math.random()-0.5);
+  const gameDiv=document.getElementById('listenGame');
+  gameDiv.innerHTML=opts.map(w=>`
+    <button class="ans-btn" onclick="checkListen('${w}')"
+      style="background:linear-gradient(135deg,#a8e6cf,#4caf50)">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${wordEmoji[w]}.svg" alt="${w}">
+    </button>`).join('');
+  document.getElementById('listenResult').textContent='';
+  setTimeout(()=>speak(correct),500);
+}
+function checkListen(w){
+  const correct=listenWords[listenCurrent];
+  const res=document.getElementById('listenResult');
+  if(w===correct){
+    res.textContent='✅';
+    playOk();speak(w);showConfetti();
+    listenCurrent++;
+    setTimeout(startListenGame,1800);
+  }else{
+    res.textContent='❌';
+    playNo();
+    document.querySelectorAll('.ans-btn').forEach(btn=>{
+      if(btn.querySelector('img').alt===w){
+        btn.style.animation='shake 0.5s';
+        setTimeout(()=>btn.style.animation='',500);
+      }
+    });
+  }
+}
+
+// Fishing Game
+function catchFish(el,word){
+  el.style.transform='scale(0) rotate(360deg)';
+  el.style.opacity='0';
+  speak(word);
+  showConfetti();
+  catchCount++;
+  document.getElementById('catchMsg').textContent=word+'! 🎣';
+  setTimeout(()=>el.remove(),500);
+}
+
+// Tracing
+const canvas=document.getElementById('traceCanvas');
+const ctx2d=canvas?canvas.getContext('2d'):null;
+if(ctx2d){
+  ctx2d.lineWidth=8;ctx2d.lineCap='round';ctx2d.strokeStyle='#1976d2';
+  canvas.addEventListener('mousedown',startTrace);
+  canvas.addEventListener('mousemove',drawTrace);
+  canvas.addEventListener('mouseup',endTrace);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();startTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();drawTrace(e.touches[0])},{passive:false});
+  canvas.addEventListener('touchend',endTrace);
+}
+function startTrace(e){
+  isDrawing=true;
+  const r=canvas.getBoundingClientRect();
+  const sx=canvas.width/r.width, sy=canvas.height/r.height;
+  const x=(e.clientX-r.left)*sx, y=(e.clientY-r.top)*sy;
+  tracePoints.push({x,y});
+  ctx2d.beginPath();ctx2d.moveTo(x,y);
+}
+function drawTrace(e){
+  if(!isDrawing)return;
+  const r=canvas.getBoundingClientRect();
+  const sx=canvas.width/r.width, sy=canvas.height/r.height;
+  const x=(e.clientX-r.left)*sx, y=(e.clientY-r.top)*sy;
+  tracePoints.push({x,y});
+  ctx2d.lineTo(x,y);ctx2d.stroke();
+}
+function endTrace(){isDrawing=false;}
+function clearTrace(){
+  ctx2d.clearRect(0,0,canvas.width,canvas.height);
+  tracePoints=[];
+  document.getElementById('traceFeedback').textContent='';
+}
+function checkTrace(){
+  const fb=document.getElementById('traceFeedback');
+  if(tracePoints.length<20){fb.textContent='✏️ Try again!';fb.style.color='#e67e22';return;}
+  const keyPts=[
+    {x:100,y:50},{x:100,y:250},{x:220,y:50},{x:200,y:140}
+  ];
+  let hits=keyPts.filter(kp=>tracePoints.some(p=>Math.abs(p.x-kp.x)<45&&Math.abs(p.y-kp.y)<45)).length;
+  if(hits>=3){
+    fb.textContent='Great job! 🎉';fb.style.color='#27ae60';
+    showConfetti();setTimeout(()=>speak('F'),500);
+  }else{
+    fb.textContent='Try again! ✏️';fb.style.color='#e67e22';
+  }
+}
 
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')prev();

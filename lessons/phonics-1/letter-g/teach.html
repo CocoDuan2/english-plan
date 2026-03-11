@@ -351,18 +351,11 @@ body{
 <div class="slide">
   <div class="pr">
     <img src="../../../assets/peppa/daddy-pig-walking.png" alt="Daddy">
-    <div class="bbl">Listen and find!</div>
+    <div class="bbl">Listen and tap! 👆</div>
   </div>
-  <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
-  <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
+  <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:24px"></div>
+  <div id="listenResult" style="font-size:48px;margin-top:16px;min-height:60px"></div>
 </div>
-
-<script>
-let listenWords=['goat', 'girl', 'gift', 'gate'];let listenCurrent=0;
-function startListenGame(){if(listenCurrent>=listenWords.length){document.getElementById('listenResult').innerHTML='🎉 All done!';document.getElementById('listenGame').innerHTML='';return;}const correct=listenWords[listenCurrent];const distractors=listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2);const options=[correct,...distractors].sort(()=>Math.random()-0.5);const emojiMap={'goat': '1f410', 'girl': '1f467', 'gift': '1f381', 'gate': '1f6aa', 'kite': '1fa81', 'king': '1f451', 'key': '1f511', 'kid': '1f9d2', 'lion': '1f981', 'leaf': '1f343', 'lemon': '1f34b', 'lamp': '1f4a1', 'nose': '1f443', 'nest': '1fab9', 'net': '1f94e', 'nut': '1f95c', 'queen': '1f451', 'quilt': '1f6cf', 'question': '2753', 'quick': '1f3c3', 'tree': '1f333', 'tiger': '1f405', 'tent': '26fa', 'top': '1f51d', 'clap': '1f44f', 'clock': '23f0', 'cloud': '2601', 'clean': '1f9fd', 'flag': '1f6a9', 'flower': '1f33c', 'fly': '1f4a8', 'floor': '1f9f9', 'glass': '1f964', 'glove': '1f9e4', 'glad': '1f603', 'glue': '1f9ea'};document.getElementById('listenGame').innerHTML=options.map(w=>{const code=emojiMap[w]||'2753';return`<button class="sound-btn" onclick="checkListenAnswer('${w}')" style="background:linear-gradient(135deg,#a8e6cf,#88d8b0);width:140px;height:140px"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg" style="width:80px;height:80px"></button>`;}).join('');setTimeout(()=>speak(correct),500);}
-function checkListenAnswer(word){const correct=listenWords[listenCurrent];const resultDiv=document.getElementById('listenResult');if(word===correct){resultDiv.innerHTML='✅';playOk();speak(word);showConfetti();listenCurrent++;setTimeout(startListenGame,2000);}else{resultDiv.innerHTML='❌ Try again!';playNo();document.querySelectorAll('.sound-btn').forEach(btn=>{btn.style.animation='shake 0.5s';setTimeout(()=>btn.style.animation='',500);});}}
-if(currentSlide===9)startListenGame();
-</script>
 
 <div class="slide">
   <div class="pr">
@@ -436,6 +429,7 @@ if(currentSlide===9)startListenGame();
 let ci=0,ts=13;
 let tracePoints=[];
 let isDrawing=false;
+let listenWords=['goat','girl','gift','gate'], listenCurrent=0;
 
 function goTo(i){
   if(i<0||i>=ts)return;
@@ -444,6 +438,7 @@ function goTo(i){
   document.getElementById('curr').textContent=i+1;
   document.getElementById('prevBtn').disabled=i===0;
   document.getElementById('nextBtn').disabled=i===ts-1;
+  if(i===9){listenCurrent=0;setTimeout(startListenGame,300);}
 }
 function next(){if(ci<ts-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
@@ -463,6 +458,61 @@ preloadWords.forEach(w=>{
   const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
   a.load();
 });
+
+// Listen & Tap Game
+const emojiMapG={'goat':'1f410','girl':'1f467','gift':'1f381','gate':'1f6aa'};
+function startListenGame(){
+  if(listenCurrent>=listenWords.length){
+    document.getElementById('listenResult').innerHTML='🎉 All done!';
+    document.getElementById('listenGame').innerHTML='';
+    return;
+  }
+  const correct=listenWords[listenCurrent];
+  const opts=[correct,...listenWords.filter(w=>w!==correct).sort(()=>Math.random()-0.5).slice(0,2)].sort(()=>Math.random()-0.5);
+  document.getElementById('listenGame').innerHTML=opts.map(w=>`
+    <button class="sound-btn" onclick="checkListenAnswer('${w}')"
+      style="background:linear-gradient(135deg,#a8e6cf,#4caf50);width:130px;height:130px">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiMapG[w]}.svg" style="width:80px">
+    </button>`).join('');
+  document.getElementById('listenResult').textContent='';
+  setTimeout(()=>speak(correct),500);
+}
+function checkListenAnswer(word){
+  const correct=listenWords[listenCurrent];
+  const res=document.getElementById('listenResult');
+  if(word===correct){
+    res.innerHTML='✅';playOk();speak(word);showConfetti();
+    listenCurrent++;
+    setTimeout(startListenGame,1800);
+  }else{
+    res.innerHTML='❌ Try again!';playNo();
+  }
+}
+
+function playOk(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=800;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.15);
+    setTimeout(()=>{
+      const o2=ac.createOscillator(),g2=ac.createGain();
+      o2.connect(g2);g2.connect(ac.destination);
+      o2.frequency.value=1000;g2.gain.value=0.3;
+      o2.start();o2.stop(ac.currentTime+0.2);
+    },100);
+  }catch(e){}
+}
+function playNo(){
+  try{
+    const ac=new AudioContext();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    o.frequency.value=200;g.gain.value=0.3;
+    o.start();o.stop(ac.currentTime+0.3);
+  }catch(e){}
+}
 
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
