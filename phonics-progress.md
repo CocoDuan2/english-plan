@@ -22,7 +22,9 @@
   - ✅ 2026-03-11 P12 质量检查（Canvas resize自适应✅ lamp词角色去重（george→peppa-red-polka-dot）✅）
   - ✅ 2026-03-11 P13 质量检查（speak()括号错误修复✅ Canvas resize自适应✅ monkey emoji统一✅）
   - ✅ 2026-03-11 P14 质量检查（S10 HTML结构破损修复✅ Canvas resize自适应✅）
-  - 📝 下次检查：P15 开始继续检查
+  - ✅ 2026-03-11 P15 质量检查（speak()函数代码错误修复✅ Canvas resize自适应✅ 角色多样化✅ review重复预加载删除✅）
+  - ✅ 2026-03-11 P16 质量检查（speak()函数代码错误修复✅ Canvas resize自适应✅ 角色多样化好✅）
+  - 📝 下次检查：P17 开始继续检查
 
 ---
 
