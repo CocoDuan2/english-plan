@@ -246,6 +246,14 @@ document.body.appendChild(c);
 setTimeout(()=>c.remove(),2000);
 }
 }
+function playOk(){
+const u='https://dict.youdao.com/dictvoice?audio=correct&type=2';
+new Audio(u).play().catch(()=>console.log('OK sound failed'));
+}
+function playNo(){
+const u='https://dict.youdao.com/dictvoice?audio=wrong&type=2';
+new Audio(u).play().catch(()=>console.log('No sound failed'));
+}
 const style=document.createElement('style');
 style.textContent=`@keyframes fall{to{transform:translateY(70vh) rotate(360deg);opacity:0}}`;
 document.head.appendChild(style);
@@ -325,6 +333,7 @@ slots.forEach((s,i)=>s.textContent=blendInput[i]||'');
 if(blendInput.length===blendAnswer.length){
 if(blendInput.join('')===blendAnswer.join('')){
 document.getElementById('blendWord').textContent='✅ '+blendCurrentWord;
+playOk();
 showConfetti();
 speak(blendCurrentWord);
 blendIndex++;
@@ -335,6 +344,7 @@ else initBlend();
 },2000);
 }else{
 document.getElementById('blendWord').textContent='❌ Try again!';
+playNo();
 setTimeout(()=>{
 blendInput=[];
 document.querySelectorAll('.blend-letter-btn').forEach(b=>b.classList.remove('used'));
@@ -368,6 +378,7 @@ card.innerHTML=`
 card.onclick=()=>{
 if(w===correct){
 card.style.background='#d4edda';
+playOk();
 speak(w);
 showConfetti();
 listenIndex++;
@@ -375,6 +386,7 @@ updateStars('listenStars',listenIndex,4);
 setTimeout(initListen,1500);
 }else{
 card.style.background='#f8d7da';
+playNo();
 speak(correct);
 setTimeout(()=>card.style.background='#fff',800);
 }
@@ -427,12 +439,14 @@ const[c1,c2]=memFlipped;
 if(c1.dataset.word===c2.dataset.word){
 c1.classList.add('matched');
 c2.classList.add('matched');
+playOk();
 memMatched++;
 updateStars('memStars',memMatched,4);
 if(memMatched===4)showConfetti();
 }else{
 c1.classList.remove('flipped');
 c2.classList.remove('flipped');
+playNo();
 }
 memFlipped=[];
 }
