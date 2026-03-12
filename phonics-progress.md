@@ -909,3 +909,11 @@
     - 抽样范围：10个课件（P4/P9/P37/P38/P42/P45/P75/P76/P89/P99）
     - 检查项目：移动端CSS ✅ Canvas尺寸 ✅ 音效函数 ✅ 角色多样性 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-12 23:34 定期质量抽检（cron任务）
+    - 抽样范围：10个课件（fl-blend, et-family, letter-q, gl-blend, ow-sound, igh-sound, u-e-magic, ap-family, letter-e, ch-digraph）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：20/20 ✅
+      - 音效函数 (playOk/playNo)：10/10 ✅
+      - Canvas尺寸 (Phonics 1 = 280x280)：2/2 ✅
+      - 角色多样性（同课内重复≥3次）：0个 ✅
+    - 结论：课件质量保持完美状态，无需修复
