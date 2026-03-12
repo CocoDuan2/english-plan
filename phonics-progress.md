@@ -49,6 +49,18 @@
     - 修复方案：Python 脚本批量处理，保留首次出现，替换后续重复为未用角色
     - 修复结果：111个文件修复完成，7个课件因使用全部14种角色保留最小重复（可接受）
     - 提交：d6debe8
+  - ✅ 2026-03-12 深度质量检查与最终修复（全量验证）
+    - 发现并修复 P18/P23/P25 review.html 角色重复≥3次（上次脚本遗漏）
+      - letter-r: emily×3 → 保留1次，M0=peppa-happy, M1=george-standing
+      - letter-w: candy-cat×3 → 保留1次，M0=peppa-red-polka-dot, M1=george-playing-ball
+      - letter-y: candy-cat×3 → 保留1次，M0=peppa-red-polka-dot, M1=george-playing-ball
+    - 全量验证结果（Phonics 1-5 共136个课件）：
+      - 角色重复≥3次：0个问题 ✅
+      - review.html 关键函数(playOk/playNo/speak)：全部完整 ✅
+      - teach.html 移动端480px CSS：全部完整 ✅
+      - HTML结构完整性（</body></html>）：全部通过 ✅
+      - Canvas 尺寸：全部正确 ✅
+    - 提交：ddd9d03
 
 ---
 
