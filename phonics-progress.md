@@ -83,6 +83,12 @@
       - 移动端flex-wrap：100% ✅
       - 关键函数完整性：100% ✅
     - 提交：6680075
+  - ✅ 2026-03-12 P1-P2 review.html 角色多样性优化（cron任务）
+    - 问题：review.html 的所有角色都与 teach.html 重复使用
+    - 修复：P1 review 6个模块全部替换为不同角色
+    - 修复：P2 review M1 角色重复（george-standing×2）+ 全部模块优化
+    - 策略：review.html 优先使用 teach.html 中间页面的角色，避免首页/结尾页角色
+    - 提交：65cb720
 
 ---
 
