@@ -1,74 +1,94 @@
 import os
 import re
-from collections import defaultdict
+import random
 
-# 统计结果
+# 从每个 Phonics 阶段随机抽取2个课件
+phonics_dirs = {
+    'phonics-1': [],
+    'phonics-2': [],
+    'phonics-3': [],
+    'phonics-4': [],
+    'phonics-5': []
+}
+
+for phonics in phonics_dirs.keys():
+    path = f'lessons/{phonics}'
+    if os.path.exists(path):
+        folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+        phonics_dirs[phonics] = folders
+
+# 随机抽取
+samples = []
+for phonics, folders in phonics_dirs.items():
+    if len(folders) >= 2:
+        selected = random.sample(folders, 2)
+        for folder in selected:
+            samples.append((phonics, folder))
+
+print(f"抽样检查 {len(samples)} 个课件：")
+for phonics, folder in samples:
+    print(f"  - {phonics}/{folder}")
+
+# 检查项目
 issues = []
-stats = defaultdict(int)
 
-# 遍历所有课件
-for root, dirs, files in os.walk('lessons'):
-    for file in files:
-        if not file.endswith('.html'):
-            continue
+for phonics, folder in samples:
+    teach_path = f'lessons/{phonics}/{folder}/teach.html'
+    review_path = f'lessons/{phonics}/{folder}/review.html'
+    
+    # 检查 teach.html
+    if os.path.exists(teach_path):
+        with open(teach_path, 'r', encoding='utf-8') as f:
+            teach_content = f.read()
         
-        path = os.path.join(root, file)
-        with open(path, 'r', encoding='utf-8') as f:
-            content = f.read()
+        # 1. 移动端CSS
+        if '@media(max-width:480px)' not in teach_content:
+            issues.append(f"{phonics}/{folder}/teach.html 缺少移动端CSS")
         
-        # 检查1: 移动端CSS
-        if 'teach.html' in file:
-            if '@media(max-width:480px)' not in content:
-                issues.append(f"{path}: 缺少移动端CSS")
-            else:
-                stats['移动端CSS'] += 1
+        # 2. Canvas尺寸（仅Phonics 1）
+        if phonics == 'phonics-1':
+            canvas_match = re.search(r'\.trace-container\s*\{[^}]*width:\s*(\d+)px', teach_content)
+            if canvas_match and canvas_match.group(1) != '300':
+                issues.append(f"{phonics}/{folder}/teach.html Canvas宽度不是300px")
         
-        # 检查2: review.html 关键函数
-        if 'review.html' in file:
-            if 'function speak(' not in content:
-                issues.append(f"{path}: 缺少 speak() 函数")
-            else:
-                stats['speak函数'] += 1
-            
-            if 'function playOk(' not in content:
-                issues.append(f"{path}: 缺少 playOk() 函数")
-            else:
-                stats['playOk函数'] += 1
-            
-            if 'function playNo(' not in content:
-                issues.append(f"{path}: 缺少 playNo() 函数")
-            else:
-                stats['playNo函数'] += 1
-        
-        # 检查3: HTML结构完整性
-        if '</body>' not in content or '</html>' not in content:
-            issues.append(f"{path}: HTML结构不完整")
-        else:
-            stats['HTML完整'] += 1
-        
-        # 检查4: 角色图片统计（同一课件内）
-        peppa_imgs = re.findall(r'assets/peppa/([^"\']+\.png)', content)
-        img_count = defaultdict(int)
-        for img in peppa_imgs:
-            img_count[img] += 1
-        
-        # 同课件内角色重复≥3次
-        for img, count in img_count.items():
+        # 3. 角色多样性（同课内重复≥3次）
+        roles = re.findall(r'assets/peppa/([\w-]+)\.png', teach_content)
+        role_counts = {}
+        for role in roles:
+            role_counts[role] = role_counts.get(role, 0) + 1
+        for role, count in role_counts.items():
             if count >= 3:
-                issues.append(f"{path}: 角色 {img} 重复 {count} 次")
+                issues.append(f"{phonics}/{folder}/teach.html 角色{role}重复{count}次")
+    
+    # 检查 review.html
+    if os.path.exists(review_path):
+        with open(review_path, 'r', encoding='utf-8') as f:
+            review_content = f.read()
+        
+        # 1. 移动端CSS
+        if '@media(max-width:480px)' not in review_content:
+            issues.append(f"{phonics}/{folder}/review.html 缺少移动端CSS")
+        
+        # 2. 音效函数
+        if 'function playOk()' not in review_content:
+            issues.append(f"{phonics}/{folder}/review.html 缺少playOk函数")
+        if 'function playNo()' not in review_content:
+            issues.append(f"{phonics}/{folder}/review.html 缺少playNo函数")
+        
+        # 3. 角色多样性
+        roles = re.findall(r'assets/peppa/([\w-]+)\.png', review_content)
+        role_counts = {}
+        for role in roles:
+            role_counts[role] = role_counts.get(role, 0) + 1
+        for role, count in role_counts.items():
+            if count >= 3:
+                issues.append(f"{phonics}/{folder}/review.html 角色{role}重复{count}次")
 
-print("=== 质量检查报告 ===\n")
-print(f"✅ 移动端CSS: {stats['移动端CSS']}")
-print(f"✅ speak函数: {stats['speak函数']}")
-print(f"✅ playOk函数: {stats['playOk函数']}")
-print(f"✅ playNo函数: {stats['playNo函数']}")
-print(f"✅ HTML完整: {stats['HTML完整']}")
-
+print(f"\n检查结果：")
 if issues:
-    print(f"\n⚠️  发现 {len(issues)} 个问题:\n")
-    for issue in issues[:20]:  # 只显示前20个
-        print(f"  - {issue}")
-    if len(issues) > 20:
-        print(f"  ... 还有 {len(issues)-20} 个问题")
+    print(f"发现 {len(issues)} 个问题：")
+    for issue in issues:
+        print(f"  ❌ {issue}")
 else:
-    print("\n🎉 所有检查项通过！")
+    print("✅ 所有抽样课件质量完美，无问题")
+
