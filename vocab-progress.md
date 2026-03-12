@@ -5,6 +5,14 @@
 - 更新时间: 2026-03-03 12:04
 - 课程体系: RAZ递进式，无Yesterday Review，词汇不重复
 
+## 📋 质量检查记录
+- ✅ 2026-03-12 词汇课程（Day 1-40）同课内角色重复问题修复
+  - 修复37个课件的角色重复≥3次问题
+  - 最严重的 seasons-change 和 weather-actions（10次重复）已优化至≤2次
+  - family-photo 保留适度重复（主题特殊性：展示家庭成员）
+  - 策略：保留首次出现，替换后续重复为未使用角色
+  - 提交：07435c1
+
 ## Day 1 - Peppa's Colorful Day
 - 新词: red, blue, yellow, green, orange
 - 句式: It's ___!
