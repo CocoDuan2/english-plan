@@ -89,6 +89,13 @@
     - 修复：P2 review M1 角色重复（george-standing×2）+ 全部模块优化
     - 策略：review.html 优先使用 teach.html 中间页面的角色，避免首页/结尾页角色
     - 提交：65cb720
+  - ✅ 2026-03-12 首页角色跨课件重复优化（cron任务）
+    - 问题：Phonics 1-5 首页角色有重复≥3次的情况
+    - Phonics 1 (P1-P26): 4个角色出现3次 → 替换4个课件（s/v/x/z）
+    - Phonics 4 (P62-P81): mummy-pig-standing-grass×3 → 替换nk-sound
+    - Phonics 5 (P82-P101): george-standing×3 → 替换y-as-ee
+    - 结果：全体课件首页角色最多出现2次 ✅
+    - 提交：5ced627, a0c8a67
 
 ---
 
