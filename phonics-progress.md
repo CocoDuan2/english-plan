@@ -1112,3 +1112,11 @@
     - 抽样范围：4个课件（ow-sound, oi-oy, igh-sound, letter-n）
     - 检查项目：移动端CSS ✅ Canvas尺寸 ✅ 音效函数 ✅ 角色多样性 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-14 00:03 定期质量抽检（cron任务）
+    - 抽样范围：5个课件（letter-x, ck-sound, bl-blend, en-family, dr-blend）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo/speak)：5/5 ✅
+      - Canvas尺寸 (letter-x = 280x280px)：1/1 ✅
+      - 角色多样性（同课内最多2次重复）：5/5 ✅
+    - 结论：课件质量保持完美状态，无需修复
