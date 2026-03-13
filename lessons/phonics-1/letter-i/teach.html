@@ -573,6 +573,15 @@ function showBlend(word,letters){
 const canvas=document.getElementById('traceCanvas');
 const ctx=canvas?canvas.getContext('2d'):null;
 
+const resizeCanvas=()=>{
+  const size=Math.min(canvas.offsetWidth,300);
+  canvas.width=size;
+  canvas.height=size;
+  drawTrace();
+};
+window.addEventListener('resize',resizeCanvas);
+window.addEventListener('load',resizeCanvas);
+
 if(ctx){
   ctx.lineWidth=8;
   ctx.lineCap='round';

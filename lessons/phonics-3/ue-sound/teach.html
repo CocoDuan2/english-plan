@@ -403,6 +403,15 @@ function speak(txt){
 // Tracing
 const canvas=document.getElementById('traceCanvas');
 const ctx=canvas?canvas.getContext('2d'):null;
+
+const resizeCanvas=()=>{
+  const size=Math.min(canvas.offsetWidth,300);
+  canvas.width=size;
+  canvas.height=size;
+  draw();
+};
+window.addEventListener('resize',resizeCanvas);
+window.addEventListener('load',resizeCanvas);
 let drawing=false;
 const points=[];
 
