@@ -345,19 +345,49 @@ body{
   <div id="listenGame" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px"></div>
   <div id="listenResult" style="font-size:48px;margin-top:20px;min-height:60px"></div>
 </div>
-<!-- S11: Story -->
+<!-- S11: Game - Gift Box Reveal -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
-    <div class="bbl">Peppa paints today!</div>
+    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
+    <div class="bbl">Open the gift! 🎁</div>
   </div>
-  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
-    <p style="margin-bottom:12px">Peppa uses blue <strong style="color:#e91e8c">ink</strong> to paint.</p>
-    <p style="margin-bottom:12px">She sees an <strong style="color:#e91e8c">insect</strong> on the paper.</p>
-    <p style="margin-bottom:12px">She draws an <strong style="color:#e91e8c">igloo</strong> in the snow.</p>
-    <p>The picture is one <strong style="color:#e91e8c">inch</strong> tall!</p>
-  </div>
-  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f58b.svg" alt="ink" style="width:80px;margin-top:16px">
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:16px auto;max-width:480px" id="giftArea"></div>
+  <div id="giftScore" style="font-size:22px;font-weight:700;color:#e91e8c;margin-top:4px">0 / 4 opened</div>
+  <style>
+    .gift-box{width:100px;height:100px;background:linear-gradient(135deg,#ff6b9d,#c44569);border:none;border-radius:16px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:transform .2s}
+    .gift-box:active{transform:scale(.9)}
+    .gift-box.opened{background:linear-gradient(135deg,#a8e6cf,#66bb6a);cursor:default}
+    @media(max-width:480px){.gift-box{width:72px;height:72px;font-size:28px}}
+  </style>
+  <script>
+  var giftItems=[{word:'ink',code:'1f58b'},{word:'insect',code:'1f41b'},{word:'igloo',code:'1f3d4'},{word:'inch',code:'1f4cf'}];
+  var giftOpened=0;
+  (function(){
+    var area=document.getElementById('giftArea');
+    area.innerHTML='';
+    giftOpened=0;
+    giftItems.sort(()=>Math.random()-.5);
+    giftItems.forEach(function(item){
+      var btn=document.createElement('button');
+      btn.className='gift-box';
+      btn.innerHTML='🎁';
+      btn.onclick=function(){
+        if(btn.classList.contains('opened'))return;
+        btn.classList.add('opened');
+        btn.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;gap:4px"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.code+'.svg" style="width:48px;height:48px"><span style="font-size:13px;font-weight:700;color:#2c3e50">'+item.word+'</span></div>';
+        speak(item.word);
+        playOk();
+        showConfetti();
+        giftOpened++;
+        document.getElementById('giftScore').textContent=giftOpened+' / 4 opened';
+        if(giftOpened===4){
+          setTimeout(function(){document.getElementById('giftScore').textContent='🎉 All opened!';},500);
+        }
+      };
+      area.appendChild(btn);
+    });
+  })();
+  </script>
 </div>
 
 <!-- S12: All Together -->
@@ -421,7 +451,7 @@ body{
 </div>
 
 <script>
-let ci=0,ts=13;
+let ci=0,ts=12;
 let tracePoints=[];
 let isDrawing=false;
 let listenWords=["ink","insect","igloo","inch"];

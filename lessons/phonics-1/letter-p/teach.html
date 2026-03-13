@@ -442,19 +442,77 @@ function getWordEmoji(word) {
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${code}.svg`;
 }
 </script>
-<!-- S11: Story -->
+<!-- S11: Game - Feed Peppa -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-and-george-ooo.png" alt="Peppa & George">
-    <div class="bbl">Peppa Pig family!</div>
+    <img src="../../../assets/peppa/peppa-pig-happy-standing.png" alt="Peppa">
+    <div class="bbl">Feed me! 🍽️</div>
   </div>
-  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
-    <p style="margin-bottom:12px">Peppa is a <strong style="color:#e91e8c">pig</strong>!</p>
-    <p style="margin-bottom:12px">She draws with a <strong style="color:#e91e8c">pen</strong>.</p>
-    <p style="margin-bottom:12px">Daddy Pig makes <strong style="color:#e91e8c">pizza</strong>.</p>
-    <p>Mummy Pig cooks in a <strong style="color:#e91e8c">pot</strong>.</p>
-  </div>
-  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f437.svg" alt="pig" style="width:80px;margin-top:16px">
+  <div id="feedPrompt" style="font-size:24px;font-weight:700;color:#e67e22;margin:8px 0">🔊 Tap to listen!</div>
+  <button onclick="feedListen()" style="padding:10px 24px;background:#f9c74f;color:#fff;border:none;border-radius:20px;font-size:18px;font-weight:700;cursor:pointer;margin-bottom:12px">🔊 Listen</button>
+  <div id="feedOptions" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:480px;margin:0 auto"></div>
+  <div id="feedResult" style="font-size:28px;min-height:36px;margin-top:8px"></div>
+  <div id="feedScore" style="font-size:20px;color:#e91e8c;font-weight:700">Score: 0</div>
+  <style>
+    .feed-btn{width:90px;height:90px;border:3px solid #e0e0e0;border-radius:20px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,border-color .2s;box-shadow:0 3px 8px rgba(0,0,0,.1)}
+    .feed-btn:active{transform:scale(.88)}
+    .feed-btn.correct{border-color:#4caf50;background:#e8f5e9;animation:bounce .4s}
+    .feed-btn.wrong{border-color:#f44336;background:#ffebee;animation:shake .3s}
+    @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+    @media(max-width:480px){.feed-btn{width:70px;height:70px}}
+  </style>
+  <script>
+  var feedItems=[{word:'pig',code:'1f437'},{word:'pen',code:'1f58a'},{word:'pizza',code:'1f355'},{word:'pot',code:'1fad5'}];
+  var feedCurrent=null,feedScoreVal=0;
+  function initFeed(){
+    feedScoreVal=0;
+    feedItems.sort(()=>Math.random()-.5);
+    renderFeedOptions();
+    feedPickNext();
+  }
+  function renderFeedOptions(){
+    var area=document.getElementById('feedOptions');
+    area.innerHTML='';
+    feedItems.forEach(function(item){
+      var btn=document.createElement('button');
+      btn.className='feed-btn';
+      btn.dataset.word=item.word;
+      btn.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.code+'.svg" style="width:56px;height:56px">';
+      btn.onclick=function(){checkFeed(item.word,btn);};
+      area.appendChild(btn);
+    });
+  }
+  function feedPickNext(){
+    var remaining=feedItems.filter(function(i){return !document.querySelector('.feed-btn.correct[data-word="'+i.word+'"]');});
+    if(remaining.length===0){
+      document.getElementById('feedPrompt').innerHTML='🎉 Peppa is full! All done!';
+      return;
+    }
+    feedCurrent=remaining[Math.floor(Math.random()*remaining.length)].word;
+    document.getElementById('feedPrompt').innerHTML='🔊 Give Peppa: <strong style="color:#e91e8c">'+feedCurrent+'</strong>';
+    setTimeout(function(){speak(feedCurrent);},300);
+  }
+  function feedListen(){if(feedCurrent)speak(feedCurrent);}
+  function checkFeed(word,btn){
+    if(!feedCurrent)return;
+    var res=document.getElementById('feedResult');
+    if(word===feedCurrent){
+      btn.classList.add('correct');
+      btn.onclick=null;
+      playOk();speak(word);showConfetti();
+      feedScoreVal++;
+      document.getElementById('feedScore').textContent='Score: '+feedScoreVal;
+      res.innerHTML='✅ '+word+'!';
+      setTimeout(function(){res.innerHTML='';feedPickNext();},1500);
+    }else{
+      btn.classList.add('wrong');
+      playNo();
+      res.innerHTML='❌ Try again!';
+      setTimeout(function(){btn.classList.remove('wrong');res.innerHTML='';speak(feedCurrent);},1000);
+    }
+  }
+  initFeed();
+  </script>
 </div>
 
 <!-- S12: All Together -->
@@ -518,7 +576,7 @@ function getWordEmoji(word) {
 </div>
 
 <script>
-let ci=0,ts=13;
+let ci=0,ts=12;
 let tracePoints=[];
 let isDrawing=false;
 

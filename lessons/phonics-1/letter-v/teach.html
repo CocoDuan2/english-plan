@@ -427,19 +427,56 @@ function getWordEmoji(word) {
 }
 
 </script>
-<!-- S11: Story -->
+<!-- S11: Game - Whack-a-Mole -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
-    <div class="bbl">Peppa takes a van trip!</div>
+    <img src="../../../assets/peppa/george_pig_dinosaur.png" alt="George">
+    <div class="bbl">Whack it! 🎯</div>
   </div>
-  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
-    <p style="margin-bottom:12px">Peppa rides in a blue <strong style="color:#e91e8c">van</strong>.</p>
-    <p style="margin-bottom:12px">She brings her <strong style="color:#e91e8c">violin</strong> to play music.</p>
-    <p style="margin-bottom:12px">Daddy Pig wears a warm <strong style="color:#e91e8c">vest</strong>!</p>
-    <p>Mummy Pig puts flowers in a <strong style="color:#e91e8c">vase</strong>.</p>
-  </div>
-  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f69a.svg" alt="van" style="width:80px;margin-top:16px">
+  <div id="whackGame" style="position:relative;width:100%;max-width:480px;height:320px;margin:16px auto;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:20px;overflow:hidden"></div>
+  <div id="whackScore" style="font-size:28px;font-weight:700;color:#e91e8c;margin-top:8px">Score: 0 / 4</div>
+  <button onclick="initWhack()" style="margin-top:8px;padding:10px 28px;background:#e91e8c;color:#fff;border:none;border-radius:20px;font-size:18px;font-weight:700;cursor:pointer">▶ Start!</button>
+  <style>
+    .mole-btn{position:absolute;width:90px;height:90px;border:none;border-radius:50%;cursor:pointer;transition:transform .15s;background:transparent;padding:0}
+    .mole-btn:active{transform:scale(.85)}
+    .mole-btn.hit{opacity:0;transform:scale(0);transition:all .3s}
+    @media(max-width:480px){#whackGame{height:260px}.mole-btn{width:70px;height:70px}}
+  </style>
+  <script>
+  var whackWords=[{word:'van',code:'1f69a'},{word:'violin',code:'1f3bb'},{word:'vest',code:'1f9ba'},{word:'vase',code:'1f3fa'}];
+  var whackScore=0,whackTotal=4;
+  function initWhack(){
+    whackScore=0;
+    document.getElementById('whackScore').textContent='Score: 0 / 4';
+    var g=document.getElementById('whackGame');
+    g.innerHTML='';
+    whackWords.sort(()=>Math.random()-.5);
+    whackWords.forEach(function(item,i){
+      var btn=document.createElement('button');
+      btn.className='mole-btn';
+      var positions=[
+        {left:'5%',top:'10%'},{left:'30%',top:'10%'},{left:'55%',top:'10%'},{left:'78%',top:'10%'},
+        {left:'5%',top:'55%'},{left:'30%',top:'55%'},{left:'55%',top:'55%'},{left:'78%',top:'55%'}
+      ];
+      var pos=positions[i%positions.length];
+      btn.style.left=pos.left;btn.style.top=pos.top;
+      btn.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.code+'.svg" style="width:100%;height:100%;border-radius:50%">';
+      btn.onclick=function(){
+        if(btn.classList.contains('hit'))return;
+        btn.classList.add('hit');
+        speak(item.word);
+        playOk();
+        showConfetti();
+        whackScore++;
+        document.getElementById('whackScore').textContent='Score: '+whackScore+' / 4';
+        if(whackScore===whackTotal){
+          setTimeout(function(){document.getElementById('whackGame').innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:48px">🎉</div>';},600);
+        }
+      };
+      g.appendChild(btn);
+    });
+  }
+  </script>
 </div>
 
 <!-- S12: All Together -->
@@ -503,7 +540,7 @@ function getWordEmoji(word) {
 </div>
 
 <script>
-let ci=0,ts=13;
+let ci=0,ts=12;
 let tracePoints=[];
 let isDrawing=false;
 

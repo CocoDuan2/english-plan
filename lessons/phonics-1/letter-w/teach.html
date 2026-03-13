@@ -427,19 +427,73 @@ function getWordEmoji(word) {
 }
 
 </script>
-<!-- S11: Story -->
+<!-- S11: Game - Pop Bubbles -->
 <div class="slide">
   <div class="pr">
-    <img src="../../../assets/peppa/george-superhero-costume.png" alt="George">
-    <div class="bbl">Peppa drinks water!</div>
+    <img src="../../../assets/peppa/peppa-fairy-princess.png" alt="Peppa">
+    <div class="bbl">Pop the bubble! 🫧</div>
   </div>
-  <div style="max-width:500px;margin:20px auto;font-size:22px;line-height:1.6;color:#2c3e50">
-    <p style="margin-bottom:12px">Peppa drinks a glass of <strong style="color:#e91e8c">water</strong>.</p>
-    <p style="margin-bottom:12px">She looks out the <strong style="color:#e91e8c">window</strong>.</p>
-    <p style="margin-bottom:12px">Daddy Pig checks his <strong style="color:#e91e8c">watch</strong>.</p>
-    <p>A spider makes a <strong style="color:#e91e8c">web</strong> outside!</p>
-  </div>
-  <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4a7.svg" alt="water" style="width:80px;margin-top:16px">
+  <div id="bubblePrompt" style="font-size:26px;font-weight:700;color:#e67e22;margin:8px 0">🔊 Listen...</div>
+  <div id="bubbleArea" style="position:relative;width:100%;max-width:480px;height:260px;margin:0 auto;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:20px;overflow:hidden"></div>
+  <div id="bubbleResult" style="font-size:28px;min-height:36px;margin-top:8px"></div>
+  <button onclick="startBubbles()" style="margin-top:8px;padding:10px 28px;background:#45b7d1;color:#fff;border:none;border-radius:20px;font-size:18px;font-weight:700;cursor:pointer">▶ Play!</button>
+  <style>
+    .bubble-btn{position:absolute;border:none;border-radius:50%;cursor:pointer;width:80px;height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:floatUp 3s ease-in-out infinite;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+    .bubble-btn:active{transform:scale(.8)}
+    @keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @media(max-width:480px){.bubble-btn{width:64px;height:64px}#bubbleArea{height:200px}}
+  </style>
+  <script>
+  var bubItems=[{word:'water',code:'1f4a7'},{word:'window',code:'1fa9f'},{word:'watch',code:'231a'},{word:'web',code:'1f578'}];
+  var bubCurrent=-1,bubWords=[];
+  function startBubbles(){
+    bubWords=bubItems.slice().sort(()=>Math.random()-.5);
+    bubCurrent=0;
+    renderBubbles();
+    setTimeout(function(){speak(bubWords[0].word);},400);
+    document.getElementById('bubblePrompt').innerHTML='🔊 Find: <strong style="color:#e91e8c">'+bubWords[0].word+'</strong>';
+  }
+  function renderBubbles(){
+    var area=document.getElementById('bubbleArea');
+    area.innerHTML='';
+    var cols=['#ff6b9d','#45b7d1','#f9c74f','#90be6d'];
+    bubWords.forEach(function(item,i){
+      var btn=document.createElement('button');
+      btn.className='bubble-btn';
+      btn.style.background=cols[i%cols.length];
+      btn.style.left=(8+i*22)+'%';
+      btn.style.top=(20+((i%2)*40))+'%';
+      btn.style.animationDelay=(i*0.5)+'s';
+      btn.innerHTML='<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/'+item.code+'.svg" style="width:44px;height:44px">';
+      btn.dataset.word=item.word;
+      btn.onclick=function(){checkBubble(item.word,btn);};
+      area.appendChild(btn);
+    });
+  }
+  function checkBubble(word,btn){
+    if(bubCurrent<0||bubCurrent>=bubWords.length)return;
+    var correct=bubWords[bubCurrent].word;
+    var res=document.getElementById('bubbleResult');
+    if(word===correct){
+      btn.style.animation='none';btn.style.transform='scale(0)';btn.style.opacity='0';btn.style.transition='all .3s';
+      playOk();speak(word);showConfetti();
+      res.innerHTML='✅ '+word+'!';
+      bubCurrent++;
+      if(bubCurrent<bubWords.length){
+        setTimeout(function(){
+          speak(bubWords[bubCurrent].word);
+          document.getElementById('bubblePrompt').innerHTML='🔊 Find: <strong style="color:#e91e8c">'+bubWords[bubCurrent].word+'</strong>';
+          res.innerHTML='';
+        },1500);
+      }else{
+        setTimeout(function(){document.getElementById('bubbleArea').innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:48px">🎉</div>';},1000);
+      }
+    }else{
+      playNo();res.innerHTML='❌ Try again!';
+      setTimeout(function(){res.innerHTML='';speak(correct);},1000);
+    }
+  }
+  </script>
 </div>
 
 <!-- S12: All Together -->
@@ -503,7 +557,7 @@ function getWordEmoji(word) {
 </div>
 
 <script>
-let ci=0,ts=13;
+let ci=0,ts=12;
 let tracePoints=[];
 let isDrawing=false;
 
