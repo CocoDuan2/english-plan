@@ -937,3 +937,25 @@
     - 抽样范围：6个课件（oa-sound, ip-family, ph-sound, letter-k, at-family, ur-sound）
     - 检查项目：移动端CSS ✅ Canvas尺寸 ✅ 音效函数 ✅ 角色多样性 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-13 11:03 Canvas resize 深度修复（cron任务）
+    - 检查方式：浏览器实测 + 代码深度扫描（非脚本模拟）
+    - 发现问题：44个课件的 Canvas 缺少 resize 自适应（历次检查均漏检）
+    - 影响范围：Phonics 1 全部26课 + Phonics 2-5 部分课件（共44个）
+    - 修复内容：
+      - 添加 resizeCanvas 函数（监听 resize/load 事件）
+      - 修复函数名错误（43课件的 drawLetter → drawTrace/draw）
+      - y-as-ee 特殊处理（空白 Canvas 不需要重绘函数）
+    - 浏览器实测验证：
+      - P1 描红页（手机/PC）：Canvas 正确自适应 ✅
+      - 拼读游戏、听力游戏、记忆翻牌：布局正常 ✅
+      - 移动端垂直布局（佩琪+气泡）：正确 ✅
+    - 提交：a722670
+    - 注：Twemoji CDN 图片需要网络，本地测试显示 broken（部署后正常）
+  - ✅ 2026-03-13 11:33 定期质量抽检（cron任务）
+    - 抽样范围：10个课件（tr-blend, igh-sound, pl-blend, ar-sound, ip-family, letter-o, letter-p, soft-c, ou-ow 等）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo/speak)：10/10 ✅
+      - Canvas resize (Phonics 1)：已验证正确 ✅
+      - 角色多样性（同课内无重复≥3次）：10/10 ✅
+    - 结论：课件质量保持完美状态，无需修复
