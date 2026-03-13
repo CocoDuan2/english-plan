@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 06:35 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P23 letter-w, P24 letter-x, toy-box-fun）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：3/3 ✅
+      - 音效函数 (playOk/playNo/speak)：3/3 ✅
+      - audioCache机制：2/2 ✅（自然拼读课件）
+      - 角色多样性（同课内重复≥2次）：2/3 ❌
+    - 发现问题：
+      - P23 (letter-w) teach.html: peppa-fairy-princess 出现2次（S11游戏页 + S13 Bye页）
+      - P24 (letter-x) teach.html: george-superhero-costume 出现2次（S8单词页 + S11游戏页）
+    - 修复：
+      - P23 S13 Bye页: peppa-fairy-princess → peppa-and-george-ooo
+      - P24 S11 游戏页: george-superhero-costume → peppa-and-george-ooo
+    - 提交：1d51df4
+    - 结论：修复完成，课件角色多样性优化
   - ✅ 2026-03-14 06:03 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P4 letter-d, P37 og-family, P52 ue-sound）
     - 检查项目：
