@@ -388,6 +388,7 @@ function showSlide(n){
   document.getElementById('nextBtn').disabled=n===total-1;
   if(n===9)initListenGame();
   if(n===10)initBlend();
+  if(n===8&&typeof resizeCanvas==='function')setTimeout(resizeCanvas,50);
 }
 
 function nextSlide(){if(curr<total-1){curr++;showSlide(curr)}}

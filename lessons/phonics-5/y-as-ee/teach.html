@@ -419,6 +419,7 @@ function showSlide(n){
   document.getElementById('prevBtn').disabled=n===0;
   document.getElementById('nextBtn').disabled=n===total-1;
   if(n===9)setTimeout(initQuiz,500);
+  if(n===8&&typeof resizeCanvas==='function')setTimeout(resizeCanvas,50);
 }
 
 function nextSlide(){if(cur<total-1){cur++;showSlide(cur)}}

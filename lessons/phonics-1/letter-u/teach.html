@@ -382,6 +382,7 @@ let isDrawing=false;
 function goTo(i){
 if(i<0||i>=ts)return;
 document.querySelectorAll('.slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));
+  if(i===3&&typeof resizeCanvas==='function')setTimeout(resizeCanvas,50);
 ci=i;
 document.getElementById('curr').textContent=i+1;
 document.getElementById('prevBtn').disabled=i===0;
