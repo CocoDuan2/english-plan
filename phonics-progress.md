@@ -7,6 +7,18 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 04:04 定期质量抽检（cron任务）
+    - 抽样范围：5个课件（helping-at-home, tion-sion, where-we-go, daily-actions, letter-h）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo/speak)：5/5 ✅
+      - audioCache机制：2/5 ❌（3个词汇课程缺失）
+      - 角色多样性（同课内最多2次重复）：10/10 ✅
+      - HTML完整性：10/10 ✅
+    - 发现问题：3个词汇课程 review.html 缺少 audioCache 预缓存
+    - 修复：为 helping-at-home(7词)、where-we-go(5词)、daily-actions(9词) 添加 audioCache
+    - 提交：ce40432
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 03:34 定期质量抽检（cron任务）
     - 抽样范围：5个课件（ar-sound, ck-sound, ou-ow, letter-r, ng-sound）
     - 检查项目：
