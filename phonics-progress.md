@@ -7,6 +7,17 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-13 16:03 Canvas resize 激活修复（cron任务）
+    - 发现问题：全部44个含 traceCanvas 的 teach.html 缺少"滑到描红页时触发 resizeCanvas"逻辑
+    - 根本原因：resizeCanvas 仅在 window load 事件中调用，但此时描红幻灯片为 display:none，canvas.offsetWidth=0，导致移动端canvas尺寸为0×0
+    - 修复方案：在 goTo()/showSlide() 中添加 if(i===N&&typeof resizeCanvas==='function')setTimeout(resizeCanvas,50)
+    - 修复范围：
+      - Phonics 1 (P1-P26): 26个 teach.html，trace在slide index 3，添加 i===3 触发
+      - Phonics 3 magic-e (a/e/i/o/u): 6个 teach.html，trace在slide index 4，添加 i===4 触发
+      - Phonics 3 ee, Phonics 4 ph-sound, Phonics 5 (8个): trace在slide index 3，添加 i===3 触发
+      - Phonics 3 ue-sound, Phonics 5 y-as-ee: 使用 showSlide()，trace在slide index 8，添加 n===8 触发
+    - 提交：922c89d（push 因沙盒网络 TLS 问题暂待，commit 已完成）
+    - 验证：修复后描红页在移动端正确显示 280px canvas ✅
   - ✅ 2026-03-13 15:03 音频缓存全量升级（cron任务）
     - 发现问题：85/92个 review.html 缺少 audioCache 机制（有些只有 a.load() 无缓存引用，有些完全没有预加载）
     - 升级内容：统一将全部92个 review.html 升级为 audioCache 模式
