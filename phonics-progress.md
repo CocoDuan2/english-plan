@@ -7,6 +7,16 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-13 18:07 全面质量检查（cron任务）
+    - 检查范围：全部92个自然拼读课件（184个文件）
+    - 检查项目：
+      1. 移动端体验：184/184 ✅ (CSS/Canvas/flex-wrap全部正确)
+      2. 角色多样性：首页角色分布均衡，无连续3课重复 ✅
+      3. 音频优化：92/92 有audioCache + playOk/playNo ✅
+      4. 游戏多样性：Phonics 1 已升级5种游戏轮换 ✅
+      5. PC/iPad排版：字体/图片/布局全部合适 ✅
+    - 结论：🎉 所有5项检查全部通过，课件质量完美达标
+    - 详细报告：quality-check-report-2026-03-13-1807.md
   - ✅ 2026-03-13 16:03 Canvas resize 激活修复（cron任务）
     - 发现问题：全部44个含 traceCanvas 的 teach.html 缺少"滑到描红页时触发 resizeCanvas"逻辑
     - 根本原因：resizeCanvas 仅在 window load 事件中调用，但此时描红幻灯片为 display:none，canvas.offsetWidth=0，导致移动端canvas尺寸为0×0
@@ -1001,7 +1011,20 @@
     - 抽样范围：5个课件（letter-h, en-family, u-e-magic, cr-blend, igh-sound）
     - 检查项目：移动端CSS ✅ Canvas尺寸 ✅ 音效函数 ✅ 角色多样性 ✅
     - 结论：课件质量保持完美状态，无需修复
-  - ✅ 2026-03-13 16:33 质量检查与验证（cron任务）
+  - ✅ 2026-03-13 17:33 Phonics 1 游戏多样性升级（cron任务）
+    - 问题：P2-P26 (letter-b 到 letter-z) 的 S11 游戏页全部是相同的 Story 文字页，缺乏互动性
+    - 升级方案：将 Story 页替换为 5 种不同类型的互动游戏（每种各 5 课）
+    - 游戏类型分配：
+      - 🎯 打地鼠 (Whack-a-Mole): B, G, L, Q, V
+      - 🫧 气泡点击 (Pop Bubbles): C, H, M, R, W
+      - 🎁 礼物盒揭秘 (Gift Box Reveal): D, I, N, S, X
+      - ⚡ 闪卡速读 (Flash Cards Speed): E, J, O, T, Y
+      - 🍽️ 投喂游戏 (Feed Peppa): F, K, P, U, Z
+    - 所有游戏特性：confetti+音效反馈、移动端响应式、自动初始化
+    - 修复：ts 值从 13 更新为 12（替换了 Story 页）
+    - 修复：letter-n 恢复 Listen & Say 幻灯片（原来缺失）
+    - 验证：25/25 课件游戏函数完整 ✅ 25/25 ts 值匹配 ✅ 25/25 移动端 CSS ✅
+    - 提交：ee073ac（push 因沙盒 TLS 问题暂待）
     - 验证今天两个重要修复的正确性：
       1. Canvas resize 激活修复（922c89d）：
          - Phonics 1 (P1-P26): 26/26 goTo 中 i===3 触发 resizeCanvas ✅
