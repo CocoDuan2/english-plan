@@ -7,6 +7,16 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 02:04 定期质量抽检（cron任务）
+    - 抽样范围：4个课件（letter-g, og-family, sh-digraph, ar-sound）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：8/8 ✅
+      - 音效函数 (playOk/playNo)：4/4 ✅
+      - 角色多样性（同课内无重复≥3次）：8/8 ✅
+      - Canvas尺寸 (letter-g = 280x280px)：1/1 ✅
+    - 发现问题：P7 (letter-g) S11 角色重复（george_pig_dinosaur 与 S6 重复）
+    - 修复：S11 改为 peppa-pig-red-polka-dot-dress
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 01:33 定期质量抽检（cron任务）
     - 抽样范围：5个课件（letter-c, ap-family, oa-sound, pl-blend, er-sound）
     - 检查项目：
