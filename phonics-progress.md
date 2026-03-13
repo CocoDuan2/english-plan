@@ -959,3 +959,11 @@
       - Canvas resize (Phonics 1)：已验证正确 ✅
       - 角色多样性（同课内无重复≥3次）：10/10 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-13 12:03 定期质量抽检（cron任务）
+    - 抽样范围：5个课件（letter-f, letter-a, y-as-ee, ng-sound, grand-review）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo)：5/5 ✅
+      - Canvas尺寸 (Phonics 1 = 280/300px)：2/2 ✅
+      - 角色多样性（同课内无重复≥3次）：10/10 ✅
+    - 结论：课件质量保持完美状态，无需修复
