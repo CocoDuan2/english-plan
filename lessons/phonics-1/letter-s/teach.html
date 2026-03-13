@@ -557,7 +557,8 @@ function speak(w){
   a.play().catch(()=>{
     const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
     new Audio(u2).play().catch(()=>console.log('Audio failed'));
-  }
+  });
+}
 
 // Preload audio
 const preloadWords=['sun', 'snake', 'star', 'sock'];
@@ -565,8 +566,6 @@ preloadWords.forEach(w=>{
   const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
   a.load();
 });
-);
-}
 function showBlend(word,letters){
   const choice=document.getElementById('blendChoice');
   const anim=document.getElementById('blendAnim');
