@@ -7,6 +7,20 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 07:35 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P6 letter-f, P10 letter-j, P73 sh-digraph）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：3/3 ✅
+      - audioCache机制：3/3 ✅
+      - Canvas尺寸 (letter-f/letter-j = 280x280px)：2/2 ✅
+      - 角色多样性（同课内重复≥2次）：5/6 ❌
+    - 发现问题：
+      - P10 (letter-j) teach.html: emily-elephant-standing 出现2次（S8单词页 + S11游戏页）
+    - 修复：
+      - P10 S11 游戏页: emily-elephant-standing → daddy-pig-walking
+    - 提交：98ae24a
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 07:03 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P19 letter-s, P37 og-family, P81 tr-blend）
     - 检查项目：
