@@ -7,6 +7,15 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 02:34 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（letter-v, ip-family, grand-review）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo)：3/3 ✅
+      - 角色多样性（同课内无重复≥2次）：5/6 ❌
+    - 发现问题：P22 (letter-v) teach.html S13 角色重复（george_pig_dinosaur 出现2次）
+    - 修复：S13 Bye页改为 peppa-and-george-ooo
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 02:04 定期质量抽检（cron任务）
     - 抽样范围：4个课件（letter-g, og-family, sh-digraph, ar-sound）
     - 检查项目：
