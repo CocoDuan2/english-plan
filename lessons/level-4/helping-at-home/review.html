@@ -177,13 +177,18 @@ var st1=0,st2=0,st3=0,st4=0;
 var curW3=0,seq3=[];
 var memFlipped=[],memMatched=0;
 
-function speak(t){
+var audioCache={};
+var words=['tidy', 'wash', 'sweep', 'George', 'clean', 'help', 'Peppa'];
+words.forEach(function(w){var a=new Audio('https://dict.youdao.com/dictvoice?audio='+w+'&type=2');a.load();audioCache[w]=a});
+function speak(t,cb){
+if(audioCache[t]){
+audioCache[t].currentTime=0;
+audioCache[t].play().then(function(){cb&&cb()}).catch(function(){});
+}else{
 var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
-var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
 var a=new Audio(primary);
-a.play().catch(function(){
-var b=new Audio(fallback);
-b.play().catch(function(){});
+a.play().then(function(){cb&&cb()}).catch(function(){});
+}});
 });
 }
 
