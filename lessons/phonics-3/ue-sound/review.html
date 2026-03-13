@@ -271,11 +271,44 @@ function showMod(n){
 function nextMod(){if(curr<5){curr++;showMod(curr)}}
 function prevMod(){if(curr>0){curr--;showMod(curr)}}
 
-function speak(txt){
-  const u=new SpeechSynthesisUtterance(txt);
-  u.lang='en-US';
-  u.rate=0.8;
-  speechSynthesis.speak(u);
+
+// Audio cache
+const audioCache={};
+(function(){
+  const words=['blue','glue','true','clue'];
+  words.forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.load();
+    audioCache[w]=a;
+  });
+})();
+function speak(w,cb){
+  const finish=()=>{if(cb)cb()};
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().then(()=>{
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }
 }
 
 function playOk(){speak('Good job')}

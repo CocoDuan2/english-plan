@@ -331,16 +331,44 @@ function stars(ids){
   });
 }
 
-function speak(w,cb){
-  const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
-  const a=new Audio(u);
-  let done=false;
-  const finish=()=>{if(!done){done=true;if(cb)cb()}};
-  a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
-    const a2=new Audio(u2);
-    a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(finish);
+
+// Audio cache
+const audioCache={};
+(function(){
+  const words=['hop','mop','top','pop','stop'];
+  words.forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.load();
+    audioCache[w]=a;
   });
+})();
+function speak(w,cb){
+  const finish=()=>{if(cb)cb()};
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().then(()=>{
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }
 }
 
 // Preload audio

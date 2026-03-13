@@ -339,27 +339,42 @@ function stars(ids){
   });
 }
 
+
+// Audio cache
+const audioCache={};
+(function(){
+  const words=['ink','insect','igloo','inch'];
+  words.forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.load();
+    audioCache[w]=a;
+  });
+})();
 function speak(w,cb){
-  if(!audioLoaded){
-    setTimeout(()=>speak(w,cb),500);
-    return;
-  }
+  const finish=()=>{if(cb)cb()};
   if(audioCache[w]){
     audioCache[w].currentTime=0;
     audioCache[w].play().then(()=>{
-      if(cb)setTimeout(cb,1000);
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
     }).catch(()=>{
       const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
       const a2=new Audio(u2);
-      a2.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{if(cb)cb()});
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
     });
   }else{
     const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
     const a=new Audio(u);
-    a.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
       const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
       const a2=new Audio(u2);
-      a2.play().then(()=>{if(cb)setTimeout(cb,1000)}).catch(()=>{if(cb)cb()});
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
     });
   }
 }

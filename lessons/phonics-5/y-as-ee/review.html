@@ -447,13 +447,44 @@ function flipCard(el,idx,word,type,emoji){
 }
 
 // Audio
-function speak(text){
-  const u=`https://dict.youdao.com/dictvoice?audio=${text}&type=2`;
-  const a=new Audio(u);
-  a.play().catch(()=>{
-    const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${text}&spd=4&source=web`;
-    new Audio(u2).play().catch(()=>{});
+
+// Audio cache
+const audioCache={};
+(function(){
+  const words=['happy','baby','funny','sunny'];
+  words.forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.load();
+    audioCache[w]=a;
   });
+})();
+function speak(w,cb){
+  const finish=()=>{if(cb)cb()};
+  if(audioCache[w]){
+    audioCache[w].currentTime=0;
+    audioCache[w].play().then(()=>{
+      audioCache[w].onended=finish;
+      setTimeout(finish,4000);
+    }).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }else{
+    const u=`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`;
+    const a=new Audio(u);
+    a.play().then(()=>{a.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+      const u2=`https://fanyi.baidu.com/gettts?lan=en&text=${encodeURIComponent(w)}&spd=4&source=web`;
+      const a2=new Audio(u2);
+      a2.play().then(()=>{a2.onended=finish;setTimeout(finish,4000)}).catch(()=>{
+        finish();
+        if(typeof showAudioError==='function')showAudioError();
+      });
+    });
+  }
 }
 
 function playOk(){new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFgH16eHZ1dHNydnl8f4KFiIuOkZSXmpyfoqWnqqyur7Cxs7W2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==').play().catch(()=>{})}
