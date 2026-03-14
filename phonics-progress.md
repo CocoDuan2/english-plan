@@ -7,6 +7,20 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 14:06 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P71 fr-blend, P72 ch-digraph, P30 ad-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：5/6 ❌
+      - audioCache机制（teach用preloadWords旧方式/review用新方式）：3/3 ✅
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+      - flex-wrap:wrap（拼读字母换行）：3/3 ✅
+    - 发现问题：
+      - P30 (ad-family) teach.html: 缺少 playOk() 和 playNo() 函数定义
+    - 修复：
+      - 在 showConfetti() 后添加 playOk (523Hz, 0.2s) 和 playNo (200Hz, 0.3s)
+    - 提交：c708637
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 13:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P83 or-sound, P27 at-family, P88 oo-long）
     - 检查项目：
