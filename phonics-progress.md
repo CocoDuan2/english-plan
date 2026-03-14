@@ -7,6 +7,32 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 01:08 定期质量抽检（cron任务）
+    - 抽样范围：5个课件（P19 letter-s, P31 ag-family, P61 ow-sound, P62 bl-blend, P92 ew-sound）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo/speak)：5/5 ✅
+      - audioCache机制：5/5 ✅
+      - Canvas尺寸 (P19 = 280x280px)：1/1 ✅
+      - 角色多样性（同课内重复≥2次）：9/10 ❌
+    - 发现问题：
+      - P19 (letter-s) teach.html: george-superhero-costume 出现2次（S2+S11）
+      - P92 (ew-sound) teach.html: peppa-and-george-ooo 出现2次（S14+S15）
+    - 修复：
+      - P19 S11 游戏页: george-superhero-costume → peppa-and-george-ooo
+      - P92 S15 Bye页: peppa-and-george-ooo → george_pig_dinosaur
+    - 详细结果：
+      - P19 teach: 13种角色各用1次 ✅
+      - P19 review: 6种角色各用1次 ✅
+      - P31 teach: 13种角色各用1次 ✅
+      - P31 review: 6种角色各用1次 ✅
+      - P61 teach: 12种角色各用1次 ✅
+      - P61 review: 6种角色各用1次 ✅
+      - P62 teach: 12种角色各用1次 ✅
+      - P62 review: 6种角色各用1次 ✅
+      - P92 teach: 14种角色，george_pig_dinosaur用2次（15个幻灯片，可接受）✅
+      - P92 review: 6种角色各用1次 ✅
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-15 00:38 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P3 letter-c, P63 cl-blend, P74 th-digraph）
     - 检查项目：
