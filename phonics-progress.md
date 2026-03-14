@@ -7,6 +7,23 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 04:10 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P21 letter-u, P22 letter-v, P63 cl-blend）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - Canvas尺寸 (P21/P22 = 280x280px)：2/2 ✅
+      - Canvas resize触发 (i===3)：2/2 ✅
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+    - 详细结果：
+      - P21 teach: 13种角色各用1次 ✅
+      - P21 review: 6种角色各用1次 ✅
+      - P22 teach: 13种角色各用1次 ✅
+      - P22 review: 6种角色各用1次 ✅
+      - P63 teach: 12种角色各用1次 ✅
+      - P63 review: 6种角色各用1次 ✅
+    - 结论：课件质量保持完美状态，无需修复
   - ✅ 2026-03-15 03:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P101 grand-review, P65 gl-blend, P33 et-family）
     - 检查项目：
