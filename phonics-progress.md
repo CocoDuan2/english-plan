@@ -7,6 +7,20 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 08:04 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P4 letter-d, P37 og-family, P81 tr-blend）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：5/6 ❌
+      - audioCache机制：2/2 ✅
+      - Canvas尺寸 (letter-d = 280x280px)：1/1 ✅
+      - 角色多样性（同课内各用1次）：3/3 ✅
+    - 发现问题：
+      - P4 (letter-d) teach.html: 缺少 playNo() 函数定义
+    - 修复：
+      - 在 showConfetti() 后添加 playNo() 函数（200Hz低音，0.3秒）
+    - 提交：f911c00
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 07:35 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P6 letter-f, P10 letter-j, P73 sh-digraph）
     - 检查项目：
