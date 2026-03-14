@@ -7,6 +7,24 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 16:10 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P4 letter-d, P37 og-family, P68 br-blend）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：0/6 ❌
+      - audioCache机制：3/3 ✅
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+    - 发现问题：
+      - 22个 teach.html 缺少 playOk() 函数（P4/P37/P68 + 其他19个）
+      - 影响范围：Phonics 1-5 各级别均有课件缺失
+      - 后果：游戏答对时无法播放正确音效反馈
+    - 修复：
+      - 批量添加标准 playOk() 函数（523Hz, 0.2s）到22个课件
+      - 课件列表：letter-b/d/e/n/p, ap-family, ea/oa/ue-sound, ck/gr/ng/nk/tr-blend, ar/er/igh/ir/le/or/soft-g/ur-sound
+      - 特殊处理：ue-sound 使用 confetti() 而非 showConfetti()
+    - 提交：4646228
+    - 验证：全部92个 teach.html 现在都有 playOk() 函数 ✅
+    - 结论：重大问题修复完成，音效反馈功能恢复正常
   - ✅ 2026-03-14 15:07 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P73 sh-digraph, P96 y-as-ee, P92 ew-sound）
     - 检查项目：
