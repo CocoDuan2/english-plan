@@ -7,6 +7,23 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 19:08 定期质量抽检（cron任务）
+    - 抽样范围：2个课件（P92 ew-sound, P70 dr-blend）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：4/4 ✅
+      - 音效函数 (playOk/playNo/speak)：4/4 ✅
+      - audioCache机制：2/2 ✅
+      - 角色多样性（同课内重复≥2次）：3/4 ❌
+    - 发现问题：
+      - P92 (ew-sound) teach.html: candy-cat-green-dress 出现2次（S4+S15）
+    - 修复：
+      - P92 S15 Bye页: candy-cat-green-dress → peppa-and-george-ooo
+    - 详细结果：
+      - P92 teach: 修复后14种角色，peppa-and-george-ooo出现2次（可接受，15个幻灯片）✅
+      - P92 review: 6种角色各用1次 ✅
+      - P70 teach: 12种角色各用1次 ✅
+      - P70 review: 6种角色各用1次 ✅
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 18:37 定期质量抽检（cron任务）
     - 抽样范围：2个课件（P39 ug-family, P99 le-ending）
     - 检查项目：
