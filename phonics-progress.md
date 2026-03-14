@@ -7,6 +7,20 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 11:08 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P28 an-family, P99 le-ending, P12 letter-l）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：3/3 ✅
+      - audioCache机制：3/3 ✅
+      - Canvas尺寸 (P12 = 280x280px)：1/1 ✅
+      - 角色多样性（同课内重复≥2次）：5/6 ❌
+    - 发现问题：
+      - P12 (letter-l) teach.html: george_pig_dinosaur 出现2次（S11游戏页 + S13 Bye页）
+    - 修复：
+      - P12 S13 Bye页: george_pig_dinosaur → george-superhero-costume
+    - 提交：8a70126
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 10:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P36 ip-family, P62 bl-blend, P34 ig-family）
     - 检查项目：
