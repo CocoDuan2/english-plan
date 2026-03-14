@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 18:08 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P78 ng-sound, P15 letter-o, P5 letter-e）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：5/6 ❌
+      - audioCache机制：3/3 ✅
+      - 角色多样性（同课内重复≥2次）：5/6 ❌
+    - 发现问题：
+      - P5 (letter-e) teach.html: 缺少 playNo() 函数定义
+      - P15 (letter-o) teach.html: emily-elephant-standing 出现2次（S1首页+S11游戏页）
+    - 修复：
+      - P5: 在 playOk() 后添加 playNo() 函数（200Hz低音，0.3秒）
+      - P15 S11 游戏页: emily-elephant-standing → daddy-pig-walking
+    - 提交：待提交
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-14 17:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P63 cl-blend, P99 le-ending, P46 e-e-magic）
     - 检查项目：
