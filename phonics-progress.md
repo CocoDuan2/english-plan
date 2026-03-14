@@ -7,6 +7,19 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 16:39 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P52 ue-sound, P76 ph-sound, P43 i-e-magic）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅
+      - 角色多样性（同课内重复≥2次）：5/6 ❌
+    - 发现问题：
+      - P43 (i-e-magic) teach.html: george-superhero-costume 出现2次（S4+S15）
+    - 修复：
+      - P43 S15 Bye页: george-superhero-costume → mummy-pig-standing-grass
+    - 提交：8ce4e50
+    - 结论：修复完成，P43现在13个角色各用1次，1个角色用2次（15个幻灯片，可接受）✅
   - ✅ 2026-03-14 16:10 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P4 letter-d, P37 og-family, P68 br-blend）
     - 检查项目：
