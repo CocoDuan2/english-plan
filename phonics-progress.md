@@ -7,6 +7,26 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-14 14:41 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P11 letter-k, P13 letter-m, P4 letter-d）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：6/6 ✅
+      - Canvas尺寸 (280x280px 移动端)：3/3 ✅
+      - Canvas resize触发 (i===3)：3/3 ✅
+      - flex-wrap:wrap（拼读字母换行）：3/3 ✅
+      - 角色多样性（同课内重复≥2次）：3/6 ❌
+    - 发现问题：
+      - P11 (letter-k) teach.html: peppa-pig-happy-standing 出现2次（S2+S11）
+      - P13 (letter-m) teach.html: peppa-fairy-princess 出现2次（S10+S11）
+      - P4 (letter-d) teach.html: george-superhero-costume 出现2次（S10+S11）
+    - 修复：
+      - P11 S11: peppa-pig-happy-standing → peppa-and-george-ooo
+      - P13 S11: peppa-fairy-princess → peppa-and-george-ooo
+      - P4 S11: george-superhero-costume → peppa-and-george-ooo
+    - 提交：4a6f520
+    - 结论：修复完成，每个课件内所有角色各使用1次 ✅
   - ✅ 2026-03-14 14:06 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P71 fr-blend, P72 ch-digraph, P30 ad-family）
     - 检查项目：
