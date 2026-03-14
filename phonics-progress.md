@@ -1607,3 +1607,24 @@
       - P71 teach: 12种角色各用1次 ✅
       - P71 review: 6种角色各用1次 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-14 20:37 定期质量抽检（cron任务）
+    - 抽样范围：5个课件（P13 letter-m, P35 in-family, P48 ee, P73 sh-digraph, P98 soft-g）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：10/10 ✅
+      - 音效函数 (playOk/playNo/speak)：5/5 ✅
+      - audioCache机制：5/5 ✅
+      - Canvas尺寸 (P13 = 280x280px)：1/1 ✅
+      - Canvas resize触发 (P13 i===3)：1/1 ✅
+      - 角色多样性（同课内重复≥2次）：10/10 ✅
+    - 详细结果：
+      - P13 teach: 13种角色各用1次 ✅
+      - P13 review: 6种角色各用1次 ✅
+      - P35 teach: 13种角色各用1次 ✅
+      - P35 review: 6种角色各用1次 ✅
+      - P48 teach: 13种角色各用1次 ✅
+      - P48 review: 6种角色各用1次 ✅
+      - P73 teach: 12种角色各用1次 ✅
+      - P73 review: 6种角色各用1次 ✅
+      - P98 teach: 13种角色各用1次 ✅
+      - P98 review: 6种角色各用1次 ✅
+    - 结论：课件质量保持完美状态，无需修复
