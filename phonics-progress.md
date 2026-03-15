@@ -2606,3 +2606,20 @@
       - P100 teach: 12种角色各用1次 ✅
       - P100 review: 6种角色各用1次 ✅
     - 结论：课件质量完美，无需修复
+  - ✅ 2026-03-16 03:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P96 y-as-ee, P26 letter-z, P34 ig-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - Canvas尺寸 (P26 = 280x280px 移动端)：1/1 ✅
+      - flex-wrap:wrap（拼读字母换行）：3/3 ✅
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P96 teach: 8种角色各用1次 ✅
+      - P96 review: 6种角色各用1次 ✅
+      - P26 teach: 13种角色各用1次 ✅
+      - P26 review: 6种角色各用1次 ✅
+      - P34 teach: 13种角色各用1次 ✅
+      - P34 review: 6种角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
