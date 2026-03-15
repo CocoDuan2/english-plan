@@ -185,14 +185,28 @@ var W=[
 var curM=0,busy=false;
 var st1=0,st2=0,st3=0,st4=0;
 
-function speak(t){
+const audioCache={};
+['cake','gift','balloon','candle','friend'].forEach(function(w){
+var a=new Audio('https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(w)+'&type=2');
+a.load();
+audioCache[w]=a;
+});
+
+function speak(t,cb){
+if(audioCache[t]){
+audioCache[t].play().then(function(){cb&&cb()}).catch(function(){
+var b=new Audio('https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web');
+b.play().then(function(){cb&&cb()}).catch(function(){cb&&cb()});
+});
+}else{
 var primary='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(t)+'&type=2';
 var fallback='https://fanyi.baidu.com/gettts?lan=en&text='+encodeURIComponent(t)+'&spd=4&source=web';
 var a=new Audio(primary);
-a.play().catch(function(){
+a.play().then(function(){cb&&cb()}).catch(function(){
 var b=new Audio(fallback);
-b.play().catch(function(){});
+b.play().then(function(){cb&&cb()}).catch(function(){cb&&cb()});
 });
+}
 }
 
 function getAC(){

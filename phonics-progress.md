@@ -7,6 +7,27 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 21:07 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P28 an-family, P35 in-family, birthday-party）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：5/6 ❌
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 发现问题：
+      - birthday-party review.html: 缺少 audioCache 机制
+    - 修复：
+      - 添加 audioCache 预缓存5个单词（cake/gift/balloon/candle/friend）
+      - speak() 函数升级为优先使用缓存，支持回调
+    - 详细结果：
+      - P28 teach: 13种角色各用1次 ✅
+      - P28 review: 6种角色各用1次 ✅
+      - P35 teach: 13种角色各用1次 ✅
+      - P35 review: 6种角色各用1次 ✅
+      - birthday-party teach: 角色多样性良好 ✅
+      - birthday-party review: 6种角色各用1次 ✅（修复后）
+    - 提交：待提交
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-15 20:38 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P100 tion-sion, P62 bl-blend, P86 ur-sound）
     - 检查项目：
