@@ -2248,3 +2248,13 @@
       - P4 teach: 13种角色各用1次 ✅
       - P4 review: 6种角色各用1次 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-15 15:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P20 letter-t, P68 br-blend, P75 wh-digraph）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：3/3 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - Canvas尺寸 (P20 = 280x280px)：1/1 ✅
+      - 角色多样性（同课内重复≥3次）：6/6 ✅
+      - flex-wrap:wrap（拼读字母换行）：2/2 ✅
+    - 结论：课件质量保持完美状态，无需修复
