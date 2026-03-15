@@ -7,6 +7,26 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 14:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P39 ug-family, P77 ck-sound, P33 et-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：5/6 ❌
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+    - 发现问题：
+      - P77 (ck-sound) teach.html: 缺少 playNo() 函数定义
+    - 修复：
+      - P77: 在 playOk() 后添加 playNo() 函数（200Hz低音，0.3秒）
+    - 详细结果：
+      - P39 teach: 13种角色各用1次 ✅
+      - P39 review: 6种角色各用1次 ✅
+      - P77 teach: 12种角色各用1次 ✅（修复后）
+      - P77 review: 6种角色各用1次 ✅
+      - P33 teach: 13种角色各用1次 ✅
+      - P33 review: 6种角色各用1次 ✅
+    - 提交：0292f3b
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-15 14:07 定期质量抽检（cron任务）
     - 抽样范围：2个课件（P81 tr-blend, P64 fl-blend）
     - 检查项目：
