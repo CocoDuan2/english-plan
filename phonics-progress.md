@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-16 07:38 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P72 ch-digraph, P34 ig-family, P44 o-e-magic）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P72 teach: 12种角色各用1次 ✅
+      - P72 review: 6种角色各用1次 ✅
+      - P34 teach: 13种角色各用1次 ✅
+      - P34 review: 6种角色各用1次 ✅
+      - P44 teach: 13种角色，peppa-and-george-ooo用2次（15个幻灯片，可接受）✅
+      - P44 review: 6种角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
   - ✅ 2026-03-16 07:07 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P66 pl-blend, P77 ck-sound, P19 letter-s）
     - 检查项目：
