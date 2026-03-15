@@ -343,14 +343,17 @@ let listenIdx=0;
 let memCards=[];
 let memFlipped=[];
 let memMatched=0;
-let audioCache={};
 
-// Preload audio
-words.forEach(w=>{
-  const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-  a.load();
-  audioCache[w]=a;
-});
+// Audio cache
+const audioCache={};
+(function(){
+  const words=['jump','juice','jelly','jar'];
+  words.forEach(w=>{
+    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
+    a.load();
+    audioCache[w]=a;
+  });
+})();
 
 function goTo(i){
   if(i<0||i>=tm)return;
@@ -366,18 +369,6 @@ function goTo(i){
 function next(){if(ci<tm-1)goTo(ci+1)}
 function prev(){if(ci>0)goTo(ci-1)}
 function restart(){goTo(0)}
-
-
-// Audio cache
-const audioCache={};
-(function(){
-  const words=['jump','juice','jelly','jar'];
-  words.forEach(w=>{
-    const a=new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=2`);
-    a.load();
-    audioCache[w]=a;
-  });
-})();
 function speak(w,cb){
   const finish=()=>{if(cb)cb()};
   if(audioCache[w]){

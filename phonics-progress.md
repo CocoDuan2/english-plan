@@ -7,6 +7,27 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 20:08 定期质量抽检（cron任务）
+    - 抽样范围：2个课件（P10 letter-j, P30 ad-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：4/4 ✅
+      - 音效函数 (playOk/playNo/speak)：4/4 ✅
+      - audioCache机制：2/2 ✅（review.html）
+      - Canvas尺寸 (P10 = 280x280px)：1/1 ✅
+      - Canvas resize触发 (P10 i===3)：1/1 ✅
+      - 角色多样性（同课内各用1次）：4/4 ✅
+      - audioCache重复定义：1/2 ❌
+    - 发现问题：
+      - P10 (letter-j) review.html: audioCache 重复定义2次（let + const）
+    - 修复：
+      - 删除第一个 let audioCache={} 及其预加载代码，保留完整的 const audioCache 定义
+    - 详细结果：
+      - P10 teach: 13种角色各用1次 ✅
+      - P10 review: 6种角色各用1次 ✅（修复后）
+      - P30 teach: 13种角色各用1次 ✅
+      - P30 review: 6种角色各用1次 ✅
+    - 提交：待提交
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-15 19:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P21 letter-u, P36 ip-family, P78 ng-sound）
     - 检查项目：
