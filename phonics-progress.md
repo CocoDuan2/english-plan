@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-16 01:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P72 ch-digraph, P66 pl-blend, P27 at-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P72 teach: 12种角色各用1次 ✅
+      - P72 review: 6种角色各用1次 ✅
+      - P66 teach: 12种角色各用1次 ✅
+      - P66 review: 6种角色各用1次 ✅
+      - P27 teach: 13种角色各用1次 ✅
+      - P27 review: 6种角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
   - ✅ 2026-03-16 01:07 定期质量抽检（cron任务）
     - 抽样范围：5个课件（P11 letter-k, P31 ag-family, P45 u-e-magic, P71 fr-blend, P101 grand-review）
     - 检查项目：
