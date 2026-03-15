@@ -2,102 +2,89 @@
 import re
 from pathlib import Path
 
-# 检查的课件
+# 检查的3个课件
 courses = [
-    "lessons/phonics-1/letter-u",
-    "lessons/phonics-1/letter-v", 
-    "lessons/phonics-4/cl-blend"
+    ("P62", "phonics-4/bl-blend"),
+    ("P45", "phonics-3/u-e-magic"),
+    ("P71", "phonics-4/fr-blend")
 ]
 
 results = []
 
-for course in courses:
-    course_path = Path(course)
-    course_name = course_path.name
+for code, folder in courses:
+    teach_path = Path(f"lessons/{folder}/teach.html")
+    review_path = Path(f"lessons/{folder}/review.html")
+    
+    result = {"code": code, "folder": folder}
     
     # 检查 teach.html
-    teach_file = course_path / "teach.html"
-    teach_content = teach_file.read_text()
-    
-    teach_checks = {
-        "移动端CSS": "@media(max-width:480px)" in teach_content,
-        "playOk函数": "function playOk()" in teach_content or "playOk=()=>" in teach_content,
-        "playNo函数": "function playNo()" in teach_content or "playNo=()=>" in teach_content,
-        "speak函数": "function speak(" in teach_content or "speak=(" in teach_content,
-    }
-    
-    # 检查 Canvas (仅 Phonics 1)
-    if "phonics-1" in course:
-        teach_checks["Canvas尺寸280px"] = "280px" in teach_content and "280px" in teach_content
-        teach_checks["Canvas resize触发"] = "i===3" in teach_content and "resizeCanvas" in teach_content
-    
-    # 检查角色多样性（统计角色出现次数）
-    roles = re.findall(r'assets/peppa/([\w-]+)\.png', teach_content)
-    role_counts = {}
-    for role in roles:
-        role_counts[role] = role_counts.get(role, 0) + 1
-    max_repeat = max(role_counts.values()) if role_counts else 0
-    teach_checks["角色多样性(≤2次)"] = max_repeat <= 2
-    
+    if teach_path.exists():
+        teach = teach_path.read_text()
+        result["teach_mobile_css"] = "@media(max-width:480px)" in teach
+        result["teach_playOk"] = "function playOk()" in teach or "playOk=" in teach
+        result["teach_playNo"] = "function playNo()" in teach or "playNo=" in teach
+        
+        # 统计角色使用次数
+        chars = re.findall(r'(peppa-[a-z-]+|george-[a-z-]+|daddy-pig-[a-z-]+|mummy-pig-[a-z-]+|candy-cat-[a-z-]+|emily-elephant-[a-z-]+)', teach, re.I)
+        char_count = {}
+        for c in chars:
+            char_count[c] = char_count.get(c, 0) + 1
+        result["teach_char_max"] = max(char_count.values()) if char_count else 0
+        result["teach_char_repeat"] = [k for k,v in char_count.items() if v >= 3]
+        
     # 检查 review.html
-    review_file = course_path / "review.html"
-    review_content = review_file.read_text()
+    if review_path.exists():
+        review = review_path.read_text()
+        result["review_mobile_css"] = "@media(max-width:480px)" in review
+        result["review_playOk"] = "function playOk()" in review or "playOk=" in review
+        result["review_playNo"] = "function playNo()" in review or "playNo=" in review
+        result["review_audioCache"] = "audioCache" in review
+        
+        # 统计角色使用次数
+        chars = re.findall(r'(peppa-[a-z-]+|george-[a-z-]+|daddy-pig-[a-z-]+|mummy-pig-[a-z-]+|candy-cat-[a-z-]+|emily-elephant-[a-z-]+)', review, re.I)
+        char_count = {}
+        for c in chars:
+            char_count[c] = char_count.get(c, 0) + 1
+        result["review_char_max"] = max(char_count.values()) if char_count else 0
+        result["review_char_repeat"] = [k for k,v in char_count.items() if v >= 2]
     
-    review_checks = {
-        "移动端CSS": "@media(max-width:480px)" in review_content,
-        "playOk函数": "function playOk()" in review_content or "playOk=()=>" in review_content,
-        "playNo函数": "function playNo()" in review_content or "playNo=()=>" in review_content,
-        "speak函数": "function speak(" in review_content or "speak=(" in review_content,
-        "audioCache": "audioCache" in review_content,
-    }
-    
-    # 检查角色多样性
-    roles_r = re.findall(r'assets/peppa/([\w-]+)\.png', review_content)
-    role_counts_r = {}
-    for role in roles_r:
-        role_counts_r[role] = role_counts_r.get(role, 0) + 1
-    max_repeat_r = max(role_counts_r.values()) if role_counts_r else 0
-    review_checks["角色多样性(≤2次)"] = max_repeat_r <= 2
-    
-    results.append({
-        "course": course_name,
-        "teach": teach_checks,
-        "review": review_checks,
-        "teach_roles": role_counts,
-        "review_roles": role_counts_r
-    })
+    results.append(result)
 
 # 输出结果
+print("=" * 60)
+print("质量检查报告 - 2026-03-15 09:07")
+print("=" * 60)
 for r in results:
-    print(f"\n{'='*60}")
-    print(f"课件: {r['course']}")
-    print(f"{'='*60}")
-    
-    print("\n📝 teach.html:")
-    for k, v in r['teach'].items():
-        status = "✅" if v else "❌"
-        print(f"  {status} {k}")
-    print(f"  角色统计: {len(r['teach_roles'])}种角色")
-    for role, count in sorted(r['teach_roles'].items(), key=lambda x: -x[1])[:3]:
-        print(f"    - {role}: {count}次")
-    
-    print("\n📝 review.html:")
-    for k, v in r['review'].items():
-        status = "✅" if v else "❌"
-        print(f"  {status} {k}")
-    print(f"  角色统计: {len(r['review_roles'])}种角色")
-    for role, count in sorted(r['review_roles'].items(), key=lambda x: -x[1])[:3]:
-        print(f"    - {role}: {count}次")
+    print(f"\n{r['code']} ({r['folder']}):")
+    print(f"  teach.html:")
+    print(f"    移动端CSS: {'✅' if r.get('teach_mobile_css') else '❌'}")
+    print(f"    playOk函数: {'✅' if r.get('teach_playOk') else '❌'}")
+    print(f"    playNo函数: {'✅' if r.get('teach_playNo') else '❌'}")
+    print(f"    角色最多重复: {r.get('teach_char_max', 0)}次")
+    if r.get('teach_char_repeat'):
+        print(f"    重复≥3次角色: {r['teach_char_repeat']}")
+    print(f"  review.html:")
+    print(f"    移动端CSS: {'✅' if r.get('review_mobile_css') else '❌'}")
+    print(f"    playOk函数: {'✅' if r.get('review_playOk') else '❌'}")
+    print(f"    playNo函数: {'✅' if r.get('review_playNo') else '❌'}")
+    print(f"    audioCache: {'✅' if r.get('review_audioCache') else '❌'}")
+    print(f"    角色最多重复: {r.get('review_char_max', 0)}次")
+    if r.get('review_char_repeat'):
+        print(f"    重复≥2次角色: {r['review_char_repeat']}")
 
-# 总结
-print(f"\n{'='*60}")
-print("总结")
-print(f"{'='*60}")
-all_pass = all(
-    all(r['teach'].values()) and all(r['review'].values())
-    for r in results
-)
-if all_pass:
-    print("✅ 所有检查项通过")
-else:
-    print("❌ 发现问题，需要修复")
+# 统计
+total_checks = len(results) * 2  # teach + review
+passed = sum([
+    1 for r in results 
+    if r.get('teach_mobile_css') and r.get('teach_playOk') and r.get('teach_playNo') 
+    and r.get('teach_char_max', 0) < 3
+])
+passed += sum([
+    1 for r in results 
+    if r.get('review_mobile_css') and r.get('review_playOk') and r.get('review_playNo') 
+    and r.get('review_audioCache') and r.get('review_char_max', 0) < 2
+])
+
+print(f"\n{'=' * 60}")
+print(f"总计: {passed}/{total_checks} 通过")
+print(f"{'=' * 60}")

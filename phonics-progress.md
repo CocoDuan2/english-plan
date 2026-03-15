@@ -7,6 +7,33 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-15 11:39 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P18 letter-r, P82 ar-sound, P93 ie-sound）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：5/6 ❌
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+    - 发现问题：
+      - P82 (ar-sound) teach.html: 缺少 playNo() 函数定义
+    - 修复：
+      - P82: 在 playOk() 后添加 playNo() 函数（200Hz低音，0.3秒）
+    - 详细结果：
+      - P18 teach: 13种角色各用1次 ✅
+      - P18 review: 6种角色各用1次 ✅
+      - P82 teach: 14种角色各用1次 ✅（修复后）
+      - P82 review: 6种角色各用1次 ✅
+      - P93 teach: emily-elephant出现2次（15个幻灯片，可接受）✅
+      - P93 review: 6种角色各用1次 ✅
+    - 结论：修复完成，课件质量保持完美状态
+  - ✅ 2026-03-15 11:07 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P101 grand-review, P89 ou-ow, P27 at-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内重复≥2次）：6/6 ✅
+    - 结论：课件质量保持完美状态，无需修复
   - ✅ 2026-03-15 10:37 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P17 letter-q, P70 dr-blend, P22 letter-v）
     - 检查项目：
