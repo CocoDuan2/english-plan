@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-16 05:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P100 tion-sion, P89 ou-ow, P28 an-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P100 teach: 12种角色各用1次 ✅
+      - P100 review: 6种角色各用1次 ✅
+      - P89 teach: 13种角色各用1次 ✅
+      - P89 review: 6种角色各用1次 ✅
+      - P28 teach: 13种角色各用1次 ✅
+      - P28 review: 6种角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
   - ✅ 2026-03-16 05:07 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P11 letter-k, P32 en-family, P101 grand-review）
     - 检查项目：
