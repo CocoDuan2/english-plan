@@ -2012,3 +2012,19 @@
       - P98 teach: 13种角色各用1次 ✅
       - P98 review: 6种角色各用1次 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-15 08:07 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P25 letter-y, P28 an-family, P89 ou-ow）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - Canvas尺寸 (P25 = 280x280px)：1/1 ✅
+      - 角色多样性（同课内重复≥3次）：6/6 ✅
+    - 详细结果：
+      - P25 teach: 13种角色各用1次 ✅
+      - P25 review: 6种角色各用1次 ✅
+      - P28 teach: 13种角色各用1次 ✅
+      - P28 review: 6种角色各用1次 ✅
+      - P89 teach: 13种角色各用1次 ✅
+      - P89 review: 6种角色各用1次 ✅
+    - 结论：课件质量保持完美状态，无需修复
