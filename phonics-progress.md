@@ -2455,3 +2455,21 @@
       - 角色多样性（同课内重复≥3次）：6/6 ✅
       - flex-wrap:wrap（拼读字母换行）：2/2 ✅
     - 结论：课件质量保持完美状态，无需修复
+  - ✅ 2026-03-15 22:37 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P77 ck-sound, P42 a-e-magic, P75 wh-digraph）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：5/6 ✅
+    - 发现问题：
+      - P42 (a-e-magic) teach.html: mummy-pig-standing-grass 出现2次
+    - 说明：P42使用全部14种角色共15个幻灯片，1个角色出现2次属正常情况（课件结构限制，可接受）
+    - 详细结果：
+      - P77 teach: 13种角色各用1次 ✅
+      - P77 review: 6种角色各用1次 ✅
+      - P42 teach: 14种角色，mummy-pig用2次（15个幻灯片，可接受）✅
+      - P42 review: 6种角色各用1次 ✅
+      - P75 teach: 12种角色各用1次 ✅
+      - P75 review: 6种角色各用1次 ✅
+    - 结论：课件质量保持完美状态，无需修复
