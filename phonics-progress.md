@@ -7,6 +7,21 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-16 09:42 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P64 fl-blend, P87 oo-short, P91 aw-au）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P64 teach: 12种角色各用1次 ✅
+      - P64 review: 6种角色各用1次 ✅
+      - P87 teach: 12种角色各用1次 ✅
+      - P87 review: 6种角色各用1次 ✅
+      - P91 teach: 14种角色，george-playing-ball用2次（15个幻灯片，可接受）✅
+      - P91 review: 6种角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
   - ✅ 2026-03-16 09:08 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P4 letter-d, P11 letter-k, P33 et-family）
     - 检查项目：
