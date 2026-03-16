@@ -7,6 +7,28 @@
 - 🎉 全部课程已完成！（共 92 课）
 - 说明: P53-P61 未生成（课程设计调整，直接从 P52 跳到 P62）
 - 📋 质量检查进度: 
+  - ✅ 2026-03-16 08:08 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P50 oa-sound, P71 fr-blend, P85 ir-sound）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：4/6 ❌
+      - audioCache机制：3/3 ✅（review.html）
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 发现问题：
+      - P50 (oa-sound) teach.html: 缺少 playNo() 函数定义
+      - P85 (ir-sound) teach.html: 缺少 playNo() 函数定义
+    - 修复：
+      - P50: 在 playOk() 后添加 playNo() 函数（200Hz低音，0.3秒）
+      - P85: 在 playOk() 后添加 playNo() 函数（200Hz低音，0.3秒）
+    - 详细结果：
+      - P50 teach: 12种角色各用1次 ✅（修复后）
+      - P50 review: 6种角色各用1次 ✅
+      - P71 teach: 12种角色各用1次 ✅
+      - P71 review: 6种角色各用1次 ✅
+      - P85 teach: 12种角色各用1次 ✅（修复后）
+      - P85 review: 6种角色各用1次 ✅
+    - 提交：07791b0
+    - 结论：修复完成，课件质量保持完美状态
   - ✅ 2026-03-16 07:38 定期质量抽检（cron任务）
     - 抽样范围：3个课件（P72 ch-digraph, P34 ig-family, P44 o-e-magic）
     - 检查项目：
