@@ -2836,3 +2836,19 @@
       - P100 teach: 12种角色各用1次 ✅
       - P100 review: 6种角色各用1次 ✅
     - 结论：课件质量完美，无需修复
+  - ✅ 2026-03-16 10:38 定期质量抽检（cron任务）
+    - 抽样范围：3个课件（P7 letter-g, P15 letter-o, P39 ug-family）
+    - 检查项目：
+      - 移动端CSS (@media max-width:480px)：6/6 ✅
+      - 音效函数 (playOk/playNo/speak)：6/6 ✅
+      - audioCache机制：3/3 ✅（review.html）
+      - Canvas尺寸 (P7/P15 = 280x280px 移动端)：2/2 ✅
+      - 角色多样性（同课内各用1次）：6/6 ✅
+    - 详细结果：
+      - P7 teach: 所有角色各用1次 ✅
+      - P7 review: 所有角色各用1次 ✅
+      - P15 teach: 所有角色各用1次 ✅
+      - P15 review: 所有角色各用1次 ✅
+      - P39 teach: 所有角色各用1次 ✅
+      - P39 review: 所有角色各用1次 ✅
+    - 结论：课件质量完美，无需修复
